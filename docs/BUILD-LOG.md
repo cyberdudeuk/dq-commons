@@ -28,3 +28,8 @@
 - LinkML generators were not run, so the JSON Schema and SHACL are hand-written.
 - GitHub push is pending: this session has no repository attached for write access.
 - Not tested with users.
+
+## 2026-10-14 (later) — artefacts published and portal updated
+- Published the NDL Collections Assurance artifact. Added a status table to the DQ Tooling Atlas, and a "with dqkit" option to the CDA effort model.
+- Portal v2.1.0: `scripts/portal_add_pages.py` adds two pages and updates the menu on all 20 pages.
+- Copied the research note into `docs/DQ_TOOLING_RESEARCH.md`.
