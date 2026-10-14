@@ -5,7 +5,7 @@
       "expectation_type": "expect_column_values_to_be_unique",
       "kwargs": {
         "column": "Year",
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R1",
@@ -18,7 +18,7 @@
       "kwargs": {
         "column": "Year",
         "regex": "^[-+]?\\d+$",
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R2",
@@ -31,7 +31,7 @@
       "kwargs": {
         "column": "Average band D council tax",
         "regex": "^[-+]?\\d*\\.?\\d+$",
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R3",
@@ -47,7 +47,10 @@
       "title": "NDL Government and Parliament collection: Council tax chart data",
       "iri": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics",
       "owner": "Ministry of Housing, Communities and Local Government",
-      "importance": 3
+      "importance": 3,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low"
     },
     "not_exported": [
       {

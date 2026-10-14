@@ -15,7 +15,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from dqkit import dqv, exporters, metadata, rules  # noqa: E402
+from dqkit import dqv, exporters, metadata, pathway, rules, trust, workbook  # noqa: E402
 
 AS_OF = date(2026, 10, 14)
 A = ROOT / "assessments" / "ndl"
@@ -55,7 +55,10 @@ for rf, cf in CHARTS.items():
     spec = rules.load_rules(ROOT / "rules" / "ndl" / rf)
     df = pd.read_csv(A / "chart-data" / cf, dtype=str, keep_default_na=False, na_values=[""], encoding="utf-8-sig")
     res = rules.run(df, spec, AS_OF)
+    res["trust"] = trust.classify(res)
+    res["route"] = pathway.route(spec["asset"])
     aid = spec["asset"]["id"]
+    workbook.build(spec, res, OUT / "dqap-workbooks" / f"{aid}.DQAP.xlsx")
     (OUT / f"{aid}.results.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))
     (OUT / f"{aid}.dqv.jsonld").write_text(json.dumps(dqv.result_to_dqv(res, spec["asset"].get("iri")), indent=2, ensure_ascii=False))
     d = exporters.to_dqap_csv(res)
@@ -65,6 +68,7 @@ for rf, cf in CHARTS.items():
     (OUT / f"{aid}.validate.yaml").write_text(exporters.to_r_validate(spec))
     charts.append({"id": aid, "title": spec["asset"]["title"], "url": spec["asset"].get("iri"), "rows": res["rows"],
                    "rules_total": res["rules_total"], "rules_met": res["rules_met"], "issues": res["issues"],
+                   "trust": {k: res["trust"][k] for k in ("level", "sharing", "reasons")}, "route": res["route"]["route"],
                    "results": [{k: r[k] for k in ("id", "description", "dimension", "performance", "detail", "examples")} | {"target": r["assessment"]["target"], "meets": r["assessment"]["meets_target"], "priority": r["assessment"]["priority"]} for r in res["results"]]})
 
 summary = {
@@ -85,4 +89,4 @@ print(f"Pages: {summary['pages']}  mean score {summary['mean_score']}%  CDA meta
 for c in summary["checks"]:
     print(f"  {c['id']:7} {c['performance']:5.1f}%  {c['priority'] or 'meets':8} {c['label']}")
 for ch in charts:
-    print(f"CHART {ch['id']}: {ch['rules_met']}/{ch['rules_total']} met; issues: " + "; ".join(f"{i['rule']} {i['label']} [{i['priority']}]" for i in ch["issues"]))
+    print(f"CHART {ch['id']}: {ch['rules_met']}/{ch['rules_total']} met; trust {ch['trust']['level']}; issues: " + "; ".join(f"{i['rule']} {i['label']} [{i['priority']}]" for i in ch["issues"]))

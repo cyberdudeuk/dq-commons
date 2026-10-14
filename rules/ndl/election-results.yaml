@@ -4,6 +4,9 @@ asset:
   iri: https://www.data.gov.uk/collections/government-and-parliament/election-results
   owner: UK Parliament
   importance: 3
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
 rules:
   - {id: R1, check: required_columns, columns: [Party name, Vote share, Election], issue_type: missing-field, description: "The file says which election the shares are for"}
   - {id: R2, check: unique, columns: [Party name]}

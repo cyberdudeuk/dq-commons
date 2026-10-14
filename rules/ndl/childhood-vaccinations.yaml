@@ -5,6 +5,9 @@ asset:
   owner: UK Health Security Agency
   steward: National Data Library team (chart curation)
   importance: 4   # Critical: used to understand vaccine coverage, a public health risk
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
   measurement_cycle: P1Y
 rules:
   - {id: R1, check: unique, columns: [year], description: "One row per year"}

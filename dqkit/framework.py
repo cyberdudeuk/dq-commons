@@ -28,10 +28,17 @@ TARGET_RANGES = [
     (range(12, 17), (99.9, 100.0)),
 ]
 
-# Assumption (flagged in docs/DECISIONS.md, D-016): when no target is supplied we pick
-# a default inside each published range. The framework leaves the exact choice to
-# the data owner; its own worked example picks 95% for a combined score of 4.
-DEFAULT_TARGETS = {(75.0, 90.0): 85.0, (90.0, 97.5): 95.0, (97.5, 99.9): 99.0, (99.9, 100.0): 100.0}
+# Default target when a rule sets none (decision D-021, replacing D-016).
+# "low" (default) uses the low end of each range, as the Data Quality Issues Framework
+# v1.0 does in its Tables 6 to 8. "mid" and "high" are offered for stricter owners.
+# The data owner should always confirm the target for each rule.
+TARGET_POLICIES = {
+    "low": {(75.0, 90.0): 75.0, (90.0, 97.5): 90.0, (97.5, 99.9): 97.5, (99.9, 100.0): 99.9},
+    "mid": {(75.0, 90.0): 85.0, (90.0, 97.5): 95.0, (97.5, 99.9): 99.0, (99.9, 100.0): 100.0},
+    "high": {(75.0, 90.0): 89.9, (90.0, 97.5): 97.4, (97.5, 99.9): 99.8, (99.9, 100.0): 100.0},
+}
+DEFAULT_POLICY = "low"
+DEFAULT_TARGETS = TARGET_POLICIES[DEFAULT_POLICY]
 
 # Table 8: investigation and remediation timescales.
 RESOLUTION = {
@@ -59,8 +66,17 @@ def target_range(combined: int) -> tuple[float, float]:
     raise ValueError(f"combined score {combined} is not a product of two 1-4 scores")
 
 
-def default_target(combined: int) -> float:
-    return DEFAULT_TARGETS[target_range(combined)]
+def default_target(combined: int, policy: str = DEFAULT_POLICY) -> float:
+    return TARGET_POLICIES[policy][target_range(combined)]
+
+
+def error_rate(percent: float) -> str:
+    """Plain-English error rate, as used in the framework's tables: 95% -> '1 in 20 records'."""
+    err = 100.0 - percent
+    if err <= 0:
+        return "0 records"
+    n = 100.0 / err
+    return f"1 in {n:,.0f} records" if n >= 10 else f"1 in {n:.2g} records"
 
 
 def bands(target: float) -> Optional[dict]:
@@ -113,6 +129,8 @@ class Assessment:
     priority_score: int
     priority: Optional[str]
     resolution: Optional[str]
+    error_rate_target: str = ""
+    error_rate_actual: str = ""
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -120,13 +138,14 @@ class Assessment:
         return d
 
 
-def assess(importance: int, impact: int, performance: float, target: Optional[float] = None) -> Assessment:
+def assess(importance: int, impact: int, performance: float, target: Optional[float] = None,
+           policy: str = DEFAULT_POLICY) -> Assessment:
     """Score one rule result with the GOV.UK issues framework."""
     if not 0.0 <= performance <= 100.0:
         raise ValueError("performance is a percentage between 0 and 100")
     combined = combined_score(importance, impact)
     rng = target_range(combined)
-    tgt = default_target(combined) if target is None else float(target)
+    tgt = default_target(combined, policy) if target is None else float(target)
     band, band_score = band_for(performance, tgt)
     score = importance * impact * band_score
     pr = priority_for(score)
@@ -134,4 +153,5 @@ def assess(importance: int, impact: int, performance: float, target: Optional[fl
         importance=importance, impact=impact, combined=combined, target=tgt, target_range=rng,
         performance=round(performance, 3), meets_target=band is None, band=band, band_score=band_score,
         priority_score=score, priority=pr, resolution=RESOLUTION.get(pr) if pr else None,
+        error_rate_target=error_rate(tgt), error_rate_actual=error_rate(performance),
     )

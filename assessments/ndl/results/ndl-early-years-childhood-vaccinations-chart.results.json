@@ -6,6 +6,9 @@
     "owner": "UK Health Security Agency",
     "steward": "National Data Library team (chart curation)",
     "importance": 4,
+    "source": "external",
+    "influence": false,
+    "target_policy": "low",
     "measurement_cycle": "P1Y"
   },
   "as_of": "2026-10-14",
@@ -48,7 +51,7 @@
       "priority": "High",
       "resolution": "Within 1 measurement cycle",
       "performance": 0.0,
-      "target": 99.0
+      "target": 97.5
     }
   ],
   "results": [
@@ -70,7 +73,7 @@
         "importance": 4,
         "impact": 4,
         "combined": 16,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -81,8 +84,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -105,7 +111,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -116,8 +122,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -141,7 +150,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -152,8 +161,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -177,7 +189,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -188,8 +200,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -213,7 +228,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -224,8 +239,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -249,7 +267,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -260,8 +278,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -289,7 +310,7 @@
         "importance": 4,
         "impact": 3,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
@@ -300,8 +321,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -325,7 +349,7 @@
         "importance": 4,
         "impact": 2,
         "combined": 8,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
@@ -336,8 +360,11 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "0 records"
       },
+      "meta": {},
       "failed": 0
     },
     {
@@ -374,7 +401,7 @@
         "importance": 4,
         "impact": 2,
         "combined": 8,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
@@ -385,9 +412,51 @@
         "band_score": 3,
         "priority_score": 24,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "1 in 1 records"
       },
+      "meta": {},
       "failed": 4
     }
-  ]
+  ],
+  "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+      "High priority issue on R9 (Column names say which vaccine, at what age, and that values are percentages): 0.0% against a 97.5% target"
+    ],
+    "action_plan_required": true,
+    "dimensions_measured": [
+      "accuracy",
+      "completeness",
+      "timeliness",
+      "uniqueness",
+      "validity"
+    ],
+    "crosswalk": {
+      "mhclg_quality_ladder": "indicative / verifiable",
+      "ndl_rag": "red"
+    },
+    "note": "Suggested level. The data owner confirms or overrides it, with reasons (IOPC approach)."
+  },
+  "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users.",
+    "steps": [
+      "Determine and define the use cases and stakeholders",
+      "Assess the data structure",
+      "Define domain-appropriate data quality assessment parameters (the rules file)",
+      "Record them in the DQAP",
+      "Measure data quality against the planned parameters",
+      "Store and visualise the results in an accessible format",
+      "Check the assessment meets its stated aims; if not, revise the parameters",
+      "Communicate the results to stakeholders",
+      "Make changes to improve data quality where appropriate",
+      "Repeat at a frequency that meets the original requirements"
+    ],
+    "source": "external",
+    "influence": false,
+    "basis": "Data Quality Assessment Decision Tree (government data quality community, July 2023)"
+  }
 }

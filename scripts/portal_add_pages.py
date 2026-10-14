@@ -1,6 +1,6 @@
 """Add the DQ assurance pages to the Unified Data Asset Portal artifact (audited, repeatable).
 
-Usage: python scripts/portal_add_pages.py PORTAL_DIR ASSURANCE_HTML ATLAS_HTML EFFORT_HTML
+Usage: python scripts/portal_add_pages.py PORTAL_DIR ASSURANCE_HTML ATLAS_HTML EFFORT_HTML CROSSWALK_HTML
 - adds 'NDL collections assurance' (Explore) and 'Public sector DQ tooling atlas' (Reference)
   to the shared menu on every page, and as tiles on the hub
 - builds the two new pages inside the portal shell (menu, breadcrumb, skip link)
@@ -10,7 +10,7 @@ import re
 import sys
 from pathlib import Path
 
-portal, assurance, atlas, effort = map(Path, sys.argv[1:5])
+portal, assurance, atlas, effort, crosswalk = map(Path, sys.argv[1:6])
 
 NEW = {
     "GDS_NDL_Assurance.html": dict(src=assurance, area="Explore", area_id="area-explore", ic="🛡️",
@@ -19,6 +19,9 @@ NEW = {
     "GDS_DQ_Tooling_Atlas.html": dict(src=atlas, area="Reference", area_id="area-reference", ic="🔎",
         name="Public sector DQ tooling atlas", blurb="Data quality tools, standards and open code across government.",
         after="GDS_Solutions_Register.html", pill="Research", acc="#9b8cff", roles="architect steward cdo"),
+    "GDS_DQ_Guidance_Crosswalk.html": dict(src=crosswalk, area="Reference", area_id="area-reference", ic="🧩",
+        name="DQ guidance crosswalk", blurb="Nine guidance sources compared, errors found, and a live issues-framework calculator.",
+        after="GDS_DQ_Tooling_Atlas.html", pill="Reference", acc="#9b8cff", roles="steward cdo architect reviewer"),
 }
 
 
@@ -44,7 +47,7 @@ def add_tiles(html):
                 f'<span> <span class="pill">{d["pill"]}</span></span></span><h3>{d["name"]}</h3><p>{d["blurb"]}</p>'
                 f'<span class="go" aria-hidden="true">Open ›</span></a>')
         html = re.sub(r'(<a class="tile" href="' + re.escape(d["after"]) + r'".*?</a>)', lambda m: m.group(1) + tile, html, count=1, flags=re.S)
-    return html.replace("Showing all 17 pages.", "Showing all 19 pages.")
+    return html.replace("Showing all 17 pages.", "Showing all 20 pages.").replace("Showing all 19 pages.", "Showing all 20 pages.")
 
 
 base = (portal / "GDS_Quality_Baseline.html").read_text(encoding="utf-8")

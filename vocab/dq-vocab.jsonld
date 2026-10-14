@@ -87,6 +87,36 @@
       "dct:source": "This project (from GOV.UK DAM policy and CDA metadata guidance)"
     },
     {
+      "@id": "ndq:relevance",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Relevance",
+      "skos:definition": "Whether the data meets the needs of users. ESS 'plus' dimension, assessed mainly by qualitative evidence.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
+      "@id": "ndq:coherence-comparability",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Coherence and comparability",
+      "skos:definition": "Whether the data is coherent with other sources and comparable over time and between areas. ESS 'plus' dimension.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
+      "@id": "ndq:accessibility-clarity",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Accessibility and clarity",
+      "skos:definition": "Whether the data is clear, released in a convenient form, and has supporting metadata and guidance. ESS 'plus' dimension.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
       "@id": "ndq:issue/missing-value",
       "@type": "skos:Concept",
       "skos:inScheme": {

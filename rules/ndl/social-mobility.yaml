@@ -4,6 +4,9 @@ asset:
   iri: https://www.data.gov.uk/collections/people/social-mobility
   owner: Social Mobility Commission
   importance: 3
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
 rules:
   - {id: R1, check: unique, columns: [Socio-economic background]}
   - {id: R2, check: in_set, column: Socio-economic background, values: [Higher professional, Lower professional, Intermediate, Higher working, Lower working], issue_type: invalid-category}

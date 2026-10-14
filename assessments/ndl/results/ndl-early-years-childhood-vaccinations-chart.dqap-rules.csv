@@ -1,10 +1,10 @@
 Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
-year,R1,One row per year,uniqueness,unique,4,4,16,100.0,100.0,2026-10-14
-year,R2,type,validity,type,4,3,12,100.0,100.0,2026-10-14
-england,R3,England coverage is a valid percentage,accuracy,range,4,3,12,100.0,100.0,2026-10-14
-scotland,R4,range,accuracy,range,4,3,12,100.0,100.0,2026-10-14
-wales,R5,range,accuracy,range,4,3,12,100.0,100.0,2026-10-14
-northern-ireland,R6,range,accuracy,range,4,3,12,100.0,100.0,2026-10-14
-year,R7,freshness,timeliness,freshness,4,3,12,100.0,100.0,2026-10-14
-year,R8,no_gaps,completeness,no_gaps,4,2,8,99.0,100.0,2026-10-14
-"england, scotland, wales, northern-ireland",R9,"Column names say which vaccine, at what age, and that values are percentages",validity,header_has_unit,4,2,8,99.0,0.0,2026-10-14
+year,R1,One row per year,uniqueness,unique,4,4,16,99.9,100.0,2026-10-14
+year,R2,type,validity,type,4,3,12,99.9,100.0,2026-10-14
+england,R3,England coverage is a valid percentage,accuracy,range,4,3,12,99.9,100.0,2026-10-14
+scotland,R4,range,accuracy,range,4,3,12,99.9,100.0,2026-10-14
+wales,R5,range,accuracy,range,4,3,12,99.9,100.0,2026-10-14
+northern-ireland,R6,range,accuracy,range,4,3,12,99.9,100.0,2026-10-14
+year,R7,freshness,timeliness,freshness,4,3,12,99.9,100.0,2026-10-14
+year,R8,no_gaps,completeness,no_gaps,4,2,8,97.5,100.0,2026-10-14
+"england, scotland, wales, northern-ireland",R9,"Column names say which vaccine, at what age, and that values are percentages",validity,header_has_unit,4,2,8,97.5,0.0,2026-10-14

@@ -1,4 +1,4 @@
-# Build manifest — v0.1.0 (2026-10-14)
+# Build manifest — v0.2.0 (2026-10-14)
 
 | Path | Purpose | Generated? |
 |---|---|---|
@@ -8,6 +8,11 @@
 | dqkit/dqv.py | DQV JSON-LD writer | No |
 | dqkit/exporters.py | GX, R validate, DQAP CSV | No |
 | dqkit/cli.py, `__main__.py` | Command line | No |
+| dqkit/trust.py | IOPC-style trust level | No |
+| dqkit/pathway.py | Decision-tree DQAP route | No |
+| dqkit/workbook.py | Filled-in DQAP workbook and run history | No |
+| docs/GUIDANCE-CROSSWALK.md | Comparison of 9 guidance sources | No |
+| assessments/ndl/results/dqap-workbooks/*.xlsx | DQAP workbooks for 8 NDL charts | Yes |
 | vocab/dimensions.csv, issue-types.csv | Vocabulary source | No |
 | vocab/dq-vocab.ttl, dq-vocab.jsonld | SKOS / JSON-LD | Yes (scripts/build_vocab.py) |
 | model/cda-quality.linkml.yaml | Metadata extension proposal | No |
@@ -17,8 +22,8 @@
 | assessments/ndl/chart-data/*.csv | 8 NDL chart files (plus 1 sample) | Harvested |
 | assessments/ndl/results/* | Results, DQV, DQAP CSVs, GX suites, R rules, summary | Yes (scripts/run_ndl_assessment.py) |
 | assessments/ndl/REPORT.md | Findings | No |
-| tests/test_dqkit.py | 21 tests | No |
+| tests/test_dqkit.py | 30 tests | No |
 | .github/workflows/ci.yml | CI | No |
 | docs/* | Product, architecture, delivery and outreach documents | No |
 
-Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0. Python ≥ 3.10.
+Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpyxl ≥ 3.1. Python ≥ 3.10.

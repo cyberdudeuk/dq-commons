@@ -27,7 +27,7 @@
       "expectation_type": "expect_column_values_to_not_be_null",
       "kwargs": {
         "column": "Year",
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R2",
@@ -39,7 +39,7 @@
       "expectation_type": "expect_column_values_to_be_unique",
       "kwargs": {
         "column": "Year",
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R3",
@@ -52,7 +52,7 @@
       "kwargs": {
         "column": "Year",
         "regex": "^[-+]?\\d+$",
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R4",
@@ -66,7 +66,7 @@
         "column": "Number of Live Births",
         "min_value": 400000,
         "max_value": 1000000,
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R5",
@@ -84,6 +84,9 @@
       "owner": "Office for National Statistics",
       "steward": "National Data Library team (chart curation)",
       "importance": 3,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low",
       "measurement_cycle": "P1Y"
     },
     "not_exported": [

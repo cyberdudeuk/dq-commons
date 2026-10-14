@@ -43,6 +43,7 @@ classes:
       - quality_measurements
       - quality_issues
       - inclusion_assessed
+      - trust_level
 
   QualityMeasurement:
     class_uri: dqv:QualityMeasurement
@@ -84,6 +85,9 @@ slots:
   inclusion_assessed:
     range: boolean
     description: True when coverage and quality have been checked for groups of people (protected characteristics, digital exclusion).
+  trust_level:
+    range: TrustLevelEnum
+    description: Suggested or confirmed trust level (IOPC data trust scale). Tells users how they may use and share the data.
   metric:
     slot_uri: dqv:isMeasurementOf
     description: The rule or metric measured.
@@ -141,6 +145,15 @@ enums:
       accuracy: {meaning: ndq:accuracy}
       representativeness: {meaning: ndq:representativeness, description: Inclusion extension proposed by this project.}
       metadata: {meaning: ndq:metadata}
+      relevance: {meaning: ndq:relevance, description: ESS plus dimension (qualitative).}
+      coherence-comparability: {meaning: ndq:coherence-comparability, description: ESS plus dimension.}
+      accessibility-clarity: {meaning: ndq:accessibility-clarity, description: ESS plus dimension.}
+  TrustLevelEnum:
+    permissible_values:
+      Untrustworthy: {description: Internal use only.}
+      Requires improvement: {description: Internal use only.}
+      Useable: {description: Can be used externally with caveats.}
+      Trustworthy: {description: Can be used externally.}
   PriorityEnum:
     permissible_values: {Low: {}, Medium: {}, High: {}, Critical: {}}
   ResponsibilityEnum:

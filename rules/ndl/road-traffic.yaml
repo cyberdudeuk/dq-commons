@@ -4,6 +4,9 @@ asset:
   iri: https://www.data.gov.uk/collections/transport/road-traffic
   owner: Department for Transport
   importance: 3
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
 rules:
   - {id: R1, check: unique, columns: [Year]}
   - {id: R2, check: type, column: Year, kind: year}

@@ -11,25 +11,30 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 
 | Folder | What it is | Who it is for |
 |---|---|---|
-| `dqkit/` | Python kit: runs quality rules on data, scores them with the GOV.UK issues framework, checks catalogue records against GOV.UK requirements | Data stewards, analysts, engineers |
+| `dqkit/` | Python kit: runs quality rules on data, scores them with the GOV.UK issues framework, checks catalogue records against GOV.UK requirements, suggests a trust level, picks the DQAP route, and writes a filled-in DQAP workbook | Data stewards, analysts, engineers |
 | `vocab/` | 8 quality dimensions and 43 cross-government issue types (CSV, SKOS Turtle, JSON-LD) | Anyone logging data quality issues |
 | `model/` | Proposed quality extension to the cross-government metadata exchange model (LinkML, JSON Schema, SHACL) | GDS metadata standards owners |
 | `rules/ndl/` | Example rule files for 8 NDL chart datasets | People writing their own rules |
 | `assessments/ndl/` | A full test of the NDL's 84 curated data pages against GOV.UK requirements | NDL team, CDO Council |
-| `docs/` | PRD, theory of change, architecture, specs, decisions, build log, outreach drafts | Everyone |
+| `docs/` | PRD, theory of change, architecture, specs, decisions, build log, outreach drafts, and the guidance crosswalk | Everyone |
 
 ## Quick start (no coding knowledge needed beyond copy and paste)
 
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (21 tests).
+   You should see `OK` at the end (30 tests).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
    - `*.results.json`: every rule, pass rate, and priority
    - `*.dqv.jsonld`: results as W3C Data Quality Vocabulary metadata, ready for a catalogue
    - `*.dqap-rules.csv` and `*.dqap-issues.csv`: rows to paste into the GOV.UK DQAP template
+   Add `--workbook` to also get a filled-in DQAP Excel workbook. It has 10 tabs: Start here, Details,
+   Criticality matrix, Metrics, Results, Issues log, Causes, Actions, RACI and Steps.
+   Add `--history my-history` to keep every run, so the Results tab shows the trend over time.
+   The summary also gives a suggested **trust level** (IOPC scale: Untrustworthy, Requires
+   improvement, Useable, Trustworthy) and the **DQAP route** for internal or external data.
 5. Turn the same rules into another tool's format:
    - Great Expectations: `python -m dqkit export rules/ndl/births.yaml --to gx`
    - R `validate`: `python -m dqkit export rules/ndl/births.yaml --to r-validate`
@@ -53,6 +58,16 @@ rules:
      inner: {check: not_null, column: nhs_number}}            # is quality equal across groups?
 ```
 
+Optional asset fields:
+- `source` (internal or external) and `influence` (true or false): choose the decision-tree route.
+- `target_policy` (low, mid or high): sets default targets.
+- `personal_data_columns`: used by the IOPC accuracy rule.
+- `primary_use`, `secondary_uses` and `steward`: fill the Details tab.
+
+Optional rule fields:
+- `purpose`, `requirement`, `method` and `notes`: fill the Metrics tab, matching the Defra and DQAP rule templates.
+- `personal_data: true`: marks a personal data field.
+
 Checks available: `not_null`, `required_columns`, `unique`, `type`, `regex`, `in_set`, `range`,
 `not_future`, `compare`, `sum_max`, `freshness`, `no_gaps`, `header_has_unit`, `not_unknown`,
 `group_disparity`. Each maps to an issue type in `vocab/issue-types.csv`. You can override a rule's
@@ -71,7 +86,7 @@ The tests check the kit against the framework's own worked example.
   CDA metadata guidance, DQAP guidance, NDL curation criteria, FAIR principles and inclusion.
 - Average score: **50.9%**. 1 page green, 47 amber, 36 red.
 - Average coverage of the 13 CDA metadata properties: **46.4%**.
-- Strong: every page was reviewed in the last 12 months. 91% name the provider and link to authoritative sources.
+- Strong: every page was reviewed in the last 12 months. Only one factual error was found. 91% name the provider and link to authoritative sources.
 - Weak: no page shows an accountable owner role or a security classification. Only 1 links a methodology, and 56 of 84 give
   no quality information at all. 32% state an update frequency. 11% declare a schema.
 - 8 chart data files were checked with 49 rules. Main issues: air quality chart missing 2025, unclear
@@ -79,6 +94,21 @@ The tests check the kit against the framework's own worked example.
 - One factual error found: the Driving tests page says "Driver and Vehicle Standards Agency (DVLA)".
 
 Full report: [`assessments/ndl/REPORT.md`](assessments/ndl/REPORT.md).
+
+## How this kit lines up with existing guidance
+
+[`docs/GUIDANCE-CROSSWALK.md`](docs/GUIDANCE-CROSSWALK.md) compares 9 sources:
+- GOV.UK guidance
+- DQAP Implementation Guide v2.0
+- Issues Framework v1.0
+- Defra "Start here"
+- IOPC trust scales
+- the 2023 decision tree
+- NHS England's framework for data science
+- the DQ community note
+
+It shows where each step is in the kit. It also lists 9 contradictions and errors, including an
+arithmetic slip in Issues Framework v1.0 Tables 7 and 8.
 
 ## Related work
 

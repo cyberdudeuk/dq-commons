@@ -5,7 +5,7 @@
       "expectation_type": "expect_column_values_to_be_unique",
       "kwargs": {
         "column": "Socio-economic background",
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R1",
@@ -24,7 +24,7 @@
           "Higher working",
           "Lower working"
         ],
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R2",
@@ -38,7 +38,7 @@
         "column": "Percentage (%)",
         "min_value": 0,
         "max_value": 100,
-        "mostly": 0.99
+        "mostly": 0.975
       },
       "meta": {
         "rule_id": "R3",
@@ -98,7 +98,10 @@
       "title": "NDL People collection: Social mobility chart data",
       "iri": "https://www.data.gov.uk/collections/people/social-mobility",
       "owner": "Social Mobility Commission",
-      "importance": 3
+      "importance": 3,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low"
     },
     "not_exported": []
   }

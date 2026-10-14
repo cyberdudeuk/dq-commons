@@ -18,9 +18,9 @@ from .rules import DEFAULT_ISSUE, ISSUE_TYPES
 from . import framework
 
 
-def _mostly(rule: dict, importance: int) -> float:
+def _mostly(rule: dict, importance: int, policy: str = framework.DEFAULT_POLICY) -> float:
     impact = int(rule.get("impact", ISSUE_TYPES[rule.get("issue_type", DEFAULT_ISSUE[rule["check"]])]["default_impact"]))
-    target = rule.get("target") or framework.default_target(framework.combined_score(importance, impact))
+    target = rule.get("target") or framework.default_target(framework.combined_score(importance, impact), policy)
     return round(float(target) / 100.0, 4)
 
 
@@ -28,7 +28,7 @@ def to_great_expectations(spec: dict) -> dict:
     imp = int(spec["asset"].get("importance", 3))
     out, unsupported = [], []
     for r in spec["rules"]:
-        m, c = _mostly(r, imp), r["check"]
+        m, c = _mostly(r, imp, spec["asset"].get("target_policy", framework.DEFAULT_POLICY)), r["check"]
         meta = {"rule_id": r["id"], "dimension": r.get("dimension", ISSUE_TYPES[r.get("issue_type", DEFAULT_ISSUE[c])]["dimension"]),
                 "description": r.get("description", "")}
         kw = None

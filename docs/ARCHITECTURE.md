@@ -42,7 +42,10 @@ table can take the extension's fields as columns (see the LLD mapping).
 | `metadata.py` | 20 requirement checks on catalogue records; 13 CDA properties; portfolio scoring | `assess_record`, `assess_portfolio` |
 | `dqv.py` | Results to W3C DQV JSON-LD | `result_to_dqv` |
 | `exporters.py` | Great Expectations, R validate, DQAP CSVs | `to_great_expectations`, `to_r_validate`, `to_dqap_csv` |
-| `cli.py` | Plain command line | `check`, `export`, `assess-metadata` |
+| `cli.py` | Plain command line | `check` (with `--workbook`, `--history`), `export`, `assess-metadata` |
+| `trust.py` | IOPC-style trust level, with reasons | `classify(result)` |
+| `pathway.py` | DQAP route from the 2023 decision tree | `route(asset)` |
+| `workbook.py` | Filled-in DQAP workbook (10 tabs) and run history | `build`, `append_history` |
 | `vocab/` | Dimensions and issue types (CSV source; SKOS and JSON-LD generated) | `scripts/build_vocab.py` |
 | `model/` | Proposed metadata extension (LinkML, JSON Schema, SHACL) | For GDS metadata model owners |
 

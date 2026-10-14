@@ -1,2 +1,2 @@
 Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
-ndl-environment-air-quality-chart-I001,R4,Data out of date,The latest period in the data is older than the update frequency allows.,timeliness,0.0,99.0,low,27,High,Within 1 measurement cycle,provider,"Department for Environment, Food and Rural Affairs",Open
+ndl-environment-air-quality-chart-I001,R4,Data out of date,The latest period in the data is older than the update frequency allows.,timeliness,0.0,97.5,low,27,High,Within 1 measurement cycle,provider,"Department for Environment, Food and Rural Affairs",Open

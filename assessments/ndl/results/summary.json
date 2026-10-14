@@ -73,7 +73,7 @@
    "fail": 8,
    "performance": 90.5,
    "priority": "Critical",
-   "target": 100.0,
+   "target": 99.9,
    "resolution": "Immediately"
   },
   {
@@ -88,7 +88,7 @@
    "fail": 84,
    "performance": 0.0,
    "priority": "Critical",
-   "target": 100.0,
+   "target": 99.9,
    "resolution": "Immediately"
   },
   {
@@ -103,7 +103,7 @@
    "fail": 56,
    "performance": 17.3,
    "priority": "Critical",
-   "target": 100.0,
+   "target": 99.9,
    "resolution": "Immediately"
   },
   {
@@ -118,7 +118,7 @@
    "fail": 0,
    "performance": 100.0,
    "priority": null,
-   "target": 99.0,
+   "target": 97.5,
    "resolution": null
   },
   {
@@ -133,7 +133,7 @@
    "fail": 84,
    "performance": 0.0,
    "priority": "Medium",
-   "target": 85.0,
+   "target": 75.0,
    "resolution": "Within 3 measurement cycles"
   },
   {
@@ -148,7 +148,7 @@
    "fail": 25,
    "performance": 70.2,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -163,7 +163,7 @@
    "fail": 0,
    "performance": 50.0,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -178,7 +178,7 @@
    "fail": 67,
    "performance": 11.3,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -193,7 +193,7 @@
    "fail": 0,
    "performance": 65.5,
    "priority": "High",
-   "target": 99.0,
+   "target": 97.5,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -208,7 +208,7 @@
    "fail": 57,
    "performance": 32.1,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -223,7 +223,7 @@
    "fail": 46,
    "performance": 41.1,
    "priority": "Medium",
-   "target": 85.0,
+   "target": 75.0,
    "resolution": "Within 3 measurement cycles"
   },
   {
@@ -238,7 +238,7 @@
    "fail": 3,
    "performance": 91.1,
    "priority": null,
-   "target": 85.0,
+   "target": 75.0,
    "resolution": null
   },
   {
@@ -252,9 +252,9 @@
    "partial": 0,
    "fail": 9,
    "performance": 89.3,
-   "priority": "High",
-   "target": 95.0,
-   "resolution": "Within 1 measurement cycle"
+   "priority": "Low",
+   "target": 90.0,
+   "resolution": "Within 6 measurement cycles"
   },
   {
    "id": "DQ-2",
@@ -268,7 +268,7 @@
    "fail": 56,
    "performance": 33.3,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -283,7 +283,7 @@
    "fail": 83,
    "performance": 1.2,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -298,7 +298,7 @@
    "fail": 19,
    "performance": 72.6,
    "priority": "High",
-   "target": 99.0,
+   "target": 97.5,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -313,7 +313,7 @@
    "fail": 67,
    "performance": 20.2,
    "priority": "Medium",
-   "target": 85.0,
+   "target": 75.0,
    "resolution": "Within 3 measurement cycles"
   },
   {
@@ -328,7 +328,7 @@
    "fail": 18,
    "performance": 28.0,
    "priority": "High",
-   "target": 95.0,
+   "target": 90.0,
    "resolution": "Within 1 measurement cycle"
   },
   {
@@ -343,7 +343,7 @@
    "fail": 28,
    "performance": 24.0,
    "priority": "Medium",
-   "target": 85.0,
+   "target": 75.0,
    "resolution": "Within 3 measurement cycles"
   },
   {
@@ -357,9 +357,9 @@
    "partial": 0,
    "fail": 1,
    "performance": 98.8,
-   "priority": "Medium",
-   "target": 99.0,
-   "resolution": "Within 3 measurement cycles"
+   "priority": null,
+   "target": 97.5,
+   "resolution": null
   }
  ],
  "page_scores": [
@@ -4333,6 +4333,14 @@
    "rules_total": 8,
    "rules_met": 8,
    "issues": [],
+   "trust": {
+    "level": "Trustworthy",
+    "sharing": "Can be used externally",
+    "reasons": [
+     "All rules meet their targets, or only Low priority issues remain"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4341,7 +4349,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4352,7 +4360,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4363,7 +4371,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4376,7 +4384,7 @@
       "kind": "year"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4390,7 +4398,7 @@
       "max": 1000000
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4408,7 +4416,7 @@
       "as_of": "2026-10-14"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4422,7 +4430,7 @@
       "last": 2025
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -4433,7 +4441,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     }
@@ -4455,9 +4463,17 @@
      "priority": "High",
      "resolution": "Within 1 measurement cycle",
      "performance": 0.0,
-     "target": 99.0
+     "target": 97.5
     }
    ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+     "High priority issue on R9 (Column names say which vaccine, at what age, and that values are percentages): 0.0% against a 97.5% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4466,7 +4482,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4479,7 +4495,7 @@
       "kind": "year"
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4493,7 +4509,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4507,7 +4523,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4521,7 +4537,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4535,7 +4551,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4553,7 +4569,7 @@
       "as_of": "2026-10-14"
      },
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4567,7 +4583,7 @@
       "last": 2025
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4591,7 +4607,7 @@
        "column": "northern-ireland"
       }
      ],
-     "target": 99.0,
+     "target": 97.5,
      "meets": false,
      "priority": "High"
     }
@@ -4605,6 +4621,14 @@
    "rules_total": 6,
    "rules_met": 6,
    "issues": [],
+   "trust": {
+    "level": "Trustworthy",
+    "sharing": "Can be used externally",
+    "reasons": [
+     "All rules meet their targets, or only Low priority issues remain"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4613,7 +4637,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4626,7 +4650,7 @@
       "kind": "year"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4640,7 +4664,7 @@
       "max": 500
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4658,7 +4682,7 @@
       "as_of": "2026-10-14"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4672,7 +4696,7 @@
       "last": 2025
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -4683,7 +4707,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     }
@@ -4705,9 +4729,17 @@
      "priority": "High",
      "resolution": "Within 1 measurement cycle",
      "performance": 0.0,
-     "target": 99.0
+     "target": 97.5
     }
    ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+     "High priority issue on R4 (Annual air quality statistics are usually published in spring, so the previous year should be present by autumn): 0.0% against a 97.5% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4716,7 +4748,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4729,7 +4761,7 @@
       "kind": "year"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4743,7 +4775,7 @@
       "max": 366
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4770,7 +4802,7 @@
        "as_of": "2026-10-14"
       }
      ],
-     "target": 99.0,
+     "target": 97.5,
      "meets": false,
      "priority": "High"
     },
@@ -4784,7 +4816,7 @@
       "last": 2024
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -4795,7 +4827,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     }
@@ -4817,9 +4849,17 @@
      "priority": "High",
      "resolution": "Within 1 measurement cycle",
      "performance": 66.667,
-     "target": 99.0
+     "target": 97.5
     }
    ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+     "High priority issue on R1 (The file says which election the shares are for): 66.667% against a 97.5% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4832,7 +4872,7 @@
        "missing_column": "Election"
       }
      ],
-     "target": 99.0,
+     "target": 97.5,
      "meets": false,
      "priority": "High"
     },
@@ -4843,7 +4883,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -4857,7 +4897,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4870,7 +4910,7 @@
       "sum": 96.0367
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4881,7 +4921,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     }
@@ -4903,9 +4943,17 @@
      "priority": "Medium",
      "resolution": "Within 3 measurement cycles",
      "performance": 0.0,
-     "target": 95.0
+     "target": 90.0
     }
    ],
+   "trust": {
+    "level": "Useable",
+    "sharing": "Can be used externally, with caveats",
+    "reasons": [
+     "Medium priority issue on R2 (Financial years are written as 2024-25, not 2024): 0.0% against a 90.0% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -4914,7 +4962,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -4946,7 +4994,7 @@
        "Financial year": "2017"
       }
      ],
-     "target": 95.0,
+     "target": 90.0,
      "meets": false,
      "priority": "Medium"
     },
@@ -4959,7 +5007,7 @@
       "expression": "fails_millions <= tests_millions"
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -4973,7 +5021,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -4984,7 +5032,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     }
@@ -5006,9 +5054,17 @@
      "priority": "High",
      "resolution": "Within 1 measurement cycle",
      "performance": 0.0,
-     "target": 95.0
+     "target": 90.0
     }
    ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+     "High priority issue on R6 (The amount says it is in pounds and whether it is per dwelling): 0.0% against a 90.0% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -5017,7 +5073,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -5030,7 +5086,7 @@
       "kind": "year"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -5043,7 +5099,7 @@
       "kind": "number"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -5061,7 +5117,7 @@
       "as_of": "2026-10-14"
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -5075,7 +5131,7 @@
       "last": 2026
      },
      "examples": [],
-     "target": 95.0,
+     "target": 90.0,
      "meets": true,
      "priority": null
     },
@@ -5090,7 +5146,7 @@
        "column": "Average band D council tax"
       }
      ],
-     "target": 95.0,
+     "target": 90.0,
      "meets": false,
      "priority": "High"
     }
@@ -5112,9 +5168,17 @@
      "priority": "High",
      "resolution": "Within 1 measurement cycle",
      "performance": 50.0,
-     "target": 99.0
+     "target": 97.5
     }
    ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+     "High priority issue on R4 (The file says what the percentage measures and for which year): 50.0% against a 97.5% target"
+    ]
+   },
+   "route": "External data, no influence: assess, caveat and communicate",
    "results": [
     {
      "id": "R1",
@@ -5123,7 +5187,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 100.0,
+     "target": 99.9,
      "meets": true,
      "priority": null
     },
@@ -5134,7 +5198,7 @@
      "performance": 100.0,
      "detail": {},
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -5148,7 +5212,7 @@
       "max": 100
      },
      "examples": [],
-     "target": 99.0,
+     "target": 97.5,
      "meets": true,
      "priority": null
     },
@@ -5166,7 +5230,7 @@
        "missing_column": "Year"
       }
      ],
-     "target": 99.0,
+     "target": 97.5,
      "meets": false,
      "priority": "High"
     }

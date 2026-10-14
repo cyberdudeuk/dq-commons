@@ -1,2 +1,2 @@
 Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
-ndl-early-years-childhood-vaccinations-chart-I001,R9,Measure not described,"A column has no unit, measure definition or reference period, so values can be misread.",validity,0.0,99.0,low,24,High,Within 1 measurement cycle,provider,National Data Library team (chart curation),Open
+ndl-early-years-childhood-vaccinations-chart-I001,R9,Measure not described,"A column has no unit, measure definition or reference period, so values can be misread.",validity,0.0,97.5,low,24,High,Within 1 measurement cycle,provider,National Data Library team (chart curation),Open

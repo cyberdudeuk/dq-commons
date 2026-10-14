@@ -5,6 +5,9 @@ asset:
   owner: Office for National Statistics
   steward: National Data Library team (chart curation)
   importance: 3   # High: a national, public-facing reference figure
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
   measurement_cycle: P1Y
 rules:
   - {id: R1, check: required_columns, columns: [Year, Number of Live Births], description: "Expected columns are present"}

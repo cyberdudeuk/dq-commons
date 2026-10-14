@@ -1,2 +1,2 @@
 Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
-ndl-government-election-results-chart-I001,R1,Missing field,A required field is absent from the file.,completeness,66.667,99.0,low,27,High,Within 1 measurement cycle,provider,UK Parliament,Open
+ndl-government-election-results-chart-I001,R1,Missing field,A required field is absent from the file.,completeness,66.667,97.5,low,27,High,Within 1 measurement cycle,provider,UK Parliament,Open

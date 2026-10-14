@@ -38,6 +38,15 @@
       "items": {
         "$ref": "#/$defs/QualityIssue"
       }
+    },
+    "trust_level": {
+      "enum": [
+        "Untrustworthy",
+        "Requires improvement",
+        "Useable",
+        "Trustworthy"
+      ],
+      "description": "Suggested or confirmed data trust level (IOPC scale)"
     }
   },
   "$defs": {
@@ -61,7 +70,10 @@
             "validity",
             "accuracy",
             "representativeness",
-            "metadata"
+            "metadata",
+            "relevance",
+            "coherence-comparability",
+            "accessibility-clarity"
           ]
         },
         "value": {
@@ -107,7 +119,10 @@
             "validity",
             "accuracy",
             "representativeness",
-            "metadata"
+            "metadata",
+            "relevance",
+            "coherence-comparability",
+            "accessibility-clarity"
           ]
         },
         "priority": {

@@ -5,7 +5,7 @@
       "expectation_type": "expect_column_values_to_be_unique",
       "kwargs": {
         "column": "year",
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R1",
@@ -18,7 +18,7 @@
       "kwargs": {
         "column": "year",
         "regex": "^[-+]?\\d+$",
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R2",
@@ -32,7 +32,7 @@
         "column": "england",
         "min_value": 0,
         "max_value": 100,
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R3",
@@ -46,7 +46,7 @@
         "column": "scotland",
         "min_value": 0,
         "max_value": 100,
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R4",
@@ -60,7 +60,7 @@
         "column": "wales",
         "min_value": 0,
         "max_value": 100,
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R5",
@@ -74,7 +74,7 @@
         "column": "northern-ireland",
         "min_value": 0,
         "max_value": 100,
-        "mostly": 1.0
+        "mostly": 0.999
       },
       "meta": {
         "rule_id": "R6",
@@ -92,6 +92,9 @@
       "owner": "UK Health Security Agency",
       "steward": "National Data Library team (chart curation)",
       "importance": 4,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low",
       "measurement_cycle": "P1Y"
     },
     "not_exported": [

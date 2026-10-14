@@ -69,6 +69,7 @@ class RuleResult:
     examples: list = field(default_factory=list)
     detail: dict = field(default_factory=dict)
     assessment: Optional[dict] = None
+    meta: dict = field(default_factory=dict)   # purpose, requirement, method, notes (DQAP Metrics tab)
 
     @property
     def failed(self) -> int:
@@ -302,6 +303,8 @@ def validate_spec(spec: dict) -> None:
     if "asset" not in spec or "rules" not in spec:
         raise ValueError("a rules file needs 'asset' and 'rules'")
     framework._check_level("asset.importance", spec["asset"].get("importance", 3))
+    if spec["asset"].get("target_policy", framework.DEFAULT_POLICY) not in framework.TARGET_POLICIES:
+        raise ValueError("asset.target_policy must be low, mid or high")
     seen = set()
     for r in spec["rules"]:
         if r.get("check") not in CHECKS:
@@ -332,11 +335,12 @@ def run(df: pd.DataFrame, spec: dict, as_of: Optional[date] = None) -> dict:
         else:
             checked, passed, ex, detail = CHECKS[r["check"]](df, r, as_of)
         perf = 100.0 * passed / checked if checked else 100.0
-        a = framework.assess(importance, impact, perf, r.get("target"))
+        a = framework.assess(importance, impact, perf, r.get("target"), asset.get("target_policy", framework.DEFAULT_POLICY))
         results.append(RuleResult(
             id=r["id"], check=r["check"], description=r.get("description", r["check"]), dimension=dimension,
             issue_type=issue, columns=cols, checked=checked, passed=passed, performance=round(perf, 3),
-            examples=ex, detail=detail, assessment=a.to_dict()))
+            examples=ex, detail=detail, assessment=a.to_dict(),
+            meta={k: r[k] for k in ("purpose", "requirement", "method", "notes", "part_of_data", "personal_data") if k in r}))
     return summarise(asset, results, as_of, len(df))
 
 

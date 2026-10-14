@@ -1,6 +1,7 @@
 """Command line: python -m dqkit <command> ...
 
-  check   DATA.csv RULES.yaml [--as-of YYYY-MM-DD] [--out DIR]   run rules, write results, DQV, DQAP CSVs
+  check   DATA.csv RULES.yaml [--as-of YYYY-MM-DD] [--out DIR] [--history DIR] [--workbook]
+          run rules; write results, DQV, DQAP CSVs, trust level and (optionally) a filled DQAP Excel workbook
   export  RULES.yaml --to gx|r-validate                          print a Great Expectations suite or R validate rules
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
 """
@@ -14,7 +15,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import dqv, exporters, metadata, rules
+from . import dqv, exporters, metadata, pathway, rules, trust
 
 
 def _date(s):
@@ -26,6 +27,8 @@ def main(argv=None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     c = sub.add_parser("check")
     c.add_argument("data"); c.add_argument("rules"); c.add_argument("--as-of"); c.add_argument("--out", default="dq-results")
+    c.add_argument("--history", help="folder that keeps each run, so results show trends over time")
+    c.add_argument("--workbook", action="store_true", help="also write a filled-in DQAP workbook (.xlsx)")
     e = sub.add_parser("export")
     e.add_argument("rules"); e.add_argument("--to", choices=["gx", "r-validate"], required=True)
     m = sub.add_parser("assess-metadata")
@@ -36,14 +39,23 @@ def main(argv=None) -> int:
         spec = rules.load_rules(a.rules)
         df = pd.read_csv(a.data, dtype=str, keep_default_na=False, na_values=[""], encoding="utf-8-sig")
         res = rules.run(df, spec, _date(a.as_of))
+        res["trust"] = trust.classify(res, spec["asset"].get("personal_data_columns"))
+        res["route"] = pathway.route(spec["asset"])
         out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
         aid = spec["asset"]["id"]
+        if a.history:
+            from .workbook import append_history
+            append_history(res, a.history)
+        if a.workbook:
+            from .workbook import build
+            build(spec, res, out / f"{aid}.DQAP.xlsx", a.history)
         (out / f"{aid}.results.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))
         (out / f"{aid}.dqv.jsonld").write_text(json.dumps(dqv.result_to_dqv(res, spec["asset"].get("iri"), spec["asset"].get("dqap")), indent=2, ensure_ascii=False))
         d = exporters.to_dqap_csv(res)
         (out / f"{aid}.dqap-rules.csv").write_text(d["rules"])
         (out / f"{aid}.dqap-issues.csv").write_text(d["issues"])
         print(f"{aid}: {res['rules_met']}/{res['rules_total']} rules meet target; {len(res['issues'])} issue(s). Results in {out}/")
+        print(f"  Suggested trust level: {res['trust']['level']} ({res['trust']['sharing']}). Route: {res['route']['route']}")
         for i in res["issues"]:
             print(f"  - [{i['priority']}] {i['rule']} {i['label']} ({i['dimension']}): {i['performance']}% vs {i['target']}% -> {i['resolution']}")
         return 0

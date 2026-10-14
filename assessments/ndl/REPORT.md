@@ -33,7 +33,8 @@ rather than 84 times.
 
 Each check is treated as a data quality rule measured across all pages and scored with the GOV.UK
 data quality issues framework. Importance is set to 3 (High), because the NDL is the national front
-door to public data.
+door to public data. Targets use the low end of each framework range, as the Data Quality Issues
+Framework v1.0 does in its own tables (decision D-021).
 
 ## Results by check
 
@@ -51,14 +52,14 @@ door to public data.
 | Up to date (checked in 6 months) | 65% | High | 1 cycle |
 | Time period stated | 70% | High | 1 cycle |
 | Open machine-readable format | 73% | High | 1 cycle |
-| Geography stated | 89% | High | 1 cycle |
 | Security classification stated | 0% | Medium | 3 cycles |
 | API offered | 20% | Medium | 3 cycles |
 | Other UK nations signposted | 24% | Medium | 3 cycles |
 | Every link names its publisher | 41% | Medium | 3 cycles |
-| No factual errors | 99% | Medium | 3 cycles |
 | Reviewed in the last 12 months (DAM) | 100% | Meets target | |
 | Links go to authoritative sources | 91% | Meets target | |
+| Geography stated | 89% | Low | 6 cycles |
+| No factual errors | 99% (1 error) | Meets target | Fix the one error anyway |
 
 "Owner organisation named" scores 90% but is still Critical, because the framework sets a 100% target
 when importance and impact are both high. The 8 pages without a named provider are:
@@ -87,20 +88,26 @@ when importance and impact are both high. The 8 pages without a named provider a
 
 ## Chart data results
 
-| Chart file | Rules met | Issues |
-|---|---|---|
-| Births | 8 of 8 | None |
-| Road traffic | 6 of 6 | None |
-| Childhood vaccinations | 8 of 9 | Column names don't say which vaccine, at what age, or that values are percentages (High) |
-| Air quality | 5 of 6 | Latest year is 2024; 2025 statistics would normally be out by spring 2026 (High) |
-| Election results | 4 of 5 | No column says which election the vote shares are for (High) |
-| Council tax | 5 of 6 | The amount doesn't say it is in pounds per band D dwelling (High) |
-| Social mobility | 3 of 4 | No column says what the percentage measures or for which year (High) |
-| MOT results | 4 of 5 | Financial years written as "2024", so it is unclear whether that means 2023-24 or 2024-25 (Medium) |
+Each chart also gets a suggested trust level on the IOPC data trust scale, which says how the data
+may be used. The NDL republishes data it doesn't produce, so the decision tree route is "external
+data, no influence": measure, caveat and tell users, and pass fixes to the publisher.
+
+| Chart file | Rules met | Trust level | Issues |
+|---|---|---|---|
+| Births | 8 of 8 | Trustworthy | None |
+| Road traffic | 6 of 6 | Trustworthy | None |
+| Childhood vaccinations | 8 of 9 | Requires improvement | Column names don't say which vaccine, at what age, or that values are percentages (High) |
+| Air quality | 5 of 6 | Requires improvement | Latest year is 2024; 2025 statistics would normally be out by spring 2026 (High) |
+| Election results | 4 of 5 | Requires improvement | No column says which election the vote shares are for (High) |
+| Council tax | 5 of 6 | Requires improvement | The amount doesn't say it is in pounds per band D dwelling (High) |
+| Social mobility | 3 of 4 | Requires improvement | No column says what the percentage measures or for which year (High) |
+| MOT results | 4 of 5 | Useable | Financial years written as "2024", so it is unclear whether that means 2023-24 or 2024-25 (Medium) |
+
+A filled-in DQAP workbook for each chart is in `results/dqap-workbooks/`.
 
 ## Content error found
 
-The Driving tests page says "This data is published by the Driver and Vehicle Standards Agency (DVLA)".
+The framework treats 1 error in 84 pages as within target, but it should still be fixed. The Driving tests page says "This data is published by the Driver and Vehicle Standards Agency (DVLA)".
 The right abbreviation is DVSA. DVLA is the Driver and Vehicle Licensing Agency, a different body.
 
 ## Inclusion findings

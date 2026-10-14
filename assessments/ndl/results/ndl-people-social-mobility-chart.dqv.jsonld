@@ -54,7 +54,7 @@
       },
       "value": 100.0,
       "measuredOn": "2026-10-14",
-      "ndq:target": 100.0,
+      "ndq:target": 99.9,
       "ndq:meetsTarget": true,
       "ndq:recordsChecked": 5
     },
@@ -69,7 +69,7 @@
       },
       "value": 100.0,
       "measuredOn": "2026-10-14",
-      "ndq:target": 99.0,
+      "ndq:target": 97.5,
       "ndq:meetsTarget": true,
       "ndq:recordsChecked": 5
     },
@@ -84,7 +84,7 @@
       },
       "value": 100.0,
       "measuredOn": "2026-10-14",
-      "ndq:target": 99.0,
+      "ndq:target": 97.5,
       "ndq:meetsTarget": true,
       "ndq:recordsChecked": 5
     },
@@ -99,7 +99,7 @@
       },
       "value": 50.0,
       "measuredOn": "2026-10-14",
-      "ndq:target": 99.0,
+      "ndq:target": 97.5,
       "ndq:meetsTarget": false,
       "ndq:recordsChecked": 4
     },

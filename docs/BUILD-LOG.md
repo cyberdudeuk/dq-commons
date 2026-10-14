@@ -33,3 +33,29 @@
 - Published the NDL Collections Assurance artifact. Added a status table to the DQ Tooling Atlas, and a "with dqkit" option to the CDA effort model.
 - Portal v2.1.0: `scripts/portal_add_pages.py` adds two pages and updates the menu on all 20 pages.
 - Copied the research note into `docs/DQ_TOOLING_RESEARCH.md`.
+
+## 2026-10-14 (evening) — v0.2.0 existing guidance built in
+**Trigger:** 7 documents shared by the project lead:
+- Issues Framework v1.0
+- DQAP Implementation Guide v2.0
+- Defra "Start here"
+- IOPC trust scales
+- the 2023 decision tree
+- NHS England's Quality Framework for Data Science
+- the DQ community note
+
+**Built**
+- **`docs/GUIDANCE-CROSSWALK.md` and a crosswalk page** with a live issues-framework calculator. It found 9 contradictions and errors, including an arithmetic slip in v1.0 Tables 7 and 8 (96.75% where the stated rule gives 96.25%).
+- **`framework.py`:**
+  - target policies low, mid and high, with low as the default (D-021)
+  - error rates in words ("1 in 40 records")
+  - tests reproducing the v1.0 tables
+- **`trust.py`:** IOPC-style trust level (D-022). **`pathway.py`:** decision-tree route (D-023).
+- **`workbook.py`:** a filled-in 10-tab DQAP workbook, plus run history (D-024). The Causes tab has an addressability column, from Defra.
+- **Vocabulary:** 3 ESS "plus" dimensions (relevance, coherence and comparability, accessibility and clarity). **Model:** `trust_level`.
+- **NDL rule files:** marked as external data with no influence. Assessment re-run; DQAP workbooks written for all 8 charts.
+- **Portal v2.2.0:** new "DQ guidance crosswalk" page; NDL assurance page shows trust levels.
+
+**Checked:** 30 tests pass. The model schema and example are valid. New pages have no errors and no sideways scroll at 1280 px or 400 px.
+
+**Privacy:** the source documents name individuals. No names are copied into any output (D-013).

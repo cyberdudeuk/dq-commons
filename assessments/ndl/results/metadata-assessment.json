@@ -19086,18 +19086,20 @@
         "importance": 3,
         "impact": 4,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
         ],
         "performance": 90.5,
         "meets_target": false,
-        "band": "critical",
-        "band_score": 4,
-        "priority_score": 48,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 36,
         "priority": "Critical",
-        "resolution": "Immediately"
+        "resolution": "Immediately",
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "1 in 11 records"
       }
     },
     {
@@ -19115,18 +19117,20 @@
         "importance": 3,
         "impact": 4,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
         ],
         "performance": 0.0,
         "meets_target": false,
-        "band": "critical",
-        "band_score": 4,
-        "priority_score": 48,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 36,
         "priority": "Critical",
-        "resolution": "Immediately"
+        "resolution": "Immediately",
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "1 in 1 records"
       }
     },
     {
@@ -19144,18 +19148,20 @@
         "importance": 3,
         "impact": 4,
         "combined": 12,
-        "target": 100.0,
+        "target": 99.9,
         "target_range": [
           99.9,
           100.0
         ],
         "performance": 17.3,
         "meets_target": false,
-        "band": "critical",
-        "band_score": 4,
-        "priority_score": 48,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 36,
         "priority": "Critical",
-        "resolution": "Immediately"
+        "resolution": "Immediately",
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "1 in 1.2 records"
       }
     },
     {
@@ -19173,7 +19179,7 @@
         "importance": 3,
         "impact": 3,
         "combined": 9,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
@@ -19184,7 +19190,9 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "0 records"
       }
     },
     {
@@ -19202,7 +19210,7 @@
         "importance": 3,
         "impact": 1,
         "combined": 3,
-        "target": 85.0,
+        "target": 75.0,
         "target_range": [
           75.0,
           90.0
@@ -19213,7 +19221,9 @@
         "band_score": 3,
         "priority_score": 9,
         "priority": "Medium",
-        "resolution": "Within 3 measurement cycles"
+        "resolution": "Within 3 measurement cycles",
+        "error_rate_target": "1 in 4 records",
+        "error_rate_actual": "1 in 1 records"
       }
     },
     {
@@ -19231,7 +19241,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19242,7 +19252,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 3.4 records"
       }
     },
     {
@@ -19260,7 +19272,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19271,7 +19283,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 2 records"
       }
     },
     {
@@ -19289,7 +19303,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19300,7 +19314,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 1.1 records"
       }
     },
     {
@@ -19318,7 +19334,7 @@
         "importance": 3,
         "impact": 3,
         "combined": 9,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
@@ -19329,7 +19345,9 @@
         "band_score": 3,
         "priority_score": 27,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "1 in 2.9 records"
       }
     },
     {
@@ -19347,7 +19365,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19358,7 +19376,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 1.5 records"
       }
     },
     {
@@ -19376,7 +19396,7 @@
         "importance": 3,
         "impact": 1,
         "combined": 3,
-        "target": 85.0,
+        "target": 75.0,
         "target_range": [
           75.0,
           90.0
@@ -19387,7 +19407,9 @@
         "band_score": 3,
         "priority_score": 9,
         "priority": "Medium",
-        "resolution": "Within 3 measurement cycles"
+        "resolution": "Within 3 measurement cycles",
+        "error_rate_target": "1 in 4 records",
+        "error_rate_actual": "1 in 1.7 records"
       }
     },
     {
@@ -19405,7 +19427,7 @@
         "importance": 3,
         "impact": 1,
         "combined": 3,
-        "target": 85.0,
+        "target": 75.0,
         "target_range": [
           75.0,
           90.0
@@ -19416,7 +19438,9 @@
         "band_score": 0,
         "priority_score": 0,
         "priority": null,
-        "resolution": null
+        "resolution": null,
+        "error_rate_target": "1 in 4 records",
+        "error_rate_actual": "1 in 11 records"
       }
     },
     {
@@ -19434,18 +19458,20 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
         ],
         "performance": 89.3,
         "meets_target": false,
-        "band": "low",
-        "band_score": 3,
-        "priority_score": 18,
-        "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "band": "high",
+        "band_score": 1,
+        "priority_score": 6,
+        "priority": "Low",
+        "resolution": "Within 6 measurement cycles",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 9.3 records"
       }
     },
     {
@@ -19463,7 +19489,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19474,7 +19500,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 1.5 records"
       }
     },
     {
@@ -19492,7 +19520,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19503,7 +19531,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 1 records"
       }
     },
     {
@@ -19521,7 +19551,7 @@
         "importance": 3,
         "impact": 3,
         "combined": 9,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
@@ -19532,7 +19562,9 @@
         "band_score": 3,
         "priority_score": 27,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "1 in 3.6 records"
       }
     },
     {
@@ -19550,7 +19582,7 @@
         "importance": 3,
         "impact": 1,
         "combined": 3,
-        "target": 85.0,
+        "target": 75.0,
         "target_range": [
           75.0,
           90.0
@@ -19561,7 +19593,9 @@
         "band_score": 3,
         "priority_score": 9,
         "priority": "Medium",
-        "resolution": "Within 3 measurement cycles"
+        "resolution": "Within 3 measurement cycles",
+        "error_rate_target": "1 in 4 records",
+        "error_rate_actual": "1 in 1.3 records"
       }
     },
     {
@@ -19579,7 +19613,7 @@
         "importance": 3,
         "impact": 2,
         "combined": 6,
-        "target": 95.0,
+        "target": 90.0,
         "target_range": [
           90.0,
           97.5
@@ -19590,7 +19624,9 @@
         "band_score": 3,
         "priority_score": 18,
         "priority": "High",
-        "resolution": "Within 1 measurement cycle"
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "1 in 1.4 records"
       }
     },
     {
@@ -19608,7 +19644,7 @@
         "importance": 3,
         "impact": 1,
         "combined": 3,
-        "target": 85.0,
+        "target": 75.0,
         "target_range": [
           75.0,
           90.0
@@ -19619,7 +19655,9 @@
         "band_score": 3,
         "priority_score": 9,
         "priority": "Medium",
-        "resolution": "Within 3 measurement cycles"
+        "resolution": "Within 3 measurement cycles",
+        "error_rate_target": "1 in 4 records",
+        "error_rate_actual": "1 in 1.3 records"
       }
     },
     {
@@ -19637,18 +19675,20 @@
         "importance": 3,
         "impact": 3,
         "combined": 9,
-        "target": 99.0,
+        "target": 97.5,
         "target_range": [
           97.5,
           99.9
         ],
         "performance": 98.8,
-        "meets_target": false,
-        "band": "high",
-        "band_score": 1,
-        "priority_score": 9,
-        "priority": "Medium",
-        "resolution": "Within 3 measurement cycles"
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "1 in 83 records"
       }
     }
   ],

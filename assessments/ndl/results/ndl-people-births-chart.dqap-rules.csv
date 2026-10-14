@@ -1,9 +1,9 @@
 Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
-"Year, Number of Live Births",R1,Expected columns are present,completeness,required_columns,3,3,9,99.0,100.0,2026-10-14
-Year,R2,Every row has a year,completeness,not_null,3,3,9,99.0,100.0,2026-10-14
-Year,R3,One row per year,uniqueness,unique,3,4,12,100.0,100.0,2026-10-14
-Year,R4,Year is a four-digit year,validity,type,3,3,9,99.0,100.0,2026-10-14
-Number of Live Births,R5,Births are within a plausible range for England and Wales,accuracy,range,3,3,9,99.0,100.0,2026-10-14
-Year,R6,Latest year is recent enough for an annual release,timeliness,freshness,3,3,9,99.0,100.0,2026-10-14
-Year,R7,No missing years in the series,completeness,no_gaps,3,2,6,95.0,100.0,2026-10-14
-Number of Live Births,R8,The measure says what it counts,validity,header_has_unit,3,2,6,95.0,100.0,2026-10-14
+"Year, Number of Live Births",R1,Expected columns are present,completeness,required_columns,3,3,9,97.5,100.0,2026-10-14
+Year,R2,Every row has a year,completeness,not_null,3,3,9,97.5,100.0,2026-10-14
+Year,R3,One row per year,uniqueness,unique,3,4,12,99.9,100.0,2026-10-14
+Year,R4,Year is a four-digit year,validity,type,3,3,9,97.5,100.0,2026-10-14
+Number of Live Births,R5,Births are within a plausible range for England and Wales,accuracy,range,3,3,9,97.5,100.0,2026-10-14
+Year,R6,Latest year is recent enough for an annual release,timeliness,freshness,3,3,9,97.5,100.0,2026-10-14
+Year,R7,No missing years in the series,completeness,no_gaps,3,2,6,90.0,100.0,2026-10-14
+Number of Live Births,R8,The measure says what it counts,validity,header_has_unit,3,2,6,90.0,100.0,2026-10-14
