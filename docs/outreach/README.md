@@ -9,3 +9,4 @@ These are drafts only. Nothing has been sent or posted. Each needs your review a
 | dq-hub-refresh.md | Government Data Quality Hub (ONS) | Refresh shared resources; offer the vocabulary |
 | moj-data-linter.md | MoJ Analytical Platform | Ask about republishing or archiving data_linter |
 | gds-issues-framework-corrections.md | GDS data quality guidance owners | Correct v1.0 Table 7–8 slip and band labels |
+| gds-tooling-survey-review.md | GDS Data Management Team | Fix the survey before launch; widen the tooling review; case study template; open the Shared Learning Library |

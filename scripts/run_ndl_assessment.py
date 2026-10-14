@@ -15,7 +15,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from dqkit import dqv, exporters, metadata, pathway, rules, trust, workbook  # noqa: E402
+from dqkit import casestudy, dqv, exporters, metadata, operations, pathway, rules, trust, workbook  # noqa: E402
 
 AS_OF = date(2026, 10, 14)
 A = ROOT / "assessments" / "ndl"
@@ -59,6 +59,10 @@ for rf, cf in CHARTS.items():
     res["route"] = pathway.route(spec["asset"])
     aid = spec["asset"]["id"]
     workbook.build(spec, res, OUT / "dqap-workbooks" / f"{aid}.DQAP.xlsx")
+    res["operations"] = operations.assess(res)
+    cs = casestudy.draft(spec, res)
+    (OUT / "case-studies").mkdir(parents=True, exist_ok=True)
+    (OUT / "case-studies" / f"{aid}.case-study.md").write_text(casestudy.to_markdown(cs))
     (OUT / f"{aid}.results.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))
     (OUT / f"{aid}.dqv.jsonld").write_text(json.dumps(dqv.result_to_dqv(res, spec["asset"].get("iri")), indent=2, ensure_ascii=False))
     d = exporters.to_dqap_csv(res)

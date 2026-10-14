@@ -73,3 +73,42 @@ Date: 14 October 2026. Interactive version: the "Public Sector DQ Tooling Atlas"
 4. NDL metadata scoring: built and run on all 84 NDL pages (see `claude/NDL_ASSURANCE_REPORT.md`).
 5. Inclusion checks: built, as the representativeness dimension plus the `not_unknown` and `group_disparity` checks.
 6. Outreach: drafts ready for the DQ Hub, MoJ and the NDL team. Not sent.
+
+## How this research compares with the GDS Data Quality Tooling Review (added 14 October 2026)
+
+The GDS Data Management Team's review (October 2026) and a DSIT-facing brief research note were
+compared with this research. They are complementary:
+
+| | GDS Tooling Review | Brief research note | This research and Atlas |
+|---|---|---|---|
+| Lens | Market (Gartner 2026 Magic Quadrant) | Sectors and architecture | Open code and public repos |
+| Tools covered | 13 Magic Quadrant vendors plus 5 others | Talend/Qlik, Informatica, Microsoft, Experian, Civica, Datactics, NHS DQMI | 21 public repos, plus open-source frameworks |
+| Open source and government-built | One line | Not covered | Main focus |
+| Mapped to DQAP steps | In prose | No | Yes |
+| Accessibility, open standards, exit | No | No | Yes (added) |
+| Evidence from government use | Through the planned survey | Procurement notices (unreferenced) | Code and documentation in public repos |
+
+**Shared conclusion:** all three point to a tool-agnostic approach. That means shared rules,
+common measures and reusable reporting patterns, with organisations choosing tools that fit their
+estate. The brief research calls this "Option 2 plus Option 3" (standard capabilities and
+measures, plus a reference architecture and assured patterns). This kit is a working example of
+that pattern.
+
+**Taxonomy alignment:** the review's 8 core features map to this kit as follows:
+
+| Review feature | Kit |
+|---|---|
+| Connectivity | CSV and pandas only (deliberately small) |
+| Profiling and monitoring | 15 checks, history |
+| Rule discovery, creation and management | Rules files |
+| Alerts, notifications and visualisation | Operations tab and escalation |
+| Data transformations | Not in scope |
+| Matching | Not in scope |
+| Workflow and issue resolution | Issues log, causes, actions |
+| Active metadata and lineage | DQV metadata |
+
+Of the advanced features, it covers integration with other tools through its Great Expectations,
+R validate and DQV exports.
+
+**Checked claim:** NHSBSA bought a "Self Service Data Quality (Data Profiling Tool)" from Datactics
+(Contracts Finder, April 2023, up to £451,500).

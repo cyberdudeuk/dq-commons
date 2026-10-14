@@ -17,6 +17,10 @@
 | F-11 | Trust level that says how data may be used (IOPC) | Done | `trust.py`; 3 tests |
 | F-12 | Route for internal or external data (decision tree) | Done | `pathway.py`; test |
 | F-13 | Trend over repeated measurements (DQAP step 9; Defra Annex 3) | Done | `--history` |
+| F-14 | Where each control belongs: source, pipeline or reporting | Done | `control_point`; test |
+| F-15 | Issue ageing, overdue escalation and recurrence (GDS DQ Week metrics) | Done | `operations.py`; test |
+| F-16 | Draft case study in the GDS template, with no personal data | Done | `casestudy.py`; test |
+| F-17 | Survey analysis with personal data removed | Done | `survey.py`; test on made-up data |
 
 ## Technical
 
@@ -25,7 +29,7 @@
 | T-01 | Python 3.10+; pandas, PyYAML, jsonschema only | Done |
 | T-02 | No network access at run time | Done |
 | T-03 | Deterministic: an `--as-of` date fixes all time-based checks | Done |
-| T-04 | Unit tests run in CI | Done (`.github/workflows/ci.yml`; 30 tests) |
+| T-04 | Unit tests run in CI | Done (`.github/workflows/ci.yml`; 34 tests) |
 | T-05 | Generated vocabulary files stay in sync with the CSV source | Done (CI diff check) |
 | T-06 | JSON Schema validates the example record | Done |
 | T-07 | SHACL validated with pySHACL | Pending: RDF tooling was unavailable in the build environment |

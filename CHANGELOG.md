@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0 — 2026-10-14
+### Added
+- `control_point` on every rule (source, pipeline or reporting), from the controls model in the brief research note.
+- Issue operations (`dqkit/operations.py`): defect volume, control failure rate, cycles open, overdue issues with escalation, and recurrence. A new Operations tab in the workbook.
+- Workbook Issues log: control point, cycles open, escalation, recurring, source system and immediate risk. Actions tab: action type (containment, corrective, preventive) and how success will be checked.
+- `--case-study`: drafts the GDS case study template (.md and .docx) from results. The NDL charts each get one.
+- `dqkit survey`: reshapes and summarises the Cross-Government DQ Solutions Survey export, with personal data removed.
+- `docs/SURVEY-REVIEW.md` (12 fixes before launch). Crosswalk extended to 15 sources and 18 findings.
+- Illustrative escalation example (`examples/illustrative-escalation/`).
+
 ## 0.2.0 — 2026-10-14
 ### Added
 - Filled-in DQAP Excel workbook (`--workbook`) and run history (`--history`).

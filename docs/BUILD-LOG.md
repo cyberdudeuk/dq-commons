@@ -1,5 +1,32 @@
 # Build journal
 
+## 2026-10-14 — v0.3.0 tooling and adoption material built in
+
+**What came in:** 6 more documents from the project lead:
+- the GDS Data Quality Tooling Review
+- the Cross-Government DQ Solutions Survey design
+- a brief research note on DQ tools
+- the GDS case study template
+- two "Adopting DQAPs in Practice" decks (a Scottish Government session and DQ Week)
+
+**What was built**
+- Control points per rule. Issue ageing, overdue escalation and recurrence, with a new Operations tab.
+- Containment, corrective and preventive action types.
+- A case study drafter (`--case-study`) and a survey analyser (`dqkit survey`). The survey analyser drops personal data on load.
+- Tests: 30 → 34, all passing. The survey test uses entirely made-up data.
+
+**What was found:** 9 new findings (F10–F18), including:
+- The survey collects personal data with no privacy notice.
+- The survey can't segment by organisation type or link to CDAs.
+- The tooling review leaves out open-source and government-built tools.
+- The brief research omits uniqueness from the GDQF dimensions.
+- One deck describes the DAM policy as an organisation's internal policy.
+- The Shared Learning Library is members-only.
+
+**NDL results:** unchanged (no rules or data changed). Each chart now also has a draft case study.
+
+**Pending:** GitHub push (no repository attached). Outreach drafts not sent.
+
 ## 2026-10-14 — v0.1.0 first release
 
 **What was built**

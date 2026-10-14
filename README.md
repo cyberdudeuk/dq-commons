@@ -5,7 +5,7 @@ critical data assets (CDAs) and National Data Library (NDL) assets, in line with
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government)
 and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide).
 
-**Status:** alpha prototype (v0.1.0). MIT-licensed code, OGL v3.0 content. Not an official GDS product.
+**Status:** alpha prototype (v0.3.0). MIT-licensed code, OGL v3.0 content. Not an official GDS product.
 
 ## What is in it
 
@@ -23,22 +23,26 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (30 tests).
+   You should see `OK` at the end (34 tests).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
    - `*.results.json`: every rule, pass rate, and priority
    - `*.dqv.jsonld`: results as W3C Data Quality Vocabulary metadata, ready for a catalogue
    - `*.dqap-rules.csv` and `*.dqap-issues.csv`: rows to paste into the GOV.UK DQAP template
-   Add `--workbook` to also get a filled-in DQAP Excel workbook. It has 10 tabs: Start here, Details,
-   Criticality matrix, Metrics, Results, Issues log, Causes, Actions, RACI and Steps.
-   Add `--history my-history` to keep every run, so the Results tab shows the trend over time.
+   Add `--workbook` to also get a filled-in DQAP Excel workbook. It has 11 tabs: Start here, Details,
+   Criticality matrix, Metrics, Results, Issues log, Causes, Actions, Operations, RACI and Steps.
+   Add `--history my-history` to keep every run, so the Results tab shows the trend over time,
+   and the Issues log shows how long each issue has been open and which are overdue (escalate).
+   Add `--case-study` to draft a case study in the GDS Shared Learning Library template (.md and .docx).
    The summary also gives a suggested **trust level** (IOPC scale: Untrustworthy, Requires
    improvement, Useable, Trustworthy) and the **DQAP route** for internal or external data.
 5. Turn the same rules into another tool's format:
    - Great Expectations: `python -m dqkit export rules/ndl/births.yaml --to gx`
    - R `validate`: `python -m dqkit export rules/ndl/births.yaml --to r-validate`
 6. Re-run the NDL assessment: `python scripts/run_ndl_assessment.py`
+7. Analyse the Cross-Government DQ Solutions Survey export (names and emails are removed on load):
+   `python -m dqkit survey survey-export.xlsx --out survey-results`
 
 ## Writing a rules file
 
@@ -67,6 +71,8 @@ Optional asset fields:
 Optional rule fields:
 - `purpose`, `requirement`, `method` and `notes`: fill the Metrics tab, matching the Defra and DQAP rule templates.
 - `personal_data: true`: marks a personal data field.
+- `control_point` (source, pipeline or reporting): where the control that prevents this failure belongs.
+  The default comes from the check type.
 
 Checks available: `not_null`, `required_columns`, `unique`, `type`, `regex`, `in_set`, `range`,
 `not_future`, `compare`, `sum_max`, `freshness`, `no_gaps`, `header_has_unit`, `not_unknown`,
@@ -97,7 +103,9 @@ Full report: [`assessments/ndl/REPORT.md`](assessments/ndl/REPORT.md).
 
 ## How this kit lines up with existing guidance
 
-[`docs/GUIDANCE-CROSSWALK.md`](docs/GUIDANCE-CROSSWALK.md) compares 9 sources:
+[`docs/GUIDANCE-CROSSWALK.md`](docs/GUIDANCE-CROSSWALK.md) compares 15 sources. The latest 6 are GDS's tooling
+review, the survey, the case study template, two DQAP adoption decks and a brief research note
+(review of the survey: [`docs/SURVEY-REVIEW.md`](docs/SURVEY-REVIEW.md)). The first 9 are:
 - GOV.UK guidance
 - DQAP Implementation Guide v2.0
 - Issues Framework v1.0
@@ -107,7 +115,7 @@ Full report: [`assessments/ndl/REPORT.md`](assessments/ndl/REPORT.md).
 - NHS England's framework for data science
 - the DQ community note
 
-It shows where each step is in the kit. It also lists 9 contradictions and errors, including an
+It shows where each step is in the kit. It also lists 18 findings, including an
 arithmetic slip in Issues Framework v1.0 Tables 7 and 8.
 
 ## Related work

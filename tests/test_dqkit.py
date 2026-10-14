@@ -250,5 +250,112 @@ class TrustPathwayWorkbook(unittest.TestCase):
             p = workbook.build(SPEC, res, f"{d}/t.xlsx", d)
             wb = openpyxl.load_workbook(p)
             self.assertEqual(wb.sheetnames, ["Start here", "Details", "Criticality matrix", "Metrics", "Results",
-                                             "Issues log", "Causes", "Actions", "RACI", "Steps"])
+                                             "Issues log", "Causes", "Actions", "Operations", "RACI", "Steps"])
             self.assertEqual(wb["Issues log"].max_row - 1, len(res["issues"]))
+
+
+class OperationsAndCaseStudy(unittest.TestCase):
+    """Issue ageing, escalation, recurrence (GDS DQAP adoption material) and the case study draft."""
+
+    def _cycle(self, d, as_of, broken):
+        df = DF.copy()
+        if not broken:
+            df = df.dropna()
+        res = rules.run(df, SPEC, as_of=as_of)
+        from dqkit import workbook
+        workbook.append_history(res, d)
+        return res
+
+    def test_control_points_default_and_override(self):
+        res = rules.run(DF, SPEC, as_of=date(2026, 10, 14))
+        self.assertTrue(all(r["meta"]["control_point"] in rules.CONTROL_POINTS for r in res["results"]))
+        bad = {"asset": {"id": "a"}, "rules": [{"id": "R1", "check": "not_null", "column": "x", "control_point": "magic"}]}
+        with self.assertRaises(ValueError):
+            rules.validate_spec(bad)
+
+    def test_overdue_and_recurrence(self):
+        import tempfile
+        from dqkit import operations
+        with tempfile.TemporaryDirectory() as d:
+            self._cycle(d, date(2026, 1, 1), True)
+            self._cycle(d, date(2026, 4, 1), False)
+            self._cycle(d, date(2026, 7, 1), True)
+            res = self._cycle(d, date(2026, 10, 1), True)
+            ops = operations.assess(res, d)
+            self.assertEqual(ops["cycles_measured"], 4)
+            failing = [r["id"] for r in res["results"] if not r["assessment"]["meets_target"]]
+            self.assertTrue(failing)
+            # every rule that failed, passed, then failed again is a recurrence
+            recurring = [k for k, v in ops["rules"].items() if v["recurrences"]]
+            self.assertTrue(recurring)
+            for k, v in ops["rules"].items():
+                if v["open"]:
+                    self.assertEqual(v["overdue"], v["cycles_open"] > operations.WINDOW[v["priority"]])
+
+    def test_case_study_has_template_sections_and_no_personal_data(self):
+        import tempfile
+        from dqkit import casestudy
+        with tempfile.TemporaryDirectory() as d:
+            self._cycle(d, date(2026, 4, 1), True)
+            res = self._cycle(d, date(2026, 10, 1), False)
+            dr = casestudy.draft(SPEC, res, d)
+            md = casestudy.to_markdown(dr)
+            for section in ("Permissions", "What triggered this work?", "Where did you start?", "What did you do?",
+                            "What outcome did you achieve?", "Reusable assets"):
+                self.assertIn(section, md)
+            self.assertEqual(len(dr["steps"]), 7)
+            self.assertIn("Name and email: [To complete]", md)
+            p = casestudy.to_docx(dr, f"{d}/c.docx")
+            self.assertTrue(p.exists())
+
+
+def synthetic_survey(path):
+    """A small, entirely made-up Forms export (3 organisations) used only for testing."""
+    from dqkit import survey
+    block = list(survey.SOLUTION_QUESTIONS.values())
+    head = ["ID", "Start time", "Email", "Name", "Organisation name", "Your name", "Your role", "Your team", "Your email",
+            "Which data quality solution(s) are currently in use in your organisation?", "How many solutions would you like to comment on in detail?"]
+    for b in range(3):
+        head += [q + ("?" if not q.endswith("?") else "") for q in block]
+    head += ["Are there any wider observations about the use of multiple data quality tools together?",
+             "May we contact you to discuss your response?", "Is there anything else you would like to share?"]
+    def blk(sol, rec, vfm, feats, drivers="DAM Policy implementation;Data quality improvement;"):
+        vals = {k: "" for k in survey.SOLUTION_QUESTIONS}
+        vals.update(solution=sol, years_in_use="1-3 years", drivers=drivers, maturity_before="Developing",
+                    right_stage="About right", features_used=feats, integration=4, benefits="Time savings;",
+                    value_for_money=vfm, difficulty=3, time_to_value="6-12 months", recommend=rec,
+                    prerequisites="Funding;Skills and training;", features_important="Profiling and monitoring;",
+                    features_most_value="Profiling and monitoring;", features_least_value="Data enrichment;")
+        return [vals[k] for k in survey.SOLUTION_QUESTIONS]
+    empty = [""] * len(block)
+    rows = [
+        [1, "", "a@example.org", "Person A", "Org A", "Person A", "Analyst", "Data", "a@example.org", "Soda;Microsoft Purview;", "Two"]
+        + blk("Soda", "Definitely", 5, "Profiling and monitoring;Alerts and notifications;") + blk("Microsoft Purview", "Depends", 3, "Metadata and lineage;") + empty + ["", "Yes", ""],
+        [2, "", "b@example.org", "Person B", "Org B", "Person B", "Lead", "DQ", "b@example.org", "Soda;", "One"]
+        + blk("Soda", "Probably", 4, "Profiling and monitoring;") + empty + empty + ["", "No", ""],
+        [3, "", "c@example.org", "Person C", "Org C", "Person C", "Head", "DM", "c@example.org", "Other;", "One"]
+        + blk("Other", "Probably not", 2, "Data cleansing and standardisation;", "Data quality improvement;") + empty + empty + ["", "No", ""],
+    ]
+    pd.DataFrame(rows, columns=head).to_excel(path, index=False)
+    return path
+
+
+class SurveyAnalysis(unittest.TestCase):
+    def test_reshape_and_summary_without_personal_data(self):
+        import tempfile, pathlib
+        from dqkit import survey
+        with tempfile.TemporaryDirectory() as d:
+            df = survey.load(synthetic_survey(f"{d}/export.xlsx"))
+            for c in df.columns:
+                self.assertNotIn("email", c.lower()); self.assertNotIn("your name", c.lower())
+            orgs, sols = survey.reshape(df)
+            self.assertEqual(len(orgs), 3)
+            self.assertEqual(len(sols), 4)
+            s = survey.summarise(orgs, sols)
+            self.assertEqual(s["inventory"]["Soda"], 2)
+            self.assertEqual(s["by_solution"]["Soda"]["would_recommend_pct"], 100.0)
+            self.assertEqual(s["by_solution"]["Soda"]["mean_value_for_money"], 4.5)
+            self.assertEqual(s["dam_policy_driver"], 3)
+            out = survey.write(orgs, sols, s, f"{d}/out")
+            text = "".join(p.read_text() for p in pathlib.Path(out).iterdir())
+            self.assertNotIn("example.org", text); self.assertNotIn("Person A", text)

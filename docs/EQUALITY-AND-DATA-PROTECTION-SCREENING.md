@@ -33,3 +33,15 @@
 - Plain-English summaries.
 - HTML artefacts built to WCAG 2.2 AA intent (contrast, keyboard focus, reduced motion).
 - Not yet tested with assistive technology users. That testing is in the research plan.
+
+## Update for v0.3.0 (14 October 2026)
+
+**Survey analysis and case studies:**
+- **Survey analysis:** `dqkit survey` drops name, role and email on load and never writes them out (D-028).
+- **Case study drafts:** responder fields are left blank (D-027).
+- **Small numbers:** summaries warn that counts under 5 can identify an organisation.
+
+**Findings passed to GDS:**
+- **Privacy notice:** the survey and case study template collect personal data without one (F12).
+- **Accessibility in tool choice:** the tooling review has no criterion for staff who use assistive technology (F11).
+- **Members-only library:** the Shared Learning Library is in a members-only space. That excludes local government, devolved administrations and the third sector without accounts (F17).

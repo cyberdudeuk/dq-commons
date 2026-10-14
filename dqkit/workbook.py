@@ -19,7 +19,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
-from . import pathway, trust
+from . import operations, pathway, trust
 from .rules import ISSUE_TYPES
 
 HEAD = PatternFill("solid", fgColor="0D6B6E")
@@ -97,6 +97,7 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
     route = pathway.route(asset)
     tr = trust.classify(result, asset.get("personal_data_columns"))
     hist = load_history(history_dir, asset["id"])
+    ops = operations.assess(result, history_dir)
     wb = Workbook()
     ws = wb.active; ws.title = "Start here"
     lines = [
@@ -107,8 +108,8 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
         ("Suggested trust level", f"{tr['level']} ({tr['sharing']})"), ("Why", " ".join(tr["reasons"])),
         ("Action plan required", "Yes" if tr["action_plan_required"] else "No"),
         ("Rules meeting target", f"{result['rules_met']} of {result['rules_total']}"),
-        ("Open issues", str(len(result["issues"]))),
-        ("Tabs", "Details · Criticality matrix · Metrics · Results · Issues log · Causes · Actions · RACI · Steps"),
+        ("Open issues", f"{len(result['issues'])} ({ops['overdue_issues']} overdue: escalate)"),
+        ("Tabs", "Details · Criticality matrix · Metrics · Results · Issues log · Causes · Actions · Operations · RACI · Steps"),
         ("Guidance", "GOV.UK DQAP guide and data quality issues framework (2026); DQAP Implementation Guide v2.0; Defra 'Start here'; IOPC data trust scales"),
     ]
     for k, v in lines:
@@ -141,13 +142,14 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
            widths={"Critical data item": 34, "Purpose it supports": 40})
 
     _sheet(wb, "Metrics", ["ID", "Purpose", "Part of data", "Requirement", "Relevant aspect (dimension)", "Measure", "Metric",
-                           "Method", "Importance", "Impact", "Combined score", "Target (%)", "Tolerated error rate", "Notes"],
+                           "Method", "Importance", "Impact", "Combined score", "Target (%)", "Tolerated error rate", "Control point", "Notes"],
            [[r["id"], r.get("meta", {}).get("purpose", ""), r.get("meta", {}).get("part_of_data", ", ".join(r["columns"])),
              r.get("meta", {}).get("requirement", r["description"]), r["dimension"], r["description"],
              "Percentage of records passing" if r["checked"] > 1 else "Pass (100) or fail (0) for the dataset",
              r.get("meta", {}).get("method", f"dqkit check '{r['check']}'"), r["assessment"]["importance"],
              r["assessment"]["impact"], r["assessment"]["combined"], r["assessment"]["target"],
-             r["assessment"]["error_rate_target"], r.get("meta", {}).get("notes", "")] for r in result["results"]],
+             r["assessment"]["error_rate_target"], r.get("meta", {}).get("control_point", ""),
+             r.get("meta", {}).get("notes", "")] for r in result["results"]],
            widths={"Purpose": 30, "Requirement": 36, "Measure": 36, "Method": 26, "Notes": 30})
 
     dates = sorted({d for v in hist.values() for d in v} | {result["as_of"]})[-8:]
@@ -161,30 +163,47 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
 
     issues = []
     for n, r in enumerate([x for x in result["results"] if not x["assessment"]["meets_target"]], 1):
-        it = ISSUE_TYPES[r["issue_type"]]; a = r["assessment"]
+        it = ISSUE_TYPES[r["issue_type"]]; a = r["assessment"]; o = ops["rules"][r["id"]]
         issues.append([f"I{n:03d}", r["id"], it["label"], it["definition"], r["dimension"], r["performance"], a["target"],
                        a["band"], a["priority_score"], a["priority"], a["resolution"], it["responsibility"],
-                       asset.get("steward", ""), result["as_of"], "Open"])
+                       r.get("meta", {}).get("control_point", ""), o["cycles_open"],
+                       f"Overdue: escalate to {o['escalate_to'].lower()}" if o["overdue"] else "Within timescale",
+                       "Yes" if o["recurrences"] else "No", asset.get("steward", ""), "", "", result["as_of"], "Open"])
     wsI = _sheet(wb, "Issues log", ["Issue ID", "Rule ID", "Issue type", "Description", "Dimension", "Performance (%)", "Target (%)",
-                                     "Band", "Priority score", "Priority", "Resolution timescale", "Responsibility", "Owner",
-                                     "Date raised", "Status"], issues, widths={"Description": 44}, input_cols=("Owner", "Status"))
+                                     "Band", "Priority score", "Priority", "Resolution timescale", "Responsibility",
+                                     "Control point", "Cycles open", "Escalation", "Recurring", "Owner", "Source system",
+                                     "Immediate risk", "Date raised", "Status"], issues, widths={"Description": 44, "Escalation": 34},
+                 input_cols=("Owner", "Source system", "Immediate risk", "Status"))
     fixer = "Supplier" if route["source"] == "external" and not route["influence"] else ""
     _sheet(wb, "Causes", ["Issue ID", "Priority", "Description of issue", "Contributing causes (5 whys)", "Systemic or one-off",
                           "Can we fix it ourselves? (addressability)", "Issue to address"],
            [[i[0], i[9], i[3], "", "", "No: supplier must fix; record and communicate the limitation" if fixer else "", ""] for i in issues],
            widths={"Description of issue": 44, "Contributing causes (5 whys)": 44, "Can we fix it ourselves? (addressability)": 30},
            input_cols=("Contributing causes (5 whys)", "Systemic or one-off", "Can we fix it ourselves? (addressability)", "Issue to address"))
-    wsA = _sheet(wb, "Actions", ["Issue ID", "Action to fix the issue", "Action owner", "Target date", "Status"],
-                 [[i[0], "", "", "", "Not started"] for i in issues], widths={"Action to fix the issue": 50},
-                 input_cols=("Action to fix the issue", "Action owner", "Target date", "Status"))
+    wsA = _sheet(wb, "Actions", ["Issue ID", "Action type", "Action to fix the issue", "Action owner", "Target date",
+                                  "How we will know it worked", "Status"],
+                 [[i[0], "", "", "", "", f"Rule {i[1]} meets {i[6]}% at the next measurement", "Not started"] for i in issues],
+                 widths={"Action to fix the issue": 50, "How we will know it worked": 34},
+                 input_cols=("Action type", "Action to fix the issue", "Action owner", "Target date", "Status"))
+    _sheet(wb, "Operations", ["Measure", "Value", "What it tells you"], [
+        ["Measurement cycles recorded", ops["cycles_measured"], "Keep a history (--history) so trends and ageing can be tracked"],
+        ["Defect volume", ops["defect_volume"], "Records (or dataset checks) failing a rule now"],
+        ["Control failure rate (%)", ops["control_failure_rate"], "Share of rules below target now"],
+        ["Open issues", ops["open_issues"], "Rules below target now"],
+        ["Mean cycles open", ops["mean_cycles_open"], "How long open issues have stayed open"],
+        ["Overdue issues", ops["overdue_issues"], "Open longer than the issues framework allows: escalate"],
+        ["Recurrence rate (%)", ops["recurrence_rate"], "Issues that were fixed and came back: look at root causes and controls at source"],
+    ], widths={"Measure": 30, "Value": 12, "What it tells you": 80})
     _sheet(wb, "RACI", ["DQAP step", "Activity"] + RACI_ROLES, [[s, a] + roles for s, a, roles in RACI],
            widths={"Activity": 50, "DQAP step": 26})
     _sheet(wb, "Steps", ["#", "Step (decision tree route)"], [[i, s] for i, s in enumerate(route["steps"], 1)], widths={"Step (decision tree route)": 90})
 
     status = DataValidation(type="list", formula1='"Open,In progress,Resolved,Accepted risk"', allow_blank=True)
-    wsI.add_data_validation(status); status.add(f"O2:O{max(2, len(issues) + 50)}")
+    wsI.add_data_validation(status); status.add(f"U2:U{max(2, len(issues) + 50)}")
     astatus = DataValidation(type="list", formula1='"Not started,In progress,Done,Blocked"', allow_blank=True)
-    wsA.add_data_validation(astatus); astatus.add(f"E2:E{max(2, len(issues) + 50)}")
+    wsA.add_data_validation(astatus); astatus.add(f"G2:G{max(2, len(issues) + 50)}")
+    atype = DataValidation(type="list", formula1='"Containment,Corrective,Preventive"', allow_blank=True)
+    wsA.add_data_validation(atype); atype.add(f"B2:B{max(2, len(issues) + 50)}")
     wb["Causes"].add_data_validation(sys_ := DataValidation(type="list", formula1='"Systemic,One-off,Not known yet"', allow_blank=True))
     sys_.add(f"E2:E{max(2, len(issues) + 50)}")
     out = Path(out_path); out.parent.mkdir(parents=True, exist_ok=True)

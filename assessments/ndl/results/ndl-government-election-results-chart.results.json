@@ -92,7 +92,9 @@
         "error_rate_target": "1 in 40 records",
         "error_rate_actual": "1 in 3 records"
       },
-      "meta": {},
+      "meta": {
+        "control_point": "pipeline"
+      },
       "failed": 1
     },
     {
@@ -128,7 +130,9 @@
         "error_rate_target": "1 in 1,000 records",
         "error_rate_actual": "0 records"
       },
-      "meta": {},
+      "meta": {
+        "control_point": "pipeline"
+      },
       "failed": 0
     },
     {
@@ -167,7 +171,9 @@
         "error_rate_target": "1 in 40 records",
         "error_rate_actual": "0 records"
       },
-      "meta": {},
+      "meta": {
+        "control_point": "source"
+      },
       "failed": 0
     },
     {
@@ -205,7 +211,9 @@
         "error_rate_target": "1 in 40 records",
         "error_rate_actual": "0 records"
       },
-      "meta": {},
+      "meta": {
+        "control_point": "pipeline"
+      },
       "failed": 0
     },
     {
@@ -241,7 +249,9 @@
         "error_rate_target": "1 in 10 records",
         "error_rate_actual": "0 records"
       },
-      "meta": {},
+      "meta": {
+        "control_point": "reporting"
+      },
       "failed": 0
     }
   ],
@@ -283,5 +293,56 @@
     "source": "external",
     "influence": false,
     "basis": "Data Quality Assessment Decision Tree (government data quality community, July 2023)"
+  },
+  "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 1,
+    "control_failure_rate": 20.0,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0,
+    "rules": {
+      "R1": {
+        "open": true,
+        "cycles_open": 1,
+        "priority": "High",
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R2": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R3": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R4": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R5": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      }
+    }
   }
 }

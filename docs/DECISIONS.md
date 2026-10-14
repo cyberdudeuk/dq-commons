@@ -2,6 +2,24 @@
 
 Newest first. These continue the portal decision log (D-001 to D-014) in the claude.ai project.
 
+## 2026-10-14 · D-028 · Survey analysis removes personal data on load
+- **Decision:** `dqkit survey` drops name, role and email columns as it reads the Forms export, and never writes them out. Summaries warn about counts under 5.
+- **Why:** the analysis needs no personal data (data minimisation, UK GDPR Article 5). Small counts by solution can identify an organisation.
+- **Alternative considered:** keep emails for follow-up. Rejected: follow-up is GDS's job, through the Forms record, not the analysis file.
+
+## 2026-10-14 · D-027 · Draft case studies from results; people write the rest
+- **Decision:** `--case-study` fills the GDS case study template from rules, results and history. It leaves the trigger, lessons, permissions and responder details as "[To complete]". It adds 3 proposed fields: CDA identifier, a before-and-after table, and inclusion.
+- **Why:** most of "what did you do" and "what changed" is already measured. Drafting it lowers the effort of contributing to the Shared Learning Library. Permissions and personal details must be the organisation's own choice.
+
+## 2026-10-14 · D-026 · Issue ageing and escalation use the issues framework timescales
+- **Decision:** an issue is overdue when it has been open for more consecutive measurement cycles than its priority allows: Critical 1 (the framework says "immediately"; the next cycle is the first point you can tell), High 1, Medium 3, Low 6. Overdue Critical and High issues escalate to the data owner and governance board; others to the data owner.
+- **Why:** the GDS DQ Week material asks for escalation of overdue remediation but gives no rule. The framework's own timescales are the obvious, consistent basis.
+- **Alternative considered:** calendar days. Rejected because measurement cycles differ by asset.
+
+## 2026-10-14 · D-025 · Every rule records where its control belongs
+- **Decision:** add `control_point` (source, pipeline or reporting) to rules, defaulting by check type: validity and completeness checks at source; uniqueness, totals, freshness and gaps in the pipeline; measure labelling and group disparity in reporting.
+- **Why:** the brief research's controls model shows that fixing at source prevents recurrence. Showing it per rule points stewards to the right fix and helps the external-data route say what to ask the supplier.
+
 ## 2026-10-14 · D-024 · A filled-in DQAP workbook, with a history of each run
 - **Decision:** `--workbook` writes a filled-in Excel DQAP with 10 tabs, using the tab structure of the Implementation Guide v2.0 and the Defra "Start here" annexes. `--history` keeps every run, so the Results tab shows trends, as Defra's monitoring template does. Cells for stewards to complete are grey.
 - **Why:** stewards already work in these templates. Producing them directly removes copying and re-keying.

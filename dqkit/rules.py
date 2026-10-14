@@ -51,6 +51,17 @@ DEFAULT_ISSUE = {
     "group_disparity": "group-disparity",
 }
 
+# Where the control that prevents each failure best belongs, following the controls model in
+# cross-government DQ tooling research: at source (capture), in the pipeline, or in reporting
+# (publication). A rule can override it with `control_point`.
+CONTROL_POINTS = ("source", "pipeline", "reporting")
+DEFAULT_CONTROL = {
+    "not_null": "source", "required_columns": "pipeline", "unique": "pipeline", "type": "source",
+    "regex": "source", "in_set": "source", "range": "source", "not_future": "source", "compare": "source",
+    "sum_max": "pipeline", "freshness": "pipeline", "no_gaps": "pipeline", "header_has_unit": "reporting",
+    "not_unknown": "source", "group_disparity": "reporting",
+}
+
 UNIT_TOKENS = ("%", "percent", "per cent", "number", "count", "millions", "million", "billion",
                "thousand", "£", "gbp", "days", "rate", "miles", "index", "share", "mean", "average")
 
@@ -312,6 +323,8 @@ def validate_spec(spec: dict) -> None:
         if r["id"] in seen:
             raise ValueError(f"duplicate rule id {r['id']}")
         seen.add(r["id"])
+        if r.get("control_point", "source") not in CONTROL_POINTS:
+            raise ValueError(f"rule {r['id']}: control_point must be source, pipeline or reporting")
         it = r.get("issue_type", DEFAULT_ISSUE[r["check"]])
         if it not in ISSUE_TYPES:
             raise ValueError(f"rule {r['id']}: unknown issue type {it!r}")
@@ -340,7 +353,8 @@ def run(df: pd.DataFrame, spec: dict, as_of: Optional[date] = None) -> dict:
             id=r["id"], check=r["check"], description=r.get("description", r["check"]), dimension=dimension,
             issue_type=issue, columns=cols, checked=checked, passed=passed, performance=round(perf, 3),
             examples=ex, detail=detail, assessment=a.to_dict(),
-            meta={k: r[k] for k in ("purpose", "requirement", "method", "notes", "part_of_data", "personal_data") if k in r}))
+            meta={**{k: r[k] for k in ("purpose", "requirement", "method", "notes", "part_of_data", "personal_data") if k in r},
+                  "control_point": r.get("control_point", DEFAULT_CONTROL[r["check"]])}))
     return summarise(asset, results, as_of, len(df))
 
 

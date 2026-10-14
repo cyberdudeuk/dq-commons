@@ -1,8 +1,8 @@
 # Data quality guidance crosswalk
 
 How published government guidance, and the ways organisations have applied it, line up with one
-another and with this kit. Prepared 14 October 2026 from 9 sources: the 2026 GOV.UK pages, plus 7
-documents shared by the project lead. Named individuals in the source documents are not reproduced
+another and with this kit. Prepared 14 October 2026 from 15 sources: the 2026 GOV.UK pages, plus 13
+documents shared by the project lead (7 guidance documents, then 6 tooling and adoption documents). Named individuals in the source documents are not reproduced
 here (decision D-013).
 
 ## Sources
@@ -18,6 +18,12 @@ here (decision D-013).
 | S7 | Data Quality Assessment Decision Tree | Government data quality community (publisher not named in the file) | Jul 2023 | Routes internal and external data through DQAP steps |
 | S8 | Quality Framework for Data Science | NHS England | Sep 2024 | Analytical QA framework: 5 pillars, 20 areas, log with RAG and evidence |
 | S9 | DQ Guidance and Training note | Cross-government DQ community | 2024 | Background, training links, and organisations' practice |
+| S10 | Data Quality Tooling Review (revised) | GDS Data Management Team | Oct 2026 | Market overview using Gartner's 2026 Magic Quadrant: 5 use cases, 8 core and 7 advanced features, 18 vendors |
+| S11 | Cross-Government Data Quality Solutions Survey (Forms design) | GDS Data Management Team | Oct 2026 | 109 questions: organisation once, then 33 questions repeated for up to 3 solutions |
+| S12 | Brief research on data quality tools in UK government | Not stated (prepared for DSIT) | 2025–26 | Tool landscape, capability matrix, controls model (source, pipeline, reporting), options paper |
+| S13 | Data Quality Case Study Template | GDS Data Management Team | 2026 | Case study form for the Shared Learning Library, structured on the 7 DQAP steps |
+| S14 | Adopting DQAPs in Practice (Scottish Government session) | GDS Data Management Team | 2026 | 7 steps with roles per step, a worked rule example, the Shared Learning Library |
+| S15 | Adopting DQAPs in Practice (DQ Week) | GDS Data Management Team | 2026 | Owner and steward roles, issue intake and triage, containment and corrective action, metrics and escalation |
 
 ## 1. Process steps
 
@@ -84,6 +90,29 @@ here (decision D-013).
 | F7 | GOV.UK DQAP steps assume you own the data | CDAs and the NDL often don't | Adds the decision tree route |
 | F8 | Inclusion is almost absent: only S8 (fairness) and S6 (personal data accuracy) touch it | Gaps for under-recorded groups stay hidden | Adds the representativeness dimension and checks |
 | F9 | Several targets used in practice (S5: "75% might be good enough") sit at the very bottom of the framework range | Inconsistent strictness | Default target policy "low", stated openly. Owners can choose mid or high. |
+| F10 | S10 leaves out open-source and government-built tools. These include Great Expectations, Soda Core, dbt tests, R `validate` and `pointblank`, MoJ `data_linter`, NHS England's DQMI and MHCLG's digital-land checks. S10 gives them one line ("SQL, Python, R, Excel"). It also leaves out Microsoft Fabric and Purview data quality, although Purview is a survey option and is part of the CDA return platform. | Smaller bodies with little or no tooling budget see no affordable route. The review is not reproducible openly, because the Gartner report is paywalled. | The Tooling Atlas covers these. This kit is itself an open, tool-agnostic option. |
+| F11 | S10 has no criteria for accessibility for staff using assistive technology, open-standards export (DQV, portable rules) or exit and lock-in | Tool choices can exclude disabled staff and lock quality results into one vendor, against the Technology Code of Practice (open source, open standards) | The Atlas adds these 3 criteria. The kit exports DQV and portable rules. |
+| F12 | S11 and S13 collect name, role and email without a privacy notice, lawful basis or retention period | UK GDPR transparency risk. It also puts some people off responding. | Survey analysis drops personal fields on load (`dqkit survey`). Case study drafts leave them blank. |
+| F13 | S11 can't answer 3 of S10's own questions. It has no organisation type or size, although S10 asks how usage differs by scale. It doesn't ask how widely a tool is used, although S10 says it will. It has no link to CDAs, DQAP steps or the CDA return. Its maturity scale doesn't match the Data Maturity Assessment for Government (Beginning, Emerging, Learning, Developing, Mastering). Q32 runs 1 = easy to 5 = hard, the opposite direction to the other ratings. | Results can't be segmented or tied to the DAM policy. Ratings are easy to misread. | See `docs/SURVEY-REVIEW.md` for 12 fixes. Analysis flags the reversed scale. |
+| F14 | S12 lists 5 GDQF dimensions and leaves out uniqueness (S1 and GOV.UK list 6). Its citations are bare footnote numbers with no reference list. It predates the DAM policy, CDAs and DQAPs. | Can't be checked or reused as evidence as it stands | One claim checked and confirmed: NHSBSA bought a Datactics profiling tool (Contracts Finder, 2023). Its recommendation matches this kit's approach: shared rules, common measures, reusable reporting, tool-agnostic. |
+| F15 | S13 has no structured before-and-after measures, no CDA identifier and no inclusion question. Its maturity stages don't match the Data Maturity Assessment. | Case studies can't be compared or linked to the CDA register | `--case-study` drafts the template from results and adds these 3 fields as proposals |
+| F16 | S14 and S15 contain errors: they write "EDSA" for ESDA (now CDA). S15 slide 17 describes the "DAM policy" as an organisation's internal data policy (its own domains, systems and exceptions), not the cross-government policy. S15 also uses US spellings ("standardization", "prioritizes", "program"). | Confuses the mandate with local policy. Doesn't follow GOV.UK style. | Flag to GDS (outreach draft) |
+| F17 | The Shared Learning Library (S14), with the MoJ case study, framework and playbook, sits in a members-only Knowledge Hub group | Not discoverable by local government, devolved administrations, the third sector or the NDL. This works against the DAM policy's own discoverability aim. | Recommend mirroring on GOV.UK or GitHub under OGL, and cataloguing it in the NDL |
+| F18 | S14 notes the DAM policy is not mandatory for the Scottish Government | Four-nations gaps in CDAs mirror the NDL finding that 45 of 48 partial-UK pages don't signpost every other nation | Tools, templates and case studies should be usable by devolved administrations as they are |
+
+### What S10 to S15 add (built into the kit in v0.3.0)
+
+| Source | Idea | Where it is in the kit |
+|---|---|---|
+| S12 | Controls at source, in the pipeline, or in reporting | `control_point` on every rule (default per check type). Shown in Metrics and the Issues log. |
+| S15 | Metrics: defect volumes, ageing of open issues, recurrence, control failure rate | `dqkit/operations.py` and the workbook's Operations tab |
+| S15 | Escalation for overdue remediation and repeated failures | Issues log "Escalation" column, using issues framework timescales |
+| S15 | Containment versus corrective action; validation criteria | Actions tab: action type (Containment, Corrective, Preventive) and "How we will know it worked" |
+| S15 | Intake details: source system, immediate risk | Issues log input columns |
+| S13 | Case study template | `--case-study` writes a draft (.md and .docx) |
+| S11 | Survey | `dqkit survey` reshapes the Forms export to one row per organisation and solution, and summarises it |
+| S14 | Roles per step | Already in the workbook RACI (from S3). Matches S14. |
+| S14 | Worked rule: NI number present and valid in at least 98% of claims | Consistent with the issues framework: 98% sits in the 97.5–99.9 range for combined score 8–9 |
 
 ## 7. Recommendations
 
@@ -94,3 +123,8 @@ here (decision D-013).
 5. **Make representativeness checks expected for CDAs holding personal data (F8).**
 6. **Offer Defra's "Start here" as the official proportionate entry point** for the January baseline.
 7. **Point DQAP users to NHS England's framework** for the quality of analysis built on the data.
+8. **Fix the survey before it launches (F12, F13).** Add a privacy notice, organisation type and size, CDA and DQAP links, open-source options and DMA levels, and make the rating directions consistent. See `docs/SURVEY-REVIEW.md`.
+9. **Widen the tooling review (F10, F11).** Add open-source and government-built tools, and criteria for accessibility, open standards and exit.
+10. **Add before-and-after measures, a CDA identifier and inclusion to the case study template (F15).** Accept kit-drafted case studies.
+11. **Publish the Shared Learning Library openly (F17).**
+12. **Put S15's operational metrics and the containment, corrective and preventive distinction into the GOV.UK DQAP guide.** Correct the deck errors (F16).

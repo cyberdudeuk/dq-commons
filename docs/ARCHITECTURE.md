@@ -45,7 +45,10 @@ table can take the extension's fields as columns (see the LLD mapping).
 | `cli.py` | Plain command line | `check` (with `--workbook`, `--history`), `export`, `assess-metadata` |
 | `trust.py` | IOPC-style trust level, with reasons | `classify(result)` |
 | `pathway.py` | DQAP route from the 2023 decision tree | `route(asset)` |
-| `workbook.py` | Filled-in DQAP workbook (10 tabs) and run history | `build`, `append_history` |
+| `workbook.py` | Filled-in DQAP workbook (11 tabs) and run history | `build`, `append_history` |
+| `operations.py` | Issue ageing, overdue escalation (issues framework timescales), recurrence | `assess(result, history_dir)` |
+| `casestudy.py` | Draft case study in the GDS Shared Learning Library template | `draft`, `to_markdown`, `to_docx` |
+| `survey.py` | DQ tooling survey: Forms export to one row per organisation and solution; personal data dropped | `load`, `reshape`, `summarise` |
 | `vocab/` | Dimensions and issue types (CSV source; SKOS and JSON-LD generated) | `scripts/build_vocab.py` |
 | `model/` | Proposed metadata extension (LinkML, JSON Schema, SHACL) | For GDS metadata model owners |
 
@@ -65,6 +68,11 @@ table can take the extension's fields as columns (see the LLD mapping).
    - 17–32 High
    - 33–64 Critical
 6. Resolution comes from Table 8.
+
+### Control points and escalation
+- Each rule has a `control_point`: source (capture), pipeline, or reporting. It defaults by check type.
+- An issue's age is the number of consecutive measurement cycles below target, read from the history.
+- An issue is overdue when its age exceeds its priority's window: Critical 1, High 1, Medium 3, Low 6 (D-026).
 
 ### Dataset-level checks
 `freshness`, `sum_max` and `group_disparity` give one pass or fail (checked = 1). `freshness` treats a year
