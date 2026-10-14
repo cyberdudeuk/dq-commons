@@ -1,0 +1,17 @@
+asset:
+  id: ndl-people-births-chart
+  title: "NDL People collection: Births chart data"
+  iri: https://www.data.gov.uk/collections/people/births
+  owner: Office for National Statistics
+  steward: National Data Library team (chart curation)
+  importance: 3   # High: a national, public-facing reference figure
+  measurement_cycle: P1Y
+rules:
+  - {id: R1, check: required_columns, columns: [Year, Number of Live Births], description: "Expected columns are present"}
+  - {id: R2, check: not_null, column: Year, description: "Every row has a year"}
+  - {id: R3, check: unique, columns: [Year], description: "One row per year"}
+  - {id: R4, check: type, column: Year, kind: year, description: "Year is a four-digit year"}
+  - {id: R5, check: range, column: Number of Live Births, min: 400000, max: 1000000, description: "Births are within a plausible range for England and Wales"}
+  - {id: R6, check: freshness, column: Year, expected: P1Y, lag: P9M, description: "Latest year is recent enough for an annual release"}
+  - {id: R7, check: no_gaps, column: Year, description: "No missing years in the series"}
+  - {id: R8, check: header_has_unit, columns: [Number of Live Births], description: "The measure says what it counts"}

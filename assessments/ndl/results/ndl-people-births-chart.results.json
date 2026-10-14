@@ -1,0 +1,325 @@
+{
+  "asset": {
+    "id": "ndl-people-births-chart",
+    "title": "NDL People collection: Births chart data",
+    "iri": "https://www.data.gov.uk/collections/people/births",
+    "owner": "Office for National Statistics",
+    "steward": "National Data Library team (chart curation)",
+    "importance": 3,
+    "measurement_cycle": "P1Y"
+  },
+  "as_of": "2026-10-14",
+  "rows": 88,
+  "rules_total": 8,
+  "rules_met": 8,
+  "dimensions": {
+    "completeness": {
+      "rules": 3,
+      "met": 3,
+      "mean_performance": 100.0
+    },
+    "uniqueness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "validity": {
+      "rules": 2,
+      "met": 2,
+      "mean_performance": 100.0
+    },
+    "accuracy": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "timeliness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    }
+  },
+  "issues": [],
+  "results": [
+    {
+      "id": "R1",
+      "check": "required_columns",
+      "description": "Expected columns are present",
+      "dimension": "completeness",
+      "issue_type": "missing-field",
+      "columns": [
+        "Year",
+        "Number of Live Births"
+      ],
+      "checked": 2,
+      "passed": 2,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R2",
+      "check": "not_null",
+      "description": "Every row has a year",
+      "dimension": "completeness",
+      "issue_type": "missing-value",
+      "columns": [
+        "Year"
+      ],
+      "checked": 88,
+      "passed": 88,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R3",
+      "check": "unique",
+      "description": "One row per year",
+      "dimension": "uniqueness",
+      "issue_type": "duplicate-reference",
+      "columns": [
+        "Year"
+      ],
+      "checked": 88,
+      "passed": 88,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 4,
+        "combined": 12,
+        "target": 100.0,
+        "target_range": [
+          99.9,
+          100.0
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R4",
+      "check": "type",
+      "description": "Year is a four-digit year",
+      "dimension": "validity",
+      "issue_type": "invalid-type",
+      "columns": [
+        "Year"
+      ],
+      "checked": 88,
+      "passed": 88,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "kind": "year"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R5",
+      "check": "range",
+      "description": "Births are within a plausible range for England and Wales",
+      "dimension": "accuracy",
+      "issue_type": "out-of-range",
+      "columns": [
+        "Number of Live Births"
+      ],
+      "checked": 88,
+      "passed": 88,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "min": 400000,
+        "max": 1000000
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R6",
+      "check": "freshness",
+      "description": "Latest year is recent enough for an annual release",
+      "dimension": "timeliness",
+      "issue_type": "stale-data",
+      "columns": [
+        "Year"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "latest_period": "2025-12-31",
+        "age_days": 287,
+        "allowed_days": 639,
+        "expected": "P1Y",
+        "lag": "P9M",
+        "as_of": "2026-10-14"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R7",
+      "check": "no_gaps",
+      "description": "No missing years in the series",
+      "dimension": "completeness",
+      "issue_type": "unexplained-gap",
+      "columns": [
+        "Year"
+      ],
+      "checked": 88,
+      "passed": 88,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "first": 1938,
+        "last": 2025
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R8",
+      "check": "header_has_unit",
+      "description": "The measure says what it counts",
+      "dimension": "validity",
+      "issue_type": "undocumented-measure",
+      "columns": [
+        "Number of Live Births"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    }
+  ]
+}

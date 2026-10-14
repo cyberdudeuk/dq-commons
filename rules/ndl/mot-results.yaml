@@ -1,0 +1,12 @@
+asset:
+  id: ndl-transport-mot-results-chart
+  title: "NDL Transport collection: MOT results chart data"
+  iri: https://www.data.gov.uk/collections/transport/mot-results
+  owner: Driver and Vehicle Standards Agency
+  importance: 2
+rules:
+  - {id: R1, check: unique, columns: [Financial year]}
+  - {id: R2, check: regex, column: Financial year, pattern: '\d{4}[-/]\d{2,4}', description: "Financial years are written as 2024-25, not 2024"}
+  - {id: R3, check: compare, left: fails_millions, op: "<=", right: tests_millions, description: "Fails never exceed tests"}
+  - {id: R4, check: range, column: tests_millions, min: 0, max: 100}
+  - {id: R5, check: header_has_unit, columns: [tests_millions, fails_millions]}

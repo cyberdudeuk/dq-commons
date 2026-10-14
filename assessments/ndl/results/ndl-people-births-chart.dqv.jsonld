@@ -1,0 +1,308 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL People collection: Births chart data",
+      "dct:publisher": "Office for National Statistics",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R4"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R5"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R6"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R7"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/births#m-R8"
+        }
+      ],
+      "dqv:hasQualityAnnotation": []
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R1"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 2
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R2"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 88
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 100.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 88
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R4"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 88
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R5",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R5"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 88
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R6",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R6"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R7",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R7"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 88
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/births#m-R8",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/births"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R8"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Expected columns are present",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Every row has a year",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "One row per year",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Year is a four-digit year",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R5",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Births are within a plausible range for England and Wales",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R6",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Latest year is recent enough for an annual release",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:timeliness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R7",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "No missing years in the series",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-births-chart/R8",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "The measure says what it counts",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "ndq:completeness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:timeliness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Timeliness",
+      "skos:definition": "The degree to which data represent reality from the required point in time.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

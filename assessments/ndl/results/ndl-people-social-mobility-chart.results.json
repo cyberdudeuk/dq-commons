@@ -1,0 +1,194 @@
+{
+  "asset": {
+    "id": "ndl-people-social-mobility-chart",
+    "title": "NDL People collection: Social mobility chart data",
+    "iri": "https://www.data.gov.uk/collections/people/social-mobility",
+    "owner": "Social Mobility Commission",
+    "importance": 3
+  },
+  "as_of": "2026-10-14",
+  "rows": 5,
+  "rules_total": 4,
+  "rules_met": 3,
+  "dimensions": {
+    "uniqueness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "validity": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "accuracy": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "completeness": {
+      "rules": 1,
+      "met": 0,
+      "mean_performance": 50.0
+    }
+  },
+  "issues": [
+    {
+      "rule": "R4",
+      "issue_type": "missing-field",
+      "label": "Missing field",
+      "dimension": "completeness",
+      "priority": "High",
+      "resolution": "Within 1 measurement cycle",
+      "performance": 50.0,
+      "target": 99.0
+    }
+  ],
+  "results": [
+    {
+      "id": "R1",
+      "check": "unique",
+      "description": "unique",
+      "dimension": "uniqueness",
+      "issue_type": "duplicate-reference",
+      "columns": [
+        "Socio-economic background"
+      ],
+      "checked": 5,
+      "passed": 5,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 4,
+        "combined": 12,
+        "target": 100.0,
+        "target_range": [
+          99.9,
+          100.0
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R2",
+      "check": "in_set",
+      "description": "in_set",
+      "dimension": "validity",
+      "issue_type": "invalid-category",
+      "columns": [
+        "Socio-economic background"
+      ],
+      "checked": 5,
+      "passed": 5,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R3",
+      "check": "range",
+      "description": "range",
+      "dimension": "accuracy",
+      "issue_type": "out-of-range",
+      "columns": [
+        "Percentage (%)"
+      ],
+      "checked": 5,
+      "passed": 5,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "min": 0,
+        "max": 100
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R4",
+      "check": "required_columns",
+      "description": "The file says what the percentage measures and for which year",
+      "dimension": "completeness",
+      "issue_type": "missing-field",
+      "columns": [
+        "Socio-economic background",
+        "Percentage (%)",
+        "Measure",
+        "Year"
+      ],
+      "checked": 4,
+      "passed": 2,
+      "performance": 50.0,
+      "examples": [
+        {
+          "missing_column": "Measure"
+        },
+        {
+          "missing_column": "Year"
+        }
+      ],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 50.0,
+        "meets_target": false,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 27,
+        "priority": "High",
+        "resolution": "Within 1 measurement cycle"
+      },
+      "failed": 2
+    }
+  ]
+}

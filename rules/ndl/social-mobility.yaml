@@ -1,0 +1,11 @@
+asset:
+  id: ndl-people-social-mobility-chart
+  title: "NDL People collection: Social mobility chart data"
+  iri: https://www.data.gov.uk/collections/people/social-mobility
+  owner: Social Mobility Commission
+  importance: 3
+rules:
+  - {id: R1, check: unique, columns: [Socio-economic background]}
+  - {id: R2, check: in_set, column: Socio-economic background, values: [Higher professional, Lower professional, Intermediate, Higher working, Lower working], issue_type: invalid-category}
+  - {id: R3, check: range, column: "Percentage (%)", min: 0, max: 100}
+  - {id: R4, check: required_columns, columns: [Socio-economic background, "Percentage (%)", Measure, Year], issue_type: missing-field, description: "The file says what the percentage measures and for which year"}

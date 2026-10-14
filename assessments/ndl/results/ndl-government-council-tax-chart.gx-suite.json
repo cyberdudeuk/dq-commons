@@ -1,0 +1,70 @@
+{
+  "expectation_suite_name": "ndl-government-council-tax-chart.dqap",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "Year",
+        "mostly": 1.0
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "uniqueness",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "Year",
+        "regex": "^[-+]?\\d+$",
+        "mostly": 0.99
+      },
+      "meta": {
+        "rule_id": "R2",
+        "dimension": "validity",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "Average band D council tax",
+        "regex": "^[-+]?\\d*\\.?\\d+$",
+        "mostly": 0.99
+      },
+      "meta": {
+        "rule_id": "R3",
+        "dimension": "validity",
+        "description": ""
+      }
+    }
+  ],
+  "meta": {
+    "generated_by": "ndl-dq-assurance dqkit",
+    "asset": {
+      "id": "ndl-government-council-tax-chart",
+      "title": "NDL Government and Parliament collection: Council tax chart data",
+      "iri": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics",
+      "owner": "Ministry of Housing, Communities and Local Government",
+      "importance": 3
+    },
+    "not_exported": [
+      {
+        "rule_id": "R4",
+        "check": "freshness",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R5",
+        "check": "no_gaps",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R6",
+        "check": "header_has_unit",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      }
+    ]
+  }
+}

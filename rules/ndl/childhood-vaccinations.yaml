@@ -1,0 +1,18 @@
+asset:
+  id: ndl-early-years-childhood-vaccinations-chart
+  title: "NDL Early years collection: Childhood vaccinations chart data"
+  iri: https://www.data.gov.uk/collections/early-years/childhood-vaccinations
+  owner: UK Health Security Agency
+  steward: National Data Library team (chart curation)
+  importance: 4   # Critical: used to understand vaccine coverage, a public health risk
+  measurement_cycle: P1Y
+rules:
+  - {id: R1, check: unique, columns: [year], description: "One row per year"}
+  - {id: R2, check: type, column: year, kind: year}
+  - {id: R3, check: range, column: england, min: 0, max: 100, description: "England coverage is a valid percentage"}
+  - {id: R4, check: range, column: scotland, min: 0, max: 100}
+  - {id: R5, check: range, column: wales, min: 0, max: 100}
+  - {id: R6, check: range, column: northern-ireland, min: 0, max: 100}
+  - {id: R7, check: freshness, column: year, expected: P1Y, lag: P9M}
+  - {id: R8, check: no_gaps, column: year}
+  - {id: R9, check: header_has_unit, columns: [england, scotland, wales, northern-ireland], description: "Column names say which vaccine, at what age, and that values are percentages"}

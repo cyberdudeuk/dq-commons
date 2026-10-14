@@ -1,0 +1,236 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL Transport collection: MOT results chart data",
+      "dct:publisher": "Driver and Vehicle Standards Agency",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R4"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R5"
+        }
+      ],
+      "dqv:hasQualityAnnotation": [
+        {
+          "@id": "https://www.data.gov.uk/collections/transport/mot-results#issue-R2"
+        }
+      ]
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R1"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R2"
+      },
+      "value": 0.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": false,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R4"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#m-R5",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R5"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 2
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/transport/mot-results#issue-R2",
+      "@type": "dqv:QualityAnnotation",
+      "oa:hasTarget": {
+        "@id": "https://www.data.gov.uk/collections/transport/mot-results"
+      },
+      "oa:motivatedBy": {
+        "@id": "dqv:qualityAssessment"
+      },
+      "oa:hasBody": {
+        "@type": "oa:TextualBody",
+        "oa:value": "Value does not match pattern: A value does not follow its required format, for example a code pattern."
+      },
+      "ndq:issueType": {
+        "@id": "ndq:issue/pattern-mismatch"
+      },
+      "ndq:priority": "Medium",
+      "ndq:resolution": "Within 3 measurement cycles",
+      "ndq:responsibility": "provider"
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "unique",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Financial years are written as 2024-25, not 2024",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Fails never exceed tests",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:consistency"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-transport-mot-results-chart/R5",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "header_has_unit",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:consistency",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Consistency",
+      "skos:definition": "The absence of difference when comparing two or more representations of a thing against a definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

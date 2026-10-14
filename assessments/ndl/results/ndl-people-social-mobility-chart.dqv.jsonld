@@ -1,0 +1,207 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL People collection: Social mobility chart data",
+      "dct:publisher": "Social Mobility Commission",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R4"
+        }
+      ],
+      "dqv:hasQualityAnnotation": [
+        {
+          "@id": "https://www.data.gov.uk/collections/people/social-mobility#issue-R4"
+        }
+      ]
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/social-mobility"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R1"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 100.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 5
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/social-mobility"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R2"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 5
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/social-mobility"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 5
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/people/social-mobility"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R4"
+      },
+      "value": 50.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": false,
+      "ndq:recordsChecked": 4
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/people/social-mobility#issue-R4",
+      "@type": "dqv:QualityAnnotation",
+      "oa:hasTarget": {
+        "@id": "https://www.data.gov.uk/collections/people/social-mobility"
+      },
+      "oa:motivatedBy": {
+        "@id": "dqv:qualityAssessment"
+      },
+      "oa:hasBody": {
+        "@type": "oa:TextualBody",
+        "oa:value": "Missing field: A required field is absent from the file."
+      },
+      "ndq:issueType": {
+        "@id": "ndq:issue/missing-field"
+      },
+      "ndq:priority": "High",
+      "ndq:resolution": "Within 1 measurement cycle",
+      "ndq:responsibility": "provider"
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "unique",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "in_set",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-people-social-mobility-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "The file says what the percentage measures and for which year",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "ndq:completeness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

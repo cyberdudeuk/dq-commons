@@ -1,0 +1,93 @@
+{
+  "expectation_suite_name": "ndl-government-election-results-chart.dqap",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Party name"
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "completeness",
+        "description": "The file says which election the shares are for"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Vote share"
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "completeness",
+        "description": "The file says which election the shares are for"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Election"
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "completeness",
+        "description": "The file says which election the shares are for"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "Party name",
+        "mostly": 1.0
+      },
+      "meta": {
+        "rule_id": "R2",
+        "dimension": "uniqueness",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "Vote share",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.99
+      },
+      "meta": {
+        "rule_id": "R3",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_sum_to_be_between",
+      "kwargs": {
+        "column": "Vote share",
+        "max_value": 100.01
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "consistency",
+        "description": "Shares do not add up to more than 100%"
+      }
+    }
+  ],
+  "meta": {
+    "generated_by": "ndl-dq-assurance dqkit",
+    "asset": {
+      "id": "ndl-government-election-results-chart",
+      "title": "NDL Government and Parliament collection: Election results chart data",
+      "iri": "https://www.data.gov.uk/collections/government-and-parliament/election-results",
+      "owner": "UK Parliament",
+      "importance": 3
+    },
+    "not_exported": [
+      {
+        "rule_id": "R5",
+        "check": "header_has_unit",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      }
+    ]
+  }
+}

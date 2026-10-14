@@ -1,0 +1,2 @@
+Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
+ndl-transport-mot-results-chart-I001,R2,Value does not match pattern,"A value does not follow its required format, for example a code pattern.",validity,0.0,95.0,low,12,Medium,Within 3 measurement cycles,provider,Driver and Vehicle Standards Agency,Open

@@ -1,0 +1,256 @@
+{
+  "asset": {
+    "id": "ndl-transport-road-traffic-chart",
+    "title": "NDL Transport collection: Road traffic chart data",
+    "iri": "https://www.data.gov.uk/collections/transport/road-traffic",
+    "owner": "Department for Transport",
+    "importance": 3
+  },
+  "as_of": "2026-10-14",
+  "rows": 33,
+  "rules_total": 6,
+  "rules_met": 6,
+  "dimensions": {
+    "uniqueness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "validity": {
+      "rules": 2,
+      "met": 2,
+      "mean_performance": 100.0
+    },
+    "accuracy": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "timeliness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "completeness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    }
+  },
+  "issues": [],
+  "results": [
+    {
+      "id": "R1",
+      "check": "unique",
+      "description": "unique",
+      "dimension": "uniqueness",
+      "issue_type": "duplicate-reference",
+      "columns": [
+        "Year"
+      ],
+      "checked": 33,
+      "passed": 33,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 4,
+        "combined": 12,
+        "target": 100.0,
+        "target_range": [
+          99.9,
+          100.0
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R2",
+      "check": "type",
+      "description": "type",
+      "dimension": "validity",
+      "issue_type": "invalid-type",
+      "columns": [
+        "Year"
+      ],
+      "checked": 33,
+      "passed": 33,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "kind": "year"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R3",
+      "check": "range",
+      "description": "range",
+      "dimension": "accuracy",
+      "issue_type": "out-of-range",
+      "columns": [
+        "Billion vehicle miles (all motor vehicles)"
+      ],
+      "checked": 33,
+      "passed": 33,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "min": 100,
+        "max": 500
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R4",
+      "check": "freshness",
+      "description": "freshness",
+      "dimension": "timeliness",
+      "issue_type": "stale-data",
+      "columns": [
+        "Year"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "latest_period": "2025-12-31",
+        "age_days": 287,
+        "allowed_days": 639,
+        "expected": "P1Y",
+        "lag": "P9M",
+        "as_of": "2026-10-14"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R5",
+      "check": "no_gaps",
+      "description": "no_gaps",
+      "dimension": "completeness",
+      "issue_type": "unexplained-gap",
+      "columns": [
+        "Year"
+      ],
+      "checked": 33,
+      "passed": 33,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "first": 1993,
+        "last": 2025
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R6",
+      "check": "header_has_unit",
+      "description": "header_has_unit",
+      "dimension": "validity",
+      "issue_type": "undocumented-measure",
+      "columns": [
+        "Billion vehicle miles (all motor vehicles)"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    }
+  ]
+}

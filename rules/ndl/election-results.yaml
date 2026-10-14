@@ -1,0 +1,12 @@
+asset:
+  id: ndl-government-election-results-chart
+  title: "NDL Government and Parliament collection: Election results chart data"
+  iri: https://www.data.gov.uk/collections/government-and-parliament/election-results
+  owner: UK Parliament
+  importance: 3
+rules:
+  - {id: R1, check: required_columns, columns: [Party name, Vote share, Election], issue_type: missing-field, description: "The file says which election the shares are for"}
+  - {id: R2, check: unique, columns: [Party name]}
+  - {id: R3, check: range, column: Vote share, min: 0, max: 100}
+  - {id: R4, check: sum_max, column: Vote share, max: 100, tolerance: 0.01, description: "Shares do not add up to more than 100%"}
+  - {id: R5, check: header_has_unit, columns: [Vote share], description: "The share says it is a percentage"}

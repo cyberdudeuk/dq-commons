@@ -1,0 +1,265 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL Government and Parliament collection: Council tax chart data",
+      "dct:publisher": "Ministry of Housing, Communities and Local Government",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R4"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R5"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R6"
+        }
+      ],
+      "dqv:hasQualityAnnotation": [
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#issue-R6"
+        }
+      ]
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R1"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 100.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 15
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R2"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 15
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 15
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R4"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R5",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R5"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 15
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#m-R6",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R6"
+      },
+      "value": 0.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 95.0,
+      "ndq:meetsTarget": false,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics#issue-R6",
+      "@type": "dqv:QualityAnnotation",
+      "oa:hasTarget": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics"
+      },
+      "oa:motivatedBy": {
+        "@id": "dqv:qualityAssessment"
+      },
+      "oa:hasBody": {
+        "@type": "oa:TextualBody",
+        "oa:value": "Measure not described: A column has no unit, measure definition or reference period, so values can be misread."
+      },
+      "ndq:issueType": {
+        "@id": "ndq:issue/undocumented-measure"
+      },
+      "ndq:priority": "High",
+      "ndq:resolution": "Within 1 measurement cycle",
+      "ndq:responsibility": "provider"
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "unique",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "type",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "type",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "freshness",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:timeliness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R5",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "no_gaps",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-council-tax-chart/R6",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "The amount says it is in pounds and whether it is per dwelling",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "ndq:completeness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:timeliness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Timeliness",
+      "skos:definition": "The degree to which data represent reality from the required point in time.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

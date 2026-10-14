@@ -1,0 +1,32 @@
+# User research bundle
+
+**Status: no primary research has been done yet.** Everything below is a hypothesis drawn from
+published guidance, the public sector code review, and the NDL assessment. Validate it before
+treating it as evidence.
+
+## Proto-personas
+
+| Persona | Context | Goal | Pain point (hypothesis) |
+|---|---|---|---|
+| Sam, data steward at an arm's length body | Spreadsheets and SQL; no budget for tools | Get the January baseline done | Doesn't know where to start; template feels abstract |
+| Priya, senior data owner | Accountable for 6 CDAs | Know what to fix first | Gets long issue lists with no priority |
+| Alex, NDL catalogue officer | Curates collection pages | Show users whether data is trustworthy | No standard fields for quality |
+| Jordan, data user with a visual impairment | Uses a screen reader | Download and analyse data | PDF-only and dashboard-only data is hard to use |
+| Morgan, analyst in Northern Ireland | Looks for UK-wide comparisons | Find equivalent NI data | England-only pages don't signpost NI sources |
+
+## Hypotheses to test
+1. A rules file in YAML is usable by stewards with spreadsheet skills, given examples. (If not, build the web form, F-09.)
+2. Framework-based priorities change what owners fix first.
+3. Users trust NDL pages more when quality and owner information is shown.
+4. Signposting other UK nations increases successful finds for devolved-nation users.
+
+## Research plan
+1. **Sample:** 8 to 10 stewards from at least 5 organisations, including 2 ALBs and 1 devolved administration. Include at least 2 disabled participants and 2 people who have little experience with data tools.
+2. **Methods:** task-based usability sessions (run a baseline on a sample file); interviews with 4 data owners; unmoderated tests of NDL page variants.
+3. **Ethics:** informed consent, no personal data in the test files, and accessible materials (Easy Read summary, BSL interpreter on request).
+4. **Outputs:** findings report, updated personas, prioritised backlog.
+
+## Secondary evidence already gathered
+- Public Sector DQ Tooling Atlas (27 repos): teams build their own engines; few inclusion checks.
+- NDL assessment (84 pages): consistent metadata gaps; 27 pages without an open machine-readable format.
+- CDA effort model: capacity is the main constraint for January.

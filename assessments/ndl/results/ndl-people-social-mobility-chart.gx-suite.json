@@ -1,0 +1,105 @@
+{
+  "expectation_suite_name": "ndl-people-social-mobility-chart.dqap",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "Socio-economic background",
+        "mostly": 1.0
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "uniqueness",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "Socio-economic background",
+        "value_set": [
+          "Higher professional",
+          "Lower professional",
+          "Intermediate",
+          "Higher working",
+          "Lower working"
+        ],
+        "mostly": 0.99
+      },
+      "meta": {
+        "rule_id": "R2",
+        "dimension": "validity",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "Percentage (%)",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.99
+      },
+      "meta": {
+        "rule_id": "R3",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Socio-economic background"
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "completeness",
+        "description": "The file says what the percentage measures and for which year"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Percentage (%)"
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "completeness",
+        "description": "The file says what the percentage measures and for which year"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Measure"
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "completeness",
+        "description": "The file says what the percentage measures and for which year"
+      }
+    },
+    {
+      "expectation_type": "expect_column_to_exist",
+      "kwargs": {
+        "column": "Year"
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "completeness",
+        "description": "The file says what the percentage measures and for which year"
+      }
+    }
+  ],
+  "meta": {
+    "generated_by": "ndl-dq-assurance dqkit",
+    "asset": {
+      "id": "ndl-people-social-mobility-chart",
+      "title": "NDL People collection: Social mobility chart data",
+      "iri": "https://www.data.gov.uk/collections/people/social-mobility",
+      "owner": "Social Mobility Commission",
+      "importance": 3
+    },
+    "not_exported": []
+  }
+}

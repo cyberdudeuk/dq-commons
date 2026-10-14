@@ -1,0 +1,276 @@
+{
+  "asset": {
+    "id": "ndl-environment-air-quality-chart",
+    "title": "NDL Environment collection: Air quality chart data",
+    "iri": "https://www.data.gov.uk/collections/environment/air-quality",
+    "owner": "Department for Environment, Food and Rural Affairs",
+    "importance": 3
+  },
+  "as_of": "2026-10-14",
+  "rows": 15,
+  "rules_total": 6,
+  "rules_met": 5,
+  "dimensions": {
+    "uniqueness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "validity": {
+      "rules": 2,
+      "met": 2,
+      "mean_performance": 100.0
+    },
+    "accuracy": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "timeliness": {
+      "rules": 1,
+      "met": 0,
+      "mean_performance": 0.0
+    },
+    "completeness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    }
+  },
+  "issues": [
+    {
+      "rule": "R4",
+      "issue_type": "stale-data",
+      "label": "Data out of date",
+      "dimension": "timeliness",
+      "priority": "High",
+      "resolution": "Within 1 measurement cycle",
+      "performance": 0.0,
+      "target": 99.0
+    }
+  ],
+  "results": [
+    {
+      "id": "R1",
+      "check": "unique",
+      "description": "unique",
+      "dimension": "uniqueness",
+      "issue_type": "duplicate-reference",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 4,
+        "combined": 12,
+        "target": 100.0,
+        "target_range": [
+          99.9,
+          100.0
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R2",
+      "check": "type",
+      "description": "type",
+      "dimension": "validity",
+      "issue_type": "invalid-type",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "kind": "year"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R3",
+      "check": "range",
+      "description": "range",
+      "dimension": "accuracy",
+      "issue_type": "out-of-range",
+      "columns": [
+        "Mean number of days with moderate or above pollution"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "min": 0,
+        "max": 366
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R4",
+      "check": "freshness",
+      "description": "Annual air quality statistics are usually published in spring, so the previous year should be present by autumn",
+      "dimension": "timeliness",
+      "issue_type": "stale-data",
+      "columns": [
+        "Year"
+      ],
+      "checked": 1,
+      "passed": 0,
+      "performance": 0.0,
+      "examples": [
+        {
+          "latest_period": "2024-12-31",
+          "age_days": 652,
+          "allowed_days": 548,
+          "expected": "P1Y",
+          "lag": "P6M",
+          "as_of": "2026-10-14"
+        }
+      ],
+      "detail": {
+        "latest_period": "2024-12-31",
+        "age_days": 652,
+        "allowed_days": 548,
+        "expected": "P1Y",
+        "lag": "P6M",
+        "as_of": "2026-10-14"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 99.0,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 0.0,
+        "meets_target": false,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 27,
+        "priority": "High",
+        "resolution": "Within 1 measurement cycle"
+      },
+      "failed": 1
+    },
+    {
+      "id": "R5",
+      "check": "no_gaps",
+      "description": "no_gaps",
+      "dimension": "completeness",
+      "issue_type": "unexplained-gap",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "first": 2010,
+        "last": 2024
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    },
+    {
+      "id": "R6",
+      "check": "header_has_unit",
+      "description": "header_has_unit",
+      "dimension": "validity",
+      "issue_type": "undocumented-measure",
+      "columns": [
+        "Mean number of days with moderate or above pollution"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 95.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null
+      },
+      "failed": 0
+    }
+  ]
+}

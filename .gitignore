@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+dq-results/
+.venv/
