@@ -472,6 +472,23 @@ def trust_cases():
     return out
 
 
+def contract_specs():
+    """Every fixture and library rules file, plus a contract with foreign rules, for the converters."""
+    specs = [copy.deepcopy(c["spec"]) for c in cases()]
+    for f in sorted((ROOT / "rules" / "library").glob("*.yaml")):
+        specs.append(rules.expand_valuesets(yaml.safe_load(f.read_text(encoding="utf-8")), VALUESETS))
+    return specs
+
+
+def py_contracts(spec):
+    from dqkit import contracts
+    o = contracts.to_odcs(spec)
+    t = contracts.to_table_schema(spec)
+    from dqkit import exporters
+    return {"odcs": o, "ts": t, "csvw": contracts.to_csvw(spec), "back": contracts.from_odcs(o), "backTs": contracts.from_table_schema(t),
+            "unsupported": contracts.unsupported(o), "gx": exporters.to_great_expectations(spec), "rv": list(exporters.r_validate_rules(spec))}
+
+
 def micro_case():
     numbers = NUMBERS + fuzz_numbers()
     sums = sum_cases()
@@ -501,13 +518,15 @@ def micro_case():
         "valuesets": [attempt(lambda: rules.expand_valuesets(copy.deepcopy(E_SPEC_RAW), VALUESETS)),
                       attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, VALUESETS)),
                       attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}, VALUESETS))],
+        "contracts": [attempt(lambda s=s: py_contracts(copy.deepcopy(s))) for s in contract_specs()],
         "misc": {"targets": [framework.default_target(s) for s in (3, 6, 9, 16)], "mid4": framework.default_target(4, "mid"),
                  "bands": [framework.bands(t) for t in (75, 90, 95, 97.5, 99.9, 100)],
                  "route": [pathway.route(a) for a in ROUTES], "trust": [trust.classify(r, p) for r, p in trusts]},
     }
     js_in = {"name": "micro", "kind": "micro", "numbers": numbers, "types": TYPES, "dates": DATES, "regex": REGEX,
              "rounds": round_cases(), "reprs": REPRS, "error_rates": ERROR_PERCENTS, "sums": sums, "durations": DURATIONS,
-             "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts, "identifiers": IDENTIFIERS, "valueset_specs": [copy.deepcopy(E_SPEC_RAW), {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}], "valuesets_data": VALUESETS}
+             "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts, "identifiers": IDENTIFIERS, "valueset_specs": [copy.deepcopy(E_SPEC_RAW), {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}], "valuesets_data": VALUESETS,
+             "contract_specs": contract_specs()}
     return py, js_in
 
 
@@ -535,7 +554,8 @@ def check_micro(workdir) -> dict:
     labelled = {"types": "type checks (_is_type)", "dates": "date parsing (_parse_date)", "regex": "regex translation (fullmatch)",
                 "error_rates": "error_rate text", "durations": "ISO durations", "csvs": "CSV reading (read_csv)",
                 "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",
-                "identifiers": "identifier formats and check digits", "valuesets": "value set expansion"}
+                "identifiers": "identifier formats and check digits", "valuesets": "value set expansion",
+                "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate)"}
     for k, label in labelled.items():
         a, b = norm(py[k]), js[k]
         if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets"):  # failures: compare that both fail, not the wording

@@ -27,6 +27,8 @@ textarea{font-family:var(--f-mono);font-size:.8rem;line-height:1.5;min-height:26
 .preview th{position:sticky;top:0}
 details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weight:600}
 .ex pre{font-family:var(--f-mono);font-size:.75rem;white-space:pre-wrap;margin:4px 0 0;background:var(--sunk);padding:6px 8px;border-radius:4px}
+.prof summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--accent)}
+.prof{display:flex;flex-direction:column;gap:8px}
 .meter{display:flex;align-items:center;gap:8px}
 .meter .track{flex:1;height:7px;border-radius:4px;background:var(--sunk);overflow:hidden;min-width:40px;position:relative}
 .meter .fill{height:100%}
@@ -50,10 +52,15 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
     <legend>1. Data</legend>
     <div class="field"><label for="ex">Start from an example</label>
       <select id="ex"></select></div>
-    <div class="field"><label for="csvFile">Or use your own CSV <span class="hint">(first row must be column names)</span></label>
-      <input type="file" id="csvFile" accept=".csv,text/csv"></div>
+    <div class="field"><label for="csvFile">Or use your own file <span class="hint">CSV, TSV, Excel (.xlsx), OpenDocument (.ods), JSON or JSON Lines. First row must be column names.</span></label>
+      <input type="file" id="csvFile" accept=".csv,.tsv,.tab,.xlsx,.xlsm,.ods,.json,.jsonl,.ndjson,text/csv"></div>
+    <div class="field" id="sheetBox" hidden><label for="sheet">Sheet</label><select id="sheet"></select></div>
     <p class="small muted" id="dataInfo"></p>
     <div class="preview" id="preview"></div>
+    <details class="prof" id="profBox"><summary>Profile this data</summary>
+      <p class="small muted">What each column holds: how full it is, how many distinct values, the most common values, and the type and identifier format it looks like. Worked out in your browser.</p>
+      <div class="tbl"><table><thead><tr><th>Column</th><th>Filled</th><th>Distinct</th><th>Looks like</th><th>Most common values</th></tr></thead><tbody id="prof"></tbody></table></div>
+    </details>
   </fieldset>
 
   <fieldset>
@@ -65,7 +72,7 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
       <div class="field"><label for="libPick">Start from a rule library template</label><select id="libPick"></select></div>
       <div class="field" style="justify-content:flex-end"><button class="btn ghost" type="button" id="libLoad">Use this template</button></div>
     </div>
-    <div class="field"><label for="rulesFile">Load a rules file</label><input type="file" id="rulesFile" accept=".yaml,.yml,.json"></div>
+    <div class="field"><label for="rulesFile">Load a rules file or a data contract <span class="hint">Toolkit rules (YAML), an Open Data Contract Standard (ODCS) contract, or a Frictionless Table Schema</span></label><input type="file" id="rulesFile" accept=".yaml,.yml,.json"></div>
     <div class="row2">
       <div class="field"><label for="asOf">Measure as if on</label><input type="date" id="asOf"></div>
       <div class="field"><label for="policy">Default target policy</label>
@@ -110,6 +117,19 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
     <span id="copyMsg" role="status" aria-live="polite" class="small"></span>
     <textarea id="copyFallback" hidden aria-label="Text to copy" style="min-height:120px"></textarea>
   </section>
+  <section class="card" aria-labelledby="ct-h" id="contracts">
+    <h3 id="ct-h">Share the rules as a data contract or with other tools</h3>
+    <p class="small muted">The same rules in open standards and tools other teams already use. Thresholds come with them, from the issues framework. Anything a format can't express is kept as a toolkit extension or listed, never silently dropped.</p>
+    <div class="field"><label for="ctFmt">Format</label><select id="ctFmt">
+      <option value="odcs">Open Data Contract Standard (ODCS v3, YAML)</option>
+      <option value="ts">Frictionless Table Schema (JSON)</option>
+      <option value="csvw">W3C CSV on the Web metadata (JSON-LD)</option>
+      <option value="gx">Great Expectations suite (JSON)</option>
+      <option value="rv">R validate rules (YAML)</option></select></div>
+    <div class="copy"><button class="btn ghost" type="button" id="ctMake">Show</button><button class="btn ghost" type="button" id="ctCopy">Copy</button><button class="btn ghost" type="button" id="ctSave">Download</button></div>
+    <span id="ctMsg" role="status" aria-live="polite" class="small"></span>
+    <label for="ctOut" class="sr-only">Exported rules</label><textarea id="ctOut" readonly hidden style="min-height:200px"></textarea>
+  </section>
 </div>
 </div>
 </div>
@@ -117,6 +137,9 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script>
 __ENGINE__
+</script>
+<script>
+__SHEETS__
 </script>
 <script>
 const V = __VOCAB__, EX = __EXAMPLES__, VS = __K_VALUESETS__, LIB = __K_LIBRARY__;
@@ -153,10 +176,78 @@ function readFile(input, cb) {
   if (f.size > 25 * 1024 * 1024) { $("runMsg").innerHTML = `<span class="msg err">That file is over 25 MB. Use the Python kit for large files.</span>`; return; }
   const r = new FileReader(); r.onload = () => cb(String(r.result).replace(/^﻿/, ""), f.name); r.readAsText(f);
 }
-$("csvFile").addEventListener("change", e => readFile(e.target, (t, n) => {
-  if (setTable(t, n)) { $("ex").value = "own"; $("runMsg").innerHTML = `<span class="small muted">Loaded ${esc(n)}. Edit the rules to match its columns, then run.</span>`; }
+let dataFile = null;
+async function loadData(sheet) {
+  const f = dataFile; if (!f) return;
+  if (f.size > 25 * 1024 * 1024) { $("runMsg").innerHTML = `<span class="msg err">That file is over 25 MB. Use the Python toolkit for large files.</span>`; return; }
+  try {
+    const r = await DQSheets.read(f, sheet);
+    if (r.sheets.length > 1) { $("sheetBox").hidden = false; $("sheet").innerHTML = r.sheets.map(s => `<option${s === r.sheet ? " selected" : ""}>${esc(s)}</option>`).join(""); }
+    else $("sheetBox").hidden = true;
+    const label = f.name + (r.sheet && r.sheets.length > 1 ? ` (sheet ${r.sheet})` : "");
+    if (setTable(r.csv, label)) { $("ex").value = "own"; $("runMsg").innerHTML = `<span class="small muted">Loaded ${esc(label)}. Edit the rules to match its columns, then run.</span>`; }
+  } catch (er) { $("dataInfo").innerHTML = `<span class="msg err">That file couldn't be read: ${esc(er.message)}.</span>`; }
+}
+$("csvFile").addEventListener("change", e => { dataFile = e.target.files && e.target.files[0]; loadData(); });
+$("sheet").addEventListener("change", e => loadData(e.target.value));
+// a rules file, or a data contract converted into rules
+$("rulesFile").addEventListener("change", e => readFile(e.target, (t, n) => {
+  let doc = null; try { doc = /\.json$/i.test(n) ? JSON.parse(t) : YAML.load(t); } catch (er) {}
+  if (doc && doc.kind === "DataContract") {
+    const spec = DQ.contracts.fromOdcs(doc), skip = DQ.contracts.unsupported(doc);
+    $("rules").value = YAML.dump(spec, {lineWidth: 110, noRefs: true});
+    $("runMsg").innerHTML = `<span class="small muted">Converted the ODCS contract ${esc(doc.id || n)} into ${spec.rules.length} rules.${skip.length ? ` ${skip.length} rule(s) use SQL, text or another tool and weren't imported: ${skip.map(s => esc(s.id || s.description)).join(", ")}.` : ""}</span>`;
+  } else if (doc && Array.isArray(doc.fields)) {
+    const spec = DQ.contracts.fromTableSchema(doc, {id: n.replace(/\.[^.]+$/, ""), importance: 3});
+    $("rules").value = YAML.dump(spec, {lineWidth: 110, noRefs: true});
+    $("runMsg").innerHTML = `<span class="small muted">Converted the Table Schema into ${spec.rules.length} rules.</span>`;
+  } else $("rules").value = t;
 }));
-$("rulesFile").addEventListener("change", e => readFile(e.target, t => { $("rules").value = t; }));
+
+// profile
+function profile() {
+  if (!table) { $("prof").innerHTML = ""; return; }
+  const cols = table.columns, rows = table.rows, n = rows.length, at = (r, j, c) => Array.isArray(r) ? r[j] : r[c];
+  $("prof").innerHTML = cols.map((c, j) => {
+    const vals = rows.map(r => at(r, j, c)).filter(v => v !== null && v !== undefined && String(v).trim() !== "").map(String);
+    const counts = {}; vals.forEach(v => { counts[v] = (counts[v] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const share = (re) => vals.length && vals.filter(v => re.test(v)).length / vals.length;
+    let looks = !vals.length ? "empty" : share(/^[-+]?\d+$/) > .95 ? "whole numbers" : share(/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/) > .95 ? "numbers" :
+      share(/^\d{4}-\d{2}-\d{2}/) > .9 ? "dates" : "text";
+    const id = DQ.IDENTIFIER_SCHEMES.find(s => vals.length >= 3 && vals.slice(0, 200).filter(v => DQ.identifierOk(v, s)).length / Math.min(vals.length, 200) > .8 &&
+      !(["uprn", "school_urn", "ods_code"].includes(s) && !/uprn|urn|ods|code/i.test(c)));
+    if (id) looks += `; ${id.replace(/_/g, " ")} format`;
+    const fill = n ? Math.round(1000 * vals.length / n) / 10 : 0, distinct = Object.keys(counts).length;
+    return `<tr><td>${esc(c)}</td><td class="num">${fill}%</td><td class="num">${distinct}${distinct === vals.length && vals.length > 1 ? " (all different)" : ""}</td><td>${esc(looks)}</td>
+      <td class="small">${top.map(([v, k]) => `${esc(v.length > 24 ? v.slice(0, 24) + "…" : v)} <span class="muted">(${k})</span>`).join(", ")}</td></tr>`;
+  }).join("");
+}
+$("profBox").addEventListener("toggle", () => { if ($("profBox").open) profile(); });
+
+// contracts and exports
+function exportText() {
+  const s = spec(true); DQ.expandValuesets(s, VS); DQ.validateSpec(s);
+  const f = $("ctFmt").value, C = DQ.contracts;
+  if (f === "odcs") return ["# Open Data Contract Standard v3 (bitol.io), generated by the Commons toolkit\n" + YAML.dump(C.toOdcs(s), {lineWidth: 120, noRefs: true}), "yaml", "odcs.yaml"];
+  if (f === "ts") return [JSON.stringify(C.toTableSchema(s), null, 2), "json", "tableschema.json"];
+  if (f === "csvw") return [JSON.stringify(C.toCsvw(s, csvName || "data.csv"), null, 2), "json", "csv-metadata.json"];
+  if (f === "gx") return [JSON.stringify(DQ.exporters.toGreatExpectations(s), null, 2), "json", "expectations.json"];
+  return [DQ.exporters.toRValidate(s, d => YAML.dump(d, {lineWidth: -1, noRefs: true})), "yaml", "validate-rules.yaml"];
+}
+function ctShow() { try { const [text] = exportText(); $("ctOut").hidden = false; $("ctOut").value = text; $("ctMsg").textContent = ""; return text; }
+  catch (er) { $("ctMsg").innerHTML = `<span class="msg err">The rules file isn't ready: ${esc(er.message)}</span>`; return null; } }
+$("ctMake").addEventListener("click", ctShow);
+$("ctFmt").addEventListener("change", () => { if (!$("ctOut").hidden) ctShow(); });
+$("ctCopy").addEventListener("click", async () => { const t = ctShow(); if (t === null) return;
+  try { await navigator.clipboard.writeText(t); $("ctMsg").textContent = "Copied."; } catch (er) { $("ctOut").focus(); $("ctOut").select(); $("ctMsg").textContent = "Copying isn't allowed here. The text is selected: press Ctrl+C (or Cmd+C)."; } });
+$("ctSave").addEventListener("click", async () => {
+  let x; try { x = exportText(); } catch (er) { ctShow(); return; }
+  const [text, , name] = x, base = ((spec(true).asset || {}).id || "rules") + "." + name;
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: base, data: text}); $("ctMsg").textContent = "Saved."; return; } } } catch (er) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = base; document.body.appendChild(a); a.click(); a.remove(); $("ctMsg").textContent = "Downloaded " + base + "."; }
+  catch (er) { ctShow(); $("ctMsg").textContent = "Downloading isn't allowed here; use Copy."; }
+});
 
 function spec(raw) {
   let s;
@@ -282,6 +373,7 @@ window.DQP_TOUR = [
   {sel: "#bCheck", title: "Add a rule", text: "Pick a check, including identifiers such as NHS number or UPRN, and value sets such as GSS nation codes."},
   {sel: "#run", title: "Run", text: "Results show pass rates against targets, priorities from the issues framework, and a trust level."},
   {sel: "#out .copy", title: "Take the results with you", text: "Copy DQV metadata for your catalogue, or rows for the DQAP template."},
+  {sel: "#ctFmt", title: "Data contracts", text: "Share the same rules as an ODCS contract, Table Schema, CSVW, Great Expectations or R validate. You can also load a contract as rules."},
 ];
 $("ex").value = "3";
 </script>

@@ -1147,6 +1147,260 @@
     return { rules: rules, issues: issues };
   };
 
+  // ---------- Exports to Great Expectations and R validate (exporters.py) ----------
+  (function () {
+    var E = {};
+    function issueOf(r) { return vocab()[has(r, 'issue_type') ? r.issue_type : DQ.DEFAULT_ISSUE[r.check]]; }
+    function mostly(r, imp, policy) {
+      var impact = pyInt(has(r, 'impact') ? r.impact : issueOf(r).default_impact);
+      var target = r.target ? r.target : DQ.defaultTarget(DQ.combinedScore(imp, impact), policy);
+      return pyRound(Number(target) / 100.0, 4);
+    }
+    // Python json.dumps (ensure_ascii) for a string
+    function pyJson(s) { return JSON.stringify(String(s)).replace(/[\u007f-￿]/g, function (ch) { return '\\u' + ('000' + ch.charCodeAt(0).toString(16)).slice(-4); }); }
+    function num(x) { return typeof x === 'number' && Number.isInteger(x) ? String(x) : pyStr(x); }
+    function rName(c) { return '`' + String(c).replace(/`/g, '') + '`'; }
+    E.toGreatExpectations = function (spec) {
+      var imp = pyInt(get(spec.asset, 'importance', 3)), policy = get(spec.asset, 'target_policy', DQ.DEFAULT_POLICY), out = [], unsupported = [];
+      spec.rules.forEach(function (r) {
+        var c = r.check, m = mostly(r, imp, policy), et = null, kw = null;
+        var meta = { rule_id: r.id, dimension: has(r, 'dimension') ? r.dimension : issueOf(r).dimension, description: get(r, 'description', '') };
+        if (c === 'not_null') { et = 'expect_column_values_to_not_be_null'; kw = { column: r.column, mostly: m }; }
+        else if (c === 'unique') {
+          if (r.columns.length === 1) { et = 'expect_column_values_to_be_unique'; kw = { column: r.columns[0], mostly: m }; }
+          else { et = 'expect_compound_columns_to_be_unique'; kw = { column_list: r.columns, mostly: m }; }
+        }
+        else if (c === 'regex') { et = 'expect_column_values_to_match_regex'; kw = { column: r.column, regex: r.pattern, mostly: m }; }
+        else if (c === 'in_set') { et = 'expect_column_values_to_be_in_set'; kw = { column: r.column, value_set: r.values, mostly: m }; }
+        else if (c === 'range') { et = 'expect_column_values_to_be_between'; kw = { column: r.column, min_value: get(r, 'min', null), max_value: get(r, 'max', null), mostly: m }; }
+        else if (c === 'required_columns') { r.columns.forEach(function (col) { out.push({ expectation_type: 'expect_column_to_exist', kwargs: { column: col }, meta: meta }); }); return; }
+        else if (c === 'type' && (r.kind === 'integer' || r.kind === 'year')) { et = 'expect_column_values_to_match_regex'; kw = { column: r.column, regex: '^[-+]?\\d+$', mostly: m }; }
+        else if (c === 'type' && r.kind === 'number') { et = 'expect_column_values_to_match_regex'; kw = { column: r.column, regex: '^[-+]?\\d*\\.?\\d+$', mostly: m }; }
+        else if (c === 'sum_max') { et = 'expect_column_sum_to_be_between'; kw = { column: r.column, max_value: r.max + get(r, 'tolerance', 0) }; }
+        else if (c === 'compare' && r.right !== '') {
+          et = 'expect_column_pair_values_A_to_be_greater_than_B';
+          if (r.op === '>' || r.op === '>=') kw = { column_A: r.left, column_B: r.right, or_equal: r.op === '>=', mostly: m };
+          else if (r.op === '<' || r.op === '<=') kw = { column_A: r.right, column_B: r.left, or_equal: r.op === '<=', mostly: m };
+        }
+        if (kw === null) { unsupported.push({ rule_id: r.id, check: c, note: 'no built-in GX expectation; run with dqkit or add a custom expectation' }); return; }
+        out.push({ expectation_type: et, kwargs: kw, meta: meta });
+      });
+      return { expectation_suite_name: spec.asset.id + '.dqap', expectations: out,
+        meta: { generated_by: 'ndl-dq-assurance dqkit', asset: spec.asset, not_exported: unsupported } };
+    };
+    E.rValidateRules = function (spec) {
+      var rules = [], notes = [];
+      spec.rules.forEach(function (r) {
+        var c = r.check, expr = null;
+        if (c === 'not_null') expr = '!is.na(' + rName(r.column) + ')';
+        else if (c === 'unique') expr = 'is_unique(' + r.columns.map(rName).join(', ') + ')';
+        else if (c === 'regex') expr = 'grepl(' + pyJson('^(' + r.pattern + ')$') + ', ' + rName(r.column) + ')';
+        else if (c === 'in_set') expr = rName(r.column) + ' %in% c(' + r.values.map(function (v) { return pyJson(pyStr(v)); }).join(', ') + ')';
+        else if (c === 'range') expr = 'in_range(' + rName(r.column) + ', min = ' + (has(r, 'min') ? num(r.min) : '-Inf') + ', max = ' + (has(r, 'max') ? num(r.max) : 'Inf') + ')';
+        else if (c === 'type' && (r.kind === 'integer' || r.kind === 'number' || r.kind === 'year')) expr = 'is.numeric(' + rName(r.column) + ')';
+        else if (c === 'compare') {
+          var rs = pyStr(r.right), numeric = /^\d+$/.test(rs.replace('.', ''));
+          expr = rName(r.left) + ' ' + r.op + ' ' + (numeric ? pyStr(r.right) : rName(r.right));
+        }
+        else if (c === 'sum_max') expr = 'sum(' + rName(r.column) + ', na.rm = TRUE) <= ' + num(r.max + get(r, 'tolerance', 0));
+        else if (c === 'required_columns') expr = 'all(c(' + r.columns.map(pyJson).join(', ') + ') %in% names(.))';
+        if (expr === null) { notes.push(pyStr(r.id) + ' (' + c + '): run with dqkit; no direct validate equivalent'); return; }
+        rules.push({ expr: expr, name: r.id, label: String(get(r, 'description', c)).slice(0, 80),
+          description: 'dimension: ' + (has(r, 'dimension') ? r.dimension : issueOf(r).dimension) });
+      });
+      return [rules, notes];
+    };
+    E.toRValidate = function (spec, dump) {
+      var x = E.rValidateRules(spec), header = '# R validate rules for ' + spec.asset.id + ' (generated by dqkit)\n# Use: library(validate); v <- validator(.file = \'this.yaml\'); confront(dat, v)\n';
+      x[1].forEach(function (n) { header += '# not exported: ' + n + '\n'; });
+      return header + (dump ? dump({ rules: x[0] }) : JSON.stringify({ rules: x[0] }, null, 2));
+    };
+    DQ.exporters = E;
+  })();
+
+  // ---------- Data contracts (contracts.py): Frictionless Table Schema, ODCS v3 and W3C CSVW ----------
+  (function () {
+    var C = {};
+    var TYPE_TO_TS = { integer: 'integer', number: 'number', year: 'year', date: 'date' };
+    var TYPE_TO_LOGICAL = { integer: 'integer', number: 'number', year: 'integer', date: 'date' };
+    var TYPE_TO_XSD = { integer: 'integer', number: 'decimal', year: 'gYear', date: 'date' };
+    var DIM_TO_ODCS = { completeness: 'completeness', uniqueness: 'uniqueness', validity: 'conformity', consistency: 'consistency', timeliness: 'timeliness', accuracy: 'accuracy' };
+    var ODCS_TO_DIM = { completeness: 'completeness', cp: 'completeness', uniqueness: 'uniqueness', uq: 'uniqueness', conformity: 'validity', cf: 'validity',
+      consistency: 'consistency', cs: 'consistency', timeliness: 'timeliness', tm: 'timeliness', accuracy: 'accuracy', ac: 'accuracy', coverage: 'completeness', cv: 'completeness' };
+    function nn(v) { return v !== undefined && v !== null; }
+    function issueOf(r) { return vocab()[has(r, 'issue_type') ? r.issue_type : DQ.DEFAULT_ISSUE[r.check]]; }
+    function allowedPercent(r, asset) {
+      var imp = pyInt(get(asset, 'importance', 3)), impact = pyInt(has(r, 'impact') ? r.impact : issueOf(r).default_impact);
+      var target = nn(r.target) ? r.target : DQ.defaultTarget(DQ.combinedScore(imp, impact), get(asset, 'target_policy', DQ.DEFAULT_POLICY));
+      return pyRound(100.0 - Number(target), 4);
+    }
+    function dimension(r) { return r.dimension || issueOf(r).dimension; }
+    function columns(spec) {
+      var out = [];
+      (spec.rules || []).forEach(function (r) {
+        [r.column, r.left, r.group].concat(r.columns || []).forEach(function (c) { if (typeof c === 'string' && out.indexOf(c) < 0) out.push(c); });
+      });
+      return out;
+    }
+    function omit(o, keys) { var x = {}; Object.keys(o).forEach(function (k) { if (keys.indexOf(k) < 0) x[k] = o[k]; }); return x; }
+    function cons(f) { return f.constraints || (f.constraints = {}); }
+
+    C.toTableSchema = function (spec) {
+      var fields = {}, order = columns(spec), extra = [], pk = null;
+      order.forEach(function (c) { fields[c] = { name: c }; });
+      (spec.rules || []).forEach(function (r) {
+        var c = r.check, f = has(fields, r.column) ? fields[r.column] : null;
+        if (c === 'type' && f) f.type = TYPE_TO_TS[r.kind];
+        else if (c === 'not_null' && f) cons(f).required = true;
+        else if (c === 'unique') { if (r.columns.length === 1) cons(fields[r.columns[0]]).unique = true; else pk = r.columns.slice(); }
+        else if (c === 'regex' && f) cons(f).pattern = r.pattern;
+        else if (c === 'in_set' && f) cons(f).enum = r.values.slice();
+        else if (c === 'range' && f) { if (nn(r.min)) cons(f).minimum = r.min; if (nn(r.max)) cons(f).maximum = r.max; }
+        else extra.push(r);
+        if (f && r.description && !has(f, 'description')) f.description = r.description;
+      });
+      var out = { fields: order.map(function (c) { return fields[c]; }), missingValues: [''] };
+      if (pk) out.primaryKey = pk;
+      if (extra.length) out['x-dqkit'] = { asset: spec.asset || {}, rules: extra };
+      return out;
+    };
+
+    C.fromTableSchema = function (ts, asset) {
+      var rules = [], n = 0;
+      function add(r) { n++; rules.push(Object.assign({ id: 'R' + n }, r)); }
+      (ts.fields || []).forEach(function (f) {
+        var name = f.name, k = f.constraints || {};
+        if (has(TYPE_TO_TS, f.type)) add({ check: 'type', column: name, kind: f.type });
+        if (k.required) add({ check: 'not_null', column: name });
+        if (k.unique) add({ check: 'unique', columns: [name] });
+        if (has(k, 'pattern')) add({ check: 'regex', column: name, pattern: k.pattern });
+        if (has(k, 'enum')) add({ check: 'in_set', column: name, values: k.enum.slice() });
+        if (has(k, 'minimum') || has(k, 'maximum')) { var r = { check: 'range', column: name }; if (has(k, 'minimum')) r.min = k.minimum; if (has(k, 'maximum')) r.max = k.maximum; add(r); }
+      });
+      if (ts.primaryKey) add({ check: 'unique', columns: typeof ts.primaryKey === 'string' ? [ts.primaryKey] : ts.primaryKey.slice() });
+      var extra = ts['x-dqkit'] || {};
+      (extra.rules || []).forEach(function (r) { add(omit(r, ['id'])); });
+      return { asset: asset || extra.asset || { id: 'imported', importance: 3 }, rules: rules };
+    };
+
+    function odcsRule(r, asset) {
+      var c = r.check, pct = allowedPercent(r, asset), q = { id: pyStr(r.id), description: has(r, 'description') ? r.description : c };
+      var dim = DIM_TO_ODCS[dimension(r)];
+      if (dim) q.dimension = dim;
+      function lib(metric, extra) { q.type = 'library'; q.metric = metric; if (extra) q.arguments = extra; q.mustBeLessOrEqualTo = pct; q.unit = 'percent'; }
+      if (c === 'not_null') lib('nullValues');
+      else if (c === 'unique') lib('duplicateValues', r.columns.length > 1 ? { properties: r.columns.slice() } : null);
+      else if (c === 'in_set') lib('invalidValues', { validValues: r.values.slice() });
+      else if (c === 'regex') lib('invalidValues', { pattern: r.pattern });
+      else if (c === 'not_unknown') lib('missingValues', r.values && r.values.length ? { missingValues: r.values.slice() } : null);
+      else { q.type = 'custom'; q.engine = 'dqkit'; q.implementation = omit(r, ['id', 'description']); q.mustBeLessOrEqualTo = pct; q.unit = 'percent'; }
+      return q;
+    }
+
+    C.toOdcs = function (spec, version, status) {
+      var asset = spec.asset || {}, order = columns(spec), props = {}, schemaQuality = [];
+      order.forEach(function (c) { props[c] = { name: c }; });
+      (spec.rules || []).forEach(function (r) {
+        var c = r.check, col = r.column, inProps = typeof col === 'string' && has(props, col);
+        if (c === 'type' && inProps) {
+          props[col].logicalType = TYPE_TO_LOGICAL[r.kind];
+          props[col].customProperties = [{ property: 'dqkitTypeRuleId', value: pyStr(r.id) }];
+          if (r.kind === 'year') props[col].logicalTypeOptions = { format: 'yyyy' };
+          return;
+        }
+        if (c === 'range' && inProps) { var o = props[col].logicalTypeOptions || (props[col].logicalTypeOptions = {}); if (nn(r.min)) o.minimum = r.min; if (nn(r.max)) o.maximum = r.max; }
+        if (c === 'not_null' && inProps) props[col].required = true;
+        if (c === 'unique' && r.columns.length === 1) props[r.columns[0]].unique = true;
+        var q = odcsRule(r, asset);
+        var target = (inProps && c !== 'compare' && c !== 'group_disparity') ? col : (c === 'unique' && r.columns.length === 1 ? r.columns[0] : null);
+        if (target) (props[target].quality || (props[target].quality = [])).push(q); else schemaQuality.push(q);
+      });
+      var id = get(asset, 'id', 'dataset'), obj = { name: id, physicalName: id, properties: order.map(function (c) { return props[c]; }) };
+      if (schemaQuality.length) obj.quality = schemaQuality;
+      var out = { apiVersion: 'v3.1.0', kind: 'DataContract', id: id, version: version || '1.0.0', status: status || 'draft',
+        name: get(asset, 'title', id), schema: [obj],
+        customProperties: [{ property: 'dqkitImportance', value: pyInt(get(asset, 'importance', 3)) },
+                           { property: 'dqkitTargetPolicy', value: get(asset, 'target_policy', DQ.DEFAULT_POLICY) }] };
+      if (asset.owner) out.team = { name: asset.owner };
+      return out;
+    };
+
+    C.fromOdcs = function (contract) {
+      var cp = {}; (contract.customProperties || []).forEach(function (p) { cp[p.property] = p.value; });
+      var asset = { id: get(contract, 'id', 'imported'), title: get(contract, 'name', get(contract, 'id', 'imported')), importance: pyInt(nn(cp.dqkitImportance) ? cp.dqkitImportance : 3) };
+      if (cp.dqkitTargetPolicy) asset.target_policy = cp.dqkitTargetPolicy;
+      if ((contract.team || {}).name) asset.owner = contract.team.name;
+      var rules = [], n = 0;
+      function add(r, q) {
+        n++;
+        r = Object.assign({ id: q && q.id ? pyStr(q.id) : 'R' + n }, r);
+        if (q) {
+          if (q.description && q.description !== r.check) r.description = q.description;
+          if (has(ODCS_TO_DIM, q.dimension) && ODCS_TO_DIM[q.dimension] !== dimension(r)) r.dimension = ODCS_TO_DIM[q.dimension];
+          var limit = nn(q.mustBeLessOrEqualTo) ? q.mustBeLessOrEqualTo : nn(q.mustBeLessThan) ? q.mustBeLessThan : q.mustBe;
+          if (nn(limit) && q.unit === 'percent') r.target = pyRound(100.0 - Number(limit), 4);
+        }
+        rules.push(r);
+      }
+      function quality(q, col) {
+        var m = q.metric, a = q.arguments || {};
+        if (q.type === 'custom' && q.engine === 'dqkit') add(Object.assign({}, q.implementation), q);
+        else if (m === 'nullValues' && col) add({ check: 'not_null', column: col }, q);
+        else if (m === 'duplicateValues') add({ check: 'unique', columns: (a.properties || [col]).slice() }, q);
+        else if (m === 'invalidValues' && has(a, 'validValues') && col) add({ check: 'in_set', column: col, values: a.validValues.slice() }, q);
+        else if (m === 'invalidValues' && has(a, 'pattern') && col) add({ check: 'regex', column: col, pattern: a.pattern }, q);
+        else if (m === 'missingValues' && col) { var r = { check: 'not_unknown', column: col }; if (a.missingValues && a.missingValues.length) r.values = a.missingValues.slice(); add(r, q); }
+      }
+      (contract.schema || []).forEach(function (obj) {
+        (obj.properties || []).forEach(function (p) {
+          var name = p.name, lt = p.logicalType, o = p.logicalTypeOptions || {}, pcp = {};
+          (p.customProperties || []).forEach(function (x) { pcp[x.property] = x.value; });
+          if (lt === 'integer' || lt === 'number' || lt === 'date') add({ check: 'type', column: name, kind: o.format === 'yyyy' ? 'year' : lt }, pcp.dqkitTypeRuleId ? { id: pcp.dqkitTypeRuleId } : null);
+          var qs = p.quality || [], metrics = qs.map(function (q) { return q.metric; });
+          if (p.required && metrics.indexOf('nullValues') < 0) add({ check: 'not_null', column: name });
+          if (p.unique && metrics.indexOf('duplicateValues') < 0) add({ check: 'unique', columns: [name] });
+          var hasRange = qs.some(function (q) { return (q.implementation || {}).check === 'range'; });
+          if ((has(o, 'minimum') || has(o, 'maximum')) && !hasRange) { var r = { check: 'range', column: name }; if (has(o, 'minimum')) r.min = o.minimum; if (has(o, 'maximum')) r.max = o.maximum; add(r); }
+          qs.forEach(function (q) { quality(q, name); });
+        });
+        (obj.quality || []).forEach(function (q) { quality(q, null); });
+      });
+      var seen = new Set();
+      rules.forEach(function (r) { while (seen.has(r.id)) r.id += 'b'; seen.add(r.id); });
+      return { asset: asset, rules: rules };
+    };
+
+    C.unsupported = function (contract) {
+      var out = [];
+      (contract.schema || []).forEach(function (obj) {
+        var items = [];
+        (obj.properties || []).forEach(function (p) { (p.quality || []).forEach(function (q) { items.push([p.name, q]); }); });
+        (obj.quality || []).forEach(function (q) { items.push([null, q]); });
+        items.forEach(function (it) { var q = it[1];
+          if (q.type === 'text' || q.type === 'sql' || (q.type === 'custom' && q.engine !== 'dqkit')) out.push({ column: it[0], id: q.id, type: q.type, description: q.description || '' }); });
+      });
+      return out;
+    };
+
+    function safe(n) { return n.replace(/[^A-Za-z0-9_]/g, '_'); }
+    C.toCsvw = function (spec, url) {
+      var ts = C.toTableSchema(spec), cols = ts.fields.map(function (f) {
+        var k = f.constraints || {}, col = { name: safe(f.name), titles: f.name }, dt = { base: TYPE_TO_XSD[f.type] || 'string' };
+        if (has(k, 'pattern')) dt.format = k.pattern;
+        if (has(k, 'minimum')) dt.minimum = k.minimum;
+        if (has(k, 'maximum')) dt.maximum = k.maximum;
+        col.datatype = Object.keys(dt).length > 1 ? dt : dt.base;
+        if (k.required) col.required = true;
+        if (f.description) col['dc:description'] = f.description;
+        return col;
+      });
+      var schema = { columns: cols };
+      if (ts.primaryKey) schema.primaryKey = ts.primaryKey.map(safe);
+      return { '@context': 'http://www.w3.org/ns/csvw', url: url || 'data.csv', 'dc:title': get(spec.asset || {}, 'title', ''), tableSchema: schema };
+    };
+    DQ.contracts = C;
+  })();
+
   // Internals, exposed for the parity tests.
   DQ._py = { pdNumber: pdNumber, pyFloat: pyFloat, pyRound: pyRound, pyFloatRepr: pyFloatRepr, parseDate: parseDate,
     isType: isType, translateRegex: translateRegex, isoDurationDays: isoDurationDays, pySum: pySum, pairwiseSum: pairwiseSum };

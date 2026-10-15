@@ -249,6 +249,7 @@ def main(argv=None) -> int:
         "__EXAMPLES__": js_json(examples(Path(a.portfolio))),
         "__BASE_CSS__": (SRC / "base.css").read_text(encoding="utf-8"),
         "__ENGINE__": (SRC / "js" / "engine.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
+        "__SHEETS__": (SRC / "js" / "sheets.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
         "__BUILD__": js_json({"version": VERSION, "sha": sha, "built": date.today().isoformat(), "as_of": port["as_of"],
                               "repo": a.repo}),
     }

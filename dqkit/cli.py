@@ -3,6 +3,8 @@
   check   DATA RULES.yaml [--as-of YYYY-MM-DD] [--out DIR] [--history DIR] [--workbook] [--case-study]
           run rules; write results, DQV, DQAP CSVs, trust level and (optionally) a filled DQAP Excel workbook
   export  RULES.yaml --to gx|r-validate                          print a Great Expectations suite or R validate rules
+  contract RULES.yaml --to table-schema|odcs|csvw  |  CONTRACT --from table-schema|odcs
+          convert rules to or from open data contract standards
   survey  FORMS_EXPORT.xlsx [--out DIR]                           reshape and summarise the DQ tooling survey (personal data removed)
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
   run     PORTFOLIO.yaml [--as-of YYYY-MM-DD] [--out DIR] [--no-history] [--ignore-schedule] [--fail-on-escalation]
@@ -19,8 +21,9 @@ from datetime import date
 from pathlib import Path
 
 import pandas as pd
+import yaml
 
-from . import casestudy, dqv, exporters, metadata, operations, pathway, rules, sources, trust
+from . import casestudy, contracts, dqv, exporters, metadata, operations, pathway, rules, sources, trust
 
 
 def _source_args(parser):
@@ -61,6 +64,10 @@ def main(argv=None) -> int:
     c.add_argument("--case-study", action="store_true", help="also draft a GDS-style case study (.md and .docx)")
     e = sub.add_parser("export")
     e.add_argument("rules"); e.add_argument("--to", choices=["gx", "r-validate"], required=True)
+    ct = sub.add_parser("contract", help="convert rules to or from a data contract: Frictionless Table Schema, ODCS v3 or W3C CSVW")
+    ct.add_argument("file", help="a rules file (with --to) or a contract file (with --from)")
+    ct.add_argument("--to", choices=sorted(contracts.FORMATS))
+    ct.add_argument("--from", dest="src", choices=["table-schema", "odcs"])
     m = sub.add_parser("assess-metadata")
     m.add_argument("records"); m.add_argument("--as-of"); m.add_argument("--out")
     pk = sub.add_parser("pack", help="framework and scenario packs: list them, or assess results against one")
@@ -133,6 +140,20 @@ def main(argv=None) -> int:
     if a.cmd == "export":
         spec = rules.load_rules(a.rules)
         print(json.dumps(exporters.to_great_expectations(spec), indent=2) if a.to == "gx" else exporters.to_r_validate(spec))
+        return 0
+    if a.cmd == "contract":
+        if bool(a.to) == bool(a.src):
+            print("Give exactly one of --to or --from.", file=sys.stderr)
+            return 2
+        if a.to:
+            print(json.dumps(contracts.FORMATS[a.to](rules.load_rules(a.file)), indent=2, ensure_ascii=False))
+            return 0
+        doc = yaml.safe_load(Path(a.file).read_text(encoding="utf-8"))
+        spec = contracts.from_odcs(doc) if a.src == "odcs" else contracts.from_table_schema(doc)
+        rules.validate_spec(spec)
+        for u in (contracts.unsupported(doc) if a.src == "odcs" else []):
+            print(f"# not imported ({u['type']}): {u['id']} {u['description']}", file=sys.stderr)
+        print(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True))
         return 0
     if a.cmd == "assess-metadata":
         recs = [json.loads(l) for l in open(a.records, encoding="utf-8") if l.strip()]

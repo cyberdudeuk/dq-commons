@@ -49,6 +49,11 @@ if (c.kind === 'run' || c.kind === 'ops') {
   out.validate = c.validate.map((spec) => attempt(() => { DQ.validateSpec(spec); return 'ok'; }));
   out.identifiers = c.identifiers.map(([v, scheme]) => attempt(() => DQ.identifierOk(v, scheme)));
   out.valuesets = c.valueset_specs.map((spec) => attempt(() => DQ.expandValuesets(spec, c.valuesets_data)));
+  out.contracts = c.contract_specs.map((spec) => attempt(() => {
+    const C = DQ.contracts, o = C.toOdcs(spec), t = C.toTableSchema(spec);
+    return { odcs: o, ts: t, csvw: C.toCsvw(spec), back: C.fromOdcs(o), backTs: C.fromTableSchema(t), unsupported: C.unsupported(o),
+      gx: DQ.exporters.toGreatExpectations(spec), rv: DQ.exporters.rValidateRules(spec) };
+  }));
   out.misc = {
     targets: [3, 6, 9, 16].map((s) => DQ.defaultTarget(s)), mid4: DQ.defaultTarget(4, 'mid'),
     bands: [75, 90, 95, 97.5, 99.9, 100].map((t) => DQ.bands(t)),
