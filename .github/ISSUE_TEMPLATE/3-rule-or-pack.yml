@@ -1,0 +1,16 @@
+name: Add a rule, value set or framework pack
+description: Propose an addition to the rule library, value sets, framework registry or packs.
+title: "[Library] "
+labels: [library, triage]
+body:
+  - type: dropdown
+    id: kind
+    attributes: {label: "What are you adding?", options: [Rule template, Identifier scheme, Value set, Framework in the registry, Framework pack, Crosswalk mapping]}
+    validations: {required: true}
+  - type: textarea
+    id: detail
+    attributes: {label: "Details", description: "What it checks or covers, and the authoritative source (link)."}
+    validations: {required: true}
+  - type: input
+    id: source
+    attributes: {label: "Source link", placeholder: "https://..."}

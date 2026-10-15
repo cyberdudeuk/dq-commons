@@ -1,0 +1,125 @@
+# Data quality maturity self-assessment.
+# Levels use the Data Maturity Assessment for Government names so results can sit beside a department's
+# DMA results. The themes and statements are this project's own, written for data quality specifically.
+# They are a self-assessment aid, not an official DMA.
+
+levels:
+- {n: 1, name: Beginning}
+- {n: 2, name: Emerging}
+- {n: 3, name: Learning}
+- {n: 4, name: Developing}
+- {n: 5, name: Mastering}
+
+themes:
+- id: ownership
+  name: Ownership and accountability
+  statements:
+  - Nobody is clearly accountable for the quality of our key data.
+  - Some assets have an owner, but roles are informal.
+  - Owners and stewards are named for our most important assets.
+  - Every critical asset has an owner and steward with agreed responsibilities and time to do the work.
+  - Accountability is routine, reported to the board, and part of performance objectives.
+  next:
+  - {text: Name an owner and steward for your most important asset, link: "guidance.html"}
+  - {text: Record owners and stewards in your catalogue or the rules file asset block, link: "learn.html#m5"}
+  - {text: Agree a RACI for each DQAP step, link: "operate.html"}
+  - {text: Report ownership coverage to your data board, link: "pipeline.html"}
+  - {text: Mentor other organisations and share your model as a case study, link: "community.html"}
+- id: critical-data
+  name: Knowing your critical data
+  statements:
+  - We don't know which data matters most.
+  - We have a rough list of important datasets.
+  - Critical assets are identified, with their purposes.
+  - Critical data items within each asset are identified and prioritised.
+  - The list is reviewed at least yearly and drives investment.
+  next:
+  - {text: List the data your services and decisions depend on, link: "baseline.html"}
+  - {text: Record purpose and importance (1-4) for each asset, link: "learn.html#m2"}
+  - {text: Build a criticality matrix (in the DQAP workbook), link: "check.html"}
+  - {text: Use the January baseline model to plan coverage, link: "baseline.html"}
+  - {text: Share your criticality method with your sector, link: "community.html"}
+- id: rules
+  name: Rules and standards
+  statements:
+  - Quality expectations are not written down.
+  - Some checks exist in code or spreadsheets, undocumented.
+  - Rules are documented for critical items, with dimensions.
+  - Rules have targets from the issues framework and use shared standards and identifiers.
+  - Rules are versioned, reused across organisations and tested automatically.
+  next:
+  - {text: Write your first rules with the browser checker, link: "check.html"}
+  - {text: Start from the public sector rule library, link: "learn.html#t1"}
+  - {text: Set targets with the issues framework, link: "guidance.html"}
+  - {text: Keep rules in version control and run them in the pipeline, link: "operate.html"}
+  - {text: Contribute rule patterns to the Commons library, link: "community.html"}
+- id: measurement
+  name: Measurement and monitoring
+  statements:
+  - Quality is not measured.
+  - Measured occasionally, by hand, when there is a problem.
+  - A baseline exists for critical assets.
+  - Measured on a schedule, with trends and ageing tracked.
+  - Monitored continuously, automated, with alerts and escalation.
+  next:
+  - {text: Run a baseline measurement, link: "check.html"}
+  - {text: Keep a history so trends show, link: "learn.html#t3"}
+  - {text: Measure every asset on a schedule with the pipeline, link: "pipeline.html"}
+  - {text: Escalate overdue issues automatically, link: "operate.html"}
+  - {text: Publish your monitoring approach as a case study, link: "community.html"}
+- id: issues
+  name: Issue management and root cause
+  statements:
+  - Problems are fixed when someone notices, if at all.
+  - Issues are logged inconsistently.
+  - Issues are logged and prioritised with the issues framework.
+  - Root causes are analysed and fixes made at source, with containment where needed.
+  - Recurrence is rare and tracked; lessons feed into system and process design.
+  next:
+  - {text: Start an issues log (the DQAP workbook has one), link: "check.html"}
+  - {text: Prioritise with the issues framework calculator, link: "guidance.html"}
+  - {text: Learn root cause analysis and control points, link: "learn.html#m4"}
+  - {text: Track recurrence and control failure rates, link: "pipeline.html"}
+  - {text: Share fixes that prevent recurrence, link: "community.html"}
+- id: reporting
+  name: Reporting and transparency
+  statements:
+  - Users are not told about data quality.
+  - Caveats are given informally on request.
+  - Quality is reported to internal users.
+  - Quality is published with the data in standard metadata, with a trust level.
+  - Users can see quality, trends and known limitations everywhere the data is found.
+  next:
+  - {text: Write a short quality statement for your main asset, link: "learn.html#m6"}
+  - {text: State a trust level and what the data may be used for, link: "check.html"}
+  - {text: Publish DQV metadata with your catalogue record, link: "learn.html#m5"}
+  - {text: Show quality in the NDL and your catalogue, link: "ndl-assurance.html"}
+  - {text: Help set cross-government quality reporting standards, link: "community.html"}
+- id: tools
+  name: Tools and automation
+  statements:
+  - No tools; spreadsheets at most.
+  - Ad hoc scripts by individuals.
+  - Shared tools for some assets.
+  - Automated checks in pipelines, results in a catalogue, open standards for results.
+  - Tool-agnostic, portable rules; results flow to catalogues, dashboards and AI agents.
+  next:
+  - {text: Try the browser checker - no install, nothing uploaded, link: "check.html"}
+  - {text: Compare tools, including open-source options, link: "tooling.html"}
+  - {text: Run the pipeline in GitHub Actions, link: "operate.html"}
+  - {text: Export rules to Great Expectations or R validate where you already use them, link: "tooling.html"}
+  - {text: Connect the kit to AI agents through MCP, link: "learn.html#t7"}
+- id: culture
+  name: Culture, skills and inclusion
+  statements:
+  - Quality is seen as the data team's problem.
+  - A few champions care about quality.
+  - Training exists for stewards; quality is discussed in projects.
+  - Everyone handling data knows their part; inclusion checks are routine for personal data.
+  - Quality and inclusion are designed into services; the organisation teaches others.
+  next:
+  - {text: Take the awareness module, link: "learn.html#m1"}
+  - {text: Run a data quality session for your team, link: "learn.html"}
+  - {text: Check who your data leaves out, link: "learn.html#m7"}
+  - {text: Build data quality into service design and assessments, link: "operate.html"}
+  - {text: Share your training and case studies with the Commons, link: "community.html"}

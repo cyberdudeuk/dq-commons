@@ -1,0 +1,19 @@
+# Where the Commons connects. Secrets (tokens) never go here: they live in GitHub repository secrets.
+github:
+  repository: cyberdudeuk/ndl-dq-assurance   # proposed rename: dq-commons. Not pushed yet.
+  backlog_label: backlog                      # GitHub issues with this label are mirrored to Jira
+jira:
+  base_url_secret: JIRA_BASE_URL              # for example https://your-site.atlassian.net
+  project: XDMH                               # xGov Data Management Hub
+  epic: XDMH-210                              # Public Sector Data Quality Commons
+  issue_type: Story
+  support_desk: SUP                           # Jira Service Management project for support requests (tier 2)
+confluence:
+  base_url_secret: CONFLUENCE_BASE_URL        # for example https://your-site.atlassian.net/wiki
+  space: ARCHITECTU
+  parent_page_id: "82640897"                  # Unified Data Asset Portal pages
+  pages:                                      # repository doc -> Confluence page title (created or updated)
+    docs/OPERATING-MODEL.md: "DQ Commons - operating model and support"
+    docs/USER-GUIDE.md: "DQ Commons - portal user guide"
+    docs/DECISIONS.md: "DQ Commons - decision log"
+    docs/OPERATIONS.md: "DQ Commons - pipeline runbook"

@@ -1,0 +1,41 @@
+# Evaluation set for AI rule drafting (plain English to a rules file).
+# Each case gives the steward's request, the columns available, and what a good draft must contain.
+# scripts/eval_rule_drafting.py scores a set of drafts against these expectations. Re-run it after
+# every prompt or model change; a drop in score blocks release (see knowledge/ai-for-dq.yaml, stage 7).
+cases:
+- id: E01
+  request: Every claim must have a valid National Insurance number and one claim per person per month.
+  columns: [claim_id, ni_number, claim_month, amount]
+  expect:
+  - {check: identifier, column: ni_number, scheme: nino}
+  - {check: unique, columns: [ni_number, claim_month]}
+- id: E02
+  request: Patients need a valid NHS number, a date of birth that isn't in the future, and a recorded ethnic group.
+  columns: [nhs_number, date_of_birth, ethnic_group, postcode]
+  expect:
+  - {check: identifier, column: nhs_number, scheme: nhs_number}
+  - {check: not_future, column: date_of_birth}
+  - {check: not_unknown, column: ethnic_group}
+- id: E03
+  request: Each local authority row should have a proper GSS code and no year should be missing from the series.
+  columns: [area_code, area_name, year, value]
+  expect:
+  - {check: identifier, column: area_code, scheme: gss_code}
+  - {check: no_gaps, column: year}
+- id: E04
+  request: Addresses must have a UPRN and a properly formatted postcode.
+  columns: [uprn, address_line_1, postcode]
+  expect:
+  - {check: identifier, column: uprn, scheme: uprn}
+  - {check: identifier, column: postcode, scheme: uk_postcode}
+- id: E05
+  request: Percentages must be between 0 and 100 and the spend can never be more than the budget.
+  columns: [service, spend, budget, uptake_pct]
+  expect:
+  - {check: range, column: uptake_pct}
+  - {check: compare, left: spend}
+- id: E06
+  request: Check that NHS number completeness is the same for men and women.
+  columns: [nhs_number, sex]
+  expect:
+  - {check: group_disparity, group: sex}

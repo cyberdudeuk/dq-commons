@@ -1,0 +1,19 @@
+name: Contribute to the library
+description: Share a case study, insight, resource or guidance for the knowledge base.
+title: "[Contribution] "
+labels: [contribution, triage]
+body:
+  - type: dropdown
+    id: kind
+    attributes: {label: "Type", options: [Case study, Insight or lesson, Resource or link, Guidance or method, Training material, Dataset quality assessment]}
+    validations: {required: true}
+  - type: textarea
+    id: summary
+    attributes: {label: "Summary", description: "What it is and what others can learn from it. No personal data."}
+    validations: {required: true}
+  - type: input
+    id: link
+    attributes: {label: "Link (if published elsewhere)"}
+  - type: dropdown
+    id: share
+    attributes: {label: "Can it be published openly?", options: ["Yes, as is", "Yes, anonymised", "Commons members only"]}

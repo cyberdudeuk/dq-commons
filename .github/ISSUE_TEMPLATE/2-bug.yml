@@ -1,0 +1,15 @@
+name: Something isn't working
+description: Report a problem with the portal or kit.
+title: "[Bug] "
+labels: [bug, triage]
+body:
+  - type: textarea
+    id: what
+    attributes: {label: "What happened, and what did you expect?"}
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes: {label: "Steps to see it", description: "Commands or pages, browser, and any assistive technology used. No personal data, please."}
+  - type: dropdown
+    id: at
+    attributes: {label: "Does it affect accessibility?", options: ["No", "Yes", "Not sure"]}
