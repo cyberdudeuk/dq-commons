@@ -612,19 +612,19 @@
   };
 
   // ---------------------------------------------------------------------------------------
-  // 6. The 15 checks (rules.py). Each returns [checked, passed, examples, detail].
+  // 6. The 16 checks (rules.py). Each returns [checked, passed, examples, detail].
   // ---------------------------------------------------------------------------------------
 
   DQ.DEFAULT_ISSUE = { not_null: 'missing-value', required_columns: 'missing-field', unique: 'duplicate-reference',
     type: 'invalid-type', regex: 'pattern-mismatch', in_set: 'invalid-category', range: 'out-of-range',
     not_future: 'future-date', compare: 'cross-field-inconsistency', sum_max: 'totals-mismatch',
     freshness: 'stale-data', no_gaps: 'unexplained-gap', header_has_unit: 'undocumented-measure',
-    not_unknown: 'characteristic-defaulted', group_disparity: 'group-disparity' };
+    not_unknown: 'characteristic-defaulted', group_disparity: 'group-disparity', identifier: 'invalid-identifier' };
   DQ.CONTROL_POINTS = ['source', 'pipeline', 'reporting'];
   DQ.DEFAULT_CONTROL = { not_null: 'source', required_columns: 'pipeline', unique: 'pipeline', type: 'source',
     regex: 'source', in_set: 'source', range: 'source', not_future: 'source', compare: 'source',
     sum_max: 'pipeline', freshness: 'pipeline', no_gaps: 'pipeline', header_has_unit: 'reporting',
-    not_unknown: 'source', group_disparity: 'reporting' };
+    not_unknown: 'source', group_disparity: 'reporting', identifier: 'source' };
   var UNIT_TOKENS = ['%', 'percent', 'per cent', 'number', 'count', 'millions', 'million', 'billion',
     'thousand', '£', 'gbp', 'days', 'rate', 'miles', 'index', 'share', 'mean', 'average'];
   var UNKNOWN = ['unknown', 'not stated', 'not known', 'prefer not to say', 'z', 'x', 'u', ''];
@@ -645,7 +645,59 @@
   }
   function list(v) { return typeof v === 'string' ? [v] : v; }
 
+  // Public sector identifiers (rules.py identifier_ok): format rules, plus check digits where the scheme has one.
+  var POSTCODE_RE = /^(?:GIR ?0AA|[A-PR-UWYZ](?:[0-9]{1,2}|[A-HK-Y][0-9]{1,2}|[0-9][A-HJKPS-UW]|[A-HK-Y][0-9][ABEHMNPRV-Y]) ?[0-9][ABD-HJLNP-UW-Z]{2})$/;
+  var NINO_RE = /^(?!BG|GB|KN|NK|NT|TN|ZZ)[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}[A-D]$/;
+  var ID_FORMATS = { uprn: /^[0-9]{1,12}$/, gss_code: /^[EKLMNSW][0-9]{8}$/, company_number: /^(?:[0-9]{8}|[A-Z]{2}[0-9]{6})$/,
+    charity_number: /^(?:[0-9]{6,7}|SC[0-9]{6}|NIC[0-9]{6})$/, school_urn: /^[0-9]{6}$/, ods_code: /^[A-Z0-9]{3,6}$/ };
+  DQ.IDENTIFIER_SCHEMES = ['nhs_number', 'nino', 'uk_postcode', 'lei'].concat(Object.keys(ID_FORMATS));
+  function nhsNumberOk(s) {
+    s = s.replace(/ /g, '').replace(/-/g, '');
+    if (!/^[0-9]{10}$/.test(s)) return false;
+    var total = 0;
+    for (var i = 0; i < 9; i++) total += Number(s[i]) * (10 - i);
+    var check = 11 - (total % 11);
+    if (check === 11) check = 0;
+    return check !== 10 && check === Number(s[9]);
+  }
+  function leiOk(s) {
+    if (!/^[A-Z0-9]{18}[0-9]{2}$/.test(s)) return false;
+    var digits = s.split('').map(function (c) { return String(parseInt(c, 36)); }).join('');
+    return BigInt(digits) % 97n === 1n;
+  }
+  DQ.identifierOk = function (value, scheme) {
+    if (value === null || value === undefined) return false;
+    var s = pyStrip(pyStr(value));
+    if (s === '') return false;
+    if (scheme === 'nhs_number') return nhsNumberOk(s);
+    if (scheme === 'nino') return NINO_RE.test(s.replace(/ /g, ''));
+    if (scheme === 'uk_postcode') return POSTCODE_RE.test(s);
+    if (scheme === 'lei') return leiOk(s);
+    if (scheme === 'uprn') return ID_FORMATS.uprn.test(s) && Number(s) > 0;
+    if (has(ID_FORMATS, scheme)) return ID_FORMATS[scheme].test(s);
+    throw new Error('unknown identifier scheme ' + pyRepr(scheme));
+  };
+  // Turn every in_valueset rule into an in_set rule (rules.py expand_valuesets). valuesets: {name: [{code, label}]}.
+  DQ.expandValuesets = function (spec, valuesets) {
+    (spec.rules || []).forEach(function (r) {
+      if (r.check !== 'in_valueset') return;
+      var rows = (valuesets || {})[r.valueset];
+      if (!rows) throw new Error('unknown value set ' + pyRepr(r.valueset) + '; see vocab/valuesets/');
+      var key = has(r, 'match') ? r.match : 'label';
+      if (key !== 'label' && key !== 'code') throw new Error('rule ' + pyStr(r.id) + ': match must be label or code');
+      r.check = 'in_set';
+      r.values = rows.map(function (row) { return row[key]; });
+      if (!has(r, 'description')) r.description = 'Value is in the ' + r.valueset + ' list';
+    });
+    return spec;
+  };
+
   DQ.CHECKS = {
+    identifier: function (f, r) {
+      var c = req(r, 'column'), scheme = req(r, 'scheme');
+      if (DQ.IDENTIFIER_SCHEMES.indexOf(scheme) < 0) throw new Error('unknown identifier scheme ' + pyRepr(scheme));
+      return rowwise(f, [c], column(f, c).map(function (v) { return DQ.identifierOk(v, scheme); }), { scheme: scheme });
+    },
     not_null: function (f, r) {
       var c = req(r, 'column');
       return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && pyStrip(pyStr(v)) !== ''; }));
@@ -818,6 +870,9 @@
       var id = req(r, 'id'), key = typeof id + ':' + pyStr(id);
       if (seen.has(key)) throw new Error('duplicate rule id ' + pyStr(id));
       seen.add(key);
+      if (check === 'identifier' && DQ.IDENTIFIER_SCHEMES.indexOf(get(r, 'scheme', null)) < 0) {
+        throw new Error('rule ' + pyStr(id) + ': scheme must be one of ' + DQ.IDENTIFIER_SCHEMES.join(', '));
+      }
       if (DQ.CONTROL_POINTS.indexOf(get(r, 'control_point', 'source')) < 0) {
         throw new Error('rule ' + pyStr(id) + ': control_point must be source, pipeline or reporting');
       }

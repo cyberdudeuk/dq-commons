@@ -42,3 +42,4 @@ caveats-missing,Quality caveats not stated,metadata,accuracy,2,platform,"Known l
 content-error,Error on the page,metadata,accuracy,3,platform,"The page contains a factual error, for example a wrong organisation name.",,This project
 breakdowns-not-stated,Breakdowns by people not stated,metadata,representativeness,2,platform,"For data about people, the page does not say which groups can be compared.",,This project (inclusion)
 nations-not-covered,UK nations not signposted,metadata,representativeness,1,platform,"Data covers part of the UK and does not point users to the other nations.",,This project (inclusion)
+invalid-identifier,Invalid identifier,data,validity,3,provider,"An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation.",,This project

@@ -10,6 +10,7 @@ data quality issues framework (see framework.py).
 """
 from __future__ import annotations
 
+import copy
 import csv
 import re
 from dataclasses import dataclass, field
@@ -49,6 +50,7 @@ DEFAULT_ISSUE = {
     "header_has_unit": "undocumented-measure",
     "not_unknown": "characteristic-defaulted",
     "group_disparity": "group-disparity",
+    "identifier": "invalid-identifier",
 }
 
 # Where the control that prevents each failure best belongs, following the controls model in
@@ -59,7 +61,7 @@ DEFAULT_CONTROL = {
     "not_null": "source", "required_columns": "pipeline", "unique": "pipeline", "type": "source",
     "regex": "source", "in_set": "source", "range": "source", "not_future": "source", "compare": "source",
     "sum_max": "pipeline", "freshness": "pipeline", "no_gaps": "pipeline", "header_has_unit": "reporting",
-    "not_unknown": "source", "group_disparity": "reporting",
+    "not_unknown": "source", "group_disparity": "reporting", "identifier": "source",
 }
 
 UNIT_TOKENS = ("%", "percent", "per cent", "number", "count", "millions", "million", "billion",
@@ -150,6 +152,62 @@ def _rowwise(df, cols, mask) -> tuple[int, int, list]:
     return len(mask), int(mask.sum()), _examples(df, mask, cols)
 
 
+# ---------- public sector identifiers ----------
+# Format rules, plus check digits where the scheme has one. "Format only" schemes can't prove an
+# identifier exists; they catch typing and formatting errors. Sources are in vocab/identifiers.md.
+
+POSTCODE_RE = re.compile(r"(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|[A-HK-Y][0-9]{1,2}|[0-9][A-HJKPS-UW]|[A-HK-Y][0-9][ABEHMNPRV-Y]) ?[0-9][ABD-HJLNP-UW-Z]{2})")
+NINO_RE = re.compile(r"(?!BG|GB|KN|NK|NT|TN|ZZ)[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}[A-D]")
+ID_FORMATS = {
+    "uprn": re.compile(r"[0-9]{1,12}"),
+    "gss_code": re.compile(r"[EKLMNSW][0-9]{8}"),
+    "company_number": re.compile(r"[0-9]{8}|[A-Z]{2}[0-9]{6}"),
+    "charity_number": re.compile(r"[0-9]{6,7}|SC[0-9]{6}|NIC[0-9]{6}"),
+    "school_urn": re.compile(r"[0-9]{6}"),
+    "ods_code": re.compile(r"[A-Z0-9]{3,6}"),
+}
+IDENTIFIER_SCHEMES = ("nhs_number", "nino", "uk_postcode", "lei") + tuple(ID_FORMATS)
+
+
+def _nhs_number_ok(s: str) -> bool:
+    s = s.replace(" ", "").replace("-", "")
+    if re.fullmatch(r"[0-9]{10}", s) is None:
+        return False
+    total = sum(int(d) * w for d, w in zip(s[:9], range(10, 1, -1)))
+    check = 11 - total % 11
+    if check == 11:
+        check = 0
+    return check != 10 and check == int(s[9])
+
+
+def _lei_ok(s: str) -> bool:
+    if re.fullmatch(r"[A-Z0-9]{18}[0-9]{2}", s) is None:
+        return False
+    digits = "".join(str(int(c, 36)) for c in s)
+    return int(digits) % 97 == 1
+
+
+def identifier_ok(value: Any, scheme: str) -> bool:
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return False
+    s = str(value).strip()
+    if s == "":
+        return False
+    if scheme == "nhs_number":
+        return _nhs_number_ok(s)
+    if scheme == "nino":
+        return NINO_RE.fullmatch(s.replace(" ", "")) is not None
+    if scheme == "uk_postcode":
+        return POSTCODE_RE.fullmatch(s) is not None
+    if scheme == "lei":
+        return _lei_ok(s)
+    if scheme == "uprn":
+        return ID_FORMATS["uprn"].fullmatch(s) is not None and int(s) > 0
+    if scheme in ID_FORMATS:
+        return ID_FORMATS[scheme].fullmatch(s) is not None
+    raise ValueError(f"unknown identifier scheme {scheme!r}")
+
+
 # ---------- checks ----------
 
 def check_not_null(df, r):
@@ -188,6 +246,14 @@ def check_in_set(df, r):
     col, allowed = r["column"], set(map(str, r["values"]))
     mask = df[col].astype(str).isin(allowed)
     return _rowwise(df, [col], mask) + ({},)
+
+
+def check_identifier(df, r):
+    col, scheme = r["column"], r["scheme"]
+    if scheme not in IDENTIFIER_SCHEMES:
+        raise ValueError(f"unknown identifier scheme {scheme!r}")
+    mask = df[col].map(lambda v: identifier_ok(v, scheme))
+    return _rowwise(df, [col], mask) + ({"scheme": scheme},)
 
 
 def check_range(df, r):
@@ -302,21 +368,55 @@ CHECKS = {
     "header_has_unit": lambda df, r, a: check_header_has_unit(df, r),
     "not_unknown": lambda df, r, a: check_not_unknown(df, r),
     "group_disparity": check_group_disparity,
+    "identifier": lambda df, r, a: check_identifier(df, r),
 }
 
 
 # ---------- running a rules file ----------
 
+VALUESET_DIR = VOCAB_DIR / "valuesets"
+
+
+def load_valueset(name: str) -> list:
+    p = VALUESET_DIR / f"{name}.csv"
+    if not re.fullmatch(r"[a-z0-9_]+", name or "") or not p.exists():
+        raise ValueError(f"unknown value set {name!r}; see vocab/valuesets/")
+    with open(p, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+def expand_valuesets(spec: dict, valuesets: dict | None = None) -> dict:
+    """Turn every `in_valueset` rule into an `in_set` rule with the listed values (in place)."""
+    for r in spec.get("rules", []):
+        if r.get("check") == "in_valueset":
+            rows = (valuesets or {}).get(r.get("valueset")) or load_valueset(r.get("valueset"))
+            key = r.get("match", "label")
+            if key not in ("label", "code"):
+                raise ValueError(f"rule {r.get('id')}: match must be label or code")
+            r["check"] = "in_set"
+            r["values"] = [row[key] for row in rows]
+            r.setdefault("description", f"Value is in the {r['valueset']} list")
+    return spec
+
+
 def load_rules(path: str | Path) -> dict:
     with open(path, encoding="utf-8") as f:
         spec = yaml.safe_load(f)
+    expand_valuesets(spec)
     validate_spec(spec)
+    return spec
+
+
+def _with_valuesets(spec: dict) -> dict:
+    if isinstance(spec, dict) and any(isinstance(r, dict) and r.get("check") == "in_valueset" for r in spec.get("rules") or []):
+        return expand_valuesets(copy.deepcopy(spec))
     return spec
 
 
 def validate_spec(spec: dict) -> None:
     if "asset" not in spec or "rules" not in spec:
         raise ValueError("a rules file needs 'asset' and 'rules'")
+    spec = _with_valuesets(spec)
     framework._check_level("asset.importance", spec["asset"].get("importance", 3))
     if spec["asset"].get("target_policy", framework.DEFAULT_POLICY) not in framework.TARGET_POLICIES:
         raise ValueError("asset.target_policy must be low, mid or high")
@@ -327,6 +427,8 @@ def validate_spec(spec: dict) -> None:
         if r["id"] in seen:
             raise ValueError(f"duplicate rule id {r['id']}")
         seen.add(r["id"])
+        if r.get("check") == "identifier" and r.get("scheme") not in IDENTIFIER_SCHEMES:
+            raise ValueError(f"rule {r['id']}: scheme must be one of {', '.join(IDENTIFIER_SCHEMES)}")
         if r.get("control_point", "source") not in CONTROL_POINTS:
             raise ValueError(f"rule {r['id']}: control_point must be source, pipeline or reporting")
         it = r.get("issue_type", DEFAULT_ISSUE[r["check"]])
@@ -336,6 +438,7 @@ def validate_spec(spec: dict) -> None:
 
 def run(df: pd.DataFrame, spec: dict, as_of: Optional[date] = None) -> dict:
     as_of = as_of or date.today()
+    spec = _with_valuesets(spec)
     asset = spec["asset"]
     importance = int(asset.get("importance", 3))
     results = []

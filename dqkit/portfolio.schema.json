@@ -81,9 +81,67 @@
             "description": "Path to the asset's rules file (YAML)"
           },
           "data": {
-            "type": "string",
-            "minLength": 1,
-            "description": "Path to the asset's data file (CSV)"
+            "description": "Where the data is: a file path (CSV, TSV, XLSX, ODS, JSON, JSONL, Parquet, SQLite; type from the extension), or a source object (see dqkit/sources.py)",
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "csv",
+                      "tsv",
+                      "xlsx",
+                      "xlsm",
+                      "ods",
+                      "json",
+                      "jsonl",
+                      "parquet",
+                      "sqlite",
+                      "sql",
+                      "ckan"
+                    ]
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "sheet": {
+                    "type": [
+                      "string",
+                      "integer"
+                    ]
+                  },
+                  "table": {
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "dataset": {
+                    "type": "string"
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "encoding": {
+                    "type": "string"
+                  },
+                  "header_row": {
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              }
+            ]
           },
           "enabled": {
             "type": "boolean",

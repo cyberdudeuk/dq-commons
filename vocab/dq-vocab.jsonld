@@ -813,6 +813,22 @@
       "ndq:defaultImpact": 1,
       "ndq:responsibility": "platform",
       "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/invalid-identifier",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Invalid identifier",
+      "skos:definition": "An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
     }
   ]
 }

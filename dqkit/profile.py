@@ -117,6 +117,34 @@ def _find_key(df: pd.DataFrame, cols: dict) -> Optional[list]:
     return None
 
 
+# Identifier detection: (scheme, share of values that must pass, words in the column name that also count)
+ID_HINTS = [("nhs_number", 0.9, ("nhs",)), ("nino", 0.9, ("nino", "national insurance", "ni_number", "ni number")),
+            ("uk_postcode", 0.8, ("postcode", "post code")), ("lei", 0.9, ("lei",)), ("uprn", 0.9, ("uprn",)),
+            ("company_number", 0.9, ("company number", "company_number", "crn")),
+            ("charity_number", 0.9, ("charity",)), ("school_urn", 0.9, ("urn",)), ("ods_code", 0.9, ("ods",))]
+
+
+def _identifier_scheme(series: pd.Series, name: str) -> Optional[tuple]:
+    """(scheme, % passing) if a column looks like a known identifier, else None.
+
+    Strong schemes (check digits or distinctive formats) are detected from values alone. Weak ones
+    (plain digit runs) also need a hint in the column name, so a column of counts is never mistaken
+    for UPRNs."""
+    vals = [v for v in series.dropna().astype(str) if v.strip()]
+    if len(vals) < 3:
+        return None
+    lname = name.lower().replace("-", " ")
+    for scheme, need, words in ID_HINTS:
+        named = any(w in lname or w.replace(" ", "_") in lname for w in words)
+        strong = scheme in ("nhs_number", "nino", "uk_postcode", "lei")
+        if not (strong or named):
+            continue
+        share = sum(rules.identifier_ok(v, scheme) for v in vals) / len(vals)
+        if share >= need and (named or share >= 0.98):
+            return scheme, round(100 * share)
+    return None
+
+
 def _rule(rules_list, check, why, **fields):
     rid = f"R{len(rules_list) + 1}"
     r = {"id": rid, "check": check, **fields}
@@ -169,6 +197,12 @@ def suggest(df: pd.DataFrame, asset: dict, prof: Optional[dict] = None) -> dict:
         if p["geography"]:
             add("regex", f"{round(100 * p['geography_share'])}% of values look like GSS geography codes (for example E06000001).",
                 column=c, pattern=GEOGRAPHY.pattern.strip("^$"), description=f"{c} is a 9-character GSS geography code")
+    for c, p in cols.items():
+        sch = _identifier_scheme(df[c], c)
+        if sch:
+            add("identifier", f"{sch[1]}% of values pass the {sch[0]} rules, so this looks like that identifier. "
+                "Identifiers that fail can't be linked to the right record.",
+                column=c, scheme=sch[0], description=f"{c} is a valid {sch[0].replace('_', ' ')}")
     for c, p in cols.items():
         if p["kind"] in ("year", "year_label"):
             add("no_gaps", "This looks like a time series; a missing period is easy to miss in a chart.",

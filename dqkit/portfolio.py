@@ -29,7 +29,7 @@ from typing import Optional
 import pandas as pd
 import yaml
 
-from . import casestudy, cdareturn, dqv, exporters, metadata, operations, pathway, rules, trust, workbook
+from . import casestudy, cdareturn, dqv, exporters, metadata, operations, pathway, rules, sources, trust, workbook
 
 SCHEMA_PATH = Path(__file__).resolve().parent / "portfolio.schema.json"
 PRIORITY_ORDER = {"Critical": 0, "High": 1, "Medium": 2, "Low": 3}
@@ -321,10 +321,12 @@ def run(portfolio_path, as_of: Optional[date] = None, out_dir=None, history: boo
         if not entry.get("enabled", True):
             skipped.append({"rules_file": entry["rules"], "reason": "disabled"})
             continue
-        rp, dp = base / entry["rules"], base / entry["data"]
+        rp = base / entry["rules"]
+        dsrc = entry["data"]
+        dp = base / dsrc if isinstance(dsrc, str) else None
         if not rp.exists():
             raise PortfolioError(f"{label}: the rules file was not found at {rp}")
-        if not dp.exists():
+        if dp is not None and not dp.exists():
             raise PortfolioError(f"{label}: the data file '{entry['data']}' was not found at {dp}")
         try:
             spec = rules.load_rules(rp)
@@ -349,7 +351,7 @@ def run(portfolio_path, as_of: Optional[date] = None, out_dir=None, history: boo
             log(f"  {aid}: not due ({entry['schedule']}); last measured {res['as_of']}, next due {s['next_due']}")
         else:
             try:
-                df = _read_csv(dp)
+                df = sources.read(dsrc, base)
             except Exception as e:  # noqa: BLE001 - any read problem is reported in plain English
                 raise PortfolioError(f"{label}: could not read the data file '{entry['data']}': {e}") from None
             try:

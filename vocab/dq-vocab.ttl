@@ -527,3 +527,13 @@ ndq:accessibility-clarity a dqv:Dimension, skos:Concept ;
     ndq:defaultImpact 1 ;
     ndq:responsibility "platform"@en ;
     dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/invalid-identifier> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Invalid identifier"@en ;
+    skos:definition "An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .

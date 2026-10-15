@@ -359,3 +359,48 @@ class SurveyAnalysis(unittest.TestCase):
             out = survey.write(orgs, sols, s, f"{d}/out")
             text = "".join(p.read_text() for p in pathlib.Path(out).iterdir())
             self.assertNotIn("example.org", text); self.assertNotIn("Person A", text)
+
+
+class RuleLibrary(unittest.TestCase):
+    """Public sector identifiers, value sets and the rule library templates."""
+
+    def test_identifier_schemes(self):
+        good = {"nhs_number": ["9434765919", "943 476 5919"], "nino": ["AB123456C", "AB 12 34 56 C"],
+                "uk_postcode": ["SW1A 1AA", "EC1A1BB", "GIR 0AA"], "uprn": ["100023336956"], "gss_code": ["E09000001"],
+                "company_number": ["SC123456", "01234567"], "charity_number": ["1234567", "SC012345", "NIC100002"],
+                "school_urn": ["100000"], "ods_code": ["RX1"], "lei": ["5493001KJTIIGC8Y1R12"]}
+        bad = {"nhs_number": ["9434765918", "123"], "nino": ["QQ123456C", "BG123456A", "AB123456E"],
+               "uk_postcode": ["sw1a 1aa", "SW1A 1AAA"], "uprn": ["0", "1234567890123"], "gss_code": ["X12345678"],
+               "company_number": ["AB12345"], "charity_number": ["SC12345"], "school_urn": ["12345"], "ods_code": ["ab1"],
+               "lei": ["5493001KJTIIGC8Y1R13"]}
+        for scheme, vals in good.items():
+            for v in vals:
+                self.assertTrue(rules.identifier_ok(v, scheme), (scheme, v))
+        for scheme, vals in bad.items():
+            for v in vals:
+                self.assertFalse(rules.identifier_ok(v, scheme), (scheme, v))
+        self.assertEqual(set(good), set(rules.IDENTIFIER_SCHEMES))
+
+    def test_identifier_rule_and_unknown_scheme(self):
+        df = pd.DataFrame({"nhs": ["9434765919", "9434765918", None]})
+        spec = {"asset": {"id": "x"}, "rules": [{"id": "R1", "check": "identifier", "column": "nhs", "scheme": "nhs_number"}]}
+        res = rules.run(df, spec, as_of=date(2026, 10, 15))
+        self.assertEqual((res["results"][0]["checked"], res["results"][0]["passed"]), (3, 1))
+        self.assertEqual(res["results"][0]["issue_type"], "invalid-identifier")
+        with self.assertRaises(ValueError):
+            rules.validate_spec({"asset": {"id": "x"}, "rules": [{"id": "R1", "check": "identifier", "column": "a", "scheme": "passport"}]})
+
+    def test_valueset_expansion(self):
+        spec = {"asset": {"id": "x"}, "rules": [{"id": "R1", "check": "in_valueset", "column": "n", "valueset": "uk_nations"}]}
+        res = rules.run(pd.DataFrame({"n": ["Wales", "UK"]}), spec, as_of=date(2026, 10, 15))
+        self.assertEqual(res["results"][0]["passed"], 1)
+        self.assertEqual(spec["rules"][0]["check"], "in_valueset")  # caller's spec is not changed
+        with self.assertRaises(ValueError):
+            rules.load_valueset("../etc/passwd")
+
+    def test_library_templates_load(self):
+        from pathlib import Path
+        files = sorted((Path(__file__).resolve().parent.parent / "rules" / "library").glob("*.yaml"))
+        self.assertGreaterEqual(len(files), 5)
+        for f in files:
+            self.assertTrue(rules.load_rules(f)["rules"], f.name)

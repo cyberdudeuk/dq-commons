@@ -12,6 +12,7 @@ Run:  python scripts/parity_check.py          (exits 1 on any mismatch)
 """
 from __future__ import annotations
 
+import copy
 import csv
 import io
 import json
@@ -496,13 +497,17 @@ def micro_case():
         "durations": [attempt(lambda s=s: rules.iso_duration_days(s)) for s in DURATIONS],
         "csvs": [py_parse(t) for t in CSV_TEXTS],
         "validate": [attempt(lambda s=s: rules.validate_spec(s) or "ok") for s in VALIDATE],
+        "identifiers": [attempt(lambda v=v, k=k: rules.identifier_ok(v, k)) for v, k in IDENTIFIERS],
+        "valuesets": [attempt(lambda: rules.expand_valuesets(copy.deepcopy(E_SPEC_RAW), VALUESETS)),
+                      attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, VALUESETS)),
+                      attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}, VALUESETS))],
         "misc": {"targets": [framework.default_target(s) for s in (3, 6, 9, 16)], "mid4": framework.default_target(4, "mid"),
                  "bands": [framework.bands(t) for t in (75, 90, 95, 97.5, 99.9, 100)],
                  "route": [pathway.route(a) for a in ROUTES], "trust": [trust.classify(r, p) for r, p in trusts]},
     }
     js_in = {"name": "micro", "kind": "micro", "numbers": numbers, "types": TYPES, "dates": DATES, "regex": REGEX,
              "rounds": round_cases(), "reprs": REPRS, "error_rates": ERROR_PERCENTS, "sums": sums, "durations": DURATIONS,
-             "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts}
+             "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts, "identifiers": IDENTIFIERS, "valueset_specs": [copy.deepcopy(E_SPEC_RAW), {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}], "valuesets_data": VALUESETS}
     return py, js_in
 
 
@@ -529,10 +534,11 @@ def check_micro(workdir) -> dict:
                          for x, a, b in zip(REPRS, py["repr_text"], js["reprs"]) if a != b]
     labelled = {"types": "type checks (_is_type)", "dates": "date parsing (_parse_date)", "regex": "regex translation (fullmatch)",
                 "error_rates": "error_rate text", "durations": "ISO durations", "csvs": "CSV reading (read_csv)",
-                "validate": "validate_spec messages", "misc": "targets, bands, routes, trust"}
+                "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",
+                "identifiers": "identifier formats and check digits", "valuesets": "value set expansion"}
     for k, label in labelled.items():
         a, b = norm(py[k]), js[k]
-        if k in ("regex", "types", "dates", "durations", "csvs"):  # failures: compare that both fail, not the wording
+        if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets"):  # failures: compare that both fail, not the wording
             a = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in a]
             b = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in b]
         errs = compare(a, b, k)
@@ -570,6 +576,35 @@ def check_ops(name, cycles, spec, workdir, extra_history=None) -> list:
     return compare(norm(res), js["result"], "result") + compare(norm(py_ops), js["ops"], "ops")
 
 
+E_HEADER = ["nhs", "nino", "postcode", "uprn", "gss", "company", "charity", "urn", "ods", "lei", "ethnic", "nation"]
+E_ROWS = [
+    ["9434765919", "AB123456C", "SW1A 1AA", "100023336956", "E09000001", "SC123456", "NIC100002", "100000", "RX1", "5493001KJTIIGC8Y1R12", "White", "Wales"],
+    ["943 476 5919", "AB 12 34 56 C", "EC1A1BB", "1", "W06000015", "01234567", "1234567", "12345", "A1B2C3D", "5493001KJTIIGC8Y1R13", "Other ethnic group", "England"],
+    ["9434765918", "QQ123456C", "sw1a 1aa", "0", "X12345678", "AB12345", "SC12345", "1234567", "ab1", "549300", "white", "UK"],
+    ["", "BG123456A", "GIR 0AA", "1234567890123", "E0900000", "OC000001", "123456", "abcdef", "R1A", "", "Mixed or Multiple ethnic groups", "Northern Ireland"],
+    ["0000000000", "AB123456E", "M1 1AE", "12a", "S12000033", "12345678", "1234567-1", "654321", "12345", "5493001KJTIIGC8Y1R1", "", "Scotland"],
+]
+E_SPEC_RAW = {"asset": {"id": "fixture-e-identifiers", "importance": 4, "target_policy": "high"}, "rules": [
+    {"id": "E01", "check": "identifier", "column": "nhs", "scheme": "nhs_number"},
+    {"id": "E02", "check": "identifier", "column": "nino", "scheme": "nino"},
+    {"id": "E03", "check": "identifier", "column": "postcode", "scheme": "uk_postcode"},
+    {"id": "E04", "check": "identifier", "column": "uprn", "scheme": "uprn"},
+    {"id": "E05", "check": "identifier", "column": "gss", "scheme": "gss_code"},
+    {"id": "E06", "check": "identifier", "column": "company", "scheme": "company_number"},
+    {"id": "E07", "check": "identifier", "column": "charity", "scheme": "charity_number"},
+    {"id": "E08", "check": "identifier", "column": "urn", "scheme": "school_urn"},
+    {"id": "E09", "check": "identifier", "column": "ods", "scheme": "ods_code"},
+    {"id": "E10", "check": "identifier", "column": "lei", "scheme": "lei"},
+    {"id": "E11", "check": "in_valueset", "column": "ethnic", "valueset": "ethnic_group_ew_2021_high_level"},
+    {"id": "E12", "check": "in_valueset", "column": "nation", "valueset": "uk_nations", "match": "label"},
+]}
+VALUESETS = {n: rules.load_valueset(n) for n in ("uk_nations", "ethnic_group_ew_2021_high_level")}
+IDENTIFIERS = [[r[i], s] for r in E_ROWS for i, s in enumerate(
+    ["nhs_number", "nino", "uk_postcode", "uprn", "gss_code", "company_number", "charity_number", "school_urn", "ods_code", "lei"])]
+IDENTIFIERS += [[" 9434765919 ", "nhs_number"], ["94347659１9", "nhs_number"], ["AB123456 C", "nino"], ["SW1A  1AA", "uk_postcode"], [None, "nino"],
+                ["x", "not_a_scheme"]]
+
+
 def cases():
     out = []
     for rf, cf in CHARTS.items():
@@ -585,6 +620,8 @@ def cases():
     out.append({"name": "fixture B finance (high policy)", "csv": tb, "spec": sb, "as_of": AS_OF.isoformat()})
     out.append({"name": "fixture C survey (low policy)", "csv": csv_text(C_ROWS, C_HEADER), "spec": C_SPEC, "as_of": AS_OF.isoformat()})
     out.append({"name": "fixture D header only", "csv": D_TEXT, "spec": D_SPEC, "as_of": AS_OF.isoformat()})
+    out.append({"name": "fixture E identifiers and value sets", "csv": csv_text(E_ROWS, E_HEADER),
+                "spec": rules.expand_valuesets(copy.deepcopy(E_SPEC_RAW), VALUESETS), "as_of": AS_OF.isoformat()})
     return out
 
 
@@ -599,7 +636,8 @@ def check_coverage(all_cases) -> list:
             "range max only": any(r["check"] == "range" and "max" in r and "min" not in r for r in used),
             "compare ops": {r["op"] for r in used if r["check"] == "compare"} >= {"<", "<=", ">", ">=", "==", "!="},
             "type kinds": {r["kind"] for r in used if r["check"] == "type"} >= {"integer", "number", "year", "date"},
-            "unique on several columns": any(r["check"] == "unique" and len(r["columns"]) > 1 for r in used)}
+            "unique on several columns": any(r["check"] == "unique" and len(r["columns"]) > 1 for r in used),
+            "every identifier scheme": {r["scheme"] for r in used if r["check"] == "identifier"} >= set(rules.IDENTIFIER_SCHEMES)}
     return [f"check type never exercised: {m}" for m in missing] + [f"variant never exercised: {k}" for k, ok in need.items() if not ok]
 
 

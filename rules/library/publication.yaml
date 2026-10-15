@@ -1,0 +1,13 @@
+# Starting rules for a published statistics or open data file.
+asset:
+  id: my-publication
+  title: Published data file (template)
+  owner: '[organisation]'
+  importance: 3
+  measurement_cycle: P1Y
+rules:
+  - {id: S01, check: header_has_unit, description: Every measure column says what it counts}
+  - {id: S02, check: type, column: year, kind: year, description: Year is a 4-digit year}
+  - {id: S03, check: no_gaps, column: year, description: No missing years in the series}
+  - {id: S04, check: freshness, column: year, expected: P1Y, lag: P6M, description: Latest year is recent enough for an annual release}
+  - {id: S05, check: unique, columns: [year], description: One row per year}

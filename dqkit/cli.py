@@ -1,6 +1,6 @@
 """Command line: python -m dqkit <command> ...
 
-  check   DATA.csv RULES.yaml [--as-of YYYY-MM-DD] [--out DIR] [--history DIR] [--workbook] [--case-study]
+  check   DATA RULES.yaml [--as-of YYYY-MM-DD] [--out DIR] [--history DIR] [--workbook] [--case-study]
           run rules; write results, DQV, DQAP CSVs, trust level and (optionally) a filled DQAP Excel workbook
   export  RULES.yaml --to gx|r-validate                          print a Great Expectations suite or R validate rules
   survey  FORMS_EXPORT.xlsx [--out DIR]                           reshape and summarise the DQ tooling survey (personal data removed)
@@ -20,7 +20,29 @@ from pathlib import Path
 
 import pandas as pd
 
-from . import casestudy, dqv, exporters, metadata, operations, pathway, rules, trust
+from . import casestudy, dqv, exporters, metadata, operations, pathway, rules, sources, trust
+
+
+def _source_args(parser):
+    parser.add_argument("--type", choices=["csv", "tsv", "xlsx", "xlsm", "ods", "json", "jsonl", "parquet", "sqlite"],
+                        help="kind of data file, if the extension doesn't say")
+    parser.add_argument("--sheet", help="spreadsheet sheet name or number (first sheet if left out)")
+    parser.add_argument("--table", help="SQLite table to read")
+    parser.add_argument("--query", help="read-only SELECT query for a SQLite file")
+
+
+def _source(a):
+    """A data source from the command line: a path, plus optional --type, --sheet, --table, --query."""
+    extra = {k: getattr(a, k) for k in ("sheet", "table", "query") if getattr(a, k, None) not in (None, "")}
+    if getattr(a, "type", None) or extra:
+        src = sources.normalise({"type": a.type, "path": a.data} if getattr(a, "type", None) else a.data)
+        if isinstance(src.get("sheet"), str) and src["sheet"].isdigit():
+            src["sheet"] = int(src["sheet"])
+        src.update(extra)
+        if isinstance(src.get("sheet"), str) and src["sheet"].isdigit():
+            src["sheet"] = int(src["sheet"])
+        return src
+    return a.data
 
 
 def _date(s):
@@ -34,6 +56,7 @@ def main(argv=None) -> int:
     c = sub.add_parser("check")
     c.add_argument("data"); c.add_argument("rules"); c.add_argument("--as-of"); c.add_argument("--out", default="dq-results")
     c.add_argument("--history", help="folder that keeps each run, so results show trends over time")
+    _source_args(c)
     c.add_argument("--workbook", action="store_true", help="also write a filled-in DQAP workbook (.xlsx)")
     c.add_argument("--case-study", action="store_true", help="also draft a GDS-style case study (.md and .docx)")
     e = sub.add_parser("export")
@@ -56,7 +79,8 @@ def main(argv=None) -> int:
     g = sub.add_parser("suggest", help="draft a starter rules file from a data file",
                        description="Look at a data file (missing values, types, codes, years, keys) and draft a rules "
                                    "file. Every rule is a suggestion for a data steward to review.")
-    g.add_argument("data", help="the data file (CSV)")
+    g.add_argument("data", help="the data: a file (CSV, TSV, XLSX, ODS, JSON, JSONL, Parquet, SQLite)")
+    _source_args(g)
     g.add_argument("--id", help="short asset id. Default: the file name")
     g.add_argument("--title", help="asset title")
     g.add_argument("--owner", help="organisation that owns the data")
@@ -65,7 +89,11 @@ def main(argv=None) -> int:
 
     if a.cmd == "check":
         spec = rules.load_rules(a.rules)
-        df = pd.read_csv(a.data, dtype=str, keep_default_na=False, na_values=[""], encoding="utf-8-sig")
+        try:
+            df = sources.read(_source(a))
+        except sources.SourceError as e:
+            print(f"Problem: {e}", file=sys.stderr)
+            return 1
         res = rules.run(df, spec, _date(a.as_of))
         res["trust"] = trust.classify(res, spec["asset"].get("personal_data_columns"))
         res["route"] = pathway.route(spec["asset"])
@@ -126,10 +154,11 @@ def main(argv=None) -> int:
     if a.cmd == "suggest":
         from . import profile
         src = Path(a.data)
-        if not src.exists():
-            print(f"Problem: data file not found: {src}", file=sys.stderr)
+        try:
+            df = sources.read(_source(a))
+        except sources.SourceError as e:
+            print(f"Problem: {e}", file=sys.stderr)
             return 1
-        df = pd.read_csv(src, dtype=str, keep_default_na=False, na_values=[""], encoding="utf-8-sig")
         aid = a.id or src.name.split(".")[0].replace("__", "-").replace("_", "-").lower()
         spec = profile.suggest(df, {"id": aid, "title": a.title, "owner": a.owner})
         text = profile.to_yaml(spec, src.name)
