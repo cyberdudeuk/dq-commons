@@ -42,7 +42,10 @@ table can take the extension's fields as columns (see the LLD mapping).
 | `metadata.py` | 20 requirement checks on catalogue records; 13 CDA properties; portfolio scoring | `assess_record`, `assess_portfolio` |
 | `dqv.py` | Results to W3C DQV JSON-LD | `result_to_dqv` |
 | `exporters.py` | Great Expectations, R validate, DQAP CSVs | `to_great_expectations`, `to_r_validate`, `to_dqap_csv` |
-| `cli.py` | Plain command line | `check` (with `--workbook`, `--history`), `export`, `assess-metadata` |
+| `cli.py` | Plain command line | `check` (with `--workbook`, `--history`), `export`, `assess-metadata`, `run`, `suggest` |
+| `portfolio.py` | Run many assets from one portfolio file (`portfolio.schema.json`): per-asset outputs, schedule (due or carried forward), changes since the last run, escalations, merged DQV catalogue, run summary | `run(portfolio_path, as_of, out_dir)`, `validate`, `build_escalations`, `compare` |
+| `profile.py` | Profile a data file and draft a starter rules file for a steward to review | `profile(df)`, `suggest(df, asset)`, `to_yaml(spec)` |
+| `.github/workflows/dq-pipeline.yml` | Weekly pipeline: tests, `dqkit run`, commit results, GitHub issues per escalation, portal to GitHub Pages | GitHub Actions (schedule, manual run with `as_of`) |
 | `trust.py` | IOPC-style trust level, with reasons | `classify(result)` |
 | `pathway.py` | DQAP route from the 2023 decision tree | `route(asset)` |
 | `workbook.py` | Filled-in DQAP workbook (11 tabs) and run history | `build`, `append_history` |
@@ -88,6 +91,33 @@ label as covering the whole year. It passes when (as_of − end of the latest pe
 | quality_measurements (per dimension, mean) | `gds_dq_completeness` … `gds_dq_accuracy` | Decimal (0–100) |
 | quality_issues (counts by priority) | `gds_dqissues_critical`, `_high`, `_medium`, `_low` | Whole number |
 | inclusion_assessed | `gds_dqinclusionassessed` | Yes/No |
+
+### Operations
+
+The kit runs as a scheduled pipeline (runbook: [`OPERATIONS.md`](OPERATIONS.md)).
+
+```mermaid
+flowchart LR
+  P[portfolio.ndl.yaml] --> R[dqkit run]
+  H[(history CSVs)] <--> R
+  R --> PJ[portfolio.json] --> PORTAL[Web portal on GitHub Pages]
+  R --> ES[escalations.json] --> GI[GitHub issues, label dq-escalation]
+  R --> CAT[catalogue.dqv.jsonld] --> C[Catalogue]
+  R --> RS[run-summary.md]
+```
+
+- **Portfolio file**: one YAML file lists each asset's rules and data files, with an optional
+  schedule and tags. It is checked against `dqkit/portfolio.schema.json` (JSON Schema 2020-12).
+- **Determinism**: results depend only on the data, the rules and `--as-of`. `run_at` is the only
+  clock value (fixed by `SOURCE_DATE_EPOCH` if set). `fingerprint` hashes what was measured, so the
+  pipeline commits only when results change.
+- **History**: one CSV per asset. Re-running a date replaces that date's rows (no double counting of cycles).
+- **Schedule**: an asset that is not due is carried forward from the last run, without adding a cycle.
+- **Changes**: `new`, `resolved` and `still_open` issues compare this run's `portfolio.json` with the previous one in the same folder.
+- **Escalation**: priorities in `notify.escalate_priorities` (default Critical, High) that are overdue
+  under the issues framework windows (D-026). Who acts comes from the DQAP route.
+- **Merged catalogue**: DQV graphs are merged by `@id`. A chart file and its NDL page share an IRI, so
+  their measurements sit on one `dcat:Dataset` node.
 
 ### Security and privacy
 - The kit reads files locally and makes no network calls.

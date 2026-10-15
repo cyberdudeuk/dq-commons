@@ -67,6 +67,8 @@ def target_range(combined: int) -> tuple[float, float]:
 
 
 def default_target(combined: int, policy: str = DEFAULT_POLICY) -> float:
+    if policy not in TARGET_POLICIES:
+        raise ValueError(f"target policy must be low, mid or high, not {policy!r}")
     return TARGET_POLICIES[policy][target_range(combined)]
 
 

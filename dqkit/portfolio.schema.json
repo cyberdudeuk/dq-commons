@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberdudeuk.github.io/ndl-dq-assurance/dqkit/portfolio.schema.json",
+  "title": "dqkit portfolio file",
+  "description": "A list of data assets to measure together on a schedule. Used by `python -m dqkit run PORTFOLIO.yaml`. Paths are relative to the portfolio file, except history_dir, which is relative to the output folder.",
+  "type": "object",
+  "required": ["portfolio", "assets"],
+  "additionalProperties": false,
+  "properties": {
+    "portfolio": {
+      "type": "object",
+      "description": "Who the portfolio belongs to.",
+      "required": ["id", "title", "owner"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$", "description": "Short identifier, no spaces"},
+        "title": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1, "description": "The organisation or team accountable for the portfolio"},
+        "as_of": {"type": "string", "format": "date", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "Optional fixed measurement date (YYYY-MM-DD). The --as-of option overrides it; otherwise today is used."}
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "target_policy": {"enum": ["low", "mid", "high"], "description": "Used for any rules file that does not set its own target_policy"},
+        "history_dir": {"type": "string", "description": "Where the measurement history is kept. Relative to the output folder unless absolute. Default: history"},
+        "out_dir": {"type": "string", "description": "Where results are written, relative to the portfolio file. The --out option overrides it."}
+      }
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["rules", "data"],
+        "additionalProperties": false,
+        "properties": {
+          "rules": {"type": "string", "minLength": 1, "description": "Path to the asset's rules file (YAML)"},
+          "data": {"type": "string", "minLength": 1, "description": "Path to the asset's data file (CSV)"},
+          "enabled": {"type": "boolean", "default": true, "description": "Set to false to skip this asset without deleting it"},
+          "schedule": {"enum": ["weekly", "monthly", "quarterly", "annual"], "description": "How often to re-measure. Between due dates, the last result is carried forward. Leave out to measure on every run."},
+          "tags": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "notify": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "escalate_priorities": {
+          "type": "array", "uniqueItems": true,
+          "items": {"enum": ["Critical", "High", "Medium", "Low"]},
+          "description": "Issue priorities that are escalated. Default: Critical and High."
+        },
+        "escalate_when": {
+          "enum": ["overdue", "open"],
+          "description": "overdue (default): escalate only when an issue has been open longer than the issues framework allows. open: escalate as soon as an issue of these priorities appears."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "records": {"type": "string", "minLength": 1, "description": "Optional JSON Lines file of catalogue records to assess against GOV.UK requirements"}
+      }
+    }
+  }
+}

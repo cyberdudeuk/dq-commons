@@ -7,7 +7,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
-      - run: pip install pandas pyyaml jsonschema openpyxl
+      # python-docx is needed for the draft case study (.docx)
+      - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
       - run: python scripts/build_vocab.py && git diff --exit-code vocab/
       - run: python scripts/run_ndl_assessment.py
+      # Smoke test: the whole portfolio runs end to end into a scratch folder
+      - run: python -m dqkit run portfolio.ndl.yaml --out /tmp/dq-ci --as-of 2026-10-14

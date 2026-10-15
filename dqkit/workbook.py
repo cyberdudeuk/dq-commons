@@ -47,16 +47,29 @@ RACI = [
 
 # ---------- history ----------
 
+HISTORY_HEADER = ["date", "rule_id", "value", "target", "meets_target"]
+
+
 def append_history(result: dict, history_dir: str | Path) -> Path:
+    """Add this run to the asset's history CSV.
+
+    Re-running the same date replaces that date's rows instead of adding duplicates, so a
+    measurement cycle is counted once however many times it is re-run. Rows stay in date order.
+    """
     d = Path(history_dir); d.mkdir(parents=True, exist_ok=True)
     p = d / f"{result['asset']['id']}.history.csv"
-    new = not p.exists()
-    with open(p, "a", newline="", encoding="utf-8") as f:
-        w = csv.writer(f)
-        if new:
-            w.writerow(["date", "rule_id", "value", "target", "meets_target"])
-        for r in result["results"]:
-            w.writerow([result["as_of"], r["id"], r["performance"], r["assessment"]["target"], r["assessment"]["meets_target"]])
+    kept = []
+    if p.exists():
+        with open(p, newline="", encoding="utf-8") as f:
+            kept = [row for row in csv.DictReader(f) if row.get("date") != result["as_of"]]
+    new_rows = [{"date": result["as_of"], "rule_id": r["id"], "value": r["performance"],
+                 "target": r["assessment"]["target"], "meets_target": r["assessment"]["meets_target"]}
+                for r in result["results"]]
+    rows = sorted(kept + new_rows, key=lambda row: row["date"])  # stable: keeps rule order within a date
+    with open(p, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=HISTORY_HEADER, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows)
     return p
 
 

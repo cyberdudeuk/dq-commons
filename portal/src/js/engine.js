@@ -1,0 +1,1101 @@
+/*
+ * NDL data quality engine: a browser port of the Python kit (dqkit).
+ *
+ * It runs a rules file against a CSV file entirely in the page, with no server, and gives the
+ * same answers as the Python kit. scripts/parity_check.py proves that, case by case.
+ *
+ * Mirrors: framework.py (GOV.UK issues framework scoring), rules.py (the 15 checks), trust.py,
+ * pathway.py, operations.py, dqv.py (result_to_dqv) and exporters.py (to_dqap_csv).
+ *
+ * Usage:   DQ.setVocab(issueTypes, dimensions);  var t = DQ.parseCSV(text);
+ *          var result = DQ.run(t, spec, "2026-10-14");
+ *
+ * Matching Python closely means copying some of its quirks on purpose. Each one is marked
+ * "Python:" in a comment. The engine follows pandas 3 (blanks stay missing; they never match
+ * a pattern or a list of allowed values).
+ *
+ * Known differences, documented rather than hidden:
+ * 1. JSON cannot tell 1.0 from 1, so a whole-number float in a rules file prints as "1" here
+ *    and "1.0" in Python. This only shows in in_set values and compare expressions.
+ * 2. Integers above 2^53 (16+ digits) lose precision in JavaScript numbers.
+ * 3. A CSV row with more fields than the header is an error here; pandas would quietly
+ *    turn the first column into the row index.
+ * 4. Regex: Python features JavaScript lacks (possessive quantifiers, atomic groups,
+ *    conditionals, scoped flags, \N{...}, \W or \S inside [...]) raise an error instead of
+ *    running differently. Everything else is translated to behave like Python's re.
+ */
+(function (g) {
+  'use strict';
+  var DQ = {};
+  var ISSUE_TYPES = null, DIMENSIONS = null;
+
+  // ---------------------------------------------------------------------------------------
+  // 1. Python-compatible helpers (whitespace, digits, numbers, rounding, printing)
+  // ---------------------------------------------------------------------------------------
+
+  // Python's str.isspace() characters, as a regex class body.
+  var PY_WS = '\\t\\n\\v\\f\\r\\x1c-\\x1f \\x85\\xa0\\u1680\\u2000-\\u200a\\u2028\\u2029\\u202f\\u205f\\u3000';
+  var WS_CHAR = new RegExp('^[' + PY_WS + ']$');
+  var STRIP = new RegExp('^[' + PY_WS + ']+|[' + PY_WS + ']+$', 'g');
+  var ND = /^\p{Nd}$/u;                       // Python's \d: any Unicode decimal digit
+
+  function pyStrip(s) { return s.replace(STRIP, ''); }
+  function put(o, k, v) {                                     // o[k] = v, safe even for a key "__proto__"
+    Object.defineProperty(o, k, { value: v, enumerable: true, writable: true, configurable: true });
+  }
+  function has(o, k) { return o !== null && typeof o === 'object' && Object.prototype.hasOwnProperty.call(o, k); }
+  function get(o, k, d) { return has(o, k) ? o[k] : d; }     // Python dict.get
+  function req(o, k) {                                         // Python o[k] (KeyError when absent)
+    if (!has(o, k)) throw new Error("'" + k + "'");
+    return o[k];
+  }
+  function truthy(v) {                                         // Python truthiness
+    if (Array.isArray(v)) return v.length > 0;
+    if (v !== null && typeof v === 'object') return Object.keys(v).length > 0;
+    return !!v;
+  }
+  function cpCompare(a, b) {                                  // Python string order (code points)
+    var A = Array.from(a), B = Array.from(b);
+    for (var i = 0; i < Math.min(A.length, B.length); i++) {
+      var x = A[i].codePointAt(0), y = B[i].codePointAt(0);
+      if (x !== y) return x < y ? -1 : 1;
+    }
+    return A.length - B.length;
+  }
+  function pySorted(arr) { return arr.slice().sort(cpCompare); }
+
+  // Value of a Unicode decimal digit. Digits come in runs of ten starting at zero.
+  function digitValue(ch) {
+    var cp = ch.codePointAt(0), k = 0;
+    while (ND.test(String.fromCodePoint(cp - k - 1))) k++;
+    return k % 10;
+  }
+
+  // Python float()/int() first turn Unicode digits and spaces into ASCII, strip, and check underscores.
+  function cleanNumberText(v) {
+    var t = Array.from(v).map(function (ch) {
+      if (ch >= '0' && ch <= '9') return ch;
+      if (ND.test(ch)) return String(digitValue(ch));
+      if (WS_CHAR.test(ch)) return ' ';
+      return ch;
+    }).join('').replace(/^[ \t\n\v\f\r]+|[ \t\n\v\f\r]+$/g, '');
+    if (/[^\x00-\x7f]/.test(t)) return null;
+    if (t.indexOf('_') >= 0) {                                 // underscores only between digits
+      var prev = '', out = '';
+      for (var i = 0; i < t.length; i++) {
+        var c = t[i];
+        if (c === '_') { if (!(prev >= '0' && prev <= '9')) return null; }
+        else { if (prev === '_' && !(c >= '0' && c <= '9')) return null; out += c; }
+        prev = c;
+      }
+      if (prev === '_') return null;
+      t = out;
+    }
+    return t;
+  }
+
+  // Python float(v). Returns undefined where Python raises ValueError.
+  function pyFloat(v) {
+    if (typeof v === 'number') return v;
+    if (typeof v === 'boolean') return v ? 1 : 0;
+    if (typeof v !== 'string') return undefined;
+    var s = cleanNumberText(v);
+    if (s === null) return undefined;
+    if (/^[+-]?inf(inity)?$/i.test(s)) return s[0] === '-' ? -Infinity : Infinity;
+    if (/^[+-]?nan$/i.test(s)) return NaN;
+    if (!/^[+-]?(\d+\.?\d*|\.\d+)(e[+-]?\d+)?$/i.test(s)) return undefined;
+    return Number(s);
+  }
+  function floatOrThrow(v) {
+    var f = pyFloat(v);
+    if (f === undefined) throw new Error('could not convert string to float: ' + pyRepr(v));
+    return f;
+  }
+
+  // Python int(v).
+  function pyInt(v) {
+    if (typeof v === 'boolean') return v ? 1 : 0;
+    if (typeof v === 'number') {
+      if (!isFinite(v)) throw new Error('cannot convert float ' + pyStr(v) + ' to integer');
+      return Math.trunc(v);
+    }
+    var s = typeof v === 'string' ? cleanNumberText(v) : null;
+    if (s === null || !/^[+-]?\d+$/.test(s)) throw new Error('invalid literal for int() with base 10: ' + pyRepr(v));
+    return Number(s);
+  }
+
+  // pandas.to_numeric(errors="coerce") for one text value. pandas uses its own C parser
+  // (precise_xstrtod): it reads at most 17 significant digits and scales by a power of ten,
+  // which is not always the correctly rounded value ("0.30000000000000004" reads as 0.3).
+  var E10 = [];
+  for (var k = 0; k <= 308; k++) E10.push(Number('1e' + k));
+  function isSp(c) { return c === ' ' || c === '\t' || c === '\n' || c === '\v' || c === '\f' || c === '\r'; }
+  function isDig(c) { return c >= '0' && c <= '9'; }
+  function xstrtod(s) {
+    var p = 0, n = s.length, neg = false, num = 0, exp = 0, nd = 0, ndec = 0, maybeInt = true;
+    while (p < n && isSp(s[p])) p++;
+    if (s[p] === '-') { neg = true; p++; } else if (s[p] === '+') p++;
+    for (; p < n && isDig(s[p]); p++) {
+      if (nd < 17) { num = num * 10 + (s.charCodeAt(p) - 48); nd++; } else exp++;
+    }
+    if (s[p] === '.') {
+      maybeInt = false; p++;
+      for (; nd < 17 && p < n && isDig(s[p]); p++) { num = num * 10 + (s.charCodeAt(p) - 48); nd++; ndec++; }
+      if (nd >= 17) while (p < n && isDig(s[p])) p++;
+      exp -= ndec;
+    }
+    if (nd === 0) return null;
+    if (neg) num = -num;
+    if (s[p] === 'e' || s[p] === 'E') {
+      maybeInt = false; p++;
+      var eneg = false, en = 0, ed = 0;
+      if (s[p] === '-') { eneg = true; p++; } else if (s[p] === '+') p++;
+      for (; p < n && isDig(s[p]); p++) { en = Math.min(en * 10 + (s.charCodeAt(p) - 48), 1e9); ed++; }
+      if (ed === 0) return null;
+      exp += eneg ? -en : en;
+    }
+    if (exp > 308) num = num === 0 ? 0 : (num < 0 ? -Infinity : Infinity);
+    else if (exp > 0) num *= E10[exp];
+    else if (exp < -308) { if (exp < -616) num = 0; else { num /= E10[-308 - exp]; num /= E10[308]; } }
+    else num /= E10[-exp];
+    while (p < n && isSp(s[p])) p++;
+    return p === n ? { v: num, maybeInt: maybeInt } : null;
+  }
+  function pdNumber(s) {
+    if (s === null || s === undefined) return { v: NaN, isInt: false };
+    s = String(s);
+    var r = xstrtod(s);
+    if (r) return { v: r.v, isInt: r.maybeInt, text: s };
+    if (/^[+-]?inf(inity)?$/i.test(s)) return { v: s[0] === '-' ? -Infinity : Infinity, isInt: false };
+    return { v: NaN, isInt: false };
+  }
+  // A whole column. pandas gives an integer column (exact values) when every value is a plain integer.
+  function pdNumericColumn(values) {
+    var parsed = values.map(pdNumber);
+    var allInt = parsed.length > 0 && parsed.every(function (x) { return x.isInt; });
+    if (!allInt) return { vals: parsed.map(function (x) { return x.v; }), ints: null };
+    var ints = parsed.map(function (x) { return BigInt(x.text.trim().replace(/^\+/, '')); });
+    return { vals: ints.map(Number), ints: ints };
+  }
+
+  // numpy's pairwise summation (used by pandas Series.sum on floats). Blanks count as 0.
+  function pairwiseSum(a, lo, n) {
+    var i, res;
+    if (n < 8) { res = -0; for (i = 0; i < n; i++) res += a[lo + i]; return res; }
+    if (n <= 128) {
+      var r = a.slice(lo, lo + 8);
+      for (i = 8; i < n - (n % 8); i += 8) for (var j = 0; j < 8; j++) r[j] += a[lo + i + j];
+      res = ((r[0] + r[1]) + (r[2] + r[3])) + ((r[4] + r[5]) + (r[6] + r[7]));
+      for (; i < n; i++) res += a[lo + i];
+      return res;
+    }
+    var n2 = Math.floor(n / 2); n2 -= n2 % 8;
+    return pairwiseSum(a, lo, n2) + pairwiseSum(a, lo + n2, n - n2);
+  }
+
+  // Python's built-in sum() of floats (Neumaier compensated summation, Python 3.12+).
+  function pySum(xs) {
+    var f = 0, c = 0;
+    xs.forEach(function (x) {
+      var t = f + x;
+      c += Math.abs(f) >= Math.abs(x) ? (f - t) + x : (x - t) + f;
+      f = t;
+    });
+    return (c !== 0 && isFinite(c)) ? f + c : f;
+  }
+
+  // Exact decimal form of a double: |x| = N / 10^s. Used for Python-exact rounding.
+  function exactDec(x) {
+    var dv = new DataView(new ArrayBuffer(8));
+    dv.setFloat64(0, Math.abs(x));
+    var hi = dv.getUint32(0), lo = dv.getUint32(4), e = (hi >>> 20) & 0x7ff;
+    var m = (BigInt(hi & 0xfffff) << BigInt(32)) | BigInt(lo), e2;
+    if (e === 0) e2 = -1074; else { m |= BigInt(1) << BigInt(52); e2 = e - 1075; }
+    if (e2 >= 0) return { N: m << BigInt(e2), s: 0 };
+    return { N: m * (BigInt(5) ** BigInt(-e2)), s: -e2 };
+  }
+  function roundHalfEven(N, drop) {                           // N / 10^drop, ties to even
+    if (drop <= 0) return N * (BigInt(10) ** BigInt(-drop));
+    var d = BigInt(10) ** BigInt(drop), q = N / d, r = N % d, half = d / BigInt(2);
+    if (r > half || (r === half && q % BigInt(2) === BigInt(1))) q += BigInt(1);
+    return q;
+  }
+  // Python round(x, nd): exact, ties to even ("banker's rounding").
+  function pyRound(x, nd) {
+    if (!isFinite(x) || x === 0) return x;
+    var d = exactDec(x);
+    if (d.s <= nd) return x;
+    var v = Number(roundHalfEven(d.N, d.s - nd).toString() + 'e-' + nd);
+    return x < 0 ? -v : v;
+  }
+  function withCommas(digits) { return digits.replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+  function fmtThousands0(x) {                                 // Python f"{x:,.0f}"
+    var d = exactDec(x);
+    return (x < 0 ? '-' : '') + withCommas(roundHalfEven(d.N, d.s).toString());
+  }
+  function fmtG(x, p) {                                       // Python f"{x:.{p}g}" (x > 0)
+    var d = exactDec(x), ns = d.N.toString(), E = ns.length - 1 - d.s;
+    var q = roundHalfEven(d.N, ns.length - p), digits = q.toString();
+    if (digits.length > p) { digits = digits.slice(0, p); E += 1; }
+    var strip = function (t) { return t.indexOf('.') >= 0 ? t.replace(/0+$/, '').replace(/\.$/, '') : t; };
+    if (E < -4 || E >= p) {
+      var mant = strip(digits[0] + '.' + digits.slice(1));
+      return mant + 'e' + (E < 0 ? '-' : '+') + (Math.abs(E) < 10 ? '0' : '') + Math.abs(E);
+    }
+    var t = E >= 0 ? digits.slice(0, E + 1) + '.' + digits.slice(E + 1) : '0.' + '0'.repeat(-E - 1) + digits;
+    return strip(t);
+  }
+
+  // Python repr() of a float: shortest round-trip digits, ".0" on whole numbers.
+  function pyFloatRepr(x) {
+    if (isNaN(x)) return 'nan';
+    if (!isFinite(x)) return x > 0 ? 'inf' : '-inf';
+    if (x === 0) return 1 / x < 0 ? '-0.0' : '0.0';
+    var m = /^(\d)(?:\.(\d+))?e([+-]\d+)$/.exec(Math.abs(x).toExponential());
+    var digits = m[1] + (m[2] || ''), e10 = parseInt(m[3], 10), dp = e10 + 1, sign = x < 0 ? '-' : '', t;
+    if (dp > -4 && dp <= 16) {                                // otherwise Python writes 1e+16 style
+      if (dp <= 0) t = '0.' + '0'.repeat(-dp) + digits;
+      else if (dp >= digits.length) t = digits + '0'.repeat(dp - digits.length) + '.0';
+      else t = digits.slice(0, dp) + '.' + digits.slice(dp);
+    } else {
+      t = digits[0] + (digits.length > 1 ? '.' + digits.slice(1) : '') + 'e' + (e10 < 0 ? '-' : '+') +
+        (Math.abs(e10) < 10 ? '0' : '') + Math.abs(e10);
+    }
+    return sign + t;
+  }
+  // Python str(). JSON cannot say whether a whole number was an int or a float: ints are assumed.
+  function pyStr(v) {
+    if (v === null || v === undefined) return 'None';
+    if (typeof v === 'boolean') return v ? 'True' : 'False';
+    if (typeof v === 'number') return Number.isInteger(v) && Math.abs(v) < 1e16 ? String(v) : pyFloatRepr(v);
+    if (typeof v === 'string') return v;
+    return pyRepr(v);
+  }
+  // Python repr(), as used in error messages.
+  function pyRepr(v) {
+    if (typeof v === 'string') {
+      var q = (v.indexOf("'") >= 0 && v.indexOf('"') < 0) ? '"' : "'";
+      var body = Array.from(v).map(function (ch) {
+        var c = ch.codePointAt(0);
+        if (ch === '\\' || ch === q) return '\\' + ch;
+        if (ch === '\n') return '\\n';
+        if (ch === '\r') return '\\r';
+        if (ch === '\t') return '\\t';
+        if (c < 0x20 || (c >= 0x7f && c <= 0xa0) || (c !== 0x20 && /[\p{C}\p{Z}]/u.test(ch))) {
+          var h = c.toString(16);
+          return c <= 0xff ? '\\x' + h.padStart(2, '0') : c <= 0xffff ? '\\u' + h.padStart(4, '0') : '\\U' + h.padStart(8, '0');
+        }
+        return ch;
+      }).join('');
+      return q + body + q;
+    }
+    if (Array.isArray(v)) return '[' + v.map(pyRepr).join(', ') + ']';
+    if (v !== null && typeof v === 'object') {
+      return '{' + Object.keys(v).map(function (k) { return pyRepr(k) + ': ' + pyRepr(v[k]); }).join(', ') + '}';
+    }
+    return pyStr(v);
+  }
+
+  // ---------------------------------------------------------------------------------------
+  // 2. Dates (Python datetime.strptime and the kit's _parse_date)
+  // ---------------------------------------------------------------------------------------
+
+  var DBM = [0, 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+  function leap(y) { return y % 4 === 0 && (y % 100 !== 0 || y % 400 === 0); }
+  function dim(y, m) { return [31, leap(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1]; }
+  function mkDate(y, m, d) {                                  // null when Python would reject the date
+    if (y < 1 || y > 9999 || m < 1 || m > 12 || d < 1 || d > dim(y, m)) return null;
+    var y1 = y - 1;
+    var ord = y1 * 365 + Math.floor(y1 / 4) - Math.floor(y1 / 100) + Math.floor(y1 / 400) + DBM[m] + (m > 2 && leap(y) ? 1 : 0) + d;
+    var iso = String(y).padStart(4, '0') + '-' + String(m).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    return { y: y, m: m, d: d, ord: ord, iso: iso };
+  }
+  // strptime pieces, copied from CPython's _strptime (\d there is any Unicode digit).
+  var P = { Y: '(\\p{Nd}{4})', y: '(\\p{Nd}{2})', m: '(1[0-2]|0[1-9]|[1-9])', d: '(3[0-1]|[1-2]\\p{Nd}|0[1-9]|[1-9]| [1-9])' };
+  var FORMATS = [                                             // same order as rules._parse_date
+    { re: new RegExp('^' + P.Y + '-' + P.m + '-' + P.d, 'iu'), f: function (g) { return [pyInt(g[1]), pyInt(g[2]), pyInt(g[3])]; } },
+    { re: new RegExp('^' + P.d + '/' + P.m + '/' + P.Y, 'iu'), f: function (g) { return [pyInt(g[3]), pyInt(g[2]), pyInt(g[1])]; } },
+    { re: new RegExp('^' + P.Y + '-' + P.m, 'iu'), f: function (g) { return [pyInt(g[1]), pyInt(g[2]), 1]; } },
+    { re: new RegExp('^' + P.Y, 'iu'), f: function (g) { return [pyInt(g[1]), 1, 1]; } },
+    { re: new RegExp('^' + P.d + '/' + P.m + '/' + P.y, 'iu'), f: function (g) {
+      var y = pyInt(g[3]); return [y <= 68 ? 2000 + y : 1900 + y, pyInt(g[2]), pyInt(g[1])];
+    } }
+  ];
+  var FIN_YEAR = new RegExp('^(\\p{Nd}{4})[' + PY_WS + ']*[-/][' + PY_WS + ']*(\\p{Nd}{2}|\\p{Nd}{4})$', 'u');
+
+  function parseDate(value) {
+    if (value === null || value === undefined) return null;
+    var s = pyStrip(pyStr(value));
+    for (var i = 0; i < FORMATS.length; i++) {
+      var m = FORMATS[i].re.exec(s);
+      if (!m || m[0].length !== s.length) continue;          // Python: "unconverted data remains"
+      var ymd = FORMATS[i].f(m), d = mkDate(ymd[0], ymd[1], ymd[2]);
+      if (d) return d;
+    }
+    var fy = FIN_YEAR.exec(s);                                // 2023-24 or 2023/2024 financial years
+    if (fy) {
+      var d2 = mkDate(pyInt(fy[1]), 4, 1);
+      if (!d2) throw new Error('year ' + pyInt(fy[1]) + ' is out of range');
+      return d2;
+    }
+    return null;
+  }
+  function parseAsOf(iso) {
+    if (iso === undefined || iso === null) {
+      var t = new Date();
+      return mkDate(t.getFullYear(), t.getMonth() + 1, t.getDate());
+    }
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(iso));
+    var d = m && mkDate(+m[1], +m[2], +m[3]);
+    if (!d) throw new Error('as_of must be a date written YYYY-MM-DD');
+    return d;
+  }
+  function isoDurationDays(period) {
+    var s = truthy(period) ? period : '';                     // Python: period or ""
+    if (typeof s !== 'string') throw new Error('expected string or bytes-like object, got ' + pyRepr(s));
+    var m = /^P(?:(\p{Nd}+)Y)?(?:(\p{Nd}+)M)?(?:(\p{Nd}+)W)?(?:(\p{Nd}+)D)?$/u.exec(s);
+    if (!m || !(m[1] || m[2] || m[3] || m[4])) throw new Error('not an ISO 8601 duration: ' + pyRepr(period));
+    var n = function (x) { return x ? pyInt(x) : 0; };
+    return n(m[1]) * 365.25 + n(m[2]) * 30.44 + n(m[3]) * 7 + n(m[4]);
+  }
+
+  function isType(value, kind) {
+    if (value === null || value === undefined || pyStrip(pyStr(value)) === '') return false;
+    var s = pyStrip(pyStr(value)).replace(/,/g, '');
+    if (kind === 'integer') return /^[-+]?\p{Nd}+$/u.test(s);
+    if (kind === 'number') return pyFloat(s) !== undefined;
+    if (kind === 'year') return /^\p{Nd}{4}$/u.test(s) && pyInt(s) >= 1000 && pyInt(s) <= 2999;
+    if (kind === 'date') return parseDate(s) !== null;
+    throw new Error('unknown type ' + pyRepr(kind));
+  }
+
+  // ---------------------------------------------------------------------------------------
+  // 3. Python regular expressions in JavaScript (for re.fullmatch)
+  // ---------------------------------------------------------------------------------------
+
+  function translateRegex(pat) {
+    var flags = 'u', dotall = false, multi = false, ascii = false, m;
+    while ((m = /^\(\?([aiLmsux]+)\)/.exec(pat))) {          // leading global flags, e.g. (?i)
+      m[1].split('').forEach(function (f) {
+        if (f === 'i') flags += 'i'; else if (f === 's') dotall = true; else if (f === 'm') multi = true;
+        else if (f === 'a') ascii = true; else if (f !== 'u') throw new Error('regex flag (?' + f + ') is not supported in the browser');
+      });
+      pat = pat.slice(m[0].length);
+    }
+    var W = ascii ? 'A-Za-z0-9_' : '\\p{L}\\p{N}_', D = ascii ? '0-9' : '\\p{Nd}', S = ascii ? ' \\t\\n\\r\\f\\v' : PY_WS;
+    var BOUND = '(?:(?<=[' + W + '])(?![' + W + '])|(?<![' + W + '])(?=[' + W + ']))';
+    var NOBOUND = '(?:(?<=[' + W + '])(?=[' + W + '])|(?<![' + W + '])(?![' + W + ']))';
+    var SYNTAX = '^$\\.*+?()[]{}|/';
+    var out = '', i = 0, inClass = false, n = pat.length;
+    function hex(h) { return '\\u{' + h.toString(16) + '}'; }
+    function unsupported(what) { throw new Error('regex feature ' + what + ' is not supported in the browser'); }
+    function escape(cls) {                                      // handles the text after a backslash
+      var c = pat[i + 1], mm;
+      if (c === undefined) throw new Error('bad escape (end of pattern)');
+      i += 2;
+      if (c === 'd') return cls ? D : '[' + D + ']';
+      if (c === 'D') return ascii ? (cls ? unsupported('\\D in [...]') : '[^0-9]') : '\\P{Nd}';
+      if (c === 'w') return cls ? W : '[' + W + ']';
+      if (c === 's') return cls ? S : '[' + S + ']';
+      if (c === 'W' || c === 'S') return cls ? unsupported('\\' + c + ' in [...]') : '[^' + (c === 'W' ? W : S) + ']';
+      if (c === 'b') return cls ? hex(8) : BOUND;
+      if (c === 'B' && !cls) return NOBOUND;
+      if (c === 'A' && !cls) return '(?<![\\s\\S])';
+      if (c === 'Z' && !cls) return '(?![\\s\\S])';
+      var simple = { n: 10, t: 9, r: 13, f: 12, v: 11, a: 7 };
+      if (has(simple, c)) return hex(simple[c]);
+      if (c === 'x' && (mm = /^[0-9a-fA-F]{2}/.exec(pat.slice(i)))) { i += 2; return hex(parseInt(mm[0], 16)); }
+      if (c === 'u' && (mm = /^[0-9a-fA-F]{4}/.exec(pat.slice(i)))) { i += 4; return hex(parseInt(mm[0], 16)); }
+      if (c === 'U' && (mm = /^[0-9a-fA-F]{8}/.exec(pat.slice(i)))) { i += 8; return hex(parseInt(mm[0], 16)); }
+      if (c >= '0' && c <= '9') {
+        mm = /^[0-7]{0,2}/.exec(pat.slice(i));
+        if (c === '0' || (c <= '7' && mm[0].length === 2)) {   // octal escape
+          var oct = c === '0' ? /^[0-7]{0,2}/.exec(pat.slice(i))[0] : mm[0];
+          i += oct.length; return hex(parseInt(c + oct, 8));
+        }
+        if (cls) throw new Error('bad escape \\' + c);
+        var ref = c; if (isDig(pat[i] || '')) { ref += pat[i]; i++; }
+        return '\\' + ref;
+      }
+      if (/[A-Za-z]/.test(c)) unsupported('\\' + c);
+      return (SYNTAX.indexOf(c) >= 0 || (cls && c === '-')) ? '\\' + c : c;
+    }
+    var quant = false;                                          // was the last token a quantifier?
+    while (i < n) {
+      var c = pat[i];
+      if (!inClass && quant && c === '+') unsupported('possessive quantifier');
+      quant = !inClass && (c === '*' || c === '+' || c === '?');
+      if (inClass) {
+        if (c === ']') { out += ']'; inClass = false; i++; }
+        else if (c === '\\') out += escape(true);
+        else if (c === '[') { out += '\\['; i++; }
+        else { out += c; i++; }
+        continue;
+      }
+      if (c === '\\') { out += escape(false); }
+      else if (c === '[') {
+        out += '['; i++; inClass = true;
+        if (pat[i] === '^') { out += '^'; i++; }
+        if (pat[i] === ']') { out += '\\]'; i++; }               // Python: ']' first is literal
+      } else if (c === '(') {
+        var rest = pat.slice(i);
+        if ((m = /^\(\?P<([A-Za-z_]\w*)>/.exec(rest))) { out += '(?<' + m[1] + '>'; i += m[0].length; }
+        else if ((m = /^\(\?P=([A-Za-z_]\w*)\)/.exec(rest))) { out += '\\k<' + m[1] + '>'; i += m[0].length; }
+        else if (/^\(\?#/.test(rest)) { var end = pat.indexOf(')', i); i = end < 0 ? n : end + 1; }
+        else if (/^\(\?(:|=|!|<=|<!)/.test(rest) || rest[1] !== '?') { out += '('; i++; }
+        else unsupported(rest.slice(0, 4));
+      } else if (c === '.') { out += dotall ? '[\\s\\S]' : '[^\\n]'; i++; }
+      else if (c === '$') { out += multi ? '(?=\\n|(?![\\s\\S]))' : '(?=\\n?(?![\\s\\S]))'; i++; }
+      else if (c === '^') { out += multi ? '(?:(?<![\\s\\S])|(?<=\\n))' : '(?<![\\s\\S])'; i++; }
+      else if (c === '{') {
+        m = /^\{(\d*)(?:(,)(\d*))?\}/.exec(pat.slice(i));
+        if (m && pat[i + 1] !== '}') {
+          var lo = m[1] || '0', hi = m[2] ? m[3] : m[1];
+          out += '{' + lo + (m[2] ? ',' + hi : '') + '}'; i += m[0].length; quant = true;
+        } else { out += '\\{'; i++; }
+      } else if (c === '}' || c === ']') { out += '\\' + c; i++; }
+      else { out += c; i++; }
+    }
+    if (inClass) throw new Error('unterminated character set');
+    return new RegExp('^(?:' + out + ')$', flags);
+  }
+
+  // ---------------------------------------------------------------------------------------
+  // 4. CSV reading: pandas.read_csv(dtype=str, keep_default_na=False, na_values=[""], encoding="utf-8-sig")
+  // ---------------------------------------------------------------------------------------
+
+  DQ.parseCSV = function (text) {
+    var s = String(text);
+    if (s.charCodeAt(0) === 0xfeff) s = s.slice(1);
+    var records = [], i = 0, n = s.length, line = 1;
+    while (i < n) {
+      var j = i;                                                // pandas skips blank and space-only lines
+      while (j < n && (s[j] === ' ' || s[j] === '\t')) j++;
+      if (j >= n || s[j] === '\n' || s[j] === '\r') {
+        i = j + (s[j] === '\r' && s[j + 1] === '\n' ? 2 : 1); line++; continue;
+      }
+      var rec = [], field = '', startLine = line;
+      for (;;) {
+        if (s[i] === '"') {                                     // quoted field
+          i++;
+          for (;;) {
+            if (i >= n) throw new Error('Error tokenizing data. EOF inside string starting at row ' + startLine);
+            if (s[i] === '"') { if (s[i + 1] === '"') { field += '"'; i += 2; continue; } i++; break; }
+            if (s[i] === '\n') line++;
+            field += s[i++];
+          }
+        }
+        while (i < n && s[i] !== ',' && s[i] !== '\n' && s[i] !== '\r') field += s[i++];  // quotes here are literal
+        rec.push(field === '' ? null : field); field = '';
+        if (s[i] === ',') { i++; continue; }
+        if (s[i] === '\r') i += s[i + 1] === '\n' ? 2 : 1; else if (s[i] === '\n') i++;
+        line++;
+        break;
+      }
+      records.push({ fields: rec, line: startLine });
+    }
+    if (!records.length) throw new Error('No columns to parse from file');
+    var header = records[0].fields.map(function (h, idx) { return h === null ? 'Unnamed: ' + idx : h; });
+    var counts = Object.create(null);                           // pandas renames duplicate headers: a, a.1, a.2
+    header.forEach(function (col, idx) {
+      var cur = counts[col] || 0;
+      if (cur > 0) {
+        var old = col;
+        while (cur > 0) {
+          counts[old] = cur + 1;
+          col = old + '.' + cur;
+          cur = header.indexOf(col) >= 0 ? cur + 1 : (counts[col] || 0);
+        }
+      }
+      header[idx] = col;
+      counts[col] = cur + 1;
+    });
+    var rows = records.slice(1).map(function (r) {
+      if (r.fields.length > header.length) {
+        throw new Error('Expected ' + header.length + ' fields in line ' + r.line + ', saw ' + r.fields.length);
+      }
+      var o = {};
+      header.forEach(function (h, k) { put(o, h, k < r.fields.length ? r.fields[k] : null); });
+      return o;
+    });
+    return { columns: header, rows: rows };
+  };
+
+  // Internal column store: { columns, data: {name: [values]}, n }.
+  function frame(table) {
+    if (table.data) return table;
+    var data = Object.create(null);
+    table.columns.forEach(function (c) { data[c] = table.rows.map(function (r) { return r[c] === undefined ? null : r[c]; }); });
+    return { columns: table.columns.slice(), data: data, n: table.rows.length };
+  }
+  function subset(f, idx) {
+    var data = Object.create(null);
+    f.columns.forEach(function (c) { data[c] = idx.map(function (i) { return f.data[c][i]; }); });
+    return { columns: f.columns, data: data, n: idx.length };
+  }
+  function column(f, name) {
+    if (f.columns.indexOf(name) < 0) throw new Error("KeyError: '" + pyStr(name) + "'");
+    return f.data[name];
+  }
+
+  // ---------------------------------------------------------------------------------------
+  // 5. GOV.UK Data Quality Issues Framework (framework.py)
+  // ---------------------------------------------------------------------------------------
+
+  var LEVELS = { 1: 'Low', 2: 'Medium', 3: 'High', 4: 'Critical' };
+  var TARGET_RANGES = [[1, 3, [75.0, 90.0]], [4, 6, [90.0, 97.5]], [8, 9, [97.5, 99.9]], [12, 16, [99.9, 100.0]]];
+  // Default target for each suggested range ("lo-hi"), per policy (decision D-021).
+  DQ.TARGET_POLICIES = {
+    low: { '75-90': 75.0, '90-97.5': 90.0, '97.5-99.9': 97.5, '99.9-100': 99.9 },
+    mid: { '75-90': 85.0, '90-97.5': 95.0, '97.5-99.9': 99.0, '99.9-100': 100.0 },
+    high: { '75-90': 89.9, '90-97.5': 97.4, '97.5-99.9': 99.8, '99.9-100': 100.0 }
+  };
+  DQ.DEFAULT_POLICY = 'low';
+  var RESOLUTION = { Critical: 'Immediately', High: 'Within 1 measurement cycle',
+    Medium: 'Within 3 measurement cycles', Low: 'Within 6 measurement cycles' };
+
+  function checkLevel(name, value) {
+    var v = typeof value === 'boolean' ? (value ? 1 : 0) : value;
+    if (typeof v !== 'number' || !has(LEVELS, v)) throw new Error(name + ' must be 1, 2, 3 or 4 (got ' + pyRepr(value) + ')');
+    return v;
+  }
+  DQ.combinedScore = function (importance, impact) { return checkLevel('importance', importance) * checkLevel('impact', impact); };
+  DQ.targetRange = function (combined) {
+    for (var i = 0; i < TARGET_RANGES.length; i++) {
+      var t = TARGET_RANGES[i];
+      if (Number.isInteger(combined) && combined >= t[0] && combined <= t[1]) return t[2].slice();
+    }
+    throw new Error('combined score ' + pyStr(combined) + ' is not a product of two 1-4 scores');
+  };
+  DQ.defaultTarget = function (combined, policy) {
+    var p = policy === undefined ? DQ.DEFAULT_POLICY : policy;
+    if (typeof p !== 'string' || !has(DQ.TARGET_POLICIES, p)) throw new Error('target policy must be low, mid or high, not ' + pyRepr(p));
+    var r = DQ.targetRange(combined);
+    return DQ.TARGET_POLICIES[p][r[0] + '-' + r[1]];
+  };
+  // Plain-English error rate: 95% -> "1 in 20 records".
+  DQ.errorRate = function (percent) {
+    var err = 100.0 - percent;
+    if (err <= 0) return '0 records';
+    var n = 100.0 / err;
+    return '1 in ' + (n >= 10 ? fmtThousands0(n) : fmtG(n, 2)) + ' records';
+  };
+  // Performance bands below target (Table 4 method). null when the target is 100%.
+  DQ.bands = function (target) {
+    if (target >= 100.0) return null;
+    var allowed = 100.0 - target, middle = Math.max(0.0, 100.0 - 2 * allowed), high = (middle + target) / 2;
+    return { low: [0.0, middle], middle: [middle, high], high: [high, target] };
+  };
+  function bandFor(performance, target) {
+    if (performance >= target) return [null, 0];
+    var b = DQ.bands(target);
+    if (b === null) return ['critical', 4];
+    if (performance < b.middle[0]) return ['low', 3];
+    if (performance < b.high[0]) return ['middle', 2];
+    return ['high', 1];
+  }
+  function priorityFor(score) {
+    if (score <= 0) return null;
+    return score <= 7 ? 'Low' : score <= 16 ? 'Medium' : score <= 32 ? 'High' : 'Critical';
+  }
+  // Score one rule result. Returns the same keys and values as Python Assessment.to_dict().
+  DQ.assess = function (importance, impact, performance, target, policy) {
+    if (!(performance >= 0.0 && performance <= 100.0)) throw new Error('performance is a percentage between 0 and 100');
+    var combined = DQ.combinedScore(importance, impact), rng = DQ.targetRange(combined);
+    var tgt = (target === null || target === undefined) ? DQ.defaultTarget(combined, policy) : floatOrThrow(target);
+    var b = bandFor(performance, tgt), score = checkLevel('importance', importance) * checkLevel('impact', impact) * b[1];
+    var pr = priorityFor(score);
+    return { importance: importance, impact: impact, combined: combined, target: tgt, target_range: rng,
+      performance: pyRound(performance, 3), meets_target: b[0] === null, band: b[0], band_score: b[1],
+      priority_score: score, priority: pr, resolution: pr ? RESOLUTION[pr] : null,
+      error_rate_target: DQ.errorRate(tgt), error_rate_actual: DQ.errorRate(performance) };
+  };
+
+  // ---------------------------------------------------------------------------------------
+  // 6. The 15 checks (rules.py). Each returns [checked, passed, examples, detail].
+  // ---------------------------------------------------------------------------------------
+
+  DQ.DEFAULT_ISSUE = { not_null: 'missing-value', required_columns: 'missing-field', unique: 'duplicate-reference',
+    type: 'invalid-type', regex: 'pattern-mismatch', in_set: 'invalid-category', range: 'out-of-range',
+    not_future: 'future-date', compare: 'cross-field-inconsistency', sum_max: 'totals-mismatch',
+    freshness: 'stale-data', no_gaps: 'unexplained-gap', header_has_unit: 'undocumented-measure',
+    not_unknown: 'characteristic-defaulted', group_disparity: 'group-disparity' };
+  DQ.CONTROL_POINTS = ['source', 'pipeline', 'reporting'];
+  DQ.DEFAULT_CONTROL = { not_null: 'source', required_columns: 'pipeline', unique: 'pipeline', type: 'source',
+    regex: 'source', in_set: 'source', range: 'source', not_future: 'source', compare: 'source',
+    sum_max: 'pipeline', freshness: 'pipeline', no_gaps: 'pipeline', header_has_unit: 'reporting',
+    not_unknown: 'source', group_disparity: 'reporting' };
+  var UNIT_TOKENS = ['%', 'percent', 'per cent', 'number', 'count', 'millions', 'million', 'billion',
+    'thousand', '£', 'gbp', 'days', 'rate', 'miles', 'index', 'share', 'mean', 'average'];
+  var UNKNOWN = ['unknown', 'not stated', 'not known', 'prefer not to say', 'z', 'x', 'u', ''];
+
+  // Up to 5 failing rows, numbered as in the file (+2: header row, and counting from 1).
+  function examples(f, mask, cols) {
+    var out = [];
+    for (var i = 0; i < f.n && out.length < 5; i++) {
+      if (mask[i]) continue;
+      var e = { row: i + 2 };
+      cols.forEach(function (c) { var v = f.data[c][i]; put(e, c, v === null ? null : pyStr(v)); });
+      out.push(e);
+    }
+    return out;
+  }
+  function rowwise(f, cols, mask, detail) {
+    return [mask.length, mask.filter(Boolean).length, examples(f, mask, cols), detail || {}];
+  }
+  function list(v) { return typeof v === 'string' ? [v] : v; }
+
+  DQ.CHECKS = {
+    not_null: function (f, r) {
+      var c = req(r, 'column');
+      return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && pyStrip(pyStr(v)) !== ''; }));
+    },
+    required_columns: function (f, r) {
+      var want = req(r, 'columns');
+      var missing = want.filter(function (c) { return f.columns.indexOf(c) < 0; });
+      return [want.length, want.length - missing.length, missing.map(function (c) { return { missing_column: c }; }), {}];
+    },
+    unique: function (f, r) {
+      var cols = list(req(r, 'columns')), data = cols.map(function (c) { return column(f, c); });
+      var keys = [], seen = new Map();                          // blanks count as equal, as in pandas
+      for (var i = 0; i < f.n; i++) {
+        var key = JSON.stringify(data.map(function (d) { return d[i]; }));
+        keys.push(key); seen.set(key, (seen.get(key) || 0) + 1);
+      }
+      return rowwise(f, cols, keys.map(function (k) { return seen.get(k) === 1; }));
+    },
+    type: function (f, r) {
+      var c = req(r, 'column'), kind = req(r, 'kind');
+      return rowwise(f, [c], column(f, c).map(function (v) { return isType(v, kind); }), { kind: kind });
+    },
+    regex: function (f, r) {
+      var c = req(r, 'column'), re = translateRegex(req(r, 'pattern'));
+      return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && re.test(pyStr(v)); }));
+    },
+    in_set: function (f, r) {
+      var c = req(r, 'column'), allowed = new Set(req(r, 'values').map(pyStr));
+      return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && allowed.has(pyStr(v)); }));
+    },
+    range: function (f, r) {
+      var c = req(r, 'column');
+      var num = pdNumericColumn(column(f, c).map(function (v) { return v === null ? null : pyStr(v).replace(/,/g, ''); })).vals;
+      var mask = num.map(function (x) {
+        return !isNaN(x) && (!has(r, 'min') || x >= r.min) && (!has(r, 'max') || x <= r.max);
+      });
+      return rowwise(f, [c], mask, { min: get(r, 'min', null), max: get(r, 'max', null) });
+    },
+    not_future: function (f, r, asOf) {
+      var c = req(r, 'column');
+      var mask = column(f, c).map(function (v) { var d = parseDate(v); return d !== null && d.ord <= asOf.ord; });
+      return rowwise(f, [c], mask, { as_of: asOf.iso });
+    },
+    compare: function (f, r) {
+      var left = req(r, 'left'), op = req(r, 'op'), right = req(r, 'right');
+      var OPS = { '<': function (a, b) { return a < b; }, '<=': function (a, b) { return a <= b; },
+        '>': function (a, b) { return a > b; }, '>=': function (a, b) { return a >= b; },
+        '==': function (a, b) { return a === b; }, '!=': function (a, b) { return a !== b; } };
+      if (!has(OPS, op)) throw new Error("KeyError: " + pyRepr(op));
+      var a = pdNumericColumn(column(f, left)).vals, isCol = f.columns.indexOf(right) >= 0;
+      var b = isCol ? pdNumericColumn(column(f, right)).vals : floatOrThrow(right);
+      var mask = a.map(function (x, i) { return OPS[op](x, isCol ? b[i] : b); });
+      return rowwise(f, [left].concat(isCol ? [right] : []), mask,
+        { expression: pyStr(left) + ' ' + pyStr(op) + ' ' + pyStr(right) });
+    },
+    sum_max: function (f, r) {
+      var nc = pdNumericColumn(column(f, req(r, 'column')));
+      var total = nc.ints ? Number(nc.ints.reduce(function (s, x) { return s + x; }, BigInt(0)))
+        : pairwiseSum(nc.vals.map(function (x) { return isNaN(x) ? 0 : x; }), 0, nc.vals.length);
+      var ok = total <= req(r, 'max') + get(r, 'tolerance', 0), s = pyRound(total, 4);
+      return [1, ok ? 1 : 0, ok ? [] : [{ sum: s, max: r.max }], { sum: s }];
+    },
+    // Dataset level: is the latest period recent enough for the stated update frequency?
+    freshness: function (f, r, asOf) {
+      var vals = column(f, req(r, 'column')).filter(function (v) { return v !== null; })
+        .map(function (v) { return pyStrip(pyStr(v)); }).filter(function (v) { return v !== ''; });
+      var latest = null;
+      if (vals.length && vals.every(function (v) { return /^\p{Nd}{4}$/u.test(v); })) {
+        var y = Math.max.apply(null, vals.map(pyInt));
+        latest = mkDate(y, 12, 31);                             // a year label covers the whole year
+        if (!latest) throw new Error('year ' + y + ' is out of range');
+      } else {
+        vals.forEach(function (v) { var d = parseDate(v); if (d && (!latest || d.ord > latest.ord)) latest = d; });
+        if (!latest) return [1, 0, [{ reason: 'no readable dates' }], {}];
+      }
+      var lag = get(r, 'lag', 'P0D'), allowed = isoDurationDays(req(r, 'expected')) + isoDurationDays(lag);
+      var age = asOf.ord - latest.ord, ok = age <= allowed;
+      var detail = { latest_period: latest.iso, age_days: age, allowed_days: pyRound(allowed, 0),
+        expected: r.expected, lag: lag, as_of: asOf.iso };
+      return [1, ok ? 1 : 0, ok ? [] : [detail], detail];
+    },
+    no_gaps: function (f, r) {
+      var set = new Set();
+      column(f, req(r, 'column')).forEach(function (v) {
+        var s4 = Array.from(v === null ? 'nan' : pyStr(v)).slice(0, 4).join('');
+        if (isType(s4, 'year')) set.add(pyInt(s4));
+      });
+      var years = Array.from(set).sort(function (a, b) { return a - b; });
+      if (!years.length) return [1, 0, [{ reason: 'no years found' }], {}];
+      var step = get(r, 'step', 1), expected = [], y;
+      if (step === 0) throw new Error('range() arg 3 must not be zero');
+      for (y = years[0]; step > 0 ? y < years[years.length - 1] + 1 : y > years[years.length - 1] + 1; y += step) expected.push(y);
+      var missing = expected.filter(function (x) { return !set.has(x); });
+      return [expected.length, expected.length - missing.length,
+        missing.slice(0, 5).map(function (x) { return { missing_period: x }; }),
+        { first: years[0], last: years[years.length - 1] }];
+    },
+    header_has_unit: function (f, r) {
+      var ignore = get(r, 'ignore', []);
+      var cols = truthy(get(r, 'columns', null)) ? r.columns : f.columns.filter(function (c) { return ignore.indexOf(c) < 0; });
+      var tokens = get(r, 'tokens', UNIT_TOKENS).map(function (t) { return t.toLowerCase(); });
+      var flags = new Map();                                    // Python: a dict, so repeats count once
+      cols.forEach(function (c) {
+        var name = pyStr(c).toLowerCase();
+        flags.set(c, tokens.some(function (t) { return name.indexOf(t) >= 0; }));
+      });
+      var bad = [], ok = 0;
+      flags.forEach(function (v, c) { if (v) ok++; else bad.push({ column: c }); });
+      return [cols.length, ok, bad, {}];
+    },
+    not_unknown: function (f, r) {
+      var c = req(r, 'column');
+      var unknown = new Set(get(r, 'values', UNKNOWN).map(function (v) { return pyStrip(pyStr(v)).toLowerCase(); }));
+      return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && !unknown.has(pyStrip(pyStr(v)).toLowerCase()); }));
+    },
+    // Run an inner check per group; pass if the gap between best and worst group is within tolerance.
+    group_disparity: function (f, r, asOf) {
+      var inner = Object.assign({}, req(r, 'inner')), gcol = column(f, req(r, 'group'));
+      var groups = new Map(), nan = [];
+      gcol.forEach(function (v, i) {
+        if (v === null) { nan.push(i); return; }
+        var k = pyStr(v); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(i);
+      });
+      var keys = pySorted(Array.from(groups.keys())), parts = keys.map(function (k) { return [k, groups.get(k)]; });
+      if (nan.length) parts.push(['nan', nan]);                 // pandas puts the blank group last
+      var check = req(inner, 'check');
+      if (!has(DQ.CHECKS, check)) throw new Error('KeyError: ' + pyRepr(check));
+      var rates = {};
+      parts.forEach(function (p) {
+        var res = DQ.CHECKS[check](subset(f, p[1]), inner, asOf);
+        put(rates, p[0], res[0] ? pyRound(100.0 * res[1] / res[0], 3) : 100.0);
+      });
+      var vals = Object.keys(rates).map(function (k) { return rates[k]; });
+      var gap = vals.length ? Math.max.apply(null, vals) - Math.min.apply(null, vals) : 0.0;
+      var ok = gap <= get(r, 'tolerance', 5.0), gp = pyRound(gap, 3);
+      return [1, ok ? 1 : 0, ok ? [] : [{ gap_points: gp, by_group: rates }], { by_group: rates, gap_points: gp }];
+    }
+  };
+
+  // ---------------------------------------------------------------------------------------
+  // 7. Running a rules file (rules.validate_spec, rules.run, rules.summarise)
+  // ---------------------------------------------------------------------------------------
+
+  DQ.setVocab = function (issueTypes, dimensions) {
+    ISSUE_TYPES = {};
+    Object.keys(issueTypes).forEach(function (k) {
+      var t = Object.assign({}, issueTypes[k]);
+      t.default_impact = Number(t.default_impact);
+      ISSUE_TYPES[k] = t;
+    });
+    if (dimensions) DIMENSIONS = dimensions;
+  };
+  DQ.setDimensions = function (dimensions) { DIMENSIONS = dimensions; };
+  function vocab() {
+    if (!ISSUE_TYPES) throw new Error('Call DQ.setVocab(issueTypes) first');
+    return ISSUE_TYPES;
+  }
+
+  DQ.validateSpec = function (spec) {
+    if (!has(spec, 'asset') || !has(spec, 'rules')) throw new Error("a rules file needs 'asset' and 'rules'");
+    checkLevel('asset.importance', get(spec.asset, 'importance', 3));
+    var pol = get(spec.asset, 'target_policy', DQ.DEFAULT_POLICY);
+    if (typeof pol !== 'string' || !has(DQ.TARGET_POLICIES, pol)) throw new Error('asset.target_policy must be low, mid or high');
+    var seen = new Set();
+    spec.rules.forEach(function (r) {
+      var check = get(r, 'check', null);
+      if (typeof check !== 'string' || !has(DQ.CHECKS, check)) {
+        throw new Error('rule ' + pyStr(get(r, 'id', null)) + ': unknown check ' + pyRepr(check));
+      }
+      var id = req(r, 'id'), key = typeof id + ':' + pyStr(id);
+      if (seen.has(key)) throw new Error('duplicate rule id ' + pyStr(id));
+      seen.add(key);
+      if (DQ.CONTROL_POINTS.indexOf(get(r, 'control_point', 'source')) < 0) {
+        throw new Error('rule ' + pyStr(id) + ': control_point must be source, pipeline or reporting');
+      }
+      var it = get(r, 'issue_type', DQ.DEFAULT_ISSUE[check]);
+      if (typeof it !== 'string' || !has(vocab(), it)) throw new Error('rule ' + pyStr(id) + ': unknown issue type ' + pyRepr(it));
+    });
+  };
+
+  DQ.run = function (table, spec, asOfISO) {
+    var f = frame(table), asOf = parseAsOf(asOfISO), asset = spec.asset, IT = vocab();
+    var importance = pyInt(get(asset, 'importance', 3)), policy = get(asset, 'target_policy', DQ.DEFAULT_POLICY);
+    var results = spec.rules.map(function (r) {
+      var check = req(r, 'check'), issue = get(r, 'issue_type', DQ.DEFAULT_ISSUE[check]);
+      if (!has(IT, issue)) throw new Error("KeyError: " + pyRepr(issue));
+      var meta = IT[issue], dimension = get(r, 'dimension', meta.dimension);
+      var impact = pyInt(get(r, 'impact', meta.default_impact));
+      var extra = get(r, 'columns', []);
+      var cols = [get(r, 'column', null), get(r, 'left', null), get(r, 'right', null), get(r, 'group', null)]
+        .filter(truthy).concat(typeof extra === 'string' ? Array.from(extra) : extra);
+      var exempt = ['required_columns', 'compare', 'header_has_unit'].indexOf(check) >= 0;
+      var missing = cols.filter(function (c) { return f.columns.indexOf(c) < 0 && !exempt; });
+      var out;
+      if (missing.length) {
+        out = [1, 0, missing.map(function (c) { return { missing_column: c }; }), {}];
+        issue = 'missing-field'; dimension = 'completeness';
+      } else {
+        if (!has(DQ.CHECKS, check)) throw new Error('KeyError: ' + pyRepr(check));
+        out = DQ.CHECKS[check](f, r, asOf);
+      }
+      var checked = out[0], passed = out[1], perf = checked ? 100.0 * passed / checked : 100.0;
+      var a = DQ.assess(importance, impact, perf, get(r, 'target', null), policy);
+      var m = {};
+      ['purpose', 'requirement', 'method', 'notes', 'part_of_data', 'personal_data'].forEach(function (k) { if (has(r, k)) m[k] = r[k]; });
+      m.control_point = get(r, 'control_point', DQ.DEFAULT_CONTROL[check]);
+      return { id: req(r, 'id'), check: check, description: get(r, 'description', check), dimension: dimension,
+        issue_type: issue, columns: cols, checked: checked, passed: passed, performance: pyRound(perf, 3),
+        examples: out[2], detail: out[3], assessment: a, meta: m, failed: checked - passed };
+    });
+    return summarise(asset, results, asOf, f.n);
+  };
+
+  function summarise(asset, results, asOf, nRows) {
+    var dims = {}, perfs = {};
+    results.forEach(function (r) {
+      if (!has(dims, r.dimension)) { dims[r.dimension] = { rules: 0, met: 0 }; perfs[r.dimension] = []; }
+      dims[r.dimension].rules += 1;
+      dims[r.dimension].met += r.assessment.meets_target ? 1 : 0;
+      perfs[r.dimension].push(r.performance);
+    });
+    Object.keys(dims).forEach(function (k) { dims[k].mean_performance = pyRound(pySum(perfs[k]) / perfs[k].length, 3); });
+    var order = { Critical: 0, High: 1, Medium: 2, Low: 3 };
+    var issues = results.filter(function (r) { return !r.assessment.meets_target; });
+    issues.sort(function (x, y) {                              // stable, like Python's sort
+      var a = has(order, x.assessment.priority) ? order[x.assessment.priority] : 9;
+      var b = has(order, y.assessment.priority) ? order[y.assessment.priority] : 9;
+      return a !== b ? a - b : y.assessment.priority_score - x.assessment.priority_score;
+    });
+    return { asset: asset, as_of: asOf.iso, rows: nRows, rules_total: results.length,
+      rules_met: results.length - issues.length, dimensions: dims,
+      issues: issues.map(function (r) {
+        return { rule: r.id, issue_type: r.issue_type, label: ISSUE_TYPES[r.issue_type].label, dimension: r.dimension,
+          priority: r.assessment.priority, resolution: r.assessment.resolution, performance: r.performance,
+          target: r.assessment.target };
+      }),
+      results: results };
+  }
+
+  // ---------------------------------------------------------------------------------------
+  // 8. Trust level, DQAP route, issue operations, DQV and DQAP exports
+  // ---------------------------------------------------------------------------------------
+
+  var TRUST_LEVELS = ['Untrustworthy', 'Requires improvement', 'Useable', 'Trustworthy'];
+  var SHARING = { 'Untrustworthy': 'Internal use only', 'Requires improvement': 'Internal use only',
+    'Useable': 'Can be used externally, with caveats', 'Trustworthy': 'Can be used externally' };
+  var CROSSWALK = {
+    'Untrustworthy': { mhclg_quality_ladder: 'none / some', ndl_rag: 'red' },
+    'Requires improvement': { mhclg_quality_ladder: 'indicative / verifiable', ndl_rag: 'red' },
+    'Useable': { mhclg_quality_ladder: 'authoritative / usable', ndl_rag: 'amber' },
+    'Trustworthy': { mhclg_quality_ladder: 'trustworthy', ndl_rag: 'green' } };
+  var CORE = ['completeness', 'uniqueness', 'consistency', 'timeliness', 'validity', 'accuracy'];
+
+  // Suggested IOPC-style trust level with reasons (trust.classify).
+  DQ.trust = function (result, personalDataColumns) {
+    var personal = truthy(personalDataColumns) ? personalDataColumns : get(get(result, 'asset', {}), 'personal_data_columns', []);
+    var FROM = { Critical: 0, High: 1, Medium: 2, Low: 3 }, reasons = [], level = 3, actionPlan = false;
+    result.results.forEach(function (r) {
+      var pr = r.assessment.priority;
+      if (pr !== null && pr !== undefined && FROM[pr] < level) {
+        level = FROM[pr];
+        reasons.push(pr + ' priority issue on ' + pyStr(r.id) + ' (' + pyStr(r.description) + '): ' + pyFloatRepr(r.performance) +
+          '% against a ' + pyFloatRepr(r.assessment.target) + '% target');
+      }
+    });
+    result.results.forEach(function (r) {
+      var isPersonal = truthy(get(get(r, 'meta', {}), 'personal_data', null)) ||
+        r.columns.some(function (c) { return personal.indexOf(c) >= 0; });
+      if (isPersonal && r.dimension === 'accuracy') {
+        if (r.performance < 100) actionPlan = true;
+        if (r.performance < 90 && level > 2) {
+          level = 2;
+          reasons.push('Accuracy of personal data on ' + pyStr(r.id) + ' is ' + pyFloatRepr(r.performance) +
+            '%, below 90%, so the data cannot be rated Trustworthy');
+        }
+      }
+    });
+    var measured = pySorted(Array.from(new Set(result.results.map(function (r) { return r.dimension; })))
+      .filter(function (d) { return CORE.indexOf(d) >= 0; }));
+    if (measured.length < 3 && level > 2) {
+      level = 2;
+      reasons.push('Only ' + measured.length + ' of the 6 core dimensions were measured (' + (measured.join(', ') || 'none') +
+        "), so there isn't enough evidence for Trustworthy");
+    }
+    if (!reasons.length) reasons.push('All rules meet their targets, or only Low priority issues remain');
+    var name = TRUST_LEVELS[level];
+    return { level: name, sharing: SHARING[name], reasons: reasons, action_plan_required: actionPlan || level < 3,
+      dimensions_measured: measured, crosswalk: Object.assign({}, CROSSWALK[name]),
+      note: 'Suggested level. The data owner confirms or overrides it, with reasons (IOPC approach).' };
+  };
+
+  // Which DQAP route fits the asset (pathway.route, the 2023 decision tree).
+  DQ.route = function (asset) {
+    var source = get(asset, 'source', 'internal'), influence = truthy(get(asset, 'influence', source === 'internal'));
+    var adequate = get(asset, 'fields_adequate', true), canEnrich = get(asset, 'can_enrich', false);
+    var steps = ['Determine and define the use cases and stakeholders', 'Assess the data structure'];
+    if (adequate === false) {
+      if (source === 'internal' || influence) {
+        steps.push('Tell stakeholders or suppliers what fields the quality use cases need',
+          'Work with them to add the fields, or understand and record the limitations',
+          'Record any additions in the provenance information');
+      } else if (truthy(canEnrich)) {
+        steps.push('Add the fields the quality use cases need', 'Record the additions in the provenance information');
+      } else {
+        steps.push('Communicate the limitations to stakeholders, and record them in the metadata and the DQAP');
+      }
+    }
+    steps.push('Define domain-appropriate data quality assessment parameters (the rules file)',
+      'Record them in the DQAP', 'Measure data quality against the planned parameters',
+      'Store and visualise the results in an accessible format',
+      'Check the assessment meets its stated aims; if not, revise the parameters',
+      'Communicate the results to stakeholders', 'Make changes to improve data quality where appropriate',
+      'Repeat at a frequency that meets the original requirements');
+    var label, resp;
+    if (source === 'external' && !influence) {
+      label = 'External data, no influence: assess, caveat and communicate';
+      resp = 'Fixes sit with the supplier. Your job is to measure, record limitations and tell users.';
+    } else if (source === 'external') {
+      label = 'External data, some influence: assess and work with the supplier';
+      resp = 'Agree fixes with the supplier and record them in the DQAP actions.';
+    } else {
+      label = 'Internal data: assess and fix at source';
+      resp = 'Fix root causes in your own processes and systems.';
+    }
+    return { route: label, responsibility: resp, steps: steps, source: source, influence: influence,
+      basis: 'Data Quality Assessment Decision Tree (government data quality community, July 2023)' };
+  };
+
+  // Issue ageing, overdue issues and recurrence (operations.assess).
+  // historyRows: [{date, rule_id, value, target, meets_target}] as in the history CSV.
+  var WINDOW = { Critical: 1, High: 1, Medium: 3, Low: 6 };
+  DQ.operations = function (result, historyRows) {
+    var runs = new Map();
+    function put(id, date, ok) { if (!runs.has(id)) runs.set(id, new Map()); runs.get(id).set(date, ok); }
+    (historyRows || []).forEach(function (h) { put(h.rule_id, h.date, String(h.meets_target).toLowerCase() === 'true'); });
+    result.results.forEach(function (r) { put(r.id, result.as_of, !!r.assessment.meets_target); });
+    var all = new Set();
+    runs.forEach(function (v) { v.forEach(function (_, d) { all.add(d); }); });
+    var dates = pySorted(Array.from(all)), perRule = {};
+    result.results.forEach(function (r) {
+      var run = runs.get(r.id), series = dates.filter(function (d) { return run.has(d); }).map(function (d) { return run.get(d); });
+      var age = 0, i;
+      for (i = series.length - 1; i >= 0 && !series[i]; i--) age++;
+      var rec = 0, seenFail = false, prev = null;               // a failure after a pass, after an earlier failure
+      series.forEach(function (ok) {
+        if (ok === false && prev === true && seenFail) rec++;
+        if (ok === false) seenFail = true;
+        prev = ok;
+      });
+      var pr = r.assessment.priority, overdue = truthy(pr) && age > (has(WINDOW, pr) ? WINDOW[pr] : 99);
+      perRule[r.id] = { open: age > 0, cycles_open: age, priority: pr, recurrences: rec, overdue: overdue,
+        escalate_to: overdue && (pr === 'Critical' || pr === 'High') ? 'Data owner and governance board' : overdue ? 'Data owner' : '' };
+    });
+    var total = result.results.length || 1;
+    var failing = result.results.filter(function (r) { return !r.assessment.meets_target; });
+    var everFailed = [];
+    runs.forEach(function (v, k) { if (Array.from(v.values()).indexOf(false) >= 0) everFailed.push(k); });
+    var vals = Object.keys(perRule).map(function (k) { return perRule[k]; });
+    var open = vals.filter(function (v) { return v.open; });
+    return {
+      cycles_measured: dates.length,
+      defect_volume: failing.reduce(function (s, r) { return s + (pyInt(r.checked) - pyInt(r.passed)); }, 0),
+      control_failure_rate: pyRound(100 * failing.length / total, 1),
+      open_issues: open.length,
+      overdue_issues: vals.filter(function (v) { return v.overdue; }).length,
+      mean_cycles_open: pyRound(open.reduce(function (s, v) { return s + v.cycles_open; }, 0) / Math.max(1, open.length), 1),
+      recurrence_rate: pyRound(100 * everFailed.filter(function (k) { return has(perRule, k) && truthy(perRule[k].recurrences); }).length /
+        Math.max(1, everFailed.length), 1),
+      rules: perRule
+    };
+  };
+
+  // W3C Data Quality Vocabulary (DQV) JSON-LD (dqv.result_to_dqv).
+  var BASE = 'https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#';
+  DQ.DQV_CONTEXT = { dcat: 'http://www.w3.org/ns/dcat#', dct: 'http://purl.org/dc/terms/', dqv: 'http://www.w3.org/ns/dqv#',
+    prov: 'http://www.w3.org/ns/prov#', skos: 'http://www.w3.org/2004/02/skos/core#', xsd: 'http://www.w3.org/2001/XMLSchema#',
+    oa: 'http://www.w3.org/ns/oa#', ndq: BASE, value: { '@id': 'dqv:value', '@type': 'xsd:decimal' },
+    measuredOn: { '@id': 'dct:date', '@type': 'xsd:date' } };
+  DQ.toDQV = function (result, assetIri, dqapIri) {
+    if (!DIMENSIONS) throw new Error('Call DQ.setVocab(issueTypes, dimensions) first');
+    var asset = result.asset, IT = vocab();
+    var iri = truthy(assetIri) ? assetIri : truthy(get(asset, 'iri', null)) ? asset.iri : BASE + 'asset/' + pyStr(asset.id);
+    var measurements = [], annotations = [], metrics = new Map();
+    result.results.forEach(function (r) {
+      var metricIri = BASE + 'metric/' + pyStr(asset.id) + '/' + pyStr(r.id);
+      metrics.set(metricIri, { '@id': metricIri, '@type': 'dqv:Metric', 'skos:prefLabel': r.description,
+        'dqv:expectedDataType': { '@id': 'xsd:decimal' }, 'dqv:inDimension': { '@id': 'ndq:' + r.dimension } });
+      measurements.push({ '@id': iri + '#m-' + pyStr(r.id), '@type': 'dqv:QualityMeasurement',
+        'dqv:computedOn': { '@id': iri }, 'dqv:isMeasurementOf': { '@id': metricIri },
+        value: r.performance, measuredOn: result.as_of, 'ndq:target': r.assessment.target,
+        'ndq:meetsTarget': r.assessment.meets_target, 'ndq:recordsChecked': r.checked });
+      if (!r.assessment.meets_target) {
+        var it = IT[r.issue_type];
+        annotations.push({ '@id': iri + '#issue-' + pyStr(r.id), '@type': 'dqv:QualityAnnotation',
+          'oa:hasTarget': { '@id': iri }, 'oa:motivatedBy': { '@id': 'dqv:qualityAssessment' },
+          'oa:hasBody': { '@type': 'oa:TextualBody', 'oa:value': it.label + ': ' + it.definition },
+          'ndq:issueType': { '@id': 'ndq:issue/' + r.issue_type },
+          'ndq:priority': r.assessment.priority, 'ndq:resolution': r.assessment.resolution,
+          'ndq:responsibility': it.responsibility });
+      }
+    });
+    var ds = { '@id': iri, '@type': 'dcat:Dataset', 'dct:title': get(asset, 'title', asset.id) };
+    if (truthy(get(asset, 'owner', null))) ds['dct:publisher'] = asset.owner;
+    if (truthy(dqapIri)) ds['ndq:dataQualityActionPlan'] = { '@id': dqapIri };
+    ds['dqv:hasQualityMeasurement'] = measurements.map(function (m) { return { '@id': m['@id'] }; });
+    ds['dqv:hasQualityAnnotation'] = annotations.map(function (a) { return { '@id': a['@id'] }; });
+    var graph = [ds].concat(measurements, annotations, Array.from(metrics.values()));
+    Object.keys(DIMENSIONS).forEach(function (k) {
+      if (result.results.some(function (r) { return r.dimension === k; })) {
+        graph.push({ '@id': 'ndq:' + k, '@type': 'dqv:Dimension', 'skos:prefLabel': DIMENSIONS[k].label,
+          'skos:definition': DIMENSIONS[k].definition, 'dqv:inCategory': { '@id': 'ndq:GovernmentDataQualityFramework' } });
+      }
+    });
+    return { '@context': DQ.DQV_CONTEXT, '@graph': graph };
+  };
+
+  // GOV.UK DQAP template rows as CSV text (exporters.to_dqap_csv). Python csv.writer conventions.
+  function csvLine(fields) {
+    if (fields.length === 1 && fields[0] === '') return '""\r\n';
+    return fields.map(function (v) {
+      var s = v === null || v === undefined ? '' : String(v);
+      return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }).join(',') + '\r\n';
+  }
+  DQ.toDqapCsv = function (result) {
+    var asset = result.asset, IT = vocab(), n = 0;
+    var rules = csvLine(['Critical data item', 'Rule ID', 'Rule description', 'Dimension', 'Measure', 'Importance (1-4)',
+      'Impact (1-4)', 'Combined score', 'Target (%)', 'Baseline (%)', 'Date measured']);
+    var issues = csvLine(['Issue ID', 'Rule ID', 'Issue type', 'Description', 'Dimension', 'Performance (%)', 'Target (%)',
+      'Band', 'Priority score', 'Priority', 'Resolution timescale', 'Responsibility', 'Owner', 'Status']);
+    result.results.forEach(function (r) {
+      var a = r.assessment;
+      rules += csvLine([r.columns.map(pyStr).join(', ') || '(dataset)', pyStr(r.id), pyStr(r.description), r.dimension, r.check,
+        pyStr(a.importance), pyStr(a.impact), pyStr(a.combined), pyFloatRepr(a.target), pyFloatRepr(r.performance), result.as_of]);
+      if (!a.meets_target) {
+        n += 1;
+        var it = IT[r.issue_type];
+        var owner = truthy(get(asset, 'steward', null)) ? asset.steward : truthy(get(asset, 'owner', null)) ? asset.owner : '';
+        issues += csvLine([pyStr(asset.id) + '-I' + String(n).padStart(3, '0'), pyStr(r.id), it.label, it.definition, r.dimension,
+          pyFloatRepr(r.performance), pyFloatRepr(a.target), a.band, pyStr(a.priority_score), a.priority, a.resolution,
+          it.responsibility, pyStr(owner), 'Open']);
+      }
+    });
+    return { rules: rules, issues: issues };
+  };
+
+  // Internals, exposed for the parity tests.
+  DQ._py = { pdNumber: pdNumber, pyFloat: pyFloat, pyRound: pyRound, pyFloatRepr: pyFloatRepr, parseDate: parseDate,
+    isType: isType, translateRegex: translateRegex, isoDurationDays: isoDurationDays, pySum: pySum, pairwiseSum: pairwiseSum };
+
+  g.DQ = DQ;
+  if (typeof module !== 'undefined' && module.exports) module.exports = DQ;
+})(typeof window !== 'undefined' ? window : globalThis);

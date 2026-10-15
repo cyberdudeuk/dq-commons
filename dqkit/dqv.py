@@ -73,3 +73,44 @@ def result_to_dqv(result: dict, asset_iri: str | None = None, dqap_iri: str | No
                "skos:definition": v["definition"], "dqv:inCategory": {"@id": "ndq:GovernmentDataQualityFramework"}}
               for k, v in dims.items() if any(r["dimension"] == k for r in result["results"])]
     return {"@context": CONTEXT, "@graph": graph}
+
+
+def metadata_to_dqv(portfolio: dict) -> dict:
+    """Catalogue-record (metadata) assessment results as DQV JSON-LD: one dataset node per record,
+    each requirement check as a quality measurement (pass 100, partial 50, fail 0)."""
+    from . import metadata
+    graphs = []
+    for p in portfolio["pages"]:
+        res = {"asset": {"id": f"ndl-{p['collection']}-{p['slug']}", "title": p["title"], "owner": p["provider"]},
+               "as_of": portfolio["as_of"],
+               "results": [{"id": c["id"], "description": c["label"], "dimension": c["dimension"], "issue_type": c["issue_type"],
+                            "performance": metadata.SCORE.get(c["status"], 1.0) * 100, "checked": 1,
+                            "assessment": {"target": 100.0, "meets_target": c["status"] in ("pass", "n/a"),
+                                           "priority": None if c["status"] in ("pass", "n/a") else
+                                           ("High" if c["impact"] >= 3 else "Medium" if c["impact"] == 2 else "Low"),
+                                           "resolution": None}} for c in p["checks"]]}
+        graphs.append(result_to_dqv(res, asset_iri=p["url"]))
+    return merge(graphs)
+
+
+def merge(graphs: list) -> dict:
+    """Merge several DQV JSON-LD documents into one @graph.
+
+    Nodes with the same @id are combined (in RDF they are the same thing): list values such as
+    dqv:hasQualityMeasurement are joined, other values keep the first one seen. So shared
+    dimensions appear once, and a dataset measured twice (for example a chart file and its catalogue
+    page share one IRI) carries all its measurements.
+    """
+    nodes: dict = {}
+    for g in graphs:
+        for n in g["@graph"]:
+            if n["@id"] not in nodes:
+                nodes[n["@id"]] = {k: (list(v) if isinstance(v, list) else v) for k, v in n.items()}
+                continue
+            have = nodes[n["@id"]]
+            for k, v in n.items():
+                if isinstance(v, list) and isinstance(have.get(k), list):
+                    have[k] += [x for x in v if x not in have[k]]
+                else:
+                    have.setdefault(k, v)
+    return {"@context": CONTEXT, "@graph": list(nodes.values())}

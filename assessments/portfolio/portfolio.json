@@ -1,0 +1,909 @@
+{
+ "schema_version": 1,
+ "portfolio": {
+  "id": "ndl-charts",
+  "title": "National Data Library chart data",
+  "owner": "National Data Library team"
+ },
+ "as_of": "2026-10-14",
+ "run_at": "2026-10-15T06:30:28Z",
+ "fingerprint": "c48d009038369751",
+ "totals": {
+  "assets": 8,
+  "assets_measured": 8,
+  "assets_skipped": 0,
+  "rules_total": 49,
+  "rules_met": 43,
+  "open_issues": 6,
+  "issues_by_priority": {
+   "Critical": 0,
+   "High": 5,
+   "Medium": 1,
+   "Low": 0
+  },
+  "overdue_issues": 0,
+  "escalations": 0,
+  "trust_levels": {
+   "Untrustworthy": 0,
+   "Requires improvement": 5,
+   "Useable": 1,
+   "Trustworthy": 2
+  }
+ },
+ "assets": [
+  {
+   "id": "ndl-people-births-chart",
+   "title": "NDL People collection: Births chart data",
+   "owner": "Office for National Statistics",
+   "iri": "https://www.data.gov.uk/collections/people/births",
+   "tags": [
+    "people"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/births.yaml",
+   "data_file": "assessments/ndl/chart-data/people__births.csv",
+   "measured_on": "2026-10-14",
+   "rows": 88,
+   "rules_met": 8,
+   "rules_total": 8,
+   "issues": [],
+   "trust": {
+    "level": "Trustworthy",
+    "sharing": "Can be used externally",
+    "action_plan_required": false
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 0,
+    "control_failure_rate": 0.0,
+    "open_issues": 0,
+    "overdue_issues": 0,
+    "mean_cycles_open": 0.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 100.0,
+    "timeliness": 100.0,
+    "uniqueness": 100.0,
+    "validity": 100.0
+   },
+   "files": {
+    "results": "assets/ndl-people-births-chart.results.json",
+    "dqv": "assets/ndl-people-births-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-people-births-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-people-births-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-people-births-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-people-births-chart.case-study.md",
+    "case_study_docx": "assets/ndl-people-births-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-early-years-childhood-vaccinations-chart",
+   "title": "NDL Early years collection: Childhood vaccinations chart data",
+   "owner": "UK Health Security Agency",
+   "iri": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations",
+   "tags": [
+    "early-years",
+    "health"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/childhood-vaccinations.yaml",
+   "data_file": "assessments/ndl/chart-data/early-years__childhood-vaccinations.csv",
+   "measured_on": "2026-10-14",
+   "rows": 12,
+   "rules_met": 8,
+   "rules_total": 9,
+   "issues": [
+    {
+     "rule": "R9",
+     "description": "Column names say which vaccine, at what age, and that values are percentages",
+     "label": "Measure not described",
+     "issue_type": "undocumented-measure",
+     "dimension": "validity",
+     "priority": "High",
+     "resolution": "Within 1 measurement cycle",
+     "performance": 0.0,
+     "target": 97.5,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 4,
+    "control_failure_rate": 11.1,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 100.0,
+    "timeliness": 100.0,
+    "uniqueness": 100.0,
+    "validity": 50.0
+   },
+   "files": {
+    "results": "assets/ndl-early-years-childhood-vaccinations-chart.results.json",
+    "dqv": "assets/ndl-early-years-childhood-vaccinations-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-early-years-childhood-vaccinations-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-early-years-childhood-vaccinations-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-early-years-childhood-vaccinations-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-early-years-childhood-vaccinations-chart.case-study.md",
+    "case_study_docx": "assets/ndl-early-years-childhood-vaccinations-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-transport-road-traffic-chart",
+   "title": "NDL Transport collection: Road traffic chart data",
+   "owner": "Department for Transport",
+   "iri": "https://www.data.gov.uk/collections/transport/road-traffic",
+   "tags": [
+    "transport"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/road-traffic.yaml",
+   "data_file": "assessments/ndl/chart-data/transport__road-traffic.csv",
+   "measured_on": "2026-10-14",
+   "rows": 33,
+   "rules_met": 6,
+   "rules_total": 6,
+   "issues": [],
+   "trust": {
+    "level": "Trustworthy",
+    "sharing": "Can be used externally",
+    "action_plan_required": false
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 0,
+    "control_failure_rate": 0.0,
+    "open_issues": 0,
+    "overdue_issues": 0,
+    "mean_cycles_open": 0.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 100.0,
+    "timeliness": 100.0,
+    "uniqueness": 100.0,
+    "validity": 100.0
+   },
+   "files": {
+    "results": "assets/ndl-transport-road-traffic-chart.results.json",
+    "dqv": "assets/ndl-transport-road-traffic-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-transport-road-traffic-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-transport-road-traffic-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-transport-road-traffic-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-transport-road-traffic-chart.case-study.md",
+    "case_study_docx": "assets/ndl-transport-road-traffic-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-environment-air-quality-chart",
+   "title": "NDL Environment collection: Air quality chart data",
+   "owner": "Department for Environment, Food and Rural Affairs",
+   "iri": "https://www.data.gov.uk/collections/environment/air-quality",
+   "tags": [
+    "environment"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/air-quality.yaml",
+   "data_file": "assessments/ndl/chart-data/environment__air-quality.csv",
+   "measured_on": "2026-10-14",
+   "rows": 15,
+   "rules_met": 5,
+   "rules_total": 6,
+   "issues": [
+    {
+     "rule": "R4",
+     "description": "Annual air quality statistics are usually published in spring, so the previous year should be present by autumn",
+     "label": "Data out of date",
+     "issue_type": "stale-data",
+     "dimension": "timeliness",
+     "priority": "High",
+     "resolution": "Within 1 measurement cycle",
+     "performance": 0.0,
+     "target": 97.5,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 1,
+    "control_failure_rate": 16.7,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 100.0,
+    "timeliness": 0.0,
+    "uniqueness": 100.0,
+    "validity": 100.0
+   },
+   "files": {
+    "results": "assets/ndl-environment-air-quality-chart.results.json",
+    "dqv": "assets/ndl-environment-air-quality-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-environment-air-quality-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-environment-air-quality-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-environment-air-quality-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-environment-air-quality-chart.case-study.md",
+    "case_study_docx": "assets/ndl-environment-air-quality-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-government-election-results-chart",
+   "title": "NDL Government and Parliament collection: Election results chart data",
+   "owner": "UK Parliament",
+   "iri": "https://www.data.gov.uk/collections/government-and-parliament/election-results",
+   "tags": [
+    "government-and-parliament"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/election-results.yaml",
+   "data_file": "assessments/ndl/chart-data/government-and-parliament__election-results.csv",
+   "measured_on": "2026-10-14",
+   "rows": 13,
+   "rules_met": 4,
+   "rules_total": 5,
+   "issues": [
+    {
+     "rule": "R1",
+     "description": "The file says which election the shares are for",
+     "label": "Missing field",
+     "issue_type": "missing-field",
+     "dimension": "completeness",
+     "priority": "High",
+     "resolution": "Within 1 measurement cycle",
+     "performance": 66.667,
+     "target": 97.5,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 1,
+    "control_failure_rate": 20.0,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 66.667,
+    "consistency": 100.0,
+    "uniqueness": 100.0,
+    "validity": 100.0
+   },
+   "files": {
+    "results": "assets/ndl-government-election-results-chart.results.json",
+    "dqv": "assets/ndl-government-election-results-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-government-election-results-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-government-election-results-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-government-election-results-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-government-election-results-chart.case-study.md",
+    "case_study_docx": "assets/ndl-government-election-results-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-transport-mot-results-chart",
+   "title": "NDL Transport collection: MOT results chart data",
+   "owner": "Driver and Vehicle Standards Agency",
+   "iri": "https://www.data.gov.uk/collections/transport/mot-results",
+   "tags": [
+    "transport"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/mot-results.yaml",
+   "data_file": "assessments/ndl/chart-data/transport__mot-results.csv",
+   "measured_on": "2026-10-14",
+   "rows": 12,
+   "rules_met": 4,
+   "rules_total": 5,
+   "issues": [
+    {
+     "rule": "R2",
+     "description": "Financial years are written as 2024-25, not 2024",
+     "label": "Value does not match pattern",
+     "issue_type": "pattern-mismatch",
+     "dimension": "validity",
+     "priority": "Medium",
+     "resolution": "Within 3 measurement cycles",
+     "performance": 0.0,
+     "target": 90.0,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Useable",
+    "sharing": "Can be used externally, with caveats",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 12,
+    "control_failure_rate": 20.0,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "consistency": 100.0,
+    "uniqueness": 100.0,
+    "validity": 50.0
+   },
+   "files": {
+    "results": "assets/ndl-transport-mot-results-chart.results.json",
+    "dqv": "assets/ndl-transport-mot-results-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-transport-mot-results-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-transport-mot-results-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-transport-mot-results-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-transport-mot-results-chart.case-study.md",
+    "case_study_docx": "assets/ndl-transport-mot-results-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-government-council-tax-chart",
+   "title": "NDL Government and Parliament collection: Council tax chart data",
+   "owner": "Ministry of Housing, Communities and Local Government",
+   "iri": "https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics",
+   "tags": [
+    "government-and-parliament"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/council-tax.yaml",
+   "data_file": "assessments/ndl/chart-data/government-and-parliament__council-tax-statistics.csv",
+   "measured_on": "2026-10-14",
+   "rows": 15,
+   "rules_met": 5,
+   "rules_total": 6,
+   "issues": [
+    {
+     "rule": "R6",
+     "description": "The amount says it is in pounds and whether it is per dwelling",
+     "label": "Measure not described",
+     "issue_type": "undocumented-measure",
+     "dimension": "validity",
+     "priority": "High",
+     "resolution": "Within 1 measurement cycle",
+     "performance": 0.0,
+     "target": 90.0,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 1,
+    "control_failure_rate": 16.7,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "completeness": 100.0,
+    "timeliness": 100.0,
+    "uniqueness": 100.0,
+    "validity": 66.667
+   },
+   "files": {
+    "results": "assets/ndl-government-council-tax-chart.results.json",
+    "dqv": "assets/ndl-government-council-tax-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-government-council-tax-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-government-council-tax-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-government-council-tax-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-government-council-tax-chart.case-study.md",
+    "case_study_docx": "assets/ndl-government-council-tax-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  },
+  {
+   "id": "ndl-people-social-mobility-chart",
+   "title": "NDL People collection: Social mobility chart data",
+   "owner": "Social Mobility Commission",
+   "iri": "https://www.data.gov.uk/collections/people/social-mobility",
+   "tags": [
+    "people"
+   ],
+   "schedule": "quarterly",
+   "rules_file": "rules/ndl/social-mobility.yaml",
+   "data_file": "assessments/ndl/chart-data/people__social-mobility.csv",
+   "measured_on": "2026-10-14",
+   "rows": 5,
+   "rules_met": 3,
+   "rules_total": 4,
+   "issues": [
+    {
+     "rule": "R4",
+     "description": "The file says what the percentage measures and for which year",
+     "label": "Missing field",
+     "issue_type": "missing-field",
+     "dimension": "completeness",
+     "priority": "High",
+     "resolution": "Within 1 measurement cycle",
+     "performance": 50.0,
+     "target": 97.5,
+     "cycles_open": 1,
+     "overdue": false,
+     "recurrences": 0
+    }
+   ],
+   "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "action_plan_required": true
+   },
+   "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "source": "external",
+    "influence": false,
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users."
+   },
+   "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 2,
+    "control_failure_rate": 25.0,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0
+   },
+   "overdue": [],
+   "dimensions": {
+    "accuracy": 100.0,
+    "completeness": 50.0,
+    "uniqueness": 100.0,
+    "validity": 100.0
+   },
+   "files": {
+    "results": "assets/ndl-people-social-mobility-chart.results.json",
+    "dqv": "assets/ndl-people-social-mobility-chart.dqv.jsonld",
+    "dqap_rules": "assets/ndl-people-social-mobility-chart.dqap-rules.csv",
+    "dqap_issues": "assets/ndl-people-social-mobility-chart.dqap-issues.csv",
+    "workbook": "assets/ndl-people-social-mobility-chart.DQAP.xlsx",
+    "case_study": "assets/ndl-people-social-mobility-chart.case-study.md",
+    "case_study_docx": "assets/ndl-people-social-mobility-chart.case-study.docx"
+   },
+   "measured": true,
+   "next_due": "2027-01-11"
+  }
+ ],
+ "skipped": [],
+ "metadata": {
+  "records_file": "assessments/ndl/harvest.jsonl",
+  "records": 84,
+  "mean_score": 50.9,
+  "mean_cda_coverage": 46.4,
+  "rag": {
+   "green": 1,
+   "amber": 47,
+   "red": 36
+  },
+  "checks": [
+   {
+    "id": "DAM-1",
+    "label": "Owner organisation named",
+    "source": "DAM",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 76,
+    "partial": 0,
+    "fail": 8,
+    "performance": 90.5,
+    "target": 99.9,
+    "priority": "Critical"
+   },
+   {
+    "id": "DAM-2",
+    "label": "Accountable data owner role shown",
+    "source": "DAM",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 0,
+    "partial": 0,
+    "fail": 84,
+    "performance": 0.0,
+    "target": 99.9,
+    "priority": "Critical"
+   },
+   {
+    "id": "DAM-3",
+    "label": "DQAP or equivalent linked",
+    "source": "DAM / DQAP",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 1,
+    "partial": 27,
+    "fail": 56,
+    "performance": 17.3,
+    "target": 99.9,
+    "priority": "Critical"
+   },
+   {
+    "id": "DAM-4",
+    "label": "Reviewed in the last 12 months",
+    "source": "DAM / CDA",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 84,
+    "partial": 0,
+    "fail": 0,
+    "performance": 100.0,
+    "target": 97.5,
+    "priority": null
+   },
+   {
+    "id": "CDA-1",
+    "label": "Security classification stated",
+    "source": "CDA",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 0,
+    "partial": 0,
+    "fail": 84,
+    "performance": 0.0,
+    "target": 75.0,
+    "priority": "Medium"
+   },
+   {
+    "id": "CDA-2",
+    "label": "Time period stated (temporalCoverage)",
+    "source": "CDA",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 59,
+    "partial": 0,
+    "fail": 25,
+    "performance": 70.2,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "CDA-3",
+    "label": "Licence stated for the asset",
+    "source": "CDA",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 0,
+    "partial": 84,
+    "fail": 0,
+    "performance": 50.0,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "CDA-4",
+    "label": "Schema or standard declared (conformsTo)",
+    "source": "CDA",
+    "dimension": "validity",
+    "applicable": 84,
+    "pass": 2,
+    "partial": 15,
+    "fail": 67,
+    "performance": 11.3,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "NDL-1",
+    "label": "Up to date (checked in the last 6 months)",
+    "source": "NDL",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 26,
+    "partial": 58,
+    "fail": 0,
+    "performance": 65.5,
+    "target": 97.5,
+    "priority": "High"
+   },
+   {
+    "id": "NDL-2",
+    "label": "Update frequency stated",
+    "source": "NDL",
+    "dimension": "timeliness",
+    "applicable": 84,
+    "pass": 27,
+    "partial": 0,
+    "fail": 57,
+    "performance": 32.1,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "NDL-3",
+    "label": "Every data link names its publisher",
+    "source": "NDL",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 31,
+    "partial": 7,
+    "fail": 46,
+    "performance": 41.1,
+    "target": 75.0,
+    "priority": "Medium"
+   },
+   {
+    "id": "NDL-4",
+    "label": "Links go to authoritative public sector sources",
+    "source": "NDL",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 72,
+    "partial": 9,
+    "fail": 3,
+    "performance": 91.1,
+    "target": 75.0,
+    "priority": null
+   },
+   {
+    "id": "DQ-1",
+    "label": "Geography stated",
+    "source": "DQAP",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 75,
+    "partial": 0,
+    "fail": 9,
+    "performance": 89.3,
+    "target": 90.0,
+    "priority": "Low"
+   },
+   {
+    "id": "DQ-2",
+    "label": "Quality caveats stated",
+    "source": "DQAP",
+    "dimension": "accuracy",
+    "applicable": 84,
+    "pass": 28,
+    "partial": 0,
+    "fail": 56,
+    "performance": 33.3,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "DQ-3",
+    "label": "Methodology linked",
+    "source": "DQAP",
+    "dimension": "accuracy",
+    "applicable": 84,
+    "pass": 1,
+    "partial": 0,
+    "fail": 83,
+    "performance": 1.2,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "FAIR-1",
+    "label": "Open machine-readable format offered",
+    "source": "FAIR",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 57,
+    "partial": 8,
+    "fail": 19,
+    "performance": 72.6,
+    "target": 97.5,
+    "priority": "High"
+   },
+   {
+    "id": "FAIR-2",
+    "label": "API offered",
+    "source": "FAIR",
+    "dimension": "metadata",
+    "applicable": 84,
+    "pass": 17,
+    "partial": 0,
+    "fail": 67,
+    "performance": 20.2,
+    "target": 75.0,
+    "priority": "Medium"
+   },
+   {
+    "id": "INC-1",
+    "label": "People breakdowns stated",
+    "source": "INC",
+    "dimension": "representativeness",
+    "applicable": 25,
+    "pass": 7,
+    "partial": 0,
+    "fail": 18,
+    "performance": 28.0,
+    "target": 90.0,
+    "priority": "High"
+   },
+   {
+    "id": "INC-2",
+    "label": "Other UK nations signposted",
+    "source": "INC",
+    "dimension": "representativeness",
+    "applicable": 48,
+    "pass": 3,
+    "partial": 17,
+    "fail": 28,
+    "performance": 24.0,
+    "target": 75.0,
+    "priority": "Medium"
+   },
+   {
+    "id": "QA-1",
+    "label": "No factual errors on the page",
+    "source": "Content",
+    "dimension": "accuracy",
+    "applicable": 84,
+    "pass": 83,
+    "partial": 0,
+    "fail": 1,
+    "performance": 98.8,
+    "target": 97.5,
+    "priority": null
+   }
+  ]
+ },
+ "changes": {
+  "compared_with": "2026-10-14",
+  "new": [],
+  "resolved": [],
+  "still_open": [
+   {
+    "asset_id": "ndl-early-years-childhood-vaccinations-chart",
+    "rule_id": "R9",
+    "priority": "High",
+    "label": "Measure not described"
+   },
+   {
+    "asset_id": "ndl-environment-air-quality-chart",
+    "rule_id": "R4",
+    "priority": "High",
+    "label": "Data out of date"
+   },
+   {
+    "asset_id": "ndl-government-council-tax-chart",
+    "rule_id": "R6",
+    "priority": "High",
+    "label": "Measure not described"
+   },
+   {
+    "asset_id": "ndl-government-election-results-chart",
+    "rule_id": "R1",
+    "priority": "High",
+    "label": "Missing field"
+   },
+   {
+    "asset_id": "ndl-people-social-mobility-chart",
+    "rule_id": "R4",
+    "priority": "High",
+    "label": "Missing field"
+   },
+   {
+    "asset_id": "ndl-transport-mot-results-chart",
+    "rule_id": "R2",
+    "priority": "Medium",
+    "label": "Value does not match pattern"
+   }
+  ]
+ },
+ "escalation_policy": {
+  "escalate_priorities": [
+   "Critical",
+   "High"
+  ],
+  "escalate_when": "overdue",
+  "windows_cycles": {
+   "Critical": 1,
+   "High": 1,
+   "Medium": 3,
+   "Low": 6
+  }
+ },
+ "files": {
+  "catalogue": "catalogue.dqv.jsonld",
+  "escalations": "escalations.json",
+  "summary": "run-summary.md",
+  "cda_return": "cda-return.csv",
+  "metadata": "metadata-assessment.json",
+  "history": "history"
+ }
+}

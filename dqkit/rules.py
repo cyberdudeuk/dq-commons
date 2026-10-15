@@ -144,6 +144,9 @@ def _examples(df: pd.DataFrame, mask: pd.Series, cols: list, n: int = 5) -> list
 
 
 def _rowwise(df, cols, mask) -> tuple[int, int, list]:
+    # Force a boolean mask: on an empty or all-text column, pandas 3 can return an object/string
+    # Series whose sum() is "" rather than 0 (found by the JavaScript parity check).
+    mask = mask.astype(bool) if len(mask) else pd.Series([], dtype=bool, index=mask.index)
     return len(mask), int(mask.sum()), _examples(df, mask, cols)
 
 
@@ -176,7 +179,8 @@ def check_type(df, r):
 
 def check_regex(df, r):
     col, pat = r["column"], re.compile(r["pattern"])
-    mask = df[col].astype(str).map(lambda v: pat.fullmatch(v) is not None)
+    # A blank never matches. (pandas 3 keeps blanks as NaN after astype(str), which re cannot read.)
+    mask = df[col].map(lambda v: not pd.isna(v) and pat.fullmatch(str(v)) is not None)
     return _rowwise(df, [col], mask) + ({},)
 
 

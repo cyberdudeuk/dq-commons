@@ -16,6 +16,8 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 | `model/` | Proposed quality extension to the cross-government metadata exchange model (LinkML, JSON Schema, SHACL) | GDS metadata standards owners |
 | `rules/ndl/` | Example rule files for 8 NDL chart datasets | People writing their own rules |
 | `assessments/ndl/` | A full test of the NDL's 84 curated data pages against GOV.UK requirements | NDL team, CDO Council |
+| `portfolio.ndl.yaml`, `assessments/portfolio/` | The NDL portfolio (8 chart assets and the page metadata), and the results of the latest pipeline run | NDL team, portal |
+| `.github/workflows/` | Tests on every change, and the weekly data quality pipeline | Maintainers |
 | `docs/` | PRD, theory of change, architecture, specs, decisions, build log, outreach drafts, and the guidance crosswalk | Everyone |
 
 ## Quick start (no coding knowledge needed beyond copy and paste)
@@ -23,7 +25,7 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (34 tests).
+   You should see `OK` at the end (53 tests at the time of writing).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
@@ -41,7 +43,17 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
    - Great Expectations: `python -m dqkit export rules/ndl/births.yaml --to gx`
    - R `validate`: `python -m dqkit export rules/ndl/births.yaml --to r-validate`
 6. Re-run the NDL assessment: `python scripts/run_ndl_assessment.py`
-7. Analyse the Cross-Government DQ Solutions Survey export (names and emails are removed on load):
+7. Measure a whole portfolio of assets in one go (what the weekly automated pipeline does):
+   `python -m dqkit run portfolio.ndl.yaml --out assessments/portfolio`
+   Read `assessments/portfolio/run-summary.md` for a plain-English digest. It also writes
+   `portfolio.json` (for the web portal), `escalations.json` (overdue Critical and High issues),
+   one merged DQV catalogue file, and every asset's workbook, CSVs and case study.
+   Add `--as-of YYYY-MM-DD` to measure as if on a date, and `--fail-on-escalation` to finish with
+   exit code 2 when something needs escalating. See [`docs/OPERATIONS.md`](docs/OPERATIONS.md).
+8. Start a rules file for a new data file:
+   `python -m dqkit suggest my-data.csv --title "My data" --owner "My Department" --out rules.yaml`
+   This drafts rules from what the data looks like. A data steward must review every rule.
+9. Analyse the Cross-Government DQ Solutions Survey export (names and emails are removed on load):
    `python -m dqkit survey survey-export.xlsx --out survey-results`
 
 ## Writing a rules file

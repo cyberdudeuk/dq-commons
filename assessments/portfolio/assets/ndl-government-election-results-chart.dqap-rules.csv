@@ -1,0 +1,6 @@
+Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
+"Party name, Vote share, Election",R1,The file says which election the shares are for,completeness,required_columns,3,3,9,97.5,66.667,2026-10-14
+Party name,R2,unique,uniqueness,unique,3,4,12,99.9,100.0,2026-10-14
+Vote share,R3,range,accuracy,range,3,3,9,97.5,100.0,2026-10-14
+Vote share,R4,Shares do not add up to more than 100%,consistency,sum_max,3,3,9,97.5,100.0,2026-10-14
+Vote share,R5,The share says it is a percentage,validity,header_has_unit,3,2,6,90.0,100.0,2026-10-14
