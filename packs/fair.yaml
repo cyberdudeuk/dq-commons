@@ -1,0 +1,13 @@
+id: fair
+name: FAIR principles
+summary: Findable, accessible, interoperable and reusable - mostly about metadata and formats.
+jurisdiction: International
+sector: Research and open data
+frameworks: [fair]
+target_policy: low
+requirements:
+  - {id: F, text: "Findable - the asset has a persistent identifier.", evidence: {asset_field: iri}}
+  - {id: A, text: "Accessible - access route and licence are stated.", evidence: {asset_field: licence}}
+  - {id: I, text: "Interoperable - values use shared codes and identifiers.", evidence: {any_checks: [identifier, in_set]}}
+  - {id: R, text: "Reusable - quality is described in standard metadata.", evidence: {automatic: true, note: "DQV metadata"}}
+report: [Findable, Accessible, Interoperable, Reusable]

@@ -1,0 +1,15 @@
+id: ai-ml-readiness
+name: AI and machine learning data readiness (ISO/IEC 5259)
+summary: Checks that matter before data trains or feeds a model - completeness, accuracy, representativeness across groups, currency and documentation.
+jurisdiction: International
+sector: AI and machine learning
+frameworks: [iso-iec-5259]
+target_policy: high
+requirements:
+  - {id: AI-1, text: "Completeness and accuracy of features are measured.", evidence: {dimensions: [completeness, accuracy]}}
+  - {id: AI-2, text: "Representativeness - groups of people are compared and defaulted characteristics counted.", evidence: {any_checks: [group_disparity, not_unknown]}}
+  - {id: AI-3, text: "Duplicates are controlled so records aren't over-weighted.", evidence: {dimensions: [uniqueness]}}
+  - {id: AI-4, text: "Currency of the training data is checked.", evidence: {dimensions: [timeliness]}}
+  - {id: AI-5, text: "Provenance and intended use are documented.", evidence: {asset_field: primary_use}}
+  - {id: AI-6, text: "Label quality and data drift are assessed for the model.", evidence: {manual: "Model team evidence (outside the kit)"}}
+report: [Features, Representativeness, Duplicates, Currency, Provenance, Labels and drift]

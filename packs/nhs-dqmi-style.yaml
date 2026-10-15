@@ -1,0 +1,14 @@
+id: nhs-dqmi-style
+name: NHS DQMI-style index
+summary: An indicative score built the way NHS England's Data Quality Maturity Index is - valid and complete data items, adjusted for coverage. Not the official DQMI.
+jurisdiction: England
+sector: Health
+frameworks: [nhs-dqmi]
+target_policy: mid
+index: dqmi_style
+requirements:
+  - {id: DQMI-1, text: "Completeness of each data item is measured.", evidence: {checks: [not_null]}}
+  - {id: DQMI-2, text: "Validity of each data item is measured against its code list or format.", evidence: {any_checks: [in_set, regex, identifier, type, range]}}
+  - {id: DQMI-3, text: "Use of default values such as Not known is measured.", evidence: {checks: [not_unknown]}}
+  - {id: DQMI-4, text: "Coverage (periods submitted against periods expected) is recorded.", evidence: {asset_field: coverage}}
+report: [Data item scores, Coverage, Index]

@@ -61,6 +61,14 @@
         "out_dir": {
           "type": "string",
           "description": "Where results are written, relative to the portfolio file. The --out option overrides it."
+        },
+        "packs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Framework or scenario packs (packs/*.yaml) to assess every asset against, for example uk-dam-cda"
         }
       }
     },
@@ -163,6 +171,14 @@
               "type": "string"
             },
             "uniqueItems": true
+          },
+          "packs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true,
+            "description": "Extra packs for this asset, added to the defaults"
           }
         }
       }

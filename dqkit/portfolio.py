@@ -29,7 +29,7 @@ from typing import Optional
 import pandas as pd
 import yaml
 
-from . import casestudy, cdareturn, dqv, exporters, metadata, operations, pathway, rules, sources, trust, workbook
+from . import casestudy, cdareturn, dqv, exporters, metadata, operations, packs, pathway, rules, sources, trust, workbook
 
 SCHEMA_PATH = Path(__file__).resolve().parent / "portfolio.schema.json"
 PRIORITY_ORDER = {"Critical": 0, "High": 1, "Medium": 2, "Low": 3}
@@ -364,6 +364,15 @@ def run(portfolio_path, as_of: Optional[date] = None, out_dir=None, history: boo
                              if entry.get("schedule") else None)
             log(f"  {aid}: {res['rules_met']}/{res['rules_total']} rules met; {len(res['issues'])} issue(s); "
                 f"trust {res['trust']['level']}")
+        s["packs"] = []
+        for pid in list(dict.fromkeys(list(defaults.get("packs", [])) + list(entry.get("packs", [])))):
+            try:
+                pa = packs.assess(pid, res)
+            except ValueError as e:
+                raise PortfolioError(f"{label}: {e}") from None
+            s["packs"].append({k: pa[k] for k in ("pack", "name", "coverage", "met", "partly", "not_met", "manual")}
+                              | {"gaps": [f"{r['id']}: {r['reason']}" for r in pa["requirements"] if r["status"] in ("not met", "partly")]}
+                              | ({"index": pa["index"]["index"]} if "index" in pa else {}))
         summaries.append(s)
         results[aid] = res
         graphs.append(graph)

@@ -1,0 +1,15 @@
+id: uk-gdqf
+name: Government Data Quality Framework
+summary: The 2020 cross-government framework - 5 principles, the data lifecycle and 6 core dimensions. Good for any public body.
+jurisdiction: UK
+sector: Cross-government
+frameworks: [uk-gdqf]
+target_policy: low
+requirements:
+  - {id: GDQF-P1, text: "Commit to data quality - an accountable owner is recorded.", evidence: {asset_field: owner}}
+  - {id: GDQF-P2, text: "Know your users and their needs - the primary use is recorded.", evidence: {asset_field: primary_use}}
+  - {id: GDQF-P3, text: "Assess quality throughout the data lifecycle - rules sit at source, in the pipeline or in reporting.", evidence: {control_points: 2}}
+  - {id: GDQF-P4, text: "Communicate data quality clearly - results are published as metadata.", evidence: {automatic: true, note: "DQV metadata"}}
+  - {id: GDQF-P5, text: "Anticipate changes affecting data quality - quality is tracked over time.", evidence: {history_cycles: 2}}
+  - {id: GDQF-D, text: "The six core dimensions are each measured where they apply.", evidence: {dimensions: [completeness, uniqueness, consistency, timeliness, validity, accuracy]}}
+report: [Principles, Dimensions measured, Results, Action plan]

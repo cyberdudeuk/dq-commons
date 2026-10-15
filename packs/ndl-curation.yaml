@@ -1,0 +1,14 @@
+id: ndl-curation
+name: National Data Library - curated data page
+summary: Scenario pack for assets curated into the National Data Library - CDA metadata, publisher, update frequency and inclusion signposting.
+jurisdiction: UK
+sector: Data publication
+frameworks: [uk-dam-policy, uk-cda-metadata, fair]
+target_policy: low
+requirements:
+  - {id: NDL-1, text: "The publisher (owner organisation) is named.", evidence: {asset_field: owner}}
+  - {id: NDL-2, text: "The asset has a page identifier.", evidence: {asset_field: iri}}
+  - {id: NDL-3, text: "The update frequency is stated.", evidence: {asset_field: measurement_cycle}}
+  - {id: NDL-4, text: "Chart data say what they measure.", evidence: {checks: [header_has_unit]}}
+  - {id: NDL-5, text: "The latest period is recent enough.", evidence: {checks: [freshness]}}
+report: [Publisher, Identifier, Frequency, Labelling, Freshness]

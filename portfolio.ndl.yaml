@@ -7,6 +7,7 @@ portfolio:
   owner: National Data Library team
 defaults:
   target_policy: low
+  packs: [uk-dam-cda, ndl-curation, uk-gdqf]   # framework and scenario packs to assess every asset against
   out_dir: assessments/portfolio
   history_dir: history          # i.e. assessments/portfolio/history
 assets:

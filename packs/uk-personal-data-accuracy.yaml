@@ -1,0 +1,15 @@
+id: uk-personal-data-accuracy
+name: UK GDPR accuracy principle (personal data)
+summary: Evidence that personal data is accurate, kept up to date where necessary, and that inaccuracies are corrected - plus fairness across groups.
+jurisdiction: UK
+sector: Any organisation holding personal data
+frameworks: [uk-ico-accuracy]
+target_policy: mid
+requirements:
+  - {id: ACC-1, text: "Personal data columns are declared.", evidence: {asset_field: personal_data_columns}}
+  - {id: ACC-2, text: "Accuracy of personal data is measured.", evidence: {dimensions: [accuracy]}}
+  - {id: ACC-3, text: "Identifiers are validated so records link to the right person.", evidence: {checks: [identifier]}}
+  - {id: ACC-4, text: "Currency is checked where the purpose needs up-to-date data.", evidence: {dimensions: [timeliness]}}
+  - {id: ACC-5, text: "Quality is compared across groups of people so no group is disadvantaged.", evidence: {checks: [group_disparity]}}
+  - {id: ACC-6, text: "There is a route to correct inaccurate data (rectification).", evidence: {manual: "Rectification process documented"}}
+report: [Personal data held, Accuracy and identifiers, Currency, Fairness across groups, Rectification]

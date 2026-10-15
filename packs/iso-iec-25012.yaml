@@ -1,0 +1,12 @@
+id: iso-iec-25012
+name: ISO/IEC 25012 data quality model
+summary: Reports results against the 15 ISO/IEC 25012 characteristics, showing which the data rules measure and which need system or process evidence.
+jurisdiction: International
+sector: Software and data
+frameworks: [iso-iec-25012]
+target_policy: mid
+requirements:
+  - {id: INH, text: "Inherent characteristics measured - accuracy, completeness, consistency, currentness.", evidence: {dimensions: [accuracy, completeness, consistency, timeliness]}}
+  - {id: BOTH, text: "Understandability and traceability evidenced through metadata.", evidence: {automatic: true, note: "DQV metadata with source and method"}}
+  - {id: SYS, text: "System-dependent characteristics (availability, portability, recoverability) assessed.", evidence: {manual: "Platform evidence"}}
+report: [Inherent, Inherent and system-dependent, System-dependent]

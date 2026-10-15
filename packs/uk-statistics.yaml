@@ -1,0 +1,16 @@
+id: uk-statistics
+name: Official statistics - Code of Practice 3.0 and QAAD
+summary: For statistics producers - links data quality results to the Code of Practice for Statistics (Edition 3.0) quality pillar and the QAAD toolkit for administrative data.
+jurisdiction: UK
+sector: Official statistics
+frameworks: [uk-code-of-practice-3, uk-qaad, uk-analysis-function-quality]
+target_policy: mid
+requirements:
+  - {id: COP-Q1, text: "Suitable data sources - the source and supplier relationship are recorded.", evidence: {asset_field: source}}
+  - {id: COP-Q2, text: "Sound methods - validity and consistency are checked.", evidence: {dimensions: [validity, consistency]}}
+  - {id: COP-Q3, text: "Assured quality - accuracy is assessed and limitations stated.", evidence: {dimensions: [accuracy]}}
+  - {id: COP-V1, text: "Value - outputs say what they measure (units and labels).", evidence: {checks: [header_has_unit]}}
+  - {id: COP-T1, text: "Timeliness of release is monitored.", evidence: {checks: [freshness]}}
+  - {id: QAAD-1, text: "QAAD assurance level (A0 to A3) is recorded for administrative sources.", evidence: {asset_field: qaad_level}}
+  - {id: QAAD-2, text: "Supplier quality checks and communication are documented.", evidence: {manual: "QAAD practice areas 2 and 3"}}
+report: [Source and supplier, Methods, Accuracy and limitations, Timeliness, QAAD level]

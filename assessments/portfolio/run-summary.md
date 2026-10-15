@@ -1,6 +1,6 @@
 # Data quality run: National Data Library chart data
 
-- **Measured as of:** 2026-10-14 (run at 2026-10-15T06:44:49Z)
+- **Measured as of:** 2026-10-14 (run at 2026-10-15T08:15:03Z)
 - **Owner:** National Data Library team
 - **Assets:** 8 (8 measured this run)
 - **Rules meeting target:** 43 of 49

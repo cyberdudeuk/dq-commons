@@ -1,0 +1,14 @@
+id: ess-output-quality
+name: ESS output quality dimensions
+summary: Reports against the European Statistical System output quality dimensions, which UK statistics guidance also uses.
+jurisdiction: EU / international
+sector: Official statistics
+frameworks: [ess-qaf]
+target_policy: mid
+requirements:
+  - {id: ESS-R, text: "Relevance - user needs are recorded.", evidence: {asset_field: primary_use}}
+  - {id: ESS-A, text: "Accuracy and reliability are measured.", evidence: {dimensions: [accuracy]}}
+  - {id: ESS-T, text: "Timeliness and punctuality are monitored.", evidence: {dimensions: [timeliness]}}
+  - {id: ESS-C, text: "Coherence and comparability - series have no gaps and use consistent codes.", evidence: {any_checks: [no_gaps, identifier, in_set]}}
+  - {id: ESS-AC, text: "Accessibility and clarity - measures are labelled.", evidence: {checks: [header_has_unit]}}
+report: [Relevance, Accuracy, Timeliness, Coherence, Accessibility]

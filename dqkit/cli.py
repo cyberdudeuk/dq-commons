@@ -63,6 +63,14 @@ def main(argv=None) -> int:
     e.add_argument("rules"); e.add_argument("--to", choices=["gx", "r-validate"], required=True)
     m = sub.add_parser("assess-metadata")
     m.add_argument("records"); m.add_argument("--as-of"); m.add_argument("--out")
+    pk = sub.add_parser("pack", help="framework and scenario packs: list them, or assess results against one")
+    pk.add_argument("action", choices=["list", "assess"])
+    pk.add_argument("results", nargs="?", help="a *.results.json file (for assess)")
+    pk.add_argument("--pack", help="pack id, for example uk-dam-cda")
+    cw = sub.add_parser("crosswalk", help="restate results in another framework's dimensions, or list frameworks")
+    cw.add_argument("results", nargs="?", help="a *.results.json file")
+    cw.add_argument("--to", help="framework id from knowledge/frameworks.yaml, for example iso-iec-25012")
+    cw.add_argument("--list", action="store_true", help="list the frameworks in the registry")
     sv = sub.add_parser("survey")
     sv.add_argument("export"); sv.add_argument("--out", default="survey-results")
     r = sub.add_parser("run", help="measure every asset in a portfolio file",
@@ -167,6 +175,43 @@ def main(argv=None) -> int:
             print(f"Draft rules file with {len(spec['rules'])} rule(s) written to {a.out}. Review every rule before use.")
         else:
             print(text)
+        return 0
+    if a.cmd == "pack":
+        from . import packs
+        if a.action == "list":
+            for pk_ in packs.list_packs():
+                print(f"{pk_['id']:28} {pk_['name']}")
+            return 0
+        if not (a.results and a.pack):
+            print("Problem: give a results file and --pack", file=sys.stderr)
+            return 1
+        try:
+            out = packs.assess(a.pack, json.loads(Path(a.results).read_text(encoding="utf-8")))
+        except (ValueError, OSError) as e:
+            print(f"Problem: {e}", file=sys.stderr)
+            return 1
+        print(f"{out['name']}: {out['coverage']}% of automatically checkable requirements met "
+              f"({out['met']} met, {out['partly']} partly, {out['not_met']} not met, {out['manual']} to confirm by hand)")
+        for r in out["requirements"]:
+            print(f"  [{r['status']}] {r['id']} {r['text']} - {r['reason']}")
+        if "index" in out:
+            print(f"  DQMI-style index: {out['index']['index']} ({out['index']['note']})")
+        return 0
+    if a.cmd == "crosswalk":
+        from . import packs
+        if a.list or not a.results:
+            for f in packs.registry():
+                print(f"{f['id']:32} {f['jurisdiction']:16} {f['name']}")
+            return 0
+        try:
+            out = packs.convert(json.loads(Path(a.results).read_text(encoding="utf-8")), a.to)
+        except (ValueError, OSError, TypeError) as e:
+            print(f"Problem: {e}", file=sys.stderr)
+            return 1
+        print(f"{out['asset']} in {out['name']} terms:")
+        for r in out["dimensions"]:
+            score = "" if r["score"] is None else f"{r['score']}%"
+            print(f"  {r['dimension']:40} {score:>7}  {r['status']}")
         return 0
     if a.cmd == "survey":
         from . import survey

@@ -6,8 +6,8 @@
   "owner": "National Data Library team"
  },
  "as_of": "2026-10-14",
- "run_at": "2026-10-15T06:44:49Z",
- "fingerprint": "c48d009038369751",
+ "run_at": "2026-10-15T08:15:03Z",
+ "fingerprint": "7103c933b81f4bbf",
  "totals": {
   "assets": 8,
   "assets_measured": 8,
@@ -85,7 +85,46 @@
     "case_study_docx": "assets/ndl-people-births-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 86.4,
+     "met": 9,
+     "partly": 1,
+     "not_met": 1,
+     "manual": 1,
+     "gaps": [
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 100.0,
+     "met": 5,
+     "partly": 0,
+     "not_met": 0,
+     "manual": 0,
+     "gaps": []
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-early-years-childhood-vaccinations-chart",
@@ -157,7 +196,46 @@
     "case_study_docx": "assets/ndl-early-years-childhood-vaccinations-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 86.4,
+     "met": 9,
+     "partly": 1,
+     "not_met": 1,
+     "manual": 1,
+     "gaps": [
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 100.0,
+     "met": 5,
+     "partly": 0,
+     "not_met": 0,
+     "manual": 0,
+     "gaps": []
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-transport-road-traffic-chart",
@@ -213,7 +291,49 @@
     "case_study_docx": "assets/ndl-transport-road-traffic-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 77.3,
+     "met": 8,
+     "partly": 1,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 80.0,
+     "met": 4,
+     "partly": 0,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-environment-air-quality-chart",
@@ -284,7 +404,49 @@
     "case_study_docx": "assets/ndl-environment-air-quality-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 77.3,
+     "met": 8,
+     "partly": 1,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 80.0,
+     "met": 4,
+     "partly": 0,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-government-election-results-chart",
@@ -355,7 +517,51 @@
     "case_study_docx": "assets/ndl-government-election-results-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 72.7,
+     "met": 7,
+     "partly": 2,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-2: Not yet measured: timeliness",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 60.0,
+     "met": 3,
+     "partly": 0,
+     "not_met": 2,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block",
+      "NDL-5: Add a rule using: freshness"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: timeliness"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-transport-mot-results-chart",
@@ -425,7 +631,51 @@
     "case_study_docx": "assets/ndl-transport-mot-results-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 72.7,
+     "met": 7,
+     "partly": 2,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-2: Not yet measured: completeness, timeliness",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 60.0,
+     "met": 3,
+     "partly": 0,
+     "not_met": 2,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block",
+      "NDL-5: Add a rule using: freshness"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: completeness, timeliness"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-government-council-tax-chart",
@@ -495,7 +745,49 @@
     "case_study_docx": "assets/ndl-government-council-tax-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 77.3,
+     "met": 8,
+     "partly": 1,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 80.0,
+     "met": 4,
+     "partly": 0,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency, accuracy"
+     ]
+    }
+   ]
   },
   {
    "id": "ndl-people-social-mobility-chart",
@@ -565,7 +857,52 @@
     "case_study_docx": "assets/ndl-people-social-mobility-chart.case-study.docx"
    },
    "measured": true,
-   "next_due": "2027-01-11"
+   "next_due": "2027-01-11",
+   "packs": [
+    {
+     "pack": "uk-dam-cda",
+     "name": "UK data asset management policy - critical data assets",
+     "coverage": 72.7,
+     "met": 7,
+     "partly": 2,
+     "not_met": 2,
+     "manual": 1,
+     "gaps": [
+      "DAM-2: Add 'steward' to the asset block",
+      "DAM-3: Add 'dqap' to the asset block",
+      "DQAP-2: Not yet measured: timeliness",
+      "DQAP-7: 1 of 2 measurement cycle(s) recorded; keep a history (--history)"
+     ]
+    },
+    {
+     "pack": "ndl-curation",
+     "name": "National Data Library - curated data page",
+     "coverage": 40.0,
+     "met": 2,
+     "partly": 0,
+     "not_met": 3,
+     "manual": 0,
+     "gaps": [
+      "NDL-3: Add 'measurement_cycle' to the asset block",
+      "NDL-4: Add a rule using: header_has_unit",
+      "NDL-5: Add a rule using: freshness"
+     ]
+    },
+    {
+     "pack": "uk-gdqf",
+     "name": "Government Data Quality Framework",
+     "coverage": 66.7,
+     "met": 3,
+     "partly": 2,
+     "not_met": 1,
+     "manual": 0,
+     "gaps": [
+      "GDQF-P2: Add 'primary_use' to the asset block",
+      "GDQF-P5: 1 of 2 measurement cycle(s) recorded; keep a history (--history)",
+      "GDQF-D: Not yet measured: consistency, timeliness"
+     ]
+    }
+   ]
   }
  ],
  "skipped": [],
