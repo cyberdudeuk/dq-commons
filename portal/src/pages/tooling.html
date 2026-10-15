@@ -60,7 +60,7 @@ code{font-family:var(--f-mono);font-size:.85em}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">Research · UK government and wider public sector · October 2026</span>
+  <span class="eyebrow">Know · Tooling research · October 2026</span>
   <h1>How does the public sector check its data quality, and what does its open code show?</h1>
   <p class="lede">A scan of data quality (DQ) frameworks and tools used across government, plus a read of 27 public GitHub repositories from 14 public sector organisations. It looks at which tools, quality dimensions and standards appear in real code, and what that means for reporting quality on critical data assets (CDAs) and bringing them into the National Data Library (NDL).</p>
   <div class="chips">
@@ -69,6 +69,7 @@ code{font-family:var(--f-mono);font-size:.85em}
     <span class="chip"><b>14</b> organisations</span>
     <span class="chip">Search method: repo names and descriptions, then full-file scan</span>
   </div>
+  <div class="dqc-ctx" role="note"><b>Evidence base.</b> This research started from critical data assets and the National Data Library; the findings apply to any organisation choosing tools. To share rules with the tools listed here, use <a href="check.html#contracts">data contracts and exports</a>; to buy well, see <a href="commercial.html">buying and suppliers</a>.</div>
 </header>
 
 <div class="stats">
@@ -257,4 +258,9 @@ function bars(id,data,total,h){
 }
 bars("dimChart",[["Uniqueness",18],["Accuracy",12],["Consistency",12],["Validity",11],["Completeness",8],["Timeliness",6]],21);
 bars("toolChart",[["Home-grown rules",9],["R testthat",5],["JSON Schema",4],["ESS / VTL / SDMX",4],["Gov DQ Framework",4],["QAAD",3],["Spark",3],["Splink",3],["Great Expectations",1],["Soda / Pandera / dbt",0]],21);
+window.DQP_TOUR = [
+  {sel: "#fRole", title: "Filter", text: "Find tools and frameworks by role, sector or status."},
+  {sel: "#rows", title: "Tools and standards", text: "What exists, who uses it, and how it fits."},
+  {sel: "#dimChart", title: "What public code checks", text: "Quality dimensions found in 21 public data quality repositories."},
+];
 </script>

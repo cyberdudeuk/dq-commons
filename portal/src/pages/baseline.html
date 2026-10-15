@@ -77,7 +77,7 @@ code{font-family:var(--f-mono);font-size:.85em}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">Data asset management policy · DQAP steps 1–3 · reporting window to 29 Jan 2027</span>
+  <span class="eyebrow">Scenarios · Critical data asset baseline · reporting window to 29 Jan 2027</span>
   <h1>What will it take to report data quality for every critical data asset by end of January?</h1>
   <p class="lede">An effort model for producing a first data quality baseline for each critical data asset (CDA) in the baseline reporting return. Built from the GOV.UK policy and guidance, not from the earlier AI Mode answers. Every default is an assumption you can change.</p>
   <div class="chips">
@@ -85,6 +85,7 @@ code{font-family:var(--f-mono);font-size:.85em}
     <span class="chip">Working days to 29 Jan <b id="cWd">77</b> (bank holidays removed)</span>
     <span class="chip">Policy published <b>27 May 2026</b></span>
   </div>
+  <div class="dqc-ctx" role="note"><b>Scenario: UK government critical data assets.</b> An effort model for the first data quality baseline under the data asset management policy. Devolved and other public bodies can use it to plan any baseline; see <a href="scenarios.html#dam">the scenario</a> and <a href="legacy.html">legacy and modernisation</a>.</div>
 </header>
 
 <div class="verdict" aria-live="polite">
@@ -341,4 +342,9 @@ $("kitOn").onclick=()=>{kit=true;$("kitOn").setAttribute("aria-pressed","true");
 $("optLite").onclick=()=>{lite=true;$("optLite").setAttribute("aria-pressed","true");$("optFull").setAttribute("aria-pressed","false");calc()};
 ["nCda","pA","pB","cdi","cont","days","cap"].forEach(id=>$(id).addEventListener("input",calc));
 calc();
+window.DQP_TOUR = [
+  {sel: "#nCda", title: "Number of assets", text: "Set how many critical data assets you need to baseline."},
+  {sel: "#controls", title: "Your assumptions", text: "Every default is an assumption you can change."},
+  {sel: "#sTotal", title: "Effort", text: "Total effort, and the staff needed to finish by the deadline."},
+];
 </script>

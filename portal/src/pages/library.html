@@ -1,0 +1,183 @@
+<title>Library and Knowledge Base</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.tabs{margin-bottom:4px}
+.lib{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.lib .card h3{font-size:1rem;line-height:1.3}
+.kb{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.kb a.card{text-decoration:none;color:var(--fg)}
+.kb a.card:hover{border-color:var(--accent)}
+.kb a.card h3{color:var(--accent)}
+.reader{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;max-width:78ch;display:flex;flex-direction:column;gap:12px}
+.reader h2{font-size:1.6rem}
+.reader p,.reader li{font-size:1rem;line-height:1.65}
+.reader ul,.reader ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.form .full{grid-column:1/-1}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Know · Library and knowledge base</span>
+  <h1>Everything worth reading about data quality, in one place</h1>
+  <p class="lede">A curated library of guidance, standards, reports and tools; practical knowledge base articles written for the Commons; and resources shared by members, all moderated. Search and filter by type, topic and nation.</p>
+  <div class="tabs" role="tablist" aria-label="Library sections">
+    <button role="tab" id="tab-lib" aria-controls="p-lib" aria-selected="true">Curated library</button>
+    <button role="tab" id="tab-kb" aria-controls="p-kb" aria-selected="false" tabindex="-1">Knowledge base</button>
+    <button role="tab" id="tab-mem" aria-controls="p-mem" aria-selected="false" tabindex="-1">Shared by members</button>
+    <button role="tab" id="tab-pub" aria-controls="p-pub" aria-selected="false" tabindex="-1">Publish</button>
+  </div>
+  <p class="small" id="state" role="status" aria-live="polite"></p>
+</header>
+
+<section id="p-lib" role="tabpanel" aria-labelledby="tab-lib"><h2 class="sr-only">Curated library</h2>
+  <div class="filters"><div class="field"><label for="q">Search</label><input type="search" id="q"></div>
+    <div class="field"><label for="fType">Type</label><select id="fType"></select></div>
+    <div class="field"><label for="fTopic">Topic</label><select id="fTopic"></select></div>
+    <div class="field"><label for="fNation">Nation</label><select id="fNation"></select></div></div>
+  <p class="small muted" id="libCount" role="status" aria-live="polite"></p>
+  <div class="lib" id="lib"></div>
+</section>
+
+<section id="p-kb" role="tabpanel" aria-labelledby="tab-kb" hidden><h2 class="sr-only">Knowledge base articles</h2>
+  <div class="filters"><div class="field"><label for="kq">Search articles</label><input type="search" id="kq"></div>
+    <div class="field"><label for="kType">Article type</label><select id="kType"></select></div></div>
+  <div class="kb" id="kb"></div>
+  <article class="reader" id="reader" hidden tabindex="-1" aria-live="polite"></article>
+</section>
+
+<section id="p-mem" role="tabpanel" aria-labelledby="tab-mem" hidden><h2 class="sr-only">Shared by members</h2>
+  <p class="small">Resources members have published through the Commons. Each one has been checked by a moderator.</p>
+  <div class="lib" id="mem"><p class="muted">Loading…</p></div>
+</section>
+
+<section id="p-pub" role="tabpanel" aria-labelledby="tab-pub" hidden><h2 class="sr-only">Publish a resource</h2>
+  <p>Share a resource, a knowledge base article, a case study or training material. A moderator checks it before it's public, usually within 10 working days. Credit goes to your organisation, or you can stay anonymous. Please don't include personal data.</p>
+  <form class="form" id="pForm" novalidate>
+    <div class="field"><label for="pType">Type</label><select id="pType">
+      <option>Resource or link</option><option>Knowledge base article</option><option>Case study</option><option>Guidance or method</option><option>Training material</option><option>Rule or pack</option><option>Dataset quality assessment</option></select></div>
+    <div class="field"><label for="pTopic">Topics</label><input type="text" id="pTopic" placeholder="For example: suppliers, inclusion, migration"></div>
+    <div class="field full"><label for="pTitle">Title</label><input type="text" id="pTitle" maxlength="140"></div>
+    <div class="field full"><label for="pSum">Summary, or the article itself</label><span class="hint" id="pSumH">Plain English. Up to 6,000 characters. Blank lines separate paragraphs; start lines with "- " for bullets.</span><textarea id="pSum" maxlength="6000" aria-describedby="pSumH" style="min-height:180px"></textarea></div>
+    <div class="field"><label for="pLink">Link (if published elsewhere)</label><input type="text" id="pLink" inputmode="url" placeholder="https://"></div>
+    <div class="field"><label for="pOrg">Credit as</label><input type="text" id="pOrg" maxlength="120" placeholder="Organisation, or leave blank"></div>
+    <div class="field"><label for="pNation">Nation</label><select id="pNation"><option>UK-wide</option><option>England</option><option>Scotland</option><option>Wales</option><option>Northern Ireland</option><option>Outside the UK</option></select></div>
+    <div class="field"><label for="pLic">Licence</label><select id="pLic"><option>Open Government Licence v3.0</option><option>Creative Commons BY 4.0</option><option>MIT (code)</option></select></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="pMsg" role="status" aria-live="polite"></span></div>
+  </form>
+</section>
+</div>
+
+<script>
+const M = __K_MEDIA__, KB = __K_ARTICLES__, F = __K_FRAMEWORKS__, C = __K_COMMUNITIES__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const safeUrl = u => /^https:\/\/[^\s"<>]+$/i.test(u || "") ? u : "";
+const uniq = a => [...new Set(a.filter(Boolean))].sort();
+// a tiny, safe Markdown-lite renderer (paragraphs, bullets, numbered steps, bold)
+function md(text) {
+  const inl = s => esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  return String(text || "").trim().split(/\n\s*\n/).map(b => {
+    const lines = b.split("\n");
+    if (lines.every(l => /^\s*- /.test(l))) return `<ul>${lines.map(l => `<li>${inl(l.replace(/^\s*- /, ""))}</li>`).join("")}</ul>`;
+    if (lines.every(l => /^\s*\d+\. /.test(l))) return `<ol>${lines.map(l => `<li>${inl(l.replace(/^\s*\d+\. /, ""))}</li>`).join("")}</ol>`;
+    return `<p>${inl(lines.join(" "))}</p>`;
+  }).join("");
+}
+
+// tabs (WAI-ARIA tabs pattern)
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function show(t, focus) {
+  tabs.forEach(x => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; $(x.getAttribute("aria-controls")).hidden = !on; });
+  if (focus) t.focus();
+}
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => show(t));
+  t.addEventListener("keydown", e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length], true); } });
+});
+
+// curated library: Commons picks + framework sources + networks
+const items = [
+  ...M.library.map(x => ({...x, src: "Commons pick"})),
+  ...F.map(f => ({title: f.name, type: "Framework or standard", topics: [f.sector, f.type], url: f.url, publisher: f.publisher, nation: f.jurisdiction, checked: f.verified === "yes" ? "yes" : "listed", src: "Frameworks registry"})),
+  ...C.map(c => ({title: c.name, type: "Network or community", topics: [c.kind], url: c.url, publisher: c.scope, nation: c.scope, checked: c.verified === "yes" ? "yes" : "listed", src: "Networks"})),
+];
+const opt = (vals, any) => `<option value="">${any}</option>` + vals.map(v => `<option>${esc(v)}</option>`).join("");
+$("fType").innerHTML = opt(uniq(items.map(i => i.type)), "Any type");
+$("fTopic").innerHTML = opt(uniq(items.flatMap(i => i.topics || [])), "Any topic");
+$("fNation").innerHTML = opt(uniq(items.map(i => i.nation)), "Anywhere");
+function drawLib() {
+  const q = $("q").value.trim().toLowerCase(), ty = $("fType").value, to = $("fTopic").value, na = $("fNation").value;
+  const list = items.filter(i => (!ty || i.type === ty) && (!to || (i.topics || []).includes(to)) && (!na || i.nation === na) && (!q || JSON.stringify(i).toLowerCase().includes(q)));
+  $("libCount").textContent = `${list.length} of ${items.length} resources.`;
+  $("lib").innerHTML = list.map(i => `<article class="card"><div class="chips"><span class="chip acc">${esc(i.type)}</span><span class="chip">${esc(i.nation || "")}</span>${i.checked === "yes" ? "" : `<span class="chip warn">Not yet reviewed</span>`}</div>
+    <h3><a href="${esc(i.url)}" rel="noopener">${esc(i.title)}</a></h3><p class="small muted">${esc(i.publisher || "")} · ${esc(i.src)}</p></article>`).join("") || "<p>Nothing matches. Try fewer filters.</p>";
+}
+["q", "fType", "fTopic", "fNation"].forEach(id => $(id).addEventListener("input", drawLib)); drawLib();
+
+// knowledge base
+const A = KB.articles, page = h => /\.html/.test(h) ? h : "#" + h;
+$("kType").innerHTML = opt(uniq(A.map(a => a.type)), "Any type");
+function drawKB() {
+  const q = $("kq").value.trim().toLowerCase(), ty = $("kType").value;
+  $("kb").innerHTML = A.filter(a => (!ty || a.type === ty) && (!q || (a.title + a.summary + a.body + a.topics.join(" ")).toLowerCase().includes(q))).map(a =>
+    `<a class="card" href="#${esc(a.id)}"><div class="chips"><span class="chip acc">${esc(a.type)}</span><span class="chip">${a.minutes} min read</span></div><h3>${esc(a.title)}</h3><p class="small">${esc(a.summary)}</p></a>`).join("") || "<p>No articles match.</p>";
+}
+["kq", "kType"].forEach(id => $(id).addEventListener("input", drawKB)); drawKB();
+function openArticle(id) {
+  const a = A.find(x => x.id === id); if (!a) return false;
+  show($("tab-kb"));
+  const rel = (a.related || []).map(r => { const k = A.find(x => x.id === r); return k ? `<a href="#${esc(k.id)}">${esc(k.title)}</a>` : `<a href="${esc(r)}">${esc(r.replace(/\.html.*/, "").replace(/-/g, " "))}</a>`; });
+  $("reader").hidden = false;
+  $("reader").innerHTML = `<div class="chips"><span class="chip acc">${esc(a.type)}</span><span class="chip">${a.minutes} min read</span><span class="chip">For: ${esc(a.audience.join(", "))}</span></div>
+    <h2>${esc(a.title)}</h2><p class="lede">${esc(a.summary)}</p>${md(a.body)}
+    ${rel.length ? `<p class="small"><b>Related:</b> ${rel.join(" · ")}</p>` : ""}
+    <p class="small muted">Commons knowledge base · last reviewed ${esc(KB.review.last_reviewed)} · OGL v3.0. <a href="#p-pub" id="improve">Suggest an improvement</a></p>`;
+  $("reader").scrollIntoView({block: "start"}); $("reader").focus();
+  $("improve").onclick = e => { e.preventDefault(); show($("tab-pub"), true); $("pType").value = "Knowledge base article"; $("pTitle").value = "Improvement to: " + a.title; };
+  return true;
+}
+function route() { const h = location.hash.slice(1); if (h && !openArticle(h)) { const el = document.getElementById(h); if (el && el.getAttribute("role") === "tab") show(el); } }
+window.addEventListener("hashchange", route); route();
+
+// members' items and publishing (shared store on claude.ai, GitHub forms elsewhere)
+const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
+let db = null, uid = null, writable = true;
+$("pForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = {type: $("pType").value, title: $("pTitle").value.trim(), summary: $("pSum").value.trim(), link: $("pLink").value.trim(), org: $("pOrg").value.trim(),
+    sector: $("pTopic").value.trim(), nation: $("pNation").value, licence: $("pLic").value};
+  if (!v.title || !v.summary) { $("pMsg").innerHTML = `<span class="msg err">Add a title and a summary.</span>`; (v.title ? $("pSum") : $("pTitle")).focus(); return; }
+  if (v.link && !safeUrl(v.link)) { $("pMsg").innerHTML = `<span class="msg err">Links must start with https://</span>`; $("pLink").focus(); return; }
+  if (PII.some(re => re.test(v.title + " " + v.summary + " " + v.org))) { $("pMsg").innerHTML = `<span class="msg err">It looks like this includes personal data (an email, phone or NI number). Please remove it.</span>`; return; }
+  if (!db || !uid || !writable) { location.href = `${B.repo}/issues/new?template=5-contribution.yml`; return; }
+  try {
+    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), list = (snap.exists && snap.data().items) || [];
+    list.push({kind: "contribution", ...v, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
+    await ref.set({items: list, updated: new Date().toISOString()});
+    $("pForm").reset(); $("pMsg").innerHTML = `<span class="msg ok">Thanks. It's in the moderation queue.</span>`;
+  } catch (er) { $("pMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">Use the GitHub form</a> instead.</span>`; }
+});
+(async () => {
+  const off = why => { $("state").innerHTML = why; $("mem").innerHTML = `<p class="muted">Members' resources appear here on the Commons site on claude.ai. You can still <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">contribute through GitHub</a>.</p>`; };
+  if (!window.claude || typeof claude.use !== "function") { off(""); return; }
+  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
+  if (!db) { off("Publishing isn't available here, or you aren't signed in."); return; }
+  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
+  db.collection("library").onSnapshot(s => {
+    const rows = s.docs.map(x => x.data()).sort((a, b) => String(b.published).localeCompare(String(a.published)));
+    $("mem").innerHTML = rows.map(i => `<article class="card"><div class="chips"><span class="chip acc">${esc(i.type)}</span>${i.sector ? `<span class="chip">${esc(i.sector)}</span>` : ""}</div>
+      <h3>${safeUrl(i.link) ? `<a href="${esc(i.link)}" rel="noopener nofollow">${esc(i.title)}</a>` : esc(i.title)}</h3>${i.type === "Knowledge base article" ? md(i.summary) : `<p class="small">${esc(i.summary)}</p>`}
+      <p class="small muted">${esc(i.org || "Anonymous contributor")} · ${esc(i.licence || "OGL v3.0")}</p></article>`).join("") || `<p class="muted">Nothing published by members yet. Be the first: use the Publish tab.</p>`;
+  });
+})();
+window.DQP_TOUR = [
+  {sel: "#tab-lib", title: "Curated library", text: "Guidance, standards, reports, frameworks and networks, with filters. Items not yet read in full are marked."},
+  {sel: "#tab-kb", title: "Knowledge base", text: "Short, practical articles: how-tos, explainers and checklists."},
+  {sel: "#tab-mem", title: "Shared by members", text: "Resources published by the community after moderation."},
+  {sel: "#tab-pub", title: "Publish", text: "Share a resource or write an article. A moderator checks it first."},
+];
+</script>

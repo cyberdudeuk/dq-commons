@@ -55,6 +55,7 @@ GROUPS = [
         ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
         ("guidance", "Issues framework", "Prioritise issues with the government method, and the guidance findings"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
+        ("library", "Library and knowledge base", "Curated resources, how-to articles and resources shared by members"),
     ]),
     ("Govern", [
         ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),
@@ -68,6 +69,7 @@ GROUPS = [
     ]),
     ("Community", [
         ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
+        ("media", "Media centre", "Blog, vlog and podcasts about data quality, from the Commons and members"),
         ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
         ("share", "Case studies", "Case studies, the tooling survey review, and messages to other teams"),
         ("operate", "Operating model and support", "Support tiers, roles, how requests become features, GitHub, Jira and Confluence"),
@@ -190,6 +192,8 @@ def knowledge() -> dict:
         "COMMERCIAL": lambda: y("commercial"),
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
+        "MEDIA": lambda: y("media"),
+        "ARTICLES": lambda: y("articles"),
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
 

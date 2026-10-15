@@ -36,6 +36,7 @@ select{font:inherit;font-size:.88rem;padding:6px 8px;border:1px solid var(--line
   <span class="eyebrow" id="eyebrow"></span>
   <h1>Pipeline status</h1>
   <p class="lede" id="lede"></p>
+  <div class="dqc-ctx" role="note"><b>Example portfolio.</b> This run measures the National Data Library pilot assets. Your organisation can run the same pipeline on its own portfolio: see the <a href="operate.html">operating model</a> and <a href="learn.html#t3">tutorial T3</a>, or <a href="check.html">check a single file</a> now.</div>
 </header>
 
 <section aria-label="Headline figures"><div class="kpis" id="kpis"></div></section>
@@ -216,4 +217,10 @@ const D = [
   ["Portfolio summary", "portfolio.json", "The data behind this page."],
 ];
 $("downloads").innerHTML = D.map(d => `<div class="card"><h3><a href="${DL}${d[1]}">${esc(d[0])}</a></h3><p class="small muted">${esc(d[2])}</p><span class="mono small">${d[1]}</span></div>`).join("");
+window.DQP_TOUR = [
+  {sel: "#kpis", title: "Headline", text: "Rules meeting target, open and overdue issues and escalations, for the whole portfolio."},
+  {sel: "#trustbar", title: "Trust levels", text: "A suggested trust level for each asset, for its owner to confirm."},
+  {sel: "#assets", title: "Assets", text: "Every asset with its trend. Filter by trust level."},
+  {sel: "#issues", title: "Issues", text: "Open issues by priority and age, with escalation."},
+];
 </script>

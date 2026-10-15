@@ -185,7 +185,7 @@ async function loadQueue() {
   snap.docs.forEach(d => ((d.data() || {}).items || []).forEach(i => { if (i.status === "pending") rows.push({owner: d.id, ...i}); }));
   $("queue").innerHTML = rows.map(i => `<div class="qi" data-o="${esc(i.owner)}" data-i="${esc(i.id)}"><div class="chips"><span class="chip acc">${esc(i.kind)}</span>${i.type ? `<span class="chip">${esc(i.type)}</span>` : ""}<span class="chip">${esc(String(i.at).slice(0, 10))}</span></div>
     <b>${esc(i.title || i.need || "(untitled)")}</b><span class="small">${esc(i.summary || i.why || i.detail || "")}</span>
-    ${i.link ? `<span class="small">Link: ${esc(i.link)}</span>` : ""}${i.org ? `<span class="small">Credit: ${esc(i.org)}</span>` : ""}${i.contact ? `<span class="small">Contact: ${esc(i.contact)}</span>` : ""}
+    ${i.link ? `<span class="small">Link: ${esc(i.link)}</span>` : ""}${i.org ? `<span class="small">Credit: ${esc(i.org)}</span>` : ""}${i.media ? `<span class="small">Media: ${esc(i.media)}; ${esc(i.access || "no captions or transcript stated")}. Check captions or transcript before publishing.</span>` : ""}${i.contact ? `<span class="small">Contact: ${esc(i.contact)}</span>` : ""}
     <div class="row"><button class="btn" type="button" data-act="publish">${i.kind === "commission" ? "Accept" : "Publish"}</button>
       <input type="text" aria-label="Reason for declining" placeholder="Reason, if declining" style="flex:1;min-width:160px"><button class="btn ghost" type="button" data-act="decline">Decline</button></div></div>`).join("")
     || `<p class="small muted">Nothing waiting.</p>`;
@@ -200,6 +200,8 @@ $("queue").addEventListener("click", async e => {
     if (b.dataset.act === "publish") {
       if (it.kind === "contribution") await db.doc(`library/${id}`).set({type: it.type, title: it.title, summary: it.summary, link: safeUrl(it.link), org: it.org, sector: it.sector, nation: it.nation, licence: it.licence, published: new Date().toISOString()});
       if (it.kind === "wish") await db.doc(`wishlist/${id}`).set({title: it.title, why: it.why || "", added: new Date().toISOString()});
+      if (it.kind === "media") await db.doc(`media/${id}`).set({media: it.media, title: it.title, summary: it.summary, body: it.media === "blog" ? it.summary : "",
+        link: safeUrl(it.link), access: it.access || "", org: it.org || "", sector: it.sector || "", published: new Date().toISOString()});
       it.status = it.kind === "commission" ? "accepted" : "published";
     } else { it.status = "declined"; it.reason = reason; }
     await ref.set({items, updated: new Date().toISOString()});

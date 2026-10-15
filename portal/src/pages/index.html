@@ -44,10 +44,45 @@ header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1f
 .quickgo{display:flex;flex-wrap:wrap;gap:6px}
 .quickgo button{font:inherit;font-size:.84rem;padding:5px 11px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
 a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
+/* Hero carousel and spotlight web parts */
+.showcase{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:960px){.showcase{grid-template-columns:minmax(0,1fr)}}
+.car{position:relative;border-radius:14px;overflow:hidden;background:#0b4f52;color:#f2f7f7;min-height:300px;display:flex;flex-direction:column}
+.car .slides{flex:1;display:grid}
+.car .slide{grid-area:1/1;padding:26px 28px 18px;display:flex;flex-direction:column;gap:12px;visibility:hidden;opacity:0;transition:opacity .4s}
+.car .slide.on{visibility:visible;opacity:1}
+.car .k{align-self:flex-start;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:#ffbf47;color:#0b0c0c;border-radius:4px;padding:3px 8px}
+.car h3{font-family:var(--f-display);font-size:clamp(1.35rem,2.6vw,1.95rem);line-height:1.2;color:#fff}
+.car p{color:#d7e8e7;max-width:62ch}
+.car .src{font-size:.8rem;color:#b9d6d5}
+.car .src a{color:#fff}
+.car .go{align-self:flex-start;background:#fff;color:#0b4f52;font-weight:700;text-decoration:none;border-radius:6px;padding:9px 14px}
+.car .go:hover{background:#ffbf47;color:#0b0c0c}
+.car .ctl{display:flex;align-items:center;gap:8px;padding:10px 20px 16px;flex-wrap:wrap}
+.car .ctl button{font:inherit;font-weight:600;font-size:.84rem;background:transparent;color:#fff;border:1px solid #6fa3a3;border-radius:6px;padding:6px 10px;cursor:pointer;min-height:36px}
+.car .ctl button:hover{border-color:#fff}
+.car .dots{display:flex;gap:2px;margin-left:auto}
+.car .ctl .dots button{width:26px;height:26px;min-height:26px;padding:0;border:0;border-radius:50%;background:transparent;display:grid;place-items:center}
+.car .dots button::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid #b9d6d5;box-sizing:border-box}
+.car .dots button[aria-current="true"]::before{background:#ffbf47;border-color:#ffbf47}
+.car :focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.car .slide{transition:none}}
+.spot{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.spot .types{display:flex;flex-wrap:wrap;gap:6px}
+.spot .types button{font:inherit;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.spot .types button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.spot h3{font-family:var(--f-display);font-size:1.3rem}
+.spot .stand{color:var(--muted);font-weight:600}
+.spot .story{font-size:.92rem}
+.spot ul{margin:0;padding-left:1.1em;font-size:.9rem}
+.latest{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.latest .card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.latest .card li a{font-weight:600}
+.latest .card li span{display:block;font-size:.82rem;color:var(--muted)}
 </style>
 
 <div class="wrap">
-<header class="page hero">
+<header class="page">
   <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
     <span class="eyebrow">Public Sector Data Quality Commons</span>
     <h1>Is the data good enough to use, and is someone fixing it?</h1>
@@ -56,17 +91,51 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
       <input type="search" id="fq" placeholder="What do you want to do? For example: check NHS numbers, ISO 8000, Wales" autocomplete="off" list="fqList"><datalist id="fqList"></datalist><button class="btn" type="submit">Go</button></form>
     <div class="quickgo" id="quickgo"></div>
   </div>
-  <aside class="status" aria-labelledby="st-h">
-    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Example portfolio: latest pipeline run</h2>
-    <p class="small muted" style="margin-top:-6px">National Data Library pilot. Your own portfolio runs the same way.</p>
-    <div id="status"></div>
-    <a class="btn" href="pipeline.html">See the full run</a>
-  </aside>
 </header>
+
+<section aria-labelledby="news-h">
+  <h2 id="news-h" class="sr-only">News, insights and spotlight</h2>
+  <div class="showcase">
+    <div class="car" id="car" role="region" aria-roledescription="carousel" aria-label="News, insights and knowledge">
+      <div class="slides" id="slides" aria-live="off"></div>
+      <div class="ctl">
+        <button type="button" id="prev" aria-label="Previous slide">‹ Previous</button>
+        <button type="button" id="next" aria-label="Next slide">Next ›</button>
+        <button type="button" id="play" aria-label="Pause the slides">Pause</button>
+        <div class="dots" id="dots" role="group" aria-label="Choose a slide"></div>
+      </div>
+    </div>
+    <aside class="spot" id="spot" aria-labelledby="spot-h">
+      <span class="eyebrow" id="spot-h">Spotlight</span>
+      <div class="types" id="spotTypes" role="group" aria-label="Spotlight on"></div>
+      <div id="spotBody" aria-live="polite"></div>
+    </aside>
+  </div>
+</section>
+
+<section aria-labelledby="latest-h">
+  <h2 id="latest-h">Latest from the library, knowledge base and media centre</h2>
+  <div class="latest">
+    <div class="card"><h3>Knowledge base</h3><ul id="lKb"></ul><a href="library.html#tab-kb">All articles ›</a></div>
+    <div class="card"><h3>Blog, vlog and podcasts</h3><ul id="lMedia"></ul><a href="media.html">Media centre ›</a></div>
+    <div class="card"><h3>Curated library</h3><ul id="lLib"></ul><a href="library.html">Browse the library ›</a> · <a href="library.html#tab-pub">Publish yours ›</a></div>
+  </div>
+</section>
 
 <section aria-labelledby="task-h">
   <h2 id="task-h">What do you need to do?</h2>
   <div class="tiles" id="tasks"></div>
+</section>
+
+<section aria-labelledby="st-h" class="two">
+  <div class="status">
+    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Example portfolio: latest pipeline run</h2>
+    <p class="small muted" style="margin-top:-6px">National Data Library pilot. Your own portfolio runs the same way.</p>
+    <div id="status"></div>
+    <a class="btn" href="pipeline.html">See the full run</a>
+  </div>
+  <div class="card"><h3>Run this for your own data</h3><p class="small">The same weekly pipeline measures any portfolio of datasets: trust levels, issues, escalations and a quality return. It runs in GitHub Actions and writes open formats.</p>
+    <p class="small"><a href="operate.html">How it runs</a> · <a href="learn.html#t3">Tutorial</a> · <a href="check.html">Check one file now</a></p></div>
 </section>
 
 <section aria-labelledby="role-h">
@@ -111,9 +180,66 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 </div>
 
 <script>
-const P = __PORTFOLIO__, B = __BUILD__, FW = __K_FRAMEWORKS__, PK = __K_PACKS__;
+const P = __PORTFOLIO__, B = __BUILD__, FW = __K_FRAMEWORKS__, PK = __K_PACKS__, MEDIA = __K_MEDIA__, KBA = __K_ARTICLES__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// ---- Hero carousel (WAI-ARIA carousel pattern: pause control, stops on hover and focus, no autoplay with reduced motion) ----
+(function () {
+  const S = MEDIA.slides, n = S.length;
+  let i = 0, timer = null, wantPlay = false, held = false;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  $("slides").innerHTML = S.map((s, k) => `<div class="slide" role="group" aria-roledescription="slide" aria-label="${k + 1} of ${n}: ${esc(s.label)}" id="sl${k}">
+    <span class="k">${esc(s.label)}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>
+    ${s.source ? `<span class="src">Source: <a href="${esc(s.source.url)}" rel="noopener">${esc(s.source.title)}</a>${s.date ? " · " + esc(s.date) : ""}</span>` : (s.date ? `<span class="src">${esc(s.date)}</span>` : "")}
+    <a class="go" href="${esc(s.link)}">${esc(s.cta)} ›</a></div>`).join("");
+  $("dots").innerHTML = S.map((s, k) => `<button type="button" aria-label="Show slide ${k + 1}: ${esc(s.title)}"></button>`).join("");
+  function go(k) {
+    i = (k + n) % n;
+    [...$("slides").children].forEach((el, j) => { const on = j === i; el.classList.toggle("on", on); el.setAttribute("aria-hidden", on ? "false" : "true");
+      el.querySelectorAll("a").forEach(a => { a.tabIndex = on ? 0 : -1; }); });
+    [...$("dots").children].forEach((b, j) => b.setAttribute("aria-current", j === i ? "true" : "false"));
+  }
+  // wantPlay: the viewer's choice (Play/Pause). held: hover or keyboard focus inside the carousel.
+  function sync() {
+    const on = wantPlay && !held;
+    clearInterval(timer); timer = on ? setInterval(() => go(i + 1), 8000) : null;
+    $("play").textContent = wantPlay ? "Pause" : "Play";
+    $("play").setAttribute("aria-label", wantPlay ? "Pause the slides" : "Play the slides");
+    $("slides").setAttribute("aria-live", on ? "off" : "polite");
+  }
+  $("prev").onclick = () => go(i - 1);
+  $("next").onclick = () => go(i + 1);
+  $("dots").addEventListener("click", e => { const b = e.target.closest("button"); if (b) go([...$("dots").children].indexOf(b)); });
+  $("play").onclick = () => { wantPlay = !wantPlay; sync(); };
+  const car = $("car");
+  car.addEventListener("mouseenter", () => { held = true; sync(); });
+  car.addEventListener("mouseleave", () => { held = car.contains(document.activeElement); sync(); });
+  car.addEventListener("focusin", () => { held = true; sync(); });
+  car.addEventListener("focusout", e => { if (!car.contains(e.relatedTarget)) { held = car.matches(":hover"); sync(); } });
+  go(0); wantPlay = !reduce; sync();
+})();
+
+// ---- Spotlight ----
+(function () {
+  const SP = MEDIA.spotlights;
+  let cur = 0;
+  $("spotTypes").innerHTML = SP.map((s, k) => `<button type="button" aria-pressed="${k === 0}">${esc(s.type)}</button>`).join("");
+  function draw() {
+    const s = SP[cur];
+    [...$("spotTypes").children].forEach((b, k) => b.setAttribute("aria-pressed", k === cur));
+    $("spotBody").innerHTML = `<h3>${esc(s.title)}</h3><p class="stand">${esc(s.standfirst)}</p><p class="story">${esc(s.story)}</p>
+      <ul>${s.try.map(([t, h]) => `<li><a href="${esc(h)}">${esc(t)}</a></li>`).join("")}</ul>`;
+  }
+  $("spotTypes").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; cur = [...$("spotTypes").children].indexOf(b); draw(); });
+  draw();
+})();
+
+// ---- Latest ----
+$("lKb").innerHTML = KBA.articles.slice(0, 4).map(a => `<li><a href="library.html#${esc(a.id)}">${esc(a.title)}</a><span>${esc(a.type)} · ${a.minutes} min</span></li>`).join("");
+$("lMedia").innerHTML = MEDIA.blog.slice(0, 3).map(b => `<li><a href="media.html#${esc(b.id)}">${esc(b.title)}</a><span>Blog · ${esc(b.date)}</span></li>`).join("") +
+  MEDIA.podcasts.slice(0, 1).map(p => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><span>Podcast · ${esc(p.publisher)}</span></li>`).join("");
+$("lLib").innerHTML = MEDIA.library.filter(x => x.checked === "yes").slice(0, 4).map(x => `<li><a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a><span>${esc(x.type)} · ${esc(x.publisher)}</span></li>`).join("");
 const T = P.totals, M = P.metadata || {};
 
 const rows = [
@@ -197,6 +323,9 @@ $("scen").innerHTML = [["dam", "Critical data assets"], ["ndl", "National Data L
 })();
 window.DQP_TOUR = [
   {sel: "#find", title: "Find anything", text: "Type a task, framework, identifier or nation, and go straight there."},
+  {sel: "#car", title: "News and insights", text: "Latest news, insights and data. Use Pause, Previous and Next; the slides stop when you hover or tab into them."},
+  {sel: "#spot", title: "Spotlight", text: "A closer look at a capability, case study, theme, workflow, topic or domain. Choose one above the story."},
+  {sel: "#latest-h", title: "Library, knowledge base and media", text: "The newest articles, posts, podcasts and curated resources."},
   {sel: "#tasks", title: "Common tasks", text: "The things people come here to do most often."},
   {sel: "#roles", title: "Start from your role", text: "Three good first steps for each role."},
   {sel: ".dqp-nav, .dqp-menu", title: "The menu", text: "Five groups: Start, Do, Know, Scenarios and Community. Every page has its own tour."},

@@ -85,9 +85,10 @@ code{font-family:var(--f-mono);font-size:.85em}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">National Data Library · data.gov.uk collections · assessed 14 October 2026</span>
+  <span class="eyebrow">Scenarios · National Data Library · assessed 14 October 2026</span>
   <h1>How do the National Data Library's collections measure up to GOV.UK data asset and quality rules?</h1>
   <p class="lede">All 84 curated data pages in the 7 NDL collections were tested against 20 checks taken from the data asset management (DAM) policy, the critical data asset (CDA) metadata guidance, the data quality action plan (DQAP) guidance, the NDL's own curation criteria, FAIR principles and inclusion. 8 of the NDL's own chart data files were checked with 49 data quality rules. Every check is prioritised with the GOV.UK data quality issues framework, using the low end of each target range, as the framework's v1.0 tables do.</p>
+  <div class="dqc-ctx" role="note"><b>Scenario: National Data Library.</b> The same metadata checks work for any catalogue; see the <a href="frameworks.html#ndl-curation">NDL curation pack</a> and <a href="scenarios.html">all scenarios</a>.</div>
 </header>
 
 <div class="stats" id="stats"></div>
@@ -246,4 +247,10 @@ $("charts").innerHTML = D.charts.map(c => `<div class="card"><h3>${esc(c.t)}</h3
   <p class="muted" style="font-size:.84rem">${c.rows} rows · <b class="${c.met===c.tot?'ok':'bad'}">${c.met} of ${c.tot} rules met</b> · <a href="${esc(c.url)}">page</a></p>
   <p style="font-size:.84rem"><span class="pill ${TRUSTCLS[c.trust]}">${esc(c.trust)}</span> <span class="muted">${esc(c.share)}</span></p>
   <div>${c.res.map(r=>`<div class="rule"><span class="${r.m?'ok':'bad'}" aria-label="${r.m?'met':'not met'}">${r.m?'✓':'✗'}</span><span>${esc(r.d)} <span class="muted">(${esc(r.dim)})</span>${!r.m && r.det && r.det.latest_period ? `<br><span class="muted">Latest period ${r.det.latest_period}; ${r.det.age_days} days old, ${r.det.allowed_days} allowed</span>`:""}</span><span>${r.m?`<span class="muted" style="font-family:var(--f-mono);font-size:.8rem">${r.p}%</span>`:`<span class="pill pr-${r.pr}">${r.pr}</span>`}</span></div>`).join("")}</div></div>`).join("");
+window.DQP_TOUR = [
+  {sel: "#stats", title: "Headline", text: "Scores across all 84 NDL data pages."},
+  {sel: "#checkRows", title: "The 20 checks", text: "Each check, its source, and how many pages pass."},
+  {sel: "#grid", title: "Every page", text: "Each page's result against each check. Select a row for detail."},
+  {sel: "#charts", title: "Chart data", text: "Quality rules run on the NDL's own chart data."},
+];
 </script>

@@ -76,6 +76,39 @@ class Knowledge(unittest.TestCase):
         for f in files:
             walk(yaml.safe_load(f.read_text(encoding="utf-8")), f.name)
 
+    def test_internal_links_resolve(self):
+        """Every portal link in the knowledge base (link, where, related, try, cta targets) points to a built page."""
+        pages = {p.stem for p in (ROOT / "portal" / "src" / "pages").glob("*.html")}
+        articles = {a["id"] for a in load("articles")["articles"]}
+        found = []
+
+        def walk(o):
+            if isinstance(o, dict):
+                for v in o.values():
+                    walk(v)
+            elif isinstance(o, list):
+                for v in o:
+                    walk(v)
+            elif isinstance(o, str) and re.fullmatch(r"[a-z0-9-]+\.html(#[\w-]+)?", o):
+                found.append(o)
+        for f in K.glob("*.yaml"):
+            walk(yaml.safe_load(f.read_text(encoding="utf-8")))
+        self.assertGreater(len(found), 50)
+        for u in found:
+            self.assertIn(u.split("#")[0][:-5], pages, u)
+        for a in load("articles")["articles"]:
+            for r in a.get("related", []):
+                if not r.endswith(".html") and "#" not in r and not r.startswith("http"):
+                    self.assertIn(r, articles, (a["id"], r))
+
+    def test_media_honesty(self):
+        m = load("media")
+        for s in m["slides"]:
+            self.assertTrue(s.get("source") or s["kind"] in ("data",) or s["label"] == "From the Commons", s["id"])
+        for x in m["library"] + m["podcasts"] + m["videos"]:
+            self.assertIn(x["checked"], ("yes", "listed"), x["title"])
+            self.assertTrue(x["url"].startswith("https://"), x["title"])
+
     def test_ai_guidance(self):
         a = load("ai-for-dq")
         self.assertEqual([s["n"] for s in a["route_to_toolkit"]["stages"]], list(range(1, 8)))

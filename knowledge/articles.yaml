@@ -1,0 +1,179 @@
+# Knowledge base articles: short, practical how-to and explainer articles written by the Commons.
+# Each has a type (how-to, explainer, checklist, reference), audience, reading time and related links.
+# Body is Markdown-lite: paragraphs separated by blank lines, "- " bullets, "1. " steps, **bold**.
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (knowledge base)}
+
+articles:
+- id: kb-write-a-rule
+  title: How to write a good data quality rule
+  type: how-to
+  topics: [rules, dimensions]
+  audience: [steward, analyst]
+  minutes: 5
+  summary: A rule says what good looks like for one data item, in a way a computer can check and a person can understand.
+  body: |
+    A good rule has four parts: the **data item** it checks, the **check** itself, the **dimension** it measures (for example completeness or validity), and a **target**.
+
+    1. Start from a purpose. Ask what decision or service depends on this item, and what goes wrong when it's poor.
+    2. Write the rule in a plain sentence first: "Every claim has a valid National Insurance number."
+    3. Choose the check that matches: here, an identifier check with the nino scheme.
+    4. Set the target with the issues framework: importance of the purpose times the impact of the issue.
+    5. Test it on real data, look at the failing examples, and adjust the rule if it is catching the wrong things.
+
+    Keep rules small. One rule, one idea. Several small rules tell you more than one big one.
+
+    - Do describe the rule in plain English in the description field.
+    - Don't set every target at 100%. Targets should reflect what the purpose needs.
+    - Don't use a rule to hide a missing value behind a default.
+  related: [check.html, guidance.html, kb-set-a-target]
+- id: kb-set-a-target
+  title: Choosing a target with the issues framework
+  type: explainer
+  topics: [targets, issues framework]
+  audience: [owner, steward]
+  minutes: 4
+  summary: Targets come from how important the purpose is and how bad the impact of a failure would be.
+  body: |
+    The government's data quality issues framework scores each rule by **importance** of the purpose (1 to 4) and **impact** of the issue (1 to 4). Multiply them to get a combined score from 1 to 16.
+
+    The combined score sets a target range. Low scores allow more errors; high scores need near perfection. Your organisation then chooses where in the range to sit: the low, middle or high end.
+
+    When a rule falls below its target, the gap sets a band, and the band and combined score set the **priority** (Low, Medium, High or Critical) and how quickly to fix it.
+
+    Use the calculator on the Issues framework page to try it.
+  related: [guidance.html, kb-write-a-rule]
+- id: kb-data-contract
+  title: What is a data contract, and why use one?
+  type: explainer
+  topics: [contracts, interoperability, suppliers]
+  audience: [analyst, product, governance]
+  minutes: 5
+  summary: A data contract is a written, machine-readable promise about a dataset - its structure, meaning and quality - between the people who produce it and the people who use it.
+  body: |
+    Data often breaks at the boundary between two teams or two systems. A data contract makes the expectations explicit, so they can be tested every time data crosses the boundary.
+
+    A contract usually includes:
+
+    - the schema: fields, types and which are required
+    - quality rules with thresholds
+    - ownership and support
+    - service levels, such as how fresh the data will be
+
+    The Open Data Contract Standard (ODCS) and Frictionless Table Schema are open standards for writing contracts. The Commons toolkit can export your rules as either, or read a contract and turn it into rules.
+
+    Contracts are especially useful with suppliers: attach one to the specification, and measure against it every period.
+  related: [check.html#contracts, interop.html, commercial.html]
+- id: kb-reconcile
+  title: Reconciling data before and after a migration
+  type: how-to
+  topics: [legacy, migration]
+  audience: [analyst, product]
+  minutes: 4
+  summary: Prove nothing was lost, duplicated or changed by mistake when data moves.
+  body: |
+    1. Choose the key that identifies a record in both versions (for example a case ID).
+    2. Compare row counts.
+    3. List records missing after the move, and records that are new.
+    4. Check for duplicate keys on both sides.
+    5. Compare totals of number columns.
+    6. For matched records, compare values column by column.
+
+    Run it at every trial migration, not just at cut-over. Use the reconciliation tool on the Legacy page, or **dqkit reconcile old.csv new.csv --key id** in a pipeline.
+  related: [legacy.html#reconcile, legacy.html]
+- id: kb-record-people
+  title: Recording people accurately and inclusively
+  type: checklist
+  topics: [inclusion, personal data]
+  audience: [product, steward, governance]
+  minutes: 5
+  summary: Systems that can't record people properly create poor data about the people often already least well served.
+  body: |
+    - Allow names in any script and of any length, including single names.
+    - Don't force a value: allow "not known" and "prefer not to say", recorded as such.
+    - Never use placeholder dates (01/01/1900) or dummy identifiers to get past validation.
+    - Allow addresses without a postcode where that is real (for example some rural or temporary addresses, or people without a fixed address).
+    - Use the GSS harmonised standards for characteristics such as sex, ethnicity and disability.
+    - Measure quality for different groups, not only overall.
+    - Explain to people why you ask, and what happens if they don't answer.
+  related: [learn.html#m7, commercial.html, scenarios.html#personal]
+- id: kb-dq-kpi
+  title: Putting a data quality KPI into a contract
+  type: how-to
+  topics: [suppliers, KPIs, commercial]
+  audience: [governance, owner]
+  minutes: 4
+  summary: Make data quality part of how a supplier's performance is judged and published.
+  body: |
+    Under the Procurement Act 2023, contracts over £5 million must have at least three KPIs, assessed and published at least once every 12 months. Data quality should be one of them when the supplier creates or holds public data.
+
+    1. Agree the critical data items and rules during mobilisation.
+    2. Define the KPI as the share of rules meeting their target in the period.
+    3. Ask for results in an open format such as W3C DQV, with the detail for each rule.
+    4. Link persistent poor performance to service credits and a remediation plan.
+    5. Spot check independently using the same rules.
+
+    The clause builder on the Buying and suppliers page drafts the wording for your commercial and legal teams to adapt.
+  related: [commercial.html#clauses, commercial.html]
+- id: kb-quality-statement
+  title: Writing a short quality statement for users
+  type: how-to
+  topics: [reporting, transparency]
+  audience: [statistician, steward, owner]
+  minutes: 3
+  summary: Tell people what the data is good for, and what it isn't.
+  body: |
+    A good quality statement fits on one screen and answers:
+
+    - What does this data describe, and when was it last updated?
+    - How complete and accurate is it, in numbers?
+    - What is it fit to be used for, and what isn't it?
+    - Who might be missing or misrecorded?
+    - Who do I contact about a problem?
+
+    Add a trust level and publish the measured results as W3C DQV alongside the catalogue record.
+  related: [learn.html#m6, check.html]
+- id: kb-ai-safely
+  title: Five questions before switching on an AI data quality feature
+  type: checklist
+  topics: [AI, suppliers]
+  audience: [governance, ai, owner]
+  minutes: 3
+  summary: AI can help find and fix data problems, but it can also change data in ways nobody notices.
+  body: |
+    1. What exactly does it do to our data: flag, suggest or change?
+    2. How was it tested, on what data, and how well does it work for different groups?
+    3. Can we see a log of every change it makes, and reverse it?
+    4. Can we switch it off without losing anything?
+    5. Who reviews its output before it affects a decision about a person?
+
+    If any answer is unclear, keep it to flagging and suggesting, with a person deciding.
+  related: [ai.html, commercial.html#clauses]
+- id: kb-data-debt
+  title: Spotting data debt in old systems
+  type: reference
+  topics: [legacy, technical debt]
+  audience: [analyst, product, steward]
+  minutes: 4
+  summary: Nine common patterns of data debt, and how to find them before a migration.
+  body: |
+    Data debt builds up when quick fixes become permanent. Common patterns: magic default values, overloaded fields, meaning hidden in code, free text where codes are needed, duplicate master data, truncated or lost characters, silent derivations, lost lineage, and workarounds that became the process.
+
+    Profile the data, run identifier and value set checks, and look at the most common values: defaults and workarounds stand out quickly.
+  related: [legacy.html#debt, check.html]
+- id: kb-mcp
+  title: Letting AI agents check data quality safely
+  type: how-to
+  topics: [AI, agents, MCP]
+  audience: [analyst, ai]
+  minutes: 4
+  summary: The toolkit's MCP server lets an AI agent run checks, without giving it the ability to change data.
+  body: |
+    The Model Context Protocol (MCP) is an open way for AI assistants to call tools. The Commons toolkit includes a read-only MCP server.
+
+    1. Install the toolkit and start the server: **python -m dqkit.mcp_server**.
+    2. Set DQKIT_MCP_ROOT to the folder the agent may read. It can't read outside it.
+    3. Add it to your assistant as a local MCP server.
+    4. Ask it to check a file, suggest rules, assess against a pack or translate results.
+
+    The agent can read and measure. It can't change your data.
+  related: [learn.html#t7, ai.html]

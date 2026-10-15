@@ -1,0 +1,141 @@
+<title>Media Centre</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.posts{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+.post a.card{text-decoration:none;color:var(--fg);height:100%}
+.post a.card:hover{border-color:var(--accent)}
+.post h3{color:var(--accent);font-size:1.05rem}
+.ico{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.item{display:flex;gap:12px;align-items:flex-start}
+.reader{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:22px 24px;max-width:78ch;display:flex;flex-direction:column;gap:12px}
+.reader h2{font-size:1.6rem}
+.reader p,.reader li{font-size:1rem;line-height:1.65}
+.reader ul,.reader ol{margin:0;padding-left:1.3em}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.form .full{grid-column:1/-1}
+.empty{border:2px dashed var(--line);border-radius:10px;padding:18px;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Media centre</span>
+  <h1>Blog, vlog and podcasts about data quality</h1>
+  <p class="lede">Posts from the Commons team and members, plus videos and podcasts on data quality and the capabilities around it. Every video and podcast must have captions or a transcript. External items link to their source; nothing is hosted or tracked here.</p>
+  <div class="tabs" role="tablist" aria-label="Media centre sections">
+    <button role="tab" id="tab-blog" aria-controls="p-blog" aria-selected="true">Blog</button>
+    <button role="tab" id="tab-vlog" aria-controls="p-vlog" aria-selected="false" tabindex="-1">Vlog</button>
+    <button role="tab" id="tab-pod" aria-controls="p-pod" aria-selected="false" tabindex="-1">Podcasts</button>
+    <button role="tab" id="tab-sub" aria-controls="p-sub" aria-selected="false" tabindex="-1">Share yours</button>
+  </div>
+  <p class="small" id="state" role="status" aria-live="polite"></p>
+</header>
+
+<section id="p-blog" role="tabpanel" aria-labelledby="tab-blog"><h2 class="sr-only">Blog posts</h2>
+  <div class="posts post" id="blog"></div>
+  <article class="reader" id="reader" hidden tabindex="-1"></article>
+</section>
+<section id="p-vlog" role="tabpanel" aria-labelledby="tab-vlog" hidden><h2 class="sr-only">Videos</h2><div class="posts" id="vlog"></div></section>
+<section id="p-pod" role="tabpanel" aria-labelledby="tab-pod" hidden><h2 class="sr-only">Podcast episodes</h2><div class="posts" id="pod"></div></section>
+
+<section id="p-sub" role="tabpanel" aria-labelledby="tab-sub" hidden><h2 class="sr-only">Share yours</h2>
+  <p>Share a blog post, a video or a podcast episode about data quality. Moderators check it before it's public. Videos and podcasts need captions or a transcript, so everyone can use them.</p>
+  <form class="form" id="mForm" novalidate>
+    <div class="field"><label for="mKind">What is it?</label><select id="mKind"><option value="blog">Blog post</option><option value="video">Video</option><option value="podcast">Podcast episode</option></select></div>
+    <div class="field"><label for="mTopic">Topics</label><input type="text" id="mTopic" placeholder="For example: migration, AI, inclusion"></div>
+    <div class="field full"><label for="mTitle">Title</label><input type="text" id="mTitle" maxlength="140"></div>
+    <div class="field full"><label for="mBody">Summary, or the full blog post</label><span class="hint" id="mBodyH">Plain English. Up to 8,000 characters. Blank lines separate paragraphs.</span><textarea id="mBody" maxlength="8000" aria-describedby="mBodyH" style="min-height:180px"></textarea></div>
+    <div class="field"><label for="mLink">Link (required for videos and podcasts)</label><input type="text" id="mLink" inputmode="url" placeholder="https://"></div>
+    <div class="field"><label for="mCap">Captions or transcript</label><select id="mCap"><option value="">Choose</option><option>Captions available</option><option>Transcript available</option><option>Both</option><option>Not needed (blog post)</option></select></div>
+    <div class="field"><label for="mOrg">Credit as</label><input type="text" id="mOrg" maxlength="120" placeholder="Organisation, or leave blank"></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="mMsg" role="status" aria-live="polite"></span></div>
+  </form>
+</section>
+</div>
+
+<script>
+const M = __K_MEDIA__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const safeUrl = u => /^https:\/\/[^\s"<>]+$/i.test(u || "") ? u : "";
+function md(text) {
+  const inl = s => esc(s).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  return String(text || "").trim().split(/\n\s*\n/).map(b => { const L = b.split("\n");
+    if (L.every(l => /^\s*- /.test(l))) return `<ul>${L.map(l => `<li>${inl(l.replace(/^\s*- /, ""))}</li>`).join("")}</ul>`;
+    return `<p>${inl(L.join(" "))}</p>`; }).join("");
+}
+const ICON = {blog: '<path d="M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5"/>', video: '<path d="M3 6h13v12H3z M16 10l5-3v10l-5-3"/>', podcast: '<path d="M12 3a3 3 0 0 1 3 3v5a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3z M6 11a6 6 0 0 0 12 0 M12 17v4"/>'};
+const icon = k => `<span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg></span>`;
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+function show(t, focus) { tabs.forEach(x => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; $(x.getAttribute("aria-controls")).hidden = !on; }); if (focus) t.focus(); }
+tabs.forEach((t, i) => { t.addEventListener("click", () => show(t));
+  t.addEventListener("keydown", e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length], true); } }); });
+
+let posts = M.blog.map(p => ({...p, own: true})), videos = [...M.videos], pods = [...M.podcasts];
+function drawBlog() {
+  posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  $("blog").innerHTML = posts.map(p => `<div class="post"><a class="card" href="#${esc(p.id)}"><div class="item">${icon("blog")}<div><p class="small muted">${esc(p.date || "")} · ${esc(p.author || p.org || "Member")}</p>
+    <h3>${esc(p.title)}</h3></div></div><p class="small">${esc(p.summary)}</p></a></div>`).join("");
+}
+function ext(list, kind, empty) {
+  return list.length ? list.map(x => `<article class="card"><div class="item">${icon(kind)}<div><h3 style="font-size:1rem"><a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a></h3>
+    <p class="small muted">${esc(x.publisher || x.org || "")}${x.date ? " · " + esc(x.date) : ""}</p></div></div>
+    ${x.summary ? `<p class="small">${esc(x.summary)}</p>` : ""}<div class="chips">${x.checked === "yes" || x.moderated ? "" : `<span class="chip warn">Not yet reviewed</span>`}${x.access ? `<span class="chip good">${esc(x.access)}</span>` : ""}</div></article>`).join("")
+    : `<div class="empty">${empty} <a href="#" data-share>Share one</a>.</div>`;
+}
+function drawExt() {
+  $("vlog").innerHTML = ext(videos, "video", "No videos yet. Commons walk-throughs of each tool are planned, with captions and transcripts.");
+  $("pod").innerHTML = ext(pods, "podcast", "No podcasts yet.");
+}
+document.addEventListener("click", e => { if (e.target.closest("[data-share]")) { e.preventDefault(); show($("tab-sub"), true); } });
+function openPost(id) {
+  const p = posts.find(x => x.id === id); if (!p) return false;
+  show($("tab-blog")); $("reader").hidden = false;
+  $("reader").innerHTML = `<p class="small muted">${esc(p.date || "")} · ${esc(p.author || p.org || "Member")}</p><h2>${esc(p.title)}</h2><p class="lede">${esc(p.summary)}</p>${md(p.body)}
+    ${safeUrl(p.link) ? `<p><a href="${esc(p.link)}" rel="noopener">Read the original</a></p>` : ""}<p><a href="#p-blog" id="back">Back to all posts</a></p>`;
+  $("back").onclick = e => { e.preventDefault(); $("reader").hidden = true; history.replaceState(null, "", location.pathname + location.search); };
+  $("reader").scrollIntoView({block: "start"}); $("reader").focus(); return true;
+}
+function route() { const h = location.hash.slice(1); if (h && !openPost(h)) { const el = document.getElementById(h); if (el && el.getAttribute("role") === "tab") show(el); } }
+drawBlog(); drawExt(); window.addEventListener("hashchange", route); route();
+
+// submissions
+const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
+let db = null, uid = null, writable = true;
+$("mForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = {media: $("mKind").value, title: $("mTitle").value.trim(), summary: $("mBody").value.trim(), link: $("mLink").value.trim(), access: $("mCap").value, org: $("mOrg").value.trim(), sector: $("mTopic").value.trim()};
+  const err = !v.title ? "Add a title." : !v.summary ? "Add a summary or the post." : v.media !== "blog" && !safeUrl(v.link) ? "Videos and podcasts need a link starting with https://" :
+    v.link && !safeUrl(v.link) ? "Links must start with https://" : v.media !== "blog" && (!v.access || v.access.startsWith("Not needed")) ? "Videos and podcasts need captions or a transcript." : null;
+  if (err) { $("mMsg").innerHTML = `<span class="msg err">${err}</span>`; return; }
+  if (PII.some(re => re.test(v.title + " " + v.summary))) { $("mMsg").innerHTML = `<span class="msg err">It looks like this includes personal data. Please remove it.</span>`; return; }
+  if (!db || !uid || !writable) { location.href = `${B.repo}/issues/new?template=5-contribution.yml`; return; }
+  try {
+    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), list = (snap.exists && snap.data().items) || [];
+    list.push({kind: "media", ...v, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
+    await ref.set({items: list, updated: new Date().toISOString()});
+    $("mForm").reset(); $("mMsg").innerHTML = `<span class="msg ok">Thanks. It's in the moderation queue.</span>`;
+  } catch (er) { $("mMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">Use the GitHub form</a> instead.</span>`; }
+});
+(async () => {
+  if (!window.claude || typeof claude.use !== "function") return;
+  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
+  if (!db) { $("state").textContent = "Sharing isn't available here, or you aren't signed in."; return; }
+  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
+  db.collection("media").onSnapshot(s => {
+    const rows = s.docs.map(x => ({id: "m-" + x.id, ...x.data(), moderated: true}));
+    posts = [...M.blog.map(p => ({...p, own: true})), ...rows.filter(r => r.media === "blog").map(r => ({...r, date: String(r.published || "").slice(0, 10)}))];
+    videos = [...M.videos, ...rows.filter(r => r.media === "video").map(r => ({...r, url: r.link, publisher: r.org}))];
+    pods = [...M.podcasts, ...rows.filter(r => r.media === "podcast").map(r => ({...r, url: r.link, publisher: r.org}))];
+    drawBlog(); drawExt(); route();
+  });
+})();
+window.DQP_TOUR = [
+  {sel: "#tab-blog", title: "Blog", text: "Posts from the Commons team and members. Select one to read it."},
+  {sel: "#tab-vlog", title: "Vlog", text: "Videos about data quality, always with captions or a transcript."},
+  {sel: "#tab-pod", title: "Podcasts", text: "Podcast episodes, linked to their source, with transcripts."},
+  {sel: "#tab-sub", title: "Share yours", text: "Send a post, video or podcast for moderation."},
+];
+</script>

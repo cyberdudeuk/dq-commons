@@ -1,0 +1,167 @@
+# Front page, news, insights, spotlights, curated library resources and the media centre.
+# Honesty rules:
+#  - Every external item links to its source. "checked: yes" means the source was read when added;
+#    "checked: listed" means it was found by search but not yet read in full (shown as "Not yet reviewed").
+#  - Commons-written posts say so. No invented videos, podcasts, people or quotes.
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (media)}
+
+# Hero carousel. kind: news, insight, knowledge, data, tool.
+slides:
+- id: s-commons
+  kind: news
+  label: From the Commons
+  title: "New: data contracts, supplier obligations and a migration reconciliation tool"
+  text: "Share your rules as ODCS, Table Schema or CSVW; build a data quality schedule for supplier contracts; and prove a migration lost nothing."
+  link: check.html#contracts
+  cta: Try data contracts
+  date: "2026-10-15"
+- id: s-sodg
+  kind: insight
+  label: Insight
+  title: "70% say their data landscape isn't well co-ordinated or interoperable"
+  text: "The State of digital government review also found 28% of central government systems are legacy. Data quality and interoperability are the same problem seen from two sides."
+  link: interop.html
+  cta: Interoperability and standards
+  source: {title: "State of digital government review (DSIT)", url: "https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review"}
+  date: "2025-01"
+- id: s-procurement
+  kind: news
+  label: Policy
+  title: "Contracts over £5 million need published KPIs. Make data quality one of them."
+  text: "Under the Procurement Act 2023, at least three KPIs must be set, assessed at least every 12 months and published. Here's model wording."
+  link: commercial.html#clauses
+  cta: Build a data quality schedule
+  source: {title: "Procurement Act 2023 guidance: key performance indicators", url: "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-manage-phase/guidance-key-performance-indicators-html"}
+  date: "2025-02-24"
+- id: s-ndl
+  kind: data
+  label: Data
+  title: "45 of 48 National Data Library pages covering part of the UK don't point to the other nations' data"
+  text: "From our assessment of all 84 curated NDL pages against GOV.UK rules. People in Scotland, Wales and Northern Ireland are less well served."
+  link: ndl-assurance.html
+  cta: See the assessment
+  date: "2026-10-14"
+- id: s-legacy
+  kind: news
+  label: Policy
+  title: "A legacy IT action plan is coming. Don't carry data debt into the new systems."
+  text: "DSIT is refreshing its legacy risk framework and restarting data collection in 2026. Check your data debt before you migrate."
+  link: legacy.html#assess
+  cta: Assess your data debt
+  source: {title: "PublicTechnology, March 2026", url: "https://www.publictechnology.net/2026/03/09/science-technology-and-research/dsit-to-unleash-legacy-it-action-plan-backed-by-data-collection-on-thousands-of-ageing-systems/"}
+  date: "2026-03-09"
+- id: s-dua
+  kind: news
+  label: Law
+  title: "The Data (Use and Access) Act 2025 became law on 19 June 2025"
+  text: "It sets up smart data schemes, a trust framework for digital verification services and a statutory National Underground Asset Register, all of which depend on good data."
+  link: frameworks.html
+  cta: Frameworks and standards
+  source: {title: "Brodies: Data (Use and Access) Act 2025 becomes law", url: "https://brodies.com/insights/ip-technology-and-data/data-use-and-access-act-2025-becomes-law/"}
+  date: "2025-06-19"
+
+# Spotlight: one feature at a time, chosen by type.
+spotlights:
+- id: sp-contracts
+  type: Capability
+  title: Data contracts
+  standfirst: A written, testable promise about a dataset, between the people who make it and the people who use it.
+  story: |
+    Data breaks at boundaries: between teams, systems and organisations. A data contract makes expectations explicit and testable every time data crosses one. The Commons toolkit now writes your rules as an Open Data Contract Standard contract, a Frictionless Table Schema or W3C CSVW metadata, keeps the thresholds from the issues framework, and reads contracts back as rules. Python and the browser give identical results.
+  try: [["Export your rules as a contract", "check.html#contracts"], ["Read: what is a data contract?", "library.html#kb-data-contract"], ["Interoperability layers", "interop.html"]]
+- id: sp-extract
+  type: Case study
+  title: "Extract: turning planning documents into structured data"
+  standfirst: How i.AI and MHCLG used AI to read planning documents and make their data checkable and reusable.
+  story: |
+    Invalid planning applications often come from data that isn't in the format digital planning tools need. Extract uses AI to read planning documents, pull out details such as addresses and dates, trace map boundaries and place them on a map as structured data. It was tested against a ground-truth set of manually converted Article 4 directions before wider testing. The lesson: a model earns trust through a ground-truth evaluation, and the results should be published.
+  try: [["AI for data quality: case studies", "ai.html#cases"], ["The route from experiment to shared toolkit", "ai.html#route"]]
+- id: sp-suppliers
+  type: Theme
+  title: Suppliers carry the responsibility
+  standfirst: When suppliers create or hold public data, they should prove its quality at their own cost.
+  story: |
+    About £21 billion of public sector digital and data spend in 2023 went to third parties, yet only 28% of leaders said they could monitor supplier performance. Twenty model clauses, a tender scoring sheet and a who-does-what table put the burden of proof on the supplier: quality rules in the contract, a published KPI, fixes at the supplier's cost, and an exit pack that works.
+  try: [["Build a data quality schedule", "commercial.html#clauses"], ["Tender questions", "commercial.html#tender"]]
+- id: sp-reconcile
+  type: Workflow
+  title: Proving a migration lost nothing
+  standfirst: Six checks that show whether data arrived complete and unchanged.
+  story: |
+    Compare row counts, records missing or new, duplicate keys, totals of number columns, and values for matched records. Do it at every trial migration, not just at cut-over. The reconciliation tool runs in the browser with nothing uploaded, and the same check runs in a pipeline.
+  try: [["Reconcile two files", "legacy.html#reconcile"], ["Migration gates", "legacy.html#stages"]]
+- id: sp-inclusion
+  type: Topic
+  title: Who does your data leave out?
+  standfirst: Data can pass every overall check while failing particular groups of people.
+  story: |
+    Forced defaults, narrow name and address formats, and characteristics recorded as "unknown" hit some groups harder than others. Measure quality across groups, use GSS harmonised standards, and make suppliers' systems record people accurately.
+  try: [["Recording people accurately", "library.html#kb-record-people"], ["Inclusion survey", "surveys.html"], ["Learning module M7", "learn.html#m7"]]
+- id: sp-local
+  type: Domain
+  title: Local government data quality
+  standfirst: Addresses, places and services, measured with the identifiers councils already use.
+  story: |
+    Councils hold some of the data people depend on most: housing, care, schools, waste, council tax. The Commons checks UPRNs, postcodes, GSS codes and school URNs, and gives councils the same frameworks, packs and supplier clauses as central government, for free.
+  try: [["Local government scenario", "scenarios.html#local"], ["Maturity self-assessment", "maturity.html"]]
+
+# Curated content library (Commons-picked external resources). Community contributions are added through the portal.
+library:
+- {title: "The Government Data Quality Framework", type: Guidance, topics: [frameworks], url: "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework", publisher: Government Data Quality Hub, nation: UK, checked: "yes"}
+- {title: "Government Data Quality Hub", type: Organisation, topics: [community, training], url: "https://www.gov.uk/government/organisations/government-data-quality-hub", publisher: ONS, nation: UK, checked: "yes"}
+- {title: "Hidden costs of poor data quality", type: Article, topics: [value], url: "https://www.gov.uk/government/news/hidden-costs-of-poor-data-quality", publisher: Government Data Quality Hub, nation: UK, checked: listed}
+- {title: "Five zero-budget ways to boost your data quality culture", type: Article, topics: [culture], url: "https://www.gov.uk/government/news/five-zero-budget-ways-to-boost-your-data-quality-culture", publisher: Government Data Quality Hub, nation: UK, checked: listed}
+- {title: "Let's talk about data quality", type: Article, topics: [culture], url: "https://www.gov.uk/government/news/lets-talk-about-data-quality", publisher: Government Data Quality Hub, nation: UK, checked: listed}
+- {title: "Introducing the government data quality community", type: Article, topics: [community], url: "https://www.gov.uk/government/news/introducing-the-government-data-quality-community", publisher: Government Data Quality Hub, nation: UK, checked: listed}
+- {title: "State of digital government review", type: Report, topics: [legacy, suppliers, interoperability], url: "https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review", publisher: DSIT, nation: UK, checked: "yes"}
+- {title: "Procurement Act 2023 guidance: key performance indicators", type: Guidance, topics: [suppliers, KPIs], url: "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-manage-phase/guidance-key-performance-indicators-html", publisher: Cabinet Office, nation: UK, checked: "yes"}
+- {title: "Procurement Act 2023 guidance for Wales: key performance indicators", type: Guidance, topics: [suppliers, KPIs], url: "https://www.gov.wales/procurement-act-2023-guidance-key-performance-indicators-html", publisher: Welsh Government, nation: Wales, checked: listed}
+- {title: "The Technology Code of Practice", type: Standard, topics: [interoperability, suppliers], url: "https://www.gov.uk/guidance/the-technology-code-of-practice", publisher: GDS, nation: UK, checked: "yes"}
+- {title: "ICO: contracts between controllers and processors", type: Guidance, topics: [privacy, suppliers], url: "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/guide-to-accountability-and-governance/contracts/", publisher: ICO, nation: UK, checked: "yes"}
+- {title: "Open Data Contract Standard", type: Standard, topics: [contracts, interoperability], url: "https://bitol-io.github.io/open-data-contract-standard/latest/", publisher: Bitol (Linux Foundation), nation: International, checked: "yes"}
+- {title: "GDS API technical and data standards", type: Standard, topics: [interoperability], url: "https://www.gov.uk/guidance/gds-api-technical-and-data-standards", publisher: GDS, nation: UK, checked: listed}
+
+# Media centre. Blog posts written by the Commons are original; external items link out.
+blog:
+- id: b-contracts
+  title: "Data contracts arrive in the Commons"
+  date: "2026-10-15"
+  author: Commons team
+  topics: [contracts, interoperability]
+  summary: Your rules can now travel as an ODCS contract, Table Schema or CSVW, and come back again, with thresholds intact.
+  body: |
+    Until now, quality rules written in the Commons lived in the Commons format. That's fine for our own pipeline, but most organisations already have tools, suppliers and platforms of their own.
+
+    This release adds data contracts. The checker can export rules as an Open Data Contract Standard (ODCS) contract, a Frictionless Table Schema, W3C CSV on the Web metadata, a Great Expectations suite or R validate rules. It can also read an ODCS contract or Table Schema and turn it into rules.
+
+    Two things we cared about. First, nothing is silently lost: checks a standard can't express travel as a toolkit extension, and rules we can't run (such as SQL) are listed, not dropped. Second, the browser and Python give exactly the same output, checked case by case.
+
+    Try it on the Check your data page, under "Share the rules as a data contract".
+- id: b-suppliers
+  title: "Why suppliers should carry the burden of data quality"
+  date: "2026-10-15"
+  author: Commons team
+  topics: [suppliers, commercial]
+  summary: Public bodies too often pay twice for poor data. Contracts can change that.
+  body: |
+    Most public data is created, held or changed in systems run by suppliers. When contracts describe functions but not the quality of the data, public bodies pay for the service, then pay again to find and fix poor data, to work around it, or to leave.
+
+    The new Buying and suppliers page sets out twelve commercial barriers, eight principles and twenty model clauses. The core idea is simple: the supplier proves quality, at its own cost, against rules the public body owns, and reports a data quality KPI that is published like any other.
+
+    The clauses are illustrative drafting, not legal advice. They're a starting point for commercial and legal teams, and we'd like to hear how they work in practice.
+- id: b-v1
+  title: "The Commons is now for everyone working with public sector data"
+  date: "2026-10-15"
+  author: Commons team
+  topics: [Commons]
+  summary: What started as data quality work for the National Data Library is now a general hub and toolkit.
+  body: |
+    The Public Sector Data Quality Commons began with the National Data Library and the data asset management policy. Both are still here as scenarios. But the toolkit, frameworks, learning and community now work for any public body, in any nation, and for the voluntary and private organisations that deliver public services.
+
+    Tell us what's missing on the wishlist, and share what works in the library.
+
+podcasts:
+- {title: "Podcast: the Data Standards Authority", publisher: "GDS blog", url: "https://gds.blog.gov.uk/2020/09/30/podcast-the-data-standards-authority/", topics: [standards], date: "2020-09-30", checked: listed}
+- {title: "Data quality as the basis of informed decision-making", publisher: "Digital Government podcast", url: "https://digitalgovernmentpodcast.buzzsprout.com/1191800/episodes/13932123-data-quality-as-the-basis-of-informed-decision-making", topics: [decision-making], checked: listed}
+
+videos: []

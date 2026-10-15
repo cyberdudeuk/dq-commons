@@ -62,9 +62,10 @@ code{font-family:var(--f-mono);font-size:.85em}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">Data quality guidance · cross-government · October 2026</span>
+  <span class="eyebrow">Know · Issues framework and guidance · October 2026</span>
   <h1>How does government data quality guidance fit together, and where does it disagree?</h1>
   <p class="lede">Fifteen sources compared. Nine are guidance documents: the 2026 GOV.UK guidance, the DQAP Implementation Guide v2.0, the Issues Framework v1.0, Defra's "Start here", the IOPC trust scales, a 2023 decision tree, NHS England's framework for data science and the community note. Six are tooling and adoption material: GDS's tooling review, solutions survey and case study template, two DQAP adoption decks, and a brief tools research note. Each step is mapped to the open data quality kit that puts it into practice.</p>
+  <div class="dqc-ctx" role="note"><b>Evidence base.</b> This page compares UK government data quality guidance in detail and holds the issues framework calculator. For frameworks across all nations, sectors and countries, see <a href="frameworks.html">Frameworks and standards</a>.</div>
 </header>
 
 <section>
@@ -262,4 +263,9 @@ function drawBands(t,b,p){
   s+=`<line x1="${x(96.75)}" y1="34" x2="${x(96.75)}" y2="128" stroke="var(--crit)" stroke-width="2.5" stroke-dasharray="5 3"></line><text x="${x(96.75)}" y="144" font-size="12" text-anchor="middle" fill="var(--crit)">96.75% (printed in v1.0)</text>`;
   s+=`<text x="${L}" y="92" font-size="11">94%</text><text x="${R}" y="92" font-size="11" text-anchor="end">98%</text>`;
   $("f1").innerHTML=s;})();
+window.DQP_TOUR = [
+  {sel: "#sources", title: "Sources compared", text: "Fifteen guidance and tooling sources, side by side."},
+  {sel: "#imp", title: "Issues framework calculator", text: "Set importance and impact to see the target, band, priority and how fast to fix."},
+  {sel: "#findings", title: "Findings", text: "Where guidance disagrees or has errors, and what the toolkit does about it."},
+];
 </script>
