@@ -1,0 +1,176 @@
+<title>NDL Data Quality Portal</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+/* Home: thesis and live status first, then routes by role, then the DQAP cycle mapped to pages. */
+header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:860px){header.page.hero{grid-template-columns:minmax(0,1fr)}}
+.hero h1{font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.01em}
+.status{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.status .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.status .row:last-of-type{border-bottom:0}
+.status .row span{color:var(--muted);font-size:.88rem}
+.status .row b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.deadline{display:flex;gap:12px;align-items:center;background:var(--accent-soft);border-radius:8px;padding:10px 12px}
+.deadline b{font-family:var(--f-mono);font-size:1.7rem;color:var(--accent)}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.roles button{font:inherit;font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.roles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.route{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.route a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.route a:hover{border-color:var(--accent)}
+.route a b{color:var(--accent)}
+.route a .why{font-size:.86rem;color:var(--muted)}
+.cycle{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:980px){.cycle{grid-template-columns:minmax(0,1fr)}}
+.step{padding:14px 14px 16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.step:last-child{border-right:0}
+@media (max-width:980px){.step{border-right:0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}}
+.step .n{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.step h3{font-size:.95rem}
+.step p{font-size:.84rem;color:var(--muted)}
+.step a{font-size:.84rem;font-weight:600}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.tile{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+.tile:hover{border-color:var(--accent)}
+.tile h3{color:var(--accent)}
+.tile p{font-size:.88rem;color:var(--muted)}
+.tile .fig{font-family:var(--f-mono);font-size:.8rem;color:var(--fg)}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+</style>
+
+<div class="wrap">
+<header class="page hero">
+  <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+    <span class="eyebrow">National Data Library · data quality</span>
+    <h1>Is the data good enough to use, and is someone fixing it?</h1>
+    <p class="lede">One place for the data quality work behind the data asset management (DAM) policy and the National Data Library (NDL). Measure critical data assets with the government's own issues framework, see what needs fixing first, report the January baseline, and learn from what others have done.</p>
+    <div class="deadline" id="deadline"></div>
+  </div>
+  <aside class="status" aria-labelledby="st-h">
+    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Latest pipeline run</h2>
+    <div id="status"></div>
+    <a class="btn" href="pipeline.html">See the full run</a>
+  </aside>
+</header>
+
+<section aria-labelledby="role-h">
+  <h2 id="role-h">Start from your role</h2>
+  <div class="roles" role="group" aria-label="Choose your role" id="roles"></div>
+  <div class="route" id="route" aria-live="polite"></div>
+</section>
+
+<section aria-labelledby="cyc-h">
+  <h2 id="cyc-h">The data quality action plan, step by step</h2>
+  <p class="lede">The 7 steps of the GOV.UK data quality action plan (DQAP) guide, and where each one lives in this portal and the kit.</p>
+  <div class="cycle" id="cycle"></div>
+</section>
+
+<section aria-labelledby="pg-h">
+  <h2 id="pg-h">Everything in the portal</h2>
+  <div class="tiles" id="tiles"></div>
+</section>
+
+<section class="two" aria-label="Inclusion and limits">
+  <div class="card">
+    <h3>Who could this miss?</h3>
+    <ul class="plain small">
+      <li>Data that leaves out groups of people can pass every overall check. The kit's representativeness checks look for unknown values and for quality that differs between groups.</li>
+      <li>45 of the 48 NDL pages that cover only part of the UK don't point to data for every other nation. People in Scotland, Wales and Northern Ireland are less well served.</li>
+      <li>27 NDL pages offer no open, machine-readable format. That makes them harder to use with assistive technology.</li>
+      <li>Staff using assistive technology should be able to run checks and work the issue log. The tooling page asks suppliers about this.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>What this is, and isn't</h3>
+    <ul class="plain small">
+      <li>A working prototype built in the open: MIT-licensed code, OGL v3.0 content. It is not an official GDS product.</li>
+      <li>Every number here comes from the same automated run. The results date is in the top bar.</li>
+      <li>The weekly pipeline runs on GitHub once the repository is published. Until then it runs on demand.</li>
+      <li>Trust levels are suggestions for the data owner to confirm. They are not decisions.</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<script>
+const P = __PORTFOLIO__;
+const B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const T = P.totals, M = P.metadata || {};
+
+// Deadline: CDA baseline return, 29 January 2027
+(function(){
+  const due = new Date("2027-01-29T00:00:00Z"), today = new Date(new Date().toISOString().slice(0,10) + "T00:00:00Z");
+  const days = Math.round((due - today) / 864e5);
+  $("deadline").innerHTML = days >= 0
+    ? `<b>${days}</b><span><strong>days</strong> until the critical data asset baseline return is due (29 January 2027). <a href="baseline.html">Plan the effort</a></span>`
+    : `<span>The critical data asset baseline return was due on 29 January 2027.</span>`;
+})();
+
+const rows = [
+  ["Results as of", P.as_of],
+  ["Assets measured", `${T.assets_measured} of ${T.assets}`],
+  ["Rules meeting target", `${T.rules_met} of ${T.rules_total}`],
+  ["Open issues", `${T.open_issues}` + (T.issues_by_priority.Critical ? ` (${T.issues_by_priority.Critical} Critical)` : ` (${T.issues_by_priority.High} High)`)],
+  ["Overdue, escalated", `${T.overdue_issues}, ${T.escalations}`],
+];
+if (M.records) rows.push(["NDL pages: mean score", `${M.mean_score}% across ${M.records}`]);
+$("status").innerHTML = rows.map(r => `<div class="row"><span>${esc(r[0])}</span><b>${esc(r[1])}</b></div>`).join("");
+
+const PAGES = {
+  pipeline: ["Pipeline status", "Trust levels, open and overdue issues, and what changed since the last run.", `${T.open_issues} open issues`],
+  check: ["Check your data", "Upload a CSV and a rules file, or try an NDL example. Runs in your browser; nothing is uploaded.", "15 check types"],
+  "ndl-assurance": ["NDL assurance", "How the NDL's 84 curated pages measure up to DAM policy and CDA metadata guidance.", M.records ? `Mean score ${M.mean_score}%` : ""],
+  baseline: ["January baseline", "How much effort it takes to report data quality for every critical data asset, by tier.", "Due 29 January 2027"],
+  guidance: ["Guidance", "15 guidance and tooling sources compared, 18 findings, and a live issues framework calculator.", "18 findings"],
+  tooling: ["Tooling", "Frameworks, open-source and commercial tools, and what public sector code actually uses.", "27 repositories read"],
+  share: ["Share and learn", "Draft case studies, the tooling survey review, and messages waiting to be sent.", `${T.assets} draft case studies`],
+};
+$("tiles").innerHTML = Object.entries(PAGES).map(([k, v]) =>
+  `<a class="tile" href="${k}.html"><h3>${esc(v[0])}</h3><p>${esc(v[1])}</p><span class="fig">${esc(v[2])}</span></a>`).join("");
+
+const ROLES = {
+  "Data steward": [["check", "Run your rules", "Try the checks on your own CSV, then take the rules file into the pipeline."],
+                   ["pipeline", "Work your issues", "See open and overdue issues and download the filled-in DQAP workbook."],
+                   ["guidance", "Score an issue", "Use the issues framework calculator to check a priority."]],
+  "Data owner": [["pipeline", "Decide on escalations", "Overdue High and Critical issues come to you and the governance board."],
+                 ["baseline", "Plan the return", "See the effort for the January baseline by asset tier."],
+                 ["share", "Share your story", "Turn your results into a case study for the Shared Learning Library."]],
+  "Chief data officer": [["index", "Portfolio at a glance", "The status panel above is the headline for your assets."],
+                         ["baseline", "Resource the baseline", "Effort in FTE with and without a shared kit."],
+                         ["ndl-assurance", "Make assets findable", "What the NDL needs from your catalogue records."]],
+  "NDL team": [["ndl-assurance", "Fix once, fix 84", "Template changes that close gaps on every page."],
+               ["pipeline", "Watch the charts", "Trust levels for the NDL's own chart data."],
+               ["share", "Messages to send", "The DVSA correction and findings are drafted."]],
+  "Architect": [["tooling", "Choose tools", "Open-source, government-built and commercial options, with criteria."],
+                ["guidance", "Standards crosswalk", "How the guidance documents line up, and where they disagree."],
+                ["check", "Reuse the engine", "The same scoring in Python and in the browser, checked case by case."]],
+};
+let role = "Data steward";
+try { role = localStorage.getItem("dqp-role") || role; } catch (e) {}
+function drawRoles() {
+  $("roles").innerHTML = Object.keys(ROLES).map(r => `<button type="button" aria-pressed="${r === role}">${esc(r)}</button>`).join("");
+  $("route").innerHTML = ROLES[role].map(([p, t, w]) => `<a href="${p}.html"><b>${esc(t)}</b><span class="why">${esc(w)}</span><span class="small muted">${esc((PAGES[p] || ["Home"])[0])} ›</span></a>`).join("");
+}
+$("roles").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  role = b.textContent; try { localStorage.setItem("dqp-role", role); } catch (er) {}
+  drawRoles();
+});
+drawRoles();
+
+const STEPS = [
+  ["Identify critical data", "Choose the assets and the data items that matter most.", "baseline", "Tier your assets"],
+  ["Identify rules", "Say what good looks like, with targets from the issues framework.", "check", "Build rules"],
+  ["Assess current quality", "Measure every rule and record a baseline.", "check", "Run a check"],
+  ["Prioritise and set goals", "Score each issue: importance × impact × how far below target.", "guidance", "Score an issue"],
+  ["Root cause and action", "Fix at source where you can; contain, correct and prevent.", "pipeline", "Open issues"],
+  ["Report", "Tell users: trust level, DQV metadata, the CDA return.", "pipeline", "Downloads"],
+  ["Repeat over time", "Measure on a schedule; escalate what stays open too long.", "pipeline", "Escalations"],
+];
+$("cycle").innerHTML = STEPS.map((s, i) => `<div class="step"><span class="n">Step ${i + 1}</span><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><a href="${s[2]}.html">${esc(s[3])} ›</a></div>`).join("");
+</script>

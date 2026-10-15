@@ -1,5 +1,43 @@
 # Build journal
 
+## 2026-10-15 — v0.4.0: one data quality portal, run by a pipeline
+
+**Asked for:**
+- Merge all the data quality artefacts into one portal (the project lead chose a separate portal).
+- Run the kit as a workflow (the project lead chose GitHub Actions).
+- Find and fix the remaining gaps.
+
+**What was built**
+- **Pipeline:**
+  - The portfolio runner and starter-rules suggester (started in the previous session) were finished and tested.
+  - New: the CDA return export.
+  - The weekly workflow now has a portal to publish.
+- **NDL Data Quality Portal:** 8 pages with one top bar, skip link and footer, built from `portal/src/` by `scripts/build_dq_portal.py`.
+  - **New pages:**
+    - home: role routes, live deadline, status
+    - pipeline status: trust mix, assets with trend, issues, changes, escalations, catalogue, downloads
+    - check your data: in-browser checker, rule builder, copy to DQV or DQAP
+    - share and learn: case studies, survey fixes, outreach status
+  - **Merged in:** NDL assurance (now rebuilt from pipeline outputs, identical to before), January baseline, guidance and tooling.
+- **Other changes:**
+  - The old standalone pages and the main portal copies now point to the new portal.
+  - The main portal has a tile for it.
+
+**Checked and fixed**
+- **Parity check:** 30 of 30 cases pass. It found and fixed:
+  - a crash on empty columns under pandas 3
+  - inconsistent error wording
+- **Rendering:** every page renders at desktop (light) and phone (dark) widths with no overflow and no script errors. The checker runs the example end to end.
+- **Stale content fixed:**
+  - test counts
+  - a fixed "today" date and working-day count on the baseline page
+  - the home page layout (a CSS specificity bug)
+- **Tests:** 59 pass.
+
+**Pending**
+- GitHub push: no repository is attached, so the workflow and Pages are untested on GitHub.
+- Outreach drafts: not sent.
+
 ## 2026-10-14 — v0.3.0 tooling and adoption material built in
 
 **What came in:** 6 more documents from the project lead:

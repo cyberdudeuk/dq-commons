@@ -1,0 +1,52 @@
+<style id="dqp-shell-css">
+/* NDL Data Quality Portal shell: one top bar shared by every page. Tokens fall back to the
+   portal palette, so the bar reads the same on every page in both themes. */
+:root{
+  --dqp-bar:#0b4f52; --dqp-bar-fg:#f2f7f7; --dqp-bar-muted:#b9d6d5; --dqp-bar-active:#ffffff;
+  --dqp-bar-line:#2a6e70; --dqp-focus:#ffbf47;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --dqp-bar:#0e2a2f; --dqp-bar-fg:#e5eff0; --dqp-bar-muted:#8fb3b4; --dqp-bar-active:#ffffff; --dqp-bar-line:#24474b}}
+:root[data-theme="dark"]{--dqp-bar:#0e2a2f; --dqp-bar-fg:#e5eff0; --dqp-bar-muted:#8fb3b4; --dqp-bar-active:#ffffff; --dqp-bar-line:#24474b}
+.dqp-skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--dqp-focus);color:#0b0c0c;padding:8px 12px;font:600 14px/1.3 "Public Sans",system-ui,sans-serif}
+.dqp-skip:focus{left:max(16px, env(safe-area-inset-left, 0px));top:calc(8px + env(safe-area-inset-top, 0px))}
+.dqp-bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:var(--dqp-bar);color:var(--dqp-bar-fg);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;border-bottom:1px solid var(--dqp-bar-line)}
+.dqp-in{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:0;display:flex;align-items:center;gap:18px;min-height:52px}
+.dqp-brand{display:flex;align-items:center;gap:10px;color:var(--dqp-bar-fg);text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap}
+.dqp-brand svg{flex:none}
+.dqp-brand small{display:block;font-weight:500;font-size:11px;color:var(--dqp-bar-muted);letter-spacing:.02em}
+.dqp-nav{display:flex;gap:2px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.dqp-nav::-webkit-scrollbar{display:none}
+.dqp-nav a{color:var(--dqp-bar-muted);text-decoration:none;font-size:13.5px;font-weight:600;padding:16px 10px 13px;border-bottom:3px solid transparent;white-space:nowrap}
+.dqp-nav a:hover{color:var(--dqp-bar-active)}
+.dqp-nav a[aria-current="page"]{color:var(--dqp-bar-active);border-bottom-color:var(--dqp-focus)}
+.dqp-bar a:focus-visible,.dqp-bar summary:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:-3px}
+.dqp-menu{display:none;margin-left:auto}
+.dqp-menu summary{list-style:none;cursor:pointer;color:var(--dqp-bar-fg);font-weight:600;font-size:14px;padding:10px 12px;border:1px solid var(--dqp-bar-line);border-radius:6px}
+.dqp-menu summary::-webkit-details-marker{display:none}
+.dqp-menu[open] .dqp-drop{display:flex}
+.dqp-drop{display:none;flex-direction:column;position:absolute;left:0;right:0;top:100%;background:var(--dqp-bar);border-bottom:1px solid var(--dqp-bar-line);
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:6px 12px}
+.dqp-drop a{color:var(--dqp-bar-fg);text-decoration:none;padding:11px 4px;border-bottom:1px solid var(--dqp-bar-line);font-size:15px;font-weight:600}
+.dqp-drop a[aria-current="page"]{color:var(--dqp-focus)}
+.dqp-drop a small{display:block;font-weight:400;font-size:12.5px;color:var(--dqp-bar-muted)}
+@media (max-width:1060px){.dqp-nav{display:none}.dqp-menu{display:block}}
+.dqp-foot{font-family:"Public Sans",system-ui,sans-serif;font-size:12.5px;color:var(--muted, #56636e);border-top:1px solid var(--line, #d6dddf);
+  max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:18px 28px;
+  display:flex;flex-wrap:wrap;gap:6px 18px}
+.dqp-foot a{color:inherit}
+</style>
+<a class="dqp-skip" href="#dqp-main">Skip to main content</a>
+<div class="dqp-bar" role="banner">
+  <div class="dqp-in">
+    <a class="dqp-brand" href="index.html" aria-label="NDL Data Quality Portal, home">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 17l4-4 3 3 7-8" fill="none" stroke="#ffbf47" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>NDL Data Quality Portal<small>{{BUILD}}</small></span>
+    </a>
+    <nav class="dqp-nav" aria-label="Portal">{{NAV}}</nav>
+    <details class="dqp-menu"><summary aria-label="Open the portal menu">Menu</summary><nav class="dqp-drop" aria-label="Portal (menu)">{{NAV_LONG}}</nav></details>
+  </div>
+</div>
+<span id="dqp-main" tabindex="-1"></span>

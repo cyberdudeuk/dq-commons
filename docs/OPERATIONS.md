@@ -23,7 +23,7 @@ Once a week (Monday, 06:17 UTC), GitHub runs the pipeline for you. It:
 4. **Saves the results** back into the repository, but only if something really changed.
 5. **Raises escalations** as GitHub issues: one issue per asset and rule. It comments on an issue
    that is still open, and closes issues that are now fixed.
-6. **Publishes the portal** to GitHub Pages, if a portal build script exists.
+6. **Publishes the NDL Data Quality Portal** to GitHub Pages. `scripts/build_dq_portal.py` builds it from this run's results into `portal/dist/`.
 
 ```mermaid
 flowchart TD
@@ -56,6 +56,7 @@ flowchart TD
 | `metadata-assessment.json` | Record-by-record results for the 84 catalogue pages | Analysts |
 | `assets/` | Per asset: results, DQAP workbook (.xlsx), DQAP CSVs, DQV, draft case study (.md, .docx) | Data stewards |
 | `history/` | One CSV per asset: every measurement, so trends and ageing can be tracked | The kit |
+| `cda-return.csv` | One row per asset in the proposed Dataverse return columns (gds_*) | Whoever compiles the CDA return |
 
 ## 2. How to switch it on (once the repository is on GitHub)
 
@@ -98,6 +99,10 @@ Exit codes: **0** all OK, **1** a problem (the message names the asset and what 
 **2** escalations found (only with `--fail-on-escalation`).
 
 Running the same date twice is safe: the history keeps one set of rows per date.
+
+To see the results in the portal, build it: `python scripts/build_dq_portal.py`, then open
+`portal/dist/index.html`. To refresh the claude.ai copy, add `--artifact some-folder` and publish
+that folder's `index.html` with the other pages as its files.
 
 ## 4. How to add an asset to the portfolio
 
@@ -212,7 +217,7 @@ fill in the Causes and Actions tabs, and close the loop at the next measurement.
 | The workflow's tests step fails | The kit or a rules file is broken | Run `python -m unittest discover -s tests` locally and fix before re-running |
 | "Save the results" fails with `rejected` or `403` | Workflow permissions are read-only, or the branch is protected | Settings → Actions → General → Read and write permissions; or allow the bot to push |
 | No GitHub issues appear | No overdue Critical or High issues (normal for a first run), or `issues: write` not allowed | Check `escalations.json`; check workflow permissions |
-| "Publish the portal" is skipped | No `scripts/build_dq_portal.py`, or it did not create `portal/dist/index.html` | Expected until the portal is built |
+| "Publish the portal" is skipped | `scripts/build_dq_portal.py` failed or did not create `portal/dist/index.html` | Run `python scripts/build_dq_portal.py` locally and read the error |
 | Deploy fails with "Pages not enabled" or "environment protection" | Pages source is not "GitHub Actions" | Settings → Pages → Source: GitHub Actions |
 | The weekly run did not commit anything | Nothing measured changed (the fingerprint in `portfolio.json` is the same) | Expected. The run page still has a downloadable copy |
 | Scheduled runs stopped | GitHub pauses scheduled workflows after 60 days with no repository activity | Make any commit, or press "Run workflow" |

@@ -30,3 +30,10 @@ treating it as evidence.
 - Public Sector DQ Tooling Atlas (27 repos): teams build their own engines; few inclusion checks.
 - NDL assessment (84 pages): consistent metadata gaps; 27 pages without an open machine-readable format.
 - CDA effort model: capacity is the main constraint for January.
+
+## Research questions added for v0.4.0
+
+1. **Rules without the command line:** can a data steward with no coding background write a working rules file using only the portal's rule builder? Measure task completion and time.
+2. **Owners and escalation:** do data owners understand an escalation ticket well enough to act, without opening the workbook?
+3. **Assistive technology:** does the checker work with a screen reader and keyboard only? This includes the file inputs, results table and copy buttons.
+4. **Trust levels:** which portal page do CDOs read first, and is the trust level understood as a suggestion rather than a decision?

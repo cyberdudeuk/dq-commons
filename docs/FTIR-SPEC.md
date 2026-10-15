@@ -21,6 +21,12 @@
 | F-15 | Issue ageing, overdue escalation and recurrence (GDS DQ Week metrics) | Done | `operations.py`; test |
 | F-16 | Draft case study in the GDS template, with no personal data | Done | `casestudy.py`; test |
 | F-17 | Survey analysis with personal data removed | Done | `survey.py`; test on made-up data |
+| F-18 | Measure a portfolio of assets on a schedule, with history and escalation | Done | `dqkit run`; `tests/test_pipeline.py` |
+| F-19 | Draft a starter rules file from a data file | Done | `dqkit suggest`; test on all 8 charts |
+| F-20 | CDA return rows from measured results | Done | `cdareturn.py`; test |
+| F-21 | One portal for all data quality work, built from the latest results | Done | `build_dq_portal.py`; `tests/test_portal.py` |
+| F-22 | Check data in the browser without uploading it, with the same answers as Python | Done | `engine.js`; 30-case parity check |
+| F-23 | Weekly automated run with GitHub issues for escalations | Built, untested on GitHub | `dq-pipeline.yml`; structure tested |
 
 ## Technical
 
@@ -29,7 +35,7 @@
 | T-01 | Python 3.10+; pandas, PyYAML, jsonschema only | Done |
 | T-02 | No network access at run time | Done |
 | T-03 | Deterministic: an `--as-of` date fixes all time-based checks | Done |
-| T-04 | Unit tests run in CI | Done (`.github/workflows/ci.yml`; 34 tests) |
+| T-04 | Unit tests run in CI | Done (`.github/workflows/ci.yml`; 59 tests) |
 | T-05 | Generated vocabulary files stay in sync with the CSV source | Done (CI diff check) |
 | T-06 | JSON Schema validates the example record | Done |
 | T-07 | SHACL validated with pySHACL | Pending: RDF tooling was unavailable in the build environment |

@@ -53,3 +53,20 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 ## Out of scope / constraints
 - Data stays with its owner. The kit runs where the data is.
 - Only OFFICIAL data, matching DAM policy scope.
+
+## Scope update: v0.4.0 (15 October 2026)
+
+**Now in scope:**
+- **Operating the kit, not just running it once:**
+  - a portfolio of assets measured on a schedule
+  - escalation of overdue issues as tickets
+  - rows produced for the CDA return
+- **One NDL Data Quality Portal for every audience:**
+  - a status page for owners and CDOs
+  - an in-browser checker for stewards
+  - reference pages for architects and policy teams
+
+**Success measures added:**
+- Every number on the portal comes from the latest run. Hand-copied figures in portal pages: 0.
+- An asset can be added by a steward with one line in the portfolio file.
+- Time from an issue going overdue to a ticket existing: one pipeline run (at most a week).

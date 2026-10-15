@@ -1,0 +1,265 @@
+<title>DQ Guidance Crosswalk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: reference crosswalk — sources, a live issues-framework calculator, step and dimension matrices, then errors found and recommendations */
+:root{
+  --bg:#f5f7f7; --surface:#ffffff; --fg:#17212b; --muted:#56636e; --line:#d6dddf;
+  --accent:#0d6b6e; --accent-soft:#e1f0ef;
+  --good:#1f7a3d; --warn:#9a5b00; --crit:#b3261e; --info:#3b5b9a;
+  --band-low:#f2c9c4; --band-mid:#f6dfb4; --band-high:#cfe6d6;
+  --f-display:"Source Serif 4", Georgia, serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --info:#8fb0ef;
+  --band-low:#4a2522; --band-mid:#46371a; --band-high:#1f3b2a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --info:#8fb0ef;
+  --band-low:#4a2522; --band-mid:#46371a; --band-high:#1f3b2a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(1.7rem,3.4vw,2.35rem)} h2{font-size:1.35rem} h3{font-size:1rem;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{color:var(--muted);max-width:72ch}
+header,section{display:flex;flex-direction:column;gap:12px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.sid{font-family:var(--f-mono);font-weight:600;color:var(--accent);font-size:.85rem}
+.meta{font-size:.8rem;color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:820px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--bg)}
+td:first-child{font-weight:600}
+.pill{display:inline-block;font-size:.7rem;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.p-crit{color:var(--crit)} .p-warn{color:var(--warn)} .p-info{color:var(--info)} .p-good{color:var(--good)}
+.calc{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:820px){.calc{grid-template-columns:minmax(0,1fr)}}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;gap:8px}
+.field output{font-family:var(--f-mono);color:var(--accent);font-weight:600}
+.field small{color:var(--muted);font-size:.78rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select{font:inherit;font-size:.9rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.result{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.rv{background:var(--bg);border-radius:6px;padding:10px 12px}
+.rv b{display:block;font-family:var(--f-mono);font-size:1.25rem;font-variant-numeric:tabular-nums}
+.rv span{font-size:.8rem;color:var(--muted)}
+svg text{fill:var(--fg);font-family:var(--f-body)}
+ol.plain,ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.85em}
+.note{border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;padding:12px 16px}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Data quality guidance · cross-government · October 2026</span>
+  <h1>How does government data quality guidance fit together, and where does it disagree?</h1>
+  <p class="lede">Fifteen sources compared. Nine are guidance documents: the 2026 GOV.UK guidance, the DQAP Implementation Guide v2.0, the Issues Framework v1.0, Defra's "Start here", the IOPC trust scales, a 2023 decision tree, NHS England's framework for data science and the community note. Six are tooling and adoption material: GDS's tooling review, solutions survey and case study template, two DQAP adoption decks, and a brief tools research note. Each step is mapped to the open data quality kit that puts it into practice.</p>
+</header>
+
+<section>
+  <h2>The sources</h2>
+  <div class="cols" id="sources"></div>
+</section>
+
+<section>
+  <h2>Try the issues framework</h2>
+  <p class="lede">The same calculation the kit runs. Move the sliders to see the target, the performance bands, the priority and how fast to fix.</p>
+  <div class="calc">
+    <form class="card" onsubmit="return false">
+      <div class="field"><label for="imp">Importance of purpose <output id="oImp"></output></label><input type="range" id="imp" min="1" max="4" value="3"><small>1 Low · 2 Medium · 3 High · 4 Critical</small></div>
+      <div class="field"><label for="ipc">Impact of failing the rule <output id="oIpc"></output></label><input type="range" id="ipc" min="1" max="4" value="3"></div>
+      <div class="field"><label for="pol">Default target policy</label><select id="pol"><option value="low">Low end of range (v1.0 tables, kit default)</option><option value="mid">Middle of range</option><option value="high">High end of range</option></select></div>
+      <div class="field"><label for="perf">Measured performance <output id="oPerf"></output></label><input type="range" id="perf" min="50" max="100" step="0.1" value="96.5"></div>
+    </form>
+    <div class="card">
+      <div class="result" id="calcOut" aria-live="polite"></div>
+      <svg id="bandSvg" viewBox="0 0 640 110" width="100%" role="img" aria-label="Performance bands below the target"></svg>
+      <p class="meta" id="bandNote"></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Process steps, side by side</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>In the kit</th><th>GOV.UK guide (7 steps)</th><th>Implementation Guide v2.0 (9 steps)</th><th>Defra "Start here"</th><th>IOPC trust scales</th><th>Decision tree (2023)</th></tr></thead>
+    <tbody>
+      <tr><td>Asset block, Criticality matrix tab</td><td>1 Identify critical data</td><td>1 Identify critical data</td><td>Name data owner and steward (Annex 1)</td><td>Set up: consult owners and users</td><td>Define use cases and stakeholders</td></tr>
+      <tr><td>Rules file, Metrics tab</td><td>2 Identify rules</td><td>2 Identify rules</td><td>1 Define rules (Annex 2)</td><td>Document production and usage</td><td>Assess structure, define parameters</td></tr>
+      <tr><td><code>dqkit check</code>, Results tab</td><td>3 Assess current quality</td><td>3 Initial assessment · 4 Document findings</td><td>2 Measure and record (Annex 3)</td><td>Assess basic, then plus dimensions</td><td>Measure against parameters</td></tr>
+      <tr><td>Issues framework scoring, Issues log</td><td>4 Prioritise and set goals</td><td>5 Prioritise · 6 Define goals</td><td>3 Prioritise: impact and addressability</td><td>Classify on the trust scale</td><td>Is the assessment meeting its aims?</td></tr>
+      <tr><td>Causes and Actions tabs</td><td>5 Root cause and action</td><td>7 Root cause and action</td><td>4 Plan response, escalate</td><td>Action log</td><td>Make changes where appropriate</td></tr>
+      <tr><td>DQV metadata, trust level, dashboards</td><td>6 Report</td><td>8 Report</td><td>Tell users; update catalogue metadata</td><td>Publish and share</td><td>Store, visualise, communicate</td></tr>
+      <tr><td><code>--history</code>, trend columns</td><td>7 Repeat</td><td>9 Repeat</td><td>Commit to repeat</td><td>Review, plan next scale</td><td>Repeat at required frequency</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Dimensions</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Dimension</th><th>GOV.UK, v2.0, Defra</th><th>IOPC</th><th>NHS England (data science)</th><th>Kit</th></tr></thead>
+    <tbody>
+      <tr><td>Completeness, uniqueness, consistency, timeliness, validity, accuracy</td><td>✓ DAMA UK six</td><td>✓ basic</td><td>Within "verification and validity"</td><td>✓</td></tr>
+      <tr><td>Relevance · coherence and comparability · accessibility and clarity</td><td>—</td><td>✓ "plus" (European Statistical System)</td><td>Partly: documentation, presentation</td><td>✓ added (qualitative)</td></tr>
+      <tr><td>Representativeness and fairness</td><td>—</td><td>Personal data accuracy rule</td><td>✓ ethics and fairness, bias</td><td>✓ dimension and checks</td></tr>
+      <tr><td>Metadata quality</td><td>Mentioned in step 6</td><td>Accessibility and clarity</td><td>Documentation, transparency</td><td>✓ 20 checks</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Contradictions and errors found</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>#</th><th>Finding</th><th>Why it matters</th><th>Severity</th><th>How the kit handles it</th></tr></thead>
+    <tbody id="findings"></tbody>
+  </table></div>
+  <div class="card">
+    <h3>F1 drawn to scale: bands for a 97.5% target</h3>
+    <svg id="f1" viewBox="0 0 640 150" width="100%" role="img" aria-label="Band start for a 97.5 per cent target: the stated rule gives 96.25, the v1.0 table prints 96.75"></svg>
+    <p class="meta">The rule says the High band starts halfway between the Middle band start (95%) and the target (97.5%), which is 96.25%. The v1.0 table prints 96.75%. Under the printed figure, a result of 96.5% falls in the Middle band, scoring 2 instead of 1. That doubles its priority score.</p>
+  </div>
+</section>
+
+<section>
+  <h2>What each source adds</h2>
+  <div class="cols">
+    <div class="card"><h3>Defra "Start here"</h3><p>The smallest workable DQAP. Estimates are allowed at first. This supports a proportionate January baseline for critical data assets.</p></div>
+    <div class="card"><h3>IOPC trust scales</h3><p>Turns quality into a usage decision: internal only, or external. Personal data accuracy below 90% can't be rated Trustworthy. Built into the kit's trust level.</p></div>
+    <div class="card"><h3>Decision tree (2023)</h3><p>The only source covering data you receive but don't control. That is common for shared critical data assets and for the NDL. Built into the kit's DQAP route.</p></div>
+    <div class="card"><h3>NHS England framework</h3><p>Covers the quality of the analysis built on data: commissioning, peer review, version control and uncertainty. It complements the DQAP.</p></div>
+    <div class="card"><h3>Community guidance note</h3><p>Already lists the W3C Data Quality Vocabulary as future metadata guidance. It records organisations' practice too: risk-based critical data elements, a 10-step remediation process, and shared tooling.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Built into the kit from the tooling and adoption material (v0.3.0)</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Idea</th><th>Source</th><th>Where it is now</th></tr></thead>
+    <tbody>
+      <tr><td>Controls at source, in the pipeline or in reporting</td><td>S12</td><td><code>control_point</code> on every rule; Metrics and Issues log</td></tr>
+      <tr><td>Ageing of open issues, recurrence, control failure rate</td><td>S15</td><td>Operations tab; <code>dqkit/operations.py</code></td></tr>
+      <tr><td>Escalation for overdue remediation</td><td>S15</td><td>Issues log: overdue against issues framework timescales</td></tr>
+      <tr><td>Containment versus corrective action, validation criteria</td><td>S15</td><td>Actions tab: Containment, Corrective, Preventive; "how we will know it worked"</td></tr>
+      <tr><td>Intake detail: source system, immediate risk</td><td>S15</td><td>Issues log input columns</td></tr>
+      <tr><td>Case studies for the Shared Learning Library</td><td>S13, S14</td><td><code>--case-study</code> drafts the template from results</td></tr>
+      <tr><td>Survey analysis</td><td>S11</td><td><code>dqkit survey</code>: one row per organisation and solution, personal data removed</td></tr>
+      <tr><td>Worked rule: NI number present and valid, at least 98%</td><td>S14</td><td>Consistent with the framework: 98% is in the 97.5–99.9 range for combined score 8–9</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Recommendations</h2>
+  <ol class="plain">
+    <li><b>Correct Issues Framework v1.0 Tables 7 and 8, and clarify the band labels</b> (F1, F2), wherever the tables are still used.</li>
+    <li><b>Use one numbering for DQAP steps, and rename ESDA templates to critical data asset templates</b> (F3, F4).</li>
+    <li><b>Add a trust level to critical data asset guidance and metadata</b>, so quality decides how data may be shared (F6).</li>
+    <li><b>Add an external-data route to the DQAP guide</b>, based on the decision tree (F7).</li>
+    <li><b>Expect representativeness checks for critical data assets that hold personal data</b> (F8).</li>
+    <li><b>Offer Defra's "Start here" as the official proportionate entry point</b> for the January baseline.</li>
+    <li><b>Fix the survey before launch</b>: privacy notice, organisation type and size, CDA links, Data Maturity Assessment levels, consistent ratings (F12, F13).</li>
+    <li><b>Widen the tooling review</b> to open-source and government-built tools, with criteria for accessibility, open standards and exit (F10, F11).</li>
+    <li><b>Add before-and-after measures, a CDA identifier and inclusion to the case study template</b> (F15).</li>
+    <li><b>Publish the Shared Learning Library openly</b> and catalogue it in the NDL (F17).</li>
+    <li><b>Put issue ageing, escalation and containment versus corrective action into the GOV.UK DQAP guide</b>, and correct the deck errors (F16).</li>
+  </ol>
+  <p class="note">Named individuals in the source documents are not reproduced here. Organisation names are used only where the documents state them.</p>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const SRC=[
+ ["S1","The Government Data Quality Framework","Government Data Quality Hub · 2020","Principles, the six DAMA UK dimensions and the DQAP idea."],
+ ["S2","Implement a data quality action plan, with the issues framework","GDS on GOV.UK · April 2026","Seven-step DQAP guide, scoring method and template."],
+ ["S3","DQAP Implementation Guide v2.0 (pilot)","Cross-government DQ community","Nine steps with a RACI, templates and training links."],
+ ["S4","Data Quality Issues Framework v1.0","Cross-government","Full scoring method with an issue priority calculator."],
+ ["S5","Data Quality Action Plans: Start here! v1.0","Defra","Four-step minimum DQAP with rule and monitoring templates."],
+ ["S6","Data Quality Trust Scales","Independent Office for Police Conduct · 2023, updated 2024","Four trust levels that decide internal or external use."],
+ ["S7","Data Quality Assessment Decision Tree","Government DQ community · July 2023","Routes internal and external data through DQAP steps."],
+ ["S8","Quality Framework for Data Science","NHS England · September 2024","Five pillars, 20 areas, a RAG log with evidence."],
+ ["S9","DQ Guidance and Training note","Cross-government DQ community","Background, training, and how organisations apply the guidance."],
+ ["S10","Data Quality Tooling Review","GDS Data Management Team · October 2026","Market overview from Gartner's 2026 Magic Quadrant: 5 use cases, 8 core and 7 advanced features, 18 vendors."],
+ ["S11","Cross-Government DQ Solutions Survey","GDS Data Management Team · October 2026","109-question Forms design: organisation once, 33 questions per solution, up to 3 solutions."],
+ ["S12","Brief research on DQ tools in UK government","Prepared for DSIT · 2025–26","Tool landscape, controls at source, pipeline and reporting, and an options paper."],
+ ["S13","Data Quality Case Study Template","GDS Data Management Team · 2026","Case study form for the Shared Learning Library, built on the 7 DQAP steps."],
+ ["S14","Adopting DQAPs in Practice (Scottish Government)","GDS Data Management Team · 2026","7 steps with roles, a worked rule, the Shared Learning Library."],
+ ["S15","Adopting DQAPs in Practice (DQ Week)","GDS Data Management Team · 2026","Owner and steward roles, intake and triage, containment, metrics, escalation."]];
+$("sources").innerHTML=SRC.map(s=>`<div class="card"><span class="sid">${s[0]}</span><h3>${esc(s[1])}</h3><span class="meta">${esc(s[2])}</span><p>${esc(s[3])}</p></div>`).join("");
+const F=[
+ ["F1","Issues Framework v1.0 Tables 7–8 print 96.75% as the High band start for a 97.5% target. The stated rule gives 96.25%.","Issues can score one priority level too low","Error","Follows the stated rule; a unit test documents the slip"],
+ ["F2","v1.0 lists band scores as Low 1, Middle 2, High 3, but its worked example scores the band just below target as 1","The other reading inverts priorities","Error","Follows the worked example and the 2026 GOV.UK page"],
+ ["F3","GOV.UK guide has 7 steps; Implementation Guide v2.0 has 9","Confusion in training and returns","Inconsistency","Both mapped; RACI uses 9"],
+ ["F4","v2.0, the community note and template file names still say Essential Shared Data Assets","Mixed terms in the January return","Inconsistency","Uses critical data asset (CDA)"],
+ ["F5","IAO role 'under review' but accountable for risk in the RACI","Unclear accountability","Inconsistency","RACI tab shows A(Risk) and A(Quality)"],
+ ["F6","No GOV.UK source links quality to whether data may be shared","Inconsistent sharing decisions","Gap","IOPC trust level; trust_level in the metadata model"],
+ ["F7","GOV.UK DQAP steps assume you own the data","Shared assets and the NDL often don't","Gap","Decision-tree route for external data"],
+ ["F8","Inclusion is almost absent","Gaps for under-recorded groups stay hidden","Gap","Representativeness dimension and checks"],
+ ["F9","Targets used in practice cluster at the bottom of framework ranges","Different strictness across departments","Inconsistency","Default policy stated openly; low, mid or high selectable"],
+ ["F10","Tooling review leaves out open-source and government-built tools (Great Expectations, Soda Core, dbt, R validate, MoJ data_linter, NHS DQMI) and Fabric or Purview data quality","Smaller bodies with little or no budget see no affordable route; the paywalled Gartner basis isn't openly reproducible","Gap","Tooling Atlas covers them; the kit itself is an open option"],
+ ["F11","No tooling criteria for accessibility, open-standards export or exit","Tools can exclude disabled staff and lock results in","Gap","Atlas adds the criteria; the kit exports DQV and portable rules"],
+ ["F12","Survey and case study template collect name, role and email with no privacy notice","UK GDPR transparency risk; fewer responses","Risk","Survey analysis drops personal data on load; case study drafts leave it blank"],
+ ["F13","Survey can't segment by organisation type or size, doesn't ask how widely a tool is used or link to CDAs, uses a maturity scale unlike the Data Maturity Assessment, and reverses one rating","Results can't answer the review's own questions or tie to the DAM policy","Gap","12 fixes in the survey review; analysis flags the reversed scale"],
+ ["F14","Brief research lists 5 GDQF dimensions (leaves out uniqueness); its citations have no reference list; written before the DAM policy","Can't be relied on as evidence as it stands","Error","Checked one claim (NHSBSA bought Datactics: confirmed). Its tool-agnostic recommendation matches the kit."],
+ ["F15","Case study template has no before-and-after measures, CDA identifier or inclusion question","Case studies can't be compared or linked to the CDA register","Gap","--case-study drafts all three"],
+ ["F16","Decks say 'EDSA' (should be ESDA, now CDA); one slide treats the DAM policy as an organisation's internal policy; US spellings","Confuses the mandate with local policy","Error","Flagged in an outreach draft"],
+ ["F17","The Shared Learning Library is in a members-only space","Local government, devolved administrations, the third sector and the NDL can't find it","Gap","Recommend an open mirror under OGL"],
+ ["F18","The DAM policy isn't mandatory for the Scottish Government","Four-nations gaps, as on 45 of 48 partial-UK NDL pages","Gap","Kit outputs work for any UK administration"]];
+const SEV={"Error":"p-crit","Risk":"p-crit","Gap":"p-warn","Inconsistency":"p-info"};
+$("findings").innerHTML=F.map(f=>`<tr><td>${f[0]}</td><td>${esc(f[1])}</td><td>${esc(f[2])}</td><td><span class="pill ${SEV[f[3]]}">${f[3]}</span></td><td>${esc(f[4])}</td></tr>`).join("");
+
+// issues framework, mirrors dqkit/framework.py
+const RANGES=[[[1,2,3],[75,90]],[[4,6],[90,97.5]],[[8,9],[97.5,99.9]],[[12,16],[99.9,100]]];
+const POL={low:{75:75,90:90,97.5:97.5,99.9:99.9},mid:{75:85,90:95,97.5:99,99.9:100},high:{75:89.9,90:97.4,97.5:99.8,99.9:100}};
+const RES={Critical:"Immediately",High:"Within 1 measurement cycle",Medium:"Within 3 measurement cycles",Low:"Within 6 measurement cycles"};
+function rangeFor(c){return RANGES.find(r=>r[0].includes(c))[1]}
+function bands(t){if(t>=100)return null;const e=100-t,m=Math.max(0,100-2*e);return{mid:m,high:(m+t)/2}}
+function err(p){const e=100-p;if(e<=0)return"0 records";const n=100/e;return"1 in "+(n>=10?Math.round(n).toLocaleString("en-GB"):n.toPrecision(2))+" records"}
+function calc(){
+  const i=+$("imp").value,k=+$("ipc").value,p=+$("perf").value,c=i*k,r=rangeFor(c),t=POL[$("pol").value][r[0]];
+  $("oImp").textContent=i;$("oIpc").textContent=k;$("oPerf").textContent=p.toFixed(1)+"%";
+  const b=bands(t);let band=null,bs=0;
+  if(p<t){if(!b){band="Critical";bs=4}else if(p<b.mid){band="Low";bs=3}else if(p<b.high){band="Middle";bs=2}else{band="High";bs=1}}
+  const ps=i*k*bs,pr=ps===0?null:ps<=7?"Low":ps<=16?"Medium":ps<=32?"High":"Critical";
+  $("calcOut").innerHTML=`<div class="rv"><b>${c}</b><span>combined score (range ${r[0]}–${r[1]}%)</span></div>
+   <div class="rv"><b>${t}%</b><span>target · ${err(t)} tolerated</span></div>
+   <div class="rv"><b>${band?band+" band":"Meets"}</b><span>${band?"band score "+bs:"no issue raised"}</span></div>
+   <div class="rv"><b style="color:var(--${pr==="Critical"?"crit":pr==="High"?"warn":pr?"accent":"good"})">${pr||"—"}</b><span>${pr?"priority score "+ps+" · "+RES[pr]:"meets target"}</span></div>`;
+  drawBands(t,b,p);
+  $("bandNote").textContent=b?`Middle band starts at ${b.mid}% (twice the tolerated error). High band starts at ${b.high}%. Below ${b.mid}% is the Low band.`:"Target is 100%: any shortfall is graded Critical (band score 4).";
+}
+function drawBands(t,b,p){
+  const W=640,L=20,R=620,lo=Math.min(b?b.mid-2:t-2,p-1,95),x=v=>L+(Math.max(lo,Math.min(100,v))-lo)/(100-lo)*(R-L);
+  let s="";
+  if(b){s+=`<rect x="${L}" y="30" width="${x(b.mid)-L}" height="34" fill="var(--band-low)"></rect><rect x="${x(b.mid)}" y="30" width="${x(b.high)-x(b.mid)}" height="34" fill="var(--band-mid)"></rect><rect x="${x(b.high)}" y="30" width="${x(t)-x(b.high)}" height="34" fill="var(--band-high)"></rect>`;
+    s+=`<text x="${(L+x(b.mid))/2}" y="52" font-size="12" text-anchor="middle">Low (3)</text><text x="${(x(b.mid)+x(b.high))/2}" y="52" font-size="12" text-anchor="middle">Middle (2)</text><text x="${(x(b.high)+x(t))/2}" y="52" font-size="12" text-anchor="middle">High (1)</text>`;}
+  else s+=`<rect x="${L}" y="30" width="${x(t)-L}" height="34" fill="var(--band-low)"></rect><text x="${(L+x(t))/2}" y="52" font-size="12" text-anchor="middle">Critical (4)</text>`;
+  s+=`<line x1="${x(t)}" y1="22" x2="${x(t)}" y2="72" stroke="var(--fg)" stroke-width="2"></line><text x="${x(t)}" y="16" font-size="12" text-anchor="middle">target ${t}%</text>`;
+  s+=`<circle cx="${x(p)}" cy="47" r="7" fill="var(--accent)" stroke="var(--surface)" stroke-width="2"></circle><text x="${x(p)}" y="92" font-size="12" text-anchor="middle" font-family="var(--f-mono)">${p.toFixed(1)}%</text>`;
+  s+=`<text x="${L}" y="106" font-size="11" fill="var(--muted)">${lo.toFixed(1)}%</text><text x="${R}" y="106" font-size="11" text-anchor="end">100%</text>`;
+  $("bandSvg").innerHTML=s;
+}
+["imp","ipc","perf","pol"].forEach(id=>$(id).addEventListener("input",calc));calc();
+
+// F1 drawn to scale (94 to 98)
+(function(){const L=20,R=620,x=v=>L+(v-94)/(98-94)*(R-L);let s="";
+  s+=`<rect x="${x(94)}" y="40" width="${x(95)-x(94)}" height="30" fill="var(--band-low)"></rect><rect x="${x(95)}" y="40" width="${x(96.25)-x(95)}" height="30" fill="var(--band-mid)"></rect><rect x="${x(96.25)}" y="40" width="${x(97.5)-x(96.25)}" height="30" fill="var(--band-high)"></rect>`;
+  [[95,"95% middle start"],[97.5,"97.5% target"]].forEach(([v,l])=>{s+=`<line x1="${x(v)}" y1="32" x2="${x(v)}" y2="78" stroke="var(--fg)" stroke-width="1.5"></line><text x="${x(v)}" y="26" font-size="12" text-anchor="middle">${l}</text>`});
+  s+=`<line x1="${x(96.25)}" y1="34" x2="${x(96.25)}" y2="98" stroke="var(--good)" stroke-width="2.5"></line><text x="${x(96.25)}" y="114" font-size="12" text-anchor="middle" fill="var(--good)">96.25% (stated rule)</text>`;
+  s+=`<line x1="${x(96.75)}" y1="34" x2="${x(96.75)}" y2="128" stroke="var(--crit)" stroke-width="2.5" stroke-dasharray="5 3"></line><text x="${x(96.75)}" y="144" font-size="12" text-anchor="middle" fill="var(--crit)">96.75% (printed in v1.0)</text>`;
+  s+=`<text x="${L}" y="92" font-size="11">94%</text><text x="${R}" y="92" font-size="11" text-anchor="end">98%</text>`;
+  $("f1").innerHTML=s;})();
+</script>

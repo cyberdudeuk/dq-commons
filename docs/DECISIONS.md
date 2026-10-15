@@ -2,6 +2,30 @@
 
 Newest first. These continue the portal decision log (D-001 to D-014) in the claude.ai project.
 
+## 2026-10-15 · D-033 · Old copies of merged pages say where the live version is
+- **Decision:** the four standalone data quality pages, and their copies in the Unified Data Asset Portal, keep their content but carry a banner pointing to the NDL Data Quality Portal. The main portal gains a tile linking to it.
+- **Why:** one source of truth without breaking links people may already have shared.
+- **Alternative considered:** deleting the old copies. Rejected: links in the wild would break, and deletion is the owner's call.
+
+## 2026-10-15 · D-032 · The CDA return is produced by the pipeline
+- **Decision:** every run writes `cda-return.csv`: one row per asset in the proposed Dataverse column layout (gds_* columns), with mean performance per dimension, issue counts by priority, trust level and route. Unmeasurable values stay blank.
+- **Why:** the January baseline should be filled from measured results, not re-keyed. The columns are a proposal until GDS publishes the return schema.
+
+## 2026-10-15 · D-031 · The browser checker uses a line-by-line port of the Python engine, proved by a parity check
+- **Decision:** `portal/src/js/engine.js` reimplements the kit in JavaScript. `scripts/parity_check.py` runs 30 cases (all 15 checks, the 8 NDL charts, a 3,000-point scoring grid, ageing over 4 cycles, and micro-cases for numbers, dates, regex and CSV parsing) through both and fails on any difference.
+- **Why:** people can try the kit without installing anything, and their data never leaves the browser. Two engines are only safe if they are proved identical. The parity check already found one real Python bug (empty columns) and one inconsistency (error wording).
+- **Alternative considered:** Pyodide (Python in the browser). Rejected: a 10+ MB download and slow first load, which is poor for low-bandwidth users.
+
+## 2026-10-15 · D-030 · A separate NDL Data Quality Portal, built from the pipeline results
+- **Decision:** all data quality pages live in one separate portal with one top bar: home, pipeline status, check your data, NDL assurance, January baseline, guidance, tooling, and share and learn. `scripts/build_dq_portal.py` builds it from `portal/src/` and the latest results, so every number comes from the same run. GitHub Pages publishes it after each pipeline run; a claude.ai artifact copy is published by hand.
+- **Why:** the project lead chose a separate portal. Generating pages from results removes hand-copied figures, which had already gone stale (test counts, "today" dates).
+- **Alternative considered:** a data quality hub inside the Unified Data Asset Portal. Not chosen by the project lead.
+
+## 2026-10-15 · D-029 · Operationalise the kit as a scheduled GitHub Actions pipeline
+- **Decision:** a portfolio file (`portfolio.ndl.yaml`) lists the assets and schedules. `dqkit run` measures what is due, keeps history and writes the outputs. A weekly workflow tests, measures, commits changed results, opens, updates or closes one GitHub issue per escalation, and publishes the portal.
+- **Why:** the project lead chose GitHub Actions: free for public repositories, open, repeatable and reviewable. It turns the DQAP's "repeat measure over time" step into something that happens without anyone remembering.
+- **Alternatives considered:** Power Automate or Fabric (most departments' platform; documented as a follow-on), and cron on a server (nobody to run it).
+
 ## 2026-10-14 · D-028 · Survey analysis removes personal data on load
 - **Decision:** `dqkit survey` drops name, role and email columns as it reads the Forms export, and never writes them out. Summaries warn about counts under 5.
 - **Why:** the analysis needs no personal data (data minimisation, UK GDPR Article 5). Small counts by solution can identify an organisation.

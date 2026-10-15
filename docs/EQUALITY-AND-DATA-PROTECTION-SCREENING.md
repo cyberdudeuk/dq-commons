@@ -45,3 +45,21 @@
 - **Privacy notice:** the survey and case study template collect personal data without one (F12).
 - **Accessibility in tool choice:** the tooling review has no criterion for staff who use assistive technology (F11).
 - **Members-only library:** the Shared Learning Library is in a members-only space. That excludes local government, devolved administrations and the third sector without accounts (F17).
+
+## Update for v0.4.0 (15 October 2026)
+
+**Browser checker:**
+- Files are read in the viewer's browser and are never uploaded or stored. There is no server.
+- That makes it suitable for trying the kit on sensitive extracts, subject to local rules on where such data may be opened.
+
+**Pipeline:**
+- GitHub issues raised for escalations contain rule results and up to 3 failing example rows.
+- For an asset holding personal data, either:
+  - keep the repository private, or
+  - set `examples: 0` on that asset's rules before switching on escalation issues.
+- *Action:* add a portfolio-level switch that strips examples. This is recorded as a known gap.
+
+**Portal accessibility:**
+- The portal has a skip link, visible focus, a keyboard-operable menu, labelled form controls, light and dark themes, and reduced motion.
+- Charts and bars have text alternatives.
+- It has not yet been tested with assistive technology users. That testing is in the research plan.

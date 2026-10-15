@@ -1,0 +1,249 @@
+<title>NDL Collections Assurance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: assurance dashboard — verdict strip, then "fix once" check table, then page x check grid with a detail drawer, then chart data, inclusion and method */
+:root{
+  --bg:#f5f7f7; --surface:#ffffff; --fg:#17212b; --muted:#56636e; --line:#d6dddf;
+  --accent:#0d6b6e; --accent-soft:#e1f0ef;
+  --good:#1f7a3d; --warn:#9a5b00; --crit:#b3261e; --na:#c9d1d4;
+  --good-bg:#dff1e5; --warn-bg:#fbecd2; --crit-bg:#f8dcd9;
+  --f-display:"Source Serif 4", Georgia, serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --na:#33424c;
+  --good-bg:#183a25; --warn-bg:#3d2e12; --crit-bg:#45201d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --na:#33424c;
+  --good-bg:#183a25; --warn-bg:#3d2e12; --crit-bg:#45201d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(1.7rem,3.4vw,2.35rem)} h2{font-size:1.35rem} h3{font-size:1rem;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{color:var(--muted);max-width:72ch}
+header,section{display:flex;flex-direction:column;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat .v{font-family:var(--f-mono);font-size:1.6rem;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .k{font-size:.82rem;color:var(--muted)}
+.ragbar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:6px}
+.ragbar span{display:block;height:100%}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--bg)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.pill{display:inline-block;font-size:.7rem;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pr-Critical{color:var(--crit)} .pr-High{color:var(--warn)} .pr-Medium{color:var(--accent)} .pr-Low{color:var(--muted)} .pr-meets{color:var(--good)}
+.meter{position:relative;height:10px;background:var(--accent-soft);border-radius:5px;min-width:110px}
+.meter i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--accent)}
+.meter b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--fg)}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.filters label{display:flex;flex-direction:column;gap:3px;font-size:.8rem;font-weight:600;color:var(--muted)}
+select,input[type=search]{font:inherit;font-size:.9rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.grid{border-collapse:separate;border-spacing:2px;font-size:.78rem}
+.grid th{background:none;padding:2px;font-family:var(--f-mono);font-size:.66rem;letter-spacing:0;text-transform:none;writing-mode:vertical-rl;transform:rotate(180deg);height:64px;white-space:nowrap}
+.grid td{padding:0;border:0}
+.grid td.name{padding:2px 8px 2px 0;white-space:nowrap;max-width:230px;overflow:hidden;text-overflow:ellipsis}
+.grid td.name button{all:unset;cursor:pointer;color:var(--fg)}
+.grid td.name button:hover,.grid td.name button:focus-visible{text-decoration:underline}
+.cell{width:18px;height:18px;border-radius:3px;display:block}
+.c-pass{background:var(--good)} .c-partial{background:var(--warn)} .c-fail{background:var(--crit)} .c-na{background:var(--na)}
+.grid td.sc{font-family:var(--f-mono);padding-left:8px;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.drawer{border-left:4px solid var(--accent)}
+.drawer ul{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.drawer li{display:grid;grid-template-columns:78px 1fr;gap:10px;align-items:start;font-size:.88rem}
+.st{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 6px;border-radius:4px;text-align:center}
+.st-pass{background:var(--good-bg);color:var(--good)} .st-partial{background:var(--warn-bg);color:var(--warn)} .st-fail{background:var(--crit-bg);color:var(--crit)} .st-na{background:var(--bg);color:var(--muted)}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:14px}
+.rule{display:grid;grid-template-columns:28px 1fr auto;gap:8px;font-size:.84rem;align-items:start;padding:4px 0;border-bottom:1px dashed var(--line)}
+.rule:last-child{border-bottom:0}
+.ok{color:var(--good);font-weight:700} .bad{color:var(--crit);font-weight:700}
+svg text{fill:var(--fg);font-family:var(--f-body)}
+a{color:var(--accent)}
+ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:5px}
+.note{border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;padding:12px 16px}
+.muted{color:var(--muted)}
+code{font-family:var(--f-mono);font-size:.85em}
+#gridWrap{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.drawer{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
+@media (max-width:820px){#gridWrap{grid-template-columns:minmax(0,1fr)}.drawer{position:static;max-height:none}}
+.stats,.cols,.charts{min-width:0}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">National Data Library · data.gov.uk collections · assessed 14 October 2026</span>
+  <h1>How do the National Data Library's collections measure up to GOV.UK data asset and quality rules?</h1>
+  <p class="lede">All 84 curated data pages in the 7 NDL collections were tested against 20 checks taken from the data asset management (DAM) policy, the critical data asset (CDA) metadata guidance, the data quality action plan (DQAP) guidance, the NDL's own curation criteria, FAIR principles and inclusion. 8 of the NDL's own chart data files were checked with 49 data quality rules. Every check is prioritised with the GOV.UK data quality issues framework, using the low end of each target range, as the framework's v1.0 tables do.</p>
+</header>
+
+<div class="stats" id="stats"></div>
+
+<section>
+  <h2>Fix once in the page template</h2>
+  <p class="lede">Most gaps appear on nearly every page, so one change to the page template fixes them everywhere. Each row treats a check as a quality rule measured across the pages it applies to. The black mark shows the framework target.</p>
+  <div class="filters">
+    <label for="fSource">Requirement source<select id="fSource"><option value="">All sources</option></select></label>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Check</th><th>Source</th><th>Pages</th><th>Pass · part · fail</th><th>Performance vs target</th><th class="n">%</th><th>Priority</th><th>Fix within</th></tr></thead>
+    <tbody id="checkRows"></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Every page, every check</h2>
+  <p class="lede">Select a page name to see the evidence behind each result.</p>
+  <div class="filters">
+    <label for="fColl">Collection<select id="fColl"><option value="">All collections</option></select></label>
+    <label for="fRag">Rating<select id="fRag"><option value="">Any rating</option><option value="green">Green (75% and over)</option><option value="amber">Amber (50 to 74%)</option><option value="red">Red (under 50%)</option></select></label>
+    <label for="fText">Search<input type="search" id="fText" placeholder="Page or provider"></label>
+    <div class="legend" aria-hidden="true"><span><i class="cell c-pass"></i>Pass</span><span><i class="cell c-partial"></i>Partial</span><span><i class="cell c-fail"></i>Fail</span><span><i class="cell c-na"></i>Not applicable</span></div>
+  </div>
+  <div class="cols" style="align-items:start" id="gridWrap">
+    <div class="tbl" style="padding:10px"><table class="grid" id="grid" aria-label="Pages by checks"></table></div>
+    <div class="card drawer" id="drawer" aria-live="polite"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Critical data asset metadata coverage</h2>
+  <div class="cols">
+    <div class="card"><h3>The 13 properties in the GOV.UK CDA metadata guidance</h3><svg id="propChart" viewBox="0 0 460 420" width="100%" role="img" aria-label="Coverage of each CDA metadata property"></svg></div>
+    <div class="card"><h3>Average score by collection</h3><svg id="collChart" viewBox="0 0 460 260" width="100%" role="img" aria-label="Average score by collection"></svg>
+      <p class="muted" style="font-size:.85rem">Collections differ by less than 11 points, which confirms that the gaps come from the shared page template rather than from individual curators.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>The NDL's own chart data</h2>
+  <p class="lede">The "Download the chart data" files are the NDL's own data products. Each was checked with rules for structure, validity, timeliness and whether the measure is described. Each also has a suggested trust level on the IOPC data trust scale, which says whether the data is fit to use externally. The NDL republishes data it doesn't produce, so the decision tree route is: measure, caveat and tell users, and pass fixes to the publisher.</p>
+  <div class="charts" id="charts"></div>
+</section>
+
+<section>
+  <h2>Who could be left out</h2>
+  <div class="cols">
+    <div class="card"><h3>Groups of people</h3><p>Only <b>7 of 25</b> pages about people say which groups the data can be broken down by. A disabled person or a member of an ethnic minority group can't tell from the page whether data about people like them exists.</p></div>
+    <div class="card"><h3>UK nations</h3><p><b>48</b> pages cover only part of the UK. <b>45</b> of them don't point to data for every other nation, and <b>28</b> point to none. The Early years collection is the model to copy: it links all four nations.</p></div>
+    <div class="card"><h3>Formats</h3><p><b>27</b> pages offer no open machine-readable format. 8 offer only proprietary spreadsheets, and 19 offer only PDFs, web pages or dashboards. These are harder to use with screen readers and on low bandwidth.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>What to change</h2>
+  <ol class="plain">
+    <li><b>Add an "About this data" panel to the template</b> with owner organisation and role, update frequency and next update, time period, geography, classification (OFFICIAL), licence, and a link to methodology or the DQAP.</li>
+    <li><b>Publish each page's metadata as DCAT with DQV quality measurements.</b> The kit already generates this for all 84 pages.</li>
+    <li><b>Give every chart download a CSV on the Web metadata file</b> naming the measure, unit and reference period.</li>
+    <li><b>Signpost data for the other UK nations</b> wherever coverage is partial.</li>
+    <li><b>On pages about people, state the available breakdowns</b> and link to the GSS harmonised standards.</li>
+    <li><b>Correct the Driving tests page:</b> the Driver and Vehicle Standards Agency is DVSA, not DVLA.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>How this was done, and how sure we are</h2>
+  <div class="note"><p>Each page's text was read on 14 October 2026, and its details were recorded in a structured form. Only what the NDL page itself shows was counted, because that is where users decide. Methodology is often one click away on the publisher's site. The licence, classification and owner-role checks are structural: no page has a field for them, so they apply strictly only to designated CDAs. Of 20 chart files, 8 were checked; UK house prices was too large to read whole. The code, data and rules are open, so the full assessment can be re-run with one command (<code>python scripts/run_ndl_assessment.py</code>).</p></div>
+  <ul class="plain">
+    <li><a href="https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government">Data asset management policy in government</a></li>
+    <li><a href="https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets">Recording metadata to describe critical data assets</a></li>
+    <li><a href="https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework">Data quality issues framework</a></li>
+    <li><a href="https://www.data.gov.uk/data-curation/">NDL data curation criteria</a></li>
+  </ul>
+</section>
+</div>
+
+<script>
+const D = __DATA__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const COLL = {"business-and-economy":"Business and economy","environment":"Environment","government-and-parliament":"Government and Parliament","land-and-property":"Land and property","people":"People","transport":"Transport","early-years":"Early years"};
+const SRC = {"DAM":"DAM policy","DAM / DQAP":"DAM policy / DQAP","DAM / CDA":"DAM policy / CDA","CDA":"CDA metadata","NDL":"NDL curation","DQAP":"DQAP guidance","FAIR":"FAIR","INC":"Inclusion","Content":"Content"};
+const chartMet = D.charts.reduce((a,c)=>a+c.met,0), chartTot = D.charts.reduce((a,c)=>a+c.tot,0);
+const n = D.pages.length;
+const TRUSTCLS = {"Trustworthy":"pr-meets","Useable":"pr-Medium","Requires improvement":"pr-High","Untrustworthy":"pr-Critical"};
+
+$("stats").innerHTML = `
+ <div class="stat"><span class="v">${n}</span><span class="k">curated data pages in 7 collections</span></div>
+ <div class="stat"><span class="v">${D.mean}%</span><span class="k">average score across 20 checks</span>
+   <div class="ragbar" aria-label="${D.rag.green} green, ${D.rag.amber} amber, ${D.rag.red} red"><span style="width:${100*D.rag.green/n}%;background:var(--good)"></span><span style="width:${100*D.rag.amber/n}%;background:var(--warn)"></span><span style="width:${100*D.rag.red/n}%;background:var(--crit)"></span></div>
+   <span class="k">${D.rag.green} green · ${D.rag.amber} amber · ${D.rag.red} red</span></div>
+ <div class="stat"><span class="v">${D.cov}%</span><span class="k">average coverage of the 13 CDA metadata properties</span></div>
+ <div class="stat"><span class="v">${D.checks.filter(c=>c.priority==="Critical").length}</span><span class="k">checks at Critical priority, all from the DAM policy</span></div>
+ <div class="stat"><span class="v">${chartMet}/${chartTot}</span><span class="k">chart data rules met across 8 files</span></div>`;
+
+// check table
+const sources = [...new Set(D.checks.map(c=>c.source))];
+sources.forEach(s => $("fSource").add(new Option(SRC[s]||s, s)));
+const ORDER = {Critical:0,High:1,Medium:2,Low:3};
+function renderChecks(){
+  const f = $("fSource").value;
+  const rows = D.checks.filter(c=>!f||c.source===f).sort((a,b)=>(ORDER[a.priority]??9)-(ORDER[b.priority]??9) || a.performance-b.performance);
+  $("checkRows").innerHTML = rows.map(c => `<tr>
+    <td>${esc(c.label)} <span class="muted" style="font-family:var(--f-mono);font-size:.75rem">${c.id}</span></td>
+    <td>${esc(SRC[c.source]||c.source)}</td><td class="n">${c.applicable}</td>
+    <td class="n">${c.pass} · ${c.partial} · ${c.fail}</td>
+    <td><div class="meter" role="img" aria-label="${c.performance}% against target ${c.target}%"><i style="width:${c.performance}%"></i><b style="left:calc(${c.target}% - 1px)"></b></div></td>
+    <td class="n">${c.performance}</td>
+    <td>${c.priority?`<span class="pill pr-${c.priority}">${c.priority}</span>`:'<span class="pill pr-meets">Meets target</span>'}</td>
+    <td>${esc(c.resolution||"")}</td></tr>`).join("");
+}
+$("fSource").addEventListener("input", renderChecks); renderChecks();
+
+// grid
+Object.entries(COLL).forEach(([k,v]) => $("fColl").add(new Option(v,k)));
+const CK = D.checks.map(c=>c.id);
+function status(p, id){ return p.f.includes(id) ? "fail" : p.pa.includes(id) ? "partial" : (/^(Not data about people|UK-wide or not stated)/.test(p.ev[id]||"") ? "na" : "pass"); }
+let selected = null;
+function renderGrid(){
+  const c = $("fColl").value, r = $("fRag").value, t = $("fText").value.toLowerCase();
+  const rows = D.pages.filter(p => (!c||p.c===c) && (!r||p.r===r) && (!t || (p.t+" "+(p.p||"")).toLowerCase().includes(t))).sort((a,b)=>a.sc-b.sc);
+  const head = `<thead><tr><th scope="col" style="writing-mode:horizontal-tb;transform:none;text-align:left;font-family:var(--f-body);font-size:.75rem">${rows.length} pages, lowest first</th>${CK.map(id=>`<th scope="col" title="${esc(D.checks.find(x=>x.id===id).label)}">${id}</th>`).join("")}<th scope="col" style="writing-mode:horizontal-tb;transform:none">Score</th></tr></thead>`;
+  const body = rows.map(p => `<tr><td class="name"><button type="button" data-k="${p.c}/${p.s}" title="${esc(p.t)}">${esc(p.t)}</button></td>${CK.map(id=>{const s=status(p,id);return `<td><i class="cell c-${s}" title="${id}: ${s}"></i></td>`}).join("")}<td class="sc" style="color:var(--${p.r==='green'?'good':p.r==='amber'?'warn':'crit'})">${p.sc}</td></tr>`).join("");
+  $("grid").innerHTML = head + "<tbody>" + body + "</tbody>";
+  if (!selected || !rows.find(p=>`${p.c}/${p.s}`===selected)) selected = rows.length ? `${rows[0].c}/${rows[0].s}` : null;
+  renderDrawer();
+}
+function renderDrawer(){
+  const p = D.pages.find(x=>`${x.c}/${x.s}`===selected);
+  if (!p) { $("drawer").innerHTML = "<p class='muted'>No pages match these filters.</p>"; return; }
+  $("drawer").innerHTML = `<span class="eyebrow">${esc(COLL[p.c])}</span><h3 style="font-family:var(--f-display);font-size:1.2rem">${esc(p.t)}</h3>
+   <p class="muted">${esc(p.p||"No provider named")} · score <b style="color:var(--${p.r==='green'?'good':p.r==='amber'?'warn':'crit'})">${p.sc}%</b> · CDA metadata ${p.cov}%</p>
+   <p><a href="https://www.data.gov.uk/collections/${p.c}/${p.s}">Open the page on data.gov.uk</a></p>
+   <ul>${D.checks.map(c=>{const s=status(p,c.id);return `<li><span class="st st-${s}">${s==="na"?"n/a":s}</span><span><b>${esc(c.label)}</b><br><span class="muted">${esc(p.ev[c.id]||"")}</span></span></li>`}).join("")}</ul>`;
+}
+$("grid").addEventListener("click", e => { const b = e.target.closest("button[data-k]"); if (b) { selected = b.dataset.k; renderDrawer(); $("drawer").scrollIntoView({block:"nearest",behavior:"smooth"}); }});
+["fColl","fRag","fText"].forEach(id => $(id).addEventListener("input", renderGrid));
+renderGrid();
+
+// bar charts
+function hbars(svgId, items, W, lw, max, fmt){
+  const bh=22, gap=8; let s="";
+  items.forEach(([k,v],i)=>{const y=4+i*(bh+gap), w=Math.max(2,(v/max)*(W-lw-48));
+    s+=`<text x="0" y="${y+bh/2+5}" font-size="12.5">${esc(k)}</text><rect x="${lw}" y="${y}" width="${W-lw-48}" height="${bh}" rx="3" fill="var(--accent-soft)"></rect><rect x="${lw}" y="${y}" width="${v===0?2:w}" height="${bh}" rx="3" fill="${v<50?'var(--crit)':v<75?'var(--warn)':'var(--good)'}"></rect><text x="${W-42}" y="${y+bh/2+5}" font-size="12" font-family="var(--f-mono)">${fmt(v)}</text>`});
+  $(svgId).setAttribute("viewBox", `0 0 ${W} ${8+items.length*(bh+gap)}`);
+  $(svgId).innerHTML = s;
+}
+hbars("propChart", Object.entries(D.props).sort((a,b)=>b[1]-a[1]), 460, 170, 100, v=>v+"%");
+hbars("collChart", Object.entries(D.collections).map(([k,v])=>[COLL[k]+` (${v.pages})`, v.mean_score]).sort((a,b)=>b[1]-a[1]), 460, 210, 100, v=>v+"%");
+
+// chart data cards
+$("charts").innerHTML = D.charts.map(c => `<div class="card"><h3>${esc(c.t)}</h3>
+  <p class="muted" style="font-size:.84rem">${c.rows} rows · <b class="${c.met===c.tot?'ok':'bad'}">${c.met} of ${c.tot} rules met</b> · <a href="${esc(c.url)}">page</a></p>
+  <p style="font-size:.84rem"><span class="pill ${TRUSTCLS[c.trust]}">${esc(c.trust)}</span> <span class="muted">${esc(c.share)}</span></p>
+  <div>${c.res.map(r=>`<div class="rule"><span class="${r.m?'ok':'bad'}" aria-label="${r.m?'met':'not met'}">${r.m?'✓':'✗'}</span><span>${esc(r.d)} <span class="muted">(${esc(r.dim)})</span>${!r.m && r.det && r.det.latest_period ? `<br><span class="muted">Latest period ${r.det.latest_period}; ${r.det.age_days} days old, ${r.det.allowed_days} allowed</span>`:""}</span><span>${r.m?`<span class="muted" style="font-family:var(--f-mono);font-size:.8rem">${r.p}%</span>`:`<span class="pill pr-${r.pr}">${r.pr}</span>`}</span></div>`).join("")}</div></div>`).join("");
+</script>

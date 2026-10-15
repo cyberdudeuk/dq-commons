@@ -1,0 +1,103 @@
+<title>Share and Learn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+/* Share and learn: case studies first (what people can contribute now), then the survey review, then outreach. */
+.steps{counter-reset:s;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.steps li{list-style:none;counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:4px}
+.steps li::before{content:"Step " counter(s);font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.steps{padding:0;margin:0}
+.must{color:var(--crit);font-weight:700}
+.should{color:var(--warn);font-weight:700}
+.status{font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Shared Learning Library · tooling survey · other teams</span>
+  <h1>Share and learn</h1>
+  <p class="lede">Turn measured results into case studies other departments can learn from, make the cross-government tooling survey answer the questions it sets out to, and pass findings to the teams who can act on them.</p>
+</header>
+
+<section aria-labelledby="cs-h">
+  <h2 id="cs-h">Draft case studies</h2>
+  <p class="lede">The kit drafts the GDS case study template from each asset's results. The steps taken, the before-and-after table and the reusable assets are filled in. People write the parts only they know: what triggered the work, the lessons, and whether it can be shared.</p>
+  <div class="tbl"><table style="min-width:700px">
+    <thead><tr><th>Asset</th><th>Trust level</th><th>Rules met</th><th>Draft</th></tr></thead>
+    <tbody id="cases"></tbody>
+  </table></div>
+  <ol class="steps">
+    <li>Open the draft and check every line against what really happened.</li>
+    <li>Complete each "[To complete]" part: trigger, why you started there, actions, lessons.</li>
+    <li>Choose a permission: publish as is, light redactions, anonymised, or GDS only.</li>
+    <li>Send it to the GDS Data Management Team through their case study form.</li>
+  </ol>
+  <p class="note small">No names or contact details are filled in. The three extra sections (CDA identifier, before and after, inclusion) are marked as proposed additions to the GDS template.</p>
+</section>
+
+<section aria-labelledby="sv-h">
+  <h2 id="sv-h">The tooling survey: fix before it launches</h2>
+  <p class="lede">GDS's Cross-Government Data Quality Solutions Survey is well built: organisation questions once, then a repeating section per tool. Twelve small changes would let it answer the questions its own tooling review asks. Answers can't be re-sorted once collected, so these matter most before launch.</p>
+  <div class="tbl"><table style="min-width:760px">
+    <thead><tr><th>#</th><th>When</th><th>Issue</th><th>Fix</th></tr></thead>
+    <tbody id="survey"></tbody>
+  </table></div>
+  <div class="card">
+    <h3>Analysing the answers</h3>
+    <p class="small">When the Microsoft Forms export arrives, one command turns it into one row per organisation and tool, with counts, averages and a small-numbers warning. Names, roles and emails are removed as the file is read and never written out.</p>
+    <code>python -m dqkit survey survey-export.xlsx --out survey-results</code>
+  </div>
+</section>
+
+<section aria-labelledby="out-h">
+  <h2 id="out-h">Messages to other teams</h2>
+  <p class="lede">Each one is drafted in the repository under <code>docs/outreach/</code>. None has been sent; each needs the project lead's approval first.</p>
+  <div class="tbl"><table style="min-width:700px">
+    <thead><tr><th>To</th><th>About</th><th>Status</th></tr></thead>
+    <tbody id="outreach"></tbody>
+  </table></div>
+</section>
+
+<section aria-labelledby="fd-h" class="card">
+  <h3 id="fd-h">Where the 18 findings came from</h3>
+  <p class="small">Fifteen guidance and tooling documents were compared. The findings range from an arithmetic slip in Issues Framework v1.0 Tables 7 and 8 to the Shared Learning Library sitting in a members-only space. <a href="guidance.html">See every finding on the guidance page ›</a></p>
+</section>
+</div>
+
+<script>
+const P = __PORTFOLIO__, DL = "__DOWNLOADS__";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const slug = s => String(s || "").replace(/\s+/g, "-");
+$("cases").innerHTML = P.assets.map(a => `<tr><td><b>${esc(a.title.split(": ").pop())}</b><div class="small muted">${esc(a.owner)}</div></td>
+  <td><span class="pill t-${slug(a.trust.level)}">${esc(a.trust.level)}</span></td><td class="num">${a.rules_met}/${a.rules_total}</td>
+  <td class="small">${a.files.case_study ? `<a href="${DL}${esc(a.files.case_study)}">Markdown</a>` : ""}${a.files.case_study_docx ? ` · <a href="${DL}${esc(a.files.case_study_docx)}">Word</a>` : ""}</td></tr>`).join("");
+
+const SURVEY = [
+  ["must", "Collects name, role and email with no privacy notice, lawful basis or retention period", "Add a short privacy notice; ask for contact details only if the respondent agrees to be contacted"],
+  ["must", "No organisation type or size, though the review asks how usage differs by scale", "Add organisation type and headcount band; use a list of organisation names"],
+  ["must", "No link to critical data assets, DQAP steps or the CDA return", "Ask how many CDAs each tool covers, which DQAP steps it supports, and whether it produces return evidence"],
+  ["must", "Promises to cover how widely tools are used, but no question asks", "Ask number of users and share of critical data covered"],
+  ["must", "Maturity scale differs from the Data Maturity Assessment for Government", "Use its levels: Beginning, Emerging, Learning, Developing, Mastering"],
+  ["must", "Q32 runs 1 = easy to 5 = hard; the other ratings run worst to best", "Reverse Q32, or label it clearly in results"],
+  ["should", "Tool list has almost no open-source or in-house options", "Add Great Expectations, Soda Core, dbt tests, R validate and pointblank, in-house scripts, Excel, Power BI, Databricks and Fabric"],
+  ["should", "No questions on accessibility, open formats or exit", "Ask about assistive technology, export in open formats, and how hard leaving would be"],
+  ["should", "Q15 'prerequisites' mixes in features", "Replace with real prerequisites: ownership, CDAs identified, agreed rules, supplier support"],
+  ["should", "Q20 forces a full ranking of 'least value'", "Make it 'pick up to 3'"],
+  ["should", "Q30 lists cost types but no amounts", "Add annual cost bands, including 'prefer not to say'"],
+  ["should", "Q13 lists 'Data Quality Action Plan' after 'Other'", "Move it before 'Other'"],
+];
+$("survey").innerHTML = SURVEY.map((r, i) => `<tr><td class="num">${i + 1}</td><td><span class="${r[0]}">${r[0] === "must" ? "Before launch" : "Should fix"}</span></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+
+const OUT = [
+  ["GDS metadata standards owners", "Add DQV quality fields to the cross-government metadata model"],
+  ["NDL product team", "Share the 84-page assessment and correct DVSA on the Driving tests page"],
+  ["Government Data Quality Hub", "Refresh shared resources; offer the issue vocabulary"],
+  ["MoJ Analytical Platform", "Republish or archive data_linter"],
+  ["GDS data quality guidance owners", "Correct the Issues Framework v1.0 Table 7 and 8 slip and the band labels"],
+  ["GDS Data Management Team", "Fix the survey before launch; widen the tooling review; open the Shared Learning Library"],
+];
+$("outreach").innerHTML = OUT.map(o => `<tr><td><b>${esc(o[0])}</b></td><td>${esc(o[1])}</td><td><span class="status">Drafted, not sent</span></td></tr>`).join("");
+</script>

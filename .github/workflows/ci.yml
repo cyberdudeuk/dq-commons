@@ -14,3 +14,5 @@ jobs:
       - run: python scripts/run_ndl_assessment.py
       # Smoke test: the whole portfolio runs end to end into a scratch folder
       - run: python -m dqkit run portfolio.ndl.yaml --out /tmp/dq-ci --as-of 2026-10-14
+      # The portal builds from the results, with no placeholders left
+      - run: python scripts/build_dq_portal.py --out /tmp/dq-portal

@@ -1,4 +1,4 @@
-# Build manifest — v0.3.0 (2026-10-14)
+# Build manifest — v0.4.0 (2026-10-15)
 
 | Path | Purpose | Generated? |
 |---|---|---|
@@ -28,7 +28,19 @@
 | assessments/ndl/chart-data/*.csv | 8 NDL chart files (plus 1 sample) | Harvested |
 | assessments/ndl/results/* | Results, DQV, DQAP CSVs, GX suites, R rules, summary | Yes (scripts/run_ndl_assessment.py) |
 | assessments/ndl/REPORT.md | Findings | No |
-| tests/test_dqkit.py | 34 tests | No |
+| tests/ | 59 tests: kit, pipeline, portal build, JavaScript parity | No |
+| dqkit/portfolio.py, portfolio.schema.json | Portfolio runner and its file format | No |
+| dqkit/profile.py | Starter rules from a data file (`dqkit suggest`) | No |
+| dqkit/cdareturn.py | CDA return rows (proposed Dataverse columns) | No |
+| portfolio.ndl.yaml | The NDL portfolio: 8 assets and the page metadata | No |
+| assessments/portfolio/* | Latest pipeline run: portfolio.json, run summary, escalations, DQV catalogue, CDA return, per-asset files, history | Yes (`dqkit run`) |
+| portal/src/ | Portal templates, shell, base CSS, browser engine | No |
+| scripts/build_dq_portal.py | Builds the portal into portal/dist/ | No |
+| portal/dist/ | The built portal (not committed) | Yes |
+| scripts/parity_check.py, .mjs | Python–JavaScript parity check (30 cases) | No |
+| .github/workflows/dq-pipeline.yml | Weekly pipeline | No |
+| docs/OPERATIONS.md | Pipeline runbook | No |
+| pyproject.toml | Packaging (`pip install -e .`) | No |
 | .github/workflows/ci.yml | CI | No |
 | docs/* | Product, architecture, delivery and outreach documents | No |
 

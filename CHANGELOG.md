@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0 — 2026-10-15
+### Added
+- **NDL Data Quality Portal.** One separate portal for all the data quality work. `scripts/build_dq_portal.py` builds it from the latest results. New pages: home (roles, deadline, status), pipeline status, check your data (in-browser checker with a rule builder), and share and learn. Merged in: NDL assurance, January baseline, guidance and tooling.
+- **Pipeline.**
+  - `dqkit run PORTFOLIO` measures every asset that is due, keeps history, and writes `portfolio.json`, `escalations.json`, one DQV catalogue, a run summary and `cda-return.csv`.
+  - `dqkit suggest DATA` drafts a starter rules file.
+  - The weekly GitHub Actions workflow tests, measures, commits, raises escalation issues and publishes to Pages.
+- **Browser engine.** A JavaScript port of the kit, with a 30-case parity check against Python.
+- **CDA return export** in the proposed Dataverse columns.
+- **Packaging.** `pyproject.toml` (`pip install -e .` gives a `dqkit` command).
+- **Tests.** 59 in total: pipeline, portal build and parity.
+### Fixed
+- An empty or all-text column could make a check crash under pandas 3. The parity check found it.
+- An unknown target policy now gives a plain error in both engines.
+- The January baseline page now counts working days from today, not from a fixed date.
+
 ## 0.3.0 — 2026-10-14
 ### Added
 - `control_point` on every rule (source, pipeline or reporting), from the controls model in the brief research note.

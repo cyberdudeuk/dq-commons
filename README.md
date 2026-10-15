@@ -5,7 +5,13 @@ critical data assets (CDAs) and National Data Library (NDL) assets, in line with
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government)
 and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide).
 
-**Status:** alpha prototype (v0.3.0). MIT-licensed code, OGL v3.0 content. Not an official GDS product.
+**Status:** alpha prototype (v0.4.0). MIT-licensed code, OGL v3.0 content. Not an official GDS product.
+
+**See it first:** the **NDL Data Quality Portal** brings everything together: pipeline status,
+an in-browser checker, the NDL assurance results, the January baseline effort model, guidance,
+tooling and case studies. Build it with `python scripts/build_dq_portal.py` and open
+`portal/dist/index.html`. Once this repository is on GitHub, the weekly pipeline publishes it to
+GitHub Pages.
 
 ## What is in it
 
@@ -18,6 +24,7 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 | `assessments/ndl/` | A full test of the NDL's 84 curated data pages against GOV.UK requirements | NDL team, CDO Council |
 | `portfolio.ndl.yaml`, `assessments/portfolio/` | The NDL portfolio (8 chart assets and the page metadata), and the results of the latest pipeline run | NDL team, portal |
 | `.github/workflows/` | Tests on every change, and the weekly data quality pipeline | Maintainers |
+| `portal/src/`, `scripts/build_dq_portal.py` | The NDL Data Quality Portal: page templates, shared top bar, and the browser version of the kit (`portal/src/js/engine.js`) | Everyone |
 | `docs/` | PRD, theory of change, architecture, specs, decisions, build log, outreach drafts, and the guidance crosswalk | Everyone |
 
 ## Quick start (no coding knowledge needed beyond copy and paste)
@@ -25,7 +32,7 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (53 tests at the time of writing).
+   You should see `OK` at the end (59 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (30 cases).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
@@ -53,7 +60,10 @@ and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/pub
 8. Start a rules file for a new data file:
    `python -m dqkit suggest my-data.csv --title "My data" --owner "My Department" --out rules.yaml`
    This drafts rules from what the data looks like. A data steward must review every rule.
-9. Analyse the Cross-Government DQ Solutions Survey export (names and emails are removed on load):
+9. Build the portal from the latest results: `python scripts/build_dq_portal.py` (writes `portal/dist/`).
+   Every page is a static file; open `portal/dist/index.html` in a browser.
+10. Install the `dqkit` command (optional): `pip install -e .` then run `dqkit check ...` instead of `python -m dqkit check ...`.
+11. Analyse the Cross-Government DQ Solutions Survey export (names and emails are removed on load):
    `python -m dqkit survey survey-export.xlsx --out survey-results`
 
 ## Writing a rules file
