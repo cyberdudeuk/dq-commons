@@ -222,7 +222,7 @@ def build_escalations(summaries: list, results: dict, notify: dict) -> list:
             if r.get("detail"):
                 evidence = "\n**Evidence:** " + "; ".join(f"{k.replace('_', ' ')}: {v}" for k, v in r["detail"].items()
                                                           if not isinstance(v, (dict, list)))
-            elif r.get("examples"):
+            elif r.get("examples") and notify.get("include_examples", True) and not res["asset"].get("personal_data_columns"):
                 evidence = "\n**Examples of failing rows:** " + "; ".join(
                     ", ".join(f"{k} {v}" for k, v in ex.items()) for ex in r["examples"][:3])
             body = "\n".join([

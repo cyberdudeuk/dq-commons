@@ -356,3 +356,21 @@ class Workflows(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EscalationPrivacy(unittest.TestCase):
+    def test_examples_left_out_for_personal_data(self):
+        from dqkit import portfolio as pf
+        res = {"asset": {"id": "a", "personal_data_columns": ["nino"]}, "operations": {"rules": {"R1": {}}},
+               "results": [{"id": "R1", "examples": [{"row": 2, "nino": "AB123456C"}], "detail": {}}]}
+        s = {"id": "a", "title": "A", "owner": "O", "measured_on": "2026-10-14",
+             "route": {"responsibility": "x", "route": "y", "source": "internal", "influence": True}, "files": {"workbook": "w", "results": "r"},
+             "issues": [{"rule": "R1", "priority": "High", "overdue": True, "cycles_open": 2, "description": "d",
+                         "label": "l", "dimension": "validity", "issue_type": "missing-value", "performance": 50.0,
+                         "target": 97.5, "resolution": "Within 1 measurement cycle"}]}
+        out = pf.build_escalations([s], {"a": res}, {})
+        self.assertEqual(len(out), 1)
+        self.assertNotIn("AB123456C", out[0]["body_markdown"])
+        res["asset"].pop("personal_data_columns")
+        self.assertIn("AB123456C", pf.build_escalations([s], {"a": res}, {})[0]["body_markdown"])
+        self.assertNotIn("AB123456C", pf.build_escalations([s], {"a": res}, {"include_examples": False})[0]["body_markdown"])

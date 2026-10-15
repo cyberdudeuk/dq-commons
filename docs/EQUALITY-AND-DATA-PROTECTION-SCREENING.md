@@ -53,11 +53,10 @@
 - That makes it suitable for trying the kit on sensitive extracts, subject to local rules on where such data may be opened.
 
 **Pipeline:**
-- GitHub issues raised for escalations contain rule results and up to 3 failing example rows.
-- For an asset holding personal data, either:
-  - keep the repository private, or
-  - set `examples: 0` on that asset's rules before switching on escalation issues.
-- *Action:* add a portfolio-level switch that strips examples. This is recorded as a known gap.
+- GitHub issues raised for escalations contain rule results. They can also contain up to 3 failing example rows.
+- Example rows are left out automatically for any asset that lists `personal_data_columns`.
+- Set `notify: {include_examples: false}` in the portfolio file to leave them out for every asset.
+- Keep the repository private if the data or its rule results are sensitive.
 
 **Portal accessibility:**
 - The portal has a skip link, visible focus, a keyboard-operable menu, labelled form controls, light and dark themes, and reduced motion.
