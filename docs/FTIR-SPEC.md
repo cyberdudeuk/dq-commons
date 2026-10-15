@@ -60,3 +60,12 @@
 - **F-36** Surveys: privacy notice first; one response per member, editable; totals with suppression under 5; commission requests.
 - **T-10** Every page passes: no script errors, no sideways scroll at 390 px, labelled controls, no heading skips, contrast 4.5:1 (3:1 large), no hidden panel visible.
 - **I-10** Backlog sync and Confluence publish run as dry runs without secrets and exit 0.
+
+## v1.1.0 additions
+- **F-40** Contract export and import round-trips every rule (same ids and checks) and gives identical results on real data.
+- **F-41** Reconciliation reports counts, missing, new, duplicate keys, totals and changed values; CLI exits 1 on differences.
+- **F-42** Clause builder: choose by theme and MoSCoW, buyer name substituted, copy and download; disclaimer always included.
+- **F-43** Front page carousel: pause, previous, next, dots; holds on hover and focus; static with reduced motion; hidden slides not tabbable.
+- **F-44** Library: curated items, knowledge base reader by URL fragment, members' items, moderated publishing. Media: blog reader, vlog and podcast lists, submissions require captions or transcript for video and audio.
+- **F-45** Benchmark: opt-in, groups under 5 hidden, editors publish.
+- **T-11** Every knowledge file has a review within 12 months; every internal link in the knowledge base resolves to a page.

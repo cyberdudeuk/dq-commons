@@ -5,10 +5,10 @@ find the frameworks and standards that apply, learn, use AI safely, and share wh
 central and local government, the devolved governments, the wider public sector, and the voluntary
 and private bodies that deliver public services.
 
-**Status:** prototype (v1.0.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.1.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`: 19 pages in five groups (Start, Do, Know, Scenarios, Community), each with
+`portal/dist/index.html`: 25 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
 a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
 
 Scenarios include critical data assets under the GOV.UK
@@ -25,6 +25,9 @@ data, AI and machine learning, open data, the devolved nations and international
 | Rule library and identifier checks (10 UK schemes) | `rules/library/`, `vocab/valuesets/` |
 | Data sources beyond CSV (Excel, ODS, JSON, Parquet, SQL, CKAN) | `dqkit/sources.py` |
 | AI agents: MCP server | `python -m dqkit.mcp_server` |
+| Data contracts (ODCS, Table Schema, CSVW) | `dqkit contract RULES.yaml --to odcs` |
+| Compare two versions of a dataset | `dqkit reconcile old.csv new.csv --key id` |
+| Supplier clauses, legacy, interoperability, library, media | `knowledge/`, portal Govern and Community pages |
 | GitHub to Jira backlog sync; docs to Confluence | `integrations/config.yaml`, `.github/workflows/` |
 
 ## What is in it

@@ -1,5 +1,27 @@
 # Build journal
 
+## 2026-10-15 — v1.1.0: contracts, suppliers, legacy, front page, library and media
+
+**Asked for:** close the gaps; data contracts and exports; older pages to v1.0; benchmarking; merge related work; commercial barriers, contract clauses and supplier obligations so the burden isn't on the public sector; legacy and technical debt with MoSCoW; integration, interoperability, standards, guardrails and measures; then a front page with a hero carousel and spotlight, a curated content library with community publishing, a knowledge base and a media centre (blog, vlog, podcasts).
+
+**Built**
+- **Data contracts:** `dqkit contract` and the checker export and import ODCS, Table Schema, CSVW; GX and R validate exports in the browser; data profile; Excel, ODS, JSON and JSON Lines in the browser.
+- **Govern pages:** Buying and suppliers (12 barriers, 8 principles, 20 clauses with a builder, tender scoring, RACI, lifecycle); Legacy and modernisation (data debt patterns, self-assessment, migration gates, MoSCoW, reconciliation tool); Interoperability and standards (6 layers, metadata Rosetta of 61 concepts, guardrails, requirements checklist, measures, related capabilities).
+- **Front page:** news and insights carousel, spotlight (capability, case study, theme, workflow, topic, domain), latest items.
+- **Library and knowledge base:** curated resources (64), 10 knowledge base articles with a reader, members' publishing through moderation.
+- **Media centre:** blog (3 Commons posts), vlog and podcasts, with captions or transcript required.
+- **Older pages:** context banners, group labels and tours on all six.
+- **Accessibility statement and privacy notice** page.
+- **Benchmarking:** opt-in anonymous maturity sharing; editors publish averages with groups under 5 hidden.
+- **Content governance:** owner role and review date on every knowledge file; monthly link checker.
+- **Merged work:** Standards Rosetta, DDaT role mapping, xAPI learning record export, MCP domain manifest for the NDL Civic Tech platform.
+
+**Fixed along the way:** a comma silently split a value in the new interoperability file (caught by the guard test); banner colours invisible in one theme on older pages; library and media headings skipped a level; carousel Pause didn't pause after keyboard focus; slide dots below the 24px target size; survey saves could overwrite a shared maturity result.
+
+**Checked:** all unit tests pass; parity 35 of 35 (now including contracts, exports and reconciliation); all 25 pages pass browser, layout and accessibility checks at desktop (light) and phone (dark).
+
+**Not done here:** the GitHub push (the session's GitHub token is invalid), and live link checking (no internet from the sandbox).
+
 ## 2026-10-15 — v1.0.0: the Public Sector Data Quality Commons
 
 **Asked for:** make it a general data quality hub for the whole public sector, not NDL or DAM specific; add international standards and crosswalks, tours, tutorials, a user guide, a wishlist, GitHub/Jira/Confluence links and an operating model, communities, surveys and commissions, member contributions, AI guidance with worked examples and case studies, and an AI assistant; fully accessible and inclusive.

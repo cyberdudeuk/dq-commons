@@ -77,3 +77,8 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 **Must (added):** general scope beyond NDL and DAM; framework registry, crosswalks and packs; clause-by-clause comparison with devolved and international equivalents; learning pathway; maturity self-assessment; guided tours and user guide; surveys and commissions any organisation can use; moderated member contributions; wishlist; GitHub, Jira and Confluence linkage; AI-for-DQ guidance; AI assistant with deterministic validation; WCAG 2.2 AA.
 **Should:** Welsh version; outlier and linkage checks; Fabric connector.
 **Success measures added:** organisations using the Commons by type and nation (opt-in); share of contributions from outside central government; accessibility issues open and their age; AI components evaluated and recorded under ATRS.
+
+## Scope update: v1.1.0 (15 October 2026)
+**Must (added):** suppliers carry explicit, measurable responsibility for data quality (clauses, KPIs, tender questions, exit); data quality in legacy modernisation (data debt, gates, reconciliation, MoSCoW); interoperability layers, guardrails and measures; data contracts in open standards; a front page with news, insights and a spotlight; a curated library, knowledge base and media centre with moderated community publishing; an accessibility statement and privacy notice.
+**Should:** benchmarking by sector and nation; xAPI learning records; metadata Rosetta.
+**Success measures added:** share of supplier contracts with a published data quality KPI; data contract coverage of interfaces; share of migrations with a passed reconciliation; contributions published per month by sector and nation.

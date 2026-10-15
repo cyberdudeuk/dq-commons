@@ -133,3 +133,10 @@ flowchart LR
 - **Runtime services (claude.ai artifact):** `db` with 9 access rules (library, wishlist, results readable by all, written by editors; per-member `queue/{self}`, `responses/{self}`, `votes/{self}`); `user` (opaque id only, no names); `sample` for the assistant. On GitHub Pages these resolve to null and the pages fall back to GitHub issue forms.
 - **Integration:** GitHub (source of truth) to Jira (`backlog-sync.yml`, `scripts/sync_backlog.py`) and Confluence (`docs-to-confluence.yml`, `scripts/publish_confluence.py`); configuration in `integrations/config.yaml`; secrets only in repository secrets.
 - **Agent interface:** `dqkit/mcp_server.py` (stdio JSON-RPC, read-only, root-restricted).
+
+## 5. v1.1.0 additions (15 October 2026)
+- **Toolkit:** `dqkit/contracts.py` (ODCS, Table Schema, CSVW), `dqkit/reconcile.py`; both mirrored in `portal/src/js/engine.js` and parity-checked with the exporters.
+- **Browser file reading:** `portal/src/js/sheets.js` reads xlsx and ods with DecompressionStream and DOMParser; no third-party code.
+- **Knowledge layer:** adds `commercial.yaml`, `legacy.yaml`, `interop.yaml`, `rosetta.yaml`, `articles.yaml`, `media.yaml`; every file carries `review: {last_reviewed, owner_role}`.
+- **Shared store:** adds a `media` collection (read by all, written by editors); maturity benchmarks are stored per member under `responses/{self}` and published to `results/maturity`.
+- **Operations:** `link-check.yml` monthly; `scripts/mcp_manifest.py` generates `integrations/ndl-mcp-domain.json`.

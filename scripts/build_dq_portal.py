@@ -33,7 +33,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "portal" / "src"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 BRAND = "Public Sector Data Quality Commons"
 
 # Navigation groups, in order, and the pages in each: (file stem, short label, description).

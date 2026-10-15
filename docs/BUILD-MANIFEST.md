@@ -61,3 +61,14 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | Community templates | `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, `CONTRIBUTING.md`, `SECURITY.md` |
 | Operating model, user guide | `docs/OPERATING-MODEL.md`, `docs/USER-GUIDE.md` |
 | AI evaluation | `knowledge/ai-eval/`, `scripts/eval_rule_drafting.py` |
+
+## v1.1.0 (15 October 2026)
+| Component | Path |
+|---|---|
+| Data contracts | `dqkit/contracts.py`, `DQ.contracts` in `portal/src/js/engine.js` |
+| Reconciliation | `dqkit/reconcile.py`, `DQ.reconcile` |
+| Spreadsheet reader | `portal/src/js/sheets.js` |
+| New pages (6) | `commercial`, `legacy`, `interop`, `library`, `media`, `accessibility` |
+| New knowledge | `knowledge/{commercial,legacy,interop,rosetta,articles,media}.yaml` |
+| Link checker | `scripts/check_links.py`, `.github/workflows/link-check.yml` |
+| MCP manifest | `scripts/mcp_manifest.py`, `integrations/ndl-mcp-domain.json` |

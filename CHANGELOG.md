@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.0 — 2026-10-15
+### Added
+- Data contracts: ODCS v3, Frictionless Table Schema and W3C CSVW, export and import (`dqkit contract`, checker); Great Expectations and R validate exports in the browser; data profile; Excel, ODS, JSON and JSON Lines in the browser.
+- Reconciliation of two dataset versions (`dqkit reconcile`, Legacy page).
+- Govern pages: Buying and suppliers (clause builder, tender scoring), Legacy and modernisation, Interoperability and standards (with the metadata Rosetta).
+- Front page carousel and spotlight; Library and knowledge base; Media centre; Accessibility and privacy page.
+- Opt-in maturity benchmarking; review dates on knowledge files; monthly link checker; xAPI learning record; DDaT role mapping; MCP domain manifest.
+### Fixed
+- Theme colours of context banners, heading levels, carousel pause, target sizes, survey save overwriting other answers.
+
 ## 1.0.0 — 2026-10-15
 ### Changed
 - **Renamed: Public Sector Data Quality Commons.** A general data quality hub and toolkit for the whole public sector; the NDL and DAM policy are now scenarios.

@@ -14,11 +14,12 @@ The Commons is a free, open place to check, improve and talk about the quality o
 
 | Group | Pages | Use it to |
 |---|---|---|
-| Start | Home, About, User guide | Find your way, see what the Commons is for |
-| Do | Check data, Maturity, Pipeline, AI assistant | Measure quality, assess maturity, automate, draft rules |
-| Know | Frameworks, Learn, Guidance, Tooling | Compare frameworks and standards, learn, prioritise issues, choose tools |
-| Scenarios | NDL assurance, January baseline, CDA return | Work through a specific policy or platform |
-| Community | Community, Share, Operating model | Contribute, run surveys, request help, join networks |
+| Start | Home (news, spotlight, latest), About, User guide, Accessibility and privacy | Find your way, see what the Commons is for |
+| Do | Check your data, Maturity, AI assistant, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, automate |
+| Know | Frameworks and standards, Learn, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, use AI safely, prioritise, choose tools, read and publish resources |
+| Govern | Buying and suppliers, Legacy and modernisation, Interoperability and standards | Put data quality into contracts, migrate without data debt, join data up |
+| Scenarios | All scenarios, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation or platform |
+| Community | Community, Media centre, Surveys and commissions, Case studies, Operating model | Contribute, vote, share posts and podcasts, run surveys, ask for help |
 
 ## Common tasks
 
@@ -30,6 +31,15 @@ Go to **Frameworks**. Filter by nation, sector or type. Each entry shows its dim
 
 ### Assess your organisation's maturity
 Go to **Maturity**. Choose the statement that best fits you for each of 8 themes. You get a level per theme (Beginning to Mastering) and next steps with links. Results stay in your browser unless you choose to download them.
+
+### Share rules as a data contract
+On **Check your data**, under "Share the rules as a data contract", choose ODCS, Table Schema, CSVW, Great Expectations or R validate. You can also load a contract as rules.
+
+### Put data quality into a supplier contract
+Go to **Buying and suppliers**. Choose clauses in the builder (the "must" clauses are a sensible floor), add your organisation's name, and copy the schedule for your commercial and legal teams. It is illustrative drafting, not legal advice.
+
+### Check a migration
+Go to **Legacy and modernisation**: assess your data debt, follow the migration gates, and use **Reconcile** to compare the data before and after.
 
 ### Learn
 Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minutes each. The glossary explains every term used in the Commons.

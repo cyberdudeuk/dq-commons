@@ -1,5 +1,35 @@
 # Decision log (this repository)
 
+## 2026-10-15 · D-052 · Repository name: cyberdudeuk/dq-commons
+Chosen by the project lead. The local repository will be pushed there once it exists and a working GitHub login is available in the build session (the current token is invalid). Alternative: an organisation repository (co-cddo, gds-dtx); can be transferred later without losing history.
+
+## 2026-10-15 · D-051 · Link checking runs where the internet is reachable
+The build sandbox can't reach outside websites, so the checker reports "network unavailable" instead of 79 false failures. A monthly GitHub workflow runs it and opens an issue for real breaks.
+
+## 2026-10-15 · D-050 · Every knowledge file has an owning role and a review date
+A test fails any file not reviewed in 12 months. Named people are never recorded; roles are.
+
+## 2026-10-15 · D-049 · Benchmarks are opt-in, anonymous and published by editors
+Maturity levels are shared only by choice, with organisation type and nation, never a name. Editors publish averages; groups under 5 are hidden. Alternative: live averages (rejected: small groups identifiable).
+
+## 2026-10-15 · D-048 · Media items need captions or a transcript; external media is linked, not hosted
+Accessibility and copyright: the Commons links to sources and requires captions or transcripts before listing videos and podcasts. No invented items: "Not yet reviewed" marks anything found but not read in full.
+
+## 2026-10-15 · D-047 · Front page carousel follows the WAI-ARIA carousel pattern
+Pause control, holds on hover and focus, no autoplay with reduced motion, 24px targets, hidden slides removed from the tab order. Content is real news with sources, or Commons' own work, labelled.
+
+## 2026-10-15 · D-046 · Migration reconciliation in both engines
+dqkit/reconcile.py and DQ.reconcile give identical results (parity-checked): counts, missing and new keys, duplicates, totals, changed values.
+
+## 2026-10-15 · D-045 · Model contract clauses are illustrative, with supplier burden of proof
+20 clauses (MoSCoW) put measurement, remediation cost and exit readiness on the supplier. Clearly labelled as not legal advice. Grounded in the Procurement Act 2023 KPI duty (contracts over £5 million) and the Technology Code of Practice.
+
+## 2026-10-15 · D-044 · Built-in spreadsheet reader instead of a library
+Excel and ODS are read with the browser's own decompression and XML parser: no third-party code, nothing uploaded. Tested against files written by pandas and LibreOffice formats. Alternative: SheetJS from a CDN (about 900 KB, licence and supply-chain review needed).
+
+## 2026-10-15 · D-043 · Data contracts in open standards, with parity
+ODCS v3.1, Frictionless Table Schema and CSVW export and import, plus Great Expectations and R validate exports, in Python and the browser with identical output. Rules that can't be expressed are kept as an extension or listed, never dropped.
+
 ## 2026-10-15 · D-042 · Accessibility checks run in a real browser with our own rules
 Context: the standard axe scanner couldn't be installed (package registry not reachable from the build session). Decision: a Playwright check for unlabelled controls, unnamed buttons and links, duplicate ids, heading skips, WCAG contrast (4.5:1 and 3:1), sideways scroll and hidden panels leaking, on all 19 pages at 1280 px light and 390 px dark. Alternative: skip until axe is available (rejected). Still needed: an independent audit (XDMH-213).
 

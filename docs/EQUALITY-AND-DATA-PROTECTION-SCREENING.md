@@ -73,3 +73,7 @@
 - Positive: free, no install, no coding; works with keyboard, screen readers and 400% zoom; devolved nations and the voluntary sector have their own scenarios; inclusion checks and an inclusion survey.
 - Risks: English only (Welsh version XDMH-216); claude.ai sign-in needed to contribute (GitHub forms as an alternative, though GitHub is itself a barrier for some); AI output may be less accurate for under-represented contexts (evaluation set to include them).
 - Not yet done: independent WCAG 2.2 AA audit (XDMH-213).
+
+## Update for v1.1.0 (15 October 2026)
+**Data protection:** new processing is limited to opt-in maturity sharing (organisation type, nation and levels, under an anonymous id) and media submissions (moderated). Reconciliation, profiling and contract conversion run in the browser only. No tracking or analytics.
+**Equality:** the clause library requires suppliers' systems to record people accurately (C10) and report quality across groups (C11); media must have captions or transcripts; the carousel can be paused and is static with reduced motion. Remaining gaps: English only; claude.ai or GitHub sign-in needed to contribute.

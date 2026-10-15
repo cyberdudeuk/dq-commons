@@ -43,3 +43,8 @@ treating it as evidence.
 **Tasks to test:** find the frameworks that apply to you; check a CSV with an identifier rule; complete the maturity self-assessment; draft rules with the assistant and judge whether you trust them; contribute a resource; take a survey.
 **Questions:** Does "Commons" read as for everyone, or as central government? Is the menu grouping clear? Do tours help or get in the way? What would stop you contributing? How do you feel about AI drafting rules? Is anything missing for your nation or sector?
 **Built-in feedback:** the "Tell us about the Commons" survey (no names, totals only).
+
+## Additions for v1.1.0
+**Recruit also:** a commercial or procurement lead, a supplier delivering a public service, a programme team mid-migration.
+**Tasks:** build a data quality schedule for a contract; score a tender answer; reconcile two extracts; export rules as a data contract and load it in another tool; publish a resource; find a knowledge base article from the front page.
+**Questions:** Is the clause wording usable as a starting point by commercial teams? Would suppliers accept the burden of proof? Does the carousel help or distract? Is "Not yet reviewed" understood?
