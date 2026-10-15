@@ -10,7 +10,7 @@
 - **Browser engine.** A JavaScript port of the kit, with a 30-case parity check against Python.
 - **CDA return export** in the proposed Dataverse columns.
 - **Packaging.** `pyproject.toml` (`pip install -e .` gives a `dqkit` command).
-- **Tests.** 59 in total: pipeline, portal build and parity.
+- **Tests.** 60 in total: pipeline, portal build and parity.
 ### Fixed
 - An empty or all-text column could make a check crash under pandas 3. The parity check found it.
 - An unknown target policy now gives a plain error in both engines.

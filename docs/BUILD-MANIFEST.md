@@ -28,7 +28,7 @@
 | assessments/ndl/chart-data/*.csv | 8 NDL chart files (plus 1 sample) | Harvested |
 | assessments/ndl/results/* | Results, DQV, DQAP CSVs, GX suites, R rules, summary | Yes (scripts/run_ndl_assessment.py) |
 | assessments/ndl/REPORT.md | Findings | No |
-| tests/ | 59 tests: kit, pipeline, portal build, JavaScript parity | No |
+| tests/ | 60 tests: kit, pipeline, portal build, JavaScript parity | No |
 | dqkit/portfolio.py, portfolio.schema.json | Portfolio runner and its file format | No |
 | dqkit/profile.py | Starter rules from a data file (`dqkit suggest`) | No |
 | dqkit/cdareturn.py | CDA return rows (proposed Dataverse columns) | No |
