@@ -1,0 +1,118 @@
+# Interoperability, integration and standards for data quality, plus guardrails, measures and the
+# capabilities next door to data quality.
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (standards)}
+
+summary: >-
+  Data joins up only when systems agree on identifiers, meanings, formats and quality. These are the
+  layers to get right, the standards for each, and how to measure progress.
+
+layers:
+- id: identify
+  name: Identify things the same way
+  why: Without shared identifiers, records about the same person, place or organisation can't be matched reliably.
+  standards:
+  - {name: "Unique Property Reference Number (UPRN)", use: "Addresses and properties", in_toolkit: "identifier: uprn"}
+  - {name: "GSS statistical geography codes", use: "Areas: local authorities, wards, nations", in_toolkit: "identifier: gss_code; value set uk_nations"}
+  - {name: "Companies House number", use: "Companies", in_toolkit: "identifier: company_number"}
+  - {name: "Charity numbers (England and Wales, Scotland, Northern Ireland)", use: "Charities", in_toolkit: "identifier: charity_number"}
+  - {name: "NHS ODS codes", use: "Health and care organisations", in_toolkit: "identifier: ods_code"}
+  - {name: "Legal Entity Identifier (ISO 17442)", use: "Legal entities in finance and procurement", in_toolkit: "identifier: lei"}
+  - {name: "NHS number; National Insurance number", use: "People, where lawful and necessary", in_toolkit: "identifier: nhs_number, nino"}
+- id: describe
+  name: Describe data the same way
+  why: Catalogues and users need consistent metadata to find, trust and reuse data.
+  standards:
+  - {name: "W3C DCAT", use: "Dataset and catalogue metadata", in_toolkit: "metadata assessment; DCAT output"}
+  - {name: "Critical data asset metadata (13 properties)", use: "UK government critical data assets", in_toolkit: "uk-dam-cda pack"}
+  - {name: "Dublin Core; schema.org Dataset", use: "Discovery on the web", in_toolkit: "-"}
+- id: mean
+  name: Mean the same thing
+  why: Two systems can use the same field name for different things.
+  standards:
+  - {name: "GSS harmonised standards", use: "Characteristics such as sex, ethnicity, disability", in_toolkit: "value sets (in progress, XDMH-220)"}
+  - {name: "Code lists as value sets", use: "Any controlled list", in_toolkit: "in_valueset"}
+  - {name: "SNOMED CT, dm+d (health)", use: "Clinical terms and medicines", in_toolkit: "-"}
+- id: format
+  name: Exchange in open formats
+  why: Open formats keep data usable by any tool and stop lock-in.
+  standards:
+  - {name: "CSV (RFC 4180), the government tabular data standard", use: "Tables", in_toolkit: "reads CSV, TSV, Excel, ODS, JSON, Parquet"}
+  - {name: "W3C CSV on the Web (CSVW)", use: "Describing CSV files", in_toolkit: "contract export: CSVW"}
+  - {name: "ISO 8601 dates; UTF-8 text", use: "Every dataset", in_toolkit: "type: date checks"}
+  - {name: "OpenAPI 3", use: "Describing RESTful APIs", in_toolkit: "-"}
+- id: promise
+  name: Promise a level of quality
+  why: A data contract states what consumers can rely on and makes quality testable at the boundary.
+  standards:
+  - {name: "Open Data Contract Standard (ODCS v3)", use: "Data contracts with schema and quality rules", in_toolkit: "dqkit contract; checker import and export"}
+  - {name: "Frictionless Table Schema", use: "Field types and constraints", in_toolkit: "dqkit contract; checker import and export"}
+  - {name: "Great Expectations; R validate", use: "Existing validation tools", in_toolkit: "exports"}
+- id: report
+  name: Report quality the same way
+  why: Results that use a shared vocabulary can be compared and shown wherever the data is found.
+  standards:
+  - {name: "W3C Data Quality Vocabulary (DQV)", use: "Quality results with metadata", in_toolkit: "every run writes DQV"}
+  - {name: "ISO 8000; ISO/IEC 25012", use: "Quality models and characteristics", in_toolkit: "packs and crosswalk"}
+  - {name: "Government data quality issues framework", use: "Scoring and prioritising issues", in_toolkit: "built in"}
+
+# Guardrails and safeguards: things that must be true whatever the tool or supplier.
+guardrails:
+- {id: G1, title: "Measure at the boundary", text: "Check data quality where data enters or leaves a system (a data contract), not only inside it."}
+- {id: G2, title: "Don't change data silently", text: "Corrections, enrichment or matching are logged with who or what made the change and why, and can be reversed."}
+- {id: G3, title: "Missing stays missing", text: "Never replace a missing value with a default that looks real. Record it as missing, with a reason where known."}
+- {id: G4, title: "Check who is left out", text: "For data about people, measure quality across groups, and check coverage against a reference population."}
+- {id: G5, title: "Keep rules and results portable", text: "Rules, contracts and results are kept in open formats the organisation controls, not only inside a product."}
+- {id: G6, title: "People decide", text: "Automated or AI checks can flag and suggest; a named person decides on changes that affect individuals or decisions."}
+- {id: G7, title: "Privacy first", text: "Quality checks use the minimum personal data needed, run where the data is, and never copy it to new places without a lawful basis."}
+- {id: G8, title: "Say what the data can't do", text: "Publish a quality statement and trust level with the data, including known limitations."}
+- {id: G9, title: "Least privilege for tools", text: "Quality tools, agents and suppliers get read-only access unless writing is essential, with access logged."}
+- {id: G10, title: "Accessible to the people doing the work", text: "Quality tools, reports and issue logs meet WCAG 2.2 AA."}
+
+measures:
+- {id: M1, name: "Persistent identifier coverage", how: "Share of records about people, places or organisations with a valid persistent identifier.", target: "95% or more for critical data"}
+- {id: M2, name: "Open format availability", how: "Share of datasets available in an open, documented format.", target: "100% of critical data"}
+- {id: M3, name: "Data contract coverage", how: "Share of interfaces and data feeds with a machine-readable contract (ODCS or Table Schema).", target: "Rising each quarter"}
+- {id: M4, name: "Contract conformance", how: "Share of contract quality rules met at the boundary each period.", target: "At or above the agreed targets"}
+- {id: M5, name: "Quality metadata published", how: "Share of catalogue records with DQV quality results and a trust level.", target: "100% of critical data"}
+- {id: M6, name: "Defaults and unknowns", how: "Share of values that are defaulted or unknown in characteristics fields.", target: "Falling; below 5%"}
+- {id: M7, name: "Group disparity", how: "Largest gap in quality between groups of people.", target: "Within the agreed tolerance"}
+- {id: M8, name: "Time to fix at source", how: "Median days from finding an issue to fixing its root cause.", target: "Within the issues framework timescales"}
+- {id: M9, name: "Supplier data quality KPI", how: "Share of supplier contracts with a published data quality KPI.", target: "All contracts that create or hold critical data"}
+
+# Requirements any system or supplier handling public data should meet (MoSCoW).
+requirements:
+- {id: R1, moscow: must, text: "Exports all data, metadata, rules and quality results in open, documented formats on demand.", layer: format}
+- {id: R2, moscow: must, text: "Validates data at entry against agreed rules, without forcing defaults.", layer: promise}
+- {id: R3, moscow: must, text: "Supports persistent identifiers for people, places and organisations where relevant.", layer: identify}
+- {id: R4, moscow: must, text: "Stores dates in ISO 8601 and text in UTF-8 end to end.", layer: format}
+- {id: R5, moscow: must, text: "Logs changes to data with who, what, when and why.", layer: report}
+- {id: R6, moscow: should, text: "Publishes or accepts data contracts in ODCS or Table Schema.", layer: promise}
+- {id: R7, moscow: should, text: "Publishes quality results in W3C DQV with catalogue metadata in DCAT.", layer: report}
+- {id: R8, moscow: should, text: "Uses value sets (GSS harmonised standards and agreed code lists) for coded fields.", layer: mean}
+- {id: R9, moscow: should, text: "Describes APIs in OpenAPI 3.", layer: format}
+- {id: R10, moscow: could, text: "Exposes quality checks to AI agents through a read-only MCP server.", layer: report}
+- {id: R11, moscow: could, text: "Shares rule libraries with other organisations through the Commons.", layer: promise}
+
+# Capabilities next door to data quality, and how they connect (based on the DAMA-DMBOK knowledge areas).
+adjacent:
+- {name: Data governance, link: "Ownership, accountability and decision rights for quality.", where: "operate.html"}
+- {name: Metadata management and catalogues, link: "Where quality results are published and found.", where: "ndl-assurance.html"}
+- {name: Master and reference data, link: "Duplicates, identifiers and code lists are quality issues at source.", where: "legacy.html"}
+- {name: Data architecture and integration, link: "Contracts and checks at boundaries between systems.", where: "interop.html"}
+- {name: Data security and privacy, link: "Accuracy is a legal duty; checks must minimise personal data.", where: "scenarios.html#personal"}
+- {name: Records and information management, link: "Retention and archiving of legacy data and documentation.", where: "legacy.html"}
+- {name: "Analytics, statistics and AI", link: "Fitness for purpose, representativeness and drift.", where: "ai.html"}
+- {name: Commercial and supplier management, link: "Quality obligations, KPIs and exit.", where: "commercial.html"}
+- {name: Service design and performance, link: "Services create most data; design quality in.", where: "guide.html"}
+- {name: Data ethics and equality, link: "Who data leaves out, and fairness of decisions based on it.", where: "learn.html#m7"}
+- {name: Technology lifecycle and legacy, link: "Data debt, migration and decommissioning.", where: "legacy.html"}
+- {name: Skills and profession, link: "DDaT roles and learning pathways.", where: "learn.html"}
+
+sources:
+- {id: osb, title: "Open Standards Board: tabular data and OpenAPI recommendations (2019)", url: "https://technology.blog.gov.uk/2019/10/02/improve-csvs-and-api-descriptions-with-these-open-standards-board-recommendations/", verified: "partly"}
+- {id: api, title: "GDS API technical and data standards", url: "https://www.gov.uk/guidance/gds-api-technical-and-data-standards", verified: "partly"}
+- {id: tcop, title: "The Technology Code of Practice", url: "https://www.gov.uk/guidance/the-technology-code-of-practice", verified: "yes"}
+- {id: odcs, title: "Open Data Contract Standard (Bitol)", url: "https://bitol-io.github.io/open-data-contract-standard/latest/", verified: "yes"}
+- {id: dqv, title: "W3C Data Quality Vocabulary", url: "https://www.w3.org/TR/vocab-dqv/", verified: "partly"}
+- {id: csvw, title: "W3C CSV on the Web primer", url: "https://www.w3.org/TR/tabular-data-primer/", verified: "partly"}
+- {id: ts, title: "Frictionless Table Schema", url: "https://specs.frictionlessdata.io/table-schema/", verified: "partly"}

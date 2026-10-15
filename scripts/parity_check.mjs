@@ -54,6 +54,7 @@ if (c.kind === 'run' || c.kind === 'ops') {
     return { odcs: o, ts: t, csvw: C.toCsvw(spec), back: C.fromOdcs(o), backTs: C.fromTableSchema(t), unsupported: C.unsupported(o),
       gx: DQ.exporters.toGreatExpectations(spec), rv: DQ.exporters.rValidateRules(spec) };
   }));
+  out.reconcile = c.recon.map(([a, b, k]) => attempt(() => DQ.reconcile(DQ.parseCSV(a), DQ.parseCSV(b), k)));
   out.misc = {
     targets: [3, 6, 9, 16].map((s) => DQ.defaultTarget(s)), mid4: DQ.defaultTarget(4, 'mid'),
     bands: [75, 90, 95, 97.5, 99.9, 100].map((t) => DQ.bands(t)),

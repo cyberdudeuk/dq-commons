@@ -1147,6 +1147,56 @@
     return { rules: rules, issues: issues };
   };
 
+  // ---------- Reconciliation of two versions of a dataset (reconcile.py) ----------
+  DQ.reconcile = function (source, target, keys, tolerance, maxExamples) {
+    keys = typeof keys === 'string' ? [keys] : keys.slice(); tolerance = tolerance || 0; maxExamples = maxExamples === undefined ? 5 : maxExamples;
+    if (!keys.length) throw new Error('choose at least one key column');
+    var S = frame(source), T = frame(target), SEP = '\u001f';
+    var missing = keys.filter(function (k) { return S.columns.indexOf(k) < 0 || T.columns.indexOf(k) < 0; });
+    if (missing.length) throw new Error('key column(s) not in both files: ' + missing.join(', '));
+    function keyList(f) { var out = []; for (var i = 0; i < f.n; i++) out.push(keys.map(function (k) { var v = f.data[k][i]; return v === null ? '' : pyStr(v); }).join(SEP)); return out; }
+    var sk = keyList(S), tk = keyList(T), sset = new Set(sk), tset = new Set(tk);
+    function dups(ks) { var seen = new Set(), d = [], dset = new Set(); ks.forEach(function (k) { if (seen.has(k) && !dset.has(k)) { d.push(k); dset.add(k); } seen.add(k); }); return d; }
+    function only(a, b) { var out = [], seen = new Set(); a.forEach(function (k) { if (!b.has(k) && !seen.has(k)) { out.push(k); seen.add(k); } }); return out; }
+    var onlyS = only(sk, tset), onlyT = only(tk, sset), dupS = dups(sk), dupT = dups(tk), split = function (k) { return k.split(SEP); };
+    var colsMissing = S.columns.filter(function (c) { return T.columns.indexOf(c) < 0; }), colsExtra = T.columns.filter(function (c) { return S.columns.indexOf(c) < 0; });
+    var common = S.columns.filter(function (c) { return T.columns.indexOf(c) >= 0 && keys.indexOf(c) < 0; });
+    function numericTotal(vals) {
+      var filled = vals.filter(function (v) { return v !== null; }).length;
+      var nc = pdNumericColumn(vals), ok = nc.vals.filter(function (x) { return !isNaN(x); }).length;
+      if (!(filled > 0 && ok === filled)) return null;
+      return nc.ints ? Number(nc.ints.reduce(function (s, x) { return s + x; }, BigInt(0))) : pairwiseSum(nc.vals.map(function (x) { return isNaN(x) ? 0 : x; }), 0, nc.vals.length);
+    }
+    var totals = [];
+    common.forEach(function (c) {
+      var a = numericTotal(S.data[c]), b = numericTotal(T.data[c]);
+      if (a === null || b === null) return;
+      var s = pyRound(a, 6), t = pyRound(b, 6), d = pyRound(t - s, 6);
+      totals.push({ column: c, source: s, target: t, difference: d, ok: Math.abs(d) <= tolerance });
+    });
+    var firstS = new Map(), firstT = new Map();
+    sk.forEach(function (k, i) { if (!firstS.has(k)) firstS.set(k, i); });
+    tk.forEach(function (k, i) { if (!firstT.has(k)) firstT.set(k, i); });
+    var matched = []; firstS.forEach(function (_, k) { if (firstT.has(k)) matched.push(k); });
+    var mismatches = [];
+    common.forEach(function (c) {
+      var n = 0, ex = [];
+      matched.forEach(function (k) {
+        var a = S.data[c][firstS.get(k)], b = T.data[c][firstT.get(k)];
+        a = a === null ? null : pyStr(a); b = b === null ? null : pyStr(b);
+        if (a !== b) { n++; if (ex.length < maxExamples) ex.push({ key: split(k), source: a, target: b }); }
+      });
+      if (n) mismatches.push({ column: c, count: n, examples: ex });
+    });
+    var passed = S.n === T.n && !onlyS.length && !onlyT.length && !dupS.length && !dupT.length && !colsMissing.length &&
+      totals.every(function (x) { return x.ok; }) && !mismatches.length;
+    return { keys: keys, rows: { source: S.n, target: T.n }, matched: matched.length,
+      only_in_source: { count: onlyS.length, examples: onlyS.slice(0, maxExamples).map(split) },
+      only_in_target: { count: onlyT.length, examples: onlyT.slice(0, maxExamples).map(split) },
+      duplicate_keys: { source: dupS.length, target: dupT.length, examples: dupS.concat(dupT).slice(0, maxExamples).map(split) },
+      columns_missing_in_target: colsMissing, columns_extra_in_target: colsExtra, totals: totals, mismatches: mismatches, passed: passed };
+  };
+
   // ---------- Exports to Great Expectations and R validate (exporters.py) ----------
   (function () {
     var E = {};

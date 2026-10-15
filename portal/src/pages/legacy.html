@@ -1,0 +1,159 @@
+<title>Legacy and Modernisation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.facts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+.fact{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:8px;padding:12px 14px;font-size:.9rem}
+.stages{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:1000px){.stages{grid-template-columns:minmax(0,1fr)}}
+.st{padding:12px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;font-size:.84rem}
+.st:last-child{border-right:0}
+@media (max-width:1000px){.st{border-right:0;border-bottom:1px solid var(--line)}.st:last-child{border-bottom:0}}
+.st .n{font-family:var(--f-mono);color:var(--muted);font-size:.78rem}
+.st .gate{border-top:1px dashed var(--line);padding-top:6px;font-size:.8rem}
+.st .gate::before{content:"Gate: ";font-weight:700;color:var(--accent)}
+.mos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.mos .card{border-top:4px solid var(--line)}
+.mos .must{border-top-color:var(--crit)} .mos .should{border-top-color:var(--warn)} .mos .could{border-top-color:var(--info)} .mos .wont{border-top-color:var(--muted)}
+.mos ul{margin:0;padding-left:1.1em;font-size:.88rem;display:flex;flex-direction:column;gap:4px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.q legend{font-weight:700;font-size:.95rem}
+.q .opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.q .opts label{display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:.88rem;cursor:pointer}
+.q .opts label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.gauge{height:14px;border-radius:7px;background:linear-gradient(90deg,var(--good) 0 25%,var(--info) 25% 50%,var(--warn) 50% 75%,var(--crit) 75%);position:relative}
+.gauge i{position:absolute;top:-4px;width:4px;height:22px;background:var(--fg);border-radius:2px}
+.rec{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.ok{color:var(--good);font-weight:700}.bad{color:var(--crit);font-weight:700}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Govern · Legacy and modernisation</span>
+  <h1>Don't carry data debt into the new system</h1>
+  <p class="lede">Legacy systems hold much of the public sector's most important data, and much of its data debt. Modernisation is the best chance to fix it, and the easiest moment to lose it. Find your data debt, put data quality gates into the migration, and prove the move with reconciliation.</p>
+  <nav class="toc" aria-label="On this page"><a href="#why">Why it matters</a><a href="#debt">Data debt patterns</a><a href="#assess">Self-assessment</a><a href="#stages">Migration gates</a><a href="#moscow">MoSCoW</a><a href="#reconcile">Reconcile two versions</a><a href="#sources">Sources</a></nav>
+</header>
+
+<section id="why" aria-labelledby="w-h"><h2 id="w-h">Why it matters</h2><p id="sum"></p><div class="facts" id="facts"></div></section>
+
+<section id="debt" aria-labelledby="d-h">
+  <h2 id="d-h">Data debt patterns, and how to find them</h2>
+  <div class="tbl"><table><thead><tr><th>Pattern</th><th>Example</th><th>Find it with the toolkit</th><th>Fix</th></tr></thead><tbody id="debtRows"></tbody></table></div>
+</section>
+
+<section id="assess" aria-labelledby="a-h">
+  <h2 id="a-h">Data debt self-assessment</h2>
+  <p class="small muted">10 questions, about 5 minutes. Your answers stay in this browser.</p>
+  <form id="aForm" style="display:flex;flex-direction:column;gap:10px"></form>
+  <div class="card" id="aRes" hidden tabindex="-1" aria-live="polite"></div>
+</section>
+
+<section id="stages" aria-labelledby="s-h"><h2 id="s-h">Data quality gates for a migration</h2><div class="stages" id="stg"></div></section>
+
+<section id="moscow" aria-labelledby="m-h"><h2 id="m-h">MoSCoW: data quality in a modernisation programme</h2><div class="mos" id="mos"></div>
+  <p class="small">Put the obligations into the new supplier's contract with the <a href="commercial.html#clauses">clause builder</a>, and write the target rules as a <a href="check.html#contracts">data contract</a>.</p></section>
+
+<section id="reconcile" aria-labelledby="r-h">
+  <h2 id="r-h">Reconcile two versions of a dataset</h2>
+  <p>Compare before and after a migration, or a supplier's extract with your own copy. Checks row counts, records missing or new, duplicate keys, totals of number columns, and values that changed. Both files stay in your browser. The same check runs in Python: <code>dqkit reconcile old.csv new.csv --key id</code>.</p>
+  <div class="rec">
+    <div class="field"><label for="fa">Before (source)</label><input type="file" id="fa" accept=".csv,.tsv,.xlsx,.ods,.json,.jsonl"></div>
+    <div class="field"><label for="fb">After (target)</label><input type="file" id="fb" accept=".csv,.tsv,.xlsx,.ods,.json,.jsonl"></div>
+    <div class="field"><label for="keys">Key column(s)</label><select id="keys" multiple size="4" aria-describedby="keysH"></select><span class="hint" id="keysH">Hold Ctrl (or Cmd) to choose more than one.</span></div>
+    <div class="field"><label for="tol">Allowed difference in totals</label><input type="number" id="tol" value="0" min="0" step="any"></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" type="button" id="go">Reconcile</button><button class="btn ghost" type="button" id="demo">Try an example</button><span id="rMsg" role="status" aria-live="polite" class="small"></span></div>
+  <div id="rOut"></div>
+</section>
+
+<section id="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul class="plain small" id="src"></ul></section>
+</div>
+
+<script>
+__ENGINE__
+</script>
+<script>
+__SHEETS__
+</script>
+<script>
+const K = __K_LEGACY__, V = __VOCAB__;
+DQ.setVocab(V.issue_types, V.dimensions);
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SRC = Object.fromEntries(K.sources.map(s => [s.id, s]));
+$("sum").textContent = K.context.summary;
+$("facts").innerHTML = K.context.facts.map(f => `<div class="fact">${esc(f.text)} <a class="small" href="${esc(SRC[f.source].url)}" rel="noopener">Source</a></div>`).join("");
+$("debtRows").innerHTML = K.debt_patterns.map(d => `<tr><td><b>${esc(d.name)}</b></td><td>${esc(d.example)}</td><td><code>${esc(d.find)}</code></td><td>${esc(d.fix)}</td></tr>`).join("");
+$("stg").innerHTML = K.migration_stages.map(s => `<div class="st"><span class="n">Stage ${s.n}</span><b>${esc(s.name)}</b><span>${esc(s.do)}</span><span class="gate">${esc(s.gate)}</span></div>`).join("");
+const MT = {must: "Must", should: "Should", could: "Could", wont: "Won't"};
+$("mos").innerHTML = Object.entries(K.moscow).map(([k, items]) => `<div class="card ${k}"><h3>${MT[k]}</h3><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+$("src").innerHTML = K.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>${s.verified === "yes" ? "" : ` <span class="chip warn">Partly verified</span>`}</li>`).join("");
+
+// self-assessment
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+let ans = store.get("dqc.debt", {});
+const A = K.assessment;
+$("aForm").innerHTML = A.questions.map((q, i) => `<fieldset class="q"><legend>${i + 1}. ${esc(q.q)}</legend><div class="opts">${q.options.map((o, j) =>
+  `<label><input type="radio" name="${q.id}" value="${j}"${ans[q.id] === j ? " checked" : ""}> ${esc(o)}</label>`).join("")}</div></fieldset>`).join("") +
+  `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">See my score</button><span id="aMsg" class="small" aria-live="polite"></span></div>`;
+$("aForm").addEventListener("change", e => { if (e.target.type === "radio") { ans[e.target.name] = +e.target.value; store.set("dqc.debt", ans); } });
+$("aForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const missing = A.questions.filter(q => ans[q.id] === undefined);
+  if (missing.length) { $("aMsg").innerHTML = `<span class="msg err">${missing.length} question(s) still to answer.</span>`; document.querySelector(`input[name="${missing[0].id}"]`).focus(); return; }
+  const score = A.questions.reduce((s, q) => s + ans[q.id], 0), band = A.bands.find(b => score <= b.max);
+  const worst = A.questions.filter(q => ans[q.id] >= 2);
+  $("aRes").hidden = false;
+  $("aRes").innerHTML = `<h3>${esc(band.label)}: ${score} out of 30</h3><div class="gauge" role="img" aria-label="Score ${score} out of 30"><i style="left:calc(${100 * score / 30}% - 2px)"></i></div>
+    <p>${esc(band.text)}</p>${worst.length ? `<p class="small"><b>Start with:</b> ${worst.map(q => esc(q.q)).join(" ")}</p>` : ""}
+    <p class="small">Next: list your <a href="#debt">data debt patterns</a>, then <a href="check.html">profile the data</a>.</p>`;
+  $("aRes").focus();
+});
+
+// reconciliation
+let tA = null, tB = null;
+async function load(input) {
+  const f = input.files && input.files[0]; if (!f) return null;
+  const r = await DQSheets.read(f); return DQ.parseCSV(r.csv);
+}
+function fillKeys() {
+  const cols = tA && tB ? tA.columns.filter(c => tB.columns.includes(c)) : [];
+  $("keys").innerHTML = cols.map((c, i) => `<option${i === 0 ? " selected" : ""}>${esc(c)}</option>`).join("");
+}
+$("fa").addEventListener("change", async e => { try { tA = await load(e.target); fillKeys(); $("rMsg").textContent = ""; } catch (er) { $("rMsg").innerHTML = `<span class="msg err">${esc(er.message)}</span>`; } });
+$("fb").addEventListener("change", async e => { try { tB = await load(e.target); fillKeys(); $("rMsg").textContent = ""; } catch (er) { $("rMsg").innerHTML = `<span class="msg err">${esc(er.message)}</span>`; } });
+$("demo").addEventListener("click", () => {
+  tA = DQ.parseCSV("case_id,name,postcode,amount\n1,Ann,SW1A 1AA,10.50\n2,Bo,LS1 4AP,20.25\n3,Cy,M1 1AE,15.00\n4,Di,B1 1AA,7.75\n");
+  tB = DQ.parseCSV("case_id,name,postcode,amount\n1,Ann,SW1A 1AA,10.50\n2,Bo,LS1 4AP,20.25\n4,Di,B1 1AA,7.75\n4,Di,B1 1AA,7.75\n5,Ed,CF10 1AA,3.00\n");
+  fillKeys(); $("rMsg").textContent = "Example loaded: a migration that lost one case, duplicated one and added one."; run();
+});
+function run() {
+  if (!tA || !tB) { $("rMsg").innerHTML = `<span class="msg err">Open both files first.</span>`; return; }
+  const keys = [...$("keys").selectedOptions].map(o => o.value);
+  let r; try { r = DQ.reconcile(tA, tB, keys, Number($("tol").value) || 0); } catch (er) { $("rMsg").innerHTML = `<span class="msg err">${esc(er.message)}</span>`; return; }
+  const ex = a => a.length ? ` <span class="small muted">e.g. ${a.map(k => esc(k.join(" / "))).join(", ")}</span>` : "";
+  $("rOut").innerHTML = `<div class="card" style="margin-top:12px"><h3>${r.passed ? '<span class="ok">Reconciled</span>: no differences found' : '<span class="bad">Differences found</span>'}</h3>
+    <div class="tbl"><table><tbody>
+      <tr><th scope="row">Rows</th><td>${r.rows.source} before, ${r.rows.target} after ${r.rows.source === r.rows.target ? '<span class="ok">match</span>' : '<span class="bad">differ</span>'}</td></tr>
+      <tr><th scope="row">Matched records</th><td>${r.matched}</td></tr>
+      <tr><th scope="row">Missing after</th><td>${r.only_in_source.count}${ex(r.only_in_source.examples)}</td></tr>
+      <tr><th scope="row">New after</th><td>${r.only_in_target.count}${ex(r.only_in_target.examples)}</td></tr>
+      <tr><th scope="row">Duplicate keys</th><td>${r.duplicate_keys.source} before, ${r.duplicate_keys.target} after${ex(r.duplicate_keys.examples)}</td></tr>
+      <tr><th scope="row">Columns</th><td>${r.columns_missing_in_target.length ? `Missing after: ${r.columns_missing_in_target.map(esc).join(", ")}. ` : ""}${r.columns_extra_in_target.length ? `New after: ${r.columns_extra_in_target.map(esc).join(", ")}.` : ""}${!r.columns_missing_in_target.length && !r.columns_extra_in_target.length ? "Same columns" : ""}</td></tr>
+    </tbody></table></div>
+    ${r.totals.length ? `<h4>Totals</h4><div class="tbl"><table><thead><tr><th>Column</th><th class="num">Before</th><th class="num">After</th><th class="num">Difference</th></tr></thead><tbody>${r.totals.map(t => `<tr><td>${esc(t.column)}</td><td class="num">${t.source}</td><td class="num">${t.target}</td><td class="num ${t.ok ? "ok" : "bad"}">${t.difference}</td></tr>`).join("")}</tbody></table></div>` : ""}
+    ${r.mismatches.length ? `<h4>Values that changed (matched records)</h4><div class="tbl"><table><thead><tr><th>Column</th><th class="num">Changed</th><th>Examples</th></tr></thead><tbody>${r.mismatches.map(m => `<tr><td>${esc(m.column)}</td><td class="num">${m.count}</td><td class="small">${m.examples.map(x => `${esc(x.key.join(" / "))}: ${esc(x.source ?? "(empty)")} → ${esc(x.target ?? "(empty)")}`).join("; ")}</td></tr>`).join("")}</tbody></table></div>` : ""}
+  </div>`;
+}
+$("go").addEventListener("click", run);
+window.DQP_TOUR = [
+  {sel: "#debtRows", title: "Data debt patterns", text: "Nine common patterns in old systems, how to find each with the toolkit, and how to fix it."},
+  {sel: "#aForm", title: "Self-assessment", text: "Ten questions give a data debt score and where to start."},
+  {sel: "#stg", title: "Migration gates", text: "Seven stages, each with a gate data owners sign off before moving on."},
+  {sel: "#mos", title: "MoSCoW", text: "What a modernisation programme must, should, could and won't do about data quality."},
+  {sel: "#go", title: "Reconcile", text: "Compare before and after: counts, missing and new records, duplicates, totals and changed values."},
+];
+</script>

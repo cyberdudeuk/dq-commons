@@ -56,6 +56,11 @@ GROUPS = [
         ("guidance", "Issues framework", "Prioritise issues with the government method, and the guidance findings"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
     ]),
+    ("Govern", [
+        ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),
+        ("legacy", "Legacy and modernisation", "Data debt, migration gates, MoSCoW, self-assessment and a reconciliation tool"),
+        ("interop", "Interoperability and standards", "Identifiers, formats, data contracts, guardrails, measures and related capabilities"),
+    ]),
     ("Scenarios", [
         ("scenarios", "All scenarios", "Pick your policy, sector or platform: what applies and where to start"),
         ("ndl-assurance", "National Data Library", "84 NDL data pages tested against GOV.UK requirements"),
@@ -182,6 +187,9 @@ def knowledge() -> dict:
         "LIBRARY": lambda: library,
         "VALUESETS": lambda: valuesets,
         "SCHEMES": lambda: list(rules.IDENTIFIER_SCHEMES),
+        "COMMERCIAL": lambda: y("commercial"),
+        "LEGACY": lambda: y("legacy"),
+        "INTEROP": lambda: y("interop"),
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
 

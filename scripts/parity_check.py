@@ -489,6 +489,12 @@ def py_contracts(spec):
             "unsupported": contracts.unsupported(o), "gx": exporters.to_great_expectations(spec), "rv": list(exporters.r_validate_rules(spec))}
 
 
+RECON_SRC = "id,name,amount,count,when\n1,Ann,10.5,3,2024-01-01\n2,Bo,20.25,4,2024-01-02\n3,Cy,,5,2024-01-03\n3,Cy,,5,2024-01-03\n4,Di,0.1,1,\n5,Ed,0.2,2,2024-01-05\n"
+RECON_TGT = "id,name,amount,count,extra\n1,Ann,10.5,3,x\n2,Bob,20.25,4,y\n4,Di,0.1,1,\n6,Fi,7,9,z\n5,Ed,0.2,2,\n"
+RECON_CASES = [(RECON_SRC, RECON_TGT, ["id"]), (RECON_SRC, RECON_SRC, ["id", "name"]), (RECON_SRC, RECON_TGT, ["id", "name"]),
+               (RECON_SRC, RECON_TGT, ["nope"])]
+
+
 def micro_case():
     numbers = NUMBERS + fuzz_numbers()
     sums = sum_cases()
@@ -519,6 +525,7 @@ def micro_case():
                       attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, VALUESETS)),
                       attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}, VALUESETS))],
         "contracts": [attempt(lambda s=s: py_contracts(copy.deepcopy(s))) for s in contract_specs()],
+        "reconcile": [attempt(lambda a=a, b=b, k=k: __import__("dqkit.reconcile", fromlist=["x"]).reconcile(read_csv_text(a), read_csv_text(b), k)) for a, b, k in RECON_CASES],
         "misc": {"targets": [framework.default_target(s) for s in (3, 6, 9, 16)], "mid4": framework.default_target(4, "mid"),
                  "bands": [framework.bands(t) for t in (75, 90, 95, 97.5, 99.9, 100)],
                  "route": [pathway.route(a) for a in ROUTES], "trust": [trust.classify(r, p) for r, p in trusts]},
@@ -526,7 +533,7 @@ def micro_case():
     js_in = {"name": "micro", "kind": "micro", "numbers": numbers, "types": TYPES, "dates": DATES, "regex": REGEX,
              "rounds": round_cases(), "reprs": REPRS, "error_rates": ERROR_PERCENTS, "sums": sums, "durations": DURATIONS,
              "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts, "identifiers": IDENTIFIERS, "valueset_specs": [copy.deepcopy(E_SPEC_RAW), {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}], "valuesets_data": VALUESETS,
-             "contract_specs": contract_specs()}
+             "contract_specs": contract_specs(), "recon": RECON_CASES}
     return py, js_in
 
 
@@ -555,10 +562,11 @@ def check_micro(workdir) -> dict:
                 "error_rates": "error_rate text", "durations": "ISO durations", "csvs": "CSV reading (read_csv)",
                 "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",
                 "identifiers": "identifier formats and check digits", "valuesets": "value set expansion",
-                "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate)"}
+                "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate)",
+                "reconcile": "reconciliation (counts, keys, totals, values)"}
     for k, label in labelled.items():
         a, b = norm(py[k]), js[k]
-        if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets"):  # failures: compare that both fail, not the wording
+        if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets", "reconcile"):  # failures: compare that both fail, not the wording
             a = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in a]
             b = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in b]
         errs = compare(a, b, k)

@@ -1,0 +1,83 @@
+# Data quality in legacy systems, technical debt and modernisation.
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (architecture)}
+
+context:
+  summary: >-
+    Legacy systems hold much of the public sector's most important data, and much of its data debt:
+    meanings that live only in old code, fields reused for new purposes, defaults that hide missing
+    values. Modernisation is the best chance to fix that, and the easiest moment to lose it.
+  facts:
+  - {text: "About 28% of central government systems were legacy in 2024, up from 26% in 2023; 22% of legacy systems were red-rated.", source: sodg}
+  - {text: "Some organisations spend as much as 70-85% of technology budgets keeping existing systems running.", source: sodg}
+  - {text: "28% of red-rated legacy systems lacked remediation funding.", source: sodg}
+  - {text: "DSIT has committed to refreshing its legacy risk assessment framework, restarting data collection in 2026 and publishing a legacy IT action plan.", source: legacy-plan}
+
+# Data debt: quality problems that build up in old systems. Each maps to toolkit checks.
+debt_patterns:
+- {id: D1, name: "Magic defaults", example: "Unknown dates stored as 01/01/1900; unknown ethnicity stored as the first item in the list.", find: "not_unknown with the default values; range on dates", fix: "Record missing as missing; add an explicit 'not known' code with a reason."}
+- {id: D2, name: "Overloaded fields", example: "A 'notes' field holding phone numbers, flags and case outcomes.", find: "regex and profile the field; count distinct patterns", fix: "Split into typed fields during migration; keep the original as an archive."}
+- {id: D3, name: "Meaning hidden in code", example: "Status codes whose meaning is only in COBOL or stored procedures.", find: "in_set against the documented code list; list values not in it", fix: "Write the code list down (value set) before migrating."}
+- {id: D4, name: "Free text where codes are needed", example: "Organisation names typed by hand instead of an identifier.", find: "identifier checks; distinct counts", fix: "Add persistent identifiers (Companies House, charity, ODS, UPRN)."}
+- {id: D5, name: "Duplicate master data", example: "The same person or property held several times with small differences.", find: "unique on natural keys; linkage quality (planned)", fix: "Match and merge with a reviewed rule; keep a crosswalk of old to new IDs."}
+- {id: D6, name: "Truncation and character loss", example: "Names cut at 20 characters; accents and non-Latin characters lost.", find: "regex for replacement characters; length profile", fix: "UTF-8 end to end; widen fields; check before and after."}
+- {id: D7, name: "Silent derivations", example: "Totals and flags calculated in reports, not stored, and different in each report.", find: "compare and sum_max across tables", fix: "Define each derived value once, document it, and test it."}
+- {id: D8, name: "Lost lineage", example: "Nobody knows which feed populates a field or when.", find: "freshness; metadata checks", fix: "Record source and update date for every critical item."}
+- {id: D9, name: "Workarounds that became the process", example: "Staff enter a dummy NI number to get past validation.", find: "identifier checks; most common values profile", fix: "Fix the validation and the process; give a proper route for people without the identifier."}
+
+migration_stages:
+- {n: 1, name: Discover, do: "Inventory the data, owners and critical items. Profile every table. Record the data debt register.", gate: "Critical items and owners agreed; profile complete."}
+- {n: 2, name: Define, do: "Write target rules and a data contract (ODCS or Table Schema) for the new system. Agree targets with the issues framework.", gate: "Rules and contract agreed with data owners."}
+- {n: 3, name: Decide where to fix, do: "For each issue: fix at source before moving, transform in flight, or accept and label. Prefer fixing at source.", gate: "Every Critical and High issue has a decision and an owner."}
+- {n: 4, name: Rehearse, do: "Run trial migrations. Reconcile record counts, key matches and totals. Measure the rules on the target.", gate: "Reconciliation passes; rules meet targets in two trial runs."}
+- {n: 5, name: Parallel run, do: "Run old and new side by side on live data where risk allows. Compare outputs that matter to people.", gate: "Differences explained and accepted by owners."}
+- {n: 6, name: Cut over, do: "Final migration and reconciliation. Keep the old data read-only.", gate: "Sign-off by data owners against the gates."}
+- {n: 7, name: Monitor and decommission, do: "Measure on a schedule in the new system. Archive the old data with its documentation. Close the debt register items.", gate: "Two cycles at target; archive accessible; legacy switched off."}
+
+# MoSCoW for data quality in a modernisation programme.
+moscow:
+  must:
+  - "Name a data owner for every critical data item before migration starts."
+  - "Profile the legacy data and keep a data debt register."
+  - "Write quality rules and a data contract for the target system, with targets."
+  - "Reconcile record counts, keys and key totals at every trial run and at cut-over."
+  - "Make 'fix at source' the default; record any accepted issues and label them for users."
+  - "Keep the legacy data and its documentation, read-only, after cut-over."
+  - "Check that the new system records people accurately (no forced defaults, full character sets)."
+  should:
+  - "Run the same rules on the old and new systems so results are comparable."
+  - "Add persistent identifiers (UPRN, GSS, ODS, Companies House) during migration."
+  - "Measure quality across groups of people before and after."
+  - "Put data quality obligations in the new supplier contract (see the commercial page)."
+  - "Automate measurement in the new system's pipeline from day one."
+  could:
+  - "Use AI to suggest code mappings and duplicates, with human review and evaluation."
+  - "Publish the data contract openly so other systems can rely on it."
+  - "Share the data debt patterns you found with the Commons."
+  wont:
+  - "Migrate everything as-is and plan to fix it later."
+  - "Accept new defaults or placeholders to get data past validation."
+  - "Let the new supplier own the rules or the only copy of the data dictionary."
+
+# Data debt self-assessment: each answer scores 0 (good) to 3 (poor). Total out of 30.
+assessment:
+  questions:
+  - {id: A1, q: "Is the meaning of every critical field and code written down outside the code?", options: ["Yes, all", "Most", "Some", "No"]}
+  - {id: A2, q: "Do you know which fields hold defaults or placeholders instead of real values?", options: ["Yes, measured", "Roughly", "Suspected", "No idea"]}
+  - {id: A3, q: "Are records about people, places and organisations keyed by persistent identifiers?", options: ["Yes", "Mostly", "Partly", "No"]}
+  - {id: A4, q: "How much duplication is there in master data (people, properties, organisations)?", options: ["Measured and low", "Some, known", "Lots, known", "Unknown"]}
+  - {id: A5, q: "Can the system store names and addresses in full, with any characters?", options: ["Yes", "Mostly", "Truncates some", "No"]}
+  - {id: A6, q: "Is the lineage of critical fields recorded (source, update time)?", options: ["Yes", "Mostly", "Partly", "No"]}
+  - {id: A7, q: "Are data quality rules measured on a schedule today?", options: ["Automated", "Manual, regular", "Occasionally", "Never"]}
+  - {id: A8, q: "Who owns the data dictionary and rules?", options: ["We do, in open formats", "We do, in supplier tools", "Supplier", "Nobody"]}
+  - {id: A9, q: "Are components and the data platform in mainstream vendor support?", options: ["All", "Most", "Some", "None"]}
+  - {id: A10, q: "Could you get a complete, documented extract of all the data within a month?", options: ["Yes, tested", "Probably", "With difficulty", "No"]}
+  bands:
+  - {max: 7, label: "Low data debt", text: "Keep measuring and keep documentation current. Good candidate for a straightforward migration."}
+  - {max: 15, label: "Moderate data debt", text: "Build discovery and a data debt register into the plan. Budget for fixing at source."}
+  - {max: 22, label: "High data debt", text: "Treat data as a workstream with its own owner, budget and gates. Rehearse migrations early."}
+  - {max: 30, label: "Critical data debt", text: "Data risk may be the biggest risk in the programme. Escalate, and don't set a cut-over date until the debt is understood."}
+
+sources:
+- {id: sodg, title: "State of digital government review (DSIT, January 2025)", url: "https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review", verified: "yes"}
+- {id: legacy-plan, title: "PublicTechnology: DSIT legacy IT action plan and data collection (March 2026)", url: "https://www.publictechnology.net/2026/03/09/science-technology-and-research/dsit-to-unleash-legacy-it-action-plan-backed-by-data-collection-on-thousands-of-ageing-systems/", verified: "yes"}
+- {id: ddat, title: "The Digital, Data and Technology Playbook (legacy IT and up-to-date products)", url: "https://www.gov.uk/government/publications/the-digital-data-and-technology-playbook", verified: "partly"}

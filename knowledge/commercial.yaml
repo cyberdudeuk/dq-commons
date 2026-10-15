@@ -1,0 +1,320 @@
+# Data quality in buying and supplier management.
+# The aim: suppliers carry explicit, measurable responsibility for the quality of the data they create,
+# hold or change for the public sector, so the cost of poor data does not fall on public bodies and,
+# in the end, taxpayers.
+#
+# IMPORTANT: model clauses here are illustrative plain-English drafting to start a conversation with
+# commercial and legal colleagues. They are not legal advice and are not approved government terms.
+# Always adapt them with your commercial team and lawyers, and check them against the contract
+# terms you are using (for example the Model Services Contract or a framework call-off).
+
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (commercial)}
+
+disclaimer: >-
+  Illustrative drafting, not legal advice and not approved government terms. Work with your commercial
+  and legal teams, and fit any wording to the contract you are using.
+
+context:
+  summary: >-
+    Most public sector data now lives in, or passes through, systems run by suppliers. When quality
+    obligations are vague, public bodies pay twice: once for the service, and again to find and fix
+    poor data, to work around it, or to exit.
+  facts:
+  - {text: "UK public sector digital and data spend was about £26 billion in 2023, of which about £21 billion went to third parties.", source: sodg}
+  - {text: "Only 28% of leaders believe they have enough capability to monitor supplier performance; only 40% say third parties perform as expected.", source: sodg}
+  - {text: "Actual spend with managed service providers exceeded contract value by more than 50% in 2023.", source: sodg}
+  - {text: "70% of survey respondents said their data landscape is not well co-ordinated or interoperable.", source: sodg}
+  - {text: "Contracts over £5 million under the Procurement Act 2023 must have at least three KPIs, assessed and published at least once every 12 months.", source: pa-kpi}
+
+barriers:
+- {id: B1, name: "Quality is not in the contract", what: "Specifications describe functions, not the quality of the data the service creates or holds, so there is nothing to measure or enforce.", fix: [C01, C02, C05]}
+- {id: B2, name: "Lock-in through formats and rules", what: "Data, metadata and quality rules sit in proprietary formats, so switching costs are high and rules are rebuilt from scratch.", fix: [C03, C04, C12]}
+- {id: B3, name: "Paying to reach your own data", what: "Extracts, APIs or reports cost extra, or are rate-limited, which discourages checking quality.", fix: [C03, C06]}
+- {id: B4, name: "No visibility of quality", what: "Suppliers report uptime but not completeness, accuracy or timeliness of the data.", fix: [C05, C06, C07]}
+- {id: B5, name: "Fixes cost the buyer", what: "Data defects caused by the supplier's system or process are fixed as paid change requests.", fix: [C08, C09]}
+- {id: B6, name: "Poor data at exit", what: "Exit data is incomplete, undocumented or in a format the next supplier can't load, so transition is slow and risky.", fix: [C12, C13]}
+- {id: B7, name: "Opaque AI features", what: "AI features change, enrich or match data in ways the buyer can't see, test or explain.", fix: [C14]}
+- {id: B8, name: "Legacy built in", what: "Out-of-support components and undocumented data models create the next generation of legacy and data debt.", fix: [C15, C04]}
+- {id: B9, name: "Who is left out", what: "Systems force defaults (for example 'unknown' or 01/01/1900) or can't record names, addresses or characteristics properly, so some people are misrecorded.", fix: [C10, C11]}
+- {id: B10, name: "Small buyers, weak leverage", what: "Councils, small bodies and the voluntary sector negotiate alone and accept standard terms.", fix: [C01, C05]}
+- {id: B11, name: "Subcontractors outside the terms", what: "Obligations stop at the prime supplier and don't reach subcontractors who actually handle the data.", fix: [C16]}
+- {id: B12, name: "Can't check what we're told", what: "No right to audit the supplier's data, rules or measurements independently.", fix: [C17]}
+
+principles:
+- {id: SP1, title: "The supplier proves quality", text: "The supplier measures and reports the quality of the data its service creates, holds or changes, using agreed rules, at its own cost."}
+- {id: SP2, title: "We own our data, metadata and rules", text: "Public bodies own the data, the metadata about it, and the quality rules and results, in open formats, at no extra charge."}
+- {id: SP3, title: "Quality is a KPI", text: "At least one KPI measures data quality, so it appears in published contract performance notices for contracts over £5 million."}
+- {id: SP4, title: "Fix at source, at the supplier's cost", text: "Defects caused by the supplier's system or process are fixed by the supplier, within agreed timescales, without a change request."}
+- {id: SP5, title: "Exit-ready from day one", text: "Data and documentation are kept ready to hand over at any time, in open formats, with quality evidence."}
+- {id: SP6, title: "Open standards by default", text: "Open standards for data, metadata, identifiers, contracts and APIs, as the Technology Code of Practice expects."}
+- {id: SP7, title: "Include everyone", text: "Systems can record people, places and characteristics accurately, without forced defaults, and quality is measured across groups."}
+- {id: SP8, title: "Transparent automation", text: "Any AI or automated processing that changes data is documented, tested and switchable, with human review for high-impact changes."}
+
+# MoSCoW: must / should / could. "Must" clauses are the floor for any contract that creates or holds public data.
+clauses:
+- id: C01
+  theme: Quality obligations
+  moscow: must
+  title: Data quality standard of performance
+  text: >-
+    The Supplier shall ensure that Authority Data created, received, stored, transformed or provided by the
+    Services meets the Data Quality Rules in Schedule [X] at or above the target for each rule. The Data
+    Quality Rules shall be set out in an open, machine-readable format agreed with the Authority (for
+    example the Open Data Contract Standard, a Frictionless Table Schema or the Commons rules format) and
+    may be updated by agreement without a change in the Charges.
+  why: Makes quality a stated part of the service, not an assumption.
+  supplier_evidence: Rules file agreed at mobilisation; measurement results for every reporting period.
+  measure: Share of rules meeting target each period.
+- id: C02
+  theme: Quality obligations
+  moscow: must
+  title: Data quality rules and targets set with the Authority
+  text: >-
+    During mobilisation the Supplier shall work with the Authority to identify the critical data items in
+    the Services and agree a rule, dimension and target for each, using the Government's data quality
+    issues framework (importance of purpose x impact of the issue) unless the Parties agree otherwise.
+  why: Targets follow the government method, so scores are comparable across suppliers.
+  supplier_evidence: Agreed criticality matrix and rules file.
+  measure: Rules agreed before service commencement.
+- id: C03
+  theme: Ownership and access
+  moscow: must
+  title: Free access to Authority Data in open formats
+  text: >-
+    The Authority owns all Authority Data, associated metadata, data quality rules and data quality results.
+    The Supplier shall make them available to the Authority on request and through an agreed interface, in
+    open, documented, non-proprietary formats (such as CSV meeting RFC 4180, JSON, or Parquet with a published
+    schema), at no additional charge and without rate limits that prevent routine quality checking.
+  why: Removes the cost and lock-in of reaching your own data.
+  supplier_evidence: Interface documentation; test extract during mobilisation.
+  measure: Extract requests met within the agreed time.
+- id: C04
+  theme: Standards and metadata
+  moscow: must
+  title: Data model, definitions and lineage documented
+  text: >-
+    The Supplier shall maintain and provide to the Authority an up-to-date data dictionary, data model and
+    lineage for Authority Data, including code lists, permitted values, defaults and derivations, and shall
+    notify the Authority at least [30] days before any change that affects them.
+  why: Undocumented data models are a main source of data debt and exit risk.
+  supplier_evidence: Data dictionary and model in an open format; change notices.
+  measure: Dictionary completeness; changes notified on time.
+- id: C05
+  theme: Reporting and KPIs
+  moscow: must
+  title: Data quality KPI
+  text: >-
+    Key Performance Indicator [n] (Data Quality): the percentage of Data Quality Rules meeting their target in
+    the reporting period. Target: [95]%. The Supplier shall report it [monthly], with the results for each rule,
+    in W3C Data Quality Vocabulary (DQV) or another agreed open format.
+  why: Under the Procurement Act 2023, contracts over £5 million need at least three KPIs that are assessed and published; data quality should be one of them.
+  supplier_evidence: Monthly quality report; DQV file.
+  measure: The KPI itself.
+- id: C06
+  theme: Reporting and KPIs
+  moscow: should
+  title: Quality report contents
+  text: >-
+    Each data quality report shall include, for each rule: the measured result, the target, the trend, open
+    data quality issues with their priority and age, root causes identified, and actions taken, and shall state
+    any known limitations of the data.
+  why: Turns a number into something the Authority can act on and explain to users.
+  supplier_evidence: Report template agreed at mobilisation.
+  measure: Reports complete and on time.
+- id: C07
+  theme: Reporting and KPIs
+  moscow: should
+  title: Notification of serious data quality incidents
+  text: >-
+    The Supplier shall notify the Authority within [one] Working Day of becoming aware of a data quality issue
+    rated Critical or High under the issues framework, or any issue likely to affect decisions about individuals,
+    and shall provide a containment plan within [two] Working Days.
+  why: Fast warning limits harm to people and decisions.
+  supplier_evidence: Incident log.
+  measure: Notifications on time.
+- id: C08
+  theme: Remediation
+  moscow: must
+  title: Fix at source at the Supplier's cost
+  text: >-
+    Where a data quality issue is caused by the Supplier's systems, processes, staff or subcontractors, the
+    Supplier shall correct the affected data and the root cause at its own cost, within the resolution timescale
+    for the issue's priority (Critical: immediately; High: within one reporting period; Medium: within three;
+    Low: within six), and shall not treat such work as a Change.
+  why: Stops paying twice for the supplier's defects.
+  supplier_evidence: Issue log with root causes and fixes.
+  measure: Issues resolved within timescale.
+- id: C09
+  theme: Remediation
+  moscow: should
+  title: Service credits linked to data quality
+  text: >-
+    If the Data Quality KPI falls below the [Requires improvement] level for [two] consecutive periods, Service
+    Credits shall apply as set out in Schedule [Y], and the Supplier shall provide a remediation plan for approval.
+  why: Gives the KPI teeth without waiting for a breach.
+  supplier_evidence: Remediation plan.
+  measure: Periods below target.
+- id: C10
+  theme: Inclusion and equality
+  moscow: must
+  title: Recording people and places accurately
+  text: >-
+    The Services shall allow names, addresses, dates and personal characteristics to be recorded accurately and
+    in full (including non-Latin characters, single names, and addresses without a postcode where appropriate),
+    shall not force default or placeholder values, and shall use the Government Statistical Service harmonised
+    standards for characteristics where the Authority specifies them.
+  why: Forced defaults and narrow formats misrecord people, often those already less well served.
+  supplier_evidence: Test cases agreed with the Authority, including edge cases.
+  measure: Share of records with defaulted or unknown values.
+- id: C11
+  theme: Inclusion and equality
+  moscow: should
+  title: Quality measured across groups
+  text: >-
+    Where Authority Data describes people, the Supplier shall report data quality results separately for groups
+    the Authority specifies (for example by age band, sex, ethnic group, disability or nation) and shall flag
+    differences larger than the agreed tolerance.
+  why: Data can pass overall checks while failing particular groups.
+  supplier_evidence: Group-level results.
+  measure: Largest gap between groups.
+- id: C12
+  theme: Exit and transition
+  moscow: must
+  title: Exit data pack
+  text: >-
+    On request, and in any case before expiry or termination, the Supplier shall provide a complete copy of
+    Authority Data with its data dictionary, data model, quality rules, latest quality results and open issues,
+    in open formats, and shall reconcile record counts and key totals with the Authority and any replacement
+    supplier, at no additional charge.
+  why: Clean exit data cuts transition cost and risk.
+  supplier_evidence: Exit plan maintained from mobilisation; test exit at least once a year.
+  measure: Successful test exit; reconciliation passed.
+- id: C13
+  theme: Exit and transition
+  moscow: should
+  title: Annual exit rehearsal
+  text: >-
+    Once a year the Supplier shall carry out a test extract of the exit data pack and the Authority (or a party it
+    nominates) shall load and reconcile it. Defects found shall be fixed under clause [C08].
+  why: An untested exit plan usually fails when it's needed.
+  supplier_evidence: Rehearsal report.
+  measure: Rehearsal passed.
+- id: C14
+  theme: AI and automation
+  moscow: must
+  title: Transparent AI and automated processing
+  text: >-
+    The Supplier shall not use AI or automated processing to create, change, match, enrich or delete Authority Data
+    without the Authority's written approval. For any approved use the Supplier shall document the purpose, model
+    and data used, provide evaluation results (overall and by group), keep a log of changes made, allow the
+    feature to be switched off, route low-confidence or high-impact outputs to human review, and provide the
+    information the Authority needs for an Algorithmic Transparency Recording Standard record and any DPIA.
+  why: AI can quietly change data quality, for better or worse.
+  supplier_evidence: Model card, evaluation results, change log.
+  measure: Approved uses documented; changes logged.
+- id: C15
+  theme: Legacy and technical debt
+  moscow: must
+  title: Keep components supported and data debt visible
+  text: >-
+    The Supplier shall keep all software used for the Services in mainstream support for the term, maintain a
+    register of known data quality debt (for example overloaded fields, hard-coded rules, free text where codes are
+    needed, duplicated master data) with a plan to reduce it, and report progress [quarterly].
+  why: Prevents the next generation of legacy and makes data debt something that is managed.
+  supplier_evidence: Support status register; data debt register.
+  measure: Components out of support; data debt items closed.
+- id: C16
+  theme: Subcontractors
+  moscow: must
+  title: Flow-down to subcontractors
+  text: >-
+    The Supplier shall include obligations equivalent to clauses [C01-C15] in any subcontract under which the
+    subcontractor creates, holds or changes Authority Data, and remains responsible for their performance.
+  why: Obligations must reach whoever actually handles the data.
+  supplier_evidence: Subcontract extracts.
+  measure: Subcontracts compliant.
+- id: C17
+  theme: Assurance
+  moscow: should
+  title: Right to check quality independently
+  text: >-
+    The Authority, or a party it nominates, may independently measure the quality of Authority Data using the
+    agreed rules, through the access in clause [C03], and the Supplier shall co-operate and investigate any
+    material difference from its own reported results.
+  why: Trust, but verify.
+  supplier_evidence: Co-operation with checks.
+  measure: Differences explained.
+- id: C18
+  theme: Standards and metadata
+  moscow: should
+  title: Open standards and identifiers
+  text: >-
+    The Supplier shall use open standards for data and interfaces as the Authority directs, including persistent
+    identifiers (for example UPRN for addresses, GSS codes for geography, Companies House or charity numbers for
+    organisations, ODS codes for health organisations), ISO 8601 dates, UTF-8 text, and OpenAPI 3 descriptions
+    for APIs.
+  why: Shared identifiers and formats are what make data join up.
+  supplier_evidence: Interface and data specifications.
+  measure: Share of records with valid identifiers.
+- id: C19
+  theme: Privacy
+  moscow: must
+  title: Processor duties for personal data accuracy
+  text: >-
+    Where the Supplier processes personal data as a processor, it shall, in addition to the terms required by UK GDPR
+    Article 28, help the Authority keep personal data accurate and up to date, including by correcting inaccurate
+    data promptly on instruction and supporting rectification requests from individuals.
+  why: Accuracy is a legal duty for personal data; the processor holds the levers.
+  supplier_evidence: Rectification log.
+  measure: Rectification requests met on time.
+- id: C20
+  theme: Accessibility
+  moscow: should
+  title: Accessible data quality tools and reports
+  text: >-
+    Any interface the Supplier provides for reviewing data quality results, issues or reports shall meet WCAG 2.2
+    level AA, so staff who use assistive technology can do this work.
+  why: Data quality work must be open to everyone in the team.
+  supplier_evidence: Accessibility statement and audit.
+  measure: Accessibility issues open.
+
+# Questions to ask in a tender, with what a good answer looks like. Score 0 to 4.
+tender_questions:
+- {id: Q1, q: "How will you measure and report the quality of the data your service creates or holds? Show an example report.", good: "Named rules for critical items, targets from the issues framework, monthly results in an open format such as DQV, trends and open issues."}
+- {id: Q2, q: "In what formats can we get all our data, metadata, rules and quality results, and at what cost?", good: "Open, documented formats on demand through an interface, at no extra charge."}
+- {id: Q3, q: "Describe how you find and fix the root cause of data defects, and who pays.", good: "Root cause analysis, fix at source within priority timescales, at the supplier's cost when the supplier caused it."}
+- {id: Q4, q: "How does your service record names, addresses and characteristics for people it serves? What defaults does it force?", good: "No forced defaults; supports non-Latin characters, single names, addresses without postcodes; GSS harmonised standards."}
+- {id: Q5, q: "What AI or automated processing touches our data? How can we test it, see what it changed and switch it off?", good: "Full list, evaluation results by group, change log, off switch, human review route, ATRS support."}
+- {id: Q6, q: "Show your exit plan for data. When did you last rehearse an exit, and what went wrong?", good: "A tested exit pack with dictionary, rules and reconciliation; honest lessons."}
+- {id: Q7, q: "Which open standards and identifiers does your service use?", good: "UPRN, GSS, ODS and others as relevant; ISO 8601; UTF-8; OpenAPI 3; ODCS or Table Schema for contracts."}
+- {id: Q8, q: "Can staff who use assistive technology use your data quality screens?", good: "WCAG 2.2 AA with an accessibility statement and recent audit."}
+
+# Who does what across the contract. S = Supplier, A = Authority (public body).
+raci:
+- {activity: "Agree critical data items, rules and targets", supplier: Responsible, authority: Accountable}
+- {activity: "Measure quality every period", supplier: "Responsible and accountable", authority: Informed}
+- {activity: "Independent spot checks", supplier: Consulted, authority: Responsible}
+- {activity: "Fix defects the supplier caused", supplier: "Responsible and accountable (at its cost)", authority: Informed}
+- {activity: "Fix defects in data the authority supplied", supplier: Consulted, authority: Responsible}
+- {activity: "Report the data quality KPI", supplier: Responsible, authority: "Accountable (publishes performance notice)"}
+- {activity: "Keep exit pack ready and rehearse it", supplier: Responsible, authority: Accountable}
+- {activity: "Approve any AI use on the data", supplier: Consulted, authority: Accountable}
+
+lifecycle:
+- {stage: Plan, do: "Name the data the service will create or hold, and its critical items. Talk to the market about how suppliers measure quality today. Check existing frameworks and the Commons scenarios."}
+- {stage: Specify, do: "Put the must clauses in the specification. Attach a starter rules file. Set the data quality KPI."}
+- {stage: Evaluate, do: "Score tender questions Q1 to Q8. Ask for an example quality report and exit pack."}
+- {stage: Award, do: "For contracts over £5 million, publish at least three KPIs including data quality in the contract details notice."}
+- {stage: Mobilise, do: "Agree rules and targets (C02). Test the extract interface (C03) and the exit pack (C12). Baseline quality."}
+- {stage: Manage, do: "Review quality reports each period. Spot check (C17). Assess KPIs at least every 12 months and publish performance. Escalate Critical and High issues."}
+- {stage: Exit, do: "Take the exit pack, reconcile it with the new service, and check quality before switching off."}
+
+sources:
+- {id: sodg, title: "State of digital government review (DSIT, January 2025)", url: "https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review", verified: "yes"}
+- {id: pa-kpi, title: "Procurement Act 2023 guidance: key performance indicators", url: "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-manage-phase/guidance-key-performance-indicators-html", verified: "yes"}
+- {id: pa-s52, title: "Procurement Act 2023, section 52", url: "https://www.legislation.gov.uk/ukpga/2023/54/section/52/enacted", verified: "partly"}
+- {id: pa-wales, title: "Procurement Act 2023 guidance for Wales: key performance indicators", url: "https://www.gov.wales/procurement-act-2023-guidance-key-performance-indicators-html", verified: "partly"}
+- {id: tcop, title: "The Technology Code of Practice", url: "https://www.gov.uk/guidance/the-technology-code-of-practice", verified: "yes"}
+- {id: ddat, title: "The Digital, Data and Technology Playbook", url: "https://www.gov.uk/government/publications/the-digital-data-and-technology-playbook", verified: "partly"}
+- {id: ico28, title: "ICO: contracts between controllers and processors", url: "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/guide-to-accountability-and-governance/contracts/", verified: "yes"}
+- {id: odcs, title: "Open Data Contract Standard (Bitol)", url: "https://bitol-io.github.io/open-data-contract-standard/latest/", verified: "yes"}

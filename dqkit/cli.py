@@ -3,6 +3,7 @@
   check   DATA RULES.yaml [--as-of YYYY-MM-DD] [--out DIR] [--history DIR] [--workbook] [--case-study]
           run rules; write results, DQV, DQAP CSVs, trust level and (optionally) a filled DQAP Excel workbook
   export  RULES.yaml --to gx|r-validate                          print a Great Expectations suite or R validate rules
+  reconcile SOURCE TARGET --key ID[,ID2] [--tolerance N]   compare two versions of a dataset (migration checks)
   contract RULES.yaml --to table-schema|odcs|csvw  |  CONTRACT --from table-schema|odcs
           convert rules to or from open data contract standards
   survey  FORMS_EXPORT.xlsx [--out DIR]                           reshape and summarise the DQ tooling survey (personal data removed)
@@ -68,6 +69,10 @@ def main(argv=None) -> int:
     ct.add_argument("file", help="a rules file (with --to) or a contract file (with --from)")
     ct.add_argument("--to", choices=sorted(contracts.FORMATS))
     ct.add_argument("--from", dest="src", choices=["table-schema", "odcs"])
+    rc = sub.add_parser("reconcile", help="compare two versions of a dataset: counts, keys, totals and values")
+    rc.add_argument("source"); rc.add_argument("target")
+    rc.add_argument("--key", required=True, help="key column(s), comma separated")
+    rc.add_argument("--tolerance", type=float, default=0.0, help="allowed difference in column totals")
     m = sub.add_parser("assess-metadata")
     m.add_argument("records"); m.add_argument("--as-of"); m.add_argument("--out")
     pk = sub.add_parser("pack", help="framework and scenario packs: list them, or assess results against one")
@@ -155,6 +160,14 @@ def main(argv=None) -> int:
             print(f"# not imported ({u['type']}): {u['id']} {u['description']}", file=sys.stderr)
         print(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True))
         return 0
+    if a.cmd == "reconcile":
+        from .reconcile import reconcile
+        r = reconcile(sources.read(a.source), sources.read(a.target), [k.strip() for k in a.key.split(",") if k.strip()], a.tolerance)
+        print(json.dumps(r, indent=2, ensure_ascii=False))
+        print(("PASSED" if r["passed"] else "DIFFERENCES FOUND") + f": {r['rows']['source']} source rows, {r['rows']['target']} target rows, "
+              f"{r['only_in_source']['count']} missing from target, {r['only_in_target']['count']} new in target, "
+              f"{sum(m['count'] for m in r['mismatches'])} value differences.", file=sys.stderr)
+        return 0 if r["passed"] else 1
     if a.cmd == "assess-metadata":
         recs = [json.loads(l) for l in open(a.records, encoding="utf-8") if l.strip()]
         res = metadata.assess_portfolio(recs, _date(a.as_of))
