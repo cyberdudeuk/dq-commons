@@ -1,0 +1,113 @@
+<title>Operating Model and Support</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.tiers{display:grid;gap:0;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:900px){.tiers{grid-template-columns:minmax(0,1fr)}}
+.tier{padding:16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.tier:last-child{border-right:0}
+@media (max-width:900px){.tier{border-right:0;border-bottom:1px solid var(--line)}.tier:last-child{border-bottom:0}}
+.tier .n{font-family:var(--f-mono);font-size:1.6rem;font-weight:700;color:var(--accent)}
+.tier p{font-size:.86rem}
+.tier .sla{margin-top:auto;font-size:.82rem;font-weight:700;border-top:1px dashed var(--line);padding-top:6px}
+.flow{counter-reset:f;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr));padding:0;margin:0}
+.flow li{list-style:none;counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:4px}
+.flow li::before{content:counter(f);font-family:var(--f-mono);font-weight:700;color:var(--accent)}
+.flow li b{font-size:.95rem}
+.sys{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.sys .card code{word-break:break-all}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Operating model and support</span>
+  <h1>How the Commons runs, and how to get help</h1>
+  <p class="lede">Who the Commons supports, the four tiers of help, who does what, and how a request becomes a released feature, through GitHub, the Jira backlog and Confluence. Written so that any team could run the Commons.</p>
+  <nav class="toc" aria-label="On this page"><a href="#tiers">Getting help</a><a href="#roles">Roles</a><a href="#flow">From request to release</a><a href="#systems">GitHub, Jira and Confluence</a><a href="#moderation">Moderation</a><a href="#measures">Measures</a></nav>
+</header>
+
+<section id="tiers" aria-labelledby="t-h">
+  <h2 id="t-h">Getting help: four tiers</h2>
+  <div class="tiers">
+    <div class="tier"><span class="n">0</span><h3>Help yourself</h3><p>The <a href="guide.html">user guide</a>, guided tours, <a href="learn.html">tutorials</a>, rule library, <a href="frameworks.html">frameworks</a> and FAQ.</p><p class="sla">Instant</p></div>
+    <div class="tier"><span class="n">1</span><h3>Ask the community</h3><p>The <a href="community.html#networks">networks</a> and the <a href="community.html">contributions library</a>. Other members answer.</p><p class="sla">Best effort</p></div>
+    <div class="tier"><span class="n">2</span><h3>Ask the Commons team</h3><p>Questions, bugs and <a href="surveys.html#commission">commissions</a>, through the service desk (Jira project <span id="sup"></span>) or the <a href="#systems">GitHub forms</a>.</p><p class="sla">Acknowledge in 2 working days; plan in 5. Accessibility: 1 working day.</p></div>
+    <div class="tier"><span class="n">3</span><h3>Specialist teams</h3><p>Anything needing an official decision, for example policy wording, the official DQMI, statistics regulation or data protection, goes to the owning team with your agreement.</p><p class="sla">As that team sets</p></div>
+  </div>
+</section>
+
+<section id="roles" aria-labelledby="r-h">
+  <h2 id="r-h">Roles</h2>
+  <div class="tbl"><table><thead><tr><th>Role</th><th>Does</th><th>Time</th></tr></thead><tbody>
+    <tr><td>Service owner</td><td>Owns the roadmap, priorities and this operating model; chairs triage</td><td class="num">0.2 FTE</td></tr>
+    <tr><td>Product and delivery</td><td>Runs the backlog, releases and user research</td><td class="num">0.5 FTE</td></tr>
+    <tr><td>Maintainers (2 or more, from different organisations)</td><td>Review changes; keep the Python toolkit, packs and browser engine in step (parity checked)</td><td class="num">0.1 FTE each</td></tr>
+    <tr><td>Content stewards</td><td>Keep frameworks, crosswalks, learning and networks current; verify "partly" entries</td><td class="num">0.1 FTE each</td></tr>
+    <tr><td>Moderators</td><td>Review contributions, wishlist suggestions and survey free text</td><td class="num">1 hour a week (rota)</td></tr>
+    <tr><td>Accessibility champion</td><td>Checks every release against WCAG 2.2 AA; runs testing with assistive technology users</td><td class="num">0.1 FTE</td></tr>
+    <tr><td>AI assurance lead</td><td>Owns the <a href="ai.html#route">AI route</a>: evaluations, ATRS records, human review rules</td><td class="num">0.1 FTE</td></tr>
+  </tbody></table></div>
+  <p class="small muted">Named people are kept in the team's own records, not published here.</p>
+</section>
+
+<section id="flow" aria-labelledby="f-h">
+  <h2 id="f-h">From request to release</h2>
+  <ol class="flow">
+    <li><b>Request</b>Anyone raises it: wishlist, a GitHub form, a commission or the service desk.</li>
+    <li><b>Weekly triage</b>30 minutes, open notes. Each item is labelled backlog, answered, community, specialist or declined (with the reason).</li>
+    <li><b>Backlog</b>The backlog label creates a Jira story under the Commons epic automatically, and comments its key back on GitHub.</li>
+    <li><b>Prioritise</b>Monthly: user value × reach × inclusion benefit ÷ effort. Ties go to accessibility and inclusion.</li>
+    <li><b>Build</b>A pull request that passes tests, the parity check and accessibility checks, with docs changed in the same request.</li>
+    <li><b>Release</b>Merging runs the pipeline, rebuilds the portal and publishes the docs to Confluence. The Jira story moves to Done.</li>
+    <li><b>Tell people</b>A changelog entry and a note to the networks.</li>
+  </ol>
+</section>
+
+<section id="systems" aria-labelledby="s-h">
+  <h2 id="s-h">GitHub, Jira and Confluence</h2>
+  <div class="sys" id="sys"></div>
+  <div class="callout info"><p class="small"><b>Status:</b> the workflows run as dry runs until the repository is published and its Jira and Confluence secrets are added. They log what they would do, so nothing breaks before then.</p></div>
+</section>
+
+<section id="moderation" aria-labelledby="m-h">
+  <h2 id="m-h">Moderation and contributions</h2>
+  <ul class="plain">
+    <li>Everything is checked before it's public: no personal data, no named individuals without consent, accurate links, plain English, and nothing that exposes an organisation's unpublished problems without its agreement.</li>
+    <li>Moderators publish, ask for changes or decline within 10 working days, and always give a reason.</li>
+    <li>Contributions are under the Open Government Licence v3.0 unless the contributor chooses another open licence. Credit goes to the organisation, or stays anonymous.</li>
+    <li>Survey results are published only as totals, with counts under 5 hidden. Free text is never published without moderation.</li>
+  </ul>
+</section>
+
+<section id="measures" aria-labelledby="me-h">
+  <h2 id="me-h">How we'll know it's working</h2>
+  <div class="grid">
+    <div class="card"><h3>Reach</h3><p class="small">Organisations using the Commons, by type and nation, from opt-in surveys. We don't track people.</p></div>
+    <div class="card"><h3>Outcomes</h3><p class="small">Critical assets with a measured baseline; issues resolved within their timescale.</p></div>
+    <div class="card"><h3>Service</h3><p class="small">Time from request to first answer; commissions completed; open accessibility issues and their age.</p></div>
+    <div class="card"><h3>Inclusion</h3><p class="small">Share of contributions from outside central government, and from each nation.</p></div>
+  </div>
+</section>
+</div>
+
+<script>
+const I = __K_INTEGRATIONS__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+$("sup").textContent = I.jira.support_desk;
+const forms = [["1-feature-request.yml", "Feature or wishlist item"], ["2-bug.yml", "Something isn't working"], ["3-rule-or-pack.yml", "Rule, identifier, value set or pack"], ["4-commission.yml", "Ask for help (commission)"], ["5-contribution.yml", "Contribute to the library"]];
+$("sys").innerHTML = `
+  <div class="card"><h3>GitHub</h3><p class="small">Code, rules, packs, knowledge base, issues and pull requests. The pipeline and portal build run here.</p>
+    <p class="small">Repository: <code>${esc(I.github.repository)}</code> (proposed; not published yet)</p>
+    <ul class="plain small">${forms.map(([f, l]) => `<li><a href="${esc(B.repo)}/issues/new?template=${f}">${esc(l)}</a></li>`).join("")}</ul></div>
+  <div class="card"><h3>Jira</h3><p class="small">The plan. Issues labelled <code>${esc(I.github.backlog_label)}</code> become stories in project <code>${esc(I.jira.project)}</code> under epic <code>${esc(I.jira.epic)}</code>. Support requests go to the service desk <code>${esc(I.jira.support_desk)}</code>.</p></div>
+  <div class="card"><h3>Confluence</h3><p class="small">How support is given, for staff and partners. On every release these docs are published to space <code>${esc(I.confluence.space)}</code>:</p>
+    <ul class="plain small">${Object.values(I.confluence.pages).map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`;
+window.DQP_TOUR = [
+  {sel: "#tiers", title: "Four tiers of help", text: "From help yourself to specialist teams, with response times."},
+  {sel: "#flow", title: "From request to release", text: "How a request is triaged, planned in Jira, built, released and announced."},
+  {sel: "#systems", title: "Connected systems", text: "GitHub for code and requests, Jira for the plan, Confluence for how support is given."},
+];
+</script>

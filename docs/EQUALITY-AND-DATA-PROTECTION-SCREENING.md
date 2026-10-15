@@ -62,3 +62,14 @@
 - The portal has a skip link, visible focus, a keyboard-operable menu, labelled form controls, light and dark themes, and reduced motion.
 - Charts and bars have text alternatives.
 - It has not yet been tested with assistive technology users. That testing is in the research plan.
+
+## Update for v1.0.0 (15 October 2026)
+**Data protection**
+- New processing: survey answers, contributions, wishlist votes and commission requests in the artifact's store. Linked to an opaque user id only; no names or emails are asked for. Optional contact in commissions only, deleted within 12 months. Editors alone read answers and queues.
+- Survey totals published only with counts under 5 hidden; free text never published without moderation.
+- Forms block obvious personal data (emails, phone, NI and NHS-number patterns) before saving.
+- AI assistant: only messages and column names reach the model; example values only with explicit consent; messages with personal data patterns are blocked. DPIA screening: no high-risk processing identified; a full DPIA is required before the assistant is used with live personal data (XDMH-214).
+**Equality**
+- Positive: free, no install, no coding; works with keyboard, screen readers and 400% zoom; devolved nations and the voluntary sector have their own scenarios; inclusion checks and an inclusion survey.
+- Risks: English only (Welsh version XDMH-216); claude.ai sign-in needed to contribute (GitHub forms as an alternative, though GitHub is itself a barrier for some); AI output may be less accurate for under-represented contexts (evaluation set to include them).
+- Not yet done: independent WCAG 2.2 AA audit (XDMH-213).

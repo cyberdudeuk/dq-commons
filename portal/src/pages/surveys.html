@@ -1,0 +1,218 @@
+<title>Surveys and Commissions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.svs{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
+.runner{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.q{display:flex;flex-direction:column;gap:6px}
+.q legend,.q label.ql{font-weight:700;font-size:.98rem;margin-bottom:4px}
+.q .opts{display:flex;flex-direction:column;gap:4px}
+.q .opts label{display:flex;gap:8px;align-items:center;font-size:.92rem;padding:4px 0}
+.q .opts input{width:18px;height:18px}
+.rate{display:flex;flex-wrap:wrap;gap:6px}
+.rate label{display:flex;flex-direction:column;align-items:center;gap:2px;border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer;font-size:.86rem}
+.rate label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.prog{height:6px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.types{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))}
+.types label{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer}
+.types label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.types input{margin-top:4px}
+.types span small{display:block;color:var(--muted);font-size:.84rem}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.form .full{grid-column:1/-1}
+.admin{border:2px dashed var(--accent);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:10px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Surveys and commissions</span>
+  <h1>Take a survey, run your own, or ask the Commons for help</h1>
+  <p class="lede">Open to any organisation: central and local government, devolved administrations, the wider public sector, and voluntary and private bodies delivering public services. Surveys take 3 to 8 minutes. Results are shared openly as totals.</p>
+  <nav class="toc" aria-label="On this page"><a href="#surveys">Surveys</a><a href="#results">Results</a><a href="#commission">Ask for help</a><a href="#run">Run your own survey</a></nav>
+  <p class="small" id="state" role="status" aria-live="polite">Checking whether saving is available here…</p>
+</header>
+
+<section id="surveys" aria-labelledby="sv-h">
+  <h2 id="sv-h">Surveys</h2>
+  <div class="svs" id="svs"></div>
+  <div id="runnerWrap" hidden></div>
+</section>
+
+<section id="results" aria-labelledby="rs-h">
+  <h2 id="rs-h">Results so far</h2>
+  <p class="small muted">Totals only. Any count under 5 is hidden, and free-text answers are never published without moderation.</p>
+  <div id="res"><p class="muted">No results have been published yet.</p></div>
+  <div class="admin" id="admin" hidden>
+    <h3>Editors: count and publish results</h3>
+    <div class="filters"><div class="field"><label for="aSv">Survey</label><select id="aSv"></select></div><button class="btn ghost" type="button" id="aCount">Count responses</button><button class="btn" type="button" id="aPub" disabled>Publish these totals</button></div>
+    <div id="aOut"></div>
+  </div>
+</section>
+
+<section id="commission" aria-labelledby="cm-h">
+  <h2 id="cm-h">Ask the Commons for help</h2>
+  <p id="cmPurpose"></p>
+  <form id="cmForm" novalidate style="display:flex;flex-direction:column;gap:14px">
+    <fieldset><legend class="small" style="font-weight:700;margin-bottom:8px">What do you need?</legend><div class="types" id="cmTypes"></div></fieldset>
+    <div class="form" id="cmFields"></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send request</button><span id="cmMsg" role="status" aria-live="polite"></span></div>
+  </form>
+</section>
+
+<section id="run" aria-labelledby="run-h">
+  <h2 id="run-h">Run your own survey through the Commons</h2>
+  <ol class="plain">
+    <li>Write your questions in the same simple format the Commons uses (<code>knowledge/surveys.yaml</code>): single or multiple choice, ratings from 1 to 5, bands and free text.</li>
+    <li>Check them against the rules: no names, emails or dates of birth; a privacy notice first; every question can be skipped; totals under 5 hidden.</li>
+    <li>Send them as a pull request, or ask for help with the <a href="#commission">"Run a survey through the Commons" request</a>.</li>
+    <li>When it's approved, the survey appears here, and results are published as totals for everyone to use.</li>
+  </ol>
+</section>
+</div>
+
+<script>
+const S = __K_SURVEYS__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SUPPRESS = 5;
+let db = null, uid = null, admin = false, writable = true, myAnswers = {};
+const gh = tpl => `${B.repo}/issues/new?template=${tpl}`;
+const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
+const hasPII = t => PII.some(re => re.test(t || ""));
+
+// question rendering (shared by surveys and the commission form)
+function qHtml(q, prefix, value) {
+  const id = `${prefix}_${q.id}`, opts = q.options || [];
+  if (q.type === "single" || q.type === "band" || q.type === "multi") {
+    const t = q.type === "multi" ? "checkbox" : "radio", vals = [].concat(value || []);
+    return `<fieldset class="q"><legend>${esc(q.q)}${q.type === "multi" ? ` <span class="small muted">(choose all that apply)</span>` : ""}</legend><div class="opts">` +
+      opts.map((o, i) => `<label><input type="${t}" name="${id}" value="${esc(o)}"${vals.includes(o) ? " checked" : ""}> ${esc(o)}</label>`).join("") + `</div></fieldset>`;
+  }
+  if (q.type === "rating") {
+    return `<fieldset class="q"><legend>${esc(q.q)}</legend><p class="small muted">1 is ${esc(q.low || "very poor")}, 5 is ${esc(q.high || "very good")}.</p><div class="rate">` +
+      [1, 2, 3, 4, 5].map(n => `<label><input type="radio" name="${id}" value="${n}"${value == n ? " checked" : ""}>${n}</label>`).join("") +
+      `<label><input type="radio" name="${id}" value="skip"${value === "skip" ? " checked" : ""}>Don't know</label></div></fieldset>`;
+  }
+  const long = q.type === "long";
+  return `<div class="q field${long ? " full" : ""}"><label class="ql" for="${id}">${esc(q.q)}</label>${long ? `<span class="hint">Please don't include names or personal data.</span>` : ""}
+    ${long ? `<textarea id="${id}" maxlength="2000">${esc(value || "")}</textarea>` : `<input type="text" id="${id}" maxlength="300" value="${esc(value || "")}">`}</div>`;
+}
+function qValue(q, prefix, root) {
+  const id = `${prefix}_${q.id}`;
+  if (q.type === "multi") return [...root.querySelectorAll(`input[name="${id}"]:checked`)].map(i => i.value);
+  if (["single", "band", "rating"].includes(q.type)) { const i = root.querySelector(`input[name="${id}"]:checked`); return i ? (q.type === "rating" && i.value !== "skip" ? +i.value : i.value) : null; }
+  const el = root.querySelector("#" + id); return el ? el.value.trim() : "";
+}
+
+// survey list and runner
+$("svs").innerHTML = S.surveys.map(s => `<article class="card"><span class="chip acc" style="align-self:flex-start">About ${s.minutes} minutes</span><h3>${esc(s.title)}</h3>
+  <p class="small">${esc(s.purpose)}</p>${s.note ? `<p class="small muted">${esc(s.note)}</p>` : ""}<p class="small" data-done="${esc(s.id)}"></p>
+  <button class="btn" type="button" data-start="${esc(s.id)}" style="align-self:flex-start;margin-top:auto">Start</button></article>`).join("");
+$("svs").addEventListener("click", e => { const b = e.target.closest("[data-start]"); if (b) open(b.dataset.start); });
+function open(id) {
+  const s = S.surveys.find(x => x.id === id), W = $("runnerWrap");
+  W.hidden = false;
+  W.innerHTML = `<form class="runner" id="run_${esc(id)}" novalidate aria-labelledby="rh"><h3 id="rh" tabindex="-1">${esc(s.title)}</h3>
+    <div class="callout info"><b>Before you start</b><p class="small">${esc(S.privacy_notice)}</p></div>
+    ${s.questions.map(q => qHtml(q, "s", (myAnswers[id] || {})[q.id])).join("")}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn" type="submit">${myAnswers[id] ? "Update my answers" : "Send my answers"}</button><button class="btn ghost" type="button" id="cancel">Close</button><span id="sMsg" role="status" aria-live="polite"></span></div></form>`;
+  $("cancel").onclick = () => { W.hidden = true; document.querySelector(`[data-start="${id}"]`).focus(); };
+  W.querySelector("form").addEventListener("submit", async e => {
+    e.preventDefault();
+    const answers = {};
+    s.questions.forEach(q => { const v = qValue(q, "s", W); if (v !== null && v !== "" && !(Array.isArray(v) && !v.length)) answers[q.id] = v; });
+    if (!Object.keys(answers).length) { $("sMsg").innerHTML = `<span class="msg err">Answer at least one question.</span>`; return; }
+    if (Object.values(answers).some(v => typeof v === "string" && hasPII(v))) { $("sMsg").innerHTML = `<span class="msg err">One answer looks like it includes personal data (an email, phone or NI number). Please remove it.</span>`; return; }
+    if (!db || !uid || !writable) { $("sMsg").innerHTML = `<span class="msg err">Answers can't be saved on this copy of the portal. Please use the Commons on claude.ai, or <a href="${esc(gh("4-commission.yml"))}">contact the Commons</a>.</span>`; return; }
+    try {
+      await db.doc(`responses/${uid}`).set({...Object.fromEntries(Object.entries(myAnswers).map(([k, v]) => ["s_" + k, v])), ["s_" + id]: {...answers, at: new Date().toISOString().slice(0, 10)}});
+      myAnswers[id] = answers; marks();
+      $("sMsg").innerHTML = `<span class="msg ok">Thank you. Your answers are saved. You can change them any time.</span>`;
+    } catch (er) { $("sMsg").innerHTML = `<span class="msg err">Your answers couldn't be saved (${esc(er.code || er.message)}).</span>`; }
+  });
+  W.scrollIntoView({block: "start"}); $("rh").focus();
+}
+function marks() { S.surveys.forEach(s => { const el = document.querySelector(`[data-done="${s.id}"]`); if (el) el.innerHTML = myAnswers[s.id] ? `<span class="chip good">You've answered this</span>` : ""; }); }
+
+// totals with suppression
+function aggregate(survey, rows) {
+  const out = {n: rows.length, q: {}};
+  survey.questions.forEach(q => {
+    if (["text", "long"].includes(q.type)) { out.q[q.id] = {free_text: rows.filter(r => r[q.id]).length}; return; }
+    const c = {};
+    rows.forEach(r => [].concat(r[q.id] ?? []).forEach(v => { if (v !== "skip") c[v] = (c[v] || 0) + 1; }));
+    out.q[q.id] = Object.fromEntries(Object.entries(c).map(([k, v]) => [k, v < SUPPRESS ? null : v]));
+  });
+  return out;
+}
+function drawTotals(survey, agg) {
+  const qs = survey.questions.filter(q => !["text", "long"].includes(q.type));
+  return `<div class="card"><h3>${esc(survey.title)}</h3><p class="small">${agg.n < SUPPRESS ? "Fewer than 5 responses so far." : `${agg.n} responses`}${agg.published ? ` · published ${esc(String(agg.published).slice(0, 10))}` : ""}</p>` +
+    (agg.n < SUPPRESS ? "" : qs.map(q => { const c = agg.q[q.id] || {}, max = Math.max(1, ...Object.values(c).filter(Number.isFinite));
+      const opts = q.type === "rating" ? ["1", "2", "3", "4", "5"] : (q.options || Object.keys(c));
+      return `<details><summary class="small"><b>${esc(q.q)}</b></summary><div style="display:flex;flex-direction:column;gap:4px;padding:6px 0">` + opts.map(o => { const v = c[o];
+        return `<div class="bar-h"><span style="min-width:180px">${esc(o)}</span><span class="track" aria-hidden="true"><i style="width:${Number.isFinite(v) ? 100 * v / max : 0}%"></i></span><b>${v === null ? "<5" : v ?? 0}</b></div>`; }).join("") + `</div></details>`; }).join("")) + `</div>`;
+}
+
+// commissions
+const CM = S.commissions;
+$("cmPurpose").textContent = CM.purpose;
+$("cmTypes").innerHTML = CM.types.map((t, i) => `<label><input type="radio" name="cmType" value="${esc(t.id)}"${i ? "" : " checked"}><span><b>${esc(t.name)}</b><small>${esc(t.what)}</small></span></label>`).join("");
+const cmFields = CM.fields.filter(f => f.id !== "type");
+$("cmFields").innerHTML = cmFields.map(q => qHtml(q, "c")).join("") + `<p class="small muted full">${esc(S.privacy_notice)}</p>`;
+$("cmForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = {type: $("cmForm").querySelector("input[name=cmType]:checked").value};
+  cmFields.forEach(q => { v[q.id] = qValue(q, "c", $("cmForm")); });
+  if (!v.detail) { $("cmMsg").innerHTML = `<span class="msg err">Tell us what you need.</span>`; $("c_detail").focus(); return; }
+  if (hasPII(v.detail) || hasPII(v.sector)) { $("cmMsg").innerHTML = `<span class="msg err">Please remove personal data from the description. Put a contact only in the contact box.</span>`; return; }
+  if (!db || !uid || !writable) { location.href = gh("4-commission.yml"); return; }
+  try {
+    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
+    const name = (CM.types.find(t => t.id === v.type) || {}).name;
+    items.push({kind: "commission", title: name, ...v, id: Date.now().toString(36), status: "pending", at: new Date().toISOString()});
+    await ref.set({items, updated: new Date().toISOString()});
+    $("cmForm").reset(); $("cmMsg").innerHTML = `<span class="msg ok">Thanks. Your request is in the queue; it's triaged every week.</span>`;
+  } catch (er) { $("cmMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(gh("4-commission.yml"))}">Use the GitHub form</a> instead.</span>`; }
+});
+
+// editors: count and publish
+$("aSv").innerHTML = S.surveys.map(s => `<option value="${esc(s.id)}">${esc(s.title)}</option>`).join("");
+let pending = null;
+$("aCount").addEventListener("click", async () => {
+  const s = S.surveys.find(x => x.id === $("aSv").value), snap = await db.collection("responses").get();
+  const rows = snap.docs.map(d => (d.data() || {})["s_" + s.id]).filter(Boolean);
+  pending = {survey: s, agg: aggregate(s, rows), free: s.questions.filter(q => ["text", "long"].includes(q.type)).flatMap(q => rows.map(r => r[q.id]).filter(Boolean).map(t => [q.q, t]))};
+  $("aOut").innerHTML = drawTotals(s, pending.agg) + (pending.free.length ? `<details class="disc"><summary>Free-text answers (${pending.free.length}) - for editors only, never published</summary><div class="body"><ul class="plain small">${pending.free.map(([q, t]) => `<li><b>${esc(q)}</b> ${esc(t)}</li>`).join("")}</ul></div></details>` : "");
+  $("aPub").disabled = pending.agg.n < SUPPRESS;
+});
+$("aPub").addEventListener("click", async () => {
+  if (!pending) return;
+  await db.doc(`results/${pending.survey.id}`).set({...pending.agg, published: new Date().toISOString()});
+  $("aOut").insertAdjacentHTML("afterbegin", `<p class="msg ok">Published.</p>`); $("aPub").disabled = true;
+});
+
+(async () => {
+  const state = h => { $("state").innerHTML = h; };
+  if (!window.claude || typeof claude.use !== "function") { state(`Answers can't be saved on this copy. Requests go through <a href="${esc(gh("4-commission.yml"))}">GitHub</a>.`); return; }
+  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
+  if (!db) { state(`Saving isn't available here, or you aren't signed in. Requests go through <a href="${esc(gh("4-commission.yml"))}">GitHub</a>.`); return; }
+  if (user) { uid = await user.id(); admin = await user.canEdit(); if (await user.can("data.write") === false) writable = false; }
+  state(uid && writable ? "Signed in. We don't record your name with your answers." : "You can see results. To answer, ask the owner for Contributor access.");
+  if (uid) { try { const m = await db.doc(`responses/${uid}`).get(); if (m.exists) Object.entries(m.data()).forEach(([k, v]) => { if (k.startsWith("s_")) { const { at, ...a } = v; myAnswers[k.slice(2)] = a; } }); marks(); } catch (e) {} }
+  db.collection("results").onSnapshot(s => {
+    const rs = s.docs.map(d => [S.surveys.find(x => x.id === d.id), d.data()]).filter(([sv]) => sv);
+    $("res").innerHTML = rs.length ? `<div class="grid">${rs.map(([sv, a]) => drawTotals(sv, a)).join("")}</div>` : `<p class="muted">No results have been published yet.</p>`;
+  });
+  if (admin) $("admin").hidden = false;
+})();
+if (location.hash && document.querySelector(location.hash)) setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 50);
+window.DQP_TOUR = [
+  {sel: "#svs .card", title: "Surveys", text: "Each survey says how long it takes and what it's for. The privacy notice comes first; you can skip any question."},
+  {sel: "#results", title: "Results", text: "Published as totals only. Counts under 5 are hidden so no organisation can be identified."},
+  {sel: "#cmTypes", title: "Ask for help", text: "Choose what you need: an assessment, rules, a pack, a peer review, training, tooling advice or incident help."},
+];
+</script>

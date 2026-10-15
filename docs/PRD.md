@@ -70,3 +70,10 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 - Every number on the portal comes from the latest run. Hand-copied figures in portal pages: 0.
 - An asset can be added by a steward with one line in the portfolio file.
 - Time from an issue going overdue to a ticket existing: one pipeline run (at most a week).
+
+## Scope update: v1.0.0 (15 October 2026)
+**Mission:** a free, open, shared place where anyone working with public sector data can check it, improve it, learn how, and help each other, so public services and decisions rest on data people can trust.
+**Users added:** local authorities, devolved governments, NHS and care, policing and justice, education, voluntary sector, suppliers, researchers; roles include statisticians, AI and data science teams and service owners.
+**Must (added):** general scope beyond NDL and DAM; framework registry, crosswalks and packs; clause-by-clause comparison with devolved and international equivalents; learning pathway; maturity self-assessment; guided tours and user guide; surveys and commissions any organisation can use; moderated member contributions; wishlist; GitHub, Jira and Confluence linkage; AI-for-DQ guidance; AI assistant with deterministic validation; WCAG 2.2 AA.
+**Should:** Welsh version; outlier and linkage checks; Fabric connector.
+**Success measures added:** organisations using the Commons by type and nation (opt-in); share of contributions from outside central government; accessibility issues open and their age; AI components evaluated and recorded under ATRS.

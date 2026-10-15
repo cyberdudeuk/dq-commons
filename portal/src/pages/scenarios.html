@@ -1,0 +1,119 @@
+<title>Data Quality Scenarios</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.sc{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))}
+.sc article{scroll-margin:80px}
+.sc h3{font-size:1.05rem}
+.sc dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:0;font-size:.86rem}
+.sc dt{color:var(--muted);font-weight:600}
+.sc dd{margin:0}
+.sc .start{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.kinds{display:flex;flex-wrap:wrap;gap:8px}
+.kinds button{font:inherit;font-size:.88rem;font-weight:600;padding:7px 13px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.kinds button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Scenarios</span>
+  <h1>Your policy, sector, nation or platform: what applies and where to start</h1>
+  <p class="lede">The toolkit is the same everywhere. What changes is which frameworks apply, which rules and identifiers matter, and who you report to. Pick a scenario to see the frameworks, the pack to assess against, rule templates, and the first three things to do.</p>
+</header>
+
+<section aria-labelledby="sc-h">
+  <h2 id="sc-h" class="sr-only">Scenarios</h2>
+  <div class="kinds" id="kinds" role="group" aria-label="Show scenarios of type"></div>
+  <p class="small muted" id="scCount" role="status" aria-live="polite"></p>
+  <div class="sc" id="sc"></div>
+</section>
+
+<section aria-labelledby="miss-h">
+  <h2 id="miss-h">Scenario not here?</h2>
+  <p>Every scenario is built from the same parts: a pack, rule templates, identifiers and value sets. <a href="surveys.html#commission">Ask for a new scenario pack</a>, or propose one through the <a href="operate.html">GitHub rule or pack form</a>.</p>
+</section>
+</div>
+
+<script>
+const F = __K_FRAMEWORKS__, P = __K_PACKS__, LIB = __K_LIBRARY__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fw = Object.fromEntries(F.map(f => [f.id, f])), pk = Object.fromEntries(P.map(p => [p.id, p]));
+const S = [
+  {id: "dam", kind: "Policy", t: "Data asset management policy and critical data assets", who: "UK government departments and arm's length bodies",
+   f: ["uk-dam-policy", "uk-dqap", "uk-cda-metadata", "uk-gdqf"], p: ["uk-dam-cda"], lib: ["organisation", "publication"], ids: ["company_number", "gss_code"],
+   steps: [["Estimate the effort for the baseline", "baseline.html"], ["Measure an asset", "check.html"], ["Prioritise with the issues framework", "guidance.html"]],
+   note: "Mandatory for UK government; not mandatory in Scotland, Wales or Northern Ireland, which can adopt it voluntarily."},
+  {id: "ndl", kind: "Platform", t: "National Data Library", who: "Teams publishing or curating data for the NDL",
+   f: ["uk-dam-policy", "uk-cda-metadata", "fair", "w3c-dqv"], p: ["ndl-curation", "uk-dam-cda"], lib: ["publication"], ids: [],
+   steps: [["See how NDL pages perform", "ndl-assurance.html"], ["Publish DQV quality metadata", "learn.html#m5"], ["Check your own data", "check.html"]]},
+  {id: "stats", kind: "Sector", t: "Official statistics", who: "Producers of official and accredited official statistics, UK-wide",
+   f: ["uk-code-of-practice-3", "uk-qaad", "uk-aqua-book", "ess-qaf", "un-nqaf"], p: ["uk-statistics", "ess-output-quality"], lib: ["geography", "publication"], ids: ["gss_code"],
+   steps: [["Set the QAAD assurance level", "frameworks.html#uk-statistics"], ["Check output quality dimensions", "frameworks.html#ess-output-quality"], ["Write a quality statement", "learn.html#m6"]],
+   note: "The Code of Practice applies UK-wide, including in Scotland, Wales and Northern Ireland."},
+  {id: "health", kind: "Sector", t: "Health and care", who: "NHS bodies, care providers and their suppliers",
+   f: ["nhs-dqmi", "nhs-qf-data-science", "uk-gdqf", "uk-ico-accuracy"], p: ["nhs-dqmi-style", "uk-personal-data-accuracy"], lib: ["person", "organisation"], ids: ["nhs_number", "ods_code", "uk_postcode"],
+   steps: [["Check NHS numbers and ODS codes", "check.html"], ["Run the indicative DQMI-style index", "frameworks.html#nhs-dqmi-style"], ["Check who your data leaves out", "learn.html#m7"]],
+   note: "The DQMI covers England. Wales, Scotland and Northern Ireland use their own indicators; the toolkit's index is indicative, not the official DQMI."},
+  {id: "local", kind: "Sector", t: "Local government", who: "Councils, combined authorities, fire and rescue",
+   f: ["uk-gdqf", "uk-ico-accuracy", "uk-geospatial-qfair"], p: ["uk-gdqf", "uk-personal-data-accuracy"], lib: ["address", "geography", "organisation"], ids: ["uprn", "uk_postcode", "gss_code", "school_urn"],
+   steps: [["Check UPRNs and postcodes", "check.html"], ["Assess your maturity", "maturity.html"], ["Join a local data network", "community.html#networks"]]},
+  {id: "geo", kind: "Sector", t: "Geospatial and location data", who: "Anyone producing addresses, boundaries and spatial data",
+   f: ["iso-19157", "uk-geospatial-qfair", "uk-gdqf"], p: ["iso-19157-geospatial", "fair"], lib: ["address", "geography"], ids: ["uprn", "gss_code", "uk_postcode"],
+   steps: [["Assess against ISO 19157", "frameworks.html#iso-19157-geospatial"], ["Use UPRN and GSS checks", "check.html"], ["Read the Q-FAIR guidance", "frameworks.html#registry"]]},
+  {id: "personal", kind: "Sector", t: "Personal data, all sectors", who: "Anyone holding data about people",
+   f: ["uk-ico-accuracy", "uk-gdqf"], p: ["uk-personal-data-accuracy"], lib: ["person"], ids: ["nino", "nhs_number", "uk_postcode"],
+   steps: [["Check accuracy and inclusion", "check.html"], ["Learn group disparity checks", "learn.html#m7"], ["Take the inclusion survey", "surveys.html"]],
+   note: "UK GDPR accuracy duty applies UK-wide. Treat checks on characteristics such as ethnicity with care, and use GSS harmonised standards."},
+  {id: "policing", kind: "Sector", t: "Policing, justice and oversight", who: "Police forces, justice bodies and oversight organisations",
+   f: ["iopc-trust-scales", "uk-gdqf", "uk-ico-accuracy"], p: ["uk-personal-data-accuracy", "uk-gdqf"], lib: ["person", "address"], ids: ["uk_postcode"],
+   steps: [["Read the trust levels behind the toolkit", "guidance.html"], ["Check accuracy and inclusion", "check.html"], ["Learn root cause analysis", "learn.html#m4"]],
+   note: "The toolkit's trust levels (Trustworthy to Untrustworthy) adapt the IOPC's data trust scales."},
+  {id: "ai", kind: "Sector", t: "AI and machine learning", who: "Teams training, fine-tuning or feeding models",
+   f: ["iso-iec-5259", "iso-iec-25012"], p: ["ai-ml-readiness"], lib: ["person"], ids: [],
+   steps: [["Assess data readiness", "frameworks.html#ai-ml-readiness"], ["Read AI for data quality", "ai.html"], ["Check representativeness across groups", "check.html"]]},
+  {id: "open", kind: "Policy", t: "Open data and research reuse", who: "Publishers of open data and research data",
+   f: ["fair", "w3c-dqv", "iso-8000"], p: ["fair", "iso-8000-8"], lib: ["publication"], ids: [],
+   steps: [["Assess against FAIR", "frameworks.html#fair"], ["Publish DQV metadata", "learn.html#m5"], ["Check syntactic quality (ISO 8000-8)", "frameworks.html#iso-8000-8"]]},
+  {id: "devolved", kind: "Nation", t: "Scotland, Wales and Northern Ireland", who: "Devolved governments and their public bodies",
+   f: ["scotland-data-standards", "scotland-official-statistics-quality", "wales-sqms", "uk-code-of-practice-3"], p: ["uk-statistics", "uk-gdqf"], lib: ["geography", "organisation"], ids: ["gss_code", "charity_number"],
+   steps: [["See devolved comparisons clause by clause", "frameworks.html#clauses"], ["Check GSS codes for your nation", "check.html"], ["Find your nation's networks", "community.html#networks"]],
+   note: "GSS codes start S for Scotland, W for Wales and N for Northern Ireland. Scottish charity numbers start SC; Northern Ireland's start NIC."},
+  {id: "vcse", kind: "Sector", t: "Voluntary sector and suppliers", who: "Charities, community groups and companies delivering public services",
+   f: ["uk-gdqf", "uk-ico-accuracy"], p: ["uk-gdqf", "uk-personal-data-accuracy"], lib: ["organisation", "person"], ids: ["charity_number", "company_number"],
+   steps: [["Check a dataset for free", "check.html"], ["Assess your maturity", "maturity.html"], ["Ask the Commons for help", "surveys.html#commission"]]},
+  {id: "intl", kind: "Nation", t: "International comparison", who: "Teams benchmarking against other countries",
+   f: ["canada-gc-dq", "abs-dqf", "au-naa-data-quality", "us-fcsm", "imf-dqaf", "ess-qaf", "un-nqaf"], p: ["ess-output-quality"], lib: [], ids: ["lei"],
+   steps: [["Compare frameworks side by side", "frameworks.html#crosswalk"], ["Convert results to another framework", "frameworks.html#convert"], ["See where frameworks come from", "frameworks.html#bench"]]},
+  {id: "platforms", kind: "Platform", t: "Your data platform", who: "Engineers using Fabric, Databricks, Purview, Snowflake, R or Python",
+   f: ["w3c-dqv", "iso-8000", "dama-dmbok"], p: [], lib: [], ids: [],
+   steps: [["Compare tools and routes", "tooling.html"], ["Run the pipeline in GitHub Actions", "pipeline.html"], ["Connect AI agents through MCP", "learn.html#t7"]],
+   note: "Rules are plain YAML and results are W3C DQV, CSV and JSON, so they move between platforms."},
+];
+const kinds = ["All", ...new Set(S.map(s => s.kind))];
+let kind = "All";
+$("kinds").innerHTML = kinds.map(k => `<button type="button" aria-pressed="${k === kind}">${esc(k)}</button>`).join("");
+$("kinds").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; kind = b.textContent; draw(); });
+const fwl = id => fw[id] ? `<a href="${esc(fw[id].url)}" rel="noopener">${esc(fw[id].name.replace(/^The /, ""))}</a>` : "";
+function draw() {
+  [...$("kinds").children].forEach(b => b.setAttribute("aria-pressed", b.textContent === kind));
+  const list = S.filter(s => kind === "All" || s.kind === kind);
+  $("scCount").textContent = `${list.length} scenarios.`;
+  $("sc").innerHTML = list.map(s => `<article class="card" id="${esc(s.id)}"><span class="chip acc" style="align-self:flex-start">${esc(s.kind)}</span>
+    <h3>${esc(s.t)}</h3><p class="small muted">${esc(s.who)}</p>
+    <dl>${s.f.filter(id => fw[id]).length ? `<dt>Frameworks</dt><dd>${s.f.map(fwl).filter(Boolean).join("; ")}</dd>` : ""}
+    ${s.p.length ? `<dt>Packs</dt><dd>${s.p.filter(id => pk[id]).map(id => `<a href="frameworks.html#${esc(id)}">${esc(pk[id].name)}</a>`).join("; ")}</dd>` : ""}
+    ${s.lib.length ? `<dt>Rule templates</dt><dd>${s.lib.filter(l => LIB[l]).map(l => `${esc(l)} (${(LIB[l].spec.rules || []).length})`).join(", ")}</dd>` : ""}
+    ${s.ids.length ? `<dt>Identifiers</dt><dd>${s.ids.map(i => `<code>${esc(i)}</code>`).join(" ")}</dd>` : ""}</dl>
+    ${s.note ? `<p class="small">${esc(s.note)}</p>` : ""}
+    <ol class="plain small">${s.steps.map(([t, h]) => `<li><a href="${esc(h)}">${esc(t)}</a></li>`).join("")}</ol></article>`).join("");
+}
+draw();
+if (location.hash && document.querySelector(location.hash)) setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 50);
+window.DQP_TOUR = [
+  {sel: "#kinds", title: "Filter scenarios", text: "Show policies, sectors, nations or platforms."},
+  {sel: "#sc .card", title: "A scenario", text: "The frameworks that apply, the pack to assess against, rule templates, identifiers, and three first steps."},
+];
+</script>

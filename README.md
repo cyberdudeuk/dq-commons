@@ -1,17 +1,31 @@
-# NDL data quality assurance kit
+# Public Sector Data Quality Commons
 
-Tools and open standards for measuring, reporting and publishing the data quality of
-critical data assets (CDAs) and National Data Library (NDL) assets, in line with the GOV.UK
-[data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government)
-and [data quality action plan (DQAP) guidance](https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide).
+A free, open hub and toolkit for everything about data quality in the public sector: check data,
+find the frameworks and standards that apply, learn, use AI safely, and share what works. For
+central and local government, the devolved governments, the wider public sector, and the voluntary
+and private bodies that deliver public services.
 
-**Status:** alpha prototype (v0.4.0). MIT-licensed code, OGL v3.0 content. Not an official GDS product.
+**Status:** prototype (v1.0.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
-**See it first:** the **NDL Data Quality Portal** brings everything together: pipeline status,
-an in-browser checker, the NDL assurance results, the January baseline effort model, guidance,
-tooling and case studies. Build it with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`. Once this repository is on GitHub, the weekly pipeline publishes it to
-GitHub Pages.
+**See it first:** build the portal with `python scripts/build_dq_portal.py` and open
+`portal/dist/index.html`: 19 pages in five groups (Start, Do, Know, Scenarios, Community), each with
+a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
+
+Scenarios include critical data assets under the GOV.UK
+[data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government),
+the National Data Library, official statistics, health, local government, geospatial, personal
+data, AI and machine learning, open data, the devolved nations and international comparison.
+
+## New in v1.0
+
+| Area | Where |
+|---|---|
+| Knowledge base: 30 frameworks, 36 policy clauses, 21 networks, learning, maturity, surveys, AI guidance | `knowledge/` |
+| Framework packs and crosswalk conversion | `packs/`, `dqkit pack`, `dqkit crosswalk` |
+| Rule library and identifier checks (10 UK schemes) | `rules/library/`, `vocab/valuesets/` |
+| Data sources beyond CSV (Excel, ODS, JSON, Parquet, SQL, CKAN) | `dqkit/sources.py` |
+| AI agents: MCP server | `python -m dqkit.mcp_server` |
+| GitHub to Jira backlog sync; docs to Confluence | `integrations/config.yaml`, `.github/workflows/` |
 
 ## What is in it
 

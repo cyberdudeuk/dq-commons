@@ -49,3 +49,14 @@
 | I-03 | Purview: map rules to Purview data quality rules | Not started |
 | I-04 | Proposal to the cross-government metadata exchange model | Drafted (docs/outreach/co-cddo-metadata-model-proposal.md); not submitted |
 | I-05 | NDL page template fields | Recommended in assessments/ndl/REPORT.md |
+
+## v1.0.0 additions
+- **F-30** Grouped navigation and guided tour on every page with a tour; Escape closes; focus returns to the opener.
+- **F-31** Home search across pages, frameworks and scenarios.
+- **F-32** Maturity self-assessment: 8 themes x 5 levels, results with radar chart and table alternative, next steps; stored only in the browser.
+- **F-33** Frameworks: filterable registry, crosswalk matrix, benchmarking, packs, clause table with gap filter.
+- **F-34** AI assistant: tools validate_rules, run_rules, list_checks, describe_data, find_frameworks, crosswalk, score_issue; validation loop up to 2 retries; deterministic suggester when AI is unavailable.
+- **F-35** Community: contributions to a moderated queue; personal data patterns blocked before saving; wishlist with up to 5 votes per member; moderation panel for editors.
+- **F-36** Surveys: privacy notice first; one response per member, editable; totals with suppression under 5; commission requests.
+- **T-10** Every page passes: no script errors, no sideways scroll at 390 px, labelled controls, no heading skips, contrast 4.5:1 (3:1 large), no hidden panel visible.
+- **I-10** Backlog sync and Confluence publish run as dry runs without secrets and exit 0.

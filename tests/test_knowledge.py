@@ -62,6 +62,20 @@ class Knowledge(unittest.TestCase):
                 if not u.startswith("https://"):
                     self.assertIn(u.split("#")[0].removesuffix(".html"), pages, u)
 
+    def test_no_values_lost_to_unquoted_commas(self):
+        """A comma inside an unquoted flow-mapping value silently creates a key with a null value."""
+        files = list(K.glob("*.yaml")) + list((ROOT / "packs").glob("*.yaml")) + list((ROOT / "rules" / "library").glob("*.yaml"))
+        def walk(o, where):
+            if isinstance(o, dict):
+                for k, v in o.items():
+                    self.assertIsNotNone(v, f"{where}: key {k!r} has no value (unquoted comma?)")
+                    walk(v, where)
+            elif isinstance(o, list):
+                for v in o:
+                    walk(v, where)
+        for f in files:
+            walk(yaml.safe_load(f.read_text(encoding="utf-8")), f.name)
+
     def test_ai_guidance(self):
         a = load("ai-for-dq")
         self.assertEqual([s["n"] for s in a["route_to_toolkit"]["stages"]], list(range(1, 8)))

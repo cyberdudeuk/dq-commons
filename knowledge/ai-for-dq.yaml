@@ -5,7 +5,7 @@
 # Nothing here endorses a vendor.
 
 principles:
-- {id: P1, title: Start from the quality problem, not the AI, text: "Name the rule that fails, the dimension, the cost of the failure and who it affects. Use AI only where it beats a plain rule on that problem."}
+- {id: P1, title: "Start from the quality problem, not the AI", text: "Name the rule that fails, the dimension, the cost of the failure and who it affects. Use AI only where it beats a plain rule on that problem."}
 - {id: P2, title: Keep rules declarative and deterministic where you can, text: "Let AI propose rules, matches or fixes; let tested, explainable rules decide what passes. A rule file is reviewable; a model's judgement often isn't."}
 - {id: P3, title: A person stays accountable, text: "AI suggestions are drafts. A named steward accepts, edits or rejects each one, and the owner signs off what changes data or decisions."}
 - {id: P4, title: Measure it before you trust it, text: "Evaluate against a labelled ground-truth set: precision, recall, error by group of people, and cost per item. Repeat after every model or prompt change."}
@@ -147,7 +147,7 @@ route_to_toolkit:
 
 components:
 - {id: suggest, name: dqkit suggest - starter rules from data, kind: Deterministic profiling (no model), stage: Released, owner: Commons maintainers}
-- {id: assistant, name: Portal assistant - plain English to rules, and explaining results, kind: Generative AI (Claude via the artifact sample capability) with kit tools, stage: Experiment, owner: Commons maintainers}
+- {id: assistant, name: "Portal assistant - plain English to rules, and explaining results", kind: Generative AI (Claude via the artifact sample capability) with kit tools, stage: Experiment, owner: Commons maintainers}
 - {id: mcp, name: dqkit MCP server - lets AI agents run the kit, kind: Agent interface (no model), stage: Experiment, owner: Commons maintainers}
 - {id: anomaly, name: Outlier and volume anomaly checks, kind: Statistical, stage: Discover, owner: Open for contributors}
 - {id: linkage, name: Record linkage quality checks (Splink results), kind: Probabilistic, stage: Discover, owner: Open for contributors}

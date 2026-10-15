@@ -37,3 +37,9 @@ treating it as evidence.
 2. **Owners and escalation:** do data owners understand an escalation ticket well enough to act, without opening the workbook?
 3. **Assistive technology:** does the checker work with a screen reader and keyboard only? This includes the file inputs, results table and copy buttons.
 4. **Trust levels:** which portal page do CDOs read first, and is the trust level understood as a suggestion rather than a decision?
+
+## Research plan for v1.0.0 (XDMH-212)
+**Recruit 5 organisation types:** a local authority, a devolved government body, an NHS trust, a voluntary organisation, a central department; at least 2 participants who use assistive technology; at least 1 Welsh speaker.
+**Tasks to test:** find the frameworks that apply to you; check a CSV with an identifier rule; complete the maturity self-assessment; draft rules with the assistant and judge whether you trust them; contribute a resource; take a survey.
+**Questions:** Does "Commons" read as for everyone, or as central government? Is the menu grouping clear? Do tours help or get in the way? What would stop you contributing? How do you feel about AI drafting rules? Is anything missing for your nation or sector?
+**Built-in feedback:** the "Tell us about the Commons" survey (no names, totals only).

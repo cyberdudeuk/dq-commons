@@ -1,4 +1,4 @@
-<title>NDL Data Quality Portal</title>
+<title>Data Quality Commons</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
@@ -16,7 +16,7 @@ header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1f
 .deadline{display:flex;gap:12px;align-items:center;background:var(--accent-soft);border-radius:8px;padding:10px 12px}
 .deadline b{font-family:var(--f-mono);font-size:1.7rem;color:var(--accent)}
 .roles{display:flex;flex-wrap:wrap;gap:8px}
-.roles button{font:inherit;font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.roles button{font:inherit;font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
 .roles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 .route{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
 .route a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
@@ -39,22 +39,35 @@ header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1f
 .tile p{font-size:.88rem;color:var(--muted)}
 .tile .fig{font-family:var(--f-mono);font-size:.8rem;color:var(--fg)}
 .two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.search{display:flex;gap:8px;max-width:640px}
+.search input{flex:1;min-width:0;font-size:1rem;min-height:46px}
+.quickgo{display:flex;flex-wrap:wrap;gap:6px}
+.quickgo button{font:inherit;font-size:.84rem;padding:5px 11px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 </style>
 
 <div class="wrap">
 <header class="page hero">
   <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
-    <span class="eyebrow">National Data Library · data quality</span>
+    <span class="eyebrow">Public Sector Data Quality Commons</span>
     <h1>Is the data good enough to use, and is someone fixing it?</h1>
-    <p class="lede">One place for the data quality work behind the data asset management (DAM) policy and the National Data Library (NDL). Measure critical data assets with the government's own issues framework, see what needs fixing first, report the January baseline, and learn from what others have done.</p>
-    <div class="deadline" id="deadline"></div>
+    <p class="lede">One free, open place for everything about data quality in the public sector: check your data in the browser, find the frameworks and standards that apply to you, learn, use AI safely, and share what works. For central and local government, the devolved governments, the wider public sector, and the voluntary and private bodies that deliver public services.</p>
+    <form class="search" id="find" role="search" aria-label="Find in the Commons"><label for="fq" class="sr-only">What do you want to do?</label>
+      <input type="search" id="fq" placeholder="What do you want to do? For example: check NHS numbers, ISO 8000, Wales" autocomplete="off" list="fqList"><datalist id="fqList"></datalist><button class="btn" type="submit">Go</button></form>
+    <div class="quickgo" id="quickgo"></div>
   </div>
   <aside class="status" aria-labelledby="st-h">
-    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Latest pipeline run</h2>
+    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Example portfolio: latest pipeline run</h2>
+    <p class="small muted" style="margin-top:-6px">National Data Library pilot. Your own portfolio runs the same way.</p>
     <div id="status"></div>
     <a class="btn" href="pipeline.html">See the full run</a>
   </aside>
 </header>
+
+<section aria-labelledby="task-h">
+  <h2 id="task-h">What do you need to do?</h2>
+  <div class="tiles" id="tasks"></div>
+</section>
 
 <section aria-labelledby="role-h">
   <h2 id="role-h">Start from your role</h2>
@@ -63,104 +76,104 @@ header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1f
 </section>
 
 <section aria-labelledby="cyc-h">
-  <h2 id="cyc-h">The data quality action plan, step by step</h2>
-  <p class="lede">The 7 steps of the GOV.UK data quality action plan (DQAP) guide, and where each one lives in this portal and the kit.</p>
+  <h2 id="cyc-h">The data quality cycle, step by step</h2>
+  <p class="lede">The 7 steps of the GOV.UK data quality action plan (DQAP), which match the cycle in most frameworks, and where each one lives in the Commons.</p>
   <div class="cycle" id="cycle"></div>
 </section>
 
-<section aria-labelledby="pg-h">
-  <h2 id="pg-h">Everything in the portal</h2>
-  <div class="tiles" id="tiles"></div>
+<section aria-labelledby="sc-h">
+  <h2 id="sc-h">Scenarios</h2>
+  <p>Same toolkit, different frameworks and rules. <a href="scenarios.html">See all scenarios</a>.</p>
+  <div class="chips" id="scen"></div>
+  <div class="deadline" id="deadline"></div>
 </section>
 
 <section class="two" aria-label="Inclusion and limits">
   <div class="card">
     <h3>Who could this miss?</h3>
     <ul class="plain small">
-      <li>Data that leaves out groups of people can pass every overall check. The kit's representativeness checks look for unknown values and for quality that differs between groups.</li>
-      <li>45 of the 48 NDL pages that cover only part of the UK don't point to data for every other nation. People in Scotland, Wales and Northern Ireland are less well served.</li>
-      <li>27 NDL pages offer no open, machine-readable format. That makes them harder to use with assistive technology.</li>
-      <li>Staff using assistive technology should be able to run checks and work the issue log. The tooling page asks suppliers about this.</li>
+      <li>Data that leaves out groups of people can pass every overall check. The toolkit's inclusion checks look for unknown values and for quality that differs between groups.</li>
+      <li>People in Scotland, Wales and Northern Ireland are often less well served by UK data. In the NDL pilot, 45 of 48 pages covering only part of the UK didn't point to data for the other nations.</li>
+      <li>Data without an open, machine-readable format is harder to use with assistive technology.</li>
+      <li>Staff who use assistive technology must be able to run checks and work the issue log. The tooling survey asks suppliers about this.</li>
     </ul>
   </div>
   <div class="card">
     <h3>What this is, and isn't</h3>
     <ul class="plain small">
-      <li>A working prototype built in the open: MIT-licensed code, OGL v3.0 content. It is not an official GDS product.</li>
-      <li>Every number here comes from the same automated run. The results date is in the top bar.</li>
-      <li>The weekly pipeline runs on GitHub once the repository is published. Until then it runs on demand.</li>
-      <li>Trust levels are suggestions for the data owner to confirm. They are not decisions.</li>
+      <li>A working prototype, built in the open as a public good: MIT-licensed code, OGL v3.0 content. It is not an official government product, and links to official guidance first.</li>
+      <li>Your data stays in your browser. Only what you choose to contribute is saved, and it is moderated.</li>
+      <li>Trust levels and AI drafts are suggestions for a person to confirm. They are not decisions.</li>
+      <li>See the <a href="about.html">mission and roadmap</a>, and <a href="operate.html">how to get help</a>.</li>
     </ul>
   </div>
 </section>
 </div>
 
 <script>
-const P = __PORTFOLIO__;
-const B = __BUILD__;
+const P = __PORTFOLIO__, B = __BUILD__, FW = __K_FRAMEWORKS__, PK = __K_PACKS__;
 const $ = id => document.getElementById(id);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const T = P.totals, M = P.metadata || {};
 
-// Deadline: CDA baseline return, 29 January 2027
-(function(){
-  const due = new Date("2027-01-29T00:00:00Z"), today = new Date(new Date().toISOString().slice(0,10) + "T00:00:00Z");
-  const days = Math.round((due - today) / 864e5);
-  $("deadline").innerHTML = days >= 0
-    ? `<b>${days}</b><span><strong>days</strong> until the critical data asset baseline return is due (29 January 2027). <a href="baseline.html">Plan the effort</a></span>`
-    : `<span>The critical data asset baseline return was due on 29 January 2027.</span>`;
-})();
-
 const rows = [
-  ["Results as of", P.as_of],
-  ["Assets measured", `${T.assets_measured} of ${T.assets}`],
-  ["Rules meeting target", `${T.rules_met} of ${T.rules_total}`],
+  ["Results as of", P.as_of], ["Assets measured", `${T.assets_measured} of ${T.assets}`], ["Rules meeting target", `${T.rules_met} of ${T.rules_total}`],
   ["Open issues", `${T.open_issues}` + (T.issues_by_priority.Critical ? ` (${T.issues_by_priority.Critical} Critical)` : ` (${T.issues_by_priority.High} High)`)],
   ["Overdue, escalated", `${T.overdue_issues}, ${T.escalations}`],
 ];
-if (M.records) rows.push(["NDL pages: mean score", `${M.mean_score}% across ${M.records}`]);
 $("status").innerHTML = rows.map(r => `<div class="row"><span>${esc(r[0])}</span><b>${esc(r[1])}</b></div>`).join("");
 
-const PAGES = {
-  pipeline: ["Pipeline status", "Trust levels, open and overdue issues, and what changed since the last run.", `${T.open_issues} open issues`],
-  check: ["Check your data", "Upload a CSV and a rules file, or try an NDL example. Runs in your browser; nothing is uploaded.", "15 check types"],
-  "ndl-assurance": ["NDL assurance", "How the NDL's 84 curated pages measure up to DAM policy and CDA metadata guidance.", M.records ? `Mean score ${M.mean_score}%` : ""],
-  baseline: ["January baseline", "How much effort it takes to report data quality for every critical data asset, by tier.", "Due 29 January 2027"],
-  guidance: ["Guidance", "15 guidance and tooling sources compared, 18 findings, and a live issues framework calculator.", "18 findings"],
-  tooling: ["Tooling", "Frameworks, open-source and commercial tools, and what public sector code actually uses.", "27 repositories read"],
-  share: ["Share and learn", "Draft case studies, the tooling survey review, and messages waiting to be sent.", `${T.assets} draft case studies`],
-};
-$("tiles").innerHTML = Object.entries(PAGES).map(([k, v]) =>
-  `<a class="tile" href="${k}.html"><h3>${esc(v[0])}</h3><p>${esc(v[1])}</p><span class="fig">${esc(v[2])}</span></a>`).join("");
+const TASKS = [
+  ["check", "Check a dataset", "Run checks on a CSV in your browser, including NHS numbers, NI numbers, postcodes, UPRNs and GSS codes.", "Nothing is uploaded"],
+  ["assistant", "Write rules in plain English", "Describe what good looks like; the AI assistant drafts and tests a rules file.", "AI drafts, rules decide"],
+  ["frameworks", "Find what applies to me", "Frameworks, standards and policies from the UK, devolved nations and abroad, side by side.", `${FW.length} frameworks · ${PK.length} packs`],
+  ["maturity", "See how mature we are", "Eight themes, five levels, and the next steps to move up.", "About 10 minutes"],
+  ["guidance", "Prioritise issues", "Score issues with the government's issues framework.", "Importance × impact"],
+  ["learn", "Learn data quality", "Pathways by role, modules, tutorials and a glossary.", "Awareness to Expert"],
+  ["ai", "Use AI safely", "Use cases, supplier questions, worked examples and the route to reuse.", "Assure before reuse"],
+  ["community", "Share and connect", "Contributions, the wishlist, networks, surveys and help requests.", "Moderated, no personal data"],
+];
+$("tasks").innerHTML = TASKS.map(([k, t, d, f]) => `<a class="tile" href="${k}.html"><h3>${esc(t)}</h3><p>${esc(d)}</p><span class="fig">${esc(f)}</span></a>`).join("");
+
+// find: a simple index of pages, frameworks and scenarios
+const pageLinks = [...document.querySelectorAll(".dqp-drop .dqp-grp a")].map(a => ({t: a.firstChild.textContent, d: a.querySelector("small").textContent, h: a.getAttribute("href")}));
+const INDEX = [...pageLinks.map(p => ({...p, k: p.t + " " + p.d})),
+  ...FW.map(f => ({t: f.name, d: f.publisher, h: "frameworks.html#fw-" + f.id, k: [f.name, f.id, f.publisher, f.jurisdiction, f.sector, f.type].join(" ")})),
+  ...[["NHS number", "check.html"], ["National Insurance number", "check.html"], ["UPRN", "check.html"], ["Postcode", "check.html"], ["GSS code", "check.html"],
+      ["Critical data asset", "scenarios.html#dam"], ["Official statistics", "scenarios.html#stats"], ["Local government", "scenarios.html#local"], ["Health", "scenarios.html#health"],
+      ["Scotland", "scenarios.html#devolved"], ["Wales", "scenarios.html#devolved"], ["Northern Ireland", "scenarios.html#devolved"], ["Geospatial", "scenarios.html#geo"],
+      ["Personal data accuracy", "scenarios.html#personal"], ["Survey", "surveys.html"], ["Help request", "surveys.html#commission"], ["Glossary", "learn.html#glossary"],
+      ["Wishlist", "community.html#wishlist"], ["Support", "operate.html"], ["Accessibility", "guide.html#accessibility"]].map(([t, h]) => ({t, d: "", h, k: t}))];
+$("fqList").innerHTML = INDEX.map(i => `<option value="${esc(i.t)}">`).join("");
+$("find").addEventListener("submit", e => {
+  e.preventDefault();
+  const q = $("fq").value.trim().toLowerCase(); if (!q) return;
+  const words = q.split(/\s+/), score = i => words.filter(w => i.k.toLowerCase().includes(w)).length + (i.t.toLowerCase() === q ? 5 : 0);
+  const best = INDEX.map(i => [score(i), i]).filter(([s]) => s).sort((a, b) => b[0] - a[0]);
+  if (best.length) location.href = best[0][1].h;
+  else $("quickgo").innerHTML = `<span class="small">Nothing matched. Try the <a href="guide.html">user guide</a> or <a href="assistant.html">ask the assistant</a>.</span>`;
+});
+$("quickgo").innerHTML = ["Check NHS numbers", "ISO 8000", "Wales", "Maturity", "AI"].map(q => `<button type="button">${esc(q)}</button>`).join("");
+$("quickgo").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { $("fq").value = b.textContent; $("find").requestSubmit(); } });
 
 const ROLES = {
-  "Data steward": [["check", "Run your rules", "Try the checks on your own CSV, then take the rules file into the pipeline."],
-                   ["pipeline", "Work your issues", "See open and overdue issues and download the filled-in DQAP workbook."],
-                   ["guidance", "Score an issue", "Use the issues framework calculator to check a priority."]],
-  "Data owner": [["pipeline", "Decide on escalations", "Overdue High and Critical issues come to you and the governance board."],
-                 ["baseline", "Plan the return", "See the effort for the January baseline by asset tier."],
-                 ["share", "Share your story", "Turn your results into a case study for the Shared Learning Library."]],
-  "Chief data officer": [["index", "Portfolio at a glance", "The status panel above is the headline for your assets."],
-                         ["baseline", "Resource the baseline", "Effort in FTE with and without a shared kit."],
-                         ["ndl-assurance", "Make assets findable", "What the NDL needs from your catalogue records."]],
-  "NDL team": [["ndl-assurance", "Fix once, fix 84", "Template changes that close gaps on every page."],
-               ["pipeline", "Watch the charts", "Trust levels for the NDL's own chart data."],
-               ["share", "Messages to send", "The DVSA correction and findings are drafted."]],
-  "Architect": [["tooling", "Choose tools", "Open-source, government-built and commercial options, with criteria."],
-                ["guidance", "Standards crosswalk", "How the guidance documents line up, and where they disagree."],
-                ["check", "Reuse the engine", "The same scoring in Python and in the browser, checked case by case."]],
+  "Data steward": [["check", "Run your rules", "Check a file in the browser, then take the rules file into the pipeline."], ["assistant", "Draft rules from plain English", "The assistant writes and tests the rules file for you to review."], ["guidance", "Score an issue", "Use the issues framework calculator to check a priority."]],
+  "Data owner": [["maturity", "Know where you stand", "A maturity self-assessment with next steps."], ["pipeline", "Decide on escalations", "Overdue High and Critical issues come to you."], ["share", "Share your story", "Turn results into a case study."]],
+  "Analyst or engineer": [["check", "Reuse the engine", "The same scoring in Python and the browser, checked case by case."], ["tooling", "Fit your platform", "Routes into Great Expectations, R, Fabric, Databricks and more."], ["learn", "Automate", "Tutorials for the pipeline and the MCP server for AI agents."]],
+  "Statistician": [["scenarios", "Official statistics", "Code of Practice, QAAD and ESS output quality, as packs."], ["frameworks", "Compare frameworks", "Clause by clause, with devolved and international comparisons."], ["learn", "Write quality statements", "Module on reporting quality and limitations."]],
+  "Chief data officer": [["maturity", "Benchmark maturity", "Eight themes, levels that sit beside the DMA."], ["baseline", "Resource the baseline", "Effort for critical data assets, with and without a shared kit."], ["about", "Mission and roadmap", "What the Commons will deliver, and when."]],
+  "AI or data science": [["ai", "Use AI safely", "Principles, use cases and the route from experiment to shared toolkit."], ["frameworks", "AI data readiness", "ISO/IEC 5259 pack: completeness, representativeness and currency."], ["assistant", "Try the assistant", "Generative drafting with deterministic checking."]],
+  "Voluntary or local": [["check", "Check data for free", "No install and nothing uploaded."], ["scenarios", "Your scenario", "Local government, voluntary sector, health and more."], ["surveys", "Ask for help", "Request an assessment, training or a peer review."]],
 };
 let role = "Data steward";
 try { role = localStorage.getItem("dqp-role") || role; } catch (e) {}
+if (!ROLES[role]) role = "Data steward";
+const label = h => (pageLinks.find(p => p.h === h + ".html") || {t: ""}).t;
 function drawRoles() {
   $("roles").innerHTML = Object.keys(ROLES).map(r => `<button type="button" aria-pressed="${r === role}">${esc(r)}</button>`).join("");
-  $("route").innerHTML = ROLES[role].map(([p, t, w]) => `<a href="${p}.html"><b>${esc(t)}</b><span class="why">${esc(w)}</span><span class="small muted">${esc((PAGES[p] || ["Home"])[0])} ›</span></a>`).join("");
+  $("route").innerHTML = ROLES[role].map(([p, t, w]) => `<a href="${p}.html"><b>${esc(t)}</b><span class="why">${esc(w)}</span><span class="small muted">${esc(label(p))} ›</span></a>`).join("");
 }
-$("roles").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return;
-  role = b.textContent; try { localStorage.setItem("dqp-role", role); } catch (er) {}
-  drawRoles();
-});
+$("roles").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; role = b.textContent; try { localStorage.setItem("dqp-role", role); } catch (er) {} drawRoles(); });
 drawRoles();
 
 const STEPS = [
@@ -168,9 +181,25 @@ const STEPS = [
   ["Identify rules", "Say what good looks like, with targets from the issues framework.", "check", "Build rules"],
   ["Assess current quality", "Measure every rule and record a baseline.", "check", "Run a check"],
   ["Prioritise and set goals", "Score each issue: importance × impact × how far below target.", "guidance", "Score an issue"],
-  ["Root cause and action", "Fix at source where you can; contain, correct and prevent.", "pipeline", "Open issues"],
-  ["Report", "Tell users: trust level, DQV metadata, the CDA return.", "pipeline", "Downloads"],
+  ["Root cause and action", "Fix at source where you can; contain, correct and prevent.", "learn", "Learn root cause"],
+  ["Report", "Tell users: trust level, DQV metadata, quality statements.", "pipeline", "Downloads"],
   ["Repeat over time", "Measure on a schedule; escalate what stays open too long.", "pipeline", "Escalations"],
 ];
 $("cycle").innerHTML = STEPS.map((s, i) => `<div class="step"><span class="n">Step ${i + 1}</span><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><a href="${s[2]}.html">${esc(s[3])} ›</a></div>`).join("");
+
+$("scen").innerHTML = [["dam", "Critical data assets"], ["ndl", "National Data Library"], ["stats", "Official statistics"], ["health", "Health and care"], ["local", "Local government"],
+  ["devolved", "Scotland, Wales, NI"], ["geo", "Geospatial"], ["personal", "Personal data"], ["ai", "AI and ML"], ["open", "Open data"], ["vcse", "Voluntary sector"], ["platforms", "Your platform"]]
+  .map(([id, t]) => `<a class="chip acc" href="scenarios.html#${id}">${esc(t)}</a>`).join("");
+(function () {
+  const due = new Date("2027-01-29T00:00:00Z"), today = new Date(new Date().toISOString().slice(0, 10) + "T00:00:00Z"), days = Math.round((due - today) / 864e5);
+  $("deadline").innerHTML = days >= 0 ? `<b>${days}</b><span><strong>days</strong> until UK government's critical data asset baseline return is due (29 January 2027). <a href="baseline.html">Plan the effort</a></span>`
+    : `<span>The UK government critical data asset baseline return was due on 29 January 2027.</span>`;
+})();
+window.DQP_TOUR = [
+  {sel: "#find", title: "Find anything", text: "Type a task, framework, identifier or nation, and go straight there."},
+  {sel: "#tasks", title: "Common tasks", text: "The things people come here to do most often."},
+  {sel: "#roles", title: "Start from your role", text: "Three good first steps for each role."},
+  {sel: ".dqp-nav, .dqp-menu", title: "The menu", text: "Five groups: Start, Do, Know, Scenarios and Community. Every page has its own tour."},
+  {sel: "#scen", title: "Scenarios", text: "Policies, sectors, nations and platforms, each with what applies and where to start."},
+];
 </script>

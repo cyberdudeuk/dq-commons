@@ -6,7 +6,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 
 1. Open the **Home** page and choose the task closest to yours.
 2. Press **Take the tour** on any page for a guided walk-through. You can leave the tour at any time with Escape.
-3. Try **Check data**: open a spreadsheet (CSV, Excel or ODS), choose rules from the library, and press Run.
+3. Try **Check data**: open a CSV file (the Python toolkit also reads Excel, ODS, JSON, Parquet, SQL and CKAN), choose rules from the library, and press Run.
 4. Read your results: each rule shows a pass rate, its target, and what to do next.
 5. Save your rules file so you can run the same checks again next month.
 

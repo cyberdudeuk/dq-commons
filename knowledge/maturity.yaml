@@ -104,8 +104,8 @@ themes:
   - Automated checks in pipelines, results in a catalogue, open standards for results.
   - Tool-agnostic, portable rules; results flow to catalogues, dashboards and AI agents.
   next:
-  - {text: Try the browser checker - no install, nothing uploaded, link: "check.html"}
-  - {text: Compare tools, including open-source options, link: "tooling.html"}
+  - {text: "Try the browser checker - no install, nothing uploaded", link: "check.html"}
+  - {text: "Compare tools, including open-source options", link: "tooling.html"}
   - {text: Run the pipeline in GitHub Actions, link: "operate.html"}
   - {text: Export rules to Great Expectations or R validate where you already use them, link: "tooling.html"}
   - {text: Connect the kit to AI agents through MCP, link: "learn.html#t7"}

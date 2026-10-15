@@ -1,5 +1,26 @@
 # Build journal
 
+## 2026-10-15 — v1.0.0: the Public Sector Data Quality Commons
+
+**Asked for:** make it a general data quality hub for the whole public sector, not NDL or DAM specific; add international standards and crosswalks, tours, tutorials, a user guide, a wishlist, GitHub/Jira/Confluence links and an operating model, communities, surveys and commissions, member contributions, AI guidance with worked examples and case studies, and an AI assistant; fully accessible and inclusive.
+
+**Built**
+- **Rename and scope:** Public Sector Data Quality Commons v1.0.0. Mission, aims, 6 objectives, priorities and roadmap on a new About page.
+- **Portal, 19 pages** in 5 groups, with a guided tour on 13 pages. New: About, User guide, Maturity self-assessment, AI assistant, Frameworks and standards, Learn, AI for data quality, Scenarios (14), Community, Surveys and commissions, Operating model.
+- **Toolkit:** identifier checks (10 schemes), value sets, 9 data sources, 12 packs, 30-framework registry, crosswalk conversion, MCP server for AI agents.
+- **Checker:** identifier and value set options in the rule builder; rule library templates; takes drafts from the assistant.
+- **Shared store** (artifact database) for contributions, wishlist votes, survey answers and commissions, with access rules; wishlist seeded with backlog stories XDMH-211 to 222.
+- **Integrations:** issue forms, PR template, CONTRIBUTING, SECURITY; backlog sync to Jira; docs to Confluence; `docs/OPERATING-MODEL.md`, `docs/USER-GUIDE.md`.
+
+**Fixed along the way**
+- 4 GitHub issue forms had invalid YAML (GitHub would have rejected them).
+- 4 knowledge entries lost text after a comma (for example principle P1's title). A test now guards this.
+- Panels marked hidden (editor-only moderation, survey admin, maturity results) were visible because page styles overrode `hidden`. Fixed globally and now tested.
+- The crosswalk table caused sideways scroll on phones.
+- Some new text said the browser checker reads Excel and ODS; it reads CSV (the Python toolkit reads the rest). Corrected.
+
+**Checked:** all Python tests pass; parity 33 of 33; all 19 pages render with no script errors, no sideways scroll and no findings from the accessibility checks at desktop (light) and phone (dark); access rules tested at viewer and contributor level.
+
 ## 2026-10-15 — v0.4.0: one data quality portal, run by a pipeline
 
 **Asked for:**

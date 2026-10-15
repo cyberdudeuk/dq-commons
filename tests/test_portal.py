@@ -8,7 +8,10 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-PAGES = ["index", "pipeline", "check", "ndl-assurance", "baseline", "guidance", "tooling", "share"]
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+from build_dq_portal import PAGES as _P  # noqa: E402
+PAGES = [p[0] for p in _P]
 
 
 class PortalBuild(unittest.TestCase):
@@ -27,7 +30,7 @@ class PortalBuild(unittest.TestCase):
         for p in PAGES:
             text = (self.out / f"{p}.html").read_text(encoding="utf-8")
             self.assertTrue(text.startswith("<!doctype html>"), p)
-            self.assertIsNone(re.search(r"__(DATA|PORTFOLIO|HISTORY|VOCAB|EXAMPLES|ENGINE|BUILD|BASE_CSS|DOWNLOADS|NDL_DATA)__", text), p)
+            self.assertIsNone(re.search(r"__(DATA|PORTFOLIO|HISTORY|VOCAB|EXAMPLES|ENGINE|BUILD|BASE_CSS|DOWNLOADS|NDL_DATA|K_[A-Z]+)__", text), p)
             self.assertIn('class="dqp-bar"', text, p)
             self.assertIn(f'href="{p}.html" aria-current="page"', text, p)
 
@@ -49,6 +52,13 @@ class PortalBuild(unittest.TestCase):
         for f in ("portfolio.json", "run-summary.md", "cda-return.csv", "catalogue.dqv.jsonld"):
             self.assertTrue((self.out / "downloads" / f).exists(), f)
         self.assertTrue(any((self.out / "downloads" / "assets").glob("*.DQAP.xlsx")))
+
+
+class Styles(unittest.TestCase):
+    def test_hidden_attribute_is_enforced(self):
+        # Page styles such as section{display:flex} override [hidden]; editor-only panels rely on it.
+        for f in ("base.css", "shell.html"):
+            self.assertIn("[hidden]{display:none!important}", (ROOT / "portal" / "src" / f).read_text(encoding="utf-8"), f)
 
 
 if __name__ == "__main__":

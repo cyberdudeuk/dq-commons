@@ -1,5 +1,32 @@
 # Decision log (this repository)
 
+## 2026-10-15 · D-042 · Accessibility checks run in a real browser with our own rules
+Context: the standard axe scanner couldn't be installed (package registry not reachable from the build session). Decision: a Playwright check for unlabelled controls, unnamed buttons and links, duplicate ids, heading skips, WCAG contrast (4.5:1 and 3:1), sideways scroll and hidden panels leaking, on all 19 pages at 1280 px light and 390 px dark. Alternative: skip until axe is available (rejected). Still needed: an independent audit (XDMH-213).
+
+## 2026-10-15 · D-041 · Survey privacy by design: totals only, under 5 hidden, editors publish
+Each person's answers are stored under their own id, readable only by editors. Editors count and publish totals; counts under 5 are hidden; free text is never published. No names or emails are asked for. Alternative: open live totals (rejected: small organisations could be identified).
+
+## 2026-10-15 · D-040 · Community data in the artifact's shared store, with GitHub forms as the fallback
+Contributions, wishlist suggestions and commissions go to a per-member moderation queue only editors can read; published items are copied to an editor-only `library`. Votes: each member writes only their own. Where the shared store isn't available (for example GitHub Pages), every form links to the matching GitHub issue form. Alternative: a separate backend such as Supabase (deferred until volume needs it).
+
+## 2026-10-15 · D-039 · The AI assistant drafts; the toolkit's engine judges
+The assistant (artifact `sample` capability) calls page tools that run the same parity-checked engine. Any rules file it returns is validated, and a failing draft goes back with the error up to twice. Only column names go to the model unless the user ticks to share 5 examples per column. A deterministic suggester works with no AI. Alternative: free-form chat (rejected: unverifiable output).
+
+## 2026-10-15 · D-038 · Requests flow GitHub to Jira; docs flow repository to Confluence
+Issues labelled `backlog` become Jira stories under XDMH-210 with the key commented back. Docs listed in `integrations/config.yaml` publish to Confluence space ARCHITECTU on merge. Both are dry runs until secrets are set. Source of truth: the GitHub repository. Alternative: manual copying (rejected: drifts).
+
+## 2026-10-15 · D-037 · Grouped navigation and an accessible guided tour on every page
+19 pages in five groups (Start, Do, Know, Scenarios, Community). The tour is a non-modal dialog that moves focus, supports arrow keys and Escape, respects reduced motion, and can be started from a link (`?tour=1`).
+
+## 2026-10-15 · D-036 · One knowledge base in YAML and CSV drives the portal, toolkit and AI tools
+`knowledge/` (frameworks, communities, learning, maturity, surveys, requirements, AI-for-DQ) is injected at build time, read by the MCP server and the assistant. A test guards against values silently lost to unquoted commas (4 such losses found and fixed).
+
+## 2026-10-15 · D-035 · Framework packs, a registry of 30 frameworks and crosswalk conversion
+Each framework maps its dimensions to the toolkit's, so results convert between frameworks. 19 of 30 entries are marked "partly verified" until checked clause by clause (XDMH-221).
+
+## 2026-10-15 · D-034 · Renamed to the Public Sector Data Quality Commons, a general hub
+Chosen by the project lead. The toolkit applies to any data quality purpose; the NDL and DAM policy become two of 14 scenarios. Alternatives considered: "Government Data Quality Hub" (clashes with the ONS hub's name), keeping the NDL name (too narrow).
+
 Newest first. These continue the portal decision log (D-001 to D-014) in the claude.ai project.
 
 ## 2026-10-15 · D-033 · Old copies of merged pages say where the live version is

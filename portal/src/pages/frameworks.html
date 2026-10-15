@@ -1,0 +1,178 @@
+<title>Frameworks and Standards</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.fw{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr))}
+.fw .card h3{font-size:1rem;line-height:1.3}
+.fw .meta{font-size:.82rem;color:var(--muted)}
+.fw dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:.84rem}
+.fw dt{color:var(--muted)}
+.fw dd{margin:0}
+.xw td,.xw th{font-size:.82rem}
+.xw td.hit{background:var(--accent-soft)}
+.xw td.miss{color:var(--muted)}
+.xw th.dim{white-space:nowrap;text-transform:none;letter-spacing:0;font-size:.82rem;color:var(--fg);background:var(--surface)}
+.pick{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.88rem}
+.pick label{display:flex;gap:6px;align-items:center}
+.packs{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(360px,100%),1fr))}
+.packs ol{margin:0;padding-left:1.3em;font-size:.86rem;display:flex;flex-direction:column;gap:4px}
+.bench{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.count{font-size:.8rem;color:var(--muted)}
+#clauses td{font-size:.82rem}
+#clauses td:nth-child(3){min-width:220px}
+.gap{color:var(--warn);font-weight:600}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Know · Frameworks and standards</span>
+  <h1>Data quality frameworks, standards and policies, side by side</h1>
+  <p class="lede">UK-wide, devolved, sector and international frameworks and open standards, mapped to one set of dimensions so you can translate between them. Each one links to its official source. Those marked "partly verified" have been checked against a summary but not yet clause by clause.</p>
+  <nav class="toc" aria-label="On this page"><a href="#registry">Registry</a><a href="#crosswalk">Crosswalk</a><a href="#bench">Benchmarking</a><a href="#packs">Packs</a><a href="#clauses">Clause by clause</a><a href="#convert">Convert results</a></nav>
+</header>
+
+<section id="registry" aria-labelledby="reg-h">
+  <h2 id="reg-h">Registry</h2>
+  <div class="filters" role="search" aria-label="Filter frameworks">
+    <div class="field"><label for="q">Search</label><input type="search" id="q" placeholder="For example: ISO, statistics, Scotland"></div>
+    <div class="field"><label for="fJ">Where</label><select id="fJ"></select></div>
+    <div class="field"><label for="fT">Type</label><select id="fT"></select></div>
+    <div class="field"><label for="fV">Verified</label><select id="fV"><option value="">Any</option><option value="yes">Yes</option><option value="partly">Partly</option></select></div>
+  </div>
+  <p class="count" id="regCount" role="status" aria-live="polite"></p>
+  <div class="fw" id="fw"></div>
+</section>
+
+<section id="crosswalk" aria-labelledby="xw-h">
+  <h2 id="xw-h">Crosswalk: how each framework names the same thing</h2>
+  <p>Rows are the toolkit's dimensions. Choose frameworks to compare. A shaded cell shows the framework's own term; a dash means the framework doesn't cover that dimension.</p>
+  <fieldset><legend class="small" style="font-weight:600;margin-bottom:6px">Frameworks to compare</legend><div class="pick" id="pick"></div></fieldset>
+  <div class="tbl"><table class="xw" id="xw"></table></div>
+</section>
+
+<section id="bench" aria-labelledby="bench-h">
+  <h2 id="bench-h">Benchmarking across nations, sectors and countries</h2>
+  <div class="bench">
+    <div class="card"><h3>Coverage of each dimension</h3><p class="small muted">How many of the mapped frameworks cover each toolkit dimension.</p><div id="cov"></div></div>
+    <div class="card"><h3>Where frameworks come from</h3><div id="jur"></div></div>
+    <div class="card"><h3>What the comparison shows</h3><ul class="plain small">
+      <li>The UK issues framework's scoring (importance x impact, target ranges, resolution times) has no close international equivalent found so far.</li>
+      <li>Canada's approach is the closest peer to the DAM policy, but leaves scoring to departments.</li>
+      <li>European and UN frameworks judge statistical <i>outputs</i> (relevance, coherence, accessibility) rather than record-level rules; the ESS pack bridges the two.</li>
+      <li>Representativeness across groups appears in ISO/IEC 5259 for AI, but isn't a core dimension in the UK framework (finding F8).</li>
+      <li>Scotland, Wales and Northern Ireland use the Code of Practice for official statistics; the DAM policy is not mandatory there but can be adopted.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="packs" aria-labelledby="packs-h">
+  <h2 id="packs-h">Framework and scenario packs</h2>
+  <p>A pack turns a framework into requirements the toolkit can check. Most requirements are met automatically from your results; others need a person to confirm. Run one in Python with <code>dqkit pack assess results.json --pack uk-dam-cda</code>.</p>
+  <div class="packs" id="packList"></div>
+</section>
+
+<section id="clauses" aria-labelledby="cl-h">
+  <h2 id="cl-h">Clause by clause: what each policy asks, and how others compare</h2>
+  <div class="filters">
+    <div class="field"><label for="cS">Source</label><select id="cS"></select></div>
+    <div class="field"><label for="cA">Area</label><select id="cA"></select></div>
+    <div class="field"><label for="cG"><input type="checkbox" id="cG"> Only clauses with a known gap</label></div>
+  </div>
+  <p class="count" id="clCount" role="status" aria-live="polite"></p>
+  <div class="tbl"><table><thead><tr><th>Clause</th><th>Strength</th><th>Requirement</th><th>How the toolkit supports it</th><th>Devolved</th><th>International</th><th>Gap</th></tr></thead><tbody id="clRows"></tbody></table></div>
+</section>
+
+<section id="convert" aria-labelledby="cv-h">
+  <h2 id="cv-h">Convert results between frameworks</h2>
+  <p>Results from the toolkit carry its dimensions, so they can be re-labelled for any mapped framework. In Python: <code>dqkit crosswalk results.json --to iso-iec-25012</code>. From an AI agent, use the <code>crosswalk</code> tool on the toolkit's MCP server. The <a href="assistant.html">AI assistant</a> can do it in the browser.</p>
+</section>
+</div>
+
+<script>
+const F = __K_FRAMEWORKS__, X = __K_CROSSWALK__, P = __K_PACKS__, R = __K_REQUIREMENTS__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uniq = a => [...new Set(a)].sort();
+const byId = Object.fromEntries(F.map(f => [f.id, f]));
+const where = j => /^(UK|England|Scotland|Wales|Northern Ireland|England and Wales)$/.test(j) ? (j === "UK" ? "UK-wide" : "UK nations") : "International";
+const opt = (vals, any) => `<option value="">${any}</option>` + vals.map(v => `<option>${esc(v)}</option>`).join("");
+$("fJ").innerHTML = opt(uniq(F.map(f => f.jurisdiction)), "Anywhere");
+$("fT").innerHTML = opt(uniq(F.map(f => f.type)), "Any type");
+
+function drawRegistry() {
+  const q = $("q").value.trim().toLowerCase(), j = $("fJ").value, t = $("fT").value, v = $("fV").value;
+  const list = F.filter(f => (!j || f.jurisdiction === j) && (!t || f.type === t) && (!v || f.verified === v) &&
+    (!q || JSON.stringify(f).toLowerCase().includes(q)));
+  $("regCount").textContent = `Showing ${list.length} of ${F.length}.`;
+  $("fw").innerHTML = list.map(f => `<article class="card" id="fw-${esc(f.id)}">
+    <div class="chips"><span class="chip acc">${esc(f.jurisdiction)}</span><span class="chip">${esc(f.type)}</span>
+      <span class="chip ${f.verified === "yes" ? "good" : "warn"}">${f.verified === "yes" ? "Verified" : "Partly verified"}</span></div>
+    <h3><a href="${esc(f.url)}" rel="noopener">${esc(f.name)}</a></h3>
+    <p class="meta">${esc(f.publisher)}${f.year ? " · " + esc(f.year) : ""} · ${esc(f.status || "")}</p>
+    <dl><dt>Sector</dt><dd>${esc(f.sector)}</dd>${f.applies_to ? `<dt>Applies to</dt><dd>${esc(f.applies_to)}</dd>` : ""}
+      ${(f.dimensions || []).length ? `<dt>Dimensions</dt><dd>${f.dimensions.map(esc).join(", ")}</dd>` : ""}
+      ${f.scoring ? `<dt>Scoring</dt><dd>${esc(f.scoring)}</dd>` : ""}
+      ${f.pack ? `<dt>Pack</dt><dd><a href="#${esc(f.pack)}">${esc(f.pack)}</a></dd>` : ""}</dl>
+    ${(f.principles || []).length ? `<details><summary class="small">Principles (${f.principles.length})</summary><ul class="plain small">${f.principles.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
+  </article>`).join("") || `<p>No frameworks match. Try fewer filters.</p>`;
+}
+["q", "fJ", "fT", "fV"].forEach(id => $(id).addEventListener("input", drawRegistry));
+drawRegistry();
+
+// crosswalk
+const KD = uniq(Object.values(X).flatMap(m => Object.keys(m)));
+const xwIds = Object.keys(X).filter(id => byId[id]);
+let chosen = ["uk-gdqf", "iso-iec-25012", "ess-qaf", "canada-gc-dq"].filter(id => X[id]);
+$("pick").innerHTML = xwIds.map(id => `<label><input type="checkbox" value="${esc(id)}"${chosen.includes(id) ? " checked" : ""}> ${esc(byId[id].name.replace(/^The /, ""))}</label>`).join("");
+$("pick").addEventListener("change", () => { chosen = [...$("pick").querySelectorAll("input:checked")].map(i => i.value); drawXW(); });
+function drawXW() {
+  if (!chosen.length) { $("xw").innerHTML = `<tbody><tr><td>Choose at least one framework.</td></tr></tbody>`; return; }
+  $("xw").innerHTML = `<thead><tr><th scope="col">Toolkit dimension</th>${chosen.map(id => `<th scope="col">${esc(byId[id].name.replace(/^The /, ""))}</th>`).join("")}</tr></thead><tbody>` +
+    KD.map(d => `<tr><th scope="row" class="dim">${esc(d)}</th>${chosen.map(id => { const v = (X[id] || {})[d];
+      return v && v.length ? `<td class="hit">${v.map(esc).join("; ")}</td>` : `<td class="miss"><span aria-hidden="true">–</span><span class="sr-only">not covered</span></td>`; }).join("")}</tr>`).join("") + "</tbody>";
+}
+drawXW();
+
+// benchmarking
+const cov = KD.map(d => [d, xwIds.filter(id => (X[id][d] || []).length).length]).sort((a, b) => b[1] - a[1]);
+$("cov").innerHTML = cov.map(([d, n]) => `<div class="bar-h"><span style="min-width:150px">${esc(d)}</span><span class="track" aria-hidden="true"><i style="width:${100 * n / xwIds.length}%"></i></span><b>${n}</b></div>`).join("") +
+  `<p class="small muted">Out of ${xwIds.length} frameworks with a dimension mapping.</p>`;
+const groups = {};
+F.forEach(f => (groups[where(f.jurisdiction)] = groups[where(f.jurisdiction)] || []).push(f));
+$("jur").innerHTML = Object.entries(groups).map(([g, fs]) => `<p><b>${esc(g)}</b> (${fs.length})<br><span class="small">${uniq(fs.map(f => f.jurisdiction)).map(esc).join(", ")}</span></p>`).join("");
+
+// packs
+$("packList").innerHTML = P.map(p => `<article class="card" id="${esc(p.id)}">
+  <div class="chips"><span class="chip acc">${esc(p.jurisdiction)}</span><span class="chip">${esc(p.sector)}</span><span class="chip">target policy: ${esc(p.target_policy || "low")}</span></div>
+  <h3>${esc(p.name)}</h3><p class="small">${esc(p.summary)}</p>
+  <details><summary class="small">${p.requirements.length} requirements</summary><ol>${p.requirements.map(r => `<li><span class="mono">${esc(r.id)}</span> ${esc(r.text)}
+    <span class="chip">${esc(Object.keys(r.evidence || {}).join(", ") || "manual")}</span></li>`).join("")}</ol></details>
+  <p class="small muted">Frameworks: ${(p.frameworks || []).map(id => byId[id] ? `<a href="#fw-${esc(id)}">${esc(byId[id].name.replace(/^The /, ""))}</a>` : esc(id)).join(", ")}</p>
+</article>`).join("");
+
+// clauses
+$("cS").innerHTML = opt(uniq(R.map(r => r.source)), "All sources");
+$("cA").innerHTML = opt(uniq(R.map(r => r.area)), "All areas");
+function drawClauses() {
+  const s = $("cS").value, a = $("cA").value, g = $("cG").checked;
+  const rows = R.filter(r => (!s || r.source === s) && (!a || r.area === a) && (!g || r.gap));
+  $("clCount").textContent = `${rows.length} of ${R.length} clauses.`;
+  $("clRows").innerHTML = rows.map(r => `<tr><td><span class="mono">${esc(r.clause)}</span><br><span class="small muted">${esc((byId[r.source] || {}).name || r.source)}</span></td>
+    <td>${esc(r.strength)}</td><td>${esc(r.requirement)}</td><td>${esc(r.kit_support)}</td><td>${esc(r.devolved) || "<span class='muted'>–</span>"}</td>
+    <td>${esc(r.international) || "<span class='muted'>–</span>"}</td><td>${r.gap ? `<span class="gap">${esc(r.gap)}</span>` : "<span class='muted'>–</span>"}</td></tr>`).join("");
+}
+["cS", "cA", "cG"].forEach(id => $(id).addEventListener("input", drawClauses));
+drawClauses();
+if (location.hash && document.querySelector(location.hash)) setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 50);
+
+window.DQP_TOUR = [
+  {sel: "#registry .filters", title: "Find a framework", text: "Search or filter by where it applies, type, and whether we've verified it against the source."},
+  {sel: "#fw .card", title: "Each framework", text: "Publisher, status, dimensions, scoring and principles, with a link to the official source and its pack."},
+  {sel: "#xw", title: "Crosswalk", text: "Compare how frameworks name the same dimension. Tick frameworks above the table to add columns."},
+  {sel: "#bench", title: "Benchmarking", text: "Which dimensions are widely covered, where frameworks come from, and what the comparison tells us."},
+  {sel: "#packList", title: "Packs", text: "Frameworks turned into requirements the toolkit can check automatically or with a person confirming."},
+  {sel: "#clauses .filters", title: "Clause by clause", text: "Each policy line, how the toolkit supports it, devolved and international equivalents, and known gaps."},
+];
+</script>

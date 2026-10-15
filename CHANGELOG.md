@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0 — 2026-10-15
+### Changed
+- **Renamed: Public Sector Data Quality Commons.** A general data quality hub and toolkit for the whole public sector; the NDL and DAM policy are now scenarios.
+### Added
+- Portal pages: About (mission, objectives, roadmap), User guide, Maturity self-assessment, AI assistant, Frameworks and standards (registry, crosswalk, benchmarking, packs, clause by clause), Learn (pathways, modules, tutorials, glossary), AI for data quality, Scenarios, Community (library, wishlist, networks, moderation), Surveys and commissions, Operating model.
+- Grouped navigation, site search on the home page, and guided tours.
+- Toolkit: identifier checks (NHS number, NI number, postcode, LEI, UPRN, GSS code, company, charity, school URN, ODS code); value sets; data sources (TSV, Excel, ODS, JSON, JSONL, Parquet, SQLite, SQL, CKAN); 12 framework packs; `dqkit pack` and `dqkit crosswalk`; MCP server; rule library.
+- Knowledge base (`knowledge/`), AI rule-drafting evaluation set.
+- GitHub issue forms, backlog sync to Jira, docs publishing to Confluence, operating model and user guide.
+### Fixed
+- Invalid YAML in issue forms; values lost to unquoted commas; hidden panels shown; crosswalk overflow on phones.
+
 ## 0.4.0 — 2026-10-15
 ### Added
 - **NDL Data Quality Portal.** One separate portal for all the data quality work. `scripts/build_dq_portal.py` builds it from the latest results. New pages: home (roles, deadline, status), pipeline status, check your data (in-browser checker with a rule builder), and share and learn. Merged in: NDL assurance, January baseline, guidance and tooling.
@@ -43,3 +55,5 @@
 - A proposed DQV quality extension for the cross-government metadata exchange model.
 - The NDL collections assessment (84 pages, 8 chart files) and its report.
 - Documentation set and CI.
+
+

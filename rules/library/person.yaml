@@ -16,6 +16,6 @@ rules:
   - {id: P07, check: identifier, column: postcode, scheme: uk_postcode, description: Postcode is in Royal Mail format}
   - {id: P08, check: in_valueset, column: ethnic_group, valueset: ethnic_group_ew_2021_high_level,
      description: "Ethnic group uses the Census 2021 England and Wales groups (change for Scotland or Northern Ireland)"}
-  - {id: P09, check: not_unknown, column: ethnic_group, description: Ethnic group is recorded, not defaulted to unknown}
+  - {id: P09, check: not_unknown, column: ethnic_group, description: "Ethnic group is recorded, not defaulted to unknown"}
   - {id: P10, check: group_disparity, group: sex, tolerance: 5, inner: {check: identifier, column: nhs_number, scheme: nhs_number},
      description: NHS number quality is similar for every sex group}

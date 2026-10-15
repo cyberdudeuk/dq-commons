@@ -12,7 +12,7 @@ fieldset{border:1px solid var(--line);border-radius:8px;background:var(--surface
 legend{font-weight:700;padding:0 6px}
 label{font-weight:600;font-size:.88rem}
 .hint{font-size:.8rem;color:var(--muted);font-weight:400}
-input[type=text],input[type=date],input[type=number],select,textarea{font:inherit;font-size:.9rem;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);width:100%;min-width:0}
+input[type=text],input[type=date],input[type=number],select,textarea{font:inherit;font-size:.9rem;padding:7px 9px;border:1px solid var(--muted);border-radius:6px;background:var(--bg);color:var(--fg);width:100%;min-width:0}
 input[type=file]{font-size:.85rem;max-width:100%}
 textarea{font-family:var(--f-mono);font-size:.8rem;line-height:1.5;min-height:260px;resize:vertical;tab-size:2}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px}
@@ -40,7 +40,7 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
 <header class="page">
   <span class="eyebrow">Data quality kit · in your browser</span>
   <h1>Check your data</h1>
-  <p class="lede">Run a rules file against a CSV and get the same answers as the Python kit: pass rates, issues framework priorities, a suggested trust level, and the DQAP route. An NDL example is loaded so you can see a result straight away.</p>
+  <p class="lede">Run a rules file against a CSV and get the same answers as the Python kit: pass rates, issues framework priorities, a suggested trust level, and the DQAP route. An example is loaded so you can see a result straight away. Your file stays in your browser.</p>
   <div class="privacy"><strong>Private by design.</strong><span>Your files never leave this browser tab. The checks run on your device; nothing is uploaded or stored. Close the tab and they are gone.</span></div>
 </header>
 
@@ -48,7 +48,7 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
 <div class="panel">
   <fieldset>
     <legend>1. Data</legend>
-    <div class="field"><label for="ex">Start from an NDL example</label>
+    <div class="field"><label for="ex">Start from an example</label>
       <select id="ex"></select></div>
     <div class="field"><label for="csvFile">Or use your own CSV <span class="hint">(first row must be column names)</span></label>
       <input type="file" id="csvFile" accept=".csv,text/csv"></div>
@@ -61,6 +61,10 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
     <div class="field"><label for="rules">Rules file (YAML) <span class="hint">Edit here, or load a file</span></label>
       <textarea id="rules" spellcheck="false" aria-describedby="rulesHelp"></textarea>
       <span class="hint" id="rulesHelp">Same format as the Python kit. Importance runs from 1 (Low) to 4 (Critical).</span></div>
+    <div class="row2">
+      <div class="field"><label for="libPick">Start from a rule library template</label><select id="libPick"></select></div>
+      <div class="field" style="justify-content:flex-end"><button class="btn ghost" type="button" id="libLoad">Use this template</button></div>
+    </div>
     <div class="field"><label for="rulesFile">Load a rules file</label><input type="file" id="rulesFile" accept=".yaml,.yml,.json"></div>
     <div class="row2">
       <div class="field"><label for="asOf">Measure as if on</label><input type="date" id="asOf"></div>
@@ -115,7 +119,7 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
 __ENGINE__
 </script>
 <script>
-const V = __VOCAB__, EX = __EXAMPLES__;
+const V = __VOCAB__, EX = __EXAMPLES__, VS = __K_VALUESETS__, LIB = __K_LIBRARY__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const slug = s => String(s || "").replace(/\s+/g, "-");
@@ -154,13 +158,14 @@ $("csvFile").addEventListener("change", e => readFile(e.target, (t, n) => {
 }));
 $("rulesFile").addEventListener("change", e => readFile(e.target, t => { $("rules").value = t; }));
 
-function spec() {
+function spec(raw) {
   let s;
   try { s = YAML.load($("rules").value); }
   catch (e) { throw new Error("The rules file isn't valid YAML: " + (e.reason || e.message) + (e.mark ? ` (line ${e.mark.line + 1})` : "")); }
   if (!s || typeof s !== "object") throw new Error("The rules file is empty. It needs an 'asset' block and a 'rules' list.");
+  if (raw) return s;
   if ($("policy").value) { s.asset = s.asset || {}; s.asset.target_policy = $("policy").value; }
-  return s;
+  return DQ.expandValuesets(JSON.parse(JSON.stringify(s)), VS);
 }
 function meter(p, t, ok) {
   const col = ok ? "var(--good)" : "var(--crit)";
@@ -193,6 +198,15 @@ function run() {
 }
 $("run").addEventListener("click", run);
 
+// rule library templates (rules/library/*.yaml): columns are placeholders to rename to match your file
+$("libPick").innerHTML = Object.entries(LIB).map(([k, v]) => `<option value="${esc(k)}">${esc((v.spec.asset && v.spec.asset.title) || k)} (${(v.spec.rules || []).length} rules)</option>`).join("");
+$("libLoad").addEventListener("click", () => { $("rules").value = LIB[$("libPick").value].text;
+  $("runMsg").innerHTML = `<span class="small muted">Template loaded. Rename the columns to match your file, then run.</span>`; $("rules").focus(); });
+if (/[?&]from=assistant\b/.test(location.search)) {
+  let d = null; try { d = localStorage.getItem("dqc.rules.draft"); } catch (e) {}
+  if (d) setTimeout(() => { $("rules").value = d; $("runMsg").innerHTML = `<span class="small muted">Rules file from the AI assistant loaded. Review it, open your file, then run.</span>`; }, 0);
+}
+
 // rule builder
 const PARAMS = {
   not_null: [], unique: [], not_future: [],
@@ -207,6 +221,8 @@ const PARAMS = {
   no_gaps: [],
   header_has_unit: [],
   not_unknown: [],
+  identifier: [["scheme", "Identifier scheme", DQ.IDENTIFIER_SCHEMES]],
+  in_valueset: [["valueset", "Value set", Object.keys(VS)], ["match", "Match on", ["label", "code"]]],
   group_disparity: [["group", "Group column (e.g. sex, ethnicity)", "text", ""], ["tolerance", "Largest gap allowed (points)", "number", "5"]],
 };
 $("bCheck").innerHTML = Object.keys(PARAMS).map(k => `<option>${k}</option>`).join("");
@@ -218,7 +234,7 @@ function drawParams() {
 $("bCheck").addEventListener("change", drawParams); drawParams();
 $("bAdd").addEventListener("click", () => {
   const msg = t => { $("bMsg").textContent = t; };
-  let s; try { s = spec(); } catch (e) { msg(e.message); return; }
+  let s; try { s = spec(true); } catch (e) { msg(e.message); return; }
   s.rules = Array.isArray(s.rules) ? s.rules : [];
   const check = $("bCheck").value, col = $("bCol").value;
   let n = s.rules.length + 1; while (s.rules.some(r => r.id === "R" + n)) n++;
@@ -240,7 +256,7 @@ $("bAdd").addEventListener("click", () => {
     else rule[k] = v;
   }
   if ($("bDesc").value.trim()) rule.description = $("bDesc").value.trim();
-  try { DQ.validateSpec({...s, rules: [...s.rules, rule]}); }
+  try { DQ.validateSpec(DQ.expandValuesets(JSON.parse(JSON.stringify({...s, rules: [...s.rules, rule]})), VS)); }
   catch (e) { msg("That rule isn't complete: " + e.message); return; }
   s.rules.push(rule);
   $("rules").value = YAML.dump(s, {lineWidth: 110, noRefs: true});
@@ -259,5 +275,13 @@ $("out").addEventListener("click", async e => {
 });
 
 loadExample(3);
+window.DQP_TOUR = [
+  {sel: "#ex", title: "Start from an example", text: "Examples come from real published data. Or open your own CSV below: it never leaves your browser."},
+  {sel: "#libPick", title: "Rule library", text: "Templates for people, addresses, organisations, geography and publications. Rename the columns to match your file."},
+  {sel: "#rules", title: "The rules file", text: "Plain YAML, the same format as the Python toolkit and the pipeline."},
+  {sel: "#bCheck", title: "Add a rule", text: "Pick a check, including identifiers such as NHS number or UPRN, and value sets such as GSS nation codes."},
+  {sel: "#run", title: "Run", text: "Results show pass rates against targets, priorities from the issues framework, and a trust level."},
+  {sel: "#out .copy", title: "Take the results with you", text: "Copy DQV metadata for your catalogue, or rows for the DQAP template."},
+];
 $("ex").value = "3";
 </script>

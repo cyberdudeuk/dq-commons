@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dqkit"
-version = "0.4.0"
-description = "Data quality assurance kit for critical data assets and the National Data Library (GOV.UK DQAP and issues framework)"
+version = "1.0.0"
+description = "Public Sector Data Quality Commons toolkit: measure, report and improve data quality with open standards"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.10"

@@ -1,0 +1,112 @@
+<title>About the Commons</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.mission{font-family:var(--f-display);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.35;max-width:46ch}
+.obj{counter-reset:o;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.obj .card{counter-increment:o}
+.obj .card h3::before{content:"O" counter(o) "  ";font-family:var(--f-mono);color:var(--accent)}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:12px}
+.road .card h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.road ul{margin:0;padding-left:1.1em;font-size:.9rem;display:flex;flex-direction:column;gap:4px}
+.who{display:flex;flex-wrap:wrap;gap:6px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · About</span>
+  <h1>About the Public Sector Data Quality Commons</h1>
+  <p class="mission" id="mission">A free, open, shared place where anyone working with public sector data can check it, improve it, learn how, and help each other, so that public services and decisions rest on data people can trust.</p>
+  <p class="lede">The Commons began as the data quality work behind the UK data asset management (DAM) policy and the National Data Library (NDL). It is now general: the same toolkit and knowledge work for any data quality purpose, in any organisation, with sections specific to each framework, policy, sector and platform.</p>
+</header>
+
+<section aria-labelledby="who-h">
+  <h2 id="who-h">Who it is for</h2>
+  <div class="who" id="who"></div>
+  <p class="small muted">No coding needed. Every task has a no-install route in the browser, and your data never leaves your device unless you choose to share something.</p>
+</section>
+
+<section aria-labelledby="aims-h">
+  <h2 id="aims-h">Purpose and aims</h2>
+  <div class="grid">
+    <div class="card"><h3>One place</h3><p>Bring frameworks, standards, tools, rules, training and people for data quality into one shared front door, with signposts to the official sources.</p></div>
+    <div class="card"><h3>Practical by default</h3><p>Everything leads to something you can do today: run a check, write a rule, prioritise an issue, report a baseline.</p></div>
+    <div class="card"><h3>Open and portable</h3><p>Open standards (W3C DQV, DCAT, CSV, YAML), MIT code and OGL content. Rules move between tools; nothing locks you in.</p></div>
+    <div class="card"><h3>Fair and inclusive</h3><p>Check who data leaves out, design for people who use assistive technology, and give every nation and sector a place.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="obj-h">
+  <h2 id="obj-h">Objectives for the first year</h2>
+  <div class="obj">
+    <div class="card"><h3>Measure what matters</h3><p>Help organisations set a measured baseline for their critical data assets, using the government's issues framework.</p><p class="small muted">Measure: assets with a baseline (opt-in reporting).</p></div>
+    <div class="card"><h3>Make frameworks usable</h3><p>Map 30 frameworks and standards to one set of dimensions and checks, so a result in one translates into another.</p><p class="small muted">Measure: frameworks verified and mapped; packs in use.</p></div>
+    <div class="card"><h3>Build skills</h3><p>Offer role-based learning from Awareness to Expert, linked to the DDaT capability framework.</p><p class="small muted">Measure: modules completed; confidence from the feedback survey.</p></div>
+    <div class="card"><h3>Share what works</h3><p>Grow a moderated library of case studies, rules and lessons from across sectors and nations.</p><p class="small muted">Measure: contributions, and the share from outside central government.</p></div>
+    <div class="card"><h3>Use AI safely</h3><p>Show how to get value from AI for data quality, with evaluation and assurance before anything is reused.</p><p class="small muted">Measure: AI components evaluated and recorded under ATRS.</p></div>
+    <div class="card"><h3>Include everyone</h3><p>Meet WCAG 2.2 AA, offer a Welsh version, and make inclusion checks routine for personal data.</p><p class="small muted">Measure: open accessibility issues and their age.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="pri-h">
+  <h2 id="pri-h">Priorities</h2>
+  <ol class="plain">
+    <li><b>Critical data first.</b> Work that helps the most important data, used by the most people, comes first.</li>
+    <li><b>Accessibility and inclusion.</b> When priorities tie, the change that helps people often left out wins.</li>
+    <li><b>Reuse before build.</b> Signpost official guidance and existing tools; build only where there is a gap.</li>
+    <li><b>Evidence over opinion.</b> Every claim links to a source, and anything not yet checked says so.</li>
+    <li><b>Human decisions.</b> AI drafts and explains; people decide.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="what-h">
+  <h2 id="what-h">What's in the Commons</h2>
+  <div class="kpis" id="kpis"></div>
+</section>
+
+<section aria-labelledby="road-h">
+  <h2 id="road-h">Roadmap</h2>
+  <div class="road">
+    <div class="card"><h3>Now <span class="chip good">v1.0</span></h3><ul>
+      <li>Browser checker with identifier and value set checks</li><li>Framework registry, crosswalks and 12 packs</li>
+      <li>Maturity self-assessment</li><li>Learning pathway and tutorials</li><li>AI for data quality guidance and assistant</li>
+      <li>Surveys, commissions and contributions</li><li>GitHub, Jira and Confluence links</li></ul></div>
+    <div class="card"><h3>Next <span class="chip acc">3 months</span></h3><ul>
+      <li>User research with 5 organisation types (XDMH-212)</li><li>Accessibility audit, WCAG 2.2 AA (XDMH-213)</li>
+      <li>AI assistant assurance and ATRS record (XDMH-214)</li><li>Verify "partly" framework entries (XDMH-221)</li>
+      <li>More GSS value sets (XDMH-220)</li></ul></div>
+    <div class="card"><h3>Later <span class="chip">6 to 12 months</span></h3><ul>
+      <li>Welsh language version (XDMH-216)</li><li>Outlier and anomaly checks (XDMH-215)</li>
+      <li>Record linkage quality with Splink (XDMH-222)</li><li>Power Automate and Fabric connector (XDMH-219)</li>
+      <li>Moderation workflow at scale (XDMH-217)</li></ul></div>
+  </div>
+  <p class="small">Want something else? Add it to the <a href="community.html#wishlist">wishlist</a> and vote on what matters to you.</p>
+</section>
+
+<section aria-labelledby="hon-h">
+  <h2 id="hon-h">What the Commons is not</h2>
+  <div class="note">
+    <p>It is a prototype public good service, not an official government product, and it doesn't replace official guidance. Where an official source exists (for example the Government Data Quality Framework, the DAM policy or NHS England's DQMI), we link to it first. Anything we haven't checked against the source is marked "partly verified".</p>
+  </div>
+</section>
+</div>
+
+<script>
+const F = __K_FRAMEWORKS__, P = __K_PACKS__, L = __K_LEARNING__, C = __K_COMMUNITIES__, LIB = __K_LIBRARY__, S = __K_SCHEMES__;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("who").innerHTML = ["Central government", "Devolved governments", "Local authorities", "NHS and care", "Police and justice", "Education",
+  "Arm's length bodies", "Voluntary and community sector", "Suppliers", "Researchers"].map(x => `<span class="chip acc">${esc(x)}</span>`).join("");
+const nRules = Object.values(LIB).reduce((n, l) => n + ((l.spec && l.spec.rules) || []).length, 0);
+document.getElementById("kpis").innerHTML = [
+  [F.length, "frameworks and standards mapped"], [P.length, "framework and scenario packs"], [nRules, "reusable rule templates"],
+  [S.length, "identifier schemes checked"], [L.modules.length, "learning modules"], [L.tutorials.length, "tutorials"], [C.length, "networks and communities"],
+].map(([n, l]) => `<div class="kpi"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
+window.DQP_TOUR = [
+  {sel: "#mission", title: "Our mission", text: "The Commons exists so public services and decisions rest on data people can trust."},
+  {sel: "#who", title: "Who it's for", text: "Any organisation working with public sector data, in any nation and sector. No coding needed."},
+  {sel: "#obj-h", title: "Objectives", text: "Six objectives for the first year, each with how we'll measure it."},
+  {sel: "#road-h", title: "Roadmap and wishlist", text: "What's done, what's next, and how to ask for something new."},
+];
+</script>

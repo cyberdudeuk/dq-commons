@@ -1,4 +1,4 @@
-"""Build the NDL Data Quality Portal from the pipeline's latest results.
+"""Build the Public Sector Data Quality Commons portal from the pipeline's latest results and the knowledge base.
 
 Usage:
     python scripts/build_dq_portal.py [--results assessments/portfolio] [--out portal/dist]
@@ -33,19 +33,43 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "portal" / "src"
-VERSION = "0.4.0"
+VERSION = "1.0.0"
+BRAND = "Public Sector Data Quality Commons"
 
-# (file stem, short label for the bar, longer description for the menu)
-PAGES = [
-    ("index", "Home", "What the portal is, and where to start for your role"),
-    ("pipeline", "Pipeline status", "The latest automated run: trust levels, issues and escalations"),
-    ("check", "Check your data", "Run the data quality kit in your browser on your own CSV"),
-    ("ndl-assurance", "NDL assurance", "84 NDL data pages tested against GOV.UK requirements"),
-    ("baseline", "January baseline", "Effort to report data quality for every critical data asset"),
-    ("guidance", "Guidance", "15 sources compared, 18 findings, and the issues framework calculator"),
-    ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
-    ("share", "Share and learn", "Case studies, the tooling survey review, and messages to other teams"),
+# Navigation groups, in order, and the pages in each: (file stem, short label, description).
+GROUPS = [
+    ("Start", [
+        ("index", "Home", "Start here: what the Commons does and routes by role and task"),
+        ("about", "About the Commons", "Mission, aims, objectives, priorities, roadmap and wishlist"),
+        ("guide", "User guide", "How to use the portal, guided tours and frequently asked questions"),
+    ]),
+    ("Do", [
+        ("check", "Check your data", "Run the toolkit in your browser on a CSV file. Nothing is uploaded"),
+        ("maturity", "Maturity self-assessment", "Where you are on 8 themes, from Beginning to Mastering, and next steps"),
+        ("assistant", "AI assistant", "Plain English to tested rules, explanations and framework look-ups"),
+        ("pipeline", "Pipeline status", "The latest automated run: trust levels, issues and escalations"),
+    ]),
+    ("Know", [
+        ("frameworks", "Frameworks and standards", "30 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
+        ("learn", "Learn", "Pathways by role, modules, tutorials and glossary"),
+        ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
+        ("guidance", "Issues framework", "Prioritise issues with the government method, and the guidance findings"),
+        ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
+    ]),
+    ("Scenarios", [
+        ("scenarios", "All scenarios", "Pick your policy, sector or platform: what applies and where to start"),
+        ("ndl-assurance", "National Data Library", "84 NDL data pages tested against GOV.UK requirements"),
+        ("baseline", "Critical data asset baseline", "Effort to report data quality for every critical data asset"),
+    ]),
+    ("Community", [
+        ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
+        ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
+        ("share", "Case studies", "Case studies, the tooling survey review, and messages to other teams"),
+        ("operate", "Operating model and support", "Support tiers, roles, how requests become features, GitHub, Jira and Confluence"),
+    ]),
 ]
+PAGES = [p for _, ps in GROUPS for p in ps]
+GROUP_OF = {p[0]: g for g, ps in GROUPS for p in ps}
 DOWNLOAD_FILES = ["portfolio.json", "run-summary.md", "cda-return.csv", "escalations.json", "catalogue.dqv.jsonld",
                   "metadata-assessment.json"]
 
@@ -129,15 +153,55 @@ def examples(port_file: Path) -> list:
     return out
 
 
+def knowledge() -> dict:
+    """Every knowledge-base file as a page placeholder (__K_NAME__). Built lazily, only if a page uses it."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from dqkit import packs, rules
+    K = ROOT / "knowledge"
+    y = lambda n: yaml.safe_load((K / f"{n}.yaml").read_text(encoding="utf-8"))
+    with open(K / "requirements.csv", newline="", encoding="utf-8") as f:
+        reqs = list(csv.DictReader(f))
+    library = {}
+    for f in sorted((ROOT / "rules" / "library").glob("*.yaml")):
+        library[f.stem] = {"text": f.read_text(encoding="utf-8"), "spec": yaml.safe_load(f.read_text(encoding="utf-8"))}
+    valuesets = {}
+    for f in sorted(rules.VALUESET_DIR.glob("*.csv")):
+        with open(f, newline="", encoding="utf-8") as fh:
+            valuesets[f.stem] = list(csv.DictReader(fh))
+    return {
+        "FRAMEWORKS": lambda: y("frameworks")["frameworks"],
+        "REQUIREMENTS": lambda: reqs,
+        "COMMUNITIES": lambda: y("communities")["communities"],
+        "LEARNING": lambda: y("learning"),
+        "MATURITY": lambda: y("maturity"),
+        "SURVEYS": lambda: y("surveys"),
+        "AI": lambda: y("ai-for-dq"),
+        "PACKS": lambda: packs.list_packs(),
+        "CROSSWALK": lambda: packs.crosswalk_matrix(),
+        "LIBRARY": lambda: library,
+        "VALUESETS": lambda: valuesets,
+        "SCHEMES": lambda: list(rules.IDENTIFIER_SCHEMES),
+        "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
+    }
+
+
 # ---------- page assembly ----------
 
 def nav(active: str, long: bool) -> str:
-    parts = []
-    for stem, label, desc in PAGES:
-        cur = ' aria-current="page"' if stem == active else ""
-        inner = f"{html.escape(label)}<small>{html.escape(desc)}</small>" if long else html.escape(label)
-        parts.append(f'<a href="{stem}.html"{cur}>{inner}</a>')
-    return "".join(parts)
+    """Grouped navigation. Desktop: one disclosure per group. Menu (narrow screens): every group listed."""
+    out = []
+    for g, ps in GROUPS:
+        cur_g = any(stem == active for stem, _, _ in ps)
+        links = "".join(
+            f'<a href="{stem}.html"{" aria-current=\"page\"" if stem == active else ""}>{html.escape(label)}'
+            f'<small>{html.escape(desc)}</small></a>' for stem, label, desc in ps)
+        if long:
+            out.append(f'<div class="dqp-grp"><h2>{g}</h2>{links}</div>')
+        else:
+            out.append(f'<details class="dqp-g"{" data-current" if cur_g else ""}><summary>{g}</summary>'
+                       f'<div class="dqp-panel">{links}</div></details>')
+    return "".join(out)
 
 
 def split_fragment(text: str) -> tuple[str, str]:
@@ -151,7 +215,8 @@ def split_fragment(text: str) -> tuple[str, str]:
 def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[str, str]:
     """Return (full document, artifact fragment) for one page."""
     shell = (SRC / "shell.html").read_text(encoding="utf-8")
-    shell = shell.replace("{{NAV}}", nav(stem, False)).replace("{{NAV_LONG}}", nav(stem, True)).replace("{{BUILD}}", build_label)
+    shell = (shell.replace("{{NAV}}", nav(stem, False)).replace("{{NAV_LONG}}", nav(stem, True))
+             .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, "")))
     head, body = split_fragment(fragment)
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
@@ -168,7 +233,7 @@ def main(argv=None) -> int:
     ap.add_argument("--portfolio", default=str(ROOT / "portfolio.ndl.yaml"))
     ap.add_argument("--out", default=str(ROOT / "portal" / "dist"))
     ap.add_argument("--repo", default="https://github.com/cyberdudeuk/ndl-dq-assurance",
-                    help="repository web address, used for source links and (in --artifact mode) downloads")
+                    help="repository web address (proposed name; not yet pushed), used for source links and (in --artifact mode) downloads")
     ap.add_argument("--artifact", help="also write a claude.ai artifact copy to this folder")
     a = ap.parse_args(argv)
 
@@ -188,19 +253,25 @@ def main(argv=None) -> int:
                               "repo": a.repo}),
     }
 
+    kb, kcache = knowledge(), {}
+
     def render(target: Path, download_base: str, artifact: bool):
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
-        footer = (f'<footer class="dqp-foot"><span>NDL Data Quality Portal v{VERSION}</span>'
+        footer = (f'<footer class="dqp-foot"><span>{BRAND} v{VERSION}</span>'
                   f'<span>Results measured as of {port["as_of"]}; built {date.today().isoformat()} from commit {sha}</span>'
-                  f'<span>Code MIT, content OGL v3.0</span><span>A prototype. Not an official GDS product.</span>'
+                  f'<span>Code MIT, content OGL v3.0</span><span>A prototype public good service. Not an official government product.</span><a href="operate.html">Get help</a><a href="guide.html#accessibility">Accessibility</a>'
                   f'<a href="{html.escape(a.repo)}">Source code</a></footer>')
         for stem, _, _ in PAGES:
             text = (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8")
             text = text.replace("__DATA__", data["__NDL_DATA__"]) if stem == "ndl-assurance" else text
             for k, v in data.items():
                 text = text.replace(k, v)
+            for name in set(re.findall(r"__K_([A-Z]+)__", text)):
+                if name not in kcache:
+                    kcache[name] = js_json(kb[name]())
+                text = text.replace(f"__K_{name}__", kcache[name])
             text = text.replace("__DOWNLOADS__", download_base)
             doc, frag = assemble(stem, text, build_label, footer)
             (target / f"{stem}.html").write_text(frag if (artifact and stem == "index") else doc, encoding="utf-8")

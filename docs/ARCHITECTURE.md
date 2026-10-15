@@ -126,3 +126,10 @@ flowchart LR
 - The kit reads files locally and makes no network calls.
 - Failing examples include up to 5 row values. For personal data, set the rule's columns carefully or strip
   `examples` before sharing results. The recommendation is to share only `dqv.jsonld` and the DQAP CSVs.
+
+## 4. v1.0.0 additions (15 October 2026)
+- **Knowledge layer:** `knowledge/*.yaml|csv` is the single source for frameworks, clauses, communities, learning, maturity, surveys and AI guidance. The portal build injects it as `__K_NAME__` placeholders; the MCP server and assistant read the same data.
+- **Portal:** 19 static pages from `portal/src/pages`, shared shell (grouped navigation, guided-tour engine), parity-checked browser engine.
+- **Runtime services (claude.ai artifact):** `db` with 9 access rules (library, wishlist, results readable by all, written by editors; per-member `queue/{self}`, `responses/{self}`, `votes/{self}`); `user` (opaque id only, no names); `sample` for the assistant. On GitHub Pages these resolve to null and the pages fall back to GitHub issue forms.
+- **Integration:** GitHub (source of truth) to Jira (`backlog-sync.yml`, `scripts/sync_backlog.py`) and Confluence (`docs-to-confluence.yml`, `scripts/publish_confluence.py`); configuration in `integrations/config.yaml`; secrets only in repository secrets.
+- **Agent interface:** `dqkit/mcp_server.py` (stdio JSON-RPC, read-only, root-restricted).

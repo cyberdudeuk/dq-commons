@@ -45,3 +45,19 @@
 | docs/* | Product, architecture, delivery and outreach documents | No |
 
 Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpyxl ≥ 3.1. Python ≥ 3.10.
+
+## v1.0.0 (15 October 2026)
+| Component | Path |
+|---|---|
+| Portal pages (19) | `portal/src/pages/*.html` |
+| Shell, tour engine, base styles | `portal/src/shell.html`, `portal/src/base.css` |
+| Knowledge base | `knowledge/` |
+| Packs (12) | `packs/` |
+| Rule library | `rules/library/` |
+| Value sets | `vocab/valuesets/` |
+| MCP server | `dqkit/mcp_server.py` |
+| Data sources | `dqkit/sources.py` |
+| Integrations | `integrations/config.yaml`, `scripts/sync_backlog.py`, `scripts/publish_confluence.py`, `.github/workflows/backlog-sync.yml`, `.github/workflows/docs-to-confluence.yml` |
+| Community templates | `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md`, `CONTRIBUTING.md`, `SECURITY.md` |
+| Operating model, user guide | `docs/OPERATING-MODEL.md`, `docs/USER-GUIDE.md` |
+| AI evaluation | `knowledge/ai-eval/`, `scripts/eval_rule_drafting.py` |
