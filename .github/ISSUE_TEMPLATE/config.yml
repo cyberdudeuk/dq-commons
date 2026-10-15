@@ -4,5 +4,5 @@ contact_links:
     url: https://www.gov.uk/government/news/introducing-the-government-data-quality-community
     about: For questions about data quality practice, the cross-government community is the best place.
   - name: Report a security problem
-    url: https://github.com/cyberdudeuk/ndl-dq-assurance/security/policy
+    url: https://github.com/cyberdudeuk/dq-commons/security/policy
     about: Please don't report security problems in a public issue.
