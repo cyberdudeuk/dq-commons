@@ -128,7 +128,8 @@ function open(id) {
     if (Object.values(answers).some(v => typeof v === "string" && hasPII(v))) { $("sMsg").innerHTML = `<span class="msg err">One answer looks like it includes personal data (an email, phone or NI number). Please remove it.</span>`; return; }
     if (!db || !uid || !writable) { $("sMsg").innerHTML = `<span class="msg err">Answers can't be saved on this copy of the portal. Please use the Commons on claude.ai, or <a href="${esc(gh("4-commission.yml"))}">contact the Commons</a>.</span>`; return; }
     try {
-      await db.doc(`responses/${uid}`).set({...Object.fromEntries(Object.entries(myAnswers).map(([k, v]) => ["s_" + k, v])), ["s_" + id]: {...answers, at: new Date().toISOString().slice(0, 10)}});
+      const ref = db.doc(`responses/${uid}`), snap = await ref.get();
+      await ref.set({...(snap.exists ? snap.data() : {}), ["s_" + id]: {...answers, at: new Date().toISOString().slice(0, 10)}});
       myAnswers[id] = answers; marks();
       $("sMsg").innerHTML = `<span class="msg ok">Thank you. Your answers are saved. You can change them any time.</span>`;
     } catch (er) { $("sMsg").innerHTML = `<span class="msg err">Your answers couldn't be saved (${esc(er.code || er.message)}).</span>`; }

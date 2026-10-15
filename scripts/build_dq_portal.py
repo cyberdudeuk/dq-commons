@@ -42,6 +42,7 @@ GROUPS = [
         ("index", "Home", "Start here: what the Commons does and routes by role and task"),
         ("about", "About the Commons", "Mission, aims, objectives, priorities, roadmap and wishlist"),
         ("guide", "User guide", "How to use the portal, guided tours and frequently asked questions"),
+        ("accessibility", "Accessibility and privacy", "Accessibility statement, known problems, and what happens to anything you share"),
     ]),
     ("Do", [
         ("check", "Check your data", "Run the toolkit in your browser on a CSV file. Nothing is uploaded"),
@@ -274,7 +275,7 @@ def main(argv=None) -> int:
         target.mkdir(parents=True)
         footer = (f'<footer class="dqp-foot"><span>{BRAND} v{VERSION}</span>'
                   f'<span>Results measured as of {port["as_of"]}; built {date.today().isoformat()} from commit {sha}</span>'
-                  f'<span>Code MIT, content OGL v3.0</span><span>A prototype public good service. Not an official government product.</span><a href="operate.html">Get help</a><a href="guide.html#accessibility">Accessibility</a>'
+                  f'<span>Code MIT, content OGL v3.0</span><span>A prototype public good service. Not an official government product.</span><a href="operate.html">Get help</a><a href="accessibility.html">Accessibility</a><a href="accessibility.html#privacy">Privacy</a>'
                   f'<a href="{html.escape(a.repo)}">Source code</a></footer>')
         for stem, _, _ in PAGES:
             text = (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8")

@@ -3,6 +3,7 @@
 # DMA results. The themes and statements are this project's own, written for data quality specifically.
 # They are a self-assessment aid, not an official DMA.
 
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (learning)}
 levels:
 - {n: 1, name: Beginning}
 - {n: 2, name: Emerging}

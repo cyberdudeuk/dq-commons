@@ -4,6 +4,7 @@
 # Case studies are real, published examples (with sources). Scenarios are illustrative and say so.
 # Nothing here endorses a vendor.
 
+review: {last_reviewed: "2026-10-15", owner_role: AI assurance lead}
 principles:
 - {id: P1, title: "Start from the quality problem, not the AI", text: "Name the rule that fails, the dimension, the cost of the failure and who it affects. Use AI only where it beats a plain rule on that problem."}
 - {id: P2, title: Keep rules declarative and deterministic where you can, text: "Let AI propose rules, matches or fixes; let tested, explainable rules decide what passes. A rule file is reviewable; a model's judgement often isn't."}

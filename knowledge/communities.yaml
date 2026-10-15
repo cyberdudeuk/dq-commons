@@ -2,6 +2,7 @@
 # verified: "yes" = link checked October 2026; "partly" = organisation checked, link from its public site
 # address and worth confirming. Members-only groups are listed with how to join, never with private links.
 
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (community)}
 communities:
 - {name: Government Data Quality Hub, kind: Centre of expertise, scope: UK government, sector: Cross-government,
    what: "Runs the Government Data Quality Framework, the cross-government data quality community, guidance and training.",

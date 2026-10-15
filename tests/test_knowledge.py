@@ -101,6 +101,16 @@ class Knowledge(unittest.TestCase):
                 if not r.endswith(".html") and "#" not in r and not r.startswith("http"):
                     self.assertIn(r, articles, (a["id"], r))
 
+    def test_every_knowledge_file_has_a_current_review(self):
+        """Each file names an owning role and was reviewed in the last 12 months, so nothing goes quietly stale."""
+        import datetime as dt
+        today = dt.date.today()
+        for f in K.glob("*.yaml"):
+            r = (yaml.safe_load(f.read_text(encoding="utf-8")) or {}).get("review")
+            self.assertTrue(r and r.get("owner_role"), f.name)
+            age = (today - dt.date.fromisoformat(str(r["last_reviewed"]))).days
+            self.assertLessEqual(age, 365, f"{f.name} not reviewed for {age} days")
+
     def test_media_honesty(self):
         m = load("media")
         for s in m["slides"]:
