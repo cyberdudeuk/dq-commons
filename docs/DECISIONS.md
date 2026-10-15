@@ -1,5 +1,26 @@
 # Decision log (this repository)
 
+## 2026-10-15 · D-068 · One release record drives the version, the drawer and the change log
+- **Decision:** `knowledge/releases.yaml` holds every release; the build takes the version from it; a test checks each release is in CHANGELOG.md.
+- **Why:** version numbers and release notes drifted between files. One source keeps the portal, repository and docs in step.
+
+## 2026-10-15 · D-067 · A standalone build bundle generated from the docs
+- **Decision:** `scripts/build_bundle.py` renders the mandated documents into one page, with no extra packages; CI fails if the committed bundle is stale.
+- **Why:** reviewers want one place to read everything; generating it means it can't drift from the documents.
+
+## 2026-10-15 · D-066 · The Commons mark
+- **Decision:** three overlapping circles (the many organisations that hold public data) sharing one space (the commons), with a tick at the centre (quality). Line art in the brand teal and gold, drawn for the project, no stock or AI imagery.
+- **Why:** distinctive, explains the idea, works as a favicon, in one colour, and in dark mode.
+
+## 2026-10-15 · D-065 · Events and training are verified, linked and honest about accessibility and cost
+- **Decision:** curated entries are read on the organiser's page before listing; cost and accessibility are what the organiser states, or "not stated". Members add events through moderation. Free options come first.
+- **Why:** trust, and fairness to people for whom cost or access decides whether they can take part.
+
+## 2026-10-15 · D-064 · One ontology and knowledge graph behind the glossary, thesaurus, dictionary and taxonomies
+- **Decision:** `knowledge/ontology.yaml` defines classes, relationships, thesaurus links, the data dictionary and lineage; `dqkit/graph.py` builds one connected graph from all knowledge files and exports SKOS and OWL.
+- **Why:** separate lists drift and can't show how things relate. One graph gives every view (and machines) the same answer, with each node traced to its source file.
+- **Alternatives considered:** a graph database or an external graph library. Rejected for now: the graph is small, must run offline in a browser and on government laptops, and must be easy to replicate.
+
 ## 2026-10-15 · D-063 · Retire stale news rather than relabel it
 - **Decision:** when the content health check flags a news slide as over 6 months old and no newer source confirms the story, remove it from the carousel. The topic stays on its page.
 - **Why:** relabelling old news as "knowledge" would hide staleness instead of fixing it.

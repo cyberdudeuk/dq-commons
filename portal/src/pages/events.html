@@ -1,0 +1,210 @@
+<title>Data Quality Events</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.views{display:flex;gap:6px;flex-wrap:wrap}
+.views button{font:inherit;font-weight:600;font-size:.9rem;padding:7px 14px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.views button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.ev{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.ev .when{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;border-radius:8px;background:var(--accent-soft);color:var(--accent);padding:8px 6px;text-align:center;line-height:1.1}
+.ev .when b{font-family:var(--f-mono);font-size:1.5rem}
+.ev .when span{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.ev h3{font-size:1.02rem;display:flex;gap:8px;align-items:flex-start}
+.ev .meta{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
+.ev ul{margin:4px 0 0;padding:0;list-style:none;font-size:.86rem;display:flex;flex-direction:column;gap:3px}
+.ev ul li .dqi{color:var(--accent);margin-right:6px}
+.ev .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ev.past{opacity:.7}
+.list{display:flex;flex-direction:column;gap:10px}
+.cal{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.cal caption{caption-side:top;text-align:left;padding:0 0 8px;font-weight:700;font-family:var(--f-display);font-size:1.2rem}
+.cal th{text-align:center}
+.cal td{height:86px;vertical-align:top;border:1px solid var(--line);padding:4px;font-size:.78rem}
+.cal td .d{font-family:var(--f-mono);font-weight:700;color:var(--muted)}
+.cal td.today .d{color:var(--accent-fg);background:var(--accent);border-radius:4px;padding:0 4px}
+.cal td.out{background:var(--sunk)}
+.cal td a{display:block;margin-top:3px;padding:2px 4px;border-radius:4px;background:var(--accent-soft);color:var(--accent);text-decoration:none;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:640px){.cal td{height:56px}.cal td a{font-size:0;padding:0;width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--accent)}}
+.calnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+.form .full{grid-column:1/-1}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Events</span>
+  <h1>Data quality events</h1>
+  <p class="lede">Conferences, workshops, course runs and forums about data quality, in the UK and worldwide. Each event links to its organiser, with cost, format and what the organiser says about accessibility. Add any event to your calendar, or share one with the community.</p>
+  <nav class="toc" aria-label="On this page"><a href="#upcoming">Upcoming</a><a href="#recurring">Every year</a><a href="#add">Add an event</a></nav>
+  <p class="small" id="state" role="status" aria-live="polite"></p>
+</header>
+
+<section id="upcoming" aria-labelledby="up-h">
+  <h2 id="up-h">Upcoming events</h2>
+  <div class="filters">
+    <div class="field"><label for="fk">Type</label><select id="fk"></select></div>
+    <div class="field"><label for="ff">Format</label><select id="ff"></select></div>
+    <div class="field"><label for="fr">Where</label><select id="fr"></select></div>
+    <div class="field"><label for="fc"><input type="checkbox" id="fc"> Free only</label></div>
+    <div class="field"><label for="fp"><input type="checkbox" id="fp"> Show past events</label></div>
+  </div>
+  <div style="display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap">
+    <div class="views" role="group" aria-label="View"><button type="button" id="vList" aria-pressed="true"></button><button type="button" id="vCal" aria-pressed="false"></button></div>
+    <button class="btn ghost" type="button" id="icsAll"></button>
+  </div>
+  <p class="small muted" id="n" role="status" aria-live="polite"></p>
+  <div id="listView" class="list"></div>
+  <div id="calView" hidden>
+    <div class="calnav"><button class="btn ghost" type="button" id="prevM" aria-label="Previous month">‹ Previous</button><button class="btn ghost" type="button" id="thisM">This month</button><button class="btn ghost" type="button" id="nextM" aria-label="Next month">Next ›</button></div>
+    <div class="tbl" style="border:0;background:none;margin-top:10px"><table class="cal" id="cal"></table></div>
+  </div>
+  <p class="small muted" id="note"></p>
+</section>
+
+<section id="recurring" aria-labelledby="re-h"><h2 id="re-h">Every year</h2><p class="small">Dates are announced by the organisers. Follow the link for this year's details.</p><ul class="plain" id="rec"></ul></section>
+
+<section id="add" aria-labelledby="add-h">
+  <h2 id="add-h">Add an event</h2>
+  <p>Tell us about a data quality event. Moderators check it against the organiser's page before it appears. Please say what the organiser offers for accessibility, such as captions, step-free access or recordings.</p>
+  <form class="form" id="eForm" novalidate>
+    <div class="field full"><label for="eT">Event name</label><input type="text" id="eT" maxlength="160"></div>
+    <div class="field"><label for="eS">Start date</label><input type="date" id="eS"></div>
+    <div class="field"><label for="eE">End date (if more than one day)</label><input type="date" id="eE"></div>
+    <div class="field"><label for="eK">Type</label><select id="eK"></select></div>
+    <div class="field"><label for="eF">Format</label><select id="eF"></select></div>
+    <div class="field"><label for="eL">Place (or Online)</label><input type="text" id="eL" maxlength="160"></div>
+    <div class="field"><label for="eR">Nation, jurisdiction or region</label><input type="text" id="eR" maxlength="80" placeholder="For example: Wales, Jersey, International"></div>
+    <div class="field"><label for="eO">Organiser (organisation)</label><input type="text" id="eO" maxlength="120"></div>
+    <div class="field"><label for="eC">Cost</label><input type="text" id="eC" maxlength="80" placeholder="Free, or the price"></div>
+    <div class="field full"><label for="eU">Link to the organiser's page</label><input type="text" id="eU" inputmode="url" placeholder="https://"></div>
+    <div class="field full"><label for="eA">Accessibility</label><input type="text" id="eA" maxlength="300" placeholder="What the organiser offers, or Not stated"></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="eMsg" role="status" aria-live="polite"></span></div>
+  </form>
+</section>
+</div>
+
+<script>
+const EV = __K_EVENTS__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const safeUrl = u => /^https:\/\/[^\s"<>]+$/i.test(u || "") ? u : "";
+const gh = t => `${B.repo}/issues/new?template=${t}`;
+const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/];
+$("vList").innerHTML = DQI("news") + "List"; $("vCal").innerHTML = DQI("calendar") + "Calendar"; $("icsAll").innerHTML = DQI("calendar") + "Add all to my calendar (.ics)";
+const KI = {Conference: "users", Workshop: "wrench", Course: "grad", Webinar: "video", Forum: "globe", Meetup: "chat"};
+let events = EV.events.map(e => ({...e, source: "curated"}));
+const today = new Date().toISOString().slice(0, 10);
+const opt = (id, vals) => { $(id).innerHTML = `<option value="">Any</option>` + vals.map(v => `<option>${esc(v)}</option>`).join(""); };
+function fillFilters() { opt("fk", EV.kinds); opt("ff", EV.formats); opt("fr", [...new Set(events.map(e => e.region))].sort()); }
+$("eK").innerHTML = EV.kinds.map(k => `<option>${esc(k)}</option>`).join(""); $("eF").innerHTML = EV.formats.map(k => `<option>${esc(k)}</option>`).join("");
+const d10 = s => String(s).slice(0, 10), endOf = e => d10(e.end || e.start);
+const fmtDate = s => new Date(d10(s) + "T12:00:00Z").toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric", timeZone: "UTC"});
+function visible() {
+  const k = $("fk").value, f = $("ff").value, r = $("fr").value, free = $("fc").checked, past = $("fp").checked;
+  return events.filter(e => (!k || e.kind === k) && (!f || e.format === f) && (!r || e.region === r) && (!free || e.free) && (past || endOf(e) >= today))
+    .sort((a, b) => d10(a.start).localeCompare(d10(b.start)));
+}
+function card(e) {
+  const d = new Date(d10(e.start) + "T12:00:00Z"), multi = endOf(e) !== d10(e.start), time = String(e.start).length > 10 ? String(e.start).slice(11, 16) : "";
+  return `<article class="ev${endOf(e) < today ? " past" : ""}" id="${esc(e.id)}"><div class="when" aria-hidden="true"><span>${d.toLocaleDateString("en-GB", {month: "short", timeZone: "UTC"})}</span><b>${d.getUTCDate()}</b><span>${d.getUTCFullYear()}</span></div>
+    <div><h3>${DQI(KI[e.kind] || "calendar")}<a href="${esc(safeUrl(e.url))}" rel="noopener">${esc(e.title)}</a></h3>
+    <div class="meta"><span class="chip acc">${esc(e.kind)}</span><span class="chip">${esc(e.format)}</span><span class="chip">${esc(e.region)}</span>${e.free ? '<span class="chip good">Free</span>' : ""}${e.source === "community" ? '<span class="chip">Shared by a member</span>' : ""}${e.checked === "yes" || e.source === "community" ? "" : '<span class="chip warn">Not yet reviewed</span>'}${endOf(e) < today ? '<span class="chip">Past</span>' : ""}</div>
+    <ul><li>${DQI("calendar")}${esc(fmtDate(e.start))}${multi ? " to " + esc(fmtDate(e.end)) : ""}${time ? ", from " + esc(time) + " local time" : ""}</li>
+      <li>${DQI("pin")}${esc(e.location)}</li><li>${DQI("users")}${esc(e.organiser)}</li><li>${DQI("contract")}${esc(e.cost)}</li>
+      <li>${DQI("access")}${esc(e.accessibility || "Not stated. Ask the organiser about access needs.")}</li>${e.note ? `<li>${DQI("info")}${esc(e.note)}</li>` : ""}${e.capacity ? `<li>${DQI("info")}${esc(e.capacity)}</li>` : ""}</ul>
+    <div class="acts"><button class="btn ghost" type="button" data-ics="${esc(e.id)}">${DQI("calendar")}Add to calendar</button><a class="btn ghost" href="${esc(safeUrl(e.url))}" rel="noopener">${DQI("external")}Organiser's page</a></div></div></article>`;
+}
+let view = "list", month = new Date(today.slice(0, 7) + "-01T12:00:00Z");
+function draw() {
+  const L = visible();
+  $("n").textContent = `${L.length} event${L.length === 1 ? "" : "s"} shown.`;
+  $("listView").innerHTML = L.map(card).join("") || `<p>No events match. Try fewer filters, or <a href="#add">add one</a>.</p>`;
+  $("listView").hidden = view !== "list"; $("calView").hidden = view !== "cal";
+  if (view === "cal") drawCal(L);
+}
+function drawCal(L) {
+  const y = month.getUTCFullYear(), m = month.getUTCMonth(), first = new Date(Date.UTC(y, m, 1)), start = (first.getUTCDay() + 6) % 7;
+  const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate(), cells = [];
+  const total = Math.ceil((start + days) / 7) * 7;
+  for (let i = 0; i < total; i++) {
+    const dt = new Date(Date.UTC(y, m, 1 - start + i)), iso = dt.toISOString().slice(0, 10), out = dt.getUTCMonth() !== m;
+    const on = L.filter(e => d10(e.start) <= iso && endOf(e) >= iso);
+    cells.push(`<td class="${out ? "out" : ""}${iso === today ? " today" : ""}"><span class="d">${dt.getUTCDate()}</span>${on.map(e => `<a href="#${esc(e.id)}" title="${esc(e.title)}">${esc(e.title)}</a>`).join("")}</td>`);
+  }
+  const rows = []; for (let i = 0; i < cells.length; i += 7) rows.push(`<tr>${cells.slice(i, i + 7).join("")}</tr>`);
+  $("cal").innerHTML = `<caption>${month.toLocaleDateString("en-GB", {month: "long", year: "numeric", timeZone: "UTC"})}</caption><thead><tr>${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<th scope="col">${d}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody>`;
+  $("cal").querySelectorAll("a").forEach(a => a.addEventListener("click", ev => { ev.preventDefault(); view = "list"; setView(); draw(); const t = document.getElementById(a.getAttribute("href").slice(1)); if (t) { t.scrollIntoView(); t.querySelector("h3 a").focus(); } }));
+}
+function setView() { $("vList").setAttribute("aria-pressed", view === "list"); $("vCal").setAttribute("aria-pressed", view === "cal"); }
+$("vList").onclick = () => { view = "list"; setView(); draw(); };
+$("vCal").onclick = () => { view = "cal"; setView(); draw(); };
+$("prevM").onclick = () => { month = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() - 1, 1, 12)); draw(); };
+$("nextM").onclick = () => { month = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, 1, 12)); draw(); };
+$("thisM").onclick = () => { month = new Date(today.slice(0, 7) + "-01T12:00:00Z"); draw(); };
+["fk", "ff", "fr", "fc", "fp"].forEach(id => $(id).addEventListener("input", draw));
+
+// iCalendar (RFC 5545)
+const icsText = s => String(s || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+const fold = l => { const out = []; while (l.length > 74) { out.push(l.slice(0, 74)); l = " " + l.slice(74); } out.push(l); return out.join("\r\n"); };
+function vevent(e) {
+  const s = String(e.start), en = String(e.end || e.start), timed = s.length > 10;
+  const ymd = x => x.slice(0, 10).replace(/-/g, ""), hms = x => x.slice(11, 16).replace(":", "") + "00";
+  const next = x => { const d = new Date(x.slice(0, 10) + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10).replace(/-/g, ""); };
+  const L = ["BEGIN:VEVENT", `UID:${e.id}@dq-commons`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").slice(0, 15)}Z`,
+    timed ? `DTSTART;TZID=${e.tz || "Europe/London"}:${ymd(s)}T${hms(s)}` : `DTSTART;VALUE=DATE:${ymd(s)}`,
+    timed && en.length > 10 ? `DTEND;TZID=${e.tz || "Europe/London"}:${ymd(en)}T${hms(en)}` : `DTEND;VALUE=DATE:${next(en)}`,
+    `SUMMARY:${icsText(e.title)}`, `LOCATION:${icsText(e.location)}`, `URL:${safeUrl(e.url)}`,
+    `DESCRIPTION:${icsText(`${e.kind}, ${e.format}. Organiser: ${e.organiser}. Cost: ${e.cost}. Accessibility: ${e.accessibility || "not stated"}. ${safeUrl(e.url)}`)}`, "END:VEVENT"];
+  return L.map(fold).join("\r\n");
+}
+async function save(name, list) {
+  const text = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Public Sector Data Quality Commons//Events//EN", "CALSCALE:GREGORIAN", ...list.map(vevent), "END:VCALENDAR"].join("\r\n") + "\r\n";
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("state").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/calendar"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("state").textContent = "Downloaded. Open the file to add it to your calendar."; }
+  catch (e) { $("state").textContent = "Downloading isn't allowed here. Use the organiser's page instead."; }
+}
+$("listView").addEventListener("click", e => { const b = e.target.closest("[data-ics]"); if (b) { const ev = events.find(x => x.id === b.dataset.ics); save(`${ev.id}.ics`, [ev]); } });
+$("icsAll").onclick = () => { const L = visible(); if (L.length) save("dq-commons-events.ics", L); };
+$("rec").innerHTML = EV.recurring.map(r => `<li>${DQI("refresh")} <a href="${esc(r.url)}" rel="noopener">${esc(r.title)}</a>: ${esc(r.when)}. ${esc(r.organiser)}.${r.checked === "yes" ? "" : ' <span class="chip warn">Not yet reviewed</span>'}</li>`).join("");
+$("note").textContent = EV.commons_note;
+
+// Shared store: published community events (events/{id}); submissions go to the member's moderation queue.
+let db = null, uid = null, writable = true;
+$("eForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const v = {title: $("eT").value.trim(), start: $("eS").value, end: $("eE").value || $("eS").value, kind: $("eK").value, format: $("eF").value,
+    location: $("eL").value.trim(), region: $("eR").value.trim() || "Not stated", organiser: $("eO").value.trim(), cost: $("eC").value.trim() || "Not stated",
+    url: $("eU").value.trim(), accessibility: $("eA").value.trim() || "Not stated. Ask the organiser about access needs."};
+  const err = !v.title ? ["eT", "Add the event name."] : !v.start ? ["eS", "Add the start date."] : v.end < v.start ? ["eE", "The end date is before the start date."]
+    : !safeUrl(v.url) ? ["eU", "Add a link starting with https:// to the organiser's page."] : null;
+  if (err) { $("eMsg").innerHTML = `<span class="msg err">${err[1]}</span>`; $(err[0]).focus(); return; }
+  if (PII.some(r => r.test(Object.values(v).join(" ")))) { $("eMsg").innerHTML = `<span class="msg err">Please remove email addresses and phone numbers. Link to the organiser's page instead.</span>`; return; }
+  if (!db || !uid || !writable) { location.href = gh("5-contribution.yml"); return; }
+  try {
+    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
+    if (items.filter(i => i.status === "pending").length >= 20) throw {message: "You have 20 items waiting for moderation already."};
+    items.push({kind: "event", ...v, summary: `${v.kind}, ${v.format}, ${v.location}. ${v.cost}.`, link: v.url, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
+    await ref.set({items, updated: new Date().toISOString()});
+    $("eForm").reset(); $("eMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will check it and add it to the calendar.</span>`;
+  } catch (er) { $("eMsg").innerHTML = `<span class="msg err">It couldn't be sent: ${esc(er.message || er.code)}.</span>`; }
+});
+fillFilters(); draw();
+(async () => {
+  if (!window.claude || typeof claude.use !== "function") { $("state").textContent = "This copy shows curated events. To share an event, use the GitHub form."; return; }
+  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
+  if (!db) { $("state").textContent = "Showing curated events. Sign in to see and share community events."; return; }
+  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
+  db.collection("events").onSnapshot(s => {
+    const shared = s.docs.map(x => ({id: "c-" + x.id, ...x.data(), source: "community", free: /^free$/i.test(x.data().cost || "")}));
+    events = [...EV.events.map(e => ({...e, source: "curated"})), ...shared]; fillFilters(); draw();
+  }, () => {});
+})();
+window.DQP_TOUR = [
+  {sel: "#upcoming .filters", title: "Filter events", text: "By type, format and where, or only free events."},
+  {sel: ".views", title: "List or calendar", text: "See events as a list or as a month calendar."},
+  {sel: "#icsAll", title: "Add to your calendar", text: "Download one event, or all the events shown, as a calendar file."},
+  {sel: "#eForm", title: "Share an event", text: "Moderators check it against the organiser's page before it's public."},
+];
+</script>

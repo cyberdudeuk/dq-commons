@@ -63,6 +63,11 @@
       "description": "The packs that apply frameworks to results."
     },
     {
+      "name": "explore_knowledge",
+      "title": "Explore the data quality knowledge graph",
+      "description": "Search the Commons knowledge graph (glossary, thesaurus, frameworks, packs, checks, dimensions, issue types, metadata standards, roles, skills, courses, events and jurisdictions). Give 'query' to find concepts, 'node' to list its relationships, or 'from' and 'to' to trace the shortest chain of relationships between two concepts."
+    },
+    {
       "name": "weave_metadata",
       "title": "Weave a metadata record into every catalogue standard",
       "description": "Read one dataset record (DCAT or schema.org JSON-LD, a CKAN package or an ODCS contract) and return it as DCAT v3, schema.org, CKAN and an ODCS skeleton, with the gaps for each and the 13 CDA metadata properties."

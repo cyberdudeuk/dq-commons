@@ -94,6 +94,20 @@ __BASE_CSS__
 
 <section id="github" aria-labelledby="g-h"><h2 id="g-h">GitHub resources</h2><div id="ghs"></div></section>
 
+<section id="releases" aria-labelledby="rl-h">
+  <h2 id="rl-h">Releases and change log</h2>
+  <ul class="plain small" id="rlPolicy"></ul>
+  <div id="rl"></div>
+  <p class="small">The same notes are in <a id="lChangelog" href="#">CHANGELOG.md</a>, and each release is tagged in Git. Open <button class="lnk" type="button" id="rlDrawer" style="font:inherit;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0">What's new</button> from any page.</p>
+</section>
+
+<section id="bundle" aria-labelledby="bu-h">
+  <h2 id="bu-h">Solution build and development bundle</h2>
+  <p>Every product, architecture and delivery document for this version in one standalone page: product requirements, theory of change, user research, architecture (solution, high-level and low-level design), functional, technical and integration requirements, build manifest, README, change log, decisions and build log.</p>
+  <p><a class="btn" id="lBundle" href="#">Open the bundle (repository copy)</a></p>
+  <p class="small muted">The bundle is generated from the repository's docs by <code>scripts/build_bundle.py</code>, so it always matches the build.</p>
+</section>
+
 <section id="contact" aria-labelledby="ct-h">
   <h2 id="ct-h">Contact us</h2>
   <p>Send us a message through this form. We never show the team's email address, which keeps spam and impersonation down. You don't need to give your name or email: we reply here, on this page, when you come back signed in.</p>
@@ -109,7 +123,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__;
+const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const gh = t => `${B.repo}/issues/new?template=${t}`;
@@ -154,6 +168,13 @@ $("hk").innerHTML = [[H.counts.error, "errors"], [H.counts.warning, "warnings"],
   .map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
 $("rt").innerHTML = K.routines.map(r => `<tr><td><b>${esc(r.name)}</b></td><td>${esc(r.what)}</td><td>${esc(r.when)}</td><td><span class="chip ${r.status === "running" ? "good" : r.status === "planned" ? "" : "acc"}">${esc(r.status)}</span></td></tr>`).join("");
 $("hOpen").innerHTML = H.open.length ? `<ul class="plain small">${H.open.map(i => `<li><b>${esc(i.level)}</b> · ${esc(i.check)} · <code>${esc(i.where)}</code>: ${esc(i.message)}</li>`).join("")}</ul><p class="small muted">Report generated ${esc(H.as_of)}.</p>` : `<p class="small">No open findings as of ${esc(H.as_of)}.</p>`;
+$("rlPolicy").innerHTML = REL.policy.map(p => `<li>${esc(p)}</li>`).join("");
+const FL = {new: "New", changed: "Changed", fixed: "Fixed", removed: "Removed"};
+$("rl").innerHTML = REL.releases.map((r, i) => `<details class="disc"${i === 0 ? " open" : ""}><summary>Version ${esc(r.version)}: ${esc(r.title)} <span class="small muted">(${esc(r.date)})</span></summary><div class="body">
+  ${["new", "changed", "fixed", "removed"].map(t => { const xs = r.items.filter(x => x.type === t); return xs.length ? `<ul class="plain small">${xs.map(x => `<li><span class="dqp-flag ${t}">${FL[t]}</span>${x.link ? `<a href="${esc(x.link)}">${esc(x.text)}</a>` : esc(x.text)}</li>`).join("")}</ul>` : ""; }).join("")}</div></details>`).join("");
+$("lChangelog").href = B.repo + "/blob/main/CHANGELOG.md";
+$("lBundle").href = B.repo + "/blob/main/docs/bundle/index.html";
+$("rlDrawer").onclick = () => { if (window.DQP_openNews) window.DQP_openNews(); };
 $("ctTopic").innerHTML = K.contact_topics.map(t => `<option>${esc(t)}</option>`).join("");
 
 // Shared store (claude.ai): wishlist, votes and a per-member queue. Elsewhere: GitHub forms.

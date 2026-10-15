@@ -191,3 +191,15 @@ flowchart LR
 **Provenance.** At build time each page's `__K_NAME__` placeholders are mapped to knowledge files; the oldest `review.last_reviewed` and the owning roles are printed above the colophon.
 
 **Backlog to issues.** Idempotent: existing issues are matched by `[BL-nn]`. Items with a Jira key get `jira-linked`, which the Jira sync workflow skips.
+
+## 7. v1.3.0 design (15 October 2026)
+
+**Knowledge graph (`dqkit/graph.py`).** Builds nodes (`Type:slug`) and named edges from every knowledge file, the vocabulary CSVs, packs and the Rosetta. Every edge's property is declared in `knowledge/ontology.yaml` with a domain and range (a test enforces this), so the graph is self-describing. Bridging links come only from the data: glossary terms that name a dimension, role or standard are `sameAs` it; lineage stages `involve` the concepts they use; places are `inScope` of the Commons. Result: 460 nodes, about 1,060 edges, one connected component, no dangling links. Exports: JSON for the portal, JSON-LD and Turtle (SKOS concepts, OWL classes and object properties, `owl:sameAs` to the published vocabulary IRIs). Questions: `find`, `neighbours`, `path` (breadth-first, either direction).
+
+**Knowledge map page.** Radial neighbourhood view (SVG, no libraries) with keyboard-focusable nodes and a full relationship list as the accessible equivalent; trail; path finder; glossary A to Z; ISO 25964 thesaurus (SN, UF, BT, NT, RT, USE); data dictionary with an entity relationship diagram; taxonomies as nested disclosures; ontology class diagram; lineage diagrams laid out by longest-path layering; framework-to-evidence traceability.
+
+**Events.** Curated events plus published community events (`events/{id}`, moderated from each member's queue). RFC 5545 calendar files generated in the browser.
+
+**Releases.** `knowledge/releases.yaml` drives the version, the What's new drawer (a non-modal dialog that keeps focus, closes on Escape and remembers the last version seen in local storage) and New or Updated flags in menus.
+
+**Bundle.** `scripts/build_bundle.py` converts the mandated Markdown documents with a small built-in converter into one standalone page; `--check` keeps the committed copy current.

@@ -8,6 +8,12 @@ __BASE_CSS__
 header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:26px;align-items:start}
 @media (max-width:860px){header.page.hero{grid-template-columns:minmax(0,1fr)}}
 .hero h1{font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.01em}
+.commons{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:5px solid #ffbf47;border-radius:14px;padding:18px 20px;align-self:stretch}
+.commons .mark{width:84px;height:84px;color:var(--accent)}
+.commons h2{font-size:1.3rem}
+.commons>div{display:flex;flex-direction:column;gap:8px}
+.commons p{font-size:.92rem}
+@media (min-width:861px) and (max-width:1100px){.commons .mark{width:64px;height:64px}}
 .status{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
 .status .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:8px}
 .status .row:last-of-type{border-bottom:0}
@@ -93,7 +99,7 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 </style>
 
 <div class="wrap">
-<header class="page">
+<header class="page hero">
   <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
     <span class="eyebrow">Public Sector Data Quality Commons</span>
     <h1>Is the data good enough to use, and is someone fixing it?</h1>
@@ -102,6 +108,17 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
       <input type="search" id="fq" placeholder="What do you want to do? For example: check NHS numbers, ISO 8000, Wales" autocomplete="off" list="fqList"><datalist id="fqList"></datalist><button class="btn" type="submit">Go</button></form>
     <div class="quickgo" id="quickgo"></div>
   </div>
+  <aside class="commons" aria-labelledby="what-commons">
+    <svg class="mark" viewBox="0 0 64 64" role="img" aria-labelledby="mark-t"><title id="mark-t">The Commons mark: three overlapping circles sharing one space, with a tick at the centre</title>
+      <g fill="none" stroke="currentColor" stroke-width="3"><circle cx="32" cy="24.5" r="13"/><circle cx="23.2" cy="39.5" r="13"/><circle cx="40.8" cy="39.5" r="13"/></g>
+      <circle cx="32" cy="34.6" r="7.4" fill="#ffbf47"/><path d="M28.4 34.8l2.6 2.6 4.8-5.2" fill="none" stroke="#0b0c0c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div>
+      <h2 id="what-commons">What is a Commons?</h2>
+      <p>A commons is something a community looks after together, for everyone's benefit, like common land, Wikipedia or open-source software. Nobody owns it, everyone can use it, and the people who use it agree the rules and keep it in good shape.</p>
+      <p>Here, the commons is <b>shared knowledge, tools and practice for data quality</b>: open code (MIT), open content (OGL), and rules made with the people who use them, through the <a href="build.html#charter">charter</a>.</p>
+      <p class="small"><b>The mark:</b> three circles for the many organisations that hold public data, overlapping in one shared space. At its heart, a tick for quality, the common good they share.</p>
+    </div>
+  </aside>
 </header>
 
 <section aria-labelledby="news-h">

@@ -43,3 +43,12 @@ doc = {"@context": {"skos": "http://www.w3.org/2004/02/skos/core#", "dqv": "http
                     "dct": "http://purl.org/dc/terms/", "ndq": BASE}, "@graph": graph}
 (V / "dq-vocab.jsonld").write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
 print(f"{len(dims)} dimensions, {len(issues)} issue types written")
+
+# The knowledge graph and ontology (dqkit/graph.py), as SKOS/OWL Turtle and JSON-LD.
+import sys as _sys
+_sys.path.insert(0, str(V.parent))
+from dqkit import graph as _graph  # noqa: E402
+_g = _graph.build()
+(V / "knowledge-graph.ttl").write_text(_graph.to_turtle(_g), encoding="utf-8")
+(V / "knowledge-graph.jsonld").write_text(json.dumps(_graph.to_jsonld(_g), indent=1, ensure_ascii=False), encoding="utf-8")
+print(f"Knowledge graph: {_g['stats']['nodes']} nodes, {_g['stats']['edges']} relationships written")

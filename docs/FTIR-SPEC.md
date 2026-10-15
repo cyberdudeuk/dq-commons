@@ -79,3 +79,14 @@
 - **T-20** Content health report fails on personal or sensitive data, mismatched claims and overdue reviews.
 - **R-10** No personal details in the colophon, commits or contact routes.
 - **I-20** MCP tools `weave_metadata` and `check_contract` are read-only.
+
+## v1.3 requirements
+
+- **F-50** Explore any concept and its relationships; trace the shortest path between two concepts.
+- **F-51** Glossary, thesaurus, data dictionary, taxonomies, ontology and lineage views from one source.
+- **F-52** Events in list and month views, with .ics downloads and moderated submissions.
+- **F-53** Skills check against a role's target level, with a downloadable development plan.
+- **F-54** What's new drawer and menu flags from one release record.
+- **T-30** Every graph relationship type is declared in the ontology; no dangling links; one connected graph.
+- **T-31** The committed build bundle matches the documents.
+- **I-30** MCP tool `explore_knowledge` is read-only.

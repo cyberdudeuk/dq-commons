@@ -90,3 +90,10 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 - **Help us build this** (Community). User need: "As a member, I need to see and influence what's planned, and contact the team without sharing personal data."
 - **Self-checking content.** User need: "As a reader, I need to trust that what I read is current and checked."
 - Success measures: share of records with full CDA coverage after weaving; backlog items picked up by contributors; content health errors at zero on main.
+
+## v1.3 additions (2026-10-15)
+
+- **Knowledge map.** User need: "As a new data steward, I need to understand the terms and how frameworks, rules and evidence connect, so I can apply them with confidence."
+- **Events and training.** User need: "As a manager, I need to find affordable, accessible training and events that match my team's gaps."
+- **What's new.** User need: "As a returning user, I need to see what changed since my last visit."
+- **Build bundle.** User need: "As an assurer or reviewer, I need every design and delivery document for a version in one place."

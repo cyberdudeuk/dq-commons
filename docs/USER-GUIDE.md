@@ -16,10 +16,10 @@ The Commons is a free, open place to check, improve and talk about the quality o
 |---|---|---|
 | Start | Home (news, spotlight, latest), About, User guide, Accessibility and privacy | Find your way, see what the Commons is for |
 | Do | Check your data, Maturity, AI assistant, Metadata Weaver, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, publish metadata in every standard, automate |
-| Know | Frameworks and standards, Learn, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, use AI safely, prioritise, choose tools, read and publish resources |
+| Know | Frameworks and standards, Learn, Skills and training, Knowledge map, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, check your skills and find training, explore every concept and how it connects, use AI safely, prioritise, choose tools, read and publish resources |
 | Govern | Buying and suppliers, Legacy and modernisation, Interoperability and standards | Put data quality into contracts, migrate without data debt, join data up |
 | Scenarios | All scenarios, UK and the world, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation, jurisdiction or platform |
-| Community | Community, Media centre, Surveys and commissions, Case studies, Help us build this, Operating model | Contribute, share posts and podcasts, run surveys, ask for help, vote on the roadmap, co-design, contact us |
+| Community | Community, Media centre, Events, Surveys and commissions, Case studies, Help us build this, Operating model | Contribute, share posts and podcasts, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
 ## Common tasks
 
@@ -46,6 +46,15 @@ Go to **Metadata Weaver**. Paste a DCAT, schema.org, CKAN or ODCS record. You ge
 
 ### Check a data contract change
 On **Metadata Weaver**, under "Contract change check", paste the old and new ODCS contracts. You see what changed, what breaks consumers, and the version number to use.
+
+### Explore concepts and how they connect
+Go to **Knowledge map**. Search for any concept: it appears in the middle, with everything it links to around it. Choose any one to move there; your trail lets you step back. Use **Trace the path** to see how two concepts connect, or the tabs for the glossary, thesaurus, data dictionary, taxonomies, ontology and lineage.
+
+### Find events and training
+**Events** lists conferences, workshops and courses, as a list or a month calendar; add any to your calendar. **Skills and training** lets you rate your skills against your role and download a development plan.
+
+### See what's new
+Press **What's new** in the top bar. Each release lists what's new, changed and fixed. New and updated pages are flagged in the menus.
 
 ### Contact the team
 Go to **Help us build this** and use the contact form. We never show an email address and you don't need to give yours. Replies appear on the same page when you return signed in.

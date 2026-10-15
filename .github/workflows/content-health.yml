@@ -23,6 +23,8 @@ jobs:
         with: {node-version: "20"}
       - run: pip install -r requirements.txt
       - run: python scripts/gen_community_docs.py --check
+      - run: python scripts/build_bundle.py --check
+      - run: python scripts/build_vocab.py && git diff --exit-code vocab/
       - name: Content health report
         id: health
         run: python scripts/self_check.py --out health

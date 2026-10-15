@@ -1,0 +1,188 @@
+# Skills, training, education and learning and development for data quality.
+# Honesty rules: "checked: yes" means the provider's page was read when added; "listed" means found but not yet read
+# in full. Cost and format are as the provider states; "not stated" means the provider doesn't say.
+# Free and open options are listed first. No trainer or staff names.
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (learning)}
+
+levels: [Awareness, Working, Practitioner, Expert]
+
+# Skills for data quality, aligned with the Government Digital and Data (DDaT) capability framework's data skills.
+skills:
+- {id: SK-ASSESS, name: "Assessing data quality", what: "Define rules and targets, measure, and read results.", ddat: "Data quality management", modules: [m1, m2]}
+- {id: SK-ACTION, name: "Data quality action planning", what: "Prioritise issues, find root causes and fix at source.", ddat: "Data quality management", modules: [m3, m4]}
+- {id: SK-GOV, name: "Data governance and ownership", what: "Ownership, stewardship, decision rights and escalation.", ddat: "Data governance", modules: [m9]}
+- {id: SK-META, name: "Metadata and cataloguing", what: "Describe data so others can find, trust and reuse it.", ddat: "Metadata management", modules: [m5, m10]}
+- {id: SK-STAT, name: "Statistical quality and communication", what: "Measure accuracy and uncertainty and explain quality to users.", ddat: "Analysis; communicating analysis", modules: [m6]}
+- {id: SK-PROT, name: "Data protection and ethics", what: "Accuracy duties, privacy and fair treatment of people in data.", ddat: "Data ethics and privacy", modules: [m7]}
+- {id: SK-ENG, name: "Automating quality checks", what: "Pipelines, data contracts and tests that run every time.", ddat: "Data engineering", modules: [m2, m10]}
+- {id: SK-AI, name: "Data quality for AI", what: "Representativeness, currency and assurance of data used by AI.", ddat: "Data science; AI engineering", modules: [m8]}
+- {id: SK-INC, name: "Inclusion and representativeness", what: "Find who data leaves out and whether quality differs between groups.", ddat: "Data ethics and privacy", modules: [m7]}
+- {id: SK-COMM, name: "Commercial and supplier assurance", what: "Put data quality duties into contracts and hold suppliers to them.", ddat: "Commercial (data)", modules: [m9]}
+
+# kind: course, pathway, qualification, guidance, tool-training. cost_band: free, paid, not stated.
+courses:
+- id: c-dqhub-intro
+  title: "Introduction to data quality assessments"
+  provider: "Government Data Quality Hub"
+  kind: course
+  format: "Online, self-paced"
+  cost_band: free
+  cost: "Free"
+  level: Awareness
+  audience: "New data professionals and anyone doing regular assessments"
+  skills: [SK-ASSESS]
+  url: "https://bpi-courses.github.io/Introduction_to_data_quality_assessments/"
+  checked: "yes"
+- id: c-dqhub-dqap
+  title: "Data quality action plans"
+  provider: "Government Data Quality Hub"
+  kind: course
+  format: "Online, self-paced, two modules with exercises"
+  cost_band: free
+  cost: "Free"
+  level: Working
+  audience: "People who have done the introduction, and people managing data"
+  skills: [SK-ACTION]
+  url: "https://bpi-courses.github.io/Data-Quality-Action-Plans/"
+  checked: "yes"
+- id: c-school-ode
+  title: "Quality and consistent data with Open Data Editor"
+  provider: "School of Data (with Open Knowledge Brazil and Escola de Dados)"
+  kind: course
+  format: "Online, self-paced, hands-on with real data"
+  cost_band: free
+  cost: "Free"
+  level: Awareness
+  audience: "People who work with tables but don't code; researchers and civil society"
+  skills: [SK-ASSESS, SK-META]
+  url: "https://schoolofdata.org/course-quality-and-consistent-data-with-open-data-editor/"
+  checked: "yes"
+- id: c-af-pathway
+  title: "Data quality learning pathway (four courses)"
+  provider: "Government Analysis Function"
+  kind: pathway
+  format: "Through the ONS Learning Hub; sign-up form for people without an account"
+  cost_band: not stated
+  cost: "Not stated"
+  level: Awareness
+  audience: "People improving data quality or statistical publications, and communicating quality"
+  skills: [SK-ASSESS, SK-STAT, SK-PROT]
+  url: "https://analysisfunction.civilservice.gov.uk/learning-development/learning-pathways/data-quality-learning-pathway/"
+  checked: "yes"
+- id: c-af-quality-stats
+  title: "Quality statistics in government"
+  provider: "Government Analysis Function"
+  kind: course
+  format: "See the provider page"
+  cost_band: not stated
+  cost: "Not stated"
+  level: Working
+  audience: "Statistics producers"
+  skills: [SK-STAT]
+  url: "https://analysisfunction.civilservice.gov.uk/training/quality-in-government-statistics"
+  checked: listed
+- id: c-af-communicating
+  title: "Communicating quality, uncertainty and change"
+  provider: "Government Analysis Function"
+  kind: course
+  format: "See the provider page"
+  cost_band: not stated
+  cost: "Not stated"
+  level: Working
+  audience: "Analysts who publish statistics"
+  skills: [SK-STAT]
+  url: "https://analysisfunction.civilservice.gov.uk/training/communicating-quality-uncertainty-and-change/"
+  checked: listed
+- id: c-af-qaad
+  title: "Quality Assurance of Administrative Data (QAAD) workshop"
+  provider: "Government Analysis Function"
+  kind: course
+  format: "Workshop"
+  cost_band: not stated
+  cost: "Not stated"
+  level: Practitioner
+  audience: "Producers of statistics from administrative data"
+  skills: [SK-STAT, SK-ASSESS]
+  url: "https://analysisfunction.civilservice.gov.uk/training/quality-assurance-of-administrative-data-qaad-workshop/"
+  checked: listed
+- id: c-eoppiva-dq
+  title: "Data quality: significance and description of quality"
+  provider: "eOppiva (Finland), listed by EIPA"
+  kind: course
+  format: "Online, self-paced, eight sections, 60 to 90 minutes"
+  cost_band: not stated
+  cost: "Not stated"
+  level: Awareness
+  audience: "Experts in public administration, and anyone describing information quality"
+  skills: [SK-ASSESS, SK-META]
+  url: "https://www.eipa.eu/eu-digital-learning/data-quality/"
+  checked: "yes"
+- id: c-unssc-python
+  title: "Data Quality for Impact, with Python"
+  provider: "United Nations System Staff College"
+  kind: course
+  format: "Online, instructor-led, two weeks (next run 9 to 20 November 2026)"
+  cost_band: paid
+  cost: "USD 550"
+  level: Working
+  audience: "Analysts and data practitioners; no Python needed to start"
+  skills: [SK-ENG, SK-ASSESS]
+  url: "https://www.unssc.org/courses/data-quality-impact-python-fall-2026"
+  checked: "yes"
+- id: c-tdwi-fundamentals
+  title: "TDWI Data Quality Fundamentals"
+  provider: "TDWI"
+  kind: course
+  format: "Virtual, instructor-led"
+  cost_band: paid
+  cost: "Paid; see provider"
+  level: Working
+  audience: "Data and analytics practitioners"
+  skills: [SK-ASSESS, SK-ACTION]
+  url: "https://tdwi.org/events/online-learning/virtual-training/courses/catalog/tdwi-data-quality-fundamentals.aspx"
+  checked: listed
+- id: q-cdmp-dq
+  title: "Certified Data Management Professional (CDMP), Data Quality specialist exam"
+  provider: "DAMA International"
+  kind: qualification
+  format: "Online exams based on the DAMA-DMBOK; training from several providers"
+  cost_band: paid
+  cost: "Paid; see provider"
+  level: Practitioner
+  audience: "Data management professionals seeking a recognised qualification"
+  skills: [SK-ASSESS, SK-ACTION, SK-GOV]
+  url: "https://cdmp.info/"
+  checked: listed
+- id: g-ddat
+  title: "Government Digital and Data Profession Capability Framework"
+  provider: "Government Digital and Data"
+  kind: guidance
+  format: "Online reference: roles, skills and levels"
+  cost_band: free
+  cost: "Free"
+  level: Awareness
+  audience: "Anyone planning a data career or a team's skills"
+  skills: [SK-GOV, SK-META, SK-ENG, SK-AI]
+  url: "https://ddat-capability-framework.service.gov.uk/"
+  checked: "yes"
+- id: c-commons-learn
+  title: "The Commons' own modules and tutorials"
+  provider: "Public Sector Data Quality Commons"
+  kind: course
+  format: "Online, self-paced, in this portal; xAPI learning record"
+  cost_band: free
+  cost: "Free"
+  level: Awareness
+  audience: "Everyone, by role"
+  skills: [SK-ASSESS, SK-ACTION, SK-GOV, SK-META, SK-STAT, SK-PROT, SK-ENG, SK-AI, SK-INC, SK-COMM]
+  url: "learn.html"
+  checked: "yes"
+
+# How to grow data quality skills in a team, beyond courses.
+development:
+- {title: "Learn by doing", text: "Run a real check on one of your datasets in the first week, then repeat it monthly."}
+- {title: "Pair and shadow", text: "Pair a new steward with an experienced one for one action plan from start to finish."}
+- {title: "Communities of practice", text: "Join a data quality network and bring one problem to each meeting. See Community."}
+- {title: "Set objectives", text: "Put one measurable data quality goal in each data role's objectives."}
+- {title: "Recognise contributions", text: "Credit people for fixing data at source, not only for reporting problems."}
+- {title: "Make it accessible", text: "Offer every learning option in more than one format, with captions, transcripts and plain English."}

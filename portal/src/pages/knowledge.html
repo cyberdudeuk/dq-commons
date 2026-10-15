@@ -1,0 +1,385 @@
+<title>Knowledge Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+:root{--k0:#0d6b6e;--k1:#3b5b9a;--k2:#9a5b00;--k3:#7a3e9d;--k4:#1f7a3d;--k5:#b3261e;--k6:#5a6b7a;--k7:#a23b72;--k8:#2f6f9f;--k9:#6b5b00}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--k0:#4fb8b4;--k1:#8fb0ef;--k2:#e2a54a;--k3:#c39be0;--k4:#5cc27f;--k5:#f08077;--k6:#a9b8c4;--k7:#e58bb8;--k8:#7cbbe6;--k9:#d8c45a}}
+:root[data-theme="dark"]{--k0:#4fb8b4;--k1:#8fb0ef;--k2:#e2a54a;--k3:#c39be0;--k4:#5cc27f;--k5:#f08077;--k6:#a9b8c4;--k7:#e58bb8;--k8:#7cbbe6;--k9:#d8c45a}
+.stats{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr))}
+.tabpanel{display:flex;flex-direction:column;gap:14px;padding-top:14px}
+.explore{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.explore{grid-template-columns:minmax(0,1fr)}}
+.canvas{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;position:relative}
+.canvas svg{display:block;width:100%;height:auto}
+.canvas .edge{stroke:var(--line);stroke-width:1.4}
+.canvas .edge.hl{stroke:var(--accent);stroke-width:2.4}
+.canvas .nd circle{stroke:var(--surface);stroke-width:2}
+.canvas .nd text{font:600 11px "Public Sans",system-ui,sans-serif;fill:var(--fg);paint-order:stroke;stroke:var(--surface);stroke-width:3px;stroke-linejoin:round}
+.canvas .nd.c text{font-size:14px}
+.canvas a.nd{cursor:pointer}
+.canvas a.nd:focus{outline:none}
+.canvas a.nd:focus circle,.canvas a.nd:hover circle{stroke:#ffbf47;stroke-width:4}
+.canvas .plabel{font:500 10px "Public Sans",system-ui,sans-serif;fill:var(--muted)}
+.trail{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:.84rem}
+.trail button{font:inherit;font-size:.82rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:3px 10px;cursor:pointer}
+.trail button[aria-current="true"]{border-color:var(--accent);color:var(--accent);font-weight:700}
+.detail{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.detail h3{font-size:1.1rem}
+.rels{max-height:520px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.rels h4{margin:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.rels ul{margin:2px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px}
+.rels button{font:inherit;font-size:.86rem;text-align:left;background:none;border:0;color:var(--accent);cursor:pointer;padding:2px 0;text-decoration:underline}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.8rem}
+.legend label{display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.az{display:flex;flex-wrap:wrap;gap:4px}
+.az a{font-family:var(--f-mono);font-weight:700;padding:2px 7px;border:1px solid var(--line);border-radius:4px;text-decoration:none}
+.terms{display:grid;gap:0;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.terms>div{padding:10px 14px;border-bottom:1px solid var(--line);font-size:.9rem}
+.terms dt{font-weight:700}
+.terms dd{margin:2px 0 0;color:var(--fg)}
+.thes{display:flex;flex-direction:column;gap:8px}
+.thes article{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.88rem}
+.thes article h3{font-size:1rem}
+.thes dl{display:grid;grid-template-columns:3.2em minmax(0,1fr);gap:2px 8px;margin:6px 0 0}
+.thes dt{font-family:var(--f-mono);font-weight:700;color:var(--muted)}
+.thes dd{margin:0}
+.tree details{margin-left:14px}
+.tree>details{margin-left:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:8px}
+.tree summary{cursor:pointer;font-weight:600;padding:3px 0}
+.tree summary .n{font-family:var(--f-mono);color:var(--muted);font-weight:400;font-size:.8rem;margin-left:6px}
+.tree ul{margin:2px 0 6px 18px;padding:0;font-size:.88rem}
+.tree li button,.lnk{font:inherit;background:none;border:0;color:var(--accent);cursor:pointer;text-decoration:underline;padding:0;text-align:left}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+.diagram svg{display:block;min-width:640px;width:100%;height:auto}
+.diagram .box rect{fill:var(--bg);stroke:var(--accent);stroke-width:1.5}
+.diagram .box text{font:12px "Public Sans",system-ui,sans-serif;fill:var(--fg)}
+.diagram .box text.h{font-weight:700;fill:var(--accent)}
+.diagram .box.ref rect{stroke:var(--muted);stroke-dasharray:4 3}
+.diagram .ln{stroke:var(--muted);stroke-width:1.4;fill:none}
+.diagram .lt{font:11px "Public Sans",system-ui,sans-serif;fill:var(--muted);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+.diagram a:focus rect,.diagram a:hover rect{stroke:#ffbf47;stroke-width:3}
+.ent{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chain .step{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.86rem}
+.chain .via{font-size:.78rem;color:var(--muted);font-style:italic}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Know · Knowledge map</span>
+  <h1>Every concept, and how it connects</h1>
+  <p class="lede">The glossary, thesaurus, data dictionary, taxonomies and ontology of the Commons, built from one source and linked as a knowledge graph. Explore it visually, trace how a policy becomes evidence, follow data from source to report, or find the path between any two concepts. Everything downloads as open SKOS and OWL.</p>
+  <div class="stats" id="stats"></div>
+  <div class="tabs" role="tablist" aria-label="Knowledge map sections" id="tabs"></div>
+</header>
+
+<section class="tabpanel" id="p-explore" role="tabpanel" aria-labelledby="t-explore">
+  <h2 class="sr-only">Explore the graph</h2>
+  <div class="filters">
+    <div class="field" style="flex:2 1 260px"><label for="q">Find a concept</label><input type="search" id="q" list="qList" placeholder="For example: completeness, Jersey, DCAT, data steward" autocomplete="off"><datalist id="qList"></datalist></div>
+    <div class="field" style="flex:0 0 auto;justify-content:flex-end"><button class="btn" type="button" id="go">Show</button></div>
+  </div>
+  <div class="trail" id="trail" aria-label="Your trail"></div>
+  <div class="explore">
+    <div>
+      <div class="canvas" id="canvas"></div>
+      <fieldset style="margin-top:8px"><legend class="small" style="font-weight:600">Show types</legend><div class="legend" id="legend"></div></fieldset>
+    </div>
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+  <h3>Trace the path between two concepts</h3>
+  <div class="filters">
+    <div class="field"><label for="pa">From</label><input type="search" id="pa" list="qList" autocomplete="off"></div>
+    <div class="field"><label for="pb">To</label><input type="search" id="pb" list="qList" autocomplete="off"></div>
+    <div class="field" style="flex:0 0 auto;justify-content:flex-end"><button class="btn ghost" type="button" id="pathGo">Trace</button></div>
+  </div>
+  <div id="pathOut" aria-live="polite"></div>
+</section>
+
+<section class="tabpanel" id="p-glossary" role="tabpanel" aria-labelledby="t-glossary" hidden>
+  <h2 class="sr-only">Glossary</h2>
+  <div class="field" style="max-width:380px"><label for="gq">Find a term</label><input type="search" id="gq"></div>
+  <nav class="az" id="az" aria-label="Jump to letter"></nav>
+  <dl class="terms" id="gloss"></dl>
+</section>
+
+<section class="tabpanel" id="p-thesaurus" role="tabpanel" aria-labelledby="t-thesaurus" hidden>
+  <h2 class="sr-only">Thesaurus</h2>
+  <p class="small">Following ISO 25964: <b>SN</b> scope note, <b>UF</b> use for (synonyms), <b>BT</b> broader term, <b>NT</b> narrower term, <b>RT</b> related term. A non-preferred term points to the term to <b>USE</b>.</p>
+  <div class="field" style="max-width:380px"><label for="tq">Find a term or synonym</label><input type="search" id="tq"></div>
+  <div class="thes" id="thes"></div>
+</section>
+
+<section class="tabpanel" id="p-dictionary" role="tabpanel" aria-labelledby="t-dictionary" hidden>
+  <h2 class="sr-only">Data dictionary</h2>
+  <p>The Commons' own data: what each entity is, its attributes, and how entities relate. Dashed boxes are reference lists (vocabulary) the entities point to.</p>
+  <div class="diagram" id="er" role="img" aria-label="Entity relationship diagram of the Commons data model"></div>
+  <div class="ent" id="ents"></div>
+  <h3>Metadata record: the Weaver's 22 fields</h3>
+  <div class="tbl"><table><thead><tr><th scope="col">Field</th><th scope="col">Rosetta concept</th><th scope="col">CDA property</th><th scope="col">Carried by</th></tr></thead><tbody id="wf"></tbody></table></div>
+</section>
+
+<section class="tabpanel" id="p-taxonomies" role="tabpanel" aria-labelledby="t-taxonomies" hidden>
+  <h2 class="sr-only">Taxonomies</h2>
+  <p class="small">Each taxonomy is a hierarchy from broad to narrow. Open a branch, then choose an item to see it in the graph.</p>
+  <div class="tree" id="tree"></div>
+</section>
+
+<section class="tabpanel" id="p-ontology" role="tabpanel" aria-labelledby="t-ontology" hidden>
+  <h2 class="sr-only">Ontology</h2>
+  <p>The classes of thing in the Commons and the relationships allowed between them. Each relationship has a domain (from) and a range (to), so the graph explains itself.</p>
+  <div class="diagram" id="cd" role="img" aria-label="Class diagram of the Commons ontology"></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Class</th><th scope="col">Definition</th><th scope="col">Equivalent</th><th scope="col" class="num">In the graph</th></tr></thead><tbody id="cls"></tbody></table></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Relationship</th><th scope="col">From</th><th scope="col">To</th><th scope="col">Meaning</th><th scope="col" class="num">Links</th></tr></thead><tbody id="props"></tbody></table></div>
+</section>
+
+<section class="tabpanel" id="p-lineage" role="tabpanel" aria-labelledby="t-lineage" hidden>
+  <h2 class="sr-only">Lineage and traceability</h2>
+  <div id="flows"></div>
+  <h3>Traceability: from a framework to the evidence</h3>
+  <div class="field" style="max-width:520px"><label for="fwSel">Choose a framework or policy</label><select id="fwSel"></select></div>
+  <div id="trace" class="tree"></div>
+</section>
+
+<section class="tabpanel" id="p-downloads" role="tabpanel" aria-labelledby="t-downloads" hidden>
+  <h2 class="sr-only">Downloads and reuse</h2>
+  <p>Reuse the vocabulary and graph in your own catalogue, triple store or AI agent. Open licence (OGL v3.0); identifiers are persistent.</p>
+  <ul class="plain" id="dls"></ul>
+  <p class="small">Regenerate locally: <code>python -m dqkit graph --format ttl</code> (or <code>jsonld</code>, <code>json</code>). AI agents can use the MCP tool <code>explore_knowledge</code>.</p>
+</section>
+</div>
+
+<script>
+const G = __K_GRAPH__, O = __K_ONTOLOGY__, B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const N = Object.fromEntries(G.nodes.map(n => [n.id, n]));
+const PL = Object.fromEntries(O.properties.map(p => [p.id, p.label]));
+const CL = Object.fromEntries(O.classes.map(c => [c.id, c.label]));
+const ADJ = {};
+G.edges.forEach(e => { (ADJ[e.s] = ADJ[e.s] || []).push({p: e.p, o: e.o, d: "out", note: e.note}); (ADJ[e.o] = ADJ[e.o] || []).push({p: e.p, o: e.s, d: "in", note: e.note}); });
+const TYPES = [...new Set(G.nodes.map(n => n.type))].sort((a, b) => (G.stats.types[b] - G.stats.types[a]));
+const COL = Object.fromEntries(TYPES.map((t, i) => [t, `var(--k${i % 10})`]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+const relLabel = (p, d) => d === "out" ? (PL[p] || p) : `${PL[p] || p} (from)`;
+
+// stats and tabs
+$("stats").innerHTML = [[G.stats.nodes, "concepts"], [G.stats.edges, "relationships"], [O.classes.length, "classes"], [O.properties.length, "relationship types"], [G.nodes.filter(n => n.type === "Term").length, "glossary terms"]]
+  .map(([v, l]) => `<div class="kpi"><b>${v}</b><span>${esc(l)}</span></div>`).join("");
+const TABS = [["explore", "Explore", "globe"], ["glossary", "Glossary", "book"], ["thesaurus", "Thesaurus", "chat"], ["dictionary", "Data dictionary", "database"],
+  ["taxonomies", "Taxonomies", "layers"], ["ontology", "Ontology", "blocks"], ["lineage", "Lineage and traceability", "workflow"], ["downloads", "Downloads", "repo"]];
+$("tabs").innerHTML = TABS.map(([id, l, i], k) => `<button role="tab" id="t-${id}" aria-controls="p-${id}" aria-selected="${k === 0}"${k ? ' tabindex="-1"' : ""}>${DQI(i)} ${esc(l)}</button>`).join("");
+const tabs = [...$("tabs").children];
+function show(id, focus) { tabs.forEach(t => { const on = t.id === "t-" + id; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; $(t.getAttribute("aria-controls")).hidden = !on; if (on && focus) t.focus(); });
+  if (id === "dictionary") drawER(); if (id === "ontology") drawClasses(); if (id === "lineage") drawFlows(); }
+tabs.forEach((t, i) => { t.onclick = () => show(t.id.slice(2)); t.onkeydown = e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length].id.slice(2), true); } }; });
+
+// ---------- Explore: radial neighbourhood ----------
+const byLabel = {}; G.nodes.forEach(n => { const k = `${n.label} (${CL[n.type] || n.type})`; byLabel[k] = n.id; });
+$("qList").innerHTML = Object.keys(byLabel).sort().map(k => `<option value="${esc(k)}">`).join("");
+function resolve(text) {
+  text = text.trim(); if (!text) return null;
+  if (byLabel[text]) return byLabel[text];
+  const t = text.toLowerCase(), hit = G.nodes.find(n => n.label.toLowerCase() === t) || G.nodes.find(n => (n.alt || []).some(a => a.toLowerCase() === t))
+    || G.nodes.find(n => n.label.toLowerCase().includes(t)) || G.nodes.find(n => (n.definition || "").toLowerCase().includes(t));
+  return hit ? hit.id : null;
+}
+let hidden = new Set(store.get("dqc.km.hidden", [])), trail = [], cur = null;
+$("legend").innerHTML = TYPES.map(t => `<label><input type="checkbox" value="${esc(t)}"${hidden.has(t) ? "" : " checked"}><span class="dot" style="background:${COL[t]}"></span>${esc(CL[t] || t)} (${G.stats.types[t]})</label>`).join("");
+$("legend").addEventListener("change", e => { e.target.checked ? hidden.delete(e.target.value) : hidden.add(e.target.value); store.set("dqc.km.hidden", [...hidden]); focusOn(cur, false); });
+const short = (s, n) => s.length > n ? s.slice(0, n - 1) + "…" : s;
+function focusOn(id, push = true) {
+  if (!id || !N[id]) return;
+  cur = id;
+  if (push) { const i = trail.indexOf(id); if (i >= 0) trail = trail.slice(0, i + 1); else trail.push(id); if (trail.length > 12) trail = trail.slice(-12); }
+  try { history.replaceState(null, "", "#node=" + encodeURIComponent(id)); } catch (e) {}
+  $("trail").innerHTML = `<span class="small muted">Trail:</span>` + trail.map(t => `<button type="button" data-n="${esc(t)}"${t === id ? ' aria-current="true"' : ""}>${esc(short(N[t].label, 28))}</button>`).join("<span aria-hidden=\"true\">›</span>");
+  const all = (ADJ[id] || []).filter(r => !hidden.has(N[r.o].type));
+  all.sort((a, b) => (a.p + a.d).localeCompare(b.p + b.d) || N[a.o].label.localeCompare(N[b.o].label));
+  const MAX = 36, ring = all.slice(0, MAX), W = 820, H = 600, cx = W / 2, cy = H / 2;
+  const pos = ring.map((r, i) => { const n = ring.length, inner = n > 18 && i % 2, R = inner ? 175 : 245, a = -Math.PI / 2 + 2 * Math.PI * i / Math.max(n, 1);
+    return {r, x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) * 0.82, a}; });
+  const node = (n, x, y, big, via) => `<a class="nd${big ? " c" : ""}" href="#node=${esc(encodeURIComponent(n.id))}" data-n="${esc(n.id)}" aria-label="${esc(n.label)}, ${esc(CL[n.type] || n.type)}${via ? ", " + esc(via) : ""}">
+    <title>${esc(n.label)} (${esc(CL[n.type] || n.type)})${via ? " · " + esc(via) : ""}</title><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${big ? 18 : 9}" fill="${COL[n.type]}"></circle>
+    <text x="${x.toFixed(1)}" y="${(y + (big ? 34 : (y < cy ? -14 : 22))).toFixed(1)}" text-anchor="middle">${esc(short(n.label, big ? 46 : 24))}</text></a>`;
+  $("canvas").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(N[id].label)} and ${ring.length} connected concepts">
+    ${pos.map(p => `<line class="edge" x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}"><title>${esc(relLabel(p.r.p, p.r.d))}</title></line>`).join("")}
+    ${pos.map(p => node(N[p.r.o], p.x, p.y, false, relLabel(p.r.p, p.r.d))).join("")}${node(N[id], cx, cy, true)}
+    ${all.length > MAX ? `<text class="plabel" x="12" y="${H - 12}">Showing ${MAX} of ${all.length} links. See the full list beside the graph.</text>` : ""}</svg>`;
+  const n = N[id], groups = {};
+  all.forEach(r => { (groups[relLabel(r.p, r.d)] = groups[relLabel(r.p, r.d)] || []).push(r); });
+  $("detail").innerHTML = `<span class="chip" style="align-self:flex-start;border-color:${COL[n.type]}"><span class="dot" style="background:${COL[n.type]}"></span>${esc(CL[n.type] || n.type)}</span>
+    <h3>${esc(n.label)}</h3>${n.definition ? `<p class="small">${esc(n.definition)}</p>` : ""}${n.detail ? `<p class="small muted">${esc(n.detail)}</p>` : ""}
+    ${(n.alt || []).length ? `<p class="small"><b>Also called:</b> ${n.alt.map(esc).join(", ")}</p>` : ""}${n.lineage ? `<p class="small"><b>Lineage:</b> ${esc(n.lineage)}</p>` : ""}
+    <p class="small muted">Source: <code>${esc(n.source || "")}</code>${n.url ? ` · <a href="${esc(n.url)}"${n.url.startsWith("http") ? ' rel="noopener"' : ""}>Open ${n.url.startsWith("http") ? "source" : "in the Commons"}</a>` : ""}</p>
+    <div class="rels"><h4>${all.length} relationship${all.length === 1 ? "" : "s"}</h4>${Object.entries(groups).map(([k, rs]) => `<div><h4>${esc(k)}</h4><ul>${rs.map(r => `<li><span class="dot" style="background:${COL[N[r.o].type]}"></span><button type="button" data-n="${esc(r.o)}">${esc(N[r.o].label)}</button>${r.note ? ` <span class="small muted">(${esc(r.note)})</span>` : ""}</li>`).join("")}</ul></div>`).join("")}</div>`;
+}
+document.addEventListener("click", e => { const t = e.target.closest("[data-n]"); if (!t) return; e.preventDefault(); show("explore"); focusOn(t.dataset.n); $("canvas").scrollIntoView({block: "nearest"}); });
+$("go").onclick = () => { const id = resolve($("q").value); if (id) focusOn(id); else $("detail").innerHTML = `<p>Nothing matches “${esc($("q").value)}”. Try another word.</p>`; };
+$("q").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); $("go").click(); } });
+
+// shortest path (breadth-first, either direction)
+function pathBetween(a, b) {
+  const prev = {[a]: null}, q = [a];
+  while (q.length) { const x = q.shift(); if (x === b) break; for (const r of ADJ[x] || []) if (!(r.o in prev)) { prev[r.o] = [x, r]; q.push(r.o); } }
+  if (!(b in prev)) return null;
+  const chain = []; let x = b; while (prev[x]) { const [px, r] = prev[x]; chain.unshift({from: px, rel: r, to: x}); x = px; } return chain;
+}
+$("pathGo").onclick = () => {
+  const a = resolve($("pa").value), b = resolve($("pb").value);
+  if (!a || !b) { $("pathOut").innerHTML = `<p class="msg err">Choose two concepts from the list.</p>`; return; }
+  const ch = pathBetween(a, b);
+  $("pathOut").innerHTML = !ch ? `<p>No path links these two concepts.</p>` : `<p class="small">${ch.length} step${ch.length === 1 ? "" : "s"}:</p><div class="chain">` +
+    [`<button class="step lnk" type="button" data-n="${esc(a)}">${esc(N[a].label)}</button>`, ...ch.map(c => `<span class="via">${esc(relLabel(c.rel.p, c.rel.d))} →</span><button class="step lnk" type="button" data-n="${esc(c.to)}">${esc(N[c.to].label)}</button>`)].join("") + "</div>";
+};
+
+// ---------- Glossary ----------
+const TERMS = G.nodes.filter(n => n.type === "Term").sort((a, b) => a.label.localeCompare(b.label));
+function drawGloss() {
+  const q = $("gq").value.trim().toLowerCase();
+  const list = TERMS.filter(t => !q || (t.label + " " + (t.definition || "") + " " + (t.alt || []).join(" ")).toLowerCase().includes(q));
+  const letters = [...new Set(list.map(t => t.label[0].toUpperCase()))];
+  $("az").innerHTML = letters.map(l => `<a href="#gl-${l}">${l}</a>`).join("");
+  let last = "";
+  $("gloss").innerHTML = list.map(t => { const L = t.label[0].toUpperCase(), anchor = L !== last ? ` id="gl-${L}"` : ""; last = L;
+    return `<div${anchor}><dt>${esc(t.label)}</dt><dd>${esc(t.definition || "See related terms.")} <button class="lnk small" type="button" data-n="${esc(t.id)}">See connections</button></dd></div>`; }).join("") || "<div>No terms match.</div>";
+}
+$("gq").addEventListener("input", drawGloss);
+$("az").addEventListener("click", e => { const a = e.target.closest("a"); if (!a) return; e.preventDefault(); const t = document.querySelector(a.getAttribute("href")); if (t) t.scrollIntoView(); });
+
+// ---------- Thesaurus ----------
+function rel(id, p, d) { return (ADJ[id] || []).filter(r => r.p === p && r.d === d && N[r.o].type === "Term").map(r => N[r.o]); }
+function drawThes() {
+  const q = $("tq").value.trim().toLowerCase(), out = [];
+  const entries = [];
+  TERMS.forEach(t => { entries.push({k: t.label, t}); (t.alt || []).forEach(a => entries.push({k: a, use: t})); });
+  entries.sort((a, b) => a.k.localeCompare(b.k));
+  entries.filter(e => !q || e.k.toLowerCase().includes(q) || (e.t && (e.t.definition || "").toLowerCase().includes(q))).forEach(e => {
+    if (e.use) { out.push(`<article><h3>${esc(e.k)}</h3><dl><dt>USE</dt><dd><button class="lnk" type="button" data-th="${esc(e.use.label)}">${esc(e.use.label)}</button></dd></dl></article>`); return; }
+    const t = e.t, bt = rel(t.id, "broader", "out"), nt = rel(t.id, "broader", "in"), rt = [...rel(t.id, "related", "out"), ...rel(t.id, "related", "in")];
+    const row = (k, xs) => xs.length ? `<dt>${k}</dt><dd>${xs.map(x => `<button class="lnk" type="button" data-th="${esc(x.label)}">${esc(x.label)}</button>`).join("; ")}</dd>` : "";
+    out.push(`<article id="th-${esc(t.id)}"><h3>${esc(t.label)}</h3><dl>${t.definition ? `<dt>SN</dt><dd>${esc(t.definition)}</dd>` : ""}${(t.alt || []).length ? `<dt>UF</dt><dd>${t.alt.map(esc).join("; ")}</dd>` : ""}${row("BT", bt)}${row("NT", nt)}${row("RT", [...new Map(rt.map(x => [x.id, x])).values()])}</dl></article>`);
+  });
+  $("thes").innerHTML = out.join("") || "<p>No terms match.</p>";
+}
+$("tq").addEventListener("input", drawThes);
+$("thes").addEventListener("click", e => { const b = e.target.closest("[data-th]"); if (!b) return; $("tq").value = b.dataset.th; drawThes(); });
+
+// ---------- Data dictionary and ER diagram ----------
+function drawER() {
+  if ($("er").dataset.done) return; $("er").dataset.done = 1;
+  const E = O.entities, refs = [...new Set(E.flatMap(e => e.relationships.map(r => r.to)).filter(t => !E.some(e => e.id === t)))];
+  const bw = 210, gx = 130, cols = 3, lineH = 16, boxes = {};
+  E.forEach((e, i) => { const h = 34 + Math.min(e.attributes.length, 7) * lineH + 8; boxes[e.id] = {x: 20 + (i % cols) * (bw + gx), y: 20 + Math.floor(i / cols) * 290, w: bw, h, e}; });
+  const ry = 20 + Math.ceil(E.length / cols) * 290 + 10;
+  refs.forEach((r, i) => { boxes[r] = {x: 20 + i * 150, y: ry, w: 130, h: 34, ref: true}; });
+  const W = Math.max(20 + cols * (bw + gx), 20 + refs.length * 150) + 20, H = ry + 60;
+  const mid = b => [b.x + b.w / 2, b.y + b.h / 2];
+  const lines = E.flatMap(e => e.relationships.map(r => { const a = boxes[e.id], b = boxes[r.to]; if (!b) return "";
+    const [x1, y1] = mid(a), [x2, y2] = mid(b), mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+    return {line: `<path class="ln" d="M${x1},${y1} L${x2},${y2}"/>`, label: `<text class="lt" x="${mx}" y="${my - 4}" text-anchor="middle">${esc(r.label)} (${esc(r.cardinality)})</text>`}; })).filter(Boolean);
+  const box = (id, b) => { const nid = b.ref ? G.nodes.find(n => n.type === id) : null;
+    const inner = `<g class="box${b.ref ? " ref" : ""}"><rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" rx="6"/><text class="h" x="${b.x + 10}" y="${b.y + 21}">${esc(b.ref ? (CL[id] || id) : b.e.label)}</text>
+      ${b.ref ? "" : b.e.attributes.slice(0, 7).map((a, k) => `<text x="${b.x + 10}" y="${b.y + 40 + k * lineH}">${a.required ? "● " : "○ "}${esc(a.name)}: ${esc(short(a.type, 18))}</text>`).join("")}</g>`;
+    return inner; };
+  $("er").innerHTML = `<svg viewBox="0 0 ${W} ${H}">${lines.map(l => l.line).join("")}${Object.entries(boxes).map(([id, b]) => box(id, b)).join("")}${lines.map(l => l.label).join("")}</svg>`;
+  $("ents").innerHTML = E.map(e => `<article class="card"><h3>${esc(e.label)} <span class="small muted">(${esc(e.id)})</span></h3><p class="small muted">Source: ${esc(e.source)}</p>
+    ${e.attributes.length ? `<div class="tbl"><table><thead><tr><th scope="col">Attribute</th><th scope="col">Type</th><th scope="col">Required</th><th scope="col">Meaning</th><th scope="col">Example</th></tr></thead><tbody>${e.attributes.map(a => `<tr><td><code>${esc(a.name)}</code></td><td>${esc(a.type)}</td><td>${a.required ? "Yes" : "No"}</td><td>${esc(a.definition)}</td><td><code>${esc(a.example)}</code></td></tr>`).join("")}</tbody></table></div>` : `<p class="small">See the 22 fields below.</p>`}
+    <p class="small"><b>Relationships:</b> ${e.relationships.map(r => `${esc(r.label)} ${esc(r.to)} (${esc(r.cardinality)})`).join("; ")}</p></article>`).join("");
+  $("wf").innerHTML = O.weaver_fields.map(f => `<tr><td><b>${esc(f.label)}</b><br><code>${esc(f.key)}</code></td><td>${esc(f.rosetta)}</td><td>${f.cda ? `<code>${esc(f.cda)}</code>` : "–"}</td><td>${f.carried_by.map(esc).join(", ")}</td></tr>`).join("");
+}
+
+// ---------- Taxonomies ----------
+const li = n => `<li><button type="button" data-n="${esc(n.id)}">${esc(n.label)}</button></li>`;
+const kids = (id, p, d, type) => (ADJ[id] || []).filter(r => r.p === p && r.d === d && (!type || N[r.o].type === type)).map(r => N[r.o]).sort((a, b) => a.label.localeCompare(b.label));
+const ofType = t => G.nodes.filter(n => n.type === t).sort((a, b) => a.label.localeCompare(b.label));
+const branch = (title, items, inner) => `<details><summary>${esc(title)}<span class="n">${items}</span></summary>${inner}</details>`;
+function drawTree() {
+  const dims = ofType("Dimension"), juris = ofType("Jurisdiction");
+  $("tree").innerHTML = [
+    branch("Quality dimensions and issue types", dims.length, dims.map(d => branch(d.label, kids(d.id, "inDimension", "in").length, `<ul>${li(d)}${kids(d.id, "inDimension", "in").map(li).join("")}</ul>`)).join("")),
+    branch("Check types by dimension", ofType("Check").length, dims.map(d => { const cs = kids(d.id, "checksDimension", "in"); return cs.length ? branch(d.label, cs.length, `<ul>${cs.map(li).join("")}</ul>`) : ""; }).join("")),
+    branch("Frameworks by jurisdiction", ofType("Framework").length, juris.map(j => { const fs = kids(j.id, "appliesIn", "in", "Framework"); return fs.length ? branch(j.label, fs.length, `<ul>${fs.map(li).join("")}</ul>`) : ""; }).join("")),
+    branch("Jurisdictions", juris.length, juris.filter(j => !kids(j.id, "partOf", "out").length).map(j => { const ch = kids(j.id, "partOf", "in"); return ch.length ? branch(j.label, ch.length, `<ul>${ch.map(li).join("")}</ul>`) : `<ul>${li(j)}</ul>`; }).join("")),
+    branch("Roles and their learning modules", ofType("Role").length, ofType("Role").map(r => branch(r.label, kids(r.id, "forRole", "in").length, `<ul>${kids(r.id, "forRole", "in").map(li).join("")}</ul>`)).join("")),
+    branch("Skills and training", ofType("Skill").length, ofType("Skill").map(s => branch(s.label, kids(s.id, "teaches", "in").length, `<ul>${kids(s.id, "teaches", "in").map(li).join("")}</ul>`)).join("")),
+    branch("Metadata standards and their concepts", ofType("MetadataStandard").length, ofType("MetadataStandard").map(s => branch(s.label, kids(s.id, "expressedIn", "in").length, `<ul>${kids(s.id, "expressedIn", "in").map(li).join("")}</ul>`)).join("")),
+    branch("Glossary terms (broader to narrower)", TERMS.length, `<ul>${TERMS.filter(t => !kids(t.id, "broader", "out").length && kids(t.id, "broader", "in").length).map(t => `<li>${branch(t.label, kids(t.id, "broader", "in").length, `<ul>${kids(t.id, "broader", "in").map(li).join("")}</ul>`)}</li>`).join("")}</ul>`),
+  ].join("");
+}
+$("tree").addEventListener("click", e => { const b = e.target.closest("button[data-n]"); if (b) { e.stopPropagation(); show("explore"); focusOn(b.dataset.n); } }, true);
+
+// ---------- Ontology class diagram ----------
+function drawClasses() {
+  if ($("cd").dataset.done) return; $("cd").dataset.done = 1;
+  const C = O.classes, W = 900, H = 640, cx = W / 2, cy = H / 2, P = {};
+  C.forEach((c, i) => { const a = -Math.PI / 2 + 2 * Math.PI * i / C.length; P[c.id] = [cx + 360 * Math.cos(a), cy + 260 * Math.sin(a)]; });
+  const used = {}; G.edges.forEach(e => { used[e.p] = (used[e.p] || 0) + 1; });
+  const lines = O.properties.filter(p => P[p.domain] && P[p.range] && p.domain !== p.range).map(p => { const [x1, y1] = P[p.domain], [x2, y2] = P[p.range];
+    return `<path class="ln" d="M${x1.toFixed(0)},${y1.toFixed(0)} Q${cx},${cy} ${x2.toFixed(0)},${y2.toFixed(0)}"><title>${esc(p.label)}: ${esc(p.domain)} → ${esc(p.range)}</title></path>`; }).join("");
+  $("cd").innerHTML = `<svg viewBox="0 0 ${W} ${H}">${lines}${C.map(c => { const [x, y] = P[c.id], w = Math.max(70, c.label.length * 6.4);
+    return `<g class="box"><rect x="${(x - w / 2).toFixed(0)}" y="${(y - 14).toFixed(0)}" width="${w.toFixed(0)}" height="28" rx="14"/><text class="h" x="${x.toFixed(0)}" y="${(y + 4).toFixed(0)}" text-anchor="middle">${esc(short(c.label, 26))}</text></g>`; }).join("")}</svg>`;
+  $("cls").innerHTML = C.map(c => `<tr><td><b>${esc(c.label)}</b><br><code>dqc:${esc(c.id)}</code></td><td>${esc(c.definition)}</td><td>${c.equivalent ? `<code>${esc(c.equivalent)}</code>` : "–"}</td><td class="num">${G.stats.types[c.id] || 0}</td></tr>`).join("");
+  $("props").innerHTML = O.properties.map(p => `<tr><td><b>${esc(p.label)}</b><br><code>dqc:${esc(p.id)}</code></td><td>${esc(CL[p.domain] || p.domain)}</td><td>${esc(CL[p.range] || p.range)}</td><td>${esc(p.definition)}</td><td class="num">${used[p.id] || 0}</td></tr>`).join("");
+}
+
+// ---------- Lineage diagrams and traceability ----------
+function drawFlows() {
+  if ($("flows").dataset.done) return; $("flows").dataset.done = 1;
+  $("flows").innerHTML = O.lineage.map(f => {
+    const depth = {}; f.stages.forEach(s => { depth[s.id] = 0; });
+    for (let k = 0; k < f.stages.length; k++) f.flows.forEach(([a, b]) => { depth[b] = Math.max(depth[b], depth[a] + 1); });
+    const cols = {}; f.stages.forEach(s => { (cols[depth[s.id]] = cols[depth[s.id]] || []).push(s); });
+    const bw = 150, bh = 46, gx = 46, gy = 18, P = {};
+    Object.entries(cols).forEach(([d, ss]) => ss.forEach((s, i) => { P[s.id] = {x: 10 + d * (bw + gx), y: 10 + i * (bh + gy), s}; }));
+    const W = 20 + Object.keys(cols).length * (bw + gx), H = 20 + Math.max(...Object.values(cols).map(c => c.length)) * (bh + gy);
+    const arrows = f.flows.map(([a, b]) => { const A = P[a], Bp = P[b]; return `<path class="ln" marker-end="url(#ar-${f.id})" d="M${A.x + bw},${A.y + bh / 2} C${A.x + bw + gx / 2},${A.y + bh / 2} ${Bp.x - gx / 2},${Bp.y + bh / 2} ${Bp.x - 4},${Bp.y + bh / 2}"/>`; }).join("");
+    const boxes = Object.values(P).map(p => `<a href="#node=Stage:${esc(p.s.id)}" data-n="Stage:${esc(p.s.id)}" aria-label="${esc(p.s.label)}: ${esc(p.s.what)}"><g class="box"><title>${esc(p.s.what)}</title><rect x="${p.x}" y="${p.y}" width="${bw}" height="${bh}" rx="8"/><text class="h" x="${p.x + bw / 2}" y="${p.y + 27}" text-anchor="middle">${esc(short(p.s.label, 22))}</text></g></a>`).join("");
+    return `<h3>${esc(f.title)}</h3><div class="diagram"><svg viewBox="0 0 ${W} ${H}"><defs><marker id="ar-${f.id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" style="color:var(--muted)"/></marker></defs>${arrows}${boxes}</svg></div>
+      <ol class="small">${f.stages.map(s => `<li><b>${esc(s.label)}</b>: ${esc(s.what)}</li>`).join("")}</ol>`;
+  }).join("");
+}
+const FW = G.nodes.filter(n => n.type === "Framework" && (ADJ[n.id] || []).some(r => r.d === "in" && (r.p === "clauseOf" || r.p === "implements"))).sort((a, b) => a.label.localeCompare(b.label));
+$("fwSel").innerHTML = FW.map(f => `<option value="${esc(f.id)}">${esc(f.label)}</option>`).join("");
+function drawTrace() {
+  const f = $("fwSel").value; if (!f) return;
+  const clauses = kids(f, "clauseOf", "in"), packsI = kids(f, "implements", "in", "Pack");
+  const evid = r => kids(r.id, "evidencedBy", "out").map(x => { const iss = x.type === "Check" ? kids(x.id, "defaultIssue", "out") : [];
+    return `<li><button type="button" data-n="${esc(x.id)}">${esc(CL[x.type] || x.type)}: ${esc(x.label)}</button>${iss.length ? ` → raises <button type="button" data-n="${esc(iss[0].id)}">${esc(iss[0].label)}</button>` : ""}</li>`; }).join("");
+  $("trace").innerHTML = `<details open><summary>${esc(N[f].label)}</summary>
+    ${clauses.length ? branch("Clauses", clauses.length, `<ul>${clauses.map(li).join("")}</ul>`) : ""}
+    ${packsI.map(p => branch(`Pack: ${p.label}`, kids(p.id, "requires", "out").length, kids(p.id, "requires", "out").map(r => { const ev = evid(r);
+      return `<details><summary>${esc(r.label)}</summary><ul>${ev || "<li>Needs a person to confirm, or an asset field.</li>"}</ul></details>`; }).join(""))).join("")}
+    ${!packsI.length ? "<p class=\"small\">No pack implements this framework yet. Suggest one on Help us build this.</p>" : ""}</details>`;
+}
+$("fwSel").addEventListener("input", drawTrace);
+$("trace").addEventListener("click", e => { const b = e.target.closest("button[data-n]"); if (b) { e.stopPropagation(); show("explore"); focusOn(b.dataset.n); } }, true);
+
+// ---------- Downloads ----------
+const repoFile = p => `${B.repo}/blob/main/${p}`;
+$("dls").innerHTML = [["Knowledge graph and ontology (Turtle, SKOS and OWL)", repoFile("vocab/knowledge-graph.ttl")], ["Knowledge graph and ontology (JSON-LD)", repoFile("vocab/knowledge-graph.jsonld")],
+  ["Quality vocabulary: dimensions and issue types (Turtle)", repoFile("vocab/dq-vocab.ttl")], ["Ontology, thesaurus, data dictionary and lineage source (YAML)", repoFile("knowledge/ontology.yaml")]]
+  .map(([t, u]) => `<li>${DQI("repo")} <a href="${esc(u)}" rel="noopener">${esc(t)}</a></li>`).join("") + `<li>${DQI("database")} <button class="lnk" type="button" id="dlJson">Download the graph as JSON from this page</button> <span id="dlMsg" class="small" role="status" aria-live="polite"></span></li>`;
+$("dlJson").onclick = async () => {
+  const text = JSON.stringify({nodes: G.nodes, edges: G.edges}, null, 1), name = "dq-commons-knowledge-graph.json";
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("dlMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("dlMsg").textContent = "Downloaded."; }
+  catch (e) { $("dlMsg").textContent = "Downloading isn't allowed here. Use the repository files."; }
+};
+
+// start
+drawGloss(); drawThes(); drawTree(); drawTrace();
+const m = /node=([^&]+)/.exec(location.hash);
+focusOn(m && N[decodeURIComponent(m[1])] ? decodeURIComponent(m[1]) : (N["Term:data-quality-dimension"] ? "Term:data-quality-dimension" : G.nodes[0].id));
+window.DQP_TOUR = [
+  {sel: "#q", title: "Find a concept", text: "Type a word. Suggestions include terms, frameworks, places, courses and more."},
+  {sel: "#canvas", title: "Explore", text: "The concept is in the middle, with everything it connects to around it. Choose any one to move there."},
+  {sel: "#detail", title: "Details and relationships", text: "The definition, source, and every relationship as a list you can follow."},
+  {sel: "#trail", title: "Your trail", text: "Where you've been, so you can step back."},
+  {sel: "#pathGo", title: "Trace a path", text: "See how any two concepts are connected, step by step."},
+  {sel: "#tabs", title: "Other views", text: "Glossary, thesaurus, data dictionary, taxonomies, ontology, lineage and downloads."},
+];
+</script>

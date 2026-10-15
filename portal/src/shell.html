@@ -77,20 +77,57 @@
 .dqp-tour button.dqp-ghost{background:transparent;color:var(--dqp-panel-fg);border-color:var(--dqp-panel-line)}
 .dqp-tour button:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
 .dqp-hl{outline:4px solid var(--dqp-focus)!important;outline-offset:4px;border-radius:6px;scroll-margin:90px}
+/* What's new: a retractable drawer with one collapsible section per release. */
+.dqp-newbtn{position:relative;display:inline-flex;align-items:center;gap:6px;font:600 13px/1 "Public Sans",system-ui,sans-serif;color:var(--dqp-bar-fg);background:transparent;border:1px solid var(--dqp-bar-line);border-radius:999px;padding:8px 12px;cursor:pointer;white-space:nowrap;margin-left:6px}
+.dqp-newbtn:hover{border-color:var(--dqp-bar-fg)}
+.dqp-newbtn .dqi{color:var(--dqp-focus)}
+.dqp-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.dqp-dot{position:absolute;top:2px;right:2px;width:9px;height:9px;border-radius:50%;background:var(--dqp-focus);box-shadow:0 0 0 2px var(--dqp-bar)}
+.dqp-drawer{position:fixed;z-index:80;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--dqp-panel);color:var(--dqp-panel-fg);border-left:1px solid var(--dqp-panel-line);
+  box-shadow:-16px 0 40px rgba(0,0,0,.22);overflow-y:auto;padding:max(16px, env(safe-area-inset-top, 0px)) max(18px, env(safe-area-inset-right, 0px)) 24px 18px;font:15px/1.5 "Public Sans",system-ui,sans-serif;
+  transform:translateX(100%);transition:transform .25s ease}
+.dqp-drawer.open{transform:none}
+@media (prefers-reduced-motion: reduce){.dqp-drawer{transition:none}}
+.dqp-dhead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dqp-dhead h2{font:700 18px/1.3 "Source Serif 4",Georgia,serif;margin:0}
+.dqp-dclose{font:700 22px/1 "Public Sans",system-ui,sans-serif;width:40px;height:40px;border-radius:8px;border:1px solid var(--dqp-panel-line);background:transparent;color:var(--dqp-panel-fg);cursor:pointer}
+.dqp-dsub{font-size:13px;color:var(--dqp-panel-muted);margin:6px 0 12px}
+.dqp-dsub a,.dqp-drawer a{color:var(--dqp-icon)}
+.dqp-drawer details{border:1px solid var(--dqp-panel-line);border-radius:8px;margin-bottom:8px;padding:0 12px}
+.dqp-drawer summary{cursor:pointer;padding:10px 0;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+.dqp-drawer summary small{font-weight:400;color:var(--dqp-panel-muted)}
+.dqp-drawer h3{font:700 12px/1.2 "Public Sans",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin:8px 0 4px;color:var(--dqp-panel-muted)}
+.dqp-drawer ul{margin:0 0 10px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.dqp-flag{display:inline-block;font:700 10.5px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:3px 6px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.dqp-flag.new{background:#ffbf47;color:#0b0c0c}
+.dqp-flag.changed{background:#d9e6f7;color:#1d3a6b}
+.dqp-flag.fixed{background:#dff0e4;color:#14532d}
+.dqp-flag.removed{background:#f1dede;color:#7f1d1d}
+.dqp-navflag{font:700 10px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:2px 5px;border-radius:4px;background:#ffbf47;color:#0b0c0c;margin-left:6px;vertical-align:1px}
+.dqp-navflag.upd{background:#d9e6f7;color:#1d3a6b}
+.dqp-drawer :focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
+@media (max-width:1000px){.dqp-newbtn{margin-left:0}}
 </style>
 <a class="dqp-skip" href="#dqp-main">Skip to main content</a>
 {{ICONS}}
 <div class="dqp-bar" role="banner">
   <div class="dqp-in">
     <a class="dqp-brand" href="index.html" aria-label="{{BRAND}}, home">
-      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="12.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7.5 15l4 4 9-10" fill="none" stroke="#ffbf47" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.6"><circle cx="32" cy="24.5" r="13"/><circle cx="23.2" cy="39.5" r="13"/><circle cx="40.8" cy="39.5" r="13"/></g><circle cx="32" cy="34.6" r="7.4" fill="#ffbf47"/><path d="M28.4 34.8l2.6 2.6 4.8-5.2" fill="none" stroke="#0b0c0c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span>{{BRAND}}<small>{{BUILD}}</small></span>
     </a>
     <nav class="dqp-nav" aria-label="Commons">{{NAV}}</nav>
     <details class="dqp-menu"><summary aria-label="Open the menu">Menu</summary><nav class="dqp-drop" aria-label="Commons (menu)">{{NAV_LONG}}</nav></details>
+    <button class="dqp-newbtn" type="button" id="dqp-new-open" aria-controls="dqp-news" aria-expanded="false"><svg class="dqi" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="dqp-long">What's new</span><span class="dqp-short">New</span><span class="dqp-dot" id="dqp-new-dot" aria-hidden="true" hidden></span><span class="dqp-sr" id="dqp-new-sr" hidden> (updates you haven't seen)</span></button>
     <button class="dqp-tourbtn" type="button" id="dqp-tour-start" hidden><span class="dqp-long">Take the tour</span><span class="dqp-short">Tour</span></button>
   </div>
 </div>
+<aside class="dqp-drawer" id="dqp-news" role="dialog" aria-modal="false" aria-labelledby="dqp-news-h" hidden>
+  <div class="dqp-dhead"><h2 id="dqp-news-h">What's new and what's changed</h2><button type="button" class="dqp-dclose" id="dqp-new-close" aria-label="Close what's new">×</button></div>
+  <p class="dqp-dsub">Version {{VERSION}}. We use semantic versioning: a new major number for big changes, minor for new features, patch for fixes. <a href="build.html#releases">All releases and change logs</a>.</p>
+  <div id="dqp-news-body"></div>
+</aside>
+<script type="application/json" id="dqp-releases">{{RELEASES}}</script>
 <span id="dqp-main" tabindex="-1"></span>
 <script>
 (function () {
@@ -107,6 +144,42 @@
     if (e.key !== "Escape") return;
     groups.forEach(function (d) { if (d.open) { d.open = false; d.querySelector("summary").focus(); } });
   });
+
+  // What's new drawer: releases from the shared release notes; a dot shows until the latest version is seen.
+  (function () {
+    var R = [], el = function (id) { return document.getElementById(id); };
+    try { R = JSON.parse(el("dqp-releases").textContent) || []; } catch (e) { R = []; }
+    var dr = el("dqp-news"), openBtn = el("dqp-new-open"), closeBtn = el("dqp-new-close"), dot = el("dqp-new-dot"), lastFocus = null;
+    if (!dr || !R.length) { if (openBtn) openBtn.hidden = true; return; }
+    var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
+    var LABEL = {"new": "New", changed: "Changed", fixed: "Fixed", removed: "Removed"};
+    el("dqp-news-body").innerHTML = R.map(function (r, i) {
+      var groups = ["new", "changed", "fixed", "removed"].map(function (t) {
+        var items = (r.items || []).filter(function (x) { return x.type === t; });
+        return items.length ? "<h3>" + LABEL[t] + "</h3><ul>" + items.map(function (x) {
+          return "<li><span class=\"dqp-flag " + t + "\">" + LABEL[t] + "</span>" + (x.link ? "<a href=\"" + esc(x.link) + "\">" + esc(x.text) + "</a>" : esc(x.text)) + "</li>"; }).join("") + "</ul>" : ""; }).join("");
+      return "<details" + (i === 0 ? " open" : "") + "><summary><span>Version " + esc(r.version) + (r.title ? ": " + esc(r.title) : "") + "</span><small>" + esc(r.date) + "</small></summary>" + groups + "</details>";
+    }).join("");
+    var seen = null; try { seen = localStorage.getItem("dqp-seen-version"); } catch (e) {}
+    var sr = el("dqp-new-sr");
+    if (seen !== R[0].version) { dot.hidden = false; sr.hidden = false; }
+    function open() {
+      lastFocus = document.activeElement; dr.hidden = false; openBtn.setAttribute("aria-expanded", "true");
+      requestAnimationFrame(function () { dr.classList.add("open"); closeBtn.focus(); });
+      dot.hidden = true; sr.hidden = true; try { localStorage.setItem("dqp-seen-version", R[0].version); } catch (e) {}
+    }
+    function close() {
+      dr.classList.remove("open"); openBtn.setAttribute("aria-expanded", "false");
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setTimeout(function () { dr.hidden = true; }, reduce ? 0 : 250);
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    openBtn.addEventListener("click", function () { if (dr.hidden) open(); else close(); });
+    closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !dr.hidden) { e.preventDefault(); close(); } });
+    document.addEventListener("click", function (e) { if (!dr.hidden && !dr.contains(e.target) && !openBtn.contains(e.target)) close(); });
+    window.DQP_openNews = open;
+  })();
 
   // Guided tour. A page sets window.DQP_TOUR = [{sel, title, text}] before or after this script runs.
   var box = null, i = 0, steps = [], lastEl = null, opener = null;

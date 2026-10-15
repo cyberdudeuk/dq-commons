@@ -1,5 +1,14 @@
 # Build journal
 
+## 2026-10-15 — v1.3.0: knowledge map, events, skills and training, releases, logo, build bundle
+
+**Built:** Knowledge map (glossary, thesaurus, data dictionary, taxonomies, ontology, interactive graph with trail, path finder, lineage and traceability); knowledge graph module, CLI and MCP tool, with SKOS/OWL exports; Events page; Skills and training page; Commons logo, favicon and "What is a Commons?" panel; What's new drawer and menu flags driven by `knowledge/releases.yaml`; the standalone solution build and development bundle.
+
+**Research:** 5 upcoming events and 13 training entries checked against providers' pages where marked; organisers' contact emails seen during research were not copied.
+
+**Checked:** all tests pass; parity 37 of 37; content health clear; browser checks on all 31 pages in desktop light and phone dark; graph has no dangling links and is one connected component.
+
+
 ## 2026-10-15 — v1.2.1: international packs, provenance, freshness issues, accessibility CI
 
 **Built:** UN NQAF and IMF DQAF packs (14 packs now); a "content last reviewed" line on every page; the weekly content health run now opens and closes a GitHub issue; an axe-core accessibility workflow; the v1.2 architecture section with a diagram. Retired one stale news slide.

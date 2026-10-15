@@ -7,6 +7,8 @@
   contract RULES.yaml --to table-schema|odcs|csvw  |  CONTRACT --from table-schema|odcs
           convert rules to or from open data contract standards
   contract-check CONTRACT [--against OLD_CONTRACT]   check an ODCS contract; with --against, list changes and breaking ones
+  graph   [--format json|jsonld|ttl] [--find TEXT] [--from A --to B]
+          the knowledge graph: export it, find concepts, or trace the relationships between two concepts
   weave   RECORD.json [--from dcat|schema|ckan|odcs] [--to dcat|schema|ckan|odcs|all] [--report]
           read one metadata record and write it as DCAT v3, schema.org, CKAN and ODCS, with gaps and CDA coverage
   survey  FORMS_EXPORT.xlsx [--out DIR]                           reshape and summarise the DQ tooling survey (personal data removed)
@@ -74,6 +76,9 @@ def main(argv=None) -> int:
     ct.add_argument("--from", dest="src", choices=["table-schema", "odcs"])
     cc = sub.add_parser("contract-check", help="check an ODCS contract, and compare it with an earlier version")
     cc.add_argument("file"); cc.add_argument("--against", help="the earlier version of the contract")
+    gr = sub.add_parser("graph", help="the knowledge graph: export, find, or trace a path")
+    gr.add_argument("--format", default="json", choices=["json", "jsonld", "ttl"])
+    gr.add_argument("--find"); gr.add_argument("--from", dest="frm"); gr.add_argument("--to")
     wv = sub.add_parser("weave", help="Metadata Weaver: one record in, every catalogue standard out, with gaps")
     wv.add_argument("file"); wv.add_argument("--from", dest="src", choices=list(weaver.READERS))
     wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["all"])
@@ -178,6 +183,21 @@ def main(argv=None) -> int:
         print(json.dumps(out, indent=2, ensure_ascii=False))
         bad = any(p["level"] == "error" for p in probs) or (a.against and out["diff"]["version_ok"] is False)
         return 1 if bad else 0
+    if a.cmd == "graph":
+        from . import graph
+        g = graph.build()
+        if a.find:
+            for n in graph.find(g, a.find):
+                print(f"{n['id']}\t{n['label']}")
+            return 0
+        if a.frm and a.to:
+            pick = lambda v: v if any(n["id"] == v for n in g["nodes"]) else ((graph.find(g, v, 1) or [{}])[0].get("id"))
+            ch = graph.path(g, pick(a.frm), pick(a.to)) if pick(a.frm) and pick(a.to) else []
+            print(" -> ".join(ch) if ch else "No path found.")
+            return 0 if ch else 1
+        print(graph.to_turtle(g) if a.format == "ttl" else json.dumps(graph.to_jsonld(g) if a.format == "jsonld" else
+              {k: g[k] for k in ("nodes", "edges", "stats")}, indent=1, ensure_ascii=False))
+        return 0
     if a.cmd == "weave":
         rec = yaml.safe_load(Path(a.file).read_text(encoding="utf-8"))
         try:

@@ -81,6 +81,13 @@ TOOLS = [
      "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "list_packs", "title": "List framework packs", "description": "The packs that apply frameworks to results.",
      "inputSchema": {"type": "object", "properties": {}}, "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "explore_knowledge", "title": "Explore the data quality knowledge graph",
+     "description": "Search the Commons knowledge graph (glossary, thesaurus, frameworks, packs, checks, dimensions, issue types, "
+                    "metadata standards, roles, skills, courses, events and jurisdictions). Give 'query' to find concepts, 'node' to list "
+                    "its relationships, or 'from' and 'to' to trace the shortest chain of relationships between two concepts.",
+     "inputSchema": {"type": "object", "properties": {"query": {"type": "string"}, "node": {"type": "string"},
+                     "from": {"type": "string"}, "to": {"type": "string"}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "weave_metadata", "title": "Weave a metadata record into every catalogue standard",
      "description": "Read one dataset record (DCAT or schema.org JSON-LD, a CKAN package or an ODCS contract) and return it as "
                     "DCAT v3, schema.org, CKAN and an ODCS skeleton, with the gaps for each and the 13 CDA metadata properties.",
@@ -196,6 +203,26 @@ def call_tool(name: str, args: dict) -> dict:
                 for x in packs.registry() if not f or f in json.dumps(x).lower()]
     if name == "list_packs":
         return [{"id": p["id"], "name": p["name"], "summary": p.get("summary", "")} for p in packs.list_packs()]
+    if name == "explore_knowledge":
+        from . import graph
+        g = graph.build()
+        ids = {n["id"] for n in g["nodes"]}
+        pick = lambda v: v if v in ids else ((graph.find(g, v, 1) or [{}])[0].get("id"))
+        if args.get("from") and args.get("to"):
+            a, b = pick(args["from"]), pick(args["to"])
+            if not (a and b):
+                raise ToolError("Couldn't find one of those concepts. Try 'query' first.")
+            return {"from": a, "to": b, "path": graph.path(g, a, b)}
+        if args.get("node"):
+            n = pick(args["node"])
+            if not n:
+                raise ToolError("No concept matches that node.")
+            return {"node": next(x for x in g["nodes"] if x["id"] == n),
+                    "relationships": [{"property": r["property"], "direction": r["direction"], "id": r["node"]["id"], "label": r["node"]["label"]}
+                                      for r in graph.neighbours(g, n)]}
+        if args.get("query"):
+            return [{"id": n["id"], "type": n["type"], "label": n["label"], "definition": n.get("definition", "")} for n in graph.find(g, args["query"])]
+        return {"stats": g["stats"] | {"dangling": None}}
     if name == "weave_metadata":
         from . import weaver
         try:

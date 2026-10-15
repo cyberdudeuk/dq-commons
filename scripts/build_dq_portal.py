@@ -33,7 +33,8 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "portal" / "src"
-VERSION = "1.2.1"
+# The version comes from the latest entry in knowledge/releases.yaml (the single source for releases).
+VERSION = str(yaml.safe_load((ROOT / "knowledge" / "releases.yaml").read_text(encoding="utf-8"))["releases"][0]["version"])
 BRAND = "Public Sector Data Quality Commons"
 
 # Navigation groups, in order, and the pages in each: (file stem, short label, description).
@@ -54,6 +55,8 @@ GROUPS = [
     ("Know", [
         ("frameworks", "Frameworks and standards", "30 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
         ("learn", "Learn", "Pathways by role, modules, tutorials and glossary"),
+        ("training", "Skills and training", "Skills check against your role, a development plan and a catalogue of courses and qualifications"),
+        ("knowledge", "Knowledge map", "Glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph with lineage"),
         ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
         ("guidance", "Issues framework", "Prioritise issues with the government method, and the guidance findings"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
@@ -73,6 +76,7 @@ GROUPS = [
     ("Community", [
         ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
         ("media", "Media centre", "Blog, vlog and podcasts about data quality, from the Commons and members"),
+        ("events", "Events", "Data quality conferences, workshops, courses and forums, with calendar downloads"),
         ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
         ("share", "Case studies", "Case studies, the tooling survey review, and messages to other teams"),
         ("build", "Help us build this", "Roadmap, backlog, wishlist, co-design charter, contributors and how to contact us"),
@@ -86,7 +90,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy"}
 
 
 def icon(name: str) -> str:
@@ -177,6 +181,22 @@ def examples(port_file: Path) -> list:
     return out
 
 
+def knowledge_graph() -> dict:
+    """The knowledge graph (dqkit/graph.py) for the Knowledge map page: nodes, edges and counts."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from dqkit import graph
+    g = graph.build()
+    return {"nodes": g["nodes"], "edges": g["edges"], "stats": g["stats"]}
+
+
+def weaver_fields() -> list:
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from dqkit import weaver
+    return weaver.fields()
+
+
 def health_summary() -> dict:
     """The content health report's summary (scripts/self_check.py), for the portal."""
     import sys
@@ -225,8 +245,36 @@ def knowledge() -> dict:
         "GLOBAL": lambda: y("global"),
         "BUILD": lambda: y("build"),
         "HEALTH": lambda: health_summary(),
+        "EVENTS": lambda: y("events"),
+        "RELEASES": lambda: y("releases"),
+        "TRAINING": lambda: y("training"),
+        "GRAPH": lambda: knowledge_graph(),
+        "ONTOLOGY": lambda: {**{k: v for k, v in y("ontology").items() if k != "review"}, "weaver_fields": weaver_fields()},
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
+
+
+# ---------- releases and versioning (knowledge/releases.yaml is the single source) ----------
+
+def releases() -> list:
+    return yaml.safe_load((ROOT / "knowledge" / "releases.yaml").read_text(encoding="utf-8"))["releases"]
+
+
+def flags() -> tuple[set, set]:
+    """Pages to flag in the menu: new or updated in the latest release or the one before (newest wins)."""
+    new, upd = set(), set()
+    for r in reversed(releases()[:2]):
+        for p in r.get("pages_new", []):
+            new.add(p)
+            upd.discard(p)
+        for p in r.get("pages_changed", []):
+            if p not in new:
+                upd.add(p)
+    return new, upd
+
+
+FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]).quote(
+    (SRC / "logo.svg").read_text(encoding="utf-8").replace("\n", "").strip(), safe=":/=,#()'"))
 
 
 # ---------- page assembly ----------
@@ -236,9 +284,11 @@ def nav(active: str, long: bool) -> str:
     out = []
     for g, ps in GROUPS:
         cur_g = any(stem == active for stem, _, _ in ps)
+        new, upd = flags()
+        flag = lambda s: ('<span class="dqp-navflag">New</span>' if s in new else '<span class="dqp-navflag upd">Updated</span>' if s in upd else "")
         links = "".join(
             f'<a href="{stem}.html" data-t="{html.escape(label)}"{" aria-current=\"page\"" if stem == active else ""}>'
-            f'{icon(PAGE_ICON.get(stem, "arrow"))}<span>{html.escape(label)}</span>'
+            f'{icon(PAGE_ICON.get(stem, "arrow"))}<span>{html.escape(label)}{flag(stem)}</span>'
             f'<small>{html.escape(desc)}</small></a>' for stem, label, desc in ps)
         if long:
             out.append(f'<div class="dqp-grp"><h2>{g}</h2>{links}</div>')
@@ -261,10 +311,12 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     shell = (SRC / "shell.html").read_text(encoding="utf-8")
     shell = (shell.replace("{{NAV}}", nav(stem, False)).replace("{{NAV_LONG}}", nav(stem, True))
              .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, ""))
-             .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip()))
+             .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip())
+             .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5])))
     # every page's eyebrow gets that page's icon
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
     head, body = split_fragment(fragment)
+    head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
     frag = f"{head}\n{shell_css}\n{shell_body}\n{body}\n{footer}\n"
@@ -277,7 +329,8 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 # Which knowledge file each __K_NAME__ placeholder comes from, for the per-page provenance line.
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
-           "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build"}
+           "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases"}
 
 
 def provenance(names: set) -> str:

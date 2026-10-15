@@ -1,5 +1,19 @@
 # Changelog
 
+Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
+
+## 1.3.0 — 2026-10-15
+### Added
+- Knowledge map page: glossary (39 terms), ISO 25964-style thesaurus, data dictionary with an entity relationship diagram, taxonomies, ontology (23 classes, 27 relationship types) and an interactive knowledge graph of 460 concepts and over 1,000 relationships, with a trail, path finder, lineage diagrams and framework-to-evidence traceability.
+- `dqkit/graph.py`, `dqkit graph` (export, find, trace), MCP tool `explore_knowledge`; `vocab/knowledge-graph.ttl` and `.jsonld` (SKOS and OWL, linked to the published quality vocabulary).
+- Events page: verified events and recurring events, list and month views, filters, accessibility notes, .ics downloads, moderated submissions.
+- Skills and training page: 10 skills aligned with DDaT, a skills check against each role's target level, a downloadable development plan and a catalogue of 13 courses, pathways, qualifications and guidance (free first).
+- Commons logo and favicon; "What is a Commons?" panel on the home page.
+- What's new drawer with collapsible releases and New, Changed and Fixed flags; New and Updated flags in menus; releases on Help us build this.
+- Solution build and development bundle (`scripts/build_bundle.py`, `docs/bundle/index.html`), also published as a standalone page.
+### Changed
+- The version number now comes from `knowledge/releases.yaml`.
+
 ## 1.2.1 — 2026-10-15
 ### Added
 - Framework packs for the UN National Quality Assurance Framework (`un-nqaf`) and the IMF Data Quality Assessment Framework (`imf-dqaf`), linked from UK and the world and the international scenarios (BL-16, XDMH-230).

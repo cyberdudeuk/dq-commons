@@ -1,0 +1,70 @@
+# Releases: the single source for version numbers, the What's new drawer, the releases page and CHANGELOG.md.
+# Versioning: semantic versioning (major.minor.patch). Major: changes that break files or links people rely on.
+# Minor: new features or pages. Patch: fixes and content updates. Types: new, changed, fixed, removed.
+# pages_new / pages_changed flag menu entries as "New" or "Updated" while that release is the latest or the one before.
+review: {last_reviewed: "2026-10-15", owner_role: Product owner (Commons)}
+
+policy:
+- "Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content."
+- "Every release is tagged in Git (vX.Y.Z), listed here, and summarised in CHANGELOG.md, docs/BUILD-LOG.md and the decision log."
+- "Identifiers in the vocabulary and knowledge graph are persistent: they are never reused for a different meaning."
+- "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
+
+releases:
+- version: "1.3.0"
+  date: "2026-10-15"
+  title: "Knowledge map, events, skills and training"
+  pages_new: [knowledge, events, training]
+  pages_changed: [index, learn, build]
+  items:
+  - {type: new, text: "Knowledge map: glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph", link: "knowledge.html"}
+  - {type: new, text: "Lineage and traceability: from source data to report, from policy to evidence, from one record to every catalogue", link: "knowledge.html#node=Stage:st-source"}
+  - {type: new, text: "Trace the path between any two concepts", link: "knowledge.html"}
+  - {type: new, text: "Events calendar with list and month views, calendar downloads and moderated submissions", link: "events.html"}
+  - {type: new, text: "Skills and training: skills check by role, a development plan and a catalogue of courses and qualifications", link: "training.html"}
+  - {type: new, text: "Commons logo, favicon and a 'What is a Commons?' panel on the home page", link: "index.html"}
+  - {type: new, text: "This What's new drawer, with releases and change logs", link: "build.html#releases"}
+  - {type: new, text: "Solution build and development bundle as a standalone page", link: "build.html#bundle"}
+  - {type: new, text: "Knowledge graph exports: SKOS and OWL Turtle and JSON-LD; dqkit graph command and MCP tool explore_knowledge"}
+  - {type: changed, text: "Menus flag new and updated pages"}
+- version: "1.2.1"
+  date: "2026-10-15"
+  title: "International packs and provenance"
+  pages_new: []
+  pages_changed: [frameworks, global]
+  items:
+  - {type: new, text: "UN NQAF and IMF DQAF framework packs", link: "frameworks.html#packs"}
+  - {type: new, text: "Every page shows when its content was last reviewed and by which role"}
+  - {type: new, text: "Weekly content health issue for owning roles; accessibility checks in CI"}
+  - {type: changed, text: "Retired a news slide over 6 months old"}
+- version: "1.2.0"
+  date: "2026-10-15"
+  title: "Weaver, world and help us build this"
+  pages_new: [weaver, global, build]
+  pages_changed: [about, community, media]
+  items:
+  - {type: new, text: "Metadata Weaver and contract change check", link: "weaver.html"}
+  - {type: new, text: "UK and the world: Crown Dependencies, Overseas Territories, Commonwealth and international partners", link: "global.html"}
+  - {type: new, text: "Help us build this: roadmap, backlog, wishlist, charter, safeguards and contact form", link: "build.html"}
+  - {type: new, text: "GOV.UK blog features in the media centre", link: "media.html"}
+  - {type: new, text: "Icon set, and a footer with licences, notices and colophon"}
+  - {type: changed, text: "Roadmap moved from About, and wishlist from Community, to Help us build this"}
+  - {type: fixed, text: "Git history uses a no-reply address; internal site address removed"}
+- version: "1.1.0"
+  date: "2026-10-15"
+  title: "Contracts, suppliers, legacy, front page, library and media"
+  pages_new: [commercial, legacy, interop, library, media, accessibility]
+  pages_changed: [index, check, maturity]
+  items:
+  - {type: new, text: "Data contracts (ODCS, Table Schema, CSVW) and exports", link: "check.html#contracts"}
+  - {type: new, text: "Buying and suppliers, Legacy and modernisation, Interoperability and standards", link: "commercial.html"}
+  - {type: new, text: "Front page carousel and spotlight, library, knowledge base and media centre"}
+  - {type: fixed, text: "Theme colours, heading levels, carousel pause, target sizes and survey saving"}
+- version: "1.0.0"
+  date: "2026-10-15"
+  title: "The Public Sector Data Quality Commons"
+  pages_new: []
+  pages_changed: []
+  items:
+  - {type: changed, text: "Renamed the Public Sector Data Quality Commons: a hub and toolkit for the whole public sector"}
+  - {type: new, text: "Frameworks, learning, maturity, AI assistant, scenarios, community, surveys and operating model"}

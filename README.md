@@ -6,16 +6,28 @@ central and local government, the devolved governments, the wider public sector,
 and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
 Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.2.1). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.3.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`: 28 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
+`portal/dist/index.html`: 31 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
 a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
 
 Scenarios include critical data assets under the GOV.UK
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government),
 the National Data Library, official statistics, health, local government, geospatial, personal
 data, AI and machine learning, open data, the devolved nations and international comparison.
+
+## New in v1.3
+
+| Area | Where |
+|---|---|
+| **Knowledge map**: glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph (460 concepts, 1,000+ relationships) with lineage, traceability and path finding | `knowledge/ontology.yaml`, `dqkit/graph.py`, `dqkit graph`, portal Know > Knowledge map |
+| Knowledge graph as open SKOS and OWL | `vocab/knowledge-graph.ttl`, `vocab/knowledge-graph.jsonld`, MCP tool `explore_knowledge` |
+| **Events** calendar with list and month views, .ics downloads and moderated submissions | `knowledge/events.yaml`, portal Community > Events |
+| **Skills and training**: skills check by role, development plan, course and qualification catalogue | `knowledge/training.yaml`, portal Know > Skills and training |
+| **Releases**: What's new drawer, version flags in menus, release notes | `knowledge/releases.yaml` (the single source for the version number) |
+| **Solution build and development bundle**: every mandated document on one standalone page | `scripts/build_bundle.py`, `docs/bundle/index.html` |
+| Commons logo and favicon | `portal/src/logo.svg` |
 
 ## New in v1.2
 
@@ -64,7 +76,7 @@ Contact is by form only: no email address is published. Security problems go thr
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (116 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
+   You should see `OK` at the end (131 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
