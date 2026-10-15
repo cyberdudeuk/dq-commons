@@ -5,15 +5,14 @@ review: {last_reviewed: "2026-10-15", owner_role: Content steward (learning)}
 levels: [Awareness, Working, Practitioner, Expert]
 
 roles:
-- {id: owner, name: Data owner, needs: "Decide priorities, accept risk, sign off the DQAP and act on escalations", level: Working}
-- {id: steward, name: Data steward, needs: "Write rules, run checks, log and work issues, report", level: Practitioner}
-- {id: analyst, name: Data analyst or engineer, needs: "Automate checks in pipelines, profile data, investigate root causes", level: Practitioner}
-- {id: statistician, name: Statistician or analyst producing statistics, needs: "Assure sources (QAAD), state quality to users, meet the Code of Practice", level: Practitioner}
-- {id: governance, name: Data governance manager, needs: "Run the DQ operating model, policy compliance and reporting across the organisation", level: Expert}
-- {id: cdo, name: Chief data officer or senior responsible owner, needs: "Set direction, fund improvement, report to boards and the CDO Council", level: Working}
-- {id: product, name: Service or product owner, needs: "Prevent poor data at source in the service, and act on user impact", level: Awareness}
-- {id: ai, name: AI or data science lead, needs: "Prove data is fit to train or feed a model, including fairness across groups", level: Practitioner}
-
+- {id: owner, name: Data owner, needs: "Decide priorities, accept risk, sign off the DQAP and act on escalations", level: Working, ddat: "Information asset owner duties; senior responsible owner (not a DDaT role)"}
+- {id: steward, name: Data steward, needs: "Write rules, run checks, log and work issues, report", level: Practitioner, ddat: "Data governance manager"}
+- {id: analyst, name: Data analyst or engineer, needs: "Automate checks in pipelines, profile data, investigate root causes", level: Practitioner, ddat: "Data analyst; Data engineer"}
+- {id: statistician, name: Statistician or analyst producing statistics, needs: "Assure sources (QAAD), state quality to users, meet the Code of Practice", level: Practitioner, ddat: "Statistician (Government Statistical Service)"}
+- {id: governance, name: Data governance manager, needs: "Run the DQ operating model, policy compliance and reporting across the organisation", level: Expert, ddat: "Data governance manager; Data architect"}
+- {id: cdo, name: Chief data officer or senior responsible owner, needs: "Set direction, fund improvement, report to boards and the CDO Council", level: Working, ddat: "Chief data officer; Head of data"}
+- {id: product, name: Service or product owner, needs: "Prevent poor data at source in the service, and act on user impact", level: Awareness, ddat: "Product manager; Service owner"}
+- {id: ai, name: AI or data science lead, needs: "Prove data is fit to train or feed a model, including fairness across groups", level: Practitioner, ddat: "Data scientist; Machine learning engineer"}
 modules:
 - id: m1
   title: Why data quality matters, and what "good enough" means

@@ -1,0 +1,931 @@
+# Metadata Rosetta: 61 cataloguing concepts mapped to 8 metadata standards.
+# Imported from the OCDO Standards Rosetta in the DAM project; edit there or here and keep them in step.
+review:
+  last_reviewed: '2026-10-15'
+  owner_role: Content steward (standards)
+source: OCDO Standards Rosetta (DAM data cataloguing playbook implementation bridge), imported into the Commons
+standards:
+- DCAT v3
+- UK MEM / x-gov
+- DCAT-AP
+- GeoDCAT-AP
+- StatDCAT-AP
+- DCAT-US
+- PROV-O
+- DQV
+concepts:
+- id: C001
+  name: Catalogue
+  definition: Collection of metadata records
+  dam: Catalogue / portal / register
+  lineage: Collection-level harvest unit
+  note: Harvest and federation boundary
+  standards:
+    DCAT v3: dcat:Catalog
+    UK MEM / x-gov: Catalogue / CataloguedResource container
+    DCAT-AP: dcat:Catalog
+    GeoDCAT-AP: Catalog
+    StatDCAT-AP: Catalogue
+    DCAT-US: Catalog
+    PROV-O: prov:Bundle for provenance graph
+    DQV: dqv:QualityMetadata may describe catalogue quality
+- id: C002
+  name: Catalogue record
+  definition: Metadata record for one resource
+  dam: Catalogue entry
+  lineage: Audit/catalogue change tracking
+  note: Record-level update history
+  standards:
+    DCAT v3: dcat:CatalogRecord
+    UK MEM / x-gov: Catalogued resource record
+    DCAT-AP: dcat:CatalogRecord
+    GeoDCAT-AP: Dataset metadata record
+    StatDCAT-AP: Statistical dataset metadata record
+    DCAT-US: data.json dataset object
+    PROV-O: prov:Entity for record
+    DQV: dqv:QualityAnnotation on record
+- id: C003
+  name: Dataset / data asset
+  definition: Logical collection of data
+  dam: Critical data asset / dataset
+  lineage: Core asset node
+  note: Main Rosetta anchor
+  standards:
+    DCAT v3: dcat:Dataset
+    UK MEM / x-gov: Dataset
+    DCAT-AP: dcat:Dataset
+    GeoDCAT-AP: Spatial dataset or series
+    StatDCAT-AP: Statistical dataset
+    DCAT-US: Dataset
+    PROV-O: prov:Entity
+    DQV: Resource measured by DQV
+- id: C004
+  name: Dataset series
+  definition: Related datasets over time/theme
+  dam: Asset family / series
+  lineage: Release family
+  note: Useful for monthly/annual releases
+  standards:
+    DCAT v3: dcat:DatasetSeries
+    UK MEM / x-gov: RelatedResource or Dataset grouping
+    DCAT-AP: Dataset series
+    GeoDCAT-AP: Spatial dataset series
+    StatDCAT-AP: Statistical series
+    DCAT-US: Collection/series pattern
+    PROV-O: prov:Collection
+    DQV: Quality over series
+- id: C005
+  name: Distribution
+  definition: Specific accessible representation
+  dam: Where it lives / file/API representation
+  lineage: Physical representation
+  note: Separate logical dataset from file/API
+  standards:
+    DCAT v3: dcat:Distribution
+    UK MEM / x-gov: Distribution
+    DCAT-AP: dcat:Distribution
+    GeoDCAT-AP: INSPIRE distribution/resource locator
+    StatDCAT-AP: SDMX/API/CSV distribution
+    DCAT-US: Distribution
+    PROV-O: prov:Entity generated/used
+    DQV: Measurement target
+- id: C006
+  name: Data service / API
+  definition: Service providing data access
+  dam: Access service / endpoint
+  lineage: API access node
+  note: Machine access pattern
+  standards:
+    DCAT v3: dcat:DataService
+    UK MEM / x-gov: DataService
+    DCAT-AP: dcat:DataService
+    GeoDCAT-AP: Spatial data service
+    StatDCAT-AP: Statistical API/service
+    DCAT-US: API object / accessURL
+    PROV-O: prov:Activity or Entity depending use
+    DQV: Service quality annotations
+- id: C007
+  name: Title / name
+  definition: Human-readable name
+  dam: Title
+  lineage: Search/display
+  note: Keep plain English
+  standards:
+    DCAT v3: dct:title
+    UK MEM / x-gov: title
+    DCAT-AP: dct:title
+    GeoDCAT-AP: title
+    StatDCAT-AP: title
+    DCAT-US: title
+    PROV-O: rdfs:label
+    DQV: n/a
+- id: C008
+  name: Description
+  definition: Plain-language explanation
+  dam: Description
+  lineage: Understandability
+  note: Avoid jargon
+  standards:
+    DCAT v3: dct:description
+    UK MEM / x-gov: description
+    DCAT-AP: dct:description
+    GeoDCAT-AP: abstract
+    StatDCAT-AP: description / abstract
+    DCAT-US: description
+    PROV-O: rdfs:comment
+    DQV: quality annotation body where issue text
+- id: C009
+  name: Identifier
+  definition: Stable unique reference
+  dam: Identifier
+  lineage: Join/harvest key
+  note: Do not rely on title
+  standards:
+    DCAT v3: dct:identifier
+    UK MEM / x-gov: identifier
+    DCAT-AP: dct:identifier
+    GeoDCAT-AP: fileIdentifier / identifier
+    StatDCAT-AP: statistical resource identifier
+    DCAT-US: identifier
+    PROV-O: prov:id
+    DQV: n/a
+- id: C010
+  name: Publisher / owner
+  definition: Publishing/accountable organisation
+  dam: Owner / publisher
+  lineage: Accountable body
+  note: Map role separately from contact
+  standards:
+    DCAT v3: dct:publisher
+    UK MEM / x-gov: publisher
+    DCAT-AP: dct:publisher
+    GeoDCAT-AP: responsible party
+    StatDCAT-AP: data provider
+    DCAT-US: publisher
+    PROV-O: prov:wasAttributedTo
+    DQV: n/a
+- id: C011
+  name: Contact / steward
+  definition: Operational support contact
+  dam: Data Steward / contact
+  lineage: Support route
+  note: Use vCard/contact object where possible
+  standards:
+    DCAT v3: dcat:contactPoint
+    UK MEM / x-gov: contactPoint, contactName, email, telephone, address
+    DCAT-AP: dcat:contactPoint
+    GeoDCAT-AP: pointOfContact
+    StatDCAT-AP: contact point
+    DCAT-US: contactPoint
+    PROV-O: prov:Agent + role
+    DQV: quality feedback contact
+- id: C012
+  name: Classification / handling
+  definition: Sensitivity and constraints
+  dam: Classification/handling
+  lineage: Security gate
+  note: Do not expose restricted details in public metadata
+  standards:
+    DCAT v3: dct:accessRights / odrl:hasPolicy
+    UK MEM / x-gov: securityClassification, accessRights
+    DCAT-AP: rights / accessRights
+    GeoDCAT-AP: security constraints
+    StatDCAT-AP: confidentiality/status flags
+    DCAT-US: accessLevel / rights
+    PROV-O: prov:Policy pattern
+    DQV: dqv:QualityPolicy where relevant
+- id: C013
+  name: Access/request route
+  definition: How users request/access data
+  dam: Access/request route
+  lineage: Request workflow
+  note: Make request route visible
+  standards:
+    DCAT v3: dcat:accessURL, accessService, accessRights
+    UK MEM / x-gov: accessRights, accessService, distribution
+    DCAT-AP: accessURL / accessService
+    GeoDCAT-AP: resource locator / service endpoint
+    StatDCAT-AP: SDMX endpoint / API
+    DCAT-US: accessURL / downloadURL
+    PROV-O: prov:Activity for request workflow
+    DQV: n/a
+- id: C014
+  name: Licence / rights
+  definition: Legal reuse conditions
+  dam: Licence / rights
+  lineage: Reuse control
+  note: Separate legal rights from security handling
+  standards:
+    DCAT v3: dct:license / dct:rights
+    UK MEM / x-gov: licence / accessRights
+    DCAT-AP: license / rights
+    GeoDCAT-AP: use constraints
+    StatDCAT-AP: licence / rights
+    DCAT-US: license / rights
+    PROV-O: prov:Plan or policy association
+    DQV: dqv:QualityPolicy if quality policy
+- id: C015
+  name: Theme / keywords
+  definition: Discovery topics and tags
+  dam: Terms alignment
+  lineage: Discovery facet
+  note: Use controlled theme plus free keywords
+  standards:
+    DCAT v3: dcat:theme / dcat:keyword
+    UK MEM / x-gov: theme / keyword
+    DCAT-AP: dcat:theme / keyword
+    GeoDCAT-AP: INSPIRE theme / keywords
+    StatDCAT-AP: statistical domain / keywords
+    DCAT-US: theme / keyword
+    PROV-O: skos:Concept optional
+    DQV: dqv:Dimension is not a theme
+- id: C016
+  name: Dates
+  definition: Created, issued and modified dates
+  dam: Dates
+  lineage: Freshness evidence
+  note: Distinguish data period from publication date
+  standards:
+    DCAT v3: dct:created, dct:issued, dct:modified
+    UK MEM / x-gov: created, issued, modified
+    DCAT-AP: dct:issued / dct:modified
+    GeoDCAT-AP: publication / update dates
+    StatDCAT-AP: release / update dates
+    DCAT-US: issued / modified
+    PROV-O: prov:generatedAtTime, startedAtTime, endedAtTime
+    DQV: measurement date via provenance
+- id: C017
+  name: Update frequency
+  definition: Refresh cadence
+  dam: Update frequency
+  lineage: Timeliness expectation
+  note: Supports quality monitoring
+  standards:
+    DCAT v3: dct:accrualPeriodicity
+    UK MEM / x-gov: updateFrequency
+    DCAT-AP: dct:accrualPeriodicity
+    GeoDCAT-AP: maintenance frequency
+    StatDCAT-AP: frequency
+    DCAT-US: accrualPeriodicity
+    PROV-O: prov:Plan schedule
+    DQV: timeliness metric
+- id: C018
+  name: Version / status
+  definition: Lifecycle and change state
+  dam: Version / status
+  lineage: Change control
+  note: Use for deprecation and replacement
+  standards:
+    DCAT v3: dcat:version, versionNotes, adms:status
+    UK MEM / x-gov: version, serviceStatus
+    DCAT-AP: version / status
+    GeoDCAT-AP: metadata or resource version
+    StatDCAT-AP: statistical release version
+    DCAT-US: version / status
+    PROV-O: prov:wasRevisionOf / invalidatedAtTime
+    DQV: quality metadata version
+- id: C019
+  name: Format / media type
+  definition: Technical representation
+  dam: Media type / format
+  lineage: Interoperability
+  note: Use IANA media type where possible
+  standards:
+    DCAT v3: dct:format / dcat:mediaType
+    UK MEM / x-gov: mediaType
+    DCAT-AP: format / mediaType
+    GeoDCAT-AP: format / encoding
+    StatDCAT-AP: SDMX, CSV, RDF format
+    DCAT-US: format / mediaType
+    PROV-O: prov:Entity type
+    DQV: format validity metric
+- id: C020
+  name: Spatial coverage
+  definition: Geographic scope
+  dam: Spatial coverage
+  lineage: Geo specialism
+  note: Use GeoDCAT/GEMINI where geographic metadata is primary
+  standards:
+    DCAT v3: dct:spatial, dcat:bbox, centroid
+    UK MEM / x-gov: DCAT spatial extension/profile
+    DCAT-AP: spatial
+    GeoDCAT-AP: ISO 19115 extent, bbox, CRS
+    StatDCAT-AP: reference area / geography
+    DCAT-US: spatial
+    PROV-O: prov:Location
+    DQV: spatial accuracy dimension
+- id: C021
+  name: Temporal coverage
+  definition: Time period covered by data
+  dam: Temporal coverage
+  lineage: Time scope
+  note: Do not confuse with modified date
+  standards:
+    DCAT v3: dct:temporal
+    UK MEM / x-gov: DCAT temporal extension/profile
+    DCAT-AP: temporal
+    GeoDCAT-AP: temporal extent
+    StatDCAT-AP: reference period
+    DCAT-US: temporal
+    PROV-O: prov:atTime / PeriodOfTime
+    DQV: timeliness/completeness metrics
+- id: C022
+  name: Lineage / provenance
+  definition: Sources, transforms and outputs
+  dam: High-level lineage
+  lineage: Complete lineage spine
+  note: Capture at least high-level lineage for critical assets
+  standards:
+    DCAT v3: prov:wasGeneratedBy / dct:source
+    UK MEM / x-gov: relatedResource plus provenance extension
+    DCAT-AP: provenance fields where profiled
+    GeoDCAT-AP: lineage statement
+    StatDCAT-AP: process / methodology / source
+    DCAT-US: describedBy / derivedFrom where used
+    PROV-O: prov:Entity→Activity→Entity
+    DQV: quality metadata provenance
+- id: C023
+  name: Source / input
+  definition: Upstream input resource
+  dam: Source
+  lineage: Input node
+  note: Record dependencies
+  standards:
+    DCAT v3: dct:source / prov:used
+    UK MEM / x-gov: relatedResource
+    DCAT-AP: source / provenance
+    GeoDCAT-AP: source dataset
+    StatDCAT-AP: source statistical data
+    DCAT-US: source
+    PROV-O: prov:used
+    DQV: measurement provenance
+- id: C024
+  name: Transformation / activity
+  definition: Processing or pipeline step
+  dam: Key transform
+  lineage: Process node
+  note: Use activities to connect inputs and outputs
+  standards:
+    DCAT v3: prov:Activity
+    UK MEM / x-gov: relatedResource or extension
+    DCAT-AP: provenance activity
+    GeoDCAT-AP: lineage process step
+    StatDCAT-AP: SDMX transformation / process
+    DCAT-US: process note
+    PROV-O: prov:Activity
+    DQV: measurement activity
+- id: C025
+  name: Generated output
+  definition: Downstream product/output
+  dam: Output
+  lineage: Output node
+  note: Link reports/extracts to source asset
+  standards:
+    DCAT v3: prov:wasGeneratedBy / dcat:distribution
+    UK MEM / x-gov: distribution / relatedResource
+    DCAT-AP: distribution / output
+    GeoDCAT-AP: output dataset/service
+    StatDCAT-AP: statistical output
+    DCAT-US: distribution
+    PROV-O: prov:generated
+    DQV: quality measurement output
+- id: C026
+  name: Quality dimension
+  definition: Quality category such as completeness
+  dam: Quality signals
+  lineage: Quality taxonomy
+  note: Use DAMA/GDQF dimensions as local vocabulary
+  standards:
+    DCAT v3: DQV extension
+    UK MEM / x-gov: via DQV
+    DCAT-AP: DQV with DCAT-AP
+    GeoDCAT-AP: DQV / ISO quality elements
+    StatDCAT-AP: SDMX quality dimension
+    DCAT-US: quality fields if extended
+    PROV-O: n/a
+    DQV: dqv:Dimension
+- id: C027
+  name: Quality metric
+  definition: Measurable quality rule
+  dam: Quality rule / metric
+  lineage: Monitoring rule
+  note: Define denominator and threshold
+  standards:
+    DCAT v3: DQV extension
+    UK MEM / x-gov: via DQV
+    DCAT-AP: DQV with DCAT-AP
+    GeoDCAT-AP: geospatial quality metric
+    StatDCAT-AP: statistical quality metric
+    DCAT-US: quality metric if extended
+    PROV-O: prov:Plan for calculation
+    DQV: dqv:Metric
+- id: C028
+  name: Quality measurement
+  definition: Observed quality value
+  dam: Quality check result
+  lineage: Evidence value
+  note: Keep as numeric where possible
+  standards:
+    DCAT v3: dqv:hasQualityMeasurement
+    UK MEM / x-gov: via DQV
+    DCAT-AP: dqv:hasQualityMeasurement
+    GeoDCAT-AP: data quality result
+    StatDCAT-AP: statistical quality result
+    DCAT-US: quality value if extended
+    PROV-O: prov:wasGeneratedBy
+    DQV: dqv:QualityMeasurement
+- id: C029
+  name: Quality annotation / issue
+  definition: Known limit, certificate or feedback
+  dam: Known limits / DQAP issue
+  lineage: Issue/evidence narrative
+  note: Links to DQAP backlog
+  standards:
+    DCAT v3: dqv:hasQualityAnnotation
+    UK MEM / x-gov: via DQV
+    DCAT-AP: dqv:hasQualityAnnotation
+    GeoDCAT-AP: quality report / annotation
+    StatDCAT-AP: quality note
+    DCAT-US: issue note
+    PROV-O: prov:wasAttributedTo
+    DQV: dqv:QualityAnnotation
+- id: C030
+  name: Conformance / profile
+  definition: Standard or profile followed
+  dam: Standards alignment
+  lineage: Validation target
+  note: Use for DCAT-AP, MEM, SHACL, JSON Schema
+  standards:
+    DCAT v3: dct:conformsTo
+    UK MEM / x-gov: profile / validation artefact
+    DCAT-AP: dct:conformsTo
+    GeoDCAT-AP: GeoDCAT-AP / INSPIRE conformance
+    StatDCAT-AP: StatDCAT-AP / SDMX conformance
+    DCAT-US: conformsTo
+    PROV-O: prov:Plan
+    DQV: dqv:conformsTo
+- id: C031
+  name: Policy / access control
+  definition: Rules applied to use/access
+  dam: Policy / gate
+  lineage: Governance control
+  note: Separate requester workflow from legal/security policy
+  standards:
+    DCAT v3: odrl:hasPolicy / dct:accessRights
+    UK MEM / x-gov: accessRights / securityClassification
+    DCAT-AP: hasPolicy / accessRights
+    GeoDCAT-AP: constraints
+    StatDCAT-AP: confidentiality policy
+    DCAT-US: rights / accessLevel
+    PROV-O: prov:Plan / Policy pattern
+    DQV: dqv:QualityPolicy
+- id: C032
+  name: Critical Data Asset (CDA)
+  definition: 'Data asset in scope of the DAM Policy: cross-government value, open or restricted (not SECRET/TOP SECRET), serving one or more of six policy purposes'
+  dam: Critical data asset (XG_CDA) — DAM Policy scope label
+  lineage: Governed asset requiring full DAM treatment
+  note: Designate source data AND in-scope extracts; label XG_CDA; exclude SECRET/TOP SECRET; replaces retired ESDA term
+  standards:
+    DCAT v3: dcat:Dataset (flagged as critical)
+    UK MEM / x-gov: CataloguedResource flagged as XG_CDA; securityClassification; accessRights
+    DCAT-AP: dcat:Dataset + accessRights
+    GeoDCAT-AP: spatial dataset flagged critical
+    StatDCAT-AP: statistical dataset flagged critical
+    DCAT-US: Dataset flagged critical
+    PROV-O: prov:Entity (governed asset)
+    DQV: dqv:QualityMetadata expected for critical assets
+- id: C033
+  name: Foundational National Data Asset (FNDA)
+  definition: Small set of strategically important public-sector reference datasets, authoritative within their domain, federated by design and linkable across government
+  dam: Foundational national reference asset (subset of critical assets)
+  lineage: National reference / linking backbone
+  note: Spine FNDAs (Person, Location, Organisation) provide linkage identifiers; Non-spine FNDAs (e.g. BDM) add thematic enrichment
+  standards:
+    DCAT v3: dcat:Dataset (reference / authoritative)
+    UK MEM / x-gov: CataloguedResource designated FNDA; reference data product
+    DCAT-AP: dcat:Dataset (reference)
+    GeoDCAT-AP: authoritative spatial reference (e.g. Location spine)
+    StatDCAT-AP: authoritative statistical reference
+    DCAT-US: Dataset (reference)
+    PROV-O: prov:Entity used widely as trusted reference
+    DQV: dqv:QualityMetadata — authoritative quality level
+- id: C034
+  name: National Data Library feed
+  definition: Federated harvest/exchange that surfaces departmental and ALB catalogue records to the NDL gateway via secure APIs, keeping data with the originating owner
+  dam: Catalogue-led reporting / Discoverability Platform feed
+  lineage: Federation/harvest boundary into NDL
+  note: Federated by design; data stays with owner and is queried via secure APIs; align catalogue to DCAT/MEM for harvest
+  standards:
+    DCAT v3: dcat:Catalog harvested into NDL
+    UK MEM / x-gov: MEM/DCAT-UK catalogue exposed for harvest; data.gov.uk publishing
+    DCAT-AP: dcat:Catalog (DCAT-AP v2.1 harvest)
+    GeoDCAT-AP: GeoDCAT-AP harvest where geospatial
+    StatDCAT-AP: StatDCAT-AP harvest where statistical
+    DCAT-US: data.json / DCAT-US style harvest
+    PROV-O: prov:Activity (harvest) + prov:wasGeneratedBy
+    DQV: dqv:QualityMetadata carried with harvested records
+- id: C035
+  name: Curated collection
+  definition: A trusted, themed grouping of high-value datasets published through the NDL gateway for a defined audience or mission
+  dam: Curated high-quality dataset collection
+  lineage: Curated discovery grouping
+  note: Mission-aligned Kickstarter collections; curation and access governance separate from raw catalogue harvest
+  standards:
+    DCAT v3: dcat:Catalog / dcat:DatasetSeries (curated subset)
+    UK MEM / x-gov: Themed collection of CataloguedResources
+    DCAT-AP: dcat:Catalog / dcat:Dataset grouping
+    GeoDCAT-AP: curated geospatial collection
+    StatDCAT-AP: curated statistical collection
+    DCAT-US: curated data.json collection
+    PROV-O: prov:Collection
+    DQV: dqv:QualityMetadata describes collection quality
+- id: C036
+  name: Discoverability scan schema
+  definition: The minimum metadata schema the discoverability service must scan and read from departmental/ALB catalogues to index assets, keeping discovery metadata separate from access decisions
+  dam: Minimum metadata profile for harvest readiness
+  lineage: Scan/index contract
+  note: 'Scan: description, owner/contacts, classification, access route, location, lineage, quality signals, terms alignment; discovery metadata is open, access stays controlled'
+  standards:
+    DCAT v3: DCAT v3 core metadata profile
+    UK MEM / x-gov: MEM / DCAT-UK minimum metadata profile
+    DCAT-AP: DCAT-AP v2.1 (JSON-LD) scan profile
+    GeoDCAT-AP: GeoDCAT-AP fields where geospatial
+    StatDCAT-AP: StatDCAT-AP fields where statistical
+    DCAT-US: DCAT-US / data.json scan profile
+    PROV-O: prov:Plan (scan/harvest definition)
+    DQV: dqv:Dimension/Metric quality signals scanned
+- id: C037
+  name: vCard contact exchange
+  definition: Mandated standard for exchanging contact information across systems and devices
+  dam: vCard (RFC 6350)
+  lineage: Contact metadata carrier
+  note: GOV.UK Open Standard — Populate dcat:contactPoint (vcard:Contact) / MEM ContactPoint; mandatory in minimum metadata
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C038
+  name: iCalendar event exchange
+  definition: Mandated standard for exchanging calendar events, meeting requests and tasks
+  dam: iCalendar (RFC 5545)
+  lineage: Event/update signal
+  note: GOV.UK Open Standard — Use for release/update events; UID must include organisation domain
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C039
+  name: Location point CRS
+  definition: Mandated coordinate reference systems for exchanging accurate location points
+  dam: WGS84 / ETRS89 (EPSG:4258)
+  lineage: Spatial reference
+  note: GOV.UK Open Standard — WGS84 worldwide; ETRS89 for Europe (INSPIRE); declare CRS when publishing dct:spatial
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C040
+  name: Cyber threat intelligence exchange
+  definition: Mandated standards for structured exchange and transport of cyber threat intelligence
+  dam: STIX / TAXII
+  lineage: Security exchange
+  note: GOV.UK Open Standard — Informs classification/handling and accessRights; security-domain payload
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C041
+  name: Emergency services incident transfer
+  definition: Mandated standard for sharing incident information between emergency services
+  dam: MAIT
+  lineage: Inter-agency message
+  note: GOV.UK Open Standard — Domain DataService exchange; not a core catalogue class
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C042
+  name: Open document collaboration
+  definition: Mandated open document format for sharing and collaborating on editable documents
+  dam: ODF (ISO/IEC 26300)
+  lineage: Editable distribution format
+  note: GOV.UK Open Standard — Set as dcat:mediaType on editable document distributions
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C043
+  name: Beneficial ownership data
+  definition: Mandated Beneficial Ownership Data Standard for collecting, using and exchanging ownership data
+  dam: BODS
+  lineage: Domain dataset payload
+  note: GOV.UK Open Standard — Publish as dcat:Dataset; structured beneficial ownership schema
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C044
+  name: Local public service information
+  definition: Mandated standard for recording and sharing local authority public service information
+  dam: LGA service list standards
+  lineage: Service description
+  note: GOV.UK Open Standard — Complements catalogue themes; describes services not datasets
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C045
+  name: Character encoding
+  definition: Mandated character encoding standard for all text
+  dam: Unicode UTF-8
+  lineage: Encoding baseline
+  note: GOV.UK Open Standard — Encode all catalogue metadata text as UTF-8
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C046
+  name: Date and time format
+  definition: Mandated standard for formatting dates and times in data
+  dam: ISO 8601
+  lineage: Temporal format
+  note: GOV.UK Open Standard — Use for dct:issued, dct:modified and temporal extents
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C047
+  name: Persistent resolvable identifier
+  definition: Mandated approach to persistent, resolvable identifiers for resources
+  dam: URI / DOI
+  lineage: Identifier backbone
+  note: GOV.UK Open Standard — Underpins dct:identifier and resource URIs; enables federation/linkage
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C048
+  name: Language code
+  definition: Mandated standard for tagging content with international language codes
+  dam: BCP 47
+  lineage: Language tag
+  note: GOV.UK Open Standard — Use for dct:language and multilingual labels
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C049
+  name: Country code
+  definition: Mandated standard for consistent country codes (alpha-2; GB-ENG/NIR/SCT/WLS)
+  dam: ISO 3166-1
+  lineage: Controlled country value
+  note: GOV.UK Open Standard — Controlled values for country references in coverage/spatial
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C050
+  name: Property and street identifier
+  definition: Mandated unique identifiers for property and street information
+  dam: UPRN / USRN (BS 7666)
+  lineage: Address linkage identifier
+  note: GOV.UK Open Standard — Key for the FNDA Location spine; supports address matching
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C051
+  name: Contract data publishing
+  definition: Mandated standard for publishing structured procurement and contract data
+  dam: OCDS
+  lineage: Domain dataset payload
+  note: GOV.UK Open Standard — Publish as dcat:Dataset; Open Contracting Data Standard
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C052
+  name: Government document publishing
+  definition: Mandated open formats for publishing accessible government documents
+  dam: HTML / PDF-A (ISO 19005) / ODF
+  lineage: Published distribution format
+  note: GOV.UK Open Standard — Set as dcat:mediaType on published document distributions
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C053
+  name: Grant data publishing
+  definition: Mandated standard for publishing structured grant funding data
+  dam: 360Giving
+  lineage: Domain dataset payload
+  note: GOV.UK Open Standard — Publish as dcat:Dataset; 360Giving Data Standard
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C054
+  name: International development data publishing
+  definition: Mandated standard for publishing international development / aid data
+  dam: IATI
+  lineage: Domain dataset payload
+  note: GOV.UK Open Standard — Publish as dcat:Dataset; IATI standard
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C055
+  name: Job vacancy publishing
+  definition: Mandated standard for publishing structured job vacancy data
+  dam: schema.org JobPosting
+  lineage: Domain dataset payload
+  note: GOV.UK Open Standard — Publish as dcat:Dataset; schema.org JobPosting
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C056
+  name: RESTful API description
+  definition: Recommended standard for describing RESTful APIs in machine-readable form
+  dam: OpenAPI 3
+  lineage: Service description
+  note: GOV.UK Open Standard — Documents dcat:DataService access endpoints
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C057
+  name: Tabular data standard
+  definition: Recommended standard for describing and validating tabular data
+  dam: CSV on the Web (CSVW)
+  lineage: Distribution schema
+  note: GOV.UK Open Standard — Schema/structure for dcat:Distribution CSV payloads
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C058
+  name: Metadata for shared government data
+  definition: Recommended minimum metadata profile to describe data shared within government
+  dam: DCAT-based metadata profile
+  lineage: Minimum metadata profile
+  note: GOV.UK Open Standard — Aligns directly with MEM / DCAT v3 minimum metadata in this workbook
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C059
+  name: Metadata for published tabular data
+  definition: Recommended metadata profile for published tabular datasets
+  dam: DCAT + CSVW profile
+  lineage: Distribution metadata profile
+  note: GOV.UK Open Standard — Profile over DCAT distribution metadata
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C060
+  name: Metadata for CSV data
+  definition: Recommended metadata profile for describing CSV data
+  dam: CSVW metadata profile
+  lineage: Distribution metadata profile
+  note: GOV.UK Open Standard — Profile over DCAT distribution metadata
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''
+- id: C061
+  name: CDA identification & metadata (public guidance)
+  definition: Recommended guidance to identify critical data assets and record their metadata
+  dam: GOV.UK CDA guidance
+  lineage: Critical-asset identification
+  note: GOV.UK Open Standard — Public counterpart to the DAM CDA / minimum-metadata approach (Appendix C/D)
+  standards:
+    DCAT v3: ''
+    UK MEM / x-gov: ''
+    DCAT-AP: ''
+    GeoDCAT-AP: ''
+    StatDCAT-AP: ''
+    DCAT-US: ''
+    PROV-O: ''
+    DQV: ''

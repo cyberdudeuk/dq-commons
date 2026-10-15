@@ -1,0 +1,71 @@
+{
+  "domain": "data-quality",
+  "title": "Public Sector Data Quality Commons",
+  "description": "Check data against quality rules, draft rules, assess against framework packs, translate results between frameworks and score issues with the UK government issues framework.",
+  "server": {
+    "command": "python",
+    "args": [
+      "-m",
+      "dqkit.mcp_server"
+    ],
+    "env": {
+      "DQKIT_MCP_ROOT": "<folder the agent may read>"
+    },
+    "protocol": "2025-06-18",
+    "transport": "stdio"
+  },
+  "safety": {
+    "read_only": true,
+    "file_access": "limited to DQKIT_MCP_ROOT",
+    "personal_data": "results contain examples of failing rows; keep the root folder free of data the agent should not see",
+    "human_in_loop": "rules drafted by an agent must be reviewed before use"
+  },
+  "licence": "MIT",
+  "tools": [
+    {
+      "name": "check_data",
+      "title": "Check data against rules",
+      "description": "Run a rules file on a dataset. Returns rules met, issues with GOV.UK issues framework priorities, a suggested trust level and the DQAP route."
+    },
+    {
+      "name": "suggest_rules",
+      "title": "Suggest starter rules",
+      "description": "Profile a dataset and draft a starter rules file (YAML). A data steward must review every rule."
+    },
+    {
+      "name": "validate_rules",
+      "title": "Validate a rules file",
+      "description": "Check a rules file (YAML) is well formed: known checks, identifier schemes, value sets, unique ids."
+    },
+    {
+      "name": "assess_pack",
+      "title": "Assess against a framework pack",
+      "description": "Check data and rules, then report which requirements of a framework or scenario pack are met (for example uk-dam-cda, uk-gdqf, ai-ml-readiness, iso-iec-25012)."
+    },
+    {
+      "name": "crosswalk",
+      "title": "Translate results into another framework",
+      "description": "Check data and rules, then restate the dimension scores in another framework's terms (for example iso-iec-25012, ess-qaf, canada-gc-dq)."
+    },
+    {
+      "name": "score_issue",
+      "title": "Score an issue with the issues framework",
+      "description": "Given importance (1-4), impact (1-4) and measured performance (%), return the target, band, priority and resolution timescale from the GOV.UK data quality issues framework."
+    },
+    {
+      "name": "list_frameworks",
+      "title": "List frameworks and standards",
+      "description": "The registry of data quality frameworks, standards and policies (UK, devolved, sector and international), optionally filtered by text."
+    },
+    {
+      "name": "list_packs",
+      "title": "List framework packs",
+      "description": "The packs that apply frameworks to results."
+    },
+    {
+      "name": "list_checks",
+      "title": "List checks, identifier schemes and value sets",
+      "description": "What the rules language supports: check types, identifier schemes and value sets."
+    }
+  ]
+}

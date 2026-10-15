@@ -31,11 +31,21 @@ __BASE_CSS__
   <span class="eyebrow">Govern · Interoperability and standards</span>
   <h1>Data joins up when systems agree</h1>
   <p class="lede" id="sum"></p>
-  <nav class="toc" aria-label="On this page"><a href="#layers">Six layers</a><a href="#guardrails">Guardrails</a><a href="#requirements">Requirements checklist</a><a href="#measures">Measures</a><a href="#adjacent">Related capabilities</a><a href="#sources">Sources</a></nav>
+  <nav class="toc" aria-label="On this page"><a href="#layers">Six layers</a><a href="#rosetta">Metadata Rosetta</a><a href="#guardrails">Guardrails</a><a href="#requirements">Requirements checklist</a><a href="#measures">Measures</a><a href="#adjacent">Related capabilities</a><a href="#sources">Sources</a></nav>
 </header>
 
 <section id="layers" aria-labelledby="l-h"><h2 id="l-h">Six layers of interoperability, and the standards for each</h2>
   <p class="small muted">"In the toolkit" says where the Commons already supports a standard.</p><div class="stack" id="stack"></div></section>
+
+<section id="rosetta" aria-labelledby="ro-h">
+  <h2 id="ro-h">Metadata Rosetta: one concept, eight standards</h2>
+  <p>61 cataloguing concepts mapped across DCAT v3, the UK metadata standard, DCAT-AP and its geospatial and statistical profiles, DCAT-US, PROV-O and the Data Quality Vocabulary. Use it to describe data the same way whichever catalogue it lands in. The four quality concepts are marked.</p>
+  <div class="filters"><div class="field"><label for="rq">Search concepts or terms</label><input type="search" id="rq" placeholder="For example: licence, dqv, publisher"></div>
+    <div class="field"><label for="rOnly"><input type="checkbox" id="rOnly"> Only quality concepts</label></div></div>
+  <fieldset><legend class="small" style="font-weight:600;margin-bottom:6px">Standards to show</legend><div class="chips" id="rCols"></div></fieldset>
+  <p class="small muted" id="rCount" role="status" aria-live="polite"></p>
+  <div class="tbl"><table id="rTable"></table></div>
+</section>
 
 <section id="guardrails" aria-labelledby="g-h"><h2 id="g-h">Guardrails and safeguards</h2><p>True whatever the tool, platform or supplier.</p><div class="gr" id="gr"></div></section>
 
@@ -56,7 +66,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_INTEROP__;
+const K = __K_INTEROP__, RO = __K_ROSETTA__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("sum").textContent = K.summary;
@@ -77,8 +87,23 @@ sumReq();
 $("ms").innerHTML = K.measures.map(m => `<tr><td><b>${esc(m.name)}</b></td><td>${esc(m.how)}</td><td>${esc(m.target)}</td></tr>`).join("");
 $("adj").innerHTML = K.adjacent.map(a => `<a href="${esc(a.where)}"><b>${esc(a.name)}</b><span>${esc(a.link)}</span></a>`).join("");
 $("src").innerHTML = K.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>${s.verified === "yes" ? "" : ` <span class="chip warn">Partly verified</span>`}</li>`).join("");
+// Rosetta
+let rShow = new Set(["DCAT v3", "UK MEM / x-gov", "DQV"]);
+$("rCols").innerHTML = RO.standards.map(s => `<label class="chip" style="cursor:pointer;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" value="${esc(s)}"${rShow.has(s) ? " checked" : ""}> ${esc(s)}</label>`).join("");
+$("rCols").addEventListener("change", e => { e.target.checked ? rShow.add(e.target.value) : rShow.delete(e.target.value); drawRosetta(); });
+const isQ = c => /quality/i.test(c.name);
+function drawRosetta() {
+  const q = $("rq").value.trim().toLowerCase(), only = $("rOnly").checked, cols = RO.standards.filter(s => rShow.has(s));
+  const list = RO.concepts.filter(c => (!only || isQ(c)) && (!q || JSON.stringify(c).toLowerCase().includes(q)));
+  $("rCount").textContent = `${list.length} of ${RO.concepts.length} concepts.`;
+  $("rTable").innerHTML = `<thead><tr><th scope="col">Concept</th><th scope="col">DAM or catalogue term</th>${cols.map(s => `<th scope="col">${esc(s)}</th>`).join("")}</tr></thead><tbody>` +
+    list.map(c => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal"><span class="mono small">${esc(c.id)}</span> ${esc(c.name)}${isQ(c) ? ' <span class="chip acc">quality</span>' : ""}<br><span class="small muted" style="font-weight:400">${esc(c.definition)}</span></th>
+      <td>${esc(c.dam)}</td>${cols.map(s => `<td><code>${esc(c.standards[s] || "–")}</code></td>`).join("")}</tr>`).join("") + "</tbody>";
+}
+["rq", "rOnly"].forEach(id => $(id).addEventListener("input", drawRosetta)); drawRosetta();
 window.DQP_TOUR = [
   {sel: "#stack", title: "Six layers", text: "Identify, describe, mean, format, promise and report: the standards for each, and where the toolkit supports them."},
+  {sel: "#rosetta", title: "Metadata Rosetta", text: "61 cataloguing concepts across eight metadata standards. Search, and choose which standards to compare."},
   {sel: "#gr", title: "Guardrails", text: "Safeguards that hold whatever the tool or supplier."},
   {sel: "#req", title: "Requirements checklist", text: "Tick what a system already does to see its gaps."},
   {sel: "#adj", title: "Related capabilities", text: "Governance, metadata, master data, security, AI, commercial and more: how each connects to data quality."},

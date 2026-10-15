@@ -38,6 +38,7 @@ __BASE_CSS__
   <div class="roles" id="roles" role="group" aria-label="Choose your role"></div>
   <p id="roleNeed" class="small" aria-live="polite"></p>
   <p class="prog" id="prog" aria-live="polite"></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn ghost" type="button" id="xapi">Download my learning record (xAPI)</button><span class="small muted" id="xMsg" role="status" aria-live="polite">An open standard most learning systems can import. It holds only module names and dates.</span></div>
 </section>
 
 <section id="modules" aria-labelledby="mod-h">
@@ -79,7 +80,8 @@ const link = u => `<a href="${esc(u.url)}"${u.url.startsWith("https://") ? ' rel
 function draw() {
   [...$("roles").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.r === role));
   const R = L.roles.find(r => r.id === role);
-  $("roleNeed").innerHTML = `<b>${esc(R.name)}:</b> ${esc(R.needs)}. Target level: <b>${esc(R.level)}</b>.`;
+  $("roleNeed").innerHTML = `<b>${esc(R.name)}:</b> ${esc(R.needs)}. Target level: <b>${esc(R.level)}</b>.` +
+    (R.ddat ? `<br><span class="small">Closest roles in the <a href="https://ddat-capability-framework.service.gov.uk/" rel="noopener">DDaT capability framework</a>: ${esc(R.ddat)} (indicative; check the role descriptions there).</span>` : "");
   const mine = L.modules.filter(m => m.roles.includes(role));
   const mins = mine.reduce((n, m) => n + (m.minutes || 0), 0), got = mine.filter(m => done.has(m.id)).length;
   $("prog").textContent = `${mine.length} modules on your pathway, about ${Math.round(mins / 60 * 10) / 10} hours. You've done ${got}.`;
@@ -90,7 +92,23 @@ function draw() {
       <div class="res">${m.resources.map(link).join("")}</div></div>
     <label class="done"><input type="checkbox" data-m="${esc(m.id)}"${done.has(m.id) ? " checked" : ""}> Done</label></article>`).join("");
 }
-$("mods").addEventListener("change", e => { const m = e.target.dataset.m; if (!m) return; e.target.checked ? done.add(m) : done.delete(m); store.set("dqc.learn.done", [...done]); draw(); });
+// learning record as xAPI statements (completed modules), saved by the viewer
+let doneAt = store.get("dqc.learn.doneAt", {});
+$("xapi").addEventListener("click", async () => {
+  const mods = L.modules.filter(m => done.has(m.id));
+  if (!mods.length) { $("xMsg").textContent = "Tick at least one module as done first."; return; }
+  const stmts = mods.map(m => ({actor: {objectType: "Agent", name: "Learner", account: {homePage: "https://github.com/cyberdudeuk/dq-commons", name: "anonymous"}},
+    verb: {id: "http://adlnet.gov/expapi/verbs/completed", display: {"en-GB": "completed"}},
+    object: {objectType: "Activity", id: `https://github.com/cyberdudeuk/dq-commons/learn/${m.id}`, definition: {name: {"en-GB": m.title}, type: "http://adlnet.gov/expapi/activities/module",
+      extensions: {"https://github.com/cyberdudeuk/dq-commons/xapi/minutes": m.minutes, "https://github.com/cyberdudeuk/dq-commons/xapi/capability": m.capability}}},
+    timestamp: doneAt[m.id] || new Date().toISOString()}));
+  const text = JSON.stringify(stmts, null, 2), name = "dq-commons-learning-record.json";
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("xMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("xMsg").textContent = `Downloaded ${mods.length} completed module(s).`; }
+  catch (e) { $("xMsg").textContent = "Downloading isn't allowed here."; }
+});
+$("mods").addEventListener("change", e => { const m = e.target.dataset.m; if (!m) return; e.target.checked ? done.add(m) : done.delete(m); store.set("dqc.learn.done", [...done]);
+  if (e.target.checked) doneAt[m] = new Date().toISOString(); else delete doneAt[m]; store.set("dqc.learn.doneAt", doneAt); draw(); });
 draw();
 $("tuts").innerHTML = L.tutorials.map(t => `<article class="card" id="${esc(t.id)}"><span class="chip acc" style="align-self:flex-start">${esc(t.id.toUpperCase())} · ${t.minutes} minutes</span>
   <h3>${esc(t.title)}</h3><ol>${t.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></article>`).join("");

@@ -194,6 +194,7 @@ def knowledge() -> dict:
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
         "MEDIA": lambda: y("media"),
+        "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
