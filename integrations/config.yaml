@@ -1,6 +1,6 @@
 # Where the Commons connects. Secrets (tokens) never go here: they live in GitHub repository secrets.
 github:
-  repository: cyberdudeuk/ndl-dq-assurance   # proposed rename: dq-commons. Not pushed yet.
+  repository: cyberdudeuk/dq-commons   # chosen by the project lead (D-052). Not pushed yet.
   backlog_label: backlog                      # GitHub issues with this label are mirrored to Jira
 jira:
   base_url_secret: JIRA_BASE_URL              # for example https://your-site.atlassian.net
