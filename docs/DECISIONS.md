@@ -1,5 +1,17 @@
 # Decision log (this repository)
 
+## 2026-10-15 · D-063 · Retire stale news rather than relabel it
+- **Decision:** when the content health check flags a news slide as over 6 months old and no newer source confirms the story, remove it from the carousel. The topic stays on its page.
+- **Why:** relabelling old news as "knowledge" would hide staleness instead of fixing it.
+
+## 2026-10-15 · D-062 · Show content provenance on every page
+- **Decision:** each page shows the oldest review date and the owning roles of the knowledge files it uses, computed at build time.
+- **Why:** readers can judge currency; roles, not names, keep personal data out.
+
+## 2026-10-15 · D-061 · International frameworks as packs, with manual items stated
+- **Decision:** add `un-nqaf` and `imf-dqaf` packs. Requirements about integrity and the institutional environment are marked "needs a person to confirm"; headings are paraphrased and link to the source.
+- **Why:** small statistics offices in the Crown Dependencies, Overseas Territories and Commonwealth often work to these frameworks. Automated evidence only where the toolkit can measure it.
+
 ## 2026-10-15 · D-060 · No personal details in the colophon, commits or contact routes
 - **Decision:** the footer colophon names the project, version, commit, build date and stack, not people. Git commits use a GitHub no-reply address. Contact is by form only.
 - **Why:** the repository is public. Personal emails attract spam and impersonation, and the Commons credits organisations, not individuals (D-013).

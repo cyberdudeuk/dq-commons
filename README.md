@@ -6,7 +6,7 @@ central and local government, the devolved governments, the wider public sector,
 and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
 Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.2.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.2.1). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
 `portal/dist/index.html`: 28 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with

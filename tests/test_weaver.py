@@ -156,6 +156,18 @@ class Privacy(unittest.TestCase):
 
 
 
+class InternationalPacks(unittest.TestCase):
+    def test_un_and_imf_packs_assess(self):
+        from dqkit import packs
+        result = {"asset": {"id": "a", "owner": "Statistics office", "primary_use": "Planning"},
+                  "dimensions": {"validity": {}, "accuracy": {}}, "results": [{"check": "freshness"}, {"check": "in_set"}]}
+        for pid in ("un-nqaf", "imf-dqaf"):
+            r = packs.assess(pid, result)
+            statuses = [x["status"] for x in r["requirements"]]
+            self.assertIn("met", statuses, pid)
+            self.assertIn("manual", statuses, pid)  # integrity and institutional items need a person
+
+
 class Health(unittest.TestCase):
     def test_content_health_has_no_errors(self):
         sys.path.insert(0, str(ROOT / "scripts"))

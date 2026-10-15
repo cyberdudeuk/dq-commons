@@ -85,3 +85,11 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | `.github/workflows/content-health.yml`, `backlog-issues.yml` | New workflows |
 | `CHARTER.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTORS.md`, `.all-contributorsrc` | Community docs |
 | `docs/METADATA-WEAVER.md`, `docs/ASSURANCE-ROUTINES.md` | Assessment and routines |
+
+## v1.2.1 additions
+
+| Path | What |
+|---|---|
+| `packs/un-nqaf.yaml`, `packs/imf-dqaf.yaml` | International framework packs (14 in total) |
+| `scripts/a11y_check.mjs`, `.github/workflows/accessibility.yml` | axe-core accessibility checks |
+| `.github/workflows/content-health.yml` | Now keeps a Content health issue up to date |

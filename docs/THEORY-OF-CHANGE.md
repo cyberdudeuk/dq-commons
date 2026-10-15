@@ -19,7 +19,7 @@ published and improving. Gaps that affect particular groups are visible and fixe
 3. Overconfidence in automated scores. Mitigation: every result shows its evidence and source.
 
 ## Update for v1.0.0 (15 October 2026)
-- **Inputs (added):** a shared knowledge base, 12 packs, rule library, community store, AI assistant, operating model.
+- **Inputs (added):** a shared knowledge base, framework packs (12 at v1.0, 14 at v1.2), rule library, community store, AI assistant, operating model.
 - **Activities:** organisations check data, assess maturity, learn by role, contribute and ask for help; requests flow into an open backlog.
 - **Outputs:** baselines for critical assets in any sector; translated results across frameworks; moderated case studies; survey totals.
 - **Outcomes:** common language and methods across sectors and nations; fewer duplicated tools; inclusion checks routine for personal data; AI used with evaluation and transparency.

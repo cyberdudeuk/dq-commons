@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.1 — 2026-10-15
+### Added
+- Framework packs for the UN National Quality Assurance Framework (`un-nqaf`) and the IMF Data Quality Assessment Framework (`imf-dqaf`), linked from UK and the world and the international scenarios (BL-16, XDMH-230).
+- Content provenance on every page: when its content was last reviewed and by which role (BL-21).
+- Weekly content health run keeps one GitHub issue open for owning roles while there are findings (BL-19).
+- Accessibility workflow with axe-core on every page, desktop light and phone dark (`scripts/a11y_check.mjs`, BL-18). First run will be on GitHub.
+- Architecture: v1.2 solution, high-level (diagram) and low-level design.
+### Changed
+- Retired the March 2026 legacy IT news slide (over 6 months old, flagged by the content health check); added a slide for the new packs.
+
 ## 1.2.0 — 2026-10-15
 ### Added
 - Metadata Weaver (`dqkit weave`, `dqkit/weaver.py`, browser port, portal page, MCP tool `weave_metadata`): reads DCAT, schema.org, CKAN or ODCS; writes all four; reports gaps, fields a standard can't carry, and the 13 CDA metadata properties.

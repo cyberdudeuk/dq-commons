@@ -1,0 +1,18 @@
+id: imf-dqaf
+name: IMF Data Quality Assessment Framework (DQAF)
+summary: For macroeconomic and financial statistics - links results to the IMF DQAF's prerequisites and five quality dimensions. Paraphrased headings; check the IMF framework for the full requirements.
+jurisdiction: International
+sector: Macroeconomic statistics
+frameworks: [imf-dqaf]
+target_policy: high
+requirements:
+  - {id: DQAF-0, text: "Prerequisites of quality - responsibility and resources are recorded.", evidence: {asset_field: owner}}
+  - {id: DQAF-1, text: "Assurances of integrity - professionalism, transparency and ethical standards.", evidence: {manual: "DQAF dimension 1: integrity"}}
+  - {id: DQAF-2a, text: "Methodological soundness - concepts and classifications are applied consistently.", evidence: {dimensions: [validity]}}
+  - {id: DQAF-2b, text: "Methodological soundness - codes follow agreed classifications.", evidence: {any_checks: [identifier, in_set, regex]}}
+  - {id: DQAF-3, text: "Accuracy and reliability - source data and results are assessed.", evidence: {dimensions: [accuracy, completeness]}}
+  - {id: DQAF-4a, text: "Serviceability - periodicity and timeliness are monitored.", evidence: {checks: [freshness]}}
+  - {id: DQAF-4b, text: "Serviceability - series are consistent over time, with no gaps.", evidence: {checks: [no_gaps]}}
+  - {id: DQAF-4c, text: "Serviceability - revisions are tracked over repeated measurements.", evidence: {history_cycles: 2}}
+  - {id: DQAF-5, text: "Accessibility - data and metadata are clear: measures carry units.", evidence: {checks: [header_has_unit]}}
+report: [Prerequisites, Integrity, Methodological soundness, Accuracy and reliability, Serviceability, Accessibility]

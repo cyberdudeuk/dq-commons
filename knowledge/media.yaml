@@ -41,15 +41,6 @@ slides:
   link: ndl-assurance.html
   cta: See the assessment
   date: "2026-10-14"
-- id: s-legacy
-  kind: news
-  label: Policy
-  title: "A legacy IT action plan is coming. Don't carry data debt into the new systems."
-  text: "DSIT is refreshing its legacy risk framework and restarting data collection in 2026. Check your data debt before you migrate."
-  link: legacy.html#assess
-  cta: Assess your data debt
-  source: {title: "PublicTechnology, March 2026", url: "https://www.publictechnology.net/2026/03/09/science-technology-and-research/dsit-to-unleash-legacy-it-action-plan-backed-by-data-collection-on-thousands-of-ageing-systems/"}
-  date: "2026-03-09"
 - id: s-dua
   kind: knowledge
   label: Law
@@ -77,6 +68,15 @@ slides:
   text: "Data quality doesn't stop at the UK border. See the statistics bodies, frameworks and partners the UK works with, from Jersey to the UN."
   link: global.html
   cta: UK and the world
+  date: "2026-10-15"
+- id: s-packs
+  kind: tool
+  label: New packs
+  own: true
+  title: "UN and IMF quality frameworks, now as packs"
+  text: "Small statistics offices often work to the UN National Quality Assurance Framework or the IMF Data Quality Assessment Framework. Check your results against either, in the browser or from the command line."
+  link: frameworks.html#packs
+  cta: See the packs
   date: "2026-10-15"
 - id: s-weaver
   kind: tool

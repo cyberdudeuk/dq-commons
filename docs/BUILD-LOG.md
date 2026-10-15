@@ -1,5 +1,14 @@
 # Build journal
 
+## 2026-10-15 — v1.2.1: international packs, provenance, freshness issues, accessibility CI
+
+**Built:** UN NQAF and IMF DQAF packs (14 packs now); a "content last reviewed" line on every page; the weekly content health run now opens and closes a GitHub issue; an axe-core accessibility workflow; the v1.2 architecture section with a diagram. Retired one stale news slide.
+
+**Checked:** 118 tests pass; parity 37 of 37; content health 0 errors, 0 warnings.
+
+**Not yet possible here:** the axe-core workflow couldn't be run in this sandbox (the npm registry is unreachable); it runs on the first push. GitHub push still waiting for access.
+
+
 ## 2026-10-15 — v1.2.0: weaver, world, help us build this, self-checks
 
 **Built**

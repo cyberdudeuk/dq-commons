@@ -141,12 +141,53 @@ flowchart LR
 - **Shared store:** adds a `media` collection (read by all, written by editors); maturity benchmarks are stored per member under `responses/{self}` and published to `results/maturity`.
 - **Operations:** `link-check.yml` monthly; `scripts/mcp_manifest.py` generates `integrations/ndl-mcp-domain.json`.
 
-## v1.2 components
+## 6. v1.2.0 design (15 October 2026)
 
-- `dqkit/weaver.py` and `DQ.weaver` (browser): canonical record (22 fields, tied to Rosetta concepts), four readers, four writers, coverage and CDA check. Parity-checked.
-- `dqkit/contracts.py`: `validate_odcs`, `diff_odcs` with semantic version advice.
-- `scripts/self_check.py`: content health, run in CI and at build time (summary embedded in the portal).
-- `scripts/backlog_to_issues.py`: `knowledge/build.yaml` to GitHub issues (REST API, idempotent).
-- `scripts/gen_community_docs.py`: `CHARTER.md` and `CONTRIBUTORS.md` from the same YAML as the portal.
-- Shell: inline SVG icon sprite (`portal/src/icons.svg`), `DQI()` helper, structured footer.
-- Contact: per-member queue item (`queue/{self}`, kind `contact`), moderator replies in place. No email address anywhere.
+### 6.1 Solution view (SAD)
+
+- **Scope widened:** users now include the Crown Dependencies, Overseas Territories, Commonwealth partners and international bodies. Nothing in the toolkit assumes UK law; frameworks are chosen per jurisdiction through packs (now 14, including `un-nqaf` and `imf-dqaf`).
+- **Quality attributes added:** self-assurance (the content health check fails the build on personal data, mismatched claims and overdue reviews), provenance (every page states when its content was last reviewed and by which role), and privacy by default for contact (no email address published or required).
+- **Source of truth:** the GitHub repository. Jira (XDMH) and Confluence (ARCHITECTU) are mirrors, updated by workflows or by hand with the sync status recorded in the build log.
+
+### 6.2 High-level design (HLD)
+
+```mermaid
+flowchart LR
+  subgraph Repo[GitHub repository: source of truth]
+    K[knowledge/*.yaml] --> B[scripts/build_dq_portal.py]
+    T[dqkit Python toolkit] --> B
+    E[portal/src/js/engine.js] --> B
+    S[scripts/self_check.py] --> B
+    BL[knowledge/build.yaml backlog] --> I[scripts/backlog_to_issues.py]
+    BL --> G[scripts/gen_community_docs.py] --> CD[CHARTER.md, CONTRIBUTORS.md]
+  end
+  B --> P[Portal: 28 static pages]
+  P --> GHP[GitHub Pages]
+  P --> ART[claude.ai artifact: shared store for votes, queue, contact]
+  T --> CLI[CLI: weave, contract-check, run, check]
+  T --> MCP[MCP server: weave_metadata, check_contract and 9 more]
+  I --> GHI[GitHub issues]
+  GHI -- backlog label, not jira-linked --> J[Jira XDMH]
+  Repo -- docs-to-confluence --> C[Confluence ARCHITECTU]
+  T <-. parity: 37 cases .-> E
+```
+
+### 6.3 Low-level design (LLD)
+
+**Metadata Weaver (`dqkit/weaver.py`, `DQ.weaver`).**
+1. `detect(record)`: ODCS if `kind: DataContract` or `apiVersion`; DCAT if a `dcat:` type, context or key; schema.org if `@type: Dataset`; CKAN if package keys (also inside an API `result`).
+2. `read_<format>` fills a canonical record of 22 fields (`FIELDS`: key, label, Rosetta concept, CDA property, which outputs carry it). Lists are de-duplicated; nothing is inferred.
+3. `to_dcat`, `to_schema`, `to_ckan`, `to_odcs` write only filled fields. DCAT uses `dqc:` for security classification and expiry. ODCS needs an id and version, so it uses visible placeholders (`dataset`, `1.0.0`).
+4. `coverage()` lists filled, missing and "not carried" fields per output; `cda_check()` scores the 13 CDA properties (description needs 40 characters; distributions need a format) with half credit for partial.
+
+**Contract change control (`dqkit/contracts.py`).**
+- `validate_odcs`: errors for missing required fields, wrong kind, unnamed schema objects or properties, repeated property names; warnings for non-v3, unknown status, non-semantic version, no schema, unknown metrics, rules without thresholds, no team, no SLA.
+- `diff_odcs`: columns keyed by (object, property). Breaking: removed column, changed type, lost `required` or `unique`, removed quality rule, looser threshold, status moved to deprecated or retired. Suggests major, minor or patch; `version_ok` says whether the stated version is a big enough bump.
+
+**Content health (`scripts/self_check.py`).** Eight checks, each finding an error, warning or note; writes `health.json` and `health.md`; exit 1 on errors (or warnings with `--strict`). The build embeds a summary in Help us build this. The weekly workflow keeps one GitHub issue open while there are findings.
+
+**Contact and moderation.** The sender's message is an item of kind `contact` in their own `queue/{uid}` document (rules: owner read and write, editors read all). Moderators reply in place (`status: answered`, `reply`), which the sender sees on Help us build this. No email field exists.
+
+**Provenance.** At build time each page's `__K_NAME__` placeholders are mapped to knowledge files; the oldest `review.last_reviewed` and the owning roles are printed above the colophon.
+
+**Backlog to issues.** Idempotent: existing issues are matched by `[BL-nn]`. Items with a Jira key get `jira-linked`, which the Jira sync workflow skips.

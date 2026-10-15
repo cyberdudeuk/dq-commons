@@ -52,12 +52,12 @@ backlog:
 - {id: BL-13, title: "Weaver: SHACL validation of DCAT output", area: weaver, moscow: could, status: proposed, jira: XDMH-227, why: "Machine-check outputs against published application profiles."}
 - {id: BL-14, title: "Weaver: CSVW and Frictionless Data Package inputs", area: weaver, moscow: could, status: proposed, jira: XDMH-228, why: "Many datasets already ship with this metadata."}
 - {id: BL-15, title: "Framework packs for Crown Dependency codes of practice", area: international, moscow: should, status: proposed, jira: XDMH-229, why: "Jersey and the Isle of Man publish codes of practice for statistics; a pack makes them usable in the toolkit."}
-- {id: BL-16, title: "UN NQAF and IMF DQAF packs", area: international, moscow: should, status: proposed, jira: XDMH-230, why: "Small statistics offices often use these frameworks rather than UK ones."}
+- {id: BL-16, title: "UN NQAF and IMF DQAF packs", area: international, moscow: should, status: done, jira: XDMH-230, why: "Small statistics offices often use these frameworks rather than UK ones."}
 - {id: BL-17, title: "Time zone friendly co-design sessions", area: community, moscow: should, status: proposed, jira: XDMH-231, why: "Partners from the Pacific to the Caribbean can't all join at 10am London time."}
-- {id: BL-18, title: "Accessibility checks in CI (axe-core)", area: assurance, moscow: should, status: proposed, jira: XDMH-232, why: "Catch regressions on every change, alongside our own checks."}
-- {id: BL-19, title: "Freshness alerts for news and spotlights", area: assurance, moscow: should, status: proposed, jira: XDMH-233, why: "Stale news erodes trust; the self-check should open an issue automatically."}
+- {id: BL-18, title: "Accessibility checks in CI (axe-core)", area: assurance, moscow: should, status: in-progress, jira: XDMH-232, why: "Catch regressions on every change, alongside our own checks."}
+- {id: BL-19, title: "Freshness alerts for news and spotlights", area: assurance, moscow: should, status: in-progress, jira: XDMH-233, why: "Stale news erodes trust; the self-check should open an issue automatically."}
 - {id: BL-20, title: "Archive snapshots for every linked source", area: assurance, moscow: could, status: proposed, jira: XDMH-234, why: "Links rot. Recording an archived copy keeps evidence available."}
-- {id: BL-21, title: "Content provenance (who changed what, when) on every page", area: assurance, moscow: could, status: proposed, jira: XDMH-235, why: "Readers can see how current and reviewed each page is."}
+- {id: BL-21, title: "Content provenance (who changed what, when) on every page", area: assurance, moscow: could, status: in-progress, jira: XDMH-235, why: "Readers can see how current and reviewed each page is."}
 - {id: BL-22, title: "Easy read and plain English summaries", area: accessibility, moscow: could, status: proposed, jira: XDMH-236, why: "Some readers, including people with learning disabilities, need simpler versions."}
 - {id: BL-23, title: "Translation into the main community languages used by public services", area: accessibility, moscow: could, status: proposed, jira: XDMH-237, why: "Data quality affects everyone; guidance should reach staff and partners in their language."}
 - {id: BL-24, title: "Offline and low-bandwidth version", area: accessibility, moscow: could, status: proposed, jira: XDMH-238, why: "Small island and rural teams may have limited connectivity."}
@@ -147,13 +147,13 @@ routines:
 - {name: "Two-engine parity", what: "The browser engine and the Python toolkit give the same answer, case by case, including the Metadata Weaver.", when: "Every change", status: running}
 - {name: "Content health report", what: "Review dates, freshness, verification ratio, personal and sensitive data, duplicates, claims recounted from data, links, language.", when: "Every change and weekly", status: running}
 - {name: "Link checker", what: "Every external link is requested; broken ones open an issue.", when: "Weekly", status: running}
-- {name: "Review dates", what: "Every knowledge file names an owning role; a test fails after 12 months without review.", when: "Every change", status: running}
+- {name: "Review dates", what: "Every knowledge file names an owning role; a test fails after 12 months without review. Each page shows when its content was last reviewed and by which role.", when: "Every change", status: running}
 - {name: "Community docs in sync", what: "CHARTER.md and CONTRIBUTORS.md are regenerated from the same source as the portal.", when: "Every change", status: running}
 - {name: "Backlog to issues", what: "Every backlog item has exactly one GitHub issue.", when: "When the backlog changes", status: running}
 - {name: "Moderation", what: "People check every contribution before it is public.", when: "Within 10 working days", status: running}
-- {name: "Accessibility checks in CI", what: "Automated axe-core checks on every page, light and dark, desktop and phone.", when: "Every change", status: planned}
+- {name: "Accessibility checks in CI", what: "Automated axe-core checks on every page, light and dark, desktop and phone (workflow written; first run on GitHub).", when: "Every change", status: on-demand}
 - {name: "Source archiving", what: "An archived copy of each cited source, so evidence survives link rot.", when: "Monthly", status: planned}
-- {name: "Freshness issues", what: "Stale news and reviews open a GitHub issue for the owning role automatically.", when: "Weekly", status: planned}
+- {name: "Freshness issues", what: "Stale news and reviews open (and later close) one GitHub issue for the owning roles automatically.", when: "Weekly", status: on-demand}
 - {name: "Source diffing", what: "Detect when an official source changes after we summarised it, and flag the summary for review.", when: "Monthly", status: planned}
 - {name: "Fact sampling", what: "A person re-checks a random 5% of claims against sources each quarter, and publishes the error rate.", when: "Quarterly", status: planned}
 - {name: "AI output evaluation", what: "The rule-drafting assistant is scored against a fixed evaluation set before each change.", when: "Before AI changes", status: on-demand}

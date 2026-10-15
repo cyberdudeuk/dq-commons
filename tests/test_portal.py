@@ -35,6 +35,7 @@ class PortalBuild(unittest.TestCase):
             self.assertRegex(text, rf'href="{re.escape(p)}\.html" data-t="[^"]+" aria-current="page"', p)
             self.assertIn('<symbol id="i-home"', text, p)  # the icon sprite is on every page
             self.assertIn('class="dqp-colo"', text, p)  # the colophon is on every page
+        self.assertIn('class="dqp-prov"', (self.out / "commercial.html").read_text(encoding="utf-8"))  # provenance line
 
     def test_artifact_home_has_no_wrapper_and_links_to_repo(self):
         home = (self.art / "index.html").read_text(encoding="utf-8")
