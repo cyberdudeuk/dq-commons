@@ -185,7 +185,7 @@ $("eForm").addEventListener("submit", async e => {
   try {
     const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
     if (items.filter(i => i.status === "pending").length >= 20) throw {message: "You have 20 items waiting for moderation already."};
-    items.push({kind: "event", ...v, summary: `${v.kind}, ${v.format}, ${v.location}. ${v.cost}.`, link: v.url, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
+    items.push({...v, kind: "event", kindName: v.kind, summary: `${v.kind}, ${v.format}, ${v.location}. ${v.cost}.`, link: v.url, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
     await ref.set({items, updated: new Date().toISOString()});
     $("eForm").reset(); $("eMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will check it and add it to the calendar.</span>`;
   } catch (er) { $("eMsg").innerHTML = `<span class="msg err">It couldn't be sent: ${esc(er.message || er.code)}.</span>`; }

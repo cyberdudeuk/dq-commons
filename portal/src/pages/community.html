@@ -165,6 +165,8 @@ $("queue").addEventListener("click", async e => {
     if (b.dataset.act === "publish") {
       if (it.kind === "contribution") await db.doc(`library/${id}`).set({type: it.type, title: it.title, summary: it.summary, link: safeUrl(it.link), org: it.org, sector: it.sector, nation: it.nation, licence: it.licence, published: new Date().toISOString()});
       if (it.kind === "wish") await db.doc(`wishlist/${id}`).set({title: it.title, why: it.why || "", added: new Date().toISOString()});
+      if (it.kind === "event") await db.doc(`events/${id}`).set({title: it.title, start: it.start, end: it.end || it.start, kind: it.kind_of || it.kindName || "Conference",
+        format: it.format, location: it.location, region: it.region, organiser: it.organiser, cost: it.cost, url: safeUrl(it.url), accessibility: it.accessibility, published: new Date().toISOString()});
       if (it.kind === "media") await db.doc(`media/${id}`).set({media: it.media, title: it.title, summary: it.summary, body: it.media === "blog" ? it.summary : "",
         link: safeUrl(it.link), access: it.access || "", org: it.org || "", sector: it.sector || "", published: new Date().toISOString()});
       it.status = it.kind === "commission" ? "accepted" : "published";
