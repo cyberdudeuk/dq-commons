@@ -47,20 +47,20 @@ backlog:
 - {id: BL-08, title: "Record linkage quality with Splink", area: toolkit, moscow: could, status: proposed, jira: XDMH-222, why: "Measure match rates and false matches when data is joined about people."}
 - {id: BL-09, title: "Power Automate and Fabric connector", area: integrations, moscow: could, status: proposed, jira: XDMH-219, why: "Run checks where many teams already work."}
 - {id: BL-10, title: "Moderation at scale", area: community, moscow: should, status: proposed, jira: XDMH-217, why: "More moderators, rotas and service levels as contributions grow."}
-- {id: BL-11, title: "Weaver: GeoDCAT-AP and StatDCAT-AP outputs", area: weaver, moscow: should, status: proposed, why: "Geospatial and statistical catalogues need their own profiles."}
-- {id: BL-12, title: "Weaver: UK metadata standard profile", area: weaver, moscow: should, status: proposed, why: "Align outputs with the cross-government metadata model when it's final."}
-- {id: BL-13, title: "Weaver: SHACL validation of DCAT output", area: weaver, moscow: could, status: proposed, why: "Machine-check outputs against published application profiles."}
-- {id: BL-14, title: "Weaver: CSVW and Frictionless Data Package inputs", area: weaver, moscow: could, status: proposed, why: "Many datasets already ship with this metadata."}
-- {id: BL-15, title: "Framework packs for Crown Dependency codes of practice", area: international, moscow: should, status: proposed, why: "Jersey and the Isle of Man publish codes of practice for statistics; a pack makes them usable in the toolkit."}
-- {id: BL-16, title: "UN NQAF and IMF DQAF packs", area: international, moscow: should, status: proposed, why: "Small statistics offices often use these frameworks rather than UK ones."}
-- {id: BL-17, title: "Time zone friendly co-design sessions", area: community, moscow: should, status: proposed, why: "Partners from the Pacific to the Caribbean can't all join at 10am London time."}
-- {id: BL-18, title: "Accessibility checks in CI (axe-core)", area: assurance, moscow: should, status: proposed, why: "Catch regressions on every change, alongside our own checks."}
-- {id: BL-19, title: "Freshness alerts for news and spotlights", area: assurance, moscow: should, status: proposed, why: "Stale news erodes trust; the self-check should open an issue automatically."}
-- {id: BL-20, title: "Archive snapshots for every linked source", area: assurance, moscow: could, status: proposed, why: "Links rot. Recording an archived copy keeps evidence available."}
-- {id: BL-21, title: "Content provenance (who changed what, when) on every page", area: assurance, moscow: could, status: proposed, why: "Readers can see how current and reviewed each page is."}
-- {id: BL-22, title: "Easy read and plain English summaries", area: accessibility, moscow: could, status: proposed, why: "Some readers, including people with learning disabilities, need simpler versions."}
-- {id: BL-23, title: "Translation into the main community languages used by public services", area: accessibility, moscow: could, status: proposed, why: "Data quality affects everyone; guidance should reach staff and partners in their language."}
-- {id: BL-24, title: "Offline and low-bandwidth version", area: accessibility, moscow: could, status: proposed, why: "Small island and rural teams may have limited connectivity."}
+- {id: BL-11, title: "Weaver: GeoDCAT-AP and StatDCAT-AP outputs", area: weaver, moscow: should, status: proposed, jira: XDMH-225, why: "Geospatial and statistical catalogues need their own profiles."}
+- {id: BL-12, title: "Weaver: UK metadata standard profile", area: weaver, moscow: should, status: proposed, jira: XDMH-226, why: "Align outputs with the cross-government metadata model when it's final."}
+- {id: BL-13, title: "Weaver: SHACL validation of DCAT output", area: weaver, moscow: could, status: proposed, jira: XDMH-227, why: "Machine-check outputs against published application profiles."}
+- {id: BL-14, title: "Weaver: CSVW and Frictionless Data Package inputs", area: weaver, moscow: could, status: proposed, jira: XDMH-228, why: "Many datasets already ship with this metadata."}
+- {id: BL-15, title: "Framework packs for Crown Dependency codes of practice", area: international, moscow: should, status: proposed, jira: XDMH-229, why: "Jersey and the Isle of Man publish codes of practice for statistics; a pack makes them usable in the toolkit."}
+- {id: BL-16, title: "UN NQAF and IMF DQAF packs", area: international, moscow: should, status: proposed, jira: XDMH-230, why: "Small statistics offices often use these frameworks rather than UK ones."}
+- {id: BL-17, title: "Time zone friendly co-design sessions", area: community, moscow: should, status: proposed, jira: XDMH-231, why: "Partners from the Pacific to the Caribbean can't all join at 10am London time."}
+- {id: BL-18, title: "Accessibility checks in CI (axe-core)", area: assurance, moscow: should, status: proposed, jira: XDMH-232, why: "Catch regressions on every change, alongside our own checks."}
+- {id: BL-19, title: "Freshness alerts for news and spotlights", area: assurance, moscow: should, status: proposed, jira: XDMH-233, why: "Stale news erodes trust; the self-check should open an issue automatically."}
+- {id: BL-20, title: "Archive snapshots for every linked source", area: assurance, moscow: could, status: proposed, jira: XDMH-234, why: "Links rot. Recording an archived copy keeps evidence available."}
+- {id: BL-21, title: "Content provenance (who changed what, when) on every page", area: assurance, moscow: could, status: proposed, jira: XDMH-235, why: "Readers can see how current and reviewed each page is."}
+- {id: BL-22, title: "Easy read and plain English summaries", area: accessibility, moscow: could, status: proposed, jira: XDMH-236, why: "Some readers, including people with learning disabilities, need simpler versions."}
+- {id: BL-23, title: "Translation into the main community languages used by public services", area: accessibility, moscow: could, status: proposed, jira: XDMH-237, why: "Data quality affects everyone; guidance should reach staff and partners in their language."}
+- {id: BL-24, title: "Offline and low-bandwidth version", area: accessibility, moscow: could, status: proposed, jira: XDMH-238, why: "Small island and rural teams may have limited connectivity."}
 
 charter:
   purpose: "We build the Commons with the people who use it, so it meets real needs, includes everyone and stays a public good."
