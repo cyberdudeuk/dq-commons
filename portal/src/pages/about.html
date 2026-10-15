@@ -68,21 +68,7 @@ __BASE_CSS__
 
 <section aria-labelledby="road-h">
   <h2 id="road-h">Roadmap</h2>
-  <div class="road">
-    <div class="card"><h3>Now <span class="chip good">v1.0</span></h3><ul>
-      <li>Browser checker with identifier and value set checks</li><li>Framework registry, crosswalks and 12 packs</li>
-      <li>Maturity self-assessment</li><li>Learning pathway and tutorials</li><li>AI for data quality guidance and assistant</li>
-      <li>Surveys, commissions and contributions</li><li>GitHub, Jira and Confluence links</li></ul></div>
-    <div class="card"><h3>Next <span class="chip acc">3 months</span></h3><ul>
-      <li>User research with 5 organisation types (XDMH-212)</li><li>Accessibility audit, WCAG 2.2 AA (XDMH-213)</li>
-      <li>AI assistant assurance and ATRS record (XDMH-214)</li><li>Verify "partly" framework entries (XDMH-221)</li>
-      <li>More GSS value sets (XDMH-220)</li></ul></div>
-    <div class="card"><h3>Later <span class="chip">6 to 12 months</span></h3><ul>
-      <li>Welsh language version (XDMH-216)</li><li>Outlier and anomaly checks (XDMH-215)</li>
-      <li>Record linkage quality with Splink (XDMH-222)</li><li>Power Automate and Fabric connector (XDMH-219)</li>
-      <li>Moderation workflow at scale (XDMH-217)</li></ul></div>
-  </div>
-  <p class="small">Want something else? Add it to the <a href="community.html#wishlist">wishlist</a> and vote on what matters to you.</p>
+  <p>The roadmap, backlog and wishlist are now in one place, with votes, co-design and a way to contact us: <a href="build.html#roadmap">Help us build this</a>.</p>
 </section>
 
 <section aria-labelledby="hon-h">
@@ -97,7 +83,8 @@ __BASE_CSS__
 const F = __K_FRAMEWORKS__, P = __K_PACKS__, L = __K_LEARNING__, C = __K_COMMUNITIES__, LIB = __K_LIBRARY__, S = __K_SCHEMES__;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 document.getElementById("who").innerHTML = ["Central government", "Devolved governments", "Local authorities", "NHS and care", "Police and justice", "Education",
-  "Arm's length bodies", "Voluntary and community sector", "Suppliers", "Researchers"].map(x => `<span class="chip acc">${esc(x)}</span>`).join("");
+  "Arm's length bodies", "Voluntary and community sector", "Suppliers", "Researchers", "Crown Dependencies", "Overseas Territories",
+  "Commonwealth partners", "International and supranational bodies"].map(x => `<span class="chip acc">${esc(x)}</span>`).join("");
 const nRules = Object.values(LIB).reduce((n, l) => n + ((l.spec && l.spec.rules) || []).length, 0);
 document.getElementById("kpis").innerHTML = [
   [F.length, "frameworks and standards mapped"], [P.length, "framework and scenario packs"], [nRules, "reusable rule templates"],

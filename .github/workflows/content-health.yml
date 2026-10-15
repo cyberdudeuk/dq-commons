@@ -1,0 +1,28 @@
+# The Commons checks itself: review dates, freshness, verification, personal and sensitive data,
+# duplicates, claims recounted from data, links and language. Fails on errors.
+name: Content health
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"   # Mondays 06:17 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - run: python scripts/gen_community_docs.py --check
+      - run: python scripts/self_check.py --out health
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: {name: content-health, path: health/}
+      - name: Two-engine parity
+        uses: actions/setup-node@v4
+        with: {node-version: "20"}
+      - run: python scripts/parity_check.py

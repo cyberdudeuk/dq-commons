@@ -82,3 +82,11 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 **Must (added):** suppliers carry explicit, measurable responsibility for data quality (clauses, KPIs, tender questions, exit); data quality in legacy modernisation (data debt, gates, reconciliation, MoSCoW); interoperability layers, guardrails and measures; data contracts in open standards; a front page with news, insights and a spotlight; a curated library, knowledge base and media centre with moderated community publishing; an accessibility statement and privacy notice.
 **Should:** benchmarking by sector and nation; xAPI learning records; metadata Rosetta.
 **Success measures added:** share of supplier contracts with a published data quality KPI; data contract coverage of interfaces; share of migrations with a passed reconciliation; contributions published per month by sector and nation.
+
+## v1.2 additions (2026-10-15)
+
+- **Metadata Weaver and contract change check** (Do). User need: "As a publisher, I need to describe a dataset once and publish it in every catalogue, so that I don't retype records and miss fields."
+- **UK and the world** (Scenarios). User need: "As a statistics office in a Crown Dependency or Overseas Territory, I need tools and frameworks that respect my own laws, so I can improve data quality without UK-specific assumptions."
+- **Help us build this** (Community). User need: "As a member, I need to see and influence what's planned, and contact the team without sharing personal data."
+- **Self-checking content.** User need: "As a reader, I need to trust that what I read is current and checked."
+- Success measures: share of records with full CDA coverage after weaving; backlog items picked up by contributors; content health errors at zero on main.

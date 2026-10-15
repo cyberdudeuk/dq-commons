@@ -33,7 +33,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "portal" / "src"
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 BRAND = "Public Sector Data Quality Commons"
 
 # Navigation groups, in order, and the pages in each: (file stem, short label, description).
@@ -48,6 +48,7 @@ GROUPS = [
         ("check", "Check your data", "Run the toolkit in your browser on a CSV file. Nothing is uploaded"),
         ("maturity", "Maturity self-assessment", "Where you are on 8 themes, from Beginning to Mastering, and next steps"),
         ("assistant", "AI assistant", "Plain English to tested rules, explanations and framework look-ups"),
+        ("weaver", "Metadata Weaver", "Turn one metadata record into DCAT, schema.org, CKAN, ODCS and CDA, and see the gaps"),
         ("pipeline", "Pipeline status", "The latest automated run: trust levels, issues and escalations"),
     ]),
     ("Know", [
@@ -65,6 +66,7 @@ GROUPS = [
     ]),
     ("Scenarios", [
         ("scenarios", "All scenarios", "Pick your policy, sector or platform: what applies and where to start"),
+        ("global", "UK and the world", "Crown Dependencies, Overseas Territories, the Commonwealth and international partners"),
         ("ndl-assurance", "National Data Library", "84 NDL data pages tested against GOV.UK requirements"),
         ("baseline", "Critical data asset baseline", "Effort to report data quality for every critical data asset"),
     ]),
@@ -73,10 +75,24 @@ GROUPS = [
         ("media", "Media centre", "Blog, vlog and podcasts about data quality, from the Commons and members"),
         ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
         ("share", "Case studies", "Case studies, the tooling survey review, and messages to other teams"),
+        ("build", "Help us build this", "Roadmap, backlog, wishlist, co-design charter, contributors and how to contact us"),
         ("operate", "Operating model and support", "Support tiers, roles, how requests become features, GitHub, Jira and Confluence"),
     ]),
 ]
 PAGES = [p for _, ps in GROUPS for p in ps]
+# Decorative icons from portal/src/icons.svg, for each menu group and page.
+GROUP_ICON = {"Start": "compass", "Do": "play", "Know": "bulb", "Govern": "shield", "Scenarios": "map", "Community": "heart"}
+PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility": "access", "check": "check", "maturity": "gauge",
+             "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
+             "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
+             "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
+             "community": "users", "media": "mic", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy"}
+
+
+def icon(name: str) -> str:
+    return f'<svg class="dqi" aria-hidden="true" focusable="false"><use href="#i-{name}"/></svg>'
+
+
 GROUP_OF = {p[0]: g for g, ps in GROUPS for p in ps}
 DOWNLOAD_FILES = ["portfolio.json", "run-summary.md", "cda-return.csv", "escalations.json", "catalogue.dqv.jsonld",
                   "metadata-assessment.json"]
@@ -161,6 +177,16 @@ def examples(port_file: Path) -> list:
     return out
 
 
+def health_summary() -> dict:
+    """The content health report's summary (scripts/self_check.py), for the portal."""
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import self_check
+    h = self_check.run()
+    return {"as_of": h["as_of"], "counts": h["counts"], "verification": {k: h["verification"][k] for k in ("read_in_full", "total", "ratio")},
+            "checks": h["checks"], "open": [i for i in h["items"] if i["level"] != "note"][:20]}
+
+
 def knowledge() -> dict:
     """Every knowledge-base file as a page placeholder (__K_NAME__). Built lazily, only if a page uses it."""
     import sys
@@ -196,6 +222,9 @@ def knowledge() -> dict:
         "MEDIA": lambda: y("media"),
         "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
+        "GLOBAL": lambda: y("global"),
+        "BUILD": lambda: y("build"),
+        "HEALTH": lambda: health_summary(),
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
 
@@ -208,12 +237,13 @@ def nav(active: str, long: bool) -> str:
     for g, ps in GROUPS:
         cur_g = any(stem == active for stem, _, _ in ps)
         links = "".join(
-            f'<a href="{stem}.html"{" aria-current=\"page\"" if stem == active else ""}>{html.escape(label)}'
+            f'<a href="{stem}.html" data-t="{html.escape(label)}"{" aria-current=\"page\"" if stem == active else ""}>'
+            f'{icon(PAGE_ICON.get(stem, "arrow"))}<span>{html.escape(label)}</span>'
             f'<small>{html.escape(desc)}</small></a>' for stem, label, desc in ps)
         if long:
             out.append(f'<div class="dqp-grp"><h2>{g}</h2>{links}</div>')
         else:
-            out.append(f'<details class="dqp-g"{" data-current" if cur_g else ""}><summary>{g}</summary>'
+            out.append(f'<details class="dqp-g"{" data-current" if cur_g else ""}><summary>{icon(GROUP_ICON[g])}{g}</summary>'
                        f'<div class="dqp-panel">{links}</div></details>')
     return "".join(out)
 
@@ -230,7 +260,10 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     """Return (full document, artifact fragment) for one page."""
     shell = (SRC / "shell.html").read_text(encoding="utf-8")
     shell = (shell.replace("{{NAV}}", nav(stem, False)).replace("{{NAV_LONG}}", nav(stem, True))
-             .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, "")))
+             .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, ""))
+             .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip()))
+    # every page's eyebrow gets that page's icon
+    fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
     head, body = split_fragment(fragment)
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
@@ -239,6 +272,42 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
            "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n"
            f"{head}\n{shell_css}\n</head>\n<body style=\"margin:0\">\n{shell_body}\n{body}\n{footer}\n</body>\n</html>\n")
     return doc, frag
+
+
+def page_footer(repo: str, as_of: str, sha: str) -> str:
+    """Licences, disclaimers, transparency notices and the colophon. No personal details, by design."""
+    r = html.escape(repo)
+    built = date.today().isoformat()
+    return f"""<footer class="dqp-foot" aria-label="About this site">
+<div class="dqp-fcols">
+<div><h2>Licences</h2><ul>
+<li>{icon("code")} Code: <a href="{r}/blob/main/LICENSE">MIT licence</a></li>
+<li>{icon("book")} Content: <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where stated</li>
+<li>{icon("layers")} Standards and frameworks belong to their publishers. We summarise and link; we don't copy paid standards.</li>
+<li>{icon("info")} Fonts: Public Sans, Source Serif 4 and JetBrains Mono, under the SIL Open Font Licence. Icons drawn for the Commons (MIT).</li>
+<li>Third-party names and marks belong to their owners. Their use doesn't mean endorsement.</li>
+</ul></div>
+<div><h2>Notices</h2><ul>
+<li>{icon("alert")} <b>Not an official government service.</b> A prototype public good, built in the open. Official guidance takes precedence; we link to it first.</li>
+<li>{icon("scale")} Not legal, commercial or professional advice. Model contract clauses are illustrative and need review by your own legal and commercial teams.</li>
+<li>{icon("sparkle")} <b>AI-assisted.</b> Parts of the code and content were drafted with AI and reviewed by people. Measuring is always done by rules, not models.</li>
+<li>{icon("eye")} Sources marked "partly verified" or "not yet reviewed" haven't been checked in full.</li>
+<li>{icon("lock")} No cookies, analytics or trackers. Data you check stays in your browser. See <a href="accessibility.html#privacy">privacy</a>.</li>
+<li>{icon("access")} <a href="accessibility.html">Accessibility statement</a> (aiming for WCAG 2.2 AA).</li>
+</ul></div>
+<div><h2>Get involved</h2><ul>
+<li>{icon("message")} <a href="build.html#contact">Contact us</a> (by form; we never show an email address)</li>
+<li>{icon("blocks")} <a href="build.html">Help us build this</a>: roadmap, backlog and co-design</li>
+<li>{icon("shield")} <a href="{r}/blob/main/CHARTER.md">Charter</a> and <a href="{r}/blob/main/CODE_OF_CONDUCT.md">code of conduct</a></li>
+<li>{icon("lifebuoy")} <a href="operate.html">Get help</a></li>
+<li>{icon("repo")} <a href="{r}">Source code on GitHub</a></li>
+<li>{icon("alert")} Security problem? <a href="{r}/security/advisories/new">Report it privately</a></li>
+</ul></div>
+</div>
+<p class="dqp-colo"><b>Colophon.</b> {BRAND} v{VERSION}. Built {built} from commit <code>{html.escape(sha)}</code>; pipeline results as of {html.escape(as_of)}.
+Static HTML, CSS and JavaScript with no frameworks, generated by <code>scripts/build_dq_portal.py</code> from the open knowledge base and the dqkit toolkit (Python),
+whose browser engine is checked case by case against Python. Set in Public Sans and Source Serif 4. Designed for GitHub Pages; also published on claude.ai. Maintained by the Commons community.</p>
+</footer>"""
 
 
 def main(argv=None) -> int:
@@ -274,10 +343,7 @@ def main(argv=None) -> int:
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
-        footer = (f'<footer class="dqp-foot"><span>{BRAND} v{VERSION}</span>'
-                  f'<span>Results measured as of {port["as_of"]}; built {date.today().isoformat()} from commit {sha}</span>'
-                  f'<span>Code MIT, content OGL v3.0</span><span>A prototype public good service. Not an official government product.</span><a href="operate.html">Get help</a><a href="accessibility.html">Accessibility</a><a href="accessibility.html#privacy">Privacy</a>'
-                  f'<a href="{html.escape(a.repo)}">Source code</a></footer>')
+        footer = page_footer(a.repo, port["as_of"], sha)
         for stem, _, _ in PAGES:
             text = (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8")
             text = text.replace("__DATA__", data["__NDL_DATA__"]) if stem == "ndl-assurance" else text

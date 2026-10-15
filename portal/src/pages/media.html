@@ -26,6 +26,7 @@ __BASE_CSS__
   <p class="lede">Posts from the Commons team and members, plus videos and podcasts on data quality and the capabilities around it. Every video and podcast must have captions or a transcript. External items link to their source; nothing is hosted or tracked here.</p>
   <div class="tabs" role="tablist" aria-label="Media centre sections">
     <button role="tab" id="tab-blog" aria-controls="p-blog" aria-selected="true">Blog</button>
+    <button role="tab" id="tab-gov" aria-controls="p-gov" aria-selected="false" tabindex="-1">From GOV.UK blogs</button>
     <button role="tab" id="tab-vlog" aria-controls="p-vlog" aria-selected="false" tabindex="-1">Vlog</button>
     <button role="tab" id="tab-pod" aria-controls="p-pod" aria-selected="false" tabindex="-1">Podcasts</button>
     <button role="tab" id="tab-sub" aria-controls="p-sub" aria-selected="false" tabindex="-1">Share yours</button>
@@ -37,6 +38,9 @@ __BASE_CSS__
   <div class="posts post" id="blog"></div>
   <article class="reader" id="reader" hidden tabindex="-1"></article>
 </section>
+<section id="p-gov" role="tabpanel" aria-labelledby="tab-gov" hidden><h2 class="sr-only">From GOV.UK blogs</h2>
+  <p class="small">Posts on GOV.UK blogs about data quality and the capabilities around it, summarised in our own words. Each links to the original, with a place in the Commons to act on it.</p>
+  <div class="posts" id="gov"></div></section>
 <section id="p-vlog" role="tabpanel" aria-labelledby="tab-vlog" hidden><h2 class="sr-only">Videos</h2><div class="posts" id="vlog"></div></section>
 <section id="p-pod" role="tabpanel" aria-labelledby="tab-pod" hidden><h2 class="sr-only">Podcast episodes</h2><div class="posts" id="pod"></div></section>
 
@@ -73,6 +77,10 @@ function show(t, focus) { tabs.forEach(x => { const on = x === t; x.setAttribute
 tabs.forEach((t, i) => { t.addEventListener("click", () => show(t));
   t.addEventListener("keydown", e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); show(tabs[(i + d + tabs.length) % tabs.length], true); } }); });
 
+$("gov").innerHTML = (M.govuk_blogs || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).map(g => `<div class="card" id="${esc(g.id)}"><div class="item">${DQI("news", "dqi-lg")}<div>
+  <p class="small muted">${esc(g.date)} · ${esc(g.blog)}${g.checked === "yes" ? "" : ' · <span class="chip warn">Not yet reviewed</span>'}</p>
+  <h3><a href="${esc(safeUrl(g.url))}" rel="noopener">${esc(g.title)}</a></h3></div></div><p class="small">${esc(g.summary)}</p>
+  <p class="small">Topics: ${g.topics.map(esc).join(", ")} · <a href="${esc(g.try)}">Act on it in the Commons ›</a></p></div>`).join("");
 let posts = M.blog.map(p => ({...p, own: true})), videos = [...M.videos], pods = [...M.podcasts];
 function drawBlog() {
   posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));

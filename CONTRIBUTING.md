@@ -1,7 +1,11 @@
 # Contributing to the Public Sector Data Quality Commons
 
 Everyone is welcome: central and local government, devolved administrations, the wider public
-sector, and private and voluntary organisations. You don't need to write code to contribute.
+sector, private and voluntary organisations, the Crown Dependencies, the Overseas Territories, Commonwealth
+partners and international bodies. You don't need to write code to contribute.
+
+Please read the [charter](CHARTER.md) and [code of conduct](CODE_OF_CONDUCT.md) first. The portal's
+**Help us build this** page brings together the roadmap, backlog, wishlist, co-design and a contact form.
 
 ## Ways to contribute
 
@@ -9,7 +13,9 @@ sector, and private and voluntary organisations. You don't need to write code to
 |---|---|
 | Share a case study, insight or resource | Use the portal's Community page (Library), or open a "Contribute to the library" issue |
 | Ask for help | Use the portal's Commission form, or open a "Commission help" issue |
-| Suggest a feature | Add it to the portal's wishlist, or open a "Feature request or wish" issue |
+| Suggest a feature | Add it to the wishlist on Help us build this, or open a "Feature request or wish" issue |
+| Pick up backlog work | Find an issue labelled `backlog` (each is a `[BL-nn]` item from `knowledge/build.yaml`) and comment that you're on it |
+| Contact the team | Use the contact form on Help us build this. We never publish an email address |
 | Add a rule, identifier, value set, framework or pack | Open a "Add a rule, value set or framework pack" issue, or a pull request |
 | Fix or improve code | Open a pull request (see below) |
 
@@ -40,6 +46,11 @@ GitHub issues are the public front door. Issues labelled `backlog` are mirrored 
 project (key set in `integrations/config.yaml`) by the backlog sync workflow, and the Jira key is
 written back as a comment. Support and operating model pages live in Confluence
 (see `docs/OPERATING-MODEL.md`).
+
+## Getting credit
+
+We credit every kind of contribution, by GitHub username or organisation, never personal details. See
+[CONTRIBUTORS.md](CONTRIBUTORS.md).
 
 ## Licence
 

@@ -2,19 +2,33 @@
 
 A free, open hub and toolkit for everything about data quality in the public sector: check data,
 find the frameworks and standards that apply, learn, use AI safely, and share what works. For
-central and local government, the devolved governments, the wider public sector, and the voluntary
-and private bodies that deliver public services.
+central and local government, the devolved governments, the wider public sector, the voluntary
+and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
+Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.1.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.2.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`: 25 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
+`portal/dist/index.html`: 28 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
 a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
 
 Scenarios include critical data assets under the GOV.UK
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government),
 the National Data Library, official statistics, health, local government, geospatial, personal
 data, AI and machine learning, open data, the devolved nations and international comparison.
+
+## New in v1.2
+
+| Area | Where |
+|---|---|
+| **Metadata Weaver**: one record in (DCAT, schema.org, CKAN, ODCS), all four out, with gaps and the 13 CDA properties | `dqkit weave`, `dqkit/weaver.py`, portal Do > Metadata Weaver |
+| **Contract change check**: validate ODCS, list breaking changes, suggest the version | `dqkit contract-check NEW --against OLD` |
+| **UK and the world**: Crown Dependencies, 14 Overseas Territories, Commonwealth, international and supranational partners | `knowledge/global.yaml`, portal Scenarios > UK and the world |
+| **Help us build this**: roadmap, backlog (also GitHub issues), wishlist votes, co-design, charter, safeguards, contributors, contact form | `knowledge/build.yaml`, `CHARTER.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTORS.md` |
+| **Self-checking content**: health report (review dates, freshness, verification, personal data, duplicates, claims, language) | `scripts/self_check.py`, `.github/workflows/content-health.yml` |
+| GOV.UK blog features, an icon set, and a footer with licences, notices and a colophon | `knowledge/media.yaml`, `portal/src/icons.svg` |
+
+Contact is by form only: no email address is published. Security problems go through GitHub private vulnerability reporting.
 
 ## New in v1.0
 
@@ -42,6 +56,7 @@ data, AI and machine learning, open data, the devolved nations and international
 | `portfolio.ndl.yaml`, `assessments/portfolio/` | The NDL portfolio (8 chart assets and the page metadata), and the results of the latest pipeline run | NDL team, portal |
 | `.github/workflows/` | Tests on every change, and the weekly data quality pipeline | Maintainers |
 | `portal/src/`, `scripts/build_dq_portal.py` | The NDL Data Quality Portal: page templates, shared top bar, and the browser version of the kit (`portal/src/js/engine.js`) | Everyone |
+| `knowledge/` | The knowledge base behind every portal page, each file with an owning role and review date | Content stewards |
 | `docs/` | PRD, theory of change, architecture, specs, decisions, build log, outreach drafts, and the guidance crosswalk | Everyone |
 
 ## Quick start (no coding knowledge needed beyond copy and paste)
@@ -49,7 +64,7 @@ data, AI and machine learning, open data, the devolved nations and international
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (60 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (30 cases).
+   You should see `OK` at the end (116 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:

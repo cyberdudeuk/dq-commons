@@ -140,3 +140,13 @@ flowchart LR
 - **Knowledge layer:** adds `commercial.yaml`, `legacy.yaml`, `interop.yaml`, `rosetta.yaml`, `articles.yaml`, `media.yaml`; every file carries `review: {last_reviewed, owner_role}`.
 - **Shared store:** adds a `media` collection (read by all, written by editors); maturity benchmarks are stored per member under `responses/{self}` and published to `results/maturity`.
 - **Operations:** `link-check.yml` monthly; `scripts/mcp_manifest.py` generates `integrations/ndl-mcp-domain.json`.
+
+## v1.2 components
+
+- `dqkit/weaver.py` and `DQ.weaver` (browser): canonical record (22 fields, tied to Rosetta concepts), four readers, four writers, coverage and CDA check. Parity-checked.
+- `dqkit/contracts.py`: `validate_odcs`, `diff_odcs` with semantic version advice.
+- `scripts/self_check.py`: content health, run in CI and at build time (summary embedded in the portal).
+- `scripts/backlog_to_issues.py`: `knowledge/build.yaml` to GitHub issues (REST API, idempotent).
+- `scripts/gen_community_docs.py`: `CHARTER.md` and `CONTRIBUTORS.md` from the same YAML as the portal.
+- Shell: inline SVG icon sprite (`portal/src/icons.svg`), `DQI()` helper, structured footer.
+- Contact: per-member queue item (`queue/{self}`, kind `contact`), moderator replies in place. No email address anywhere.

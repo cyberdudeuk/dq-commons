@@ -72,3 +72,16 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | New knowledge | `knowledge/{commercial,legacy,interop,rosetta,articles,media}.yaml` |
 | Link checker | `scripts/check_links.py`, `.github/workflows/link-check.yml` |
 | MCP manifest | `scripts/mcp_manifest.py`, `integrations/ndl-mcp-domain.json` |
+
+## v1.2.0 additions
+
+| Path | What |
+|---|---|
+| `dqkit/weaver.py` | Metadata Weaver |
+| `knowledge/global.yaml`, `knowledge/build.yaml` | Scope extension; roadmap, backlog, charter, routines |
+| `portal/src/pages/weaver.html`, `global.html`, `build.html` | New pages (28 in total) |
+| `portal/src/icons.svg` | Icon sprite |
+| `scripts/self_check.py`, `scripts/backlog_to_issues.py`, `scripts/gen_community_docs.py` | Self-checks, backlog issues, community docs |
+| `.github/workflows/content-health.yml`, `backlog-issues.yml` | New workflows |
+| `CHARTER.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTORS.md`, `.all-contributorsrc` | Community docs |
+| `docs/METADATA-WEAVER.md`, `docs/ASSURANCE-ROUTINES.md` | Assessment and routines |

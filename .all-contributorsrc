@@ -1,0 +1,16 @@
+{
+  "projectName": "dq-commons",
+  "projectOwner": "cyberdudeuk",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": ["CONTRIBUTORS.md"],
+  "imageSize": 0,
+  "commit": false,
+  "contributorsPerLine": 7,
+  "contributorTemplate": "<a href=\"<%= contributor.profile %>\"><%= contributor.login %></a> (<%= contributor.contributions.join(', ') %>)",
+  "types": {
+    "a11y": {"symbol": "a11y", "description": "Accessibility testing"},
+    "community": {"symbol": "community", "description": "Moderation and co-design"}
+  },
+  "contributors": []
+}

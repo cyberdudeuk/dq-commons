@@ -20,12 +20,13 @@ shared:
     type: single
     options: [Ministerial department, Non-ministerial department, Arm's length body, Local authority, Devolved government,
               NHS or health and care body, Police or justice body, Education body, Voluntary or charity organisation,
-              Private sector supplier, University or research body, Other]
+              Private sector supplier, University or research body, Crown Dependency government or body,
+              Overseas Territory government or body, Government outside the UK, International or supranational organisation, Other]
   nation: &nation
     id: nation
     q: Where does your organisation mainly work?
     type: multi
-    options: [England, Wales, Scotland, Northern Ireland, UK-wide, Outside the UK]
+    options: [England, Wales, Scotland, Northern Ireland, UK-wide, Crown Dependencies, Overseas Territories, Commonwealth country, Other country, International]
   size: &size
     id: size
     q: About how many people work in your organisation?

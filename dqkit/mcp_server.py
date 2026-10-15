@@ -28,7 +28,7 @@ import yaml
 from . import framework, packs, profile, rules, sources, trust, pathway
 
 PROTOCOL_VERSION = "2025-06-18"
-SERVER_INFO = {"name": "dqkit", "title": "Public Sector Data Quality Commons kit", "version": "1.0.0"}
+SERVER_INFO = {"name": "dqkit", "title": "Public Sector Data Quality Commons kit", "version": "1.2.0"}
 ROOT = Path(os.environ.get("DQKIT_MCP_ROOT", os.getcwd())).resolve()
 
 DATA_PROPS = {
@@ -81,6 +81,16 @@ TOOLS = [
      "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "list_packs", "title": "List framework packs", "description": "The packs that apply frameworks to results.",
      "inputSchema": {"type": "object", "properties": {}}, "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "weave_metadata", "title": "Weave a metadata record into every catalogue standard",
+     "description": "Read one dataset record (DCAT or schema.org JSON-LD, a CKAN package or an ODCS contract) and return it as "
+                    "DCAT v3, schema.org, CKAN and an ODCS skeleton, with the gaps for each and the 13 CDA metadata properties.",
+     "inputSchema": {"type": "object", "required": ["record"], "properties": {"record": {"type": "object"},
+                     "from": {"type": "string", "enum": ["dcat", "schema", "ckan", "odcs"]}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "check_contract", "title": "Check an ODCS data contract",
+     "description": "Validate an ODCS v3 contract; with 'previous', list the changes, which ones break consumers, and the version to use.",
+     "inputSchema": {"type": "object", "required": ["contract"], "properties": {"contract": {"type": "object"}, "previous": {"type": "object"}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "list_checks", "title": "List checks, identifier schemes and value sets",
      "description": "What the rules language supports: check types, identifier schemes and value sets.",
      "inputSchema": {"type": "object", "properties": {}}, "annotations": {"readOnlyHint": True, "openWorldHint": False}},
@@ -186,6 +196,18 @@ def call_tool(name: str, args: dict) -> dict:
                 for x in packs.registry() if not f or f in json.dumps(x).lower()]
     if name == "list_packs":
         return [{"id": p["id"], "name": p["name"], "summary": p.get("summary", "")} for p in packs.list_packs()]
+    if name == "weave_metadata":
+        from . import weaver
+        try:
+            return weaver.weave(args["record"], args.get("from"))
+        except (ValueError, KeyError, TypeError, AttributeError) as e:
+            raise ToolError(f"Couldn't read the record: {e}") from None
+    if name == "check_contract":
+        from . import contracts
+        out = {"problems": contracts.validate_odcs(args.get("contract"))}
+        if isinstance(args.get("previous"), dict):
+            out["diff"] = contracts.diff_odcs(args["previous"], args["contract"])
+        return out
     if name == "list_checks":
         return {"checks": sorted(rules.CHECKS) + ["in_valueset"], "identifier_schemes": list(rules.IDENTIFIER_SCHEMES),
                 "value_sets": sorted(p.stem for p in rules.VALUESET_DIR.glob("*.csv"))}

@@ -32,7 +32,9 @@ class PortalBuild(unittest.TestCase):
             self.assertTrue(text.startswith("<!doctype html>"), p)
             self.assertIsNone(re.search(r"__(DATA|PORTFOLIO|HISTORY|VOCAB|EXAMPLES|ENGINE|BUILD|BASE_CSS|DOWNLOADS|NDL_DATA|K_[A-Z]+)__", text), p)
             self.assertIn('class="dqp-bar"', text, p)
-            self.assertIn(f'href="{p}.html" aria-current="page"', text, p)
+            self.assertRegex(text, rf'href="{re.escape(p)}\.html" data-t="[^"]+" aria-current="page"', p)
+            self.assertIn('<symbol id="i-home"', text, p)  # the icon sprite is on every page
+            self.assertIn('class="dqp-colo"', text, p)  # the colophon is on every page
 
     def test_artifact_home_has_no_wrapper_and_links_to_repo(self):
         home = (self.art / "index.html").read_text(encoding="utf-8")

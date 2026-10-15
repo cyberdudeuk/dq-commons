@@ -10,7 +10,8 @@ permissions:
   contents: read
 jobs:
   mirror:
-    if: github.event.label.name == 'backlog'
+    # Items that already have a Jira story carry the jira-linked label and are skipped.
+    if: github.event.label.name == 'backlog' && !contains(github.event.issue.labels.*.name, 'jira-linked')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

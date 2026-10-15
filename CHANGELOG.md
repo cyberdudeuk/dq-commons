@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0 — 2026-10-15
+### Added
+- Metadata Weaver (`dqkit weave`, `dqkit/weaver.py`, browser port, portal page, MCP tool `weave_metadata`): reads DCAT, schema.org, CKAN or ODCS; writes all four; reports gaps, fields a standard can't carry, and the 13 CDA metadata properties.
+- Contract change control: `validate_odcs`, `diff_odcs` (breaking changes and semantic version), `dqkit contract-check`, MCP tool `check_contract`; ODCS export carries SLA and support channels.
+- UK and the world page and `knowledge/global.yaml`: Crown Dependencies, 14 Overseas Territories, the Commonwealth, and 18 international and supranational frameworks, bodies and networks. Surveys, scenarios, search and contribution forms include them.
+- Help us build this page and `knowledge/build.yaml`: roadmap, 24-item MoSCoW backlog, wishlist and votes (moved from Community), co-design methods, charter, house rules, guidelines, safeguards, contributors, GitHub resources, self-checking routines and a contact form with in-app replies and no published email.
+- `CHARTER.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTORS.md` and `.all-contributorsrc`, generated or kept in step with the portal.
+- `scripts/backlog_to_issues.py` and the Backlog to issues workflow: one GitHub issue per backlog item, idempotent.
+- `scripts/self_check.py` and the Content health workflow; a trust panel on Help us build this.
+- GOV.UK blog features in the media centre and on the home page; three new carousel slides.
+- An icon set (`portal/src/icons.svg`) used in menus, page headings, tiles, carousel, spotlight, cards and the footer.
+- Footer: licences, notices (not official, not legal advice, AI-assisted, no tracking), get involved, and a colophon without personal details.
+### Changed
+- Roadmap moved from About, and wishlist from Community, to Help us build this.
+- Atlassian site address in `integrations/config.yaml` is now a placeholder.
+- Git history authored with a GitHub no-reply address instead of a personal email.
+
 ## 1.1.0 — 2026-10-15
 ### Added
 - Data contracts: ODCS v3, Frictionless Table Schema and W3C CSVW, export and import (`dqkit contract`, checker); Great Expectations and R validate exports in the browser; data profile; Excel, ODS, JSON and JSON Lines in the browser.

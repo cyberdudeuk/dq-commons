@@ -495,6 +495,61 @@ RECON_CASES = [(RECON_SRC, RECON_TGT, ["id"]), (RECON_SRC, RECON_SRC, ["id", "na
                (RECON_SRC, RECON_TGT, ["nope"])]
 
 
+# ---------- Metadata Weaver and contract change control ----------
+WEAVE_CASES = [
+    {"@context": {"dcat": "http://www.w3.org/ns/dcat#", "dct": "http://purl.org/dc/terms/"}, "@type": "dcat:Dataset", "@id": "https://example.org/ds/1",
+     "dct:title": "Flood alerts", "dct:description": "Flood alerts and warnings in England, updated daily.", "dct:publisher": {"foaf:name": "Environment Agency"},
+     "dcat:keyword": ["flood", "alerts", "flood"], "dcat:theme": [{"@id": "https://example.org/theme/env"}], "dct:license": "OGL-UK-3.0",
+     "dct:temporal": {"dcat:startDate": "2006-01-01"}, "dct:accrualPeriodicity": {"@id": "http://purl.org/cld/freq/daily"},
+     "dqc:securityClassification": "OFFICIAL", "dcat:distribution": [{"dcat:downloadURL": "https://example.org/a.csv", "dct:format": "csv"},
+                                                                     {"dcat:accessURL": "https://example.org/api", "dcat:mediaType": "application/json"}]},
+    {"@context": "https://schema.org/", "@type": "Dataset", "name": "Bus stops", "description": "Short", "keywords": "transport, bus , ,stops",
+     "creator": {"@type": "Organization", "name": "DfT", "contactPoint": {"name": "Data team"}}, "isAccessibleForFree": True,
+     "temporalCoverage": "2020/2025", "distribution": {"contentUrl": "https://example.org/stops.zip", "encodingFormat": "application/zip"}, "version": 3},
+    {"help": "x", "success": True, "result": {"id": "abc-123", "name": "road-noise", "title": "Road noise", "notes": "Strategic noise mapping of English road sources from 2022.",
+     "organization": {"title": "Defra"}, "license_id": "uk-ogl", "tags": [{"name": "noise"}, {"display_name": "roads", "name": "roads"}],
+     "groups": [], "extras": [{"key": "theme", "value": "environment"}, {"key": "temporal_start", "value": "2022"}, {"key": "expires", "value": "2030-01-01"}],
+     "resources": [{"name": "Data", "url": "https://example.org/n.gpkg", "format": "GeoPackage"}, {"url": "", "format": ""}], "isopen": True}},
+    {"apiVersion": "v3.1.0", "kind": "DataContract", "id": "c1", "version": "2.1.0", "status": "active", "name": "Claims",
+     "description": {"purpose": "Claims data", "limitations": "Restricted to approved analysts"}, "team": {"name": "Claims data team"},
+     "tags": ["claims"], "domain": "benefits", "slaProperties": [{"property": "availability", "value": 99}, {"property": "frequency", "value": 1, "unit": "d"}],
+     "servers": [{"server": "prod", "type": "s3", "location": "s3://bucket/claims"}], "schema": [{"name": "claims", "properties": [{"name": "id"}]}],
+     "customProperties": [{"property": "securityClassification", "value": "OFFICIAL-SENSITIVE"}, {"property": "licence", "value": "Internal"}]},
+    {"title": "Only a title", "notes": ""},
+    {"something": "else"},
+    ["not", "an", "object"],
+]
+_C1 = {"apiVersion": "v3.1.0", "kind": "DataContract", "id": "x", "version": "1.2.0", "status": "active", "team": {"name": "T"},
+       "slaProperties": [{"property": "frequency", "value": 1}],
+       "schema": [{"name": "t", "properties": [
+           {"name": "a", "logicalType": "integer", "required": True, "quality": [{"id": "R1", "metric": "nullValues", "mustBeLessOrEqualTo": 1, "unit": "percent"}]},
+           {"name": "b", "unique": True, "quality": [{"metric": "duplicateValues", "mustBeLessOrEqualTo": 0.5, "unit": "percent"}]},
+           {"name": "c"}]}]}
+CONTRACT_PAIRS = [
+    [_C1, {**_C1, "version": "1.3.0", "schema": [{"name": "t", "properties": [
+        {"name": "a", "logicalType": "integer", "required": True, "quality": [{"id": "R1", "metric": "nullValues", "mustBeLessOrEqualTo": 0.25, "unit": "percent"}]},
+        {"name": "b", "unique": True, "quality": [{"metric": "duplicateValues", "mustBeLessOrEqualTo": 0.5, "unit": "percent"}]},
+        {"name": "c"}, {"name": "d", "required": True}]}]}],
+    [_C1, {**_C1, "version": "1.3.0", "status": "deprecated", "schema": [{"name": "t", "properties": [
+        {"name": "a", "logicalType": "string"}, {"name": "b", "quality": [{"metric": "duplicateValues", "mustBeLessOrEqualTo": 2, "unit": "percent"}]}]}]}],
+    [_C1, _C1],
+    [{"kind": "Other", "version": "one", "status": "live", "apiVersion": "v2.2", "schema": [{"properties": [{"name": "x"}, {"name": "x"}, {},
+        {"name": "y", "quality": [{"metric": "weird"}, {"type": "sql", "query": "select 1"}]}]}]}, {"version": "2.0.0"}],
+]
+
+
+def py_weave(rec):
+    from dqkit import weaver
+    w = weaver.weave(rec)
+    back = {t: weaver.read(w["outputs"][t], t)[1] for t in weaver.TARGETS}
+    return {**w, "back": back}
+
+
+def py_contract_pair(a, b):
+    from dqkit import contracts
+    return {"va": contracts.validate_odcs(a), "vb": contracts.validate_odcs(b), "diff": contracts.diff_odcs(a, b)}
+
+
 def micro_case():
     numbers = NUMBERS + fuzz_numbers()
     sums = sum_cases()
@@ -526,6 +581,8 @@ def micro_case():
                       attempt(lambda: rules.expand_valuesets({"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}, VALUESETS))],
         "contracts": [attempt(lambda s=s: py_contracts(copy.deepcopy(s))) for s in contract_specs()],
         "reconcile": [attempt(lambda a=a, b=b, k=k: __import__("dqkit.reconcile", fromlist=["x"]).reconcile(read_csv_text(a), read_csv_text(b), k)) for a, b, k in RECON_CASES],
+        "weave": [attempt(lambda r=r: py_weave(copy.deepcopy(r))) for r in WEAVE_CASES],
+        "contract_pairs": [attempt(lambda a=a, b=b: py_contract_pair(copy.deepcopy(a), copy.deepcopy(b))) for a, b in CONTRACT_PAIRS],
         "misc": {"targets": [framework.default_target(s) for s in (3, 6, 9, 16)], "mid4": framework.default_target(4, "mid"),
                  "bands": [framework.bands(t) for t in (75, 90, 95, 97.5, 99.9, 100)],
                  "route": [pathway.route(a) for a in ROUTES], "trust": [trust.classify(r, p) for r, p in trusts]},
@@ -533,7 +590,7 @@ def micro_case():
     js_in = {"name": "micro", "kind": "micro", "numbers": numbers, "types": TYPES, "dates": DATES, "regex": REGEX,
              "rounds": round_cases(), "reprs": REPRS, "error_rates": ERROR_PERCENTS, "sums": sums, "durations": DURATIONS,
              "csvs": CSV_TEXTS, "validate": VALIDATE, "routes": ROUTES, "trusts": trusts, "identifiers": IDENTIFIERS, "valueset_specs": [copy.deepcopy(E_SPEC_RAW), {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "code"}]}, {"rules": [{"id": "X", "check": "in_valueset", "valueset": "uk_nations", "match": "both"}]}], "valuesets_data": VALUESETS,
-             "contract_specs": contract_specs(), "recon": RECON_CASES}
+             "contract_specs": contract_specs(), "recon": RECON_CASES, "weave": WEAVE_CASES, "contract_pairs": CONTRACT_PAIRS}
     return py, js_in
 
 
@@ -563,10 +620,11 @@ def check_micro(workdir) -> dict:
                 "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",
                 "identifiers": "identifier formats and check digits", "valuesets": "value set expansion",
                 "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate)",
-                "reconcile": "reconciliation (counts, keys, totals, values)"}
+                "reconcile": "reconciliation (counts, keys, totals, values)",
+                "weave": "Metadata Weaver (read, write, gaps, CDA)", "contract_pairs": "contract validation and change control"}
     for k, label in labelled.items():
         a, b = norm(py[k]), js[k]
-        if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets", "reconcile"):  # failures: compare that both fail, not the wording
+        if k in ("regex", "types", "dates", "durations", "csvs", "identifiers", "valuesets", "reconcile", "weave"):  # failures: compare that both fail, not the wording
             a = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in a]
             b = [({"error": True} if isinstance(x, dict) and "error" in x else x) for x in b]
         errs = compare(a, b, k)

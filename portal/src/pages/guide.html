@@ -92,7 +92,7 @@ __BASE_CSS__
 <script>
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const groups = [...document.querySelectorAll(".dqp-drop .dqp-grp")].map(g => ({name: g.querySelector("h2").textContent,
-  pages: [...g.querySelectorAll("a")].map(a => ({href: a.getAttribute("href"), label: a.firstChild.textContent, desc: a.querySelector("small").textContent}))}));
+  pages: [...g.querySelectorAll("a")].map(a => ({href: a.getAttribute("href"), label: a.dataset.t, desc: a.querySelector("small").textContent}))}));
 document.getElementById("menuRows").innerHTML = groups.map(g => g.pages.map((p, i) =>
   `<tr>${i ? "" : `<th scope="rowgroup" rowspan="${g.pages.length}" style="background:none;color:var(--fg)">${esc(g.name)}</th>`}<td><a href="${esc(p.href)}">${esc(p.label)}</a></td><td>${esc(p.desc)}</td></tr>`).join("")).join("");
 const tourPages = ["index", "check", "frameworks", "maturity", "learn", "ai", "assistant", "community", "surveys", "scenarios"];
@@ -100,7 +100,7 @@ document.getElementById("tourLinks").innerHTML = groups.flatMap(g => g.pages).fi
   .map(p => `<a href="${esc(p.href)}?tour=1"><b>Tour: ${esc(p.label)}</b><span>${esc(p.desc)}</span></a>`).join("");
 window.DQP_TOUR = [
   {sel: "#quick", title: "Quick start", text: "Five steps to your first data quality check."},
-  {sel: "#menu", title: "The menu", text: "Five groups: Start, Do, Know, Scenarios and Community. Every page is listed here with what it's for."},
+  {sel: "#menu", title: "The menu", text: "Six groups: Start, Do, Know, Govern, Scenarios and Community. Every page is listed here with what it's for."},
   {sel: "#tours", title: "Tours for every page", text: "Each link opens a page and starts its tour."},
   {sel: "#accessibility", title: "Accessibility", text: "What we support, known gaps, and how to tell us when something doesn't work."},
 ];

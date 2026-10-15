@@ -1,0 +1,88 @@
+<title>UK and the World</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+__BASE_CSS__
+.gp{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
+.gp .card h3{display:flex;gap:10px;align-items:center}
+.cd{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.cd .card .iso{font-family:var(--f-mono);font-weight:700;color:var(--accent);font-size:.82rem}
+.ot{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));margin:0;padding:0;list-style:none}
+.ot li{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.9rem}
+.ot li .dqi{color:var(--accent);margin-top:2px}
+.ot li span{display:block;font-size:.8rem;color:var(--muted)}
+.lvl{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.lvl button{font:inherit;font-size:.86rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.lvl button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.pr{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.pr .card .meta{display:flex;gap:6px;flex-wrap:wrap}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Scenarios · UK and the world</span>
+  <h1>Data quality beyond the UK border</h1>
+  <p class="lede" id="sum"></p>
+  <nav class="toc" aria-label="On this page"><a href="#principles">Principles</a><a href="#cd">Crown Dependencies</a><a href="#ot">Overseas Territories</a><a href="#cw">Commonwealth</a><a href="#partners">International partners</a><a href="#join">How to take part</a></nav>
+</header>
+
+<section id="principles" aria-labelledby="pr-h"><h2 id="pr-h">How we work across jurisdictions</h2><div class="gp" id="pp"></div></section>
+
+<section id="cd" aria-labelledby="cd-h"><h2 id="cd-h">Crown Dependencies</h2>
+  <p class="small">Self-governing dependencies of the Crown, with their own legislatures, statistics offices and data protection laws.</p>
+  <div class="cd" id="cds"></div></section>
+
+<section id="ot" aria-labelledby="ot-h"><h2 id="ot-h">UK Overseas Territories</h2>
+  <p class="small" id="otSrc"></p>
+  <ul class="ot" id="ots"></ul></section>
+
+<section id="cw" aria-labelledby="cw-h"><h2 id="cw-h">The Commonwealth</h2><div class="card" id="cwb"></div></section>
+
+<section id="partners" aria-labelledby="pa-h"><h2 id="pa-h">National, international and supranational partners</h2>
+  <p class="small">Frameworks, bodies and networks the UK works with. Where a framework is in the toolkit, the pack link opens it.</p>
+  <div class="lvl" id="lvl" role="group" aria-label="Show partners by level"></div>
+  <p class="small muted" id="paN" role="status" aria-live="polite"></p>
+  <div class="pr" id="pa"></div></section>
+
+<section id="join" aria-labelledby="j-h"><h2 id="j-h">How to take part</h2><ol id="jn"></ol>
+  <p><a class="btn" href="build.html#contact">Contact the Commons</a> <a class="btn ghost" href="build.html">Help us build this</a></p></section>
+</div>
+
+<script>
+const G = __K_GLOBAL__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const rv = c => c === "yes" ? "" : ' <span class="chip warn">Not yet reviewed</span>';
+$("sum").textContent = G.summary;
+const PI = {P1: "scale", P2: "layers", P3: "users", P4: "handshake", P5: "lock", P6: "eye"};
+$("pp").innerHTML = G.principles.map(p => `<div class="card"><h3>${DQI(PI[p.id] || "info", "dqi-lg")}${esc(p.title)}</h3><p class="small">${esc(p.text)}</p></div>`).join("");
+$("cds").innerHTML = G.crown_dependencies.map(c => `<div class="card"><span class="iso">${esc(c.iso)}</span><h3>${esc(c.name)}</h3>
+  <ul class="plain small"><li>Statistics: <a href="${esc(c.stats_url)}" rel="noopener">${esc(c.stats_body)}</a>${rv(c.checked)}</li>
+  ${c.code ? `<li>Code: <a href="${esc(c.code_url)}" rel="noopener">${esc(c.code)}</a></li>` : `<li>Code: tell us which code applies, through <a href="build.html#contact">contact</a>.</li>`}
+  <li>Data protection: ${esc(c.dp)}</li></ul></div>`).join("");
+$("otSrc").innerHTML = `Fourteen territories, each with its own constitution, government and laws. Source: <a href="${esc(G.overseas_territories_source.url)}" rel="noopener">${esc(G.overseas_territories_source.title)}</a>.`;
+$("ots").innerHTML = G.overseas_territories.map(t => `<li>${DQI("pin")}<div><b>${esc(t.name)}</b><span>${esc(t.region)}${t.iso ? " · ISO " + esc(t.iso) : ""}${t.note ? " · " + esc(t.note) : ""}</span></div></li>`).join("");
+$("cwb").innerHTML = `<p>${esc(G.commonwealth.summary)}</p><ul class="plain small">${G.commonwealth.links.map(l => `<li><a href="${esc(l.url)}" rel="noopener">${esc(l.title)}</a>${rv(l.checked)}</li>`).join("")}</ul>`;
+const LV = ["All", ...new Set(G.partners.map(p => p.level))];
+let lv = "All";
+const TI = {framework: "layers", network: "users", body: "globe"};
+function drawP() {
+  $("lvl").innerHTML = LV.map(l => `<button type="button" aria-pressed="${l === lv}">${esc(l)}</button>`).join("");
+  const L = G.partners.filter(p => lv === "All" || p.level === lv);
+  $("paN").textContent = `${L.length} of ${G.partners.length} shown.`;
+  $("pa").innerHTML = L.map(p => `<div class="card" id="p-${esc(p.id)}"><h3 style="display:flex;gap:8px;align-items:flex-start">${DQI(TI[p.type] || "globe")}<a href="${esc(p.url)}" rel="noopener">${esc(p.name)}</a></h3>
+    <div class="meta"><span class="chip">${esc(p.level)}</span><span class="chip">${esc(p.type)}</span>${rv(p.checked)}</div><p class="small">${esc(p.use)}</p>
+    ${p.pack ? `<p class="small"><a href="frameworks.html#packs">Use the ${esc(p.pack)} pack ›</a></p>` : ""}</div>`).join("");
+}
+$("lvl").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { lv = b.textContent; drawP(); } });
+drawP();
+$("jn").innerHTML = G.how_to_join.map(j => `<li>${esc(j)}</li>`).join("");
+window.DQP_TOUR = [
+  {sel: "#pp", title: "Principles", text: "How the Commons works with places that have their own laws and statistics systems."},
+  {sel: "#cds", title: "Crown Dependencies", text: "Jersey, Guernsey and the Isle of Man: statistics bodies, codes and data protection laws."},
+  {sel: "#ots", title: "Overseas Territories", text: "All fourteen territories, with ISO codes for use in your data."},
+  {sel: "#lvl", title: "Partners by level", text: "National, international and supranational frameworks, bodies and networks."},
+  {sel: "#jn", title: "Take part", text: "No account needed. Share, co-design, translate or ask for a pack."},
+];
+</script>

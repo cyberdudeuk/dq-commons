@@ -63,6 +63,16 @@
       "description": "The packs that apply frameworks to results."
     },
     {
+      "name": "weave_metadata",
+      "title": "Weave a metadata record into every catalogue standard",
+      "description": "Read one dataset record (DCAT or schema.org JSON-LD, a CKAN package or an ODCS contract) and return it as DCAT v3, schema.org, CKAN and an ODCS skeleton, with the gaps for each and the 13 CDA metadata properties."
+    },
+    {
+      "name": "check_contract",
+      "title": "Check an ODCS data contract",
+      "description": "Validate an ODCS v3 contract; with 'previous', list the changes, which ones break consumers, and the version to use."
+    },
+    {
       "name": "list_checks",
       "title": "List checks, identifier schemes and value sets",
       "description": "What the rules language supports: check types, identifier schemes and value sets."

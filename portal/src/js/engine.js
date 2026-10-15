@@ -1451,6 +1451,416 @@
     DQ.contracts = C;
   })();
 
+  // ---------- ODCS checks and change control (contracts.py validate_odcs, diff_odcs) ----------
+  (function () {
+    var C = DQ.contracts;
+    var STATUSES = ['proposed', 'draft', 'active', 'deprecated', 'retired'];
+    var METRICS = ['nullValues', 'missingValues', 'invalidValues', 'duplicateValues', 'rowCount'];
+    var SEMVER = /^\d+\.\d+\.\d+([-+][0-9A-Za-z.-]+)?$/;
+    function truthy(v) {
+      if (v === undefined || v === null || v === false || v === 0 || v === '') return false;
+      if (Array.isArray(v)) return v.length > 0;
+      if (typeof v === 'object') return Object.keys(v).length > 0;
+      return true;
+    }
+    function blank(v) { return v === undefined || v === null || v === ''; }
+    function str(v) { return v === undefined || v === null ? 'None' : String(v); }
+    function n(v) { return String(Number(v)); }
+    C.validateOdcs = function (contract) {
+      var out = [];
+      function err(w, m) { out.push({ level: 'error', where: w, message: m }); }
+      function warn(w, m) { out.push({ level: 'warning', where: w, message: m }); }
+      if (!contract || typeof contract !== 'object' || Array.isArray(contract)) return [{ level: 'error', where: 'contract', message: 'The contract must be an object.' }];
+      ['apiVersion', 'kind', 'id', 'version', 'status'].forEach(function (k) { if (blank(contract[k])) err(k, 'Required field ' + k + ' is missing.'); });
+      if (!blank(contract.kind) && contract.kind !== 'DataContract') err('kind', 'kind must be DataContract.');
+      if (truthy(contract.apiVersion) && String(contract.apiVersion).indexOf('v3') !== 0) warn('apiVersion', 'apiVersion ' + contract.apiVersion + " isn't v3; the toolkit reads v3 contracts.");
+      if (truthy(contract.status) && STATUSES.indexOf(contract.status) < 0) warn('status', 'status ' + contract.status + " isn't one of " + STATUSES.join(', ') + '.');
+      if (truthy(contract.version) && !SEMVER.test(String(contract.version))) warn('version', 'version should be semantic, like 1.2.0, so changes can be classed as breaking or not.');
+      if (!truthy(contract.schema)) warn('schema', "No schema: consumers can't see the columns or the quality rules.");
+      (contract.schema || []).forEach(function (obj, i) {
+        var w = 'schema[' + i + ']';
+        if (!truthy(obj.name)) err(w, 'Every schema object needs a name.');
+        var names = (obj.properties || []).map(function (p) { return p.name; });
+        names.forEach(function (nm, j) { if (!truthy(nm)) err(w + '.properties[' + j + ']', 'Every property needs a name.'); });
+        var dup = [];
+        names.forEach(function (nm) { if (truthy(nm) && dup.indexOf(nm) < 0 && names.filter(function (x) { return x === nm; }).length > 1) dup.push(nm); });
+        dup.sort(cmp);
+        if (dup.length) err(w, 'Property names repeat: ' + dup.join(', ') + '.');
+        var items = [];
+        (obj.properties || []).forEach(function (p) { (p.quality || []).forEach(function (q) { items.push([p.name, q]); }); });
+        (obj.quality || []).forEach(function (q) { items.push([null, q]); });
+        items.forEach(function (it) {
+          var col = it[0], q = it[1], where = w + '.' + (truthy(col) ? col : '(table)');
+          var type = has(q, 'type') ? q.type : 'library';
+          if (type === 'library' && truthy(q.metric) && METRICS.indexOf(q.metric) < 0) warn(where, 'Unknown library metric ' + q.metric + '.');
+          if (type === 'library' && !Object.keys(q).some(function (k) { return k.indexOf('must') === 0; }))
+            warn(where, ('Rule ' + (q.id || q.metric || '') + ' has no threshold (mustBe..., mustBeLessOrEqualTo...).').split('  ').join(' '));
+        });
+      });
+      if (!truthy(contract.team)) warn('team', 'No team: say which team (a role or group, never a named person) owns the contract.');
+      if (!truthy(contract.slaProperties)) warn('slaProperties', 'No service levels: add at least update frequency and availability.');
+      return out;
+    };
+    function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+    function props(c) {
+      var m = {}, keys = [];
+      (c.schema || []).forEach(function (o) { (o.properties || []).forEach(function (p) {
+        var k = JSON.stringify([str(o.name), str(p.name)]); if (!(k in m)) keys.push(k); m[k] = p; }); });
+      return { m: m, keys: keys };
+    }
+    function limits(p) {
+      var out = {};
+      (p.quality || []).forEach(function (q) { if (q.unit === 'percent') {
+        var v = has(q, 'mustBeLessOrEqualTo') ? q.mustBeLessOrEqualTo : q.mustBeLessThan;
+        out[str(truthy(q.id) ? q.id : q.metric)] = v === undefined ? null : v; } });
+      return out;
+    }
+    function sortKeys(ks) { return ks.slice().sort(function (a, b) { var x = JSON.parse(a), y = JSON.parse(b); return cmp(x[0], y[0]) || cmp(x[1], y[1]); }); }
+    function where(k) { var x = JSON.parse(k); return x[0] + '.' + x[1]; }
+    function parts(v) { return String(v).split('-')[0].split('+')[0].split('.').map(Number); }
+    function listGt(a, b) { for (var i = 0; i < Math.max(a.length, b.length); i++) { if (a[i] !== b[i]) return (a[i] || 0) > (b[i] || 0); } return false; }
+    C.diffOdcs = function (oldC, newC) {
+      var A = props(oldC), B = props(newC), changes = [];
+      function add(kind, w, msg, br) { changes.push({ kind: kind, where: w, message: msg, breaking: br }); }
+      sortKeys(A.keys.filter(function (k) { return !(k in B.m); })).forEach(function (k) { add('removed', where(k), 'Column removed.', true); });
+      sortKeys(B.keys.filter(function (k) { return !(k in A.m); })).forEach(function (k) {
+        add('added', where(k), 'Column added.' + (truthy(B.m[k].required) ? ' It is required, so producers must supply it.' : ''), false); });
+      sortKeys(A.keys.filter(function (k) { return k in B.m; })).forEach(function (k) {
+        var p = A.m[k], q = B.m[k], w = where(k);
+        if ((p.logicalType === undefined ? null : p.logicalType) !== (q.logicalType === undefined ? null : q.logicalType))
+          add('type', w, 'Type changed from ' + (truthy(p.logicalType) ? p.logicalType : 'none') + ' to ' + (truthy(q.logicalType) ? q.logicalType : 'none') + '.', true);
+        [['required', 'required'], ['unique', 'unique']].forEach(function (f) {
+          if (truthy(p[f[0]]) && !truthy(q[f[0]])) add(f[0], w, 'No longer promised to be ' + f[1] + '.', true);
+          if (truthy(q[f[0]]) && !truthy(p[f[0]])) add(f[0], w, 'Now promised to be ' + f[1] + '.', false);
+        });
+        var la = limits(p), lb = limits(q), ids = Object.keys(la);
+        Object.keys(lb).forEach(function (x) { if (ids.indexOf(x) < 0) ids.push(x); });
+        ids.sort(cmp).forEach(function (rid) {
+          var x = has(la, rid) ? la[rid] : null, y = has(lb, rid) ? lb[rid] : null;
+          if (x !== null && y === null) add('quality', w, 'Quality rule ' + rid + ' removed.', true);
+          else if (x === null && y !== null) add('quality', w, 'Quality rule ' + rid + ' added (at most ' + n(y) + '% failing).', false);
+          else if (x !== y) add('quality', w, 'Rule ' + rid + ': at most ' + n(x) + '% failing became ' + n(y) + '%.', Number(y) > Number(x));
+        });
+      });
+      var os = oldC.status === undefined ? null : oldC.status, ns = newC.status === undefined ? null : newC.status;
+      if (os !== ns) add('status', 'status', 'Status changed from ' + str(os) + ' to ' + str(ns) + '.', ns === 'deprecated' || ns === 'retired');
+      var breaking = changes.some(function (c) { return c.breaking; });
+      var ov = String(truthy(oldC.version) ? oldC.version : ''), nxt = null;
+      if (SEMVER.test(ov)) {
+        var o = parts(ov);
+        nxt = breaking ? (o[0] + 1) + '.0.0' : (changes.length ? o[0] + '.' + (o[1] + 1) + '.0' : o[0] + '.' + o[1] + '.' + o[2]);
+      }
+      var stated = String(truthy(newC.version) ? newC.version : ''), ok = null;
+      if (nxt && SEMVER.test(stated)) {
+        var a = parts(ov), b = parts(stated);
+        ok = breaking ? b[0] > a[0] : (changes.length ? listGt(b, a) : !listGt(a, b));
+      }
+      return { changes: changes, breaking: breaking, suggested_version: nxt, stated_version: stated, version_ok: ok };
+    };
+  })();
+
+  // ---------- Metadata Weaver (weaver.py): one record in, DCAT, schema.org, CKAN and ODCS out, with gaps ----------
+  (function () {
+    var W = {};
+    var DQC = 'https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#';
+    var CTX = { dcat: 'http://www.w3.org/ns/dcat#', dct: 'http://purl.org/dc/terms/', foaf: 'http://xmlns.com/foaf/0.1/',
+      vcard: 'http://www.w3.org/2006/vcard/ns#', dqc: DQC };
+    var FIELDS = [
+      ['title', 'Title', 'Title', 'title', 'dcat schema ckan odcs'],
+      ['description', 'Description', 'Description', 'description', 'dcat schema ckan odcs'],
+      ['identifier', 'Identifier', 'Identifier', 'identifier', 'dcat schema ckan odcs'],
+      ['publisher', 'Publisher or creator', 'Publisher', 'creator', 'dcat schema ckan odcs'],
+      ['contact', 'Contact point (a team or role)', 'Contact point', '', 'dcat schema ckan odcs'],
+      ['keywords', 'Keywords', 'Keyword', '', 'dcat schema ckan odcs'],
+      ['theme', 'Theme or domain', 'Theme', '', 'dcat ckan odcs'],
+      ['licence', 'Licence', 'Licence', 'licence', 'dcat schema ckan odcs'],
+      ['access_rights', 'Access rights', 'Access rights', 'accessRights', 'dcat schema ckan odcs'],
+      ['security', 'Security classification', 'Security classification', 'securityClassification', 'dcat ckan odcs'],
+      ['issued', 'Date created or issued', 'Issued', 'dateCreated', 'dcat schema ckan odcs'],
+      ['modified', 'Date modified', 'Modified', '', 'dcat schema ckan'],
+      ['expires', 'Expiry date', 'Expires', 'expires', 'dcat schema ckan odcs'],
+      ['superseded_by', 'Superseded by', 'Superseded by', 'supersededBy', 'dcat ckan odcs'],
+      ['accrual', 'Update frequency', 'Accrual periodicity', '', 'dcat ckan odcs'],
+      ['spatial', 'Geographic coverage', 'Spatial coverage', '', 'dcat schema ckan'],
+      ['temporal', 'Time period covered', 'Temporal coverage', 'temporalCoverage', 'dcat schema ckan odcs'],
+      ['conforms_to', 'Conforms to (schema or standard)', 'Conforms to', 'conformsTo', 'dcat schema ckan odcs'],
+      ['landing_page', 'Landing page', 'Landing page', '', 'dcat schema ckan'],
+      ['version', 'Version', 'Version', '', 'dcat schema ckan odcs'],
+      ['language', 'Language', 'Language', '', 'dcat schema ckan'],
+      ['distributions', 'Distributions (files and APIs)', 'Distribution', 'mediaType', 'dcat schema ckan odcs'],
+    ];
+    var KEYS = FIELDS.map(function (f) { return f[0]; });
+    var CDA = FIELDS.filter(function (f) { return f[3]; }).map(function (f) { return [f[0], f[3]]; });
+    var TARGETS = ['dcat', 'schema', 'ckan', 'odcs'];
+    var CARRY = {};
+    TARGETS.forEach(function (t) { CARRY[t] = FIELDS.filter(function (f) { return f[4].split(' ').indexOf(t) >= 0; }).map(function (f) { return f[0]; }); });
+    W.FIELDS = FIELDS; W.TARGETS = TARGETS; W.CARRY = CARRY; W.KEYS = KEYS;
+
+    function isObj(v) { return v !== null && typeof v === 'object' && !Array.isArray(v); }
+    function first(v) { return Array.isArray(v) ? (v.length ? first(v[0]) : null) : v; }
+    function text(v) {
+      v = first(v);
+      if (v === undefined || v === null) return '';
+      if (isObj(v)) {
+        var ks = ['@value', 'name', 'foaf:name', 'vcard:fn', 'fn', 'title', '@id', 'url', 'label'];
+        for (var i = 0; i < ks.length; i++) if (truthy(v[ks[i]])) return text(v[ks[i]]);
+        return '';
+      }
+      if (typeof v === 'boolean') return '';
+      return String(v).trim();
+    }
+    function truthy(v) {
+      if (v === undefined || v === null || v === false || v === 0 || v === '') return false;
+      if (Array.isArray(v)) return v.length > 0;
+      if (isObj(v)) return Object.keys(v).length > 0;
+      return true;
+    }
+    function list(v) {
+      if (v === undefined || v === null || v === '') return [];
+      if (!Array.isArray(v)) v = [v];
+      var out = [];
+      v.forEach(function (x) { var t = text(x); if (t && out.indexOf(t) < 0) out.push(t); });
+      return out;
+    }
+    function strip(d, prefixes) {
+      var out = {};
+      Object.keys(d || {}).forEach(function (k) {
+        var kk = k;
+        prefixes.forEach(function (p) { if (kk.indexOf(p) === 0) kk = kk.slice(p.length); });
+        if (!has(out, kk)) out[kk] = d[k];
+      });
+      return out;
+    }
+    function temporal(s, e) { s = text(s); e = text(e); if (s && e) return s + '/' + e; return s || (e ? '../' + e : ''); }
+    function dist(title, url, fmt, mt) {
+      return { title: title || '', url: url || '', format: fmt && fmt.indexOf('/') < 0 ? fmt.toUpperCase() : (fmt || ''), media_type: mt || '' };
+    }
+    function empty() { var c = {}; KEYS.forEach(function (k) { c[k] = (k === 'keywords' || k === 'theme' || k === 'distributions') ? [] : ''; }); return c; }
+    function arr(v) { return Array.isArray(v) ? v : [v]; }
+
+    W.detect = function (rec) {
+      if (!isObj(rec)) throw new Error('A metadata record must be a JSON object.');
+      if (rec.kind === 'DataContract' || has(rec, 'apiVersion')) return 'odcs';
+      var t = has(rec, '@type') && truthy(rec['@type']) ? rec['@type'] : rec.type;
+      var ts = Array.isArray(t) ? t.join(' ') : String(truthy(t) ? t : '');
+      var ctx = JSON.stringify(has(rec, '@context') ? rec['@context'] : '');
+      if (ts.indexOf('dcat:Dataset') >= 0 || ctx.indexOf('dcat') >= 0 || Object.keys(rec).some(function (k) { return k.indexOf('dcat:') === 0 || k.indexOf('dct:') === 0; })) return 'dcat';
+      if ((/Dataset$/.test(ts) && ctx.indexOf('schema.org') >= 0) || ts === 'Dataset') return 'schema';
+      var r = isObj(rec.result) ? rec.result : rec;  // CKAN API responses wrap the package in "result"
+      if (['resources', 'notes', 'license_id', 'organization', 'extras', 'maintainer'].some(function (k) { return has(r, k); })) return 'ckan';
+      throw new Error("Couldn't tell the format. Use DCAT or schema.org JSON-LD, a CKAN package, or an ODCS contract.");
+    };
+
+    var R = {};
+    R.dcat = function (rec) {
+      var r = strip(rec, ['dct:', 'dcat:', 'dcterms:']), c = empty();
+      c.title = text(r.title); c.description = text(r.description);
+      c.identifier = text(r.identifier) || text(rec['@id']);
+      c.publisher = text(r.publisher) || text(r.creator);
+      c.contact = text(r.contactPoint); c.keywords = list(r.keyword); c.theme = list(r.theme);
+      c.licence = text(r.license); c.access_rights = text(r.accessRights); c.security = text(rec['dqc:securityClassification']);
+      c.issued = text(r.issued) || text(r.created); c.modified = text(r.modified); c.expires = text(rec['dqc:expires']);
+      c.superseded_by = text(r.isReplacedBy); c.accrual = text(r.accrualPeriodicity); c.spatial = text(r.spatial);
+      var t = first(r.temporal);
+      if (isObj(t)) { t = strip(t, ['dcat:', 'dct:', 'schema:']); c.temporal = temporal(t.startDate, t.endDate); } else c.temporal = text(t);
+      c.conforms_to = text(r.conformsTo); c.landing_page = text(r.landingPage);
+      c.version = text(r.version) || text(rec['owl:versionInfo']); c.language = text(r.language);
+      var ds = truthy(r.distribution) ? r.distribution : [];
+      arr(ds).forEach(function (d) { d = strip(d, ['dct:', 'dcat:']);
+        c.distributions.push(dist(text(d.title), text(d.downloadURL) || text(d.accessURL), text(d.format), text(d.mediaType))); });
+      return c;
+    };
+    R.schema = function (rec) {
+      var r = strip(rec, ['schema:']), c = empty();
+      c.title = text(r.name); c.description = text(r.description);
+      c.identifier = text(r.identifier) || text(rec['@id']);
+      c.publisher = text(r.publisher) || text(r.creator);
+      var cr = first(r.creator);
+      c.contact = text(isObj(cr) ? cr.contactPoint : null);
+      var kw = r.keywords;
+      c.keywords = typeof kw === 'string' ? kw.split(',').map(function (k) { return k.trim(); }).filter(Boolean) : list(kw);
+      c.licence = text(r.license);
+      c.access_rights = text(r.conditionsOfAccess) || (r.isAccessibleForFree === true ? 'Open' : '');
+      c.issued = text(r.dateCreated) || text(r.datePublished); c.modified = text(r.dateModified); c.expires = text(r.expires);
+      c.spatial = text(r.spatialCoverage); c.temporal = text(r.temporalCoverage); c.conforms_to = text(r.schemaVersion);
+      c.landing_page = text(r.url); c.version = text(r.version); c.language = text(r.inLanguage);
+      var ds = truthy(r.distribution) ? r.distribution : [];
+      arr(ds).forEach(function (d) { d = strip(d, ['schema:']);
+        c.distributions.push(dist(text(d.name), text(d.contentUrl) || text(d.url), '', text(d.encodingFormat))); });
+      return c;
+    };
+    R.ckan = function (rec) {
+      var r = isObj(rec.result) ? rec.result : rec, ex = {}, c = empty();
+      (r.extras || []).forEach(function (e) { if (isObj(e)) ex[e.key] = e.value; });
+      c.title = text(r.title); c.description = text(r.notes);
+      c.identifier = text(ex.identifier) || text(r.id) || text(r.name);
+      c.publisher = text((r.organization || {}).title) || text(r.author);
+      c.contact = text(r.maintainer) || text(ex['contact-name']);
+      c.keywords = list((r.tags || []).filter(isObj).map(function (t) { return t.display_name || t.name; }));
+      c.theme = list((r.groups || []).filter(isObj).map(function (g) { return g.title || g.name; }));
+      if (!c.theme.length) c.theme = list(ex.theme);
+      c.licence = text(r.license_url) || text(r.license_id) || text(r.license_title);
+      c.access_rights = text(ex.access_rights) || (r.isopen === true ? 'Open' : '');
+      c.security = text(ex.security_classification);
+      c.issued = text(ex.issued) || text(r.metadata_created); c.modified = text(ex.modified) || text(r.metadata_modified);
+      c.expires = text(ex.expires); c.superseded_by = text(ex.superseded_by);
+      c.accrual = text(ex.frequency) || text(ex.update_frequency);
+      c.spatial = text(ex.spatial_text) || text(ex.spatial);
+      c.temporal = temporal(ex.temporal_start, ex.temporal_end) || text(ex.temporal_coverage);
+      c.conforms_to = text(ex.conforms_to) || text(ex.schema);
+      c.landing_page = text(r.url); c.version = text(r.version); c.language = text(ex.language);
+      (r.resources || []).forEach(function (d) { c.distributions.push(dist(text(d.name), text(d.url), text(d.format), text(d.mimetype))); });
+      return c;
+    };
+    R.odcs = function (rec) {
+      var cp = {}, c = empty(), desc = truthy(rec.description) ? rec.description : {};
+      (rec.customProperties || []).forEach(function (p) { if (isObj(p)) cp[p.property] = p.value; });
+      c.title = text(rec.name);
+      c.description = isObj(desc) ? text(desc.purpose) : text(desc);
+      c.identifier = text(rec.id);
+      c.publisher = text(cp.publisher) || text(rec.tenant);
+      c.contact = isObj(rec.team) ? text(rec.team.name) : '';
+      c.keywords = list(rec.tags); c.theme = list(rec.domain);
+      c.licence = text(cp.licence) || text(cp.license);
+      c.access_rights = isObj(desc) ? text(desc.limitations) : '';
+      c.security = text(cp.securityClassification); c.issued = text(rec.contractCreatedTs);
+      c.expires = text(cp.expires); c.superseded_by = text(cp.supersededBy);
+      var sla = rec.slaProperties || [];
+      for (var i = 0; i < sla.length; i++) {
+        var s = sla[i];
+        if (isObj(s) && ['frequency', 'latency', 'freshness'].indexOf(s.property) >= 0) {
+          c.accrual = [text(s.value), text(s.unit)].filter(Boolean).join(' '); break;
+        }
+      }
+      c.temporal = text(cp.temporalCoverage);
+      c.conforms_to = truthy(rec.schema) ? 'ODCS ' + (text(rec.apiVersion) || 'v3') : '';
+      c.version = text(rec.version);
+      (rec.servers || []).forEach(function (s) { if (isObj(s))
+        c.distributions.push(dist(text(s.server), text(s.location) || text(s.host), text(s.format) || text(s.type), '')); });
+      return c;
+    };
+    W.read = function (rec, fmt) {
+      fmt = fmt || W.detect(rec);
+      if (!R[fmt]) throw new Error('Unknown format ' + fmt + '. Use one of: ' + Object.keys(R).join(', ') + '.');
+      return [fmt, R[fmt](rec)];
+    };
+
+    function media(d) { return d.media_type || d.format; }
+    function putter(out) { return function (k, v) { if (v !== '' && v !== null && v !== undefined && !(Array.isArray(v) && !v.length)) out[k] = v; }; }
+    function pick(pairs) { var o = {}; pairs.forEach(function (p) { if (p[1]) o[p[0]] = p[1]; }); return o; }
+    var Wr = {};
+    Wr.dcat = function (c) {
+      var out = { '@context': CTX, '@type': 'dcat:Dataset' }, put = putter(out);
+      put('dct:title', c.title); put('dct:description', c.description); put('dct:identifier', c.identifier);
+      put('dct:publisher', c.publisher ? { '@type': 'foaf:Agent', 'foaf:name': c.publisher } : '');
+      put('dcat:contactPoint', c.contact ? { '@type': 'vcard:Kind', 'vcard:fn': c.contact } : '');
+      put('dcat:keyword', c.keywords); put('dcat:theme', c.theme); put('dct:license', c.licence);
+      put('dct:accessRights', c.access_rights); put('dqc:securityClassification', c.security); put('dct:issued', c.issued);
+      put('dct:modified', c.modified); put('dqc:expires', c.expires); put('dct:isReplacedBy', c.superseded_by);
+      put('dct:accrualPeriodicity', c.accrual); put('dct:spatial', c.spatial);
+      if (c.temporal) {
+        var i = c.temporal.indexOf('/'), s = i < 0 ? c.temporal : c.temporal.slice(0, i), e = i < 0 ? '' : c.temporal.slice(i + 1);
+        var t = { '@type': 'dct:PeriodOfTime' };
+        if (s && s !== '..') t['dcat:startDate'] = s;
+        if (e && e !== '..') t['dcat:endDate'] = e;
+        out['dct:temporal'] = t;
+      }
+      put('dct:conformsTo', c.conforms_to); put('dcat:landingPage', c.landing_page); put('dcat:version', c.version); put('dct:language', c.language);
+      if (c.distributions.length) out['dcat:distribution'] = c.distributions.map(function (d) {
+        return pick([['@type', 'dcat:Distribution'], ['dct:title', d.title], ['dcat:downloadURL', d.url], ['dct:format', d.format], ['dcat:mediaType', d.media_type]]); });
+      return out;
+    };
+    Wr.schema = function (c) {
+      var out = { '@context': 'https://schema.org/', '@type': 'Dataset' }, put = putter(out);
+      put('name', c.title); put('description', c.description); put('identifier', c.identifier);
+      if (c.publisher || c.contact) {
+        var org = { '@type': 'Organization' };
+        if (c.publisher) org.name = c.publisher;
+        if (c.contact) org.contactPoint = { '@type': 'ContactPoint', name: c.contact };
+        out.creator = org;
+      }
+      put('keywords', c.keywords); put('license', c.licence); put('conditionsOfAccess', c.access_rights);
+      put('dateCreated', c.issued); put('dateModified', c.modified); put('expires', c.expires);
+      put('spatialCoverage', c.spatial); put('temporalCoverage', c.temporal); put('schemaVersion', c.conforms_to);
+      put('url', c.landing_page); put('version', c.version); put('inLanguage', c.language);
+      if (c.distributions.length) out.distribution = c.distributions.map(function (d) {
+        return pick([['@type', 'DataDownload'], ['name', d.title], ['contentUrl', d.url], ['encodingFormat', media(d)]]); });
+      return out;
+    };
+    Wr.ckan = function (c) {
+      var extras = [['identifier', c.identifier], ['access_rights', c.access_rights], ['security_classification', c.security],
+        ['issued', c.issued], ['modified', c.modified], ['expires', c.expires], ['superseded_by', c.superseded_by],
+        ['frequency', c.accrual], ['spatial_text', c.spatial], ['temporal_coverage', c.temporal], ['conforms_to', c.conforms_to],
+        ['language', c.language], ['theme', c.theme.join(', ')]].filter(function (p) { return p[1]; }).map(function (p) { return { key: p[0], value: p[1] }; });
+      var out = {}, put = putter(out);
+      put('title', c.title); put('notes', c.description); put('url', c.landing_page); put('version', c.version);
+      put('maintainer', c.contact); put('organization', c.publisher ? { title: c.publisher } : null);
+      put('license_id', c.licence); put('tags', c.keywords.map(function (k) { return { name: k }; })); put('extras', extras);
+      put('resources', c.distributions.map(function (d) { return pick([['name', d.title], ['url', d.url], ['format', d.format], ['mimetype', d.media_type]]); }));
+      return out;
+    };
+    Wr.odcs = function (c) {
+      var cp = [['publisher', c.publisher], ['licence', c.licence], ['securityClassification', c.security], ['expires', c.expires],
+        ['supersededBy', c.superseded_by], ['temporalCoverage', c.temporal]].filter(function (p) { return p[1]; }).map(function (p) { return { property: p[0], value: p[1] }; });
+      var out = { apiVersion: 'v3.1.0', kind: 'DataContract', id: c.identifier || 'dataset', version: c.version || '1.0.0',
+        status: 'draft', name: c.title || c.identifier || 'dataset' };
+      var desc = pick([['purpose', c.description], ['limitations', c.access_rights]]);
+      if (Object.keys(desc).length) out.description = desc;
+      if (c.theme.length) out.domain = c.theme[0];
+      if (c.keywords.length) out.tags = c.keywords.slice();
+      if (c.contact) out.team = { name: c.contact };
+      if (c.issued) out.contractCreatedTs = c.issued;
+      if (c.accrual) out.slaProperties = [{ property: 'frequency', value: c.accrual }];
+      if (c.distributions.length) out.servers = c.distributions.map(function (d, i) {
+        return pick([['server', d.title || 'distribution-' + (i + 1)], ['type', 'https'], ['location', d.url], ['format', d.format || d.media_type]]); });
+      if (cp.length) out.customProperties = cp;
+      return out;
+    };
+    W.write = Wr;
+
+    function filled(c, k) {
+      var v = c[k];
+      if (k === 'distributions') return v.length > 0 && v.every(function (d) { return d.url; });
+      return v !== '' && v !== null && v !== undefined && !(Array.isArray(v) && !v.length);
+    }
+    W.cdaCheck = function (c) {
+      var out = {}, total = 0;
+      CDA.forEach(function (p) {
+        var k = p[0], st, why;
+        if (k === 'distributions') {
+          var ds = c.distributions;
+          st = ds.length && ds.every(function (d) { return media(d); }) ? 'pass' : (ds.length ? 'partial' : 'missing');
+          why = st === 'pass' ? 'Every distribution states a format' : (ds.length ? 'Some distributions have no format' : 'No distributions');
+        } else if (k === 'description') {
+          var n = Array.from(c.description).length;
+          st = n >= 40 ? 'pass' : (n ? 'partial' : 'missing');
+          why = n + ' characters' + (n >= 40 ? '' : ' (aim for at least 40)');
+        } else {
+          st = filled(c, k) ? 'pass' : 'missing';
+          why = st === 'pass' ? 'Present' : 'Not in the record';
+        }
+        out[p[1]] = { status: st, field: k, why: why };
+        total += st === 'pass' ? 1 : st === 'partial' ? 0.5 : 0;
+      });
+      return { properties: out, coverage: pyRound(100 * total / CDA.length, 1) };
+    };
+    W.coverage = function (c) {
+      var out = {};
+      TARGETS.forEach(function (t) {
+        var can = CARRY[t], f = can.filter(function (k) { return filled(c, k); });
+        out[t] = { filled: f.length, total: can.length, missing: can.filter(function (k) { return f.indexOf(k) < 0; }),
+          not_carried: KEYS.filter(function (k) { return can.indexOf(k) < 0 && filled(c, k); }) };
+      });
+      return out;
+    };
+    W.weave = function (rec, fmt) {
+      var r = W.read(rec, fmt), c = r[1], outputs = {};
+      TARGETS.forEach(function (t) { outputs[t] = Wr[t](c); });
+      return { source_format: r[0], canonical: c, outputs: outputs, coverage: W.coverage(c), cda: W.cdaCheck(c) };
+    };
+    DQ.weaver = W;
+  })();
+
   // Internals, exposed for the parity tests.
   DQ._py = { pdNumber: pdNumber, pyFloat: pyFloat, pyRound: pyRound, pyFloatRepr: pyFloatRepr, parseDate: parseDate,
     isType: isType, translateRegex: translateRegex, isoDurationDays: isoDurationDays, pySum: pySum, pairwiseSum: pairwiseSum };

@@ -6,6 +6,9 @@
   reconcile SOURCE TARGET --key ID[,ID2] [--tolerance N]   compare two versions of a dataset (migration checks)
   contract RULES.yaml --to table-schema|odcs|csvw  |  CONTRACT --from table-schema|odcs
           convert rules to or from open data contract standards
+  contract-check CONTRACT [--against OLD_CONTRACT]   check an ODCS contract; with --against, list changes and breaking ones
+  weave   RECORD.json [--from dcat|schema|ckan|odcs] [--to dcat|schema|ckan|odcs|all] [--report]
+          read one metadata record and write it as DCAT v3, schema.org, CKAN and ODCS, with gaps and CDA coverage
   survey  FORMS_EXPORT.xlsx [--out DIR]                           reshape and summarise the DQ tooling survey (personal data removed)
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
   run     PORTFOLIO.yaml [--as-of YYYY-MM-DD] [--out DIR] [--no-history] [--ignore-schedule] [--fail-on-escalation]
@@ -24,7 +27,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import casestudy, contracts, dqv, exporters, metadata, operations, pathway, rules, sources, trust
+from . import casestudy, contracts, weaver, dqv, exporters, metadata, operations, pathway, rules, sources, trust
 
 
 def _source_args(parser):
@@ -69,6 +72,12 @@ def main(argv=None) -> int:
     ct.add_argument("file", help="a rules file (with --to) or a contract file (with --from)")
     ct.add_argument("--to", choices=sorted(contracts.FORMATS))
     ct.add_argument("--from", dest="src", choices=["table-schema", "odcs"])
+    cc = sub.add_parser("contract-check", help="check an ODCS contract, and compare it with an earlier version")
+    cc.add_argument("file"); cc.add_argument("--against", help="the earlier version of the contract")
+    wv = sub.add_parser("weave", help="Metadata Weaver: one record in, every catalogue standard out, with gaps")
+    wv.add_argument("file"); wv.add_argument("--from", dest="src", choices=list(weaver.READERS))
+    wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["all"])
+    wv.add_argument("--report", action="store_true", help="print the gap and CDA report instead of the records")
     rc = sub.add_parser("reconcile", help="compare two versions of a dataset: counts, keys, totals and values")
     rc.add_argument("source"); rc.add_argument("target")
     rc.add_argument("--key", required=True, help="key column(s), comma separated")
@@ -159,6 +168,27 @@ def main(argv=None) -> int:
         for u in (contracts.unsupported(doc) if a.src == "odcs" else []):
             print(f"# not imported ({u['type']}): {u['id']} {u['description']}", file=sys.stderr)
         print(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True))
+        return 0
+    if a.cmd == "contract-check":
+        doc = yaml.safe_load(Path(a.file).read_text(encoding="utf-8"))
+        probs = contracts.validate_odcs(doc)
+        out = {"problems": probs}
+        if a.against:
+            out["diff"] = contracts.diff_odcs(yaml.safe_load(Path(a.against).read_text(encoding="utf-8")), doc)
+        print(json.dumps(out, indent=2, ensure_ascii=False))
+        bad = any(p["level"] == "error" for p in probs) or (a.against and out["diff"]["version_ok"] is False)
+        return 1 if bad else 0
+    if a.cmd == "weave":
+        rec = yaml.safe_load(Path(a.file).read_text(encoding="utf-8"))
+        try:
+            w = weaver.weave(rec, a.src)
+        except ValueError as e:
+            print(str(e), file=sys.stderr)
+            return 2
+        if a.report:
+            print(json.dumps({"source_format": w["source_format"], "coverage": w["coverage"], "cda": w["cda"]}, indent=2, ensure_ascii=False))
+        else:
+            print(json.dumps(w["outputs"] if a.to == "all" else w["outputs"][a.to], indent=2, ensure_ascii=False))
         return 0
     if a.cmd == "reconcile":
         from .reconcile import reconcile

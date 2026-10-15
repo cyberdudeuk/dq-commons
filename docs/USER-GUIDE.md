@@ -15,11 +15,11 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Group | Pages | Use it to |
 |---|---|---|
 | Start | Home (news, spotlight, latest), About, User guide, Accessibility and privacy | Find your way, see what the Commons is for |
-| Do | Check your data, Maturity, AI assistant, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, automate |
+| Do | Check your data, Maturity, AI assistant, Metadata Weaver, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, publish metadata in every standard, automate |
 | Know | Frameworks and standards, Learn, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, use AI safely, prioritise, choose tools, read and publish resources |
 | Govern | Buying and suppliers, Legacy and modernisation, Interoperability and standards | Put data quality into contracts, migrate without data debt, join data up |
-| Scenarios | All scenarios, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation or platform |
-| Community | Community, Media centre, Surveys and commissions, Case studies, Operating model | Contribute, vote, share posts and podcasts, run surveys, ask for help |
+| Scenarios | All scenarios, UK and the world, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation, jurisdiction or platform |
+| Community | Community, Media centre, Surveys and commissions, Case studies, Help us build this, Operating model | Contribute, share posts and podcasts, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
 ## Common tasks
 
@@ -41,6 +41,15 @@ Go to **Buying and suppliers**. Choose clauses in the builder (the "must" clause
 ### Check a migration
 Go to **Legacy and modernisation**: assess your data debt, follow the migration gates, and use **Reconcile** to compare the data before and after.
 
+### Publish metadata in every standard
+Go to **Metadata Weaver**. Paste a DCAT, schema.org, CKAN or ODCS record. You get all four back, the gaps for each, and the 13 critical data asset properties. Fill gaps in the table and the outputs update.
+
+### Check a data contract change
+On **Metadata Weaver**, under "Contract change check", paste the old and new ODCS contracts. You see what changed, what breaks consumers, and the version number to use.
+
+### Contact the team
+Go to **Help us build this** and use the contact form. We never show an email address and you don't need to give yours. Replies appear on the same page when you return signed in.
+
 ### Learn
 Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minutes each. The glossary explains every term used in the Commons.
 
@@ -48,11 +57,11 @@ Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minute
 Read the **AI for data quality** section on the Learn page: principles, use cases, questions to ask vendors, worked examples and how AI tools become part of the shared toolkit. The **AI assistant** drafts rules from plain English; always check what it drafts.
 
 ### Contribute or ask for help
-Go to **Community**. Add a case study or insight, vote on the wishlist, take or run a survey, or request help (a commission). If the Community page can't save in your browser, use the linked GitHub forms instead.
+Go to **Community**. Add a case study or insight, take or run a survey, or request help (a commission). To vote on the wishlist or see the roadmap, go to **Help us build this**. If a page can't save in your browser, use the linked GitHub forms instead.
 
 ## Accessibility
 
-The portal aims to meet WCAG 2.2 AA. It works with keyboard only, screen readers and up to 400% zoom, and respects reduced motion settings. If something doesn't work for you, tell us through the Community page or the service desk and we'll reply within 1 working day.
+The portal aims to meet WCAG 2.2 AA. It works with keyboard only, screen readers and up to 400% zoom, and respects reduced motion settings. If something doesn't work for you, tell us through the contact form on Help us build this and we'll reply within 1 working day.
 
 ## Privacy
 

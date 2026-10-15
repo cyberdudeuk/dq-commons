@@ -35,7 +35,18 @@ header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1f
 .tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
 .tile{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
 .tile:hover{border-color:var(--accent)}
-.tile h3{color:var(--accent)}
+.tile h3{color:var(--accent);display:flex;gap:10px;align-items:center}
+.tile .dqi-lg{width:22px;height:22px}
+.latest .card h3{display:flex;gap:8px;align-items:center}
+.latest .card h3 .dqi{color:var(--accent)}
+.car .k .dqi{margin-right:5px}
+.car .glyph{position:absolute;right:-30px;top:-30px;width:240px;height:240px;color:rgba(255,255,255,.07);pointer-events:none;stroke-width:1.2}
+.spot .types button .dqi{margin-right:4px}
+.world{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.world a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.world a:hover{border-color:var(--accent)}
+.world b{display:block;color:var(--accent)}
+.world span{font-size:.84rem;color:var(--muted)}
 .tile p{font-size:.88rem;color:var(--muted)}
 .tile .fig{font-family:var(--f-mono);font-size:.8rem;color:var(--fg)}
 .two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
@@ -49,7 +60,7 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 @media (max-width:960px){.showcase{grid-template-columns:minmax(0,1fr)}}
 .car{position:relative;border-radius:14px;overflow:hidden;background:#0b4f52;color:#f2f7f7;min-height:300px;display:flex;flex-direction:column}
 .car .slides{flex:1;display:grid}
-.car .slide{grid-area:1/1;padding:26px 28px 18px;display:flex;flex-direction:column;gap:12px;visibility:hidden;opacity:0;transition:opacity .4s}
+.car .slide{position:relative;grid-area:1/1;padding:26px 28px 18px;display:flex;flex-direction:column;gap:12px;visibility:hidden;opacity:0;transition:opacity .4s}
 .car .slide.on{visibility:visible;opacity:1}
 .car .k{align-self:flex-start;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:#ffbf47;color:#0b0c0c;border-radius:4px;padding:3px 8px}
 .car h3{font-family:var(--f-display);font-size:clamp(1.35rem,2.6vw,1.95rem);line-height:1.2;color:#fff}
@@ -86,7 +97,7 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
   <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
     <span class="eyebrow">Public Sector Data Quality Commons</span>
     <h1>Is the data good enough to use, and is someone fixing it?</h1>
-    <p class="lede">One free, open place for everything about data quality in the public sector: check your data in the browser, find the frameworks and standards that apply to you, learn, use AI safely, and share what works. For central and local government, the devolved governments, the wider public sector, and the voluntary and private bodies that deliver public services.</p>
+    <p class="lede">One free, open place for everything about data quality in the public sector: check your data in the browser, find the frameworks and standards that apply to you, learn, use AI safely, and share what works. For central and local government, the devolved governments, the wider public sector, the voluntary and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories, Commonwealth and international partners the UK works with.</p>
     <form class="search" id="find" role="search" aria-label="Find in the Commons"><label for="fq" class="sr-only">What do you want to do?</label>
       <input type="search" id="fq" placeholder="What do you want to do? For example: check NHS numbers, ISO 8000, Wales" autocomplete="off" list="fqList"><datalist id="fqList"></datalist><button class="btn" type="submit">Go</button></form>
     <div class="quickgo" id="quickgo"></div>
@@ -116,9 +127,9 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 <section aria-labelledby="latest-h">
   <h2 id="latest-h">Latest from the library, knowledge base and media centre</h2>
   <div class="latest">
-    <div class="card"><h3>Knowledge base</h3><ul id="lKb"></ul><a href="library.html#tab-kb">All articles ›</a></div>
-    <div class="card"><h3>Blog, vlog and podcasts</h3><ul id="lMedia"></ul><a href="media.html">Media centre ›</a></div>
-    <div class="card"><h3>Curated library</h3><ul id="lLib"></ul><a href="library.html">Browse the library ›</a> · <a href="library.html#tab-pub">Publish yours ›</a></div>
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-book"/></svg>Knowledge base</h3><ul id="lKb"></ul><a href="library.html#tab-kb">All articles ›</a></div>
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-mic"/></svg>Blog, vlog and podcasts</h3><ul id="lMedia"></ul><a href="media.html">Media centre ›</a></div>
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-library"/></svg>Curated library</h3><ul id="lLib"></ul><a href="library.html">Browse the library ›</a> · <a href="library.html#tab-pub">Publish yours ›</a></div>
   </div>
 </section>
 
@@ -189,8 +200,10 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
   const S = MEDIA.slides, n = S.length;
   let i = 0, timer = null, wantPlay = false, held = false;
   const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const KIND = l => /news|blog/i.test(l) ? "news" : /insight|research/i.test(l) ? "bulb" : /data|figure|stat/i.test(l) ? "chart" : /standard|policy/i.test(l) ? "layers" : /law|legal/i.test(l) ? "scale" :
+    /tool|kit/i.test(l) ? "wrench" : /learn|guide/i.test(l) ? "grad" : /community|event/i.test(l) ? "users" : /ai/i.test(l) ? "cpu" : /world|international/i.test(l) ? "globe" : "sparkle";
   $("slides").innerHTML = S.map((s, k) => `<div class="slide" role="group" aria-roledescription="slide" aria-label="${k + 1} of ${n}: ${esc(s.label)}" id="sl${k}">
-    <span class="k">${esc(s.label)}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>
+    ${DQI(KIND(s.label), "glyph")}<span class="k">${DQI(KIND(s.label))}${esc(s.label)}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>
     ${s.source ? `<span class="src">Source: <a href="${esc(s.source.url)}" rel="noopener">${esc(s.source.title)}</a>${s.date ? " · " + esc(s.date) : ""}</span>` : (s.date ? `<span class="src">${esc(s.date)}</span>` : "")}
     <a class="go" href="${esc(s.link)}">${esc(s.cta)} ›</a></div>`).join("");
   $("dots").innerHTML = S.map((s, k) => `<button type="button" aria-label="Show slide ${k + 1}: ${esc(s.title)}"></button>`).join("");
@@ -224,7 +237,9 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 (function () {
   const SP = MEDIA.spotlights;
   let cur = 0;
-  $("spotTypes").innerHTML = SP.map((s, k) => `<button type="button" aria-pressed="${k === 0}">${esc(s.type)}</button>`).join("");
+  const SPI = {"Story": "quote", "Use case": "target", "Case study": "quote", "Capability": "blocks", "Domain": "database", "Theme": "layers", "Topic": "bulb",
+    "Subject": "book", "Process": "refresh", "Workflow": "workflow"};
+  $("spotTypes").innerHTML = SP.map((s, k) => `<button type="button" aria-pressed="${k === 0}">${DQI(SPI[s.type] || "sparkle")}${esc(s.type)}</button>`).join("");
   function draw() {
     const s = SP[cur];
     [...$("spotTypes").children].forEach((b, k) => b.setAttribute("aria-pressed", k === cur));
@@ -238,6 +253,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 // ---- Latest ----
 $("lKb").innerHTML = KBA.articles.slice(0, 4).map(a => `<li><a href="library.html#${esc(a.id)}">${esc(a.title)}</a><span>${esc(a.type)} · ${a.minutes} min</span></li>`).join("");
 $("lMedia").innerHTML = MEDIA.blog.slice(0, 3).map(b => `<li><a href="media.html#${esc(b.id)}">${esc(b.title)}</a><span>Blog · ${esc(b.date)}</span></li>`).join("") +
+  (MEDIA.govuk_blogs || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2).map(g => `<li><a href="${esc(g.url)}" rel="noopener">${esc(g.title)}</a><span>${esc(g.blog)} · ${esc(g.date)}</span></li>`).join("") +
   MEDIA.podcasts.slice(0, 1).map(p => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><span>Podcast · ${esc(p.publisher)}</span></li>`).join("");
 $("lLib").innerHTML = MEDIA.library.filter(x => x.checked === "yes").slice(0, 4).map(x => `<li><a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a><span>${esc(x.type)} · ${esc(x.publisher)}</span></li>`).join("");
 const T = P.totals, M = P.metadata || {};
@@ -249,6 +265,8 @@ const rows = [
 ];
 $("status").innerHTML = rows.map(r => `<div class="row"><span>${esc(r[0])}</span><b>${esc(r[1])}</b></div>`).join("");
 
+const TICON = {check: "check", assistant: "sparkle", frameworks: "layers", maturity: "gauge", guidance: "flag", learn: "grad", ai: "cpu", community: "users",
+  weaver: "weave", global: "globe", build: "blocks", commercial: "contract"};
 const TASKS = [
   ["check", "Check a dataset", "Run checks on a CSV in your browser, including NHS numbers, NI numbers, postcodes, UPRNs and GSS codes.", "Nothing is uploaded"],
   ["assistant", "Write rules in plain English", "Describe what good looks like; the AI assistant drafts and tests a rules file.", "AI drafts, rules decide"],
@@ -257,19 +275,23 @@ const TASKS = [
   ["guidance", "Prioritise issues", "Score issues with the government's issues framework.", "Importance × impact"],
   ["learn", "Learn data quality", "Pathways by role, modules, tutorials and a glossary.", "Awareness to Expert"],
   ["ai", "Use AI safely", "Use cases, supplier questions, worked examples and the route to reuse.", "Assure before reuse"],
-  ["community", "Share and connect", "Contributions, the wishlist, networks, surveys and help requests.", "Moderated, no personal data"],
+  ["weaver", "Describe data once, publish everywhere", "The Metadata Weaver turns one record into DCAT, schema.org, CKAN, ODCS and CDA, and shows the gaps.", "Runs in your browser"],
+  ["commercial", "Put quality into contracts", "Supplier obligations, model clauses and tender questions, so the burden isn't on the taxpayer.", "20 model clauses"],
+  ["community", "Share and connect", "Contributions, networks, surveys and help requests.", "Moderated, no personal data"],
+  ["build", "Help us build this", "Vote on the roadmap, pick up a backlog item, or join a co-design session.", "Open to everyone"],
 ];
-$("tasks").innerHTML = TASKS.map(([k, t, d, f]) => `<a class="tile" href="${k}.html"><h3>${esc(t)}</h3><p>${esc(d)}</p><span class="fig">${esc(f)}</span></a>`).join("");
+$("tasks").innerHTML = TASKS.map(([k, t, d, f]) => `<a class="tile" href="${k}.html"><h3>${DQI(TICON[k] || "arrow", "dqi-lg")}${esc(t)}</h3><p>${esc(d)}</p><span class="fig">${esc(f)}</span></a>`).join("");
 
 // find: a simple index of pages, frameworks and scenarios
-const pageLinks = [...document.querySelectorAll(".dqp-drop .dqp-grp a")].map(a => ({t: a.firstChild.textContent, d: a.querySelector("small").textContent, h: a.getAttribute("href")}));
+const pageLinks = [...document.querySelectorAll(".dqp-drop .dqp-grp a")].map(a => ({t: a.dataset.t, d: a.querySelector("small").textContent, h: a.getAttribute("href")}));
 const INDEX = [...pageLinks.map(p => ({...p, k: p.t + " " + p.d})),
   ...FW.map(f => ({t: f.name, d: f.publisher, h: "frameworks.html#fw-" + f.id, k: [f.name, f.id, f.publisher, f.jurisdiction, f.sector, f.type].join(" ")})),
   ...[["NHS number", "check.html"], ["National Insurance number", "check.html"], ["UPRN", "check.html"], ["Postcode", "check.html"], ["GSS code", "check.html"],
       ["Critical data asset", "scenarios.html#dam"], ["Official statistics", "scenarios.html#stats"], ["Local government", "scenarios.html#local"], ["Health", "scenarios.html#health"],
-      ["Scotland", "scenarios.html#devolved"], ["Wales", "scenarios.html#devolved"], ["Northern Ireland", "scenarios.html#devolved"], ["Geospatial", "scenarios.html#geo"],
+      ["Scotland", "scenarios.html#devolved"], ["Wales", "scenarios.html#devolved"], ["Northern Ireland", "scenarios.html#devolved"], ["Jersey", "global.html#cd"], ["Guernsey", "global.html#cd"], ["Isle of Man", "global.html#cd"],
+      ["Overseas Territories", "global.html#ot"], ["Commonwealth", "global.html#cw"], ["United Nations", "global.html#partners"], ["OECD", "global.html#partners"], ["Metadata", "weaver.html"], ["DCAT", "weaver.html"], ["Contact", "build.html#contact"], ["Roadmap", "build.html#roadmap"], ["Backlog", "build.html#backlog"], ["Geospatial", "scenarios.html#geo"],
       ["Personal data accuracy", "scenarios.html#personal"], ["Survey", "surveys.html"], ["Help request", "surveys.html#commission"], ["Glossary", "learn.html#glossary"],
-      ["Wishlist", "community.html#wishlist"], ["Support", "operate.html"], ["Accessibility", "guide.html#accessibility"]].map(([t, h]) => ({t, d: "", h, k: t}))];
+      ["Wishlist", "build.html#wishlist"], ["Support", "operate.html"], ["Accessibility", "guide.html#accessibility"]].map(([t, h]) => ({t, d: "", h, k: t}))];
 $("fqList").innerHTML = INDEX.map(i => `<option value="${esc(i.t)}">`).join("");
 $("find").addEventListener("submit", e => {
   e.preventDefault();
@@ -314,7 +336,7 @@ const STEPS = [
 $("cycle").innerHTML = STEPS.map((s, i) => `<div class="step"><span class="n">Step ${i + 1}</span><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><a href="${s[2]}.html">${esc(s[3])} ›</a></div>`).join("");
 
 $("scen").innerHTML = [["dam", "Critical data assets"], ["ndl", "National Data Library"], ["stats", "Official statistics"], ["health", "Health and care"], ["local", "Local government"],
-  ["devolved", "Scotland, Wales, NI"], ["geo", "Geospatial"], ["personal", "Personal data"], ["ai", "AI and ML"], ["open", "Open data"], ["vcse", "Voluntary sector"], ["platforms", "Your platform"]]
+  ["devolved", "Scotland, Wales, NI"], ["world", "Crown Dependencies, Territories, Commonwealth"], ["geo", "Geospatial"], ["personal", "Personal data"], ["ai", "AI and ML"], ["open", "Open data"], ["vcse", "Voluntary sector"], ["platforms", "Your platform"]]
   .map(([id, t]) => `<a class="chip acc" href="scenarios.html#${id}">${esc(t)}</a>`).join("");
 (function () {
   const due = new Date("2027-01-29T00:00:00Z"), today = new Date(new Date().toISOString().slice(0, 10) + "T00:00:00Z"), days = Math.round((due - today) / 864e5);
@@ -328,7 +350,7 @@ window.DQP_TOUR = [
   {sel: "#latest-h", title: "Library, knowledge base and media", text: "The newest articles, posts, podcasts and curated resources."},
   {sel: "#tasks", title: "Common tasks", text: "The things people come here to do most often."},
   {sel: "#roles", title: "Start from your role", text: "Three good first steps for each role."},
-  {sel: ".dqp-nav, .dqp-menu", title: "The menu", text: "Five groups: Start, Do, Know, Scenarios and Community. Every page has its own tour."},
+  {sel: ".dqp-nav, .dqp-menu", title: "The menu", text: "Six groups: Start, Do, Know, Govern, Scenarios and Community. Every page has its own tour."},
   {sel: "#scen", title: "Scenarios", text: "Policies, sectors, nations and platforms, each with what applies and where to start."},
 ];
 </script>

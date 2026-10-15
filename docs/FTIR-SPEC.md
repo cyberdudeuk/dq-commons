@@ -69,3 +69,13 @@
 - **F-44** Library: curated items, knowledge base reader by URL fragment, members' items, moderated publishing. Media: blog reader, vlog and podcast lists, submissions require captions or transcript for video and audio.
 - **F-45** Benchmark: opt-in, groups under 5 hidden, editors publish.
 - **T-11** Every knowledge file has a review within 12 months; every internal link in the knowledge base resolves to a page.
+
+## v1.2 requirements
+
+- **F-40** Weave a record from DCAT, schema.org, CKAN or ODCS into all four, with gaps and CDA coverage, in Python and the browser with identical results.
+- **F-41** Validate an ODCS contract and classify changes between versions as breaking or not; suggest the semantic version.
+- **F-42** Create one GitHub issue per backlog item, idempotently.
+- **F-43** Contact the team without any email address being published or required.
+- **T-20** Content health report fails on personal or sensitive data, mismatched claims and overdue reviews.
+- **R-10** No personal details in the colophon, commits or contact routes.
+- **I-20** MCP tools `weave_metadata` and `check_contract` are read-only.

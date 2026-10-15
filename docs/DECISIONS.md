@@ -1,5 +1,42 @@
 # Decision log (this repository)
 
+## 2026-10-15 · D-060 · No personal details in the colophon, commits or contact routes
+- **Decision:** the footer colophon names the project, version, commit, build date and stack, not people. Git commits use a GitHub no-reply address. Contact is by form only.
+- **Why:** the repository is public. Personal emails attract spam and impersonation, and the Commons credits organisations, not individuals (D-013).
+- **Alternative considered:** a shared team mailbox. Rejected for now: it would still be harvested by spammers.
+
+## 2026-10-15 · D-059 · The Commons checks itself
+- **Decision:** `scripts/self_check.py` runs on every change and weekly. It fails on errors (personal or sensitive data, claims that don't match the data, overdue reviews) and reports warnings and notes.
+- **Why:** content goes stale quietly. Recounting claims from data and scanning for personal data stops two common failures reaching readers.
+- **Planned next:** axe-core in CI, source archiving, source diffing, fact sampling (see the routines on Help us build this).
+
+## 2026-10-15 · D-058 · Contact without an email address
+- **Decision:** messages go into the sender's own moderation queue item; moderators reply there and the sender sees the reply on Help us build this. Elsewhere, GitHub discussions and issues; security through private vulnerability reporting.
+- **Why:** prevents spam and impersonation, and needs no personal data to reply.
+- **Alternative considered:** an obfuscated email address. Rejected: easily scraped, and still personal data.
+
+## 2026-10-15 · D-057 · The backlog lives in the repository and becomes issues
+- **Decision:** `knowledge/build.yaml` is the source; a workflow creates one GitHub issue per item, found again by its `[BL-nn]` prefix. Items already in Jira get `jira-linked` so the Jira sync skips them.
+- **Why:** one source of truth, visible to everyone, without duplicates in Jira.
+
+## 2026-10-15 · D-056 · Consolidate roadmap, backlog, wishlist and co-design in one page
+- **Decision:** a new Help us build this page replaces the roadmap on About and the wishlist on Community. Both old places point to it.
+- **Why:** people looked in three places to see what's planned and how to influence it.
+
+## 2026-10-15 · D-055 · Build a Metadata Weaver, not just a bigger crosswalk
+- **Decision:** add `dqkit/weaver.py` (with a browser port checked for parity) that reads and writes DCAT, schema.org, CKAN and ODCS through one canonical record tied to the Metadata Rosetta, and reports gaps and CDA coverage.
+- **Why:** a crosswalk explains mappings; teams still retype records and only find gaps after publishing. A weaver keeps one source and shows gaps first. It is deterministic and runs offline, so any organisation can replicate it. See `docs/METADATA-WEAVER.md`.
+- **Alternative considered:** RML or SPARQL-based mapping. Rejected for now: heavier to run and harder for non-specialists; it remains an option for a later profile layer.
+
+## 2026-10-15 · D-054 · Scope includes the Crown Dependencies, Overseas Territories, Commonwealth and international partners
+- **Decision:** add them as audiences, survey options, a scenario and a page, with principles that respect each jurisdiction's own laws.
+- **Why:** UK public data work depends on partners beyond UK government, and small jurisdictions benefit most from a free, offline toolkit.
+- **Safeguard:** nothing assumes UK law or frameworks apply outside the UK.
+
+## 2026-10-15 · D-053 · Icons drawn for the Commons instead of imagery
+- **Decision:** one inline SVG sprite of simple line icons, decorative (`aria-hidden`), themed by colour tokens.
+- **Why:** no licensing risk, no extra requests, works in dark mode, and meaning is always carried by text. Photos would need stock or AI generation with licence and representation checks.
+
 ## 2026-10-15 · D-052 · Repository name: cyberdudeuk/dq-commons
 Chosen by the project lead. The local repository will be pushed there once it exists and a working GitHub login is available in the build session (the current token is invalid). Alternative: an organisation repository (co-cddo, gds-dtx); can be transferred later without losing history.
 

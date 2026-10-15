@@ -1,5 +1,19 @@
 # Build journal
 
+## 2026-10-15 — v1.2.0: weaver, world, help us build this, self-checks
+
+**Built**
+- Metadata Weaver in Python and the browser, with a portal page, CLI, MCP tool and parity cases. Contract validation and change control with breaking-change detection.
+- UK and the world page: Crown Dependencies, Overseas Territories, Commonwealth and 18 international partners.
+- Help us build this page: roadmap, backlog, wishlist and votes, co-design, charter, rules, safeguards, contributors, GitHub resources, trust routines and a contact form with no published email.
+- Backlog-to-issues script and workflow; charter and contributors docs generated from the same YAML; code of conduct.
+- Content health self-check and workflow; GOV.UK blog features; icon set; new footer with licences, notices and colophon.
+
+**Checked:** 116 tests pass; parity 37 of 37. Content health: no errors after fixes.
+
+**Privacy scan:** repository, history and built portal scanned for emails, phone numbers, identifiers, tokens, keys and security markings. Found: a personal email as the git author on every commit (rewritten to a no-reply address before the first push) and an Atlassian site address (replaced with a placeholder). Test data uses example.org addresses and published specimen identifiers only.
+
+
 ## 2026-10-15 — v1.1.0: contracts, suppliers, legacy, front page, library and media
 
 **Asked for:** close the gaps; data contracts and exports; older pages to v1.0; benchmarking; merge related work; commercial barriers, contract clauses and supplier obligations so the burden isn't on the public sector; legacy and technical debt with MoSCoW; integration, interoperability, standards, guardrails and measures; then a front page with a hero carousel and spotlight, a curated content library with community publishing, a knowledge base and a media centre (blog, vlog, podcasts).

@@ -188,6 +188,10 @@ def to_odcs(spec: dict, version: str = "1.0.0", status: str = "draft") -> dict:
                                 {"property": "dqkitTargetPolicy", "value": asset.get("target_policy", framework.DEFAULT_POLICY)}]}
     if asset.get("owner"):
         out["team"] = {"name": asset["owner"]}
+    if asset.get("sla"):  # e.g. [{property: frequency, value: 1, unit: d}, {property: availability, value: 99.5, unit: percent}]
+        out["slaProperties"] = [dict(x) for x in asset["sla"]]
+    if asset.get("support"):  # e.g. [{channel: issues, url: https://...}] -- channels, never personal contact details
+        out["support"] = [dict(x) for x in asset["support"]]
     return out
 
 
@@ -299,3 +303,130 @@ def to_csvw(spec: dict, url: str = "data.csv") -> dict:
 
 
 FORMATS = {"table-schema": to_table_schema, "odcs": to_odcs, "csvw": to_csvw}
+
+
+# ---------- ODCS checks and change control ----------
+
+ODCS_STATUSES = ("proposed", "draft", "active", "deprecated", "retired")
+ODCS_METRICS = ("nullValues", "missingValues", "invalidValues", "duplicateValues", "rowCount")
+_SEMVER = re.compile(r"^\d+\.\d+\.\d+([-+][0-9A-Za-z.-]+)?$")
+
+
+def validate_odcs(contract: dict) -> list:
+    """Problems that would stop an ODCS v3 contract being used. Each is {level: error|warning, where, message}.
+
+    A practical check of the parts the toolkit relies on, not a replacement for the official JSON Schema.
+    """
+    out = []
+    err = lambda where, msg: out.append({"level": "error", "where": where, "message": msg})
+    warn = lambda where, msg: out.append({"level": "warning", "where": where, "message": msg})
+    if not isinstance(contract, dict):
+        return [{"level": "error", "where": "contract", "message": "The contract must be an object."}]
+    for k in ("apiVersion", "kind", "id", "version", "status"):
+        if contract.get(k) in (None, ""):
+            err(k, f"Required field {k} is missing.")
+    if contract.get("kind") not in (None, "", "DataContract"):
+        err("kind", "kind must be DataContract.")
+    if contract.get("apiVersion") and not str(contract["apiVersion"]).startswith("v3"):
+        warn("apiVersion", f"apiVersion {contract['apiVersion']} isn't v3; the toolkit reads v3 contracts.")
+    if contract.get("status") and contract["status"] not in ODCS_STATUSES:
+        warn("status", f"status {contract['status']} isn't one of {', '.join(ODCS_STATUSES)}.")
+    if contract.get("version") and not _SEMVER.match(str(contract["version"])):
+        warn("version", "version should be semantic, like 1.2.0, so changes can be classed as breaking or not.")
+    if not contract.get("schema"):
+        warn("schema", "No schema: consumers can't see the columns or the quality rules.")
+    for i, obj in enumerate(contract.get("schema") or []):
+        w = f"schema[{i}]"
+        if not obj.get("name"):
+            err(w, "Every schema object needs a name.")
+        names = [p.get("name") for p in obj.get("properties") or []]
+        for j, n in enumerate(names):
+            if not n:
+                err(f"{w}.properties[{j}]", "Every property needs a name.")
+        dup = sorted({n for n in names if n and names.count(n) > 1})
+        if dup:
+            err(w, f"Property names repeat: {', '.join(dup)}.")
+        items = [(p.get("name"), q) for p in obj.get("properties") or [] for q in p.get("quality") or []] + [(None, q) for q in obj.get("quality") or []]
+        for col, q in items:
+            where = f"{w}.{col or '(table)'}"
+            if q.get("type", "library") == "library" and q.get("metric") and q["metric"] not in ODCS_METRICS:
+                warn(where, f"Unknown library metric {q['metric']}.")
+            if q.get("type", "library") == "library" and not any(k.startswith("must") for k in q):
+                warn(where, f"Rule {q.get('id') or q.get('metric') or ''} has no threshold (mustBe..., mustBeLessOrEqualTo...).".replace("  ", " "))
+    if not contract.get("team"):
+        warn("team", "No team: say which team (a role or group, never a named person) owns the contract.")
+    if not contract.get("slaProperties"):
+        warn("slaProperties", "No service levels: add at least update frequency and availability.")
+    return out
+
+
+def _n(v):
+    """A number as people write it (and as the browser engine prints it): 5 not 5.0."""
+    f = float(v)
+    return str(int(f)) if f.is_integer() else repr(f)
+
+
+def _key(k):
+    return (str(k[0]), str(k[1]))
+
+
+def _props(contract):
+    return {(o.get("name"), p.get("name")): p for o in contract.get("schema") or [] for p in o.get("properties") or []}
+
+
+def _limits(p):
+    return {str(q.get("id") or q.get("metric")): q.get("mustBeLessOrEqualTo", q.get("mustBeLessThan"))
+            for q in p.get("quality") or [] if q.get("unit") == "percent"}
+
+
+def diff_odcs(old: dict, new: dict) -> dict:
+    """What changed between two versions of a contract, and whether each change breaks consumers.
+
+    Breaking: a column removed, its type changed, a uniqueness or required promise dropped, or a quality
+    threshold loosened. Additions and tightened thresholds are not breaking. Suggests the next version.
+    """
+    a, b, changes = _props(old), _props(new), []
+    add = lambda kind, where, msg, breaking: changes.append({"kind": kind, "where": where, "message": msg, "breaking": breaking})
+    for key in sorted(set(a) - set(b), key=_key):
+        add("removed", f"{key[0]}.{key[1]}", "Column removed.", True)
+    for key in sorted(set(b) - set(a), key=_key):
+        add("added", f"{key[0]}.{key[1]}", "Column added." + (" It is required, so producers must supply it." if b[key].get("required") else ""), False)
+    for key in sorted(set(a) & set(b), key=_key):
+        p, q, w = a[key], b[key], f"{key[0]}.{key[1]}"
+        if p.get("logicalType") != q.get("logicalType"):
+            add("type", w, f"Type changed from {p.get('logicalType') or 'none'} to {q.get('logicalType') or 'none'}.", True)
+        for flag, label in (("required", "required"), ("unique", "unique")):
+            if p.get(flag) and not q.get(flag):
+                add(flag, w, f"No longer promised to be {label}.", True)
+            if q.get(flag) and not p.get(flag):
+                add(flag, w, f"Now promised to be {label}.", False)
+        la, lb = _limits(p), _limits(q)
+        for rid in sorted(set(la) | set(lb)):
+            x, y = la.get(rid), lb.get(rid)
+            if x is not None and y is None:
+                add("quality", w, f"Quality rule {rid} removed.", True)
+            elif x is None and y is not None:
+                add("quality", w, f"Quality rule {rid} added (at most {_n(y)}% failing).", False)
+            elif x != y:
+                add("quality", w, f"Rule {rid}: at most {_n(x)}% failing became {_n(y)}%.", float(y) > float(x))
+    if old.get("status") != new.get("status"):
+        add("status", "status", f"Status changed from {old.get('status')} to {new.get('status')}.", new.get("status") in ("deprecated", "retired"))
+    breaking = any(c["breaking"] for c in changes)
+    m = _SEMVER.match(str(old.get("version") or ""))
+    nxt = None
+    if m:
+        ma, mi, pa = (int(x) for x in str(old["version"]).split("-")[0].split("+")[0].split("."))
+        nxt = f"{ma + 1}.0.0" if breaking else (f"{ma}.{mi + 1}.0" if changes else f"{ma}.{mi}.{pa}")
+    stated = str(new.get("version") or "")
+    ok = None if not (nxt and _SEMVER.match(stated)) else _bumped_enough(str(old["version"]), stated, breaking, bool(changes))
+    return {"changes": changes, "breaking": breaking, "suggested_version": nxt, "stated_version": stated, "version_ok": ok}
+
+
+def _bumped_enough(old: str, new: str, breaking: bool, changed: bool) -> bool:
+    o = [int(x) for x in old.split("-")[0].split("+")[0].split(".")]
+    n = [int(x) for x in new.split("-")[0].split("+")[0].split(".")]
+    if breaking:
+        return n[0] > o[0]
+    if changed:
+        return n > o
+    return n >= o

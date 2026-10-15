@@ -24,8 +24,8 @@ __BASE_CSS__
 <header class="page">
   <span class="eyebrow">Community</span>
   <h1>Share what works, ask for what you need, and find your people</h1>
-  <p class="lede">The Commons gets better when members add to it. Contribute a case study, insight, resource or training material; vote on the wishlist; and join the networks already working on data quality across sectors and nations.</p>
-  <nav class="toc" aria-label="On this page"><a href="#library">Library</a><a href="#contribute">Contribute</a><a href="#wishlist">Wishlist</a><a href="#networks">Networks</a><a href="surveys.html">Surveys and commissions</a></nav>
+  <p class="lede">The Commons gets better when members add to it. Contribute a case study, insight, resource or training material; vote on the wishlist on Help us build this; and join the networks already working on data quality across sectors and nations.</p>
+  <nav class="toc" aria-label="On this page"><a href="#library">Library</a><a href="#contribute">Contribute</a><a href="build.html#wishlist">Wishlist and votes</a><a href="build.html">Help us build this</a><a href="#networks">Networks</a><a href="surveys.html">Surveys and commissions</a></nav>
   <p class="state" id="state" role="status" aria-live="polite">Checking whether saving is available here…</p>
 </header>
 
@@ -58,7 +58,7 @@ __BASE_CSS__
     <div class="field full"><label for="cSum">Summary</label><span class="hint" id="cSumH">What it is and what others can learn from it. Up to 2,000 characters.</span><textarea id="cSum" required maxlength="2000" aria-describedby="cSumH"></textarea></div>
     <div class="field"><label for="cLink">Link (if published elsewhere)</label><input type="text" id="cLink" inputmode="url" placeholder="https://"></div>
     <div class="field"><label for="cOrg">Credit as</label><span class="hint" id="cOrgH">Your organisation's name, or leave blank to stay anonymous.</span><input type="text" id="cOrg" aria-describedby="cOrgH" maxlength="120"></div>
-    <div class="field"><label for="cNation">Nation</label><select id="cNation"><option>UK-wide</option><option>England</option><option>Scotland</option><option>Wales</option><option>Northern Ireland</option><option>Outside the UK</option></select></div>
+    <div class="field"><label for="cNation">Nation</label><select id="cNation"><option>UK-wide</option><option>England</option><option>Scotland</option><option>Wales</option><option>Northern Ireland</option><option>Crown Dependencies</option><option>Overseas Territories</option><option>Commonwealth</option><option>International</option></select></div>
     <div class="field"><label for="cLic">Licence</label><select id="cLic"><option>Open Government Licence v3.0</option><option>Creative Commons BY 4.0</option><option>MIT (code)</option></select></div>
     <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="cMsg" role="status" aria-live="polite"></span></div>
   </form>
@@ -66,15 +66,9 @@ __BASE_CSS__
 </section>
 
 <section id="wishlist" aria-labelledby="wl-h">
-  <h2 id="wl-h">Wishlist</h2>
-  <p>Vote for the features you need most. Votes help set the order of the backlog. You can vote for up to 5 items and change your votes at any time.</p>
-  <ul class="wish" id="wish" style="padding:0;margin:0"><li>Loading…</li></ul>
-  <details class="disc"><summary>Suggest something new</summary><div class="body">
-    <form id="wForm" novalidate style="display:flex;flex-direction:column;gap:10px">
-      <div class="field"><label for="wT">What do you need to do?</label><span class="hint">Describe the task and who it is for, not the solution.</span><input type="text" id="wT" maxlength="160"></div>
-      <div class="field"><label for="wW">Why does it matter?</label><input type="text" id="wW" maxlength="400"></div>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Suggest</button><span id="wMsg" role="status" aria-live="polite"></span></div>
-    </form></div></details>
+  <h2 id="wl-h">Wishlist, roadmap and backlog</h2>
+  <div class="callout"><p>The wishlist, votes, roadmap and backlog now live together on <a href="build.html">Help us build this</a>, with the co-design charter, contributors and a contact form.</p>
+    <p><a class="btn" href="build.html#wishlist">Vote on the wishlist</a></p></div>
 </section>
 
 <section id="networks" aria-labelledby="net-h">
@@ -125,26 +119,6 @@ function drawLib() {
 }
 ["lq", "lt"].forEach(id => $(id).addEventListener("input", drawLib));
 
-// wishlist
-let wishes = [], tally = {}, myVotes = [];
-function drawWish() {
-  const sorted = [...wishes].sort((a, b) => (tally[b.id] || 0) - (tally[a.id] || 0) || String(a.title).localeCompare(b.title));
-  $("wish").innerHTML = sorted.map(w => { const on = myVotes.includes(w.id);
-    return `<li><span class="tally" aria-label="${tally[w.id] || 0} votes">${tally[w.id] || 0}</span>
-      <div><b>${esc(w.title)}</b>${w.why ? `<br><span class="small muted">${esc(w.why)}</span>` : ""}${w.key ? ` <span class="chip">${esc(w.key)}</span>` : ""}${w.status ? ` <span class="chip good">${esc(w.status)}</span>` : ""}</div>
-      <button type="button" class="vote" data-w="${esc(w.id)}" aria-pressed="${on}" ${db && uid && writable ? "" : "disabled"} aria-label="${on ? "Remove vote for" : "Vote for"} ${esc(w.title)}">${on ? "Voted" : "Vote"}</button></li>`; }).join("")
-    || `<li>No wishlist items yet.</li>`;
-}
-$("wish").addEventListener("click", async e => {
-  const b = e.target.closest(".vote"); if (!b || !db || !uid) return;
-  const id = b.dataset.w, on = myVotes.includes(id);
-  if (!on && myVotes.length >= 5) { setState(`<span class="msg err">You can vote for up to 5 items. Remove a vote first.</span>`); return; }
-  const next = on ? myVotes.filter(x => x !== id) : [...myVotes, id];
-  b.disabled = true;
-  try { await db.doc(`votes/${uid}`).set({items: next, at: new Date().toISOString()}); }
-  catch (er) { setState(`<span class="msg err">Your vote couldn't be saved (${esc(er.code || er.message)}).</span>`); b.disabled = false; }
-});
-
 // queue (contributions, wishes and commissions share one per-member document)
 async function addToQueue(item) {
   const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
@@ -169,16 +143,6 @@ $("cForm").addEventListener("submit", async e => {
   try { drawMine(await addToQueue({kind: "contribution", ...v})); $("cForm").reset(); $("cMsg").innerHTML = `<span class="msg ok">Thanks. It's in the moderation queue.</span>`; }
   catch (er) { $("cMsg").innerHTML = `<span class="msg err">It couldn't be saved: ${esc(er.message || er.code)}. You can <a href="${esc(gh("5-contribution.yml"))}">use the GitHub form</a> instead.</span>`; }
 });
-$("wForm").addEventListener("submit", async e => {
-  e.preventDefault();
-  const t = $("wT").value.trim(), w = $("wW").value.trim();
-  if (!t) { $("wMsg").innerHTML = `<span class="msg err">Describe what you need to do.</span>`; $("wT").focus(); return; }
-  if (piiCheck(t + " " + w)) { $("wMsg").innerHTML = `<span class="msg err">Please remove personal data and try again.</span>`; return; }
-  if (!db || !uid || !writable) { location.href = gh("1-feature-request.yml"); return; }
-  try { drawMine(await addToQueue({kind: "wish", title: t, why: w})); $("wForm").reset(); $("wMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will add it to the wishlist.</span>`; }
-  catch (er) { $("wMsg").innerHTML = `<span class="msg err">It couldn't be saved: ${esc(er.message || er.code)}.</span>`; }
-});
-
 // moderation (editors only)
 async function loadQueue() {
   const snap = await db.collection("queue").get(), rows = [];
@@ -186,14 +150,15 @@ async function loadQueue() {
   $("queue").innerHTML = rows.map(i => `<div class="qi" data-o="${esc(i.owner)}" data-i="${esc(i.id)}"><div class="chips"><span class="chip acc">${esc(i.kind)}</span>${i.type ? `<span class="chip">${esc(i.type)}</span>` : ""}<span class="chip">${esc(String(i.at).slice(0, 10))}</span></div>
     <b>${esc(i.title || i.need || "(untitled)")}</b><span class="small">${esc(i.summary || i.why || i.detail || "")}</span>
     ${i.link ? `<span class="small">Link: ${esc(i.link)}</span>` : ""}${i.org ? `<span class="small">Credit: ${esc(i.org)}</span>` : ""}${i.media ? `<span class="small">Media: ${esc(i.media)}; ${esc(i.access || "no captions or transcript stated")}. Check captions or transcript before publishing.</span>` : ""}${i.contact ? `<span class="small">Contact: ${esc(i.contact)}</span>` : ""}
-    <div class="row"><button class="btn" type="button" data-act="publish">${i.kind === "commission" ? "Accept" : "Publish"}</button>
-      <input type="text" aria-label="Reason for declining" placeholder="Reason, if declining" style="flex:1;min-width:160px"><button class="btn ghost" type="button" data-act="decline">Decline</button></div></div>`).join("")
+    ${i.kind === "contact" ? `<div class="row"><input type="text" aria-label="Your reply" placeholder="Your reply (shown only to the sender)" style="flex:1;min-width:160px"><button class="btn" type="button" data-act="reply">Send reply</button></div></div>` :
+    `<div class="row"><button class="btn" type="button" data-act="publish">${i.kind === "commission" ? "Accept" : "Publish"}</button>
+      <input type="text" aria-label="Reason for declining" placeholder="Reason, if declining" style="flex:1;min-width:160px"><button class="btn ghost" type="button" data-act="decline">Decline</button></div></div>`}`).join("")
     || `<p class="small muted">Nothing waiting.</p>`;
 }
 $("queue").addEventListener("click", async e => {
   const b = e.target.closest("[data-act]"); if (!b) return;
   const box = b.closest(".qi"), owner = box.dataset.o, id = box.dataset.i, reason = box.querySelector("input").value.trim();
-  if (b.dataset.act === "decline" && !reason) { box.querySelector("input").focus(); return; }
+  if ((b.dataset.act === "decline" || b.dataset.act === "reply") && !reason) { box.querySelector("input").focus(); return; }
   b.disabled = true;
   try {
     const ref = db.doc(`queue/${owner}`), snap = await ref.get(), items = snap.data().items, it = items.find(x => x.id === id);
@@ -203,7 +168,8 @@ $("queue").addEventListener("click", async e => {
       if (it.kind === "media") await db.doc(`media/${id}`).set({media: it.media, title: it.title, summary: it.summary, body: it.media === "blog" ? it.summary : "",
         link: safeUrl(it.link), access: it.access || "", org: it.org || "", sector: it.sector || "", published: new Date().toISOString()});
       it.status = it.kind === "commission" ? "accepted" : "published";
-    } else { it.status = "declined"; it.reason = reason; }
+    } else if (b.dataset.act === "reply") { it.status = "answered"; it.reply = reason; }
+    else { it.status = "declined"; it.reason = reason; }
     await ref.set({items, updated: new Date().toISOString()});
     await loadQueue();
   } catch (er) { b.disabled = false; alert("That didn't save: " + (er.message || er.code)); }
@@ -218,7 +184,7 @@ $("wAdm").addEventListener("click", async () => {
 function fallback(why) {
   db = null;
   setState(`${esc(why)} You can still contribute, suggest and vote through GitHub: <a href="${esc(gh("5-contribution.yml"))}">contribute</a>, <a href="${esc(gh("1-feature-request.yml"))}">suggest a feature</a>, or <a href="${esc(B.repo)}/issues?q=label%3Awishlist">see the wishlist issues</a>.`);
-  libItems = []; drawLib(); wishes = []; drawWish();
+  libItems = []; drawLib();
 }
 (async () => {
   if (!window.claude || typeof claude.use !== "function") { fallback("Saving isn't available on this copy of the portal."); return; }
@@ -228,16 +194,13 @@ function fallback(why) {
   setState(uid ? (writable ? "Signed in. Contributions and votes are saved to the Commons." : "You can read everything here. To contribute or vote, ask the owner for Contributor access, or use the GitHub forms.")
     : "Sign in to contribute or vote.");
   db.collection("library").onSnapshot(s => { libItems = s.docs.map(d => ({id: d.id, ...d.data()})).sort((a, b) => String(b.published).localeCompare(String(a.published))); drawLib(); }, () => fallback("The library couldn't load."));
-  db.collection("wishlist").onSnapshot(s => { wishes = s.docs.map(d => ({id: d.id, ...d.data()})); drawWish(); });
-  db.collection("votes").onSnapshot(s => { tally = {}; myVotes = [];
-    s.docs.forEach(d => { const items = (d.data() || {}).items || []; items.forEach(i => { tally[i] = (tally[i] || 0) + 1; }); if (d.id === uid) myVotes = items; }); drawWish(); });
   if (uid) { try { const m = await db.doc(`queue/${uid}`).get(); if (m.exists) drawMine(m.data().items); } catch (e) {} }
   if (admin) { $("moderation").hidden = false; try { await loadQueue(); } catch (e) { $("queue").textContent = "The queue couldn't load."; } }
 })();
 window.DQP_TOUR = [
   {sel: "#library", title: "Contributions library", text: "Case studies, insights, resources and training from members. Search and filter by type."},
   {sel: "#cForm", title: "Contribute", text: "Send something for moderation. Credit goes to your organisation, or you stay anonymous. No personal data, please."},
-  {sel: "#wishlist", title: "Wishlist", text: "Vote for up to 5 features. Votes help order the backlog."},
+  {sel: "#wishlist", title: "Wishlist and backlog", text: "Voting, the roadmap and the backlog are on Help us build this."},
   {sel: "#networks", title: "Networks", text: "Communities, working groups and centres of expertise across the UK and internationally."},
 ];
 </script>

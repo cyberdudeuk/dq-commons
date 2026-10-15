@@ -114,7 +114,7 @@ class Knowledge(unittest.TestCase):
     def test_media_honesty(self):
         m = load("media")
         for s in m["slides"]:
-            self.assertTrue(s.get("source") or s["kind"] in ("data",) or s["label"] == "From the Commons", s["id"])
+            self.assertTrue(s.get("source") or s["kind"] in ("data",) or s["label"] == "From the Commons" or s.get("own"), s["id"])
         for x in m["library"] + m["podcasts"] + m["videos"]:
             self.assertIn(x["checked"], ("yes", "listed"), x["title"])
             self.assertTrue(x["url"].startswith("https://"), x["title"])

@@ -25,7 +25,7 @@ slides:
   source: {title: "State of digital government review (DSIT)", url: "https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review"}
   date: "2025-01"
 - id: s-procurement
-  kind: news
+  kind: knowledge
   label: Policy
   title: "Contracts over £5 million need published KPIs. Make data quality one of them."
   text: "Under the Procurement Act 2023, at least three KPIs must be set, assessed at least every 12 months and published. Here's model wording."
@@ -51,7 +51,7 @@ slides:
   source: {title: "PublicTechnology, March 2026", url: "https://www.publictechnology.net/2026/03/09/science-technology-and-research/dsit-to-unleash-legacy-it-action-plan-backed-by-data-collection-on-thousands-of-ageing-systems/"}
   date: "2026-03-09"
 - id: s-dua
-  kind: news
+  kind: knowledge
   label: Law
   title: "The Data (Use and Access) Act 2025 became law on 19 June 2025"
   text: "It sets up smart data schemes, a trust framework for digital verification services and a statutory National Underground Asset Register, all of which depend on good data."
@@ -59,6 +59,34 @@ slides:
   cta: Frameworks and standards
   source: {title: "Brodies: Data (Use and Access) Act 2025 becomes law", url: "https://brodies.com/insights/ip-technology-and-data/data-use-and-access-act-2025-becomes-law/"}
   date: "2025-06-19"
+
+- id: s-gds-maturity
+  kind: insight
+  label: GOV.UK blog
+  title: "Data maturity comes before AI readiness"
+  text: "GDS and The National Archives found that data must be well managed, understood and governed before it is AI ready. Start with a maturity assessment."
+  link: maturity.html
+  cta: Assess your maturity
+  source: {title: "GDS blog, 4 June 2026", url: "https://gds.blog.gov.uk/2026/06/04/data-maturity-the-foundation-for-ai-ready-public-sector-data/"}
+  date: "2026-06-04"
+- id: s-world
+  kind: news
+  label: International
+  own: true
+  title: "The Commons now covers the Crown Dependencies, Overseas Territories and the Commonwealth"
+  text: "Data quality doesn't stop at the UK border. See the statistics bodies, frameworks and partners the UK works with, from Jersey to the UN."
+  link: global.html
+  cta: UK and the world
+  date: "2026-10-15"
+- id: s-weaver
+  kind: tool
+  label: New tool
+  own: true
+  title: "Describe your data once. Publish it everywhere."
+  text: "The Metadata Weaver reads DCAT, schema.org, CKAN or ODCS and writes all of them, plus a critical data asset check. It runs in your browser."
+  link: weaver.html
+  cta: Try the Metadata Weaver
+  date: "2026-10-15"
 
 # Spotlight: one feature at a time, chosen by type.
 spotlights:
@@ -159,6 +187,21 @@ blog:
     The Public Sector Data Quality Commons began with the National Data Library and the data asset management policy. Both are still here as scenarios. But the toolkit, frameworks, learning and community now work for any public body, in any nation, and for the voluntary and private organisations that deliver public services.
 
     Tell us what's missing on the wishlist, and share what works in the library.
+
+# Featured posts from GOV.UK blogs (external; we link, summarise in our own words and never copy).
+govuk_blogs:
+- {id: g-maturity-ai, title: "Data maturity: the foundation for AI ready public sector data", blog: "Government Digital Service blog", date: "2026-06-04", url: "https://gds.blog.gov.uk/2026/06/04/data-maturity-the-foundation-for-ai-ready-public-sector-data/", topics: [maturity, AI], summary: "Data needs good management, understanding, people, processes and governance before it is AI ready, so start any AI readiness assessment with data maturity. A revised data maturity service is planned.", try: maturity.html, checked: "yes"}
+- {id: g-connecting, title: "Connecting data to enable modern digital government", blog: "Data in government blog", date: "2026-09-03", url: "https://dataingovernment.blog.gov.uk/2026/09/03/connecting-data-to-enable-modern-digital-government/", topics: [interoperability], summary: "How joining data up across government supports modern digital services.", try: interop.html, checked: listed}
+- {id: g-vulnerability, title: "Introducing the Vulnerabilities Data Standards Alpha", blog: "Data in government blog", date: "2026-07-14", url: "https://dataingovernment.blog.gov.uk/2026/07/14/improving-support-for-people-at-risk-through-better-data-introducing-the-vulnerabilities-data-standards-alpha/", topics: [standards, inclusion], summary: "Common data standards so public services can recognise and support people at risk more consistently.", try: scenarios.html#personal, checked: listed}
+- {id: g-datagovuk, title: "What's changing on data.gov.uk and why", blog: "Data in government blog", date: "2026-03-25", url: "https://dataingovernment.blog.gov.uk/2026/03/25/whats-changing-on-data-gov-uk-and-why/", topics: [catalogues, metadata], summary: "Changes to the government's open data catalogue and the reasons behind them.", try: weaver.html, checked: listed}
+- {id: g-vuln-standards, title: "Using data standards to support people at risk", blog: "Data in government blog", date: "2026-03-16", url: "https://dataingovernment.blog.gov.uk/2026/03/16/using-data-standards-to-support-people-at-risk/", topics: [standards, inclusion], summary: "Why shared standards matter for services that support people in vulnerable circumstances.", try: scenarios.html#personal, checked: listed}
+- {id: g-dbt-governance, title: "Data governance and security: not optional anymore", blog: "Digital trade blog (DBT)", date: "2025-10-30", url: "https://digitaltrade.blog.gov.uk/2025/10/30/data-governance-and-security-not-optional-anymore/", topics: [governance], summary: "From a discovery with 15 organisations: ownership, stewardship and quality controls are strategic, not technical afterthoughts. Fragmented tools, slow manual approvals and too few data stewards hold teams back.", try: maturity.html, checked: "yes"}
+- {id: g-dbt-strategy, title: "Data strategy in practice: introduction and strategic ambitions", blog: "Digital trade blog (DBT)", date: "2025-09-30", url: "https://digitaltrade.blog.gov.uk/2025/09/30/data-strategy-in-practice-introduction-and-strategic-ambitions/", topics: [strategy, legacy], summary: "Most organisations studied want better quality data for decisions and AI, but fragmented datasets, inconsistent governance and legacy systems slow them down.", try: legacy.html, checked: "yes"}
+- {id: g-atrs, title: "Making the Algorithmic Transparency Recording Standard mandatory across government", blog: "Data in government blog", date: "2025-05-08", url: "https://dataingovernment.blog.gov.uk/2025/05/08/making-the-algorithmic-transparency-recording-standard-atrs-mandatory-across-government/", topics: [AI, transparency], summary: "Rolling out and updating the ATRS, so the public can see how algorithmic tools are used.", try: ai.html, checked: listed}
+- {id: g-sharing, title: "Unlocking data sharing across government", blog: "Data in government blog", date: "2025-04-07", url: "https://dataingovernment.blog.gov.uk/2025/04/07/unlocking-data-sharing-across-government/", topics: [sharing], summary: "The Data Sharing Network of Experts and how it helps teams share data safely.", try: interop.html, checked: listed}
+- {id: g-api, title: "Joining up the dots: the findings of our recent API discovery", blog: "Data in government blog", date: "2025-04-03", url: "https://dataingovernment.blog.gov.uk/2025/04/03/joining-up-the-dots-the-findings-of-our-recent-api-discovery/", topics: [APIs, interoperability], summary: "Findings on API connectivity for sharing data across government.", try: interop.html, checked: listed}
+- {id: g-homes, title: "Building the future with data: Homes England's data platform", blog: "Data in government blog", date: "2025-07-15", url: "https://dataingovernment.blog.gov.uk/2025/07/15/building-the-future-with-data-homes-englands-data-platform/", topics: [platforms, quality], summary: "A secure data platform intended, among other things, to improve data quality.", try: tooling.html, checked: listed}
+- {id: g-moj, title: "Getting the data fundamentals right at the Ministry of Justice", blog: "Data in government blog", date: "2024-01-30", url: "https://dataingovernment.blog.gov.uk/2024/01/30/getting-the-data-fundamentals-right/", topics: [strategy], summary: "The MoJ data strategy and its roadmap for data fundamentals.", try: maturity.html, checked: listed}
 
 podcasts:
 - {title: "Podcast: the Data Standards Authority", publisher: "GDS blog", url: "https://gds.blog.gov.uk/2020/09/30/podcast-the-data-standards-authority/", topics: [standards], date: "2020-09-30", checked: listed}

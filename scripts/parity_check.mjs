@@ -54,6 +54,9 @@ if (c.kind === 'run' || c.kind === 'ops') {
     return { odcs: o, ts: t, csvw: C.toCsvw(spec), back: C.fromOdcs(o), backTs: C.fromTableSchema(t), unsupported: C.unsupported(o),
       gx: DQ.exporters.toGreatExpectations(spec), rv: DQ.exporters.rValidateRules(spec) };
   }));
+  out.weave = c.weave.map((rec) => attempt(() => { const w = DQ.weaver.weave(rec), back = {};
+    DQ.weaver.TARGETS.forEach((t) => { back[t] = DQ.weaver.read(w.outputs[t], t)[1]; }); return { ...w, back }; }));
+  out.contract_pairs = c.contract_pairs.map(([a, b]) => attempt(() => ({ va: DQ.contracts.validateOdcs(a), vb: DQ.contracts.validateOdcs(b), diff: DQ.contracts.diffOdcs(a, b) })));
   out.reconcile = c.recon.map(([a, b, k]) => attempt(() => DQ.reconcile(DQ.parseCSV(a), DQ.parseCSV(b), k)));
   out.misc = {
     targets: [3, 6, 9, 16].map((s) => DQ.defaultTarget(s)), mid4: DQ.defaultTarget(4, 'mid'),
