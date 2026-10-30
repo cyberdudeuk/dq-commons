@@ -121,3 +121,12 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | `.github/workflows/pages.yml` | Publishes the portal and bundle to GitHub Pages on push to main |
 | `.github/workflows/release.yml` | Creates GitHub releases from version tags |
 | `scripts/release_notes.py` | Release notes for one version from `knowledge/releases.yaml` |
+
+## v1.6.0 additions
+| Path | What it is |
+|---|---|
+| `knowledge/stakeholders.yaml` | Roles, key dates, gap register, sources |
+| `portal/src/pages/roles.html` | For your role, CDO Council brief, gap register |
+| `knowledge/effort.yaml`, `dqkit/effort.py` | Shared baseline effort model |
+| `dqkit/qfair.py` | Q-FAIR ratings from results and the asset record |
+| `tests/test_roles_qfair_effort.py` | Q-FAIR, effort, return columns and register tests |

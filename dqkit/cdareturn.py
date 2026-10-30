@@ -12,11 +12,16 @@ from __future__ import annotations
 import csv
 import io
 
+from . import qfair
+
 DIMENSIONS = ("completeness", "uniqueness", "consistency", "timeliness", "validity", "accuracy")
 COLUMNS = (["cda_identifier", "cda_title", "owner_organisation", "gds_dqapstatus", "gds_dqapurl", "gds_dqbaselinedate"]
            + [f"gds_dq_{d}" for d in DIMENSIONS]
            + ["gds_dqrulesmet", "gds_dqrulestotal", "gds_dqissues_critical", "gds_dqissues_high", "gds_dqissues_medium",
-              "gds_dqissues_low", "gds_dqinclusionassessed", "gds_dqtrustlevel", "gds_dqroute"])
+              "gds_dqissues_low", "gds_dqinclusionassessed", "gds_dqtrustlevel", "gds_dqroute"]
+           # Q-FAIR (v1.6): four record fields and the five Good / Improving / Attention required ratings
+           + ["gds_accessroute", "gds_conformsto", "gds_licence", "gds_provenance"]
+           + [f"gds_qfair_{p}" for p in qfair.PILLARS] + ["gds_qfair_overall", "gds_baselineconfidence"])
 INCLUSION_CHECKS = ("not_unknown", "group_disparity")
 
 
@@ -37,6 +42,14 @@ def row(res: dict) -> dict:
         "gds_dqtrustlevel": (res.get("trust") or {}).get("level", ""),
         "gds_dqroute": (res.get("route") or {}).get("route", ""),
     }
+    q = qfair.rate(res)
+    out.update({"gds_accessroute": a.get("access_route", ""), "gds_conformsto": "; ".join(a.get("conforms_to") or []),
+                "gds_licence": a.get("licence", ""), "gds_provenance": a.get("provenance", ""),
+                "gds_qfair_overall": q["overall"]["rating"],
+                # measured by rules = high; a stated value overrides (for example 'medium' when sampled)
+                "gds_baselineconfidence": a.get("baseline_confidence", "high" if res.get("rules_total") else "low")})
+    for p in qfair.PILLARS:
+        out[f"gds_qfair_{p}"] = q[p]["rating"]
     for d in DIMENSIONS:
         out[f"gds_dq_{d}"] = dims[d]["mean_performance"] if d in dims else ""
     return out

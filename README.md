@@ -6,16 +6,25 @@ central and local government, the devolved governments, the wider public sector,
 and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
 Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.5.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.6.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`: 32 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
+`portal/dist/index.html`: 33 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
 a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
 
 Scenarios include critical data assets under the GOV.UK
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government),
 the National Data Library, official statistics, health, local government, geospatial, personal
 data, AI and machine learning, open data, the devolved nations and international comparison.
+
+## New in v1.6
+
+| Area | Where |
+|---|---|
+| **For your role**: needs, decisions, risks and measures for the CDO Council, CDOs, data owners, stewards, quality leads and 8 more roles | portal Start > For your role |
+| **CDO Council brief** for the January baseline, rebuilt every release; **gap register** of 20 gaps | `roles.html#brief`, `roles.html#gaps` |
+| **Q-FAIR** ratings in the CDA return and a self-rating | `dqkit/qfair.py`, `baseline.html#qfair` |
+| Baseline effort from the command line | `python -m dqkit effort`, MCP tool `estimate_effort` |
 
 ## New in v1.4 and v1.5
 

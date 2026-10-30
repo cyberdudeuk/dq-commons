@@ -1,0 +1,273 @@
+# Stakeholders, what each needs from the Commons, and the gap register.
+# Honesty rules: roles only, never named people. "Source" says where a fact comes from; dates from project
+# documents (not GOV.UK) are labelled "to confirm with GDS". Gap status: addressed (in this release and where),
+# partly (some of it built), open (needs a decision or someone outside the Commons).
+review:
+  last_reviewed: '2026-10-30'
+  owner_role: Product owner (Commons)
+
+summary: >-
+  Who needs what to manage and report the quality of critical data assets, what each should be aware of, the
+  decisions coming up, and the gaps found across policy, guidance, data and tools, with what the Commons does about each.
+
+dates:
+- {when: '2026-05-27', what: Data asset management policy published, source: GOV.UK, confirmed: true}
+- {when: '2027-01-29', what: "Baseline return: complete list of critical data assets, with a first data quality baseline", source: Project cataloguing playbook timeline, confirmed: false}
+- {when: '2027-02', what: Baseline adoption report from GDS to the CDO Council, source: Project cataloguing playbook timeline, confirmed: false}
+- {when: '2027-10', what: "Policy adoption return: list complete, data management requirements in progress", source: Project cataloguing playbook timeline, confirmed: false}
+- {when: '2028-03', what: "Annual returns begin; records reviewed at least every 12 months", source: "Project cataloguing playbook timeline; the 12-month review is in the policy", confirmed: false}
+
+roles:
+- id: council
+  name: CDO Council
+  who: Chief data officers across government, meeting as a council
+  accountable: Cross-government direction, priorities and investment for data
+  needs:
+  - One page showing whether the January baseline is achievable, at what cost, and what to decide
+  - A comparable picture across departments (coverage, quality, Q-FAIR) rather than 40 different formats
+  - The few assets where poor quality creates the most risk to services or decisions
+  decide:
+  - "Full or proportionate baseline in January (proportionate with a shared toolkit is the only scenario the model rates achievable at current capacity)"
+  - Whether to fund or second people centrally, and whether to back one shared toolkit
+  - "Whether to add Q-FAIR fields (access route, standards, licence, provenance) and an equality and coverage check to the return"
+  - How shared CDAs are baselined (one owner's baseline, or one per user organisation)
+  watch:
+  - The policy sets no minimum data quality metrics; without an agreed minimum set, returns will not be comparable
+  - Auditors elsewhere have started examining critical data assets (Victoria, Australia, 2025); a similar review here would test DQAPs and quality statements
+  - Personal-data CDAs can look complete while groups of people are missing or misrecorded
+  measures:
+  - Share of CDAs with a baseline, by department and tier
+  - Share of CDAs with a DQAP in place or a dated plan
+  - Critical and high issues open, and overdue
+  - Q-FAIR rating distribution
+  routes:
+  - {text: CDO Council brief (download), link: "roles.html#brief"}
+  - {text: Effort model and scenarios, link: baseline.html}
+  - {text: Gap register, link: "roles.html#gaps"}
+
+- id: cdo
+  name: Chief data officer (department)
+  who: Senior lead for data in a department, or the director responsible for data where there is no CDO
+  accountable: The department's return, including its arm's length bodies
+  needs:
+  - "A realistic plan and resource ask: how many CDAs, which tier, how many people, by when"
+  - Data owners and stewards named for every CDA
+  - A consistent way for ALBs to report, so the department can assure and consolidate
+  decide:
+  - Which CDAs get a full baseline and which a proportionate one
+  - Who coordinates the return and assures ALB input
+  - Whether to adopt the shared toolkit and data contracts
+  watch:
+  - Data access and sharing agreements are the biggest source of delay for unmeasured (tier C) assets
+  - Supplier-held CDAs need data quality duties in the contract, or the supplier can't be required to fix anything
+  - Devolved and local partners are not bound by the policy, so shared data may arrive without a DQAP
+  measures:
+  - CDAs by tier (measured, partial, unmeasured)
+  - People available against people needed
+  - Returns from ALBs received and assured
+  routes:
+  - {text: Effort model, link: baseline.html}
+  - {text: Playbook stages and RACI, link: playbook.html}
+  - {text: Supplier clauses, link: commercial.html}
+
+- id: owner
+  name: Data owner
+  who: Senior person accountable for one or more CDAs (usually senior; no grade is mandated)
+  accountable: The asset's meaning, quality, risks and sign-off of its return entry
+  needs:
+  - "To know what they are signing: baseline scores, open issues by priority, what the data must not be used for"
+  - Targets set from the importance of the purpose and impact of failure, not a flat percentage
+  - A short quality statement they can stand behind
+  decide:
+  - Targets for each rule; which risks to accept and until when
+  - Priority order of fixes and who funds them
+  watch:
+  - Accepted risks need a review date
+  - New uses, especially AI training or automated decisions, change what 'good enough' means
+  measures:
+  - Rules meeting target, trend over time
+  - Critical issues resolved within timescale
+  routes:
+  - {text: Playbook stage 4 (prioritise), link: "playbook.html#prioritise"}
+  - {text: Issues framework calculator, link: guidance.html}
+  - {text: Q-FAIR rating, link: "baseline.html#qfair"}
+
+- id: steward
+  name: Data steward
+  who: Day-to-day lead for an asset's quality
+  accountable: Rules, checks, issue log, action plan and return entry
+  needs:
+  - Templates and a checklist to follow, not a blank page
+  - A way to write rules once and run them every cycle
+  - Answers to 'what exactly goes in the return?'
+  decide:
+  - Critical data items and the rules for each
+  - How often to measure and what to automate
+  watch:
+  - Results must be reproducible; keep rules as files, not only in a tool
+  - Break results down by group where lawful, or exclusion stays hidden
+  measures:
+  - Critical data items with at least one rule
+  - Checks running without manual effort
+  routes:
+  - {text: Check your data, link: check.html}
+  - {text: Playbook workspace (dqkit playbook init), link: "playbook.html#stages"}
+  - {text: Metadata Weaver, link: weaver.html}
+
+- id: dqlead
+  name: Data quality manager or lead
+  who: Specialist who supports stewards across a department
+  accountable: Methods, tooling, consistency and the departmental quality picture
+  needs:
+  - One method that produces comparable results across assets
+  - Tooling that works on government laptops without procurement
+  - A portfolio view of results, issues and escalations
+  decide:
+  - Department-wide rules library and targets policy
+  - Which assets are automated first
+  watch:
+  - Mixing tools and scoring methods makes department totals meaningless
+  - Overdue critical issues should escalate to the governance board automatically
+  measures:
+  - Assets measured on schedule
+  - Recurrence of fixed issues
+  routes:
+  - {text: Pipeline status, link: pipeline.html}
+  - {text: Frameworks and packs, link: frameworks.html}
+  - {text: Tooling, link: tooling.html}
+
+- id: technical
+  name: Data engineer or custodian
+  who: Runs the systems, pipelines and access controls behind an asset
+  accountable: Getting data to where it can be measured; automating checks; fixing causes in systems
+  needs:
+  - Rules in open formats (data contracts) that run in existing pipelines
+  - Clear, testable requirements rather than prose
+  decide:
+  - Where checks run (source, pipeline, catalogue)
+  watch:
+  - Migrations are the riskiest moment for quality; reconcile before and after
+  measures:
+  - Checks automated; failed loads caught before publication
+  routes:
+  - {text: Data contracts (ODCS), link: "check.html#contracts"}
+  - {text: Legacy and migration gates, link: legacy.html}
+
+- id: coordinator
+  name: Return coordinator (department or ALB sponsor)
+  who: Collects, assures and submits the return
+  accountable: Completeness and consistency of the department's submission
+  needs:
+  - A fixed set of columns with definitions, and a way to fill them from measured results
+  - A quick check for gaps before submission
+  watch:
+  - The baseline template's fields are not yet public; plan for the minimum set and adjust
+  measures:
+  - Return rows complete; rows with confidence 'low'
+  routes:
+  - {text: CDA return columns, link: "pipeline.html"}
+  - {text: Baseline entry fields, link: baseline.html}
+
+- id: gds
+  name: GDS policy and central team
+  who: Owners of the DAM policy, guidance, templates and aggregation
+  accountable: The policy, the return, the adoption reports to the CDO Council
+  needs:
+  - Comparable returns that can be aggregated without manual rework
+  - Evidence of where guidance is unclear or missing
+  decide:
+  - Whether to publish a minimum metric set, Q-FAIR fields and an equality check in the template
+  - How shared CDAs and supplier-held CDAs are treated
+  watch:
+  - Terminology still mixes 'essential shared data assets' and 'critical data assets' in some templates
+  routes:
+  - {text: Gap register, link: "roles.html#gaps"}
+  - {text: Guidance findings, link: guidance.html}
+
+- id: ndl
+  name: National Data Library team
+  who: Runs the NDL (which replaced data.gov.uk)
+  accountable: Making high-value data findable and usable
+  needs:
+  - Quality and Q-FAIR signals in catalogue records, so users can judge fitness
+  - Which CDAs are ready to publish or link
+  watch:
+  - Most curated NDL pages assessed here don't show an owner role or signpost other nations' data
+  routes:
+  - {text: NDL assessment, link: ndl-assurance.html}
+  - {text: Metadata Weaver (DCAT and DQV), link: weaver.html}
+
+- id: ig
+  name: Data protection and information governance (DPO, SIRO)
+  who: Advise on lawful processing, risk and security
+  accountable: That quality work on personal data is lawful and proportionate
+  needs:
+  - To know when profiling personal data for quality needs a DPIA or update to one
+  - Assurance that equality checks use lawfully held data only
+  watch:
+  - UK GDPR's accuracy principle already requires personal data to be accurate and kept up to date
+  - ICO guidance on accuracy is under review after the Data (Use and Access) Act 2025
+  routes:
+  - {text: Equality and data protection screening, link: "build.html#bundle"}
+  - {text: UK GDPR accuracy framework, link: "frameworks.html#fw-uk-ico-accuracy"}
+
+- id: supplier
+  name: Supplier or system integrator
+  who: Holds or processes a CDA under contract
+  accountable: Contracted quality duties, KPIs and exit
+  needs:
+  - Clear, measurable obligations and the rules they will be judged by
+  watch:
+  - Contracts over £5 million need published KPIs under the Procurement Act 2023
+  routes:
+  - {text: Model clauses and KPIs, link: commercial.html}
+
+- id: partners
+  name: Devolved, local and international partners
+  who: Scottish and Welsh governments, Northern Ireland, local government, Crown Dependencies and others
+  accountable: Their own data governance (the DAM policy is optional or does not apply)
+  needs:
+  - Methods they can adopt without the UK mandate
+  - Comparable results when data is shared
+  routes:
+  - {text: "Playbook: use it anywhere", link: "playbook.html#adapt"}
+  - {text: UK and the world, link: global.html}
+
+- id: public
+  name: People and communities the data describes
+  who: Citizens, service users and their representatives
+  accountable: Nothing; they are affected by the decisions the data supports
+  needs:
+  - Honest, plain-English information about what the data can and can't be used for
+  - To be counted correctly, whoever they are and wherever they live
+  routes:
+  - {text: Inclusion checks, link: "playbook.html#inclusion"}
+
+gaps:
+- {id: G01, area: "Policy", gap: "The DAM policy requires a DQAP 'or equivalent' but sets no minimum data quality metrics or reporting fields", affects: [council, gds, coordinator], severity: High, status: partly, response: "Proposed minimum entry set (15 fields) on the baseline page and as CDA return columns; recommend GDS publishes it", where: "baseline.html"}
+- {id: G02, area: "Policy", gap: "FAIR and Q-FAIR are not part of the policy or return", affects: [council, gds, ndl], severity: Medium, status: addressed, response: "Four Q-FAIR fields, five ratings and an overall rating added to the CDA return and rated automatically by dqkit; self-rating on the baseline page", where: "baseline.html#qfair"}
+- {id: G03, area: "Templates", gap: "The baseline return template and its fields are not public", affects: [coordinator, cdo, steward], severity: High, status: open, response: "Plan for the minimum set; map to the real template when published. Action: ask GDS for the template and date", where: "baseline.html"}
+- {id: G04, area: "Capacity", gap: "A full baseline for every CDA by January needs far more people than are likely available", affects: [council, cdo], severity: High, status: partly, response: "Effort model with four scenarios and a CDO Council brief; recommends proportionate baseline with a shared toolkit, tier C submitting a dated plan", where: "roles.html#brief"}
+- {id: G05, area: "Governance", gap: "Shared CDAs: unclear whether one baseline (owner) or one per user organisation", affects: [council, gds, owner], severity: Medium, status: open, response: "Recommend: the owner baselines; users report issues through the owner's issue log. Needs a GDS decision"}
+- {id: G06, area: "Inclusion", gap: "The guidance has no equality or coverage check; completeness can hide missing or misrecorded groups", affects: [owner, steward, ig, public], severity: High, status: addressed, response: "Inclusion check in every playbook stage, an effort allowance per CDA, toolkit checks (not_unknown, group_disparity) and a return column", where: "playbook.html#inclusion"}
+- {id: G07, area: "Access", gap: "Data access and sharing agreements delay measurement of unmeasured assets", affects: [cdo, technical, ig], severity: High, status: open, response: "Start access requests now for tier C; the effort model shows this as its own activity. Needs departmental action"}
+- {id: G08, area: "Suppliers", gap: "Supplier-held CDAs often have no contractual data quality duties", affects: [cdo, supplier], severity: Medium, status: addressed, response: "Model clauses, KPIs and tender questions", where: "commercial.html"}
+- {id: G09, area: "Roles", gap: "Owners and stewards are often not named or not shown on catalogue records", affects: [cdo, owner, ndl], severity: Medium, status: partly, response: "Playbook stage 1 checklist and register template; NDL assessment found no curated page showing the owner role", where: "ndl-assurance.html"}
+- {id: G10, area: "Comparability", gap: "Departments use different tools and scoring methods", affects: [council, dqlead, gds], severity: Medium, status: addressed, response: "One open method (issues framework), two matching engines (Python and browser) tested for parity, crosswalks to 30 frameworks", where: "frameworks.html"}
+- {id: G11, area: "Assurance", gap: "No independent assurance of returns yet; audits elsewhere found plans and statements missing", affects: [council, cdo], severity: Medium, status: partly, response: "Confidence column (high, medium, low) and evidence files from dqkit; recommend sample assurance by GDS"}
+- {id: G12, area: "AI", gap: "CDAs are being considered for AI use; AI-ready guidance asks for a data quality action plan and rich metadata", affects: [owner, ndl, council], severity: Medium, status: addressed, response: "Playbook stage 8 assesses new uses including AI; AI for data quality page; library entry for the AI-ready guidance", where: "ai.html"}
+- {id: G13, area: "Skills", gap: "Stewards and owners may not have data quality skills or time", affects: [cdo, steward, owner], severity: Medium, status: addressed, response: "Skills check by role and a training catalogue", where: "training.html"}
+- {id: G14, area: "Four nations", gap: "The policy doesn't apply to devolved administrations; shared data may arrive without a DQAP", affects: [partners, cdo], severity: Medium, status: partly, response: "Playbook terms table and jurisdiction finder; pathway for data you receive but don't control", where: "playbook.html#adapt"}
+- {id: G15, area: "Escalation", gap: "No defined route for critical quality issues in a CDA to reach the CDO Council", affects: [council, owner, dqlead], severity: Medium, status: partly, response: "Playbook escalation levels and automatic escalation issues in the pipeline; recommend a council-level threshold (critical issue in a CDA used by more than one department)", where: "playbook.html#cadence"}
+- {id: G16, area: "Personal data", gap: "Profiling personal data for quality is itself processing and may need a DPIA", affects: [ig, steward], severity: Medium, status: partly, response: "Equality and data protection screening in the bundle; recommend the return records whether a DPIA covers quality profiling"}
+- {id: G17, area: "Terminology", gap: "Some templates still say 'essential shared data assets'", affects: [gds, coordinator], severity: Low, status: open, response: "Recommend renaming templates; the Commons uses 'critical data asset' throughout"}
+- {id: G18, area: "Discoverability", gap: "Quality information isn't carried into catalogue records", affects: [ndl, public], severity: Medium, status: addressed, response: "Results published as W3C DQV; Metadata Weaver adds quality to DCAT, schema.org and CKAN", where: "weaver.html"}
+- {id: G19, area: "Accessibility", gap: "Quality statements aren't required to be accessible, plain English or bilingual", affects: [public, owner], severity: Low, status: addressed, response: "Statement template and playbook checklist require WCAG 2.2 AA, plain English and Welsh where required", where: "playbook.html#templates"}
+- {id: G20, area: "Sustainability", gap: "Baselines done by hand won't be repeated; the policy expects annual review", affects: [dqlead, cdo], severity: Medium, status: addressed, response: "Rules as files, scheduled pipeline, history and recurrence measures; dqkit playbook status", where: "pipeline.html"}
+
+sources:
+- {title: Data asset management policy in government, url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government"}
+- {title: Identify and record critical data assets, url: "https://www.gov.uk/government/publications/identify-and-record-critical-data-assets"}
+- {title: "How FAIR are the UK's national geospatial data assets? (Q-FAIR benchmark)", url: "https://www.gov.uk/government/publications/how-fair-are-the-uks-geospatial-assets/how-fair-are-our-national-geospatial-data-assets-assessment-of-the-uks-national-geospatial-data-html"}
+- {title: Introducing a Q-FAIR approach to geospatial data improvement, url: "https://gdsgeospatial.blog.gov.uk/2021/06/25/byte-ing-back-better-introducing-a-q-fair-approach-to-geospatial-data-improvement/"}
+- {title: Quality of Victoria's Critical Data Assets (Victorian Auditor-General), url: "https://www.audit.vic.gov.au/node/35001"}

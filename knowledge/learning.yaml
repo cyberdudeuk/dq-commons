@@ -180,6 +180,8 @@ glossary:
 - {term: Validity, definition: "Data follows its agreed format, type and allowed values."}
 - {term: Representativeness, definition: "Data covers the groups of people or places it should, without gaps that hide some of them."}
 - {term: Critical data asset (CDA), definition: "A data asset of high value shared across government, in scope of the DAM policy."}
+- {term: Q-FAIR, definition: "The Geospatial Commission's approach: data of the right Quality that is also Findable, Accessible, Interoperable and Reusable, rated Good, Improving or Attention required."}
+- {term: Data quality baseline, definition: "The first measurement of an asset's quality against its rules, used as the benchmark for every later report."}
 - {term: Data quality action plan (DQAP), definition: "The plan that records an asset's rules, baseline, issues, actions and reporting."}
 - {term: Data quality issues framework, definition: "GOV.UK method that sets targets from importance and impact, then scores how far below target a rule is."}
 - {term: Combined score, definition: "Importance of purpose (1-4) times impact of the rule failing (1-4)."}

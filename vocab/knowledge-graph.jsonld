@@ -7915,6 +7915,53 @@
    ]
   },
   {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/q-fair",
+   "@type": [
+    "dqc:Term",
+    "skos:Concept"
+   ],
+   "label": "Q-FAIR",
+   "definition": "The Geospatial Commission's approach: data of the right Quality that is also Findable, Accessible, Interoperable and Reusable, rated Good, Improving or Attention required.",
+   "altLabel": [
+    "Quality and FAIR",
+    "FAIR plus quality"
+   ],
+   "skos:broader": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-dimension"
+    }
+   ],
+   "skos:related": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/metadata"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-baseline",
+   "@type": [
+    "dqc:Term",
+    "skos:Concept"
+   ],
+   "label": "Data quality baseline",
+   "definition": "The first measurement of an asset's quality against its rules, used as the benchmark for every later report.",
+   "altLabel": [
+    "Baseline return",
+    "First measurement"
+   ],
+   "skos:related": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-rule"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda"
+    }
+   ]
+  },
+  {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-action-plan-dqap",
    "@type": [
     "dqc:Term",

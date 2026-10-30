@@ -11,6 +11,19 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "1.6.0"
+  date: "2026-10-30"
+  title: "For your role, CDO Council brief, gap register and Q-FAIR"
+  pages_new: [roles]
+  pages_changed: [baseline, playbook]
+  items:
+  - {type: new, text: "For your role: what the CDO Council, CDOs, data owners, stewards, quality leads and 8 other roles need, decide and should watch", link: "roles.html"}
+  - {type: new, text: "CDO Council brief: options, cost, recommendation and decisions for the January baseline, updated on every build and downloadable", link: "roles.html#brief"}
+  - {type: new, text: "Gap register: 20 gaps across policy, guidance, data and tools, who they affect and what is being done", link: "roles.html#gaps"}
+  - {type: new, text: "Q-FAIR: four record fields and five ratings in the CDA return, rated automatically by the toolkit, and a two-minute self-rating", link: "baseline.html#qfair"}
+  - {type: new, text: "dqkit effort and MCP tool estimate_effort: the baseline effort model from the command line and for AI assistants"}
+  - {type: changed, text: "Baseline effort model now reads one source (knowledge/effort.yaml) shared with the toolkit, and includes recording Q-FAIR fields", link: "baseline.html"}
+  - {type: changed, text: "Playbook stage 6 asks for a Q-FAIR rating; glossary adds Q-FAIR and data quality baseline", link: "playbook.html#report"}
 - version: "1.5.0"
   date: "2026-10-30"
   title: "Playbook in the toolkit, automatic publishing and releases"

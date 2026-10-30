@@ -170,6 +170,7 @@ stages:
   - "Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for."
   - Publish quality metadata with the asset (W3C DQV or the CDA return fields) so catalogues such as the National Data Library can show it.
   - Report the portfolio to your governance board and the centre (for example the CDA return).
+  - "Rate the asset with Q-FAIR (quality, findable, accessible, interoperable, reusable): record access route, standards, licence and provenance so the ratings can be shown."
   - Tell affected users directly about critical issues.
   outputs: [Data quality statement, Quality metadata, Portfolio report or CDA return]
   checklist:

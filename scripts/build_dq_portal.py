@@ -41,6 +41,7 @@ BRAND = "Public Sector Data Quality Commons"
 GROUPS = [
     ("Start", [
         ("index", "Home", "Start here: what the Commons does and routes by role and task"),
+        ("roles", "For your role", "What CDO Council, CDOs, data owners, stewards, quality leads and others need, decide and should watch; the gap register and a CDO Council brief"),
         ("about", "About the Commons", "Mission, aims, objectives, priorities, roadmap and wishlist"),
         ("guide", "User guide", "How to use the portal, guided tours and frequently asked questions"),
         ("accessibility", "Accessibility and privacy", "Accessibility statement, known problems, and what happens to anything you share"),
@@ -91,7 +92,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users"}
 
 
 def icon(name: str) -> str:
@@ -182,6 +183,27 @@ def examples(port_file: Path) -> list:
     return out
 
 
+def stakeholders() -> dict:
+    """Roles, gaps and dates, plus live numbers for the CDO Council brief: effort scenarios and the portfolio's Q-FAIR picture."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from dqkit import effort
+    d = yaml.safe_load((ROOT / "knowledge" / "stakeholders.yaml").read_text(encoding="utf-8"))
+    days = effort.effective_days()
+    d["effort"] = {"days": days, "deadline": effort.model()["deadline"], "built": date.today().isoformat(), "scenarios": effort.scenarios(days)}
+    ret = ROOT / "assessments" / "portfolio" / "cda-return.csv"
+    if ret.exists():
+        with ret.open(encoding="utf-8") as fh:
+            rows = list(csv.DictReader(fh))
+        pillars = ["quality", "findable", "accessible", "interoperable", "reusable", "overall"]
+        d["portfolio"] = {"assets": len(rows), "owner": "National Data Library chart data (illustrative portfolio)",
+                          "qfair": {p: {lv: sum(r.get(f"gds_qfair_{p}") == lv for r in rows) for lv in ("Good", "Improving", "Attention required")} for p in pillars},
+                          "rules_met": sum(int(r["gds_dqrulesmet"] or 0) for r in rows), "rules_total": sum(int(r["gds_dqrulestotal"] or 0) for r in rows),
+                          "issues": {k: sum(int(r[f"gds_dqissues_{k}"] or 0) for r in rows) for k in ("critical", "high", "medium", "low")},
+                          "inclusion_assessed": sum(r["gds_dqinclusionassessed"] == "Yes" for r in rows)}
+    return d
+
+
 def knowledge_graph() -> dict:
     """The knowledge graph (dqkit/graph.py) for the Knowledge map page: nodes, edges and counts."""
     import sys
@@ -248,6 +270,8 @@ def knowledge() -> dict:
         "HEALTH": lambda: health_summary(),
         "EVENTS": lambda: y("events"),
         "PLAYBOOK": lambda: y("playbook"),
+        "EFFORT": lambda: y("effort"),
+        "STAKEHOLDERS": lambda: stakeholders(),
         "RELEASES": lambda: y("releases"),
         "TRAINING": lambda: y("training"),
         "GRAPH": lambda: knowledge_graph(),
@@ -332,7 +356,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders"}
 
 
 def provenance(names: set) -> str:

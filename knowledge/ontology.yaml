@@ -63,6 +63,8 @@ properties:
 # Terms already in the Learn glossary get relationships here; new terms also get a definition.
 # alt = non-preferred terms (Use for); broader / related = other terms by preferred name.
 thesaurus:
+- {term: Q-FAIR, alt: [Quality and FAIR, FAIR plus quality], broader: [Data quality dimension], related: [Critical data asset (CDA), Metadata]}
+- {term: Data quality baseline, alt: [Baseline return, First measurement], related: [Data quality rule, Critical data asset (CDA)]}
 - {term: Accuracy, alt: [Correctness, Precision of values], broader: [Data quality dimension], related: [Validity, Root cause analysis]}
 - {term: Completeness, alt: [Coverage, Fill rate], broader: [Data quality dimension], related: [Representativeness]}
 - {term: Consistency, alt: [Coherence], broader: [Data quality dimension], related: [Validity]}

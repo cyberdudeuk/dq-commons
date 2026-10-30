@@ -62,6 +62,9 @@ Go to **Help us build this** and use the contact form. We never show an email ad
 ### Learn
 Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minutes each. The glossary explains every term used in the Commons.
 
+### Start from your role
+Open **Start > For your role** and choose your role. You'll see what you need, decisions coming up, what to watch, measures to ask for and the gaps that affect you. The CDO Council brief and the gap register are on the same page.
+
 ### Run a data quality cycle on a critical data asset
 Open **Govern > Data quality management playbook**. Work through the eight stages in order; tick the checklist as you go (ticks stay in your browser). Download the CSV templates for your register, rules, issue log, action plan, quality statement and annual review. You can download a progress report, or run the same playbook from the toolkit with `python -m dqkit playbook init`. Outside UK central government, use the "Use it anywhere" table to swap in your own terms, and "Where it applies" to see your framework.
 

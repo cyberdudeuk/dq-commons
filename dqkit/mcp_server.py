@@ -113,6 +113,12 @@ TOOLS = [
                     "have evidence and what to do next.",
      "inputSchema": {"type": "object", "properties": {"stage": {"type": "string"}, "workspace": {"type": "string"}}},
      "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "estimate_effort", "title": "Estimate effort to baseline critical data assets",
+     "description": "Person-days, people needed, days per CDA and share achievable by the January return, for full or proportionate "
+                    "baselines with or without a shared toolkit. With no arguments: the four standard scenarios. All figures are assumptions.",
+     "inputSchema": {"type": "object", "properties": {"days": {"type": "integer"}, "cdas": {"type": "integer"},
+                     "proportionate": {"type": "boolean"}, "kit": {"type": "boolean"}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "list_checks", "title": "List checks, identifier schemes and value sets",
      "description": "What the rules language supports: check types, identifier schemes and value sets.",
      "inputSchema": {"type": "object", "properties": {}}, "annotations": {"readOnlyHint": True, "openWorldHint": False}},
@@ -182,7 +188,8 @@ def _summary(res: dict) -> dict:
             "rules": [{"id": r["id"], "description": r["description"], "dimension": r["dimension"], "performance": r["performance"],
                        "target": r["assessment"]["target"], "priority": r["assessment"]["priority"],
                        "failing_examples": r.get("examples", [])[:3]} for r in res["results"]],
-            "dimensions": {k: v["mean_performance"] for k, v in res["dimensions"].items()}}
+            "dimensions": {k: v["mean_performance"] for k, v in res["dimensions"].items()},
+            "qfair": {k: v["rating"] for k, v in __import__("dqkit.qfair", fromlist=["rate"]).rate(res).items() if k != "overall"}}
 
 
 def call_tool(name: str, args: dict) -> dict:
@@ -250,6 +257,12 @@ def call_tool(name: str, args: dict) -> dict:
         if isinstance(args.get("previous"), dict):
             out["diff"] = contracts.diff_odcs(args["previous"], args["contract"])
         return out
+    if name == "estimate_effort":
+        from . import effort
+        days = int(args.get("days") or effort.effective_days())
+        if any(args.get(k) for k in ("proportionate", "kit", "cdas")):
+            return effort.estimate(days, bool(args.get("proportionate")), bool(args.get("kit")), cdas=args.get("cdas"))
+        return {"scenarios": effort.scenarios(days)}
     if name == "playbook":
         from . import playbook
         if args.get("workspace"):

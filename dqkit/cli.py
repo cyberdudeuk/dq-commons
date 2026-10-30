@@ -15,6 +15,8 @@
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
   run     PORTFOLIO.yaml [--as-of YYYY-MM-DD] [--out DIR] [--no-history] [--ignore-schedule] [--fail-on-escalation]
           measure every asset in a portfolio file; write portfolio.json, escalations.json, catalogue DQV and a run summary
+  effort  [--days N] [--cdas N] [--proportionate] [--kit] [--json]
+          effort to baseline every critical data asset; with no options, the four standard scenarios
   playbook init DIR --asset ID [--title T] | status DIR | guide [STAGE]
           start a playbook workspace for a critical data asset, see which stages have evidence, or read a stage
   suggest DATA.csv [--id ID] [--title T] [--owner O] [--out rules.yaml]
@@ -85,6 +87,10 @@ def main(argv=None) -> int:
     wv.add_argument("file"); wv.add_argument("--from", dest="src", choices=list(weaver.READERS))
     wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["all"])
     wv.add_argument("--report", action="store_true", help="print the gap and CDA report instead of the records")
+    ef = sub.add_parser("effort", help="effort to baseline data quality for every critical data asset (same model as the portal)")
+    ef.add_argument("--days", type=int, help="effective working days (default: to the January return)")
+    ef.add_argument("--cdas", type=int); ef.add_argument("--proportionate", action="store_true"); ef.add_argument("--kit", action="store_true")
+    ef.add_argument("--json", action="store_true")
     pbk = sub.add_parser("playbook", help="data quality management playbook: start a workspace, check progress, read a stage")
     pbk.add_argument("action", choices=["init", "status", "guide"])
     pbk.add_argument("target", nargs="?", default="", help="workspace folder (init, status) or stage number or id (guide)")
@@ -139,6 +145,8 @@ def main(argv=None) -> int:
         res = rules.run(df, spec, _date(a.as_of))
         res["trust"] = trust.classify(res, spec["asset"].get("personal_data_columns"))
         res["route"] = pathway.route(spec["asset"])
+        from . import qfair
+        res["qfair"] = qfair.rate(res)
         out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
         aid = spec["asset"]["id"]
         if a.history:
@@ -161,6 +169,8 @@ def main(argv=None) -> int:
         o = res["operations"]
         print(f"  Operations: {o['open_issues']} open, {o['overdue_issues']} overdue (escalate), recurrence {o['recurrence_rate']}%, {o['cycles_measured']} cycle(s)")
         print(f"  Suggested trust level: {res['trust']['level']} ({res['trust']['sharing']}). Route: {res['route']['route']}")
+        q = res["qfair"]
+        print("  Q-FAIR: " + ", ".join(f"{p[0].upper()} {q[p]['rating']}" for p in qfair.PILLARS) + f" (overall {q['overall']['rating']})")
         for i in res["issues"]:
             print(f"  - [{i['priority']}] {i['rule']} {i['label']} ({i['dimension']}): {i['performance']}% vs {i['target']}% -> {i['resolution']}")
         return 0
@@ -217,6 +227,18 @@ def main(argv=None) -> int:
             print(json.dumps({"source_format": w["source_format"], "coverage": w["coverage"], "cda": w["cda"]}, indent=2, ensure_ascii=False))
         else:
             print(json.dumps(w["outputs"] if a.to == "all" else w["outputs"][a.to], indent=2, ensure_ascii=False))
+        return 0
+    if a.cmd == "effort":
+        from . import effort
+        days = a.days or effort.effective_days()
+        rows = ([{"label": ("Proportionate" if a.proportionate else "Full") + (" baseline, shared toolkit" if a.kit else " baseline"),
+                  **effort.estimate(days, a.proportionate, a.kit, cdas=a.cdas)}] if (a.proportionate or a.kit or a.cdas) else effort.scenarios(days))
+        if a.json:
+            print(json.dumps(rows, indent=2))
+        else:
+            print(f"Effort to baseline critical data assets ({days} working days; assumptions in knowledge/effort.yaml):")
+            for r in rows:
+                print(f"  {r['label']:<48} {r['person_days']:>6} person-days  {r['fte']:>4} people  {r['days_per_cda']:>5} days/CDA  {r['share_achievable']:>3}% in time")
         return 0
     if a.cmd == "playbook":
         from . import playbook

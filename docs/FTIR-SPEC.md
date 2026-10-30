@@ -110,3 +110,14 @@
 | I-150 | MCP tool `playbook`; workspace paths confined to the server folder | Integration | `dqkit/mcp_server.py` |
 | T-150 | Portal and bundle published to GitHub Pages on push to main | Technical | `pages.yml` |
 | T-151 | Tags create releases only if listed in the release record; versions tested to agree | Technical | `release.yml`, `tests/test_playbook.py` |
+
+## v1.6 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-160 | Show needs, decisions, risks, measures, routes and affecting gaps for 13 roles; remember the chosen role | Functional | `roles.html` |
+| F-161 | Build a CDO Council brief from current effort scenarios and portfolio results; download as Markdown | Functional | `roles.html#brief` |
+| F-162 | Filter the gap register by status, severity and affected role | Functional | `roles.html#gaps` |
+| F-163 | Rate Q-FAIR per asset with reasons; never infer missing fields | Functional | `dqkit/qfair.py` |
+| I-160 | CDA return carries 11 new columns (Q-FAIR fields, ratings, confidence) | Integration | `dqkit/cdareturn.py` |
+| I-161 | MCP tool `estimate_effort`; `check_data` returns Q-FAIR | Integration | `dqkit/mcp_server.py` |
+| T-160 | Effort model has one source; Python and browser agree on a known case | Technical | `knowledge/effort.yaml`, tests |

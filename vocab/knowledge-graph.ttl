@@ -1868,6 +1868,19 @@ dqc:inScope a owl:ObjectProperty ;
   skos:altLabel "CDA"@en ;
   skos:altLabel "Essential shared data asset"@en ;
   skos:related <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/metadata>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-owner> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/q-fair> a dqc:Term, skos:Concept ;
+  rdfs:label "Q-FAIR"@en ;
+  skos:definition "The Geospatial Commission's approach: data of the right Quality that is also Findable, Accessible, Interoperable and Reusable, rated Good, Improving or Attention required."@en ;
+  skos:altLabel "Quality and FAIR"@en ;
+  skos:altLabel "FAIR plus quality"@en ;
+  skos:broader <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-dimension> ;
+  skos:related <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/metadata> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-baseline> a dqc:Term, skos:Concept ;
+  rdfs:label "Data quality baseline"@en ;
+  skos:definition "The first measurement of an asset's quality against its rules, used as the benchmark for every later report."@en ;
+  skos:altLabel "Baseline return"@en ;
+  skos:altLabel "First measurement"@en ;
+  skos:related <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-rule>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-action-plan-dqap> a dqc:Term, skos:Concept ;
   rdfs:label "Data quality action plan (DQAP)"@en ;
   skos:definition "The plan that records an asset's rules, baseline, issues, actions and reporting."@en ;

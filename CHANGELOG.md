@@ -2,6 +2,18 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 1.6.0 — 2026-10-30
+### Added
+- `roles.html` (For your role) from `knowledge/stakeholders.yaml`: 13 roles with needs, decisions, what to watch, measures and routes; key dates (confirmed or to confirm); a CDO Council brief built from live effort scenarios and the portfolio's Q-FAIR picture, downloadable as Markdown; a gap register of 20 gaps (9 addressed, 7 partly, 4 open) with filters.
+- `dqkit/qfair.py`: Good / Improving / Attention required for Quality, Findable, Accessible, Interoperable and Reusable, with reasons, from measured results and the asset record only.
+- CDA return columns: `gds_accessroute`, `gds_conformsto`, `gds_licence`, `gds_provenance`, `gds_qfair_*` (5 areas and overall), `gds_baselineconfidence`. `dqkit check` prints the Q-FAIR line; MCP `check_data` returns it.
+- `knowledge/effort.yaml` and `dqkit/effort.py`; `dqkit effort`; MCP tool `estimate_effort` (14 tools).
+- Baseline page: Q-FAIR fields in the minimum entry set and a self-rating; a Q-FAIR effort row.
+- `tests/test_roles_qfair_effort.py` (8 tests), including Python and portal agreement on the effort model.
+### Changed
+- The baseline page reads its activities from `knowledge/effort.yaml`.
+- Glossary and thesaurus: Q-FAIR, data quality baseline (graph: 470 concepts).
+
 ## 1.5.0 — 2026-10-30
 ### Added
 - `dqkit/playbook.py` and `dqkit playbook init | status | guide`: a workspace per critical data asset (6 CSV templates, a checklist README, a status file) and an evidence-based status that reads the register, rules, `dqkit check` results, DQV, history and review files.

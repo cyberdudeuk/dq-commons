@@ -1,5 +1,15 @@
 # Build journal
 
+## 2026-10-30 — v1.6.0: for your role, CDO Council brief, gap register and Q-FAIR
+
+**Built:** For your role page (13 roles, key dates, CDO Council brief, gap register of 20); Q-FAIR ratings in the toolkit and CDA return (11 new columns); shared effort model (`knowledge/effort.yaml`, `dqkit effort`, MCP `estimate_effort`); Q-FAIR fields and self-rating on the baseline page.
+
+**Research used:** the DAM policy (checked 30 October: requires a DQAP or equivalent, no minimum metrics, no FAIR or Q-FAIR); the Q-FAIR blog and 2022 benchmark (six partner bodies, three-level qualitative scale, sector-wide ratings); Victoria's 2025 audit of critical data assets.
+
+**Findings shown honestly:** the illustrative NDL portfolio rates Good on quality (8 of 8) but Attention required on accessible, interoperable and reusable, because those fields aren't recorded.
+
+**Checked:** all tests pass; Python and portal effort model agree (7,465 person-days on the default 56-day case); new pages have no errors, no sideways scroll and no accessibility findings on desktop light and phone dark.
+
 ## 2026-10-30 — v1.5.0: playbook in the toolkit, automatic publishing and releases
 
 **Built:** `dqkit playbook init | status | guide` and the MCP tool `playbook`; a progress report download and toolkit commands on the playbook page; GitHub Pages and release workflows; `scripts/release_notes.py`; `tests/test_playbook.py` (6 tests).

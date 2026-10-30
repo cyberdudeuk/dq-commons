@@ -222,7 +222,8 @@ If your context has no mandate, start at stage 1 and use the issues framework as
 1. Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for.
 2. Publish quality metadata with the asset (W3C DQV or the CDA return fields) so catalogues such as the National Data Library can show it.
 3. Report the portfolio to your governance board and the centre (for example the CDA return).
-4. Tell affected users directly about critical issues.
+4. Rate the asset with Q-FAIR (quality, findable, accessible, interoperable, reusable): record access route, standards, licence and provenance so the ratings can be shown.
+5. Tell affected users directly about critical issues.
 
 **Outputs:** Data quality statement; Quality metadata; Portfolio report or CDA return.
 

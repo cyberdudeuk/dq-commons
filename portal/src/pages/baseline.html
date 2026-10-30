@@ -73,6 +73,8 @@ svg text{fill:var(--fg);font-family:var(--f-body)}
 a{color:var(--accent)}
 code{font-family:var(--f-mono);font-size:.85em}
 @media (prefers-reduced-motion:no-preference){.bar{transition:width .25s ease}}
+.qf{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));margin-bottom:10px}
+.qf legend{padding:0 4px}
 </style>
 
 <div class="wrap">
@@ -191,8 +193,21 @@ code{font-family:var(--f-mono);font-size:.85em}
       <tr><td>Measurement frequency and method (automated or manual)</td><td>Shows whether the baseline can be repeated</td><td>DQAP step 7</td><td><span class="pill g">Yes</span></td></tr>
       <tr><td>Coverage and equality check for personal data</td><td>Completeness can look high while groups are missing or misrecorded</td><td>Not in the guidance (recommended addition)</td><td><span class="pill c">Add</span></td></tr>
       <tr><td>Confidence in the baseline (high, medium, low)</td><td>Separates measured results from estimates</td><td>Not in the guidance (recommended addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Access route (open, restricted, on request, closed)</td><td>Q-FAIR <b>Accessible</b>: users need to know how to get the data</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Standards it conforms to, and shared identifiers used</td><td>Q-FAIR <b>Interoperable</b>: joins up only if formats and identifiers are shared</td><td>CDA metadata "conformsTo"; DAM interoperability requirement</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Licence</td><td>Q-FAIR <b>Reusable</b>: no licence means no lawful reuse</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Provenance (where it comes from, how it is made)</td><td>Q-FAIR <b>Reusable</b>: users judge fitness from origin and processing</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill w">Later</span></td></tr>
+      <tr><td>Q-FAIR rating per area: Good, Improving or Attention required</td><td>One comparable picture across organisations, using the Geospatial Commission's scale</td><td>Q-FAIR benchmark (Geospatial Commission, 2022)</td><td><span class="pill g">Yes</span></td></tr>
     </tbody>
   </table></div>
+</section>
+
+<section id="qfair" aria-labelledby="qf-h">
+  <h2 id="qf-h">Q-FAIR: rate one asset in two minutes</h2>
+  <p class="lede">Q-FAIR adds Quality to the FAIR principles (Findable, Accessible, Interoperable, Reusable). The Geospatial Commission uses it to benchmark national geospatial data. Use the same three levels for any critical data asset. The toolkit fills these columns in the CDA return automatically from measured results and the asset record.</p>
+  <div id="qfForm" class="qf"></div>
+  <div class="card" id="qfOut" aria-live="polite"></div>
+  <p class="small">The DAM policy does not mention FAIR or Q-FAIR. Only the Geospatial Commission's six partner bodies are publicly known to have used Q-FAIR (2021 to 2022 benchmark). Ratings are an indicator, not an absolute measure.</p>
 </section>
 
 <section>
@@ -272,16 +287,7 @@ code{font-family:var(--f-mono);font-size:.85em}
   const eff=Math.max(10,wd-7); document.getElementById("days").value=eff;
   document.getElementById("daysNote").textContent=wd+" working days, less Christmas week and template roll-out lag.";
 })();
-const ACT=[
- {n:"Confirm purpose and critical data items",s:"1",r:"Steward",d:[0.5,1,2.5],lite:0.6,sc:false,kit:1},
- {n:"Write rules, choose dimensions, set targets",s:"2",r:"Steward",d:[0.5,2,5],lite:0.4,sc:true,kit:0.6},
- {n:"Get data access and a place to measure",s:"3",r:"Technical",d:[0.25,1,3],lite:1,sc:false,kit:1},
- {n:"Run baseline measurement",s:"3",r:"Technical",d:[0.25,1.5,4],lite:0.4,sc:true,kit:0.6},
- {n:"Log and score issues",s:"3–4",r:"Steward",d:[0.25,1,2],lite:0.5,sc:true,kit:0.3},
- {n:"Equality and coverage check",s:"3",r:"Analyst",d:[0.25,0.5,1],lite:1,sc:false,kit:0.7},
- {n:"Data owner review and sign-off",s:"6",r:"Data owner",d:[0.25,0.5,1],lite:0.5,sc:false,kit:1},
- {n:"Complete return, department assures ALBs",s:"6",r:"Coordinator",d:[0.25,0.5,1],lite:0.8,sc:false,kit:0.7}
-];
+const EFFORT=__K_EFFORT__, ACT=EFFORT.activities; // single source: knowledge/effort.yaml (also dqkit/effort.py)
 const ROLES=["Steward","Technical","Analyst","Data owner","Coordinator","GDS central"];
 const $=id=>document.getElementById(id);
 let lite=false, kit=false;
@@ -342,9 +348,33 @@ $("kitOn").onclick=()=>{kit=true;$("kitOn").setAttribute("aria-pressed","true");
 $("optLite").onclick=()=>{lite=true;$("optLite").setAttribute("aria-pressed","true");$("optFull").setAttribute("aria-pressed","false");calc()};
 ["nCda","pA","pB","cdi","cont","days","cap"].forEach(id=>$(id).addEventListener("input",calc));
 calc();
+
+// Q-FAIR self-rating (same criteria as dqkit/qfair.py)
+const QF=[
+ {k:"quality",n:"Quality",c:["Rules exist for the critical data items","At least three dimensions measured","No critical or high issues open","Every rule meets its target"]},
+ {k:"findable",n:"Findable",c:["Persistent identifier or catalogue link","Title","Description","Owning organisation recorded"]},
+ {k:"accessible",n:"Accessible",c:["Access route recorded (open, restricted, on request)","Security classification recorded"]},
+ {k:"interoperable",n:"Interoperable",c:["Standards it conforms to are named","Shared identifiers or code lists used and checked"]},
+ {k:"reusable",n:"Reusable",c:["Licence stated","Provenance described"]}
+];
+const qfState={};
+$("qfForm").innerHTML=QF.map(p=>`<fieldset class="card"><legend><b>${p.n}</b></legend>${p.c.map((c,i)=>`<label class="small" style="display:flex;gap:6px;align-items:flex-start;margin:4px 0"><input type="checkbox" data-p="${p.k}" data-i="${i}"> ${c}</label>`).join("")}</fieldset>`).join("");
+function qfRate(){
+  const lv=["Attention required","Improving","Good"], pts={"Good":2,"Improving":1,"Attention required":0};
+  const r=QF.map(p=>{const n=p.c.filter((_,i)=>qfState[p.k+i]).length;
+    let l= n===p.c.length?"Good":(n?"Improving":"Attention required");
+    if(p.k==="quality"){ if(!qfState.quality0) l="Attention required"; else if(!qfState.quality2) l="Attention required"; else if(qfState.quality3&&qfState.quality1) l="Good"; else l="Improving"; }
+    return {p,l}});
+  const tot=r.reduce((s,x)=>s+pts[x.l],0), ov=tot>=8?"Good":(tot>=5?"Improving":"Attention required");
+  const col={"Good":"g","Improving":"w","Attention required":"c"};
+  $("qfOut").innerHTML=`<div class="tbl"><table><thead><tr><th>Area</th><th>Rating</th><th>Return column</th></tr></thead><tbody>${r.map(x=>`<tr><td>${x.p.n}</td><td><span class="pill ${col[x.l]}">${x.l}</span></td><td><code>gds_qfair_${x.p.k}</code></td></tr>`).join("")}<tr><th scope="row">Overall</th><td><span class="pill ${col[ov]}">${ov}</span> <span class="small">${tot} of 10 points</span></td><td><code>gds_qfair_overall</code></td></tr></tbody></table></div>`;
+}
+$("qfForm").addEventListener("change",e=>{const t=e.target;if(t.dataset.p){qfState[t.dataset.p+t.dataset.i]=t.checked;qfRate();}});
+qfRate();
 window.DQP_TOUR = [
   {sel: "#nCda", title: "Number of assets", text: "Set how many critical data assets you need to baseline."},
   {sel: "#controls", title: "Your assumptions", text: "Every default is an assumption you can change."},
   {sel: "#sTotal", title: "Effort", text: "Total effort, and the staff needed to finish by the deadline."},
+  {sel: "#qfForm", title: "Q-FAIR rating", text: "Tick what is true for one asset to see its Quality and FAIR ratings and the matching return columns."},
 ];
 </script>

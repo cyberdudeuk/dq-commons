@@ -215,3 +215,11 @@ flowchart LR
 **Playbook in the toolkit.** `dqkit/playbook.py` reads `knowledge/playbook.yaml`. A workspace is a plain folder: six CSV templates named by stage, a README checklist and `playbook-status.yaml` (asset ID, rules file, results folder). `status()` checks evidence per stage and parses README ticks. The CLI and MCP tool are thin wrappers; MCP confines workspace paths with the existing `_inside()` guard.
 
 **Publishing and releases.** `pages.yml` (push to main) and the weekly pipeline both build `portal/dist` and copy `docs/bundle/index.html` to `/bundle/` before deploying. `release.yml` runs the tests, renders notes with `scripts/release_notes.py` and creates the release with a `git archive` zip.
+
+## 10. v1.6.0 design (30 October 2026)
+
+**Stakeholders and brief.** `knowledge/stakeholders.yaml` (roles, dates, gaps) is joined at build time with `dqkit.effort.scenarios()` and a summary of `assessments/portfolio/cda-return.csv` into `__K_STAKEHOLDERS__`. The brief is therefore regenerated on every build and release.
+
+**Q-FAIR.** `dqkit/qfair.py` rates five areas from the run result and the asset record; `cdareturn.row()` adds the record fields, ratings and baseline confidence. New optional asset fields in rules files: `description`, `access_route`, `classification`, `conforms_to`, `identifiers`, `licence`, `provenance`, `baseline_confidence`.
+
+**Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.

@@ -102,3 +102,9 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 - **Playbook (must):** a data quality management playbook for critical data assets under the DAM policy, usable under any mandate: stages, checklists, RACI, templates, escalation, measures, inclusion checks and a jurisdiction finder. Success: a steward can run the first cycle on one asset using only the playbook and toolkit.
 - **Verification (must):** every listed source read at source, with the date shown. Success: content health reports 100% read in full.
 - **Horizon scan (should):** a dated scan of new guidance, standards and news each release.
+
+## v1.6 additions (2026-10-30)
+- **Role-based entry (must):** each stakeholder role sees its needs, decisions, risks, measures and routes. Success: a CDO or data owner reaches their next action in two clicks.
+- **CDO Council brief (must):** options, cost, recommendation and decisions for the January baseline, regenerated on every build.
+- **Gap register (must):** every known gap with who it affects, severity, status and response.
+- **Q-FAIR (should):** ratings in the CDA return and a self-rating, aligned to the Geospatial Commission scale.

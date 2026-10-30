@@ -1,5 +1,18 @@
 # Decision log (this repository)
 
+## 2026-10-30 · D-077 · One effort model, two front ends
+- **Decision:** activities and defaults live in `knowledge/effort.yaml`; the baseline page and `dqkit/effort.py` both read it, and a test checks they agree on a known case.
+- **Why:** the CDO Council brief needs the same numbers as the interactive page; a second copy would drift.
+
+## 2026-10-30 · D-076 · Q-FAIR rated from evidence, missing fields lower the rating
+- **Decision:** Q is rated from measured results; F, A, I and R only from fields in the asset record. A missing field is reported as missing and lowers the rating; nothing is inferred. Scale and "indicator, not an absolute measure" follow the Geospatial Commission's 2022 benchmark.
+- **Why:** the user asked how far the baseline aligns with Q-FAIR. Rating from evidence makes the gap visible (the illustrative NDL portfolio is Good on quality but needs attention on A, I and R because those fields aren't recorded).
+- **Alternatives considered:** a numeric FAIR score (rejected: false precision; the benchmark itself is qualitative).
+
+## 2026-10-30 · D-075 · A role-based front door and a public gap register
+- **Decision:** a "For your role" page for 13 stakeholder roles, a CDO Council brief built on every release, and a gap register with status, severity and owner of the response. Open gaps name the decision needed and who makes it.
+- **Why:** different stakeholders need different things from the same evidence; listing gaps openly (including those the Commons can't fix) is more useful to the Council and GDS than silence.
+
 ## 2026-10-30 · D-074 · Publish from GitHub Actions; releases come from the release record
 - **Decision:** `pages.yml` builds and publishes the portal (and bundle) on every push to `main`; `release.yml` creates a GitHub release when a `vX.Y.Z` tag is pushed, refusing tags not in `knowledge/releases.yaml`. Package, toolkit and MCP versions are read from or tested against that file.
 - **Why:** the user asked to publish to the repository. Automation means the public copy always matches `main`, and release notes can't drift from the drawer and changelog.
