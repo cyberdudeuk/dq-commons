@@ -1,5 +1,14 @@
 # Decision log (this repository)
 
+## 2026-10-30 · D-074 · Publish from GitHub Actions; releases come from the release record
+- **Decision:** `pages.yml` builds and publishes the portal (and bundle) on every push to `main`; `release.yml` creates a GitHub release when a `vX.Y.Z` tag is pushed, refusing tags not in `knowledge/releases.yaml`. Package, toolkit and MCP versions are read from or tested against that file.
+- **Why:** the user asked to publish to the repository. Automation means the public copy always matches `main`, and release notes can't drift from the drawer and changelog.
+- **Alternatives considered:** a `gh-pages` branch (rejected: a second copy of built files in history); publishing only weekly from the pipeline (rejected: content changes would wait up to a week).
+
+## 2026-10-30 · D-073 · Playbook progress is judged from evidence files, never from people
+- **Decision:** `dqkit playbook status` marks a stage "done" only when its evidence file exists with content (register row, rules, results, action plan, owned actions, statement or DQV, history, review) and every checklist item in the workspace README is ticked.
+- **Why:** self-reported ticks alone overstate progress; files alone miss judgement. Both together are honest, and nothing about individuals is recorded.
+
 ## 2026-10-30 · D-072 · Horizon scans add only sources read at source
 - **Decision:** each scan (this one: October 2026) adds items only after reading the primary page; trade-press items are used only when they report a primary statement (for example a written parliamentary answer). Paid standards are listed by catalogue record and say so. Drafts and bills are labelled as such.
 - **Why:** keeps the library 100% "read in full" and stops hype or unconfirmed claims entering the Commons.

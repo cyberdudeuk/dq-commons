@@ -28,7 +28,15 @@ import yaml
 from . import framework, packs, profile, rules, sources, trust, pathway
 
 PROTOCOL_VERSION = "2025-06-18"
-SERVER_INFO = {"name": "dqkit", "title": "Public Sector Data Quality Commons kit", "version": "1.2.0"}
+def _version() -> str:
+    try:
+        rel = yaml.safe_load((Path(__file__).resolve().parent.parent / "knowledge" / "releases.yaml").read_text(encoding="utf-8"))
+        return str(rel["releases"][0]["version"])
+    except (OSError, KeyError, IndexError, yaml.YAMLError):
+        return "unknown"
+
+
+SERVER_INFO = {"name": "dqkit", "title": "Public Sector Data Quality Commons kit", "version": _version()}
 ROOT = Path(os.environ.get("DQKIT_MCP_ROOT", os.getcwd())).resolve()
 
 DATA_PROPS = {
@@ -97,6 +105,13 @@ TOOLS = [
     {"name": "check_contract", "title": "Check an ODCS data contract",
      "description": "Validate an ODCS v3 contract; with 'previous', list the changes, which ones break consumers, and the version to use.",
      "inputSchema": {"type": "object", "required": ["contract"], "properties": {"contract": {"type": "object"}, "previous": {"type": "object"}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "playbook", "title": "Data quality management playbook",
+     "description": "The eight-stage playbook for managing the quality of critical data assets (UK DAM policy, usable anywhere). "
+                    "With no arguments: the stages. With 'stage' (1-8 or an id such as 'prioritise'): its steps, checklist, roles, "
+                    "DAM policy clauses and inclusion check. With 'workspace' (a folder made by 'dqkit playbook init'): which stages "
+                    "have evidence and what to do next.",
+     "inputSchema": {"type": "object", "properties": {"stage": {"type": "string"}, "workspace": {"type": "string"}}},
      "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "list_checks", "title": "List checks, identifier schemes and value sets",
      "description": "What the rules language supports: check types, identifier schemes and value sets.",
@@ -235,6 +250,17 @@ def call_tool(name: str, args: dict) -> dict:
         if isinstance(args.get("previous"), dict):
             out["diff"] = contracts.diff_odcs(args["previous"], args["contract"])
         return out
+    if name == "playbook":
+        from . import playbook
+        if args.get("workspace"):
+            ws = _inside(args["workspace"])
+            if not ws.is_dir():
+                raise ToolError("workspace must be a folder made by 'dqkit playbook init'")
+            return playbook.status(ws)
+        try:
+            return playbook.guide(args.get("stage"))
+        except ValueError as e:
+            raise ToolError(str(e)) from None
     if name == "list_checks":
         return {"checks": sorted(rules.CHECKS) + ["in_valueset"], "identifier_schemes": list(rules.IDENTIFIER_SCHEMES),
                 "value_sets": sorted(p.stem for p in rules.VALUESET_DIR.glob("*.csv"))}

@@ -6,7 +6,7 @@ central and local government, the devolved governments, the wider public sector,
 and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
 Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.4.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.5.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
 `portal/dist/index.html`: 32 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
@@ -16,6 +16,15 @@ Scenarios include critical data assets under the GOV.UK
 [data asset management (DAM) policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government),
 the National Data Library, official statistics, health, local government, geospatial, personal
 data, AI and machine learning, open data, the devolved nations and international comparison.
+
+## New in v1.4 and v1.5
+
+| Area | Where |
+|---|---|
+| **Data quality management playbook** for critical data assets under the DAM policy, usable anywhere: 8 stages, checklists, RACI, clause mapping, inclusion checks, 6 templates, jurisdiction finder, progress report | `knowledge/playbook.yaml`, portal Govern > Data quality management playbook, `docs/DQ-MANAGEMENT-PLAYBOOK.md` |
+| Run the playbook from the toolkit: workspace, evidence-based status, stage guide | `python -m dqkit playbook init DIR --asset ID`, `dqkit playbook status DIR`, `dqkit playbook guide 4`, MCP tool `playbook` |
+| Every listed source read at source, with dates; October 2026 horizon scan | portal Know > Frameworks, Library |
+| Automatic publishing to GitHub Pages and automatic GitHub releases from tags | `.github/workflows/pages.yml`, `.github/workflows/release.yml`, `scripts/release_notes.py` |
 
 ## New in v1.3
 

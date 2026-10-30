@@ -209,3 +209,9 @@ flowchart LR
 **Playbook.** `knowledge/playbook.yaml` is the single source. The portal build exposes it as `__K_PLAYBOOK__`; the page joins it with `__K_REQUIREMENTS__` (clause text) and `__K_FRAMEWORKS__` (jurisdiction finder) in the browser. `scripts/build_playbook_doc.py` renders the same data as Markdown for the build bundle. The playbook cycle is a lineage flow in `knowledge/ontology.yaml`, so the graph links each stage to the toolkit stages and glossary terms it uses.
 
 **Verification states.** `verified`/`checked` now take `yes`, `partly`, `listed` or `unpublished`; `checked_on` records the date read. The health check counts `yes` and `unpublished` as read in full.
+
+## 9. v1.5.0 design (30 October 2026)
+
+**Playbook in the toolkit.** `dqkit/playbook.py` reads `knowledge/playbook.yaml`. A workspace is a plain folder: six CSV templates named by stage, a README checklist and `playbook-status.yaml` (asset ID, rules file, results folder). `status()` checks evidence per stage and parses README ticks. The CLI and MCP tool are thin wrappers; MCP confines workspace paths with the existing `_inside()` guard.
+
+**Publishing and releases.** `pages.yml` (push to main) and the weekly pipeline both build `portal/dist` and copy `docs/bundle/index.html` to `/bundle/` before deploying. `release.yml` runs the tests, renders notes with `scripts/release_notes.py` and creates the release with a `git archive` zip.

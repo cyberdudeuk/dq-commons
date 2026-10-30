@@ -1,5 +1,15 @@
 # Build journal
 
+## 2026-10-30 — v1.5.0: playbook in the toolkit, automatic publishing and releases
+
+**Built:** `dqkit playbook init | status | guide` and the MCP tool `playbook`; a progress report download and toolkit commands on the playbook page; GitHub Pages and release workflows; `scripts/release_notes.py`; `tests/test_playbook.py` (6 tests).
+
+**Fixed:** three playbook steps showed as "[object Object]" because "word: text" in YAML became a mapping (found by the new CLI); version numbers in `pyproject.toml`, `dqkit/__init__.py` and the MCP server had drifted (1.1.0, 0.1.0, 1.2.0) and now match the release record.
+
+**Checked:** 137 tests pass; parity 37 of 37; content health clear; browser checks on all 32 pages.
+
+**GitHub:** the repository exists with a starter LICENSE commit; local history was joined to it with a normal merge (no force push). Pushing was refused because the repository isn't yet in this session's authorised sources.
+
 ## 2026-10-30 — v1.4.0: data quality management playbook, horizon scan, every source verified
 
 **Built:** Data quality management playbook for critical data assets (page, YAML source, generated document, 6 CSV templates, knowledge graph lineage flow). `scripts/build_playbook_doc.py` with a CI check. A third verification state ("Not publicly available") with a filter on the frameworks page and dates on every card.

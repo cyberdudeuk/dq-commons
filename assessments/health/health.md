@@ -1,4 +1,4 @@
-# Content health report (2026-10-30, v1.4.0)
+# Content health report (2026-10-30, v1.5.0)
 
 **0 errors, 0 warnings, 1 notes.** Sources read in full: 154 of 154 (100.0%).
 

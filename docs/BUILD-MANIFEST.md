@@ -112,3 +112,12 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | `portal/src/pages/playbook.html` | Interactive playbook page (Govern group) |
 | `docs/DQ-MANAGEMENT-PLAYBOOK.md` | Generated playbook document (do not edit by hand) |
 | `scripts/build_playbook_doc.py` | Generates the document; `--check` used in CI |
+
+## v1.5.0 additions
+| Path | What it is |
+|---|---|
+| `dqkit/playbook.py` | Playbook workspace, evidence-based status and stage guide |
+| `tests/test_playbook.py` | Workspace, status, MCP tool and version tests |
+| `.github/workflows/pages.yml` | Publishes the portal and bundle to GitHub Pages on push to main |
+| `.github/workflows/release.yml` | Creates GitHub releases from version tags |
+| `scripts/release_notes.py` | Release notes for one version from `knowledge/releases.yaml` |

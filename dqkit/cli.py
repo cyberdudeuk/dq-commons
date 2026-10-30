@@ -15,6 +15,8 @@
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
   run     PORTFOLIO.yaml [--as-of YYYY-MM-DD] [--out DIR] [--no-history] [--ignore-schedule] [--fail-on-escalation]
           measure every asset in a portfolio file; write portfolio.json, escalations.json, catalogue DQV and a run summary
+  playbook init DIR --asset ID [--title T] | status DIR | guide [STAGE]
+          start a playbook workspace for a critical data asset, see which stages have evidence, or read a stage
   suggest DATA.csv [--id ID] [--title T] [--owner O] [--out rules.yaml]
           look at a data file and draft a starter rules file for a steward to review
 """
@@ -83,6 +85,12 @@ def main(argv=None) -> int:
     wv.add_argument("file"); wv.add_argument("--from", dest="src", choices=list(weaver.READERS))
     wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["all"])
     wv.add_argument("--report", action="store_true", help="print the gap and CDA report instead of the records")
+    pbk = sub.add_parser("playbook", help="data quality management playbook: start a workspace, check progress, read a stage")
+    pbk.add_argument("action", choices=["init", "status", "guide"])
+    pbk.add_argument("target", nargs="?", default="", help="workspace folder (init, status) or stage number or id (guide)")
+    pbk.add_argument("--asset", help="asset ID (init)"); pbk.add_argument("--title", default="")
+    pbk.add_argument("--force", action="store_true", help="overwrite existing template files (init)")
+    pbk.add_argument("--json", action="store_true", help="print JSON instead of text")
     rc = sub.add_parser("reconcile", help="compare two versions of a dataset: counts, keys, totals and values")
     rc.add_argument("source"); rc.add_argument("target")
     rc.add_argument("--key", required=True, help="key column(s), comma separated")
@@ -209,6 +217,32 @@ def main(argv=None) -> int:
             print(json.dumps({"source_format": w["source_format"], "coverage": w["coverage"], "cda": w["cda"]}, indent=2, ensure_ascii=False))
         else:
             print(json.dumps(w["outputs"] if a.to == "all" else w["outputs"][a.to], indent=2, ensure_ascii=False))
+        return 0
+    if a.cmd == "playbook":
+        from . import playbook
+        if a.action == "init":
+            if not a.target or not a.asset:
+                print("Usage: dqkit playbook init FOLDER --asset ASSET_ID [--title TITLE]", file=sys.stderr)
+                return 2
+            files = playbook.init(a.target, a.asset, a.title, a.force)
+            print(f"Playbook workspace ready in {a.target}/ ({len(files)} file(s) written). Open README.md and start at stage 1.")
+            return 0
+        if a.action == "status":
+            st = playbook.status(a.target or ".")
+            print(json.dumps(st, indent=2) if a.json else playbook.to_text(st))
+            return 0
+        try:
+            g = playbook.guide(a.target or None)
+        except ValueError as e:
+            print(e, file=sys.stderr)
+            return 2
+        if a.json or "stages" in g:
+            print(json.dumps(g, indent=2, ensure_ascii=False) if a.json else "\n".join(f"{s['n']}. {s['name']}: {s['goal']}" for s in g["stages"]))
+        else:
+            print(f"Stage {g['n']}: {g['name']}\nGoal: {g['goal']}\n\nSteps:")
+            print("\n".join(f"  {i}. {x}" for i, x in enumerate(g["steps"], 1)))
+            print("\nChecklist:\n" + "\n".join(f"  [ ] {x}" for x in g["checklist"]))
+            print(f"\nDAM policy and DQAP: {', '.join(g['dam'])}\nInclusion check: {g['inclusion']}")
         return 0
     if a.cmd == "reconcile":
         from .reconcile import reconcile

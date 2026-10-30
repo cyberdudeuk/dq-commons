@@ -67,7 +67,11 @@ You need to be an administrator of the repository.
    "Actions permissions", choose **Allow all actions and reusable workflows**. Under "Workflow
    permissions", choose **Read and write permissions**, so the pipeline can save results and open issues.
 3. **Turn on GitHub Pages.** Go to **Settings → Pages**. Under "Build and deployment", set
-   **Source** to **GitHub Actions**. (Not "Deploy from a branch".)
+   **Source** to **GitHub Actions**. (Not "Deploy from a branch".) Two workflows publish the portal:
+   `publish portal` (pages.yml) on every push to `main`, and the weekly pipeline after it refreshes results.
+   The build bundle is published at `/bundle/`.
+   **Releases:** pushing a tag such as `v1.5.0` runs `release` (release.yml), which checks the version is in
+   `knowledge/releases.yaml` and creates the GitHub release with notes and a source zip.
 4. **Issue label.** The pipeline creates the `dq-escalation` label itself the first time it needs it.
    If you want to create it by hand: **Issues → Labels → New label**, name `dq-escalation`.
 5. **Run it once by hand** to check it works: **Actions → Data quality pipeline → Run workflow**.

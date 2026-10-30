@@ -153,7 +153,7 @@ If your context has no mandate, start at stage 1 and use the issues framework as
 
 **Steps**
 
-1. {'Score each issue with the issues framework': 'importance of purpose times impact, then the band below target.'}
+1. Score each issue with the issues framework: importance of purpose times impact, then the band below target.
 2. Sort by priority. Critical issues are fixed immediately; high in one cycle; medium in three; low in six.
 3. Agree the order with the data owner. Record accepted risks explicitly.
 4. Turn the top issues into a data quality action plan with goals and dates.
@@ -219,7 +219,7 @@ If your context has no mandate, start at stage 1 and use the issues framework as
 
 **Steps**
 
-1. {'Update the data quality statement each cycle': 'scores, trends, known issues and what the data should not be used for.'}
+1. Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for.
 2. Publish quality metadata with the asset (W3C DQV or the CDA return fields) so catalogues such as the National Data Library can show it.
 3. Report the portfolio to your governance board and the centre (for example the CDA return).
 4. Tell affected users directly about critical issues.
@@ -255,7 +255,7 @@ If your context has no mandate, start at stage 1 and use the issues framework as
 1. Run checks automatically on every new load or on a fixed cycle (monthly is a good start).
 2. Track trends; alert when a rule drops below its target.
 3. Escalate using agreed thresholds (see escalation).
-4. {'Build skills': 'train stewards and producers; share rules and lessons with other teams.'}
+4. Build skills: train stewards and producers; share rules and lessons with other teams.
 5. Keep rules, results and the plan in version control so they survive staff and supplier changes.
 
 **Outputs:** Automated checks; Trend dashboard; Escalation log; Training record.

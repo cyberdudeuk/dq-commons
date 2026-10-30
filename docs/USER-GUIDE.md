@@ -63,7 +63,7 @@ Go to **Help us build this** and use the contact form. We never show an email ad
 Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minutes each. The glossary explains every term used in the Commons.
 
 ### Run a data quality cycle on a critical data asset
-Open **Govern > Data quality management playbook**. Work through the eight stages in order; tick the checklist as you go (ticks stay in your browser). Download the CSV templates for your register, rules, issue log, action plan, quality statement and annual review. Outside UK central government, use the "Use it anywhere" table to swap in your own terms, and "Where it applies" to see your framework.
+Open **Govern > Data quality management playbook**. Work through the eight stages in order; tick the checklist as you go (ticks stay in your browser). Download the CSV templates for your register, rules, issue log, action plan, quality statement and annual review. You can download a progress report, or run the same playbook from the toolkit with `python -m dqkit playbook init`. Outside UK central government, use the "Use it anywhere" table to swap in your own terms, and "Where it applies" to see your framework.
 
 ### Use AI to improve data quality
 Read the **AI for data quality** section on the Learn page: principles, use cases, questions to ask vendors, worked examples and how AI tools become part of the shared toolkit. The **AI assistant** drafts rules from plain English; always check what it drafts.

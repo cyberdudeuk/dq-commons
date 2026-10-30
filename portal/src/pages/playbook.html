@@ -41,7 +41,17 @@ __BASE_CSS__
   <p class="small muted">Choose a stage. Tick the checklist as you go; your ticks stay in this browser only. Stages 3 to 7 repeat every cycle; stage 8 happens at least once a year.</p>
   <ol class="cycle" id="cycle" aria-label="Playbook stages"></ol>
   <div class="panel" id="stage" tabindex="-1" aria-live="polite"></div>
-  <p class="small" style="margin-top:8px"><span id="prog" role="status"></span> <button class="btn ghost" type="button" id="reset">Clear my ticks</button></p>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px"><span id="prog" role="status" class="small"></span>
+    <label class="small" for="asset">Asset name</label><input id="asset" type="text" maxlength="120" style="max-width:220px" placeholder="for example Births register">
+    <button class="btn" type="button" id="report">Download progress report</button>
+    <button class="btn ghost" type="button" id="reset">Clear my ticks</button><span id="rMsg" class="small" role="status" aria-live="polite"></span></div>
+  <details style="margin-top:10px"><summary>Run the playbook from the toolkit</summary>
+    <p class="small">The same eight stages work from the command line. These commands make a folder of templates and a checklist, then say which stages have evidence:</p>
+    <pre><code>python -m dqkit playbook init births --asset births-register --title "Births register"
+python -m dqkit suggest data.csv --id births-register --out births/births-register.rules.yaml
+python -m dqkit check data.csv births/births-register.rules.yaml --out births/results --history births/history
+python -m dqkit playbook status births</code></pre>
+    <p class="small">AI assistants connected to the toolkit's MCP server can use the <code>playbook</code> tool for the same answers.</p></details>
 </section>
 
 <section id="adapt" aria-labelledby="ad-h">
@@ -130,6 +140,24 @@ $("cycle").addEventListener("click", e => { const b = e.target.closest("button[d
 $("stage").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) { cur = +b.dataset.go; drawCycle(); drawStage(true); } });
 $("stage").addEventListener("change", e => { if (e.target.dataset.k) { ticks[e.target.dataset.k] = e.target.checked; store.set("dqc.playbook", ticks); drawCycle(); } });
 $("reset").onclick = () => { ticks = {}; store.set("dqc.playbook", ticks); drawCycle(); drawStage(false); };
+$("asset").value = store.get("dqc.playbook.asset", "");
+$("asset").addEventListener("input", () => store.set("dqc.playbook.asset", $("asset").value));
+$("report").onclick = async () => {
+  const name = $("asset").value.trim() || "Critical data asset", today = new Date().toISOString().slice(0, 10);
+  const L = [`# Data quality playbook progress: ${name}`, "", `Date: ${today}. ${PB.stages.reduce((n, s) => n + done(s), 0)} of ${total} checks ticked.`, ""];
+  PB.stages.forEach(s => {
+    L.push(`## Stage ${s.n}: ${s.name} (${done(s)} of ${s.checklist.length})`, "");
+    s.checklist.forEach((c, i) => L.push(`- [${ticks[`${s.id}.${i}`] ? "x" : " "}] ${c}`));
+    L.push("", `Requirements: ${s.dam.join(", ")}. Inclusion check: ${s.inclusion}`, "");
+  });
+  const next = PB.stages.find(s => done(s) < s.checklist.length);
+  L.push(next ? `Next: stage ${next.n}, ${next.name}. ${next.steps[0]}` : "All checks ticked. Book the next annual review.", "",
+    "Made with the Public Sector Data Quality Commons playbook. Content: Open Government Licence v3.0.");
+  const text = L.join("\n"), file = `playbook-progress-${today}.md`;
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: file, data: text}); $("rMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/markdown"})); a.download = file; document.body.appendChild(a); a.click(); a.remove(); $("rMsg").textContent = "Downloaded."; }
+  catch (e) { $("rMsg").textContent = "Downloading isn't allowed here."; }
+};
 const hashStage = PB.stages.findIndex(s => location.hash === "#" + s.id); if (hashStage >= 0) cur = hashStage;
 drawCycle(); drawStage(false);
 

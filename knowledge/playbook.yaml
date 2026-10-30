@@ -123,7 +123,7 @@ stages:
   name: Prioritise
   goal: Fix the issues that hurt most first.
   steps:
-  - Score each issue with the issues framework: importance of purpose times impact, then the band below target.
+  - "Score each issue with the issues framework: importance of purpose times impact, then the band below target."
   - Sort by priority. Critical issues are fixed immediately; high in one cycle; medium in three; low in six.
   - Agree the order with the data owner. Record accepted risks explicitly.
   - Turn the top issues into a data quality action plan with goals and dates.
@@ -167,7 +167,7 @@ stages:
   name: Report and be open
   goal: Users know how good the data is and what it can safely be used for.
   steps:
-  - Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for.
+  - "Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for."
   - Publish quality metadata with the asset (W3C DQV or the CDA return fields) so catalogues such as the National Data Library can show it.
   - Report the portfolio to your governance board and the centre (for example the CDA return).
   - Tell affected users directly about critical issues.
@@ -192,7 +192,7 @@ stages:
   - Run checks automatically on every new load or on a fixed cycle (monthly is a good start).
   - Track trends; alert when a rule drops below its target.
   - Escalate using agreed thresholds (see escalation).
-  - Build skills: train stewards and producers; share rules and lessons with other teams.
+  - "Build skills: train stewards and producers; share rules and lessons with other teams."
   - Keep rules, results and the plan in version control so they survive staff and supplier changes.
   outputs: [Automated checks, Trend dashboard, Escalation log, Training record]
   checklist:

@@ -1,0 +1,20 @@
+name: release
+# When a version tag (v1.2.3) is pushed, check it matches knowledge/releases.yaml,
+# then create a GitHub release with the notes from that file and the source zip.
+on:
+  push: {tags: ["v*.*.*"]}
+permissions: {contents: write}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests
+      - id: notes
+        run: python scripts/release_notes.py "${GITHUB_REF_NAME#v}" > notes.md
+      - run: git archive --format=zip --prefix="dq-commons-${GITHUB_REF_NAME}/" -o "dq-commons-${GITHUB_REF_NAME}.zip" "${GITHUB_REF_NAME}"
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: gh release create "${GITHUB_REF_NAME}" "dq-commons-${GITHUB_REF_NAME}.zip" --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag

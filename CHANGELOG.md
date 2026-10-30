@@ -2,6 +2,17 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 1.5.0 — 2026-10-30
+### Added
+- `dqkit/playbook.py` and `dqkit playbook init | status | guide`: a workspace per critical data asset (6 CSV templates, a checklist README, a status file) and an evidence-based status that reads the register, rules, `dqkit check` results, DQV, history and review files.
+- MCP tool `playbook` (13 tools); workspace paths are kept inside the server's folder.
+- Playbook page: progress report download (Markdown) and the toolkit commands.
+- `.github/workflows/pages.yml` publishes the portal and bundle to GitHub Pages; `.github/workflows/release.yml` and `scripts/release_notes.py` turn version tags into GitHub releases.
+- `tests/test_playbook.py`.
+### Fixed
+- Three playbook steps containing "word: text" were parsed as mappings and showed as "[object Object]"; quoted, and the playbook test now checks every step, checklist item and output is text.
+- Version drift: `pyproject.toml` (was 1.1.0), `dqkit.__version__` (was 0.1.0) and the MCP server (was 1.2.0) now match the release record, enforced by a test.
+
 ## 1.4.0 — 2026-10-30
 ### Added
 - Data quality management playbook for critical data assets (`playbook.html`, `knowledge/playbook.yaml`, `docs/DQ-MANAGEMENT-PLAYBOOK.md`): 7 principles, 8 stages (identify, define, baseline, prioritise, fix at source, report, sustain, annual review), each with steps, outputs, a checklist you can tick, RACI, UK DAM policy and DQAP clauses, comparable frameworks elsewhere, an inclusion check and a toolkit route. Rhythm, escalation, measures, 6 downloadable CSV templates, 7 inclusion checks and a finder for 11 jurisdictions. Generic: a terms table maps it to any mandate.

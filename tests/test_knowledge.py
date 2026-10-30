@@ -150,6 +150,8 @@ class Playbook(unittest.TestCase):
             for c in s["dam"]:
                 self.assertIn(c, clauses, s["id"])
             self.assertTrue(s["checklist"] and s["inclusion"], s["id"])
+            for k in ("steps", "checklist", "outputs"):  # an unquoted "word: text" becomes a mapping, not a sentence
+                self.assertTrue(all(isinstance(x, str) for x in s[k]), f"{s['id']}.{k}")
             self.assertTrue((ROOT / "portal" / "src" / "pages" / s["toolkit"]["link"]).exists(), s["toolkit"]["link"])
         for j in pb["jurisdictions"]:
             for f in j["frameworks"]:

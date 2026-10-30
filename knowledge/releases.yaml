@@ -11,6 +11,19 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "1.5.0"
+  date: "2026-10-30"
+  title: "Playbook in the toolkit, automatic publishing and releases"
+  pages_new: []
+  pages_changed: [playbook]
+  items:
+  - {type: new, text: "dqkit playbook init, status and guide: start a workspace for a critical data asset, then see which stages have evidence and what to do next", link: "playbook.html#stages"}
+  - {type: new, text: "MCP tool 'playbook' so AI assistants can read stages and check a workspace's progress"}
+  - {type: new, text: "Download a progress report of your playbook checklist", link: "playbook.html#stages"}
+  - {type: new, text: "The portal publishes itself to GitHub Pages on every change to main, with the build bundle at /bundle/"}
+  - {type: new, text: "Tagged versions become GitHub releases automatically, with notes from the release record and a source zip"}
+  - {type: fixed, text: "Three playbook steps were read as headings with missing text; they now show in full, and a test stops it happening again"}
+  - {type: fixed, text: "Package, toolkit and MCP server version numbers now come from one place and are tested"}
 - version: "1.4.0"
   date: "2026-10-30"
   title: "Data quality management playbook, horizon scan and verified sources"

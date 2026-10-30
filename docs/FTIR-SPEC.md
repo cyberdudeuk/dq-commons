@@ -100,3 +100,13 @@
 | T-140 | Playbook document generated from YAML; CI fails if stale | Technical | `scripts/build_playbook_doc.py --check` |
 | T-141 | Verification states yes, partly, unpublished; health counter accepts any YAML quoting | Technical | `scripts/self_check.py`, `tests/test_packs.py` |
 | I-140 | Playbook stages linked into the knowledge graph as a lineage flow | Integration | `knowledge/ontology.yaml` |
+
+## v1.5 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-150 | Create a playbook workspace without overwriting existing files | Functional | `dqkit playbook init` |
+| F-151 | Report each stage as done, in progress or to do from evidence files and checklist ticks, and name the next step | Functional | `dqkit playbook status` |
+| F-152 | Download a progress report from the playbook page | Functional | `playbook.html` |
+| I-150 | MCP tool `playbook`; workspace paths confined to the server folder | Integration | `dqkit/mcp_server.py` |
+| T-150 | Portal and bundle published to GitHub Pages on push to main | Technical | `pages.yml` |
+| T-151 | Tags create releases only if listed in the release record; versions tested to agree | Technical | `release.yml`, `tests/test_playbook.py` |

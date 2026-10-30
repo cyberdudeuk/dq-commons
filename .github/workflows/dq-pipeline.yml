@@ -167,6 +167,7 @@ jobs:
         run: |
           if [ -f scripts/build_dq_portal.py ]; then
             python scripts/build_dq_portal.py
+            mkdir -p portal/dist/bundle && cp docs/bundle/index.html portal/dist/bundle/index.html
           else
             echo "No scripts/build_dq_portal.py yet: skipping the portal."
           fi
