@@ -568,18 +568,18 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3> a dqc:Framework ;
   rdfs:label "Code of Practice for Statistics, Edition 3.0"@en ;
-  skos:definition "In force for official statistics; voluntary for other statistics and analysis"@en ;
-  rdfs:seeAlso <https://code.statisticsauthority.gov.uk/wp-content/uploads/2025/10/Code-of-Practice-for-Statistics-3.0.pdf> ;
+  skos:definition "Standards for Official Statistics apply to official statistics producers; anyone can apply the Code voluntarily; Standards for the Public Use of Statistics, Data and Wider Analysis apply to all public bodies"@en ;
+  rdfs:seeAlso <https://osr.statisticsauthority.gov.uk/publications/the-code-of-practice-for-statistics/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-qaad> a dqc:Framework ;
-  rdfs:label "Quality Assurance of Administrative Data (QAAD) toolkit"@en ;
+  rdfs:label "Quality Assurance of Administrative Data (QAAD): Setting the Standard, and the Administrative Data Quality Assurance Toolkit"@en ;
   skos:definition "In use"@en ;
   rdfs:seeAlso <https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-aqua-book> a dqc:Framework ;
-  rdfs:label "The AQuA Book (guidance on producing quality analysis)"@en ;
+  rdfs:label "The AQuA Book"@en ;
   skos:definition "In use"@en ;
   rdfs:seeAlso <https://www.gov.uk/guidance/the-aqua-book> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk> ;
@@ -612,8 +612,8 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:label "Wales"@en ;
   dqc:inScope <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/commons-scope> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/scotland-data-standards> a dqc:Framework ;
-  rdfs:label "Data standards in Scotland's public sector - framework for action (consultation analysis)"@en ;
-  skos:definition "Check current status with the Scottish Government"@en ;
+  rdfs:label "Data standards in Scotland's public sector - framework for action: consultation analysis"@en ;
+  skos:definition "Consultation analysis (2021); proposed Framework for Action presented for discussion - check current status with the Scottish Government"@en ;
   rdfs:seeAlso <https://www.gov.scot/publications/framework-action-data-standards-scotlands-public-sector/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/scotland> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability> .
@@ -625,7 +625,7 @@ dqc:inScope a owl:ObjectProperty ;
   skos:definition "In use"@en ;
   rdfs:seeAlso <https://www.gov.scot/publications/producing-official-statistics/pages/quality-management-policy/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/scotland> ;
-  dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability> .
+  dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/nhs-dqmi> a dqc:Framework ;
   rdfs:label "Data Quality Maturity Index (DQMI)"@en ;
   skos:definition "Published regularly for NHS providers"@en ;
@@ -648,7 +648,7 @@ dqc:inScope a owl:ObjectProperty ;
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/england-and-wales> a dqc:Jurisdiction ;
   rdfs:label "England and Wales"@en .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/iso-8000> a dqc:Framework ;
-  rdfs:label "ISO 8000 Data quality (series), including ISO 8000-8 measuring quality and ISO 8000-61 process reference model"@en ;
+  rdfs:label "ISO 8000 Data quality (series), including ISO 8000-8:2015 Information and data quality: Concepts and measuring, and ISO 8000-61 process reference model"@en ;
   skos:definition "International standard (paid)"@en ;
   rdfs:seeAlso <https://scc-ccn.ca/standardsdb/standards/8158218> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
@@ -663,13 +663,13 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/iso-iec-5259> a dqc:Framework ;
-  rdfs:label "ISO/IEC 5259 Data quality for analytics and machine learning (series)"@en ;
+  rdfs:label "ISO/IEC 5259 Artificial intelligence - Data quality for analytics and machine learning (ML) (series)"@en ;
   skos:definition "International standard (paid)"@en ;
   rdfs:seeAlso <https://www.iso.org/standard/81088.html> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/representativeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/iso-19157> a dqc:Framework ;
-  rdfs:label "ISO 19157-1 Geographic information - Data quality"@en ;
+  rdfs:label "ISO 19157-1:2023 Geographic information - Data quality - Part 1: General requirements"@en ;
   skos:definition "International standard (paid)"@en ;
   rdfs:seeAlso <https://www.iso.org/standard/78900.html> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
@@ -688,11 +688,11 @@ dqc:inScope a owl:ObjectProperty ;
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/dama-dmbok> a dqc:Framework ;
   rdfs:label "DAMA-DMBOK (Data Management Body of Knowledge), data quality chapter"@en ;
   skos:definition "Professional reference (paid)"@en ;
-  rdfs:seeAlso <https://dama.org/> ;
+  rdfs:seeAlso <https://dama.org/articles/introducing-the-revised-dama-data-management-body-of-knowledge-2nd-edition> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/uniqueness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/ess-qaf> a dqc:Framework ;
-  rdfs:label "European Statistical System Quality Assurance Framework (ESS QAF)"@en ;
+  rdfs:label "Quality Assurance Framework of the European Statistical System (ESS QAF)"@en ;
   skos:definition "In use across the ESS"@en ;
   rdfs:seeAlso <https://ec.europa.eu/eurostat/web/quality/european-quality-standards/quality-assurance-framework> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/eu-ess> ;
@@ -712,9 +712,9 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/us-fcsm> a dqc:Framework ;
-  rdfs:label "A Framework for Data Quality (US Federal Committee on Statistical Methodology)"@en ;
+  rdfs:label "A Framework for Data Quality (FCSM 20-04)"@en ;
   skos:definition "In use"@en ;
-  rdfs:seeAlso <https://apps.bea.gov/icsp/fcsm/assets/docs/2021.09.10%20Leveraging%20the%20Data%20Quality%20Framework%20Workshop%20Slides.pdf> ;
+  rdfs:seeAlso <https://statspolicy.gov/assets/fcsm/files/docs/FCSM.20.04_A_Framework_for_Data_Quality.pdf> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/united-states> ;
   dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/united-states> a dqc:Jurisdiction ;
@@ -740,7 +740,7 @@ dqc:inScope a owl:ObjectProperty ;
   skos:definition "In use"@en ;
   rdfs:seeAlso <https://www.naa.gov.au/information-management/building-interoperability/interoperability-development-phases/data-governance-and-management/data-quality> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/australia> ;
-  dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity> .
+  dqc:mapsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/uniqueness>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-dam-policy-dam-1> a dqc:PolicyClause ;
   rdfs:label "DAM-1: Identify, record and centrally report shared critical data assets"@en ;
   skos:definition "Area: Scope. Strength: must. Toolkit: Portfolio file lists assets; CDA return rows (cda-return.csv)"@en ;
@@ -1566,17 +1566,17 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-assess>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-stat>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-prot> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/c-af-quality-stats> a dqc:Course ;
   rdfs:label "Quality statistics in government"@en ;
-  skos:definition "Government Analysis Function · See the provider page · Not stated"@en ;
+  skos:definition "Government Data Quality Hub (Government Analysis Function) · Online, 1 hour · Not stated"@en ;
   rdfs:seeAlso <https://analysisfunction.civilservice.gov.uk/training/quality-in-government-statistics> ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-stat> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/c-af-communicating> a dqc:Course ;
   rdfs:label "Communicating quality, uncertainty and change"@en ;
-  skos:definition "Government Analysis Function · See the provider page · Not stated"@en ;
+  skos:definition "Government Data Quality Hub (Government Analysis Function) · Online, 1 hour · Not stated"@en ;
   rdfs:seeAlso <https://analysisfunction.civilservice.gov.uk/training/communicating-quality-uncertainty-and-change/> ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-stat> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/c-af-qaad> a dqc:Course ;
   rdfs:label "Quality Assurance of Administrative Data (QAAD) workshop"@en ;
-  skos:definition "Government Analysis Function · Workshop · Not stated"@en ;
+  skos:definition "Government Data Quality Hub (Government Analysis Function) · Face-to-face workshop, 2 hours; bespoke sessions need at least 15 attendees · Not stated"@en ;
   rdfs:seeAlso <https://analysisfunction.civilservice.gov.uk/training/quality-assurance-of-administrative-data-qaad-workshop/> ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-stat>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-assess> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/c-eoppiva-dq> a dqc:Course ;
@@ -1591,12 +1591,12 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-eng>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-assess> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/c-tdwi-fundamentals> a dqc:Course ;
   rdfs:label "TDWI Data Quality Fundamentals"@en ;
-  skos:definition "TDWI · Virtual, instructor-led · Paid; see provider"@en ;
+  skos:definition "TDWI · Virtual, instructor-led, 6 to 8 hours (5 CPE credits) · Not stated"@en ;
   rdfs:seeAlso <https://tdwi.org/events/online-learning/virtual-training/courses/catalog/tdwi-data-quality-fundamentals.aspx> ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-assess>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-action> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/q-cdmp-dq> a dqc:Course ;
   rdfs:label "Certified Data Management Professional (CDMP), Data Quality specialist exam"@en ;
-  skos:definition "DAMA International · Online exams based on the DAMA-DMBOK; training from several providers · Paid; see provider"@en ;
+  skos:definition "DAMA International · Online proctored exams (90 minutes, or 110 minutes for the English-as-a-second-language version), based on the DAMA-DMBOK; training from several providers · USD 311 per exam (Data Quality specialist exam)"@en ;
   rdfs:seeAlso <https://cdmp.info/> ;
   dqc:teaches <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-assess>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-action>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Skill/sk-gov> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Course/g-ddat> a dqc:Course ;
@@ -1621,7 +1621,7 @@ dqc:inScope a owl:ObjectProperty ;
   dqc:partOf <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/crown-dependencies> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/bailiwick-of-guernsey> a dqc:Jurisdiction ;
   rdfs:label "Bailiwick of Guernsey"@en ;
-  skos:definition "Statistics: States of Guernsey (Data and Analysis). Data protection: Data Protection (Bailiwick of Guernsey) Law 2017."@en ;
+  skos:definition "Statistics: States of Guernsey (Data and Analysis). Data protection: The Data Protection (Bailiwick of Guernsey) Law, 2017."@en ;
   rdfs:seeAlso <https://www.gov.gg/> ;
   dqc:partOf <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/crown-dependencies> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/isle-of-man> a dqc:Jurisdiction ;
@@ -1691,7 +1691,7 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:seeAlso <https://unstats.un.org/fpos/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/un-nqaf> a dqc:Organisation ;
-  rdfs:label "UN National Quality Assurance Frameworks Manual (2019)"@en ;
+  rdfs:label "United Nations National Quality Assurance Frameworks Manual for Official Statistics (2019)"@en ;
   skos:definition "A template quality framework any statistics office can adopt; useful for small offices without their own."@en ;
   rdfs:seeAlso <https://desapublications.un.org/publications/united-nations-quality-assurance-frameworks-manual> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
@@ -1706,7 +1706,7 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:seeAlso <https://dsbb.imf.org/> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/oecd> a dqc:Organisation ;
-  rdfs:label "OECD Recommendation on Good Statistical Practice"@en ;
+  rdfs:label "OECD Recommendation of the Council on Good Statistical Practice"@en ;
   skos:definition "Good practice for national statistical systems, used in OECD peer reviews."@en ;
   rdfs:seeAlso <https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0417> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
@@ -1743,7 +1743,7 @@ dqc:inScope a owl:ObjectProperty ;
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/g7-dfft> a dqc:Organisation ;
   rdfs:label "G7 Data Free Flow with Trust"@en ;
   skos:definition "Trusted cross-border data flows; trust depends on known data quality and provenance."@en ;
-  rdfs:seeAlso <https://www.oecd.org/en/topics/sub-issues/cross-border-data-flows.html> ;
+  rdfs:seeAlso <https://www.oecd.org/en/about/programmes/data-free-flow-with-trust.html> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/g20-dgi> a dqc:Organisation ;
   rdfs:label "G20 Data Gaps Initiative"@en ;
@@ -1759,14 +1759,14 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:label "Supranational"@en ;
   dqc:inScope <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/commons-scope> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/coe-108> a dqc:Organisation ;
-  rdfs:label "Council of Europe Convention 108+"@en ;
+  rdfs:label "Council of Europe Convention 108+ (Convention 108 as amended by Protocol CETS No. 223)"@en ;
   skos:definition "The international data protection treaty, which includes data accuracy as a principle."@en ;
-  rdfs:seeAlso <https://www.coe.int/en/web/data-protection/convention108-and-protocol> ;
+  rdfs:seeAlso <https://rm.coe.int/16808ac918> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/supranational> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/iso> a dqc:Organisation ;
   rdfs:label "ISO and IEC (ISO 8000, ISO/IEC 25012, ISO/IEC 5259)"@en ;
   skos:definition "International data quality standards, available as packs in the toolkit."@en ;
-  rdfs:seeAlso <https://www.iso.org/standard/50798.html> ;
+  rdfs:seeAlso <https://www.iso.org/standard/81745.html> ;
   dqc:appliesIn <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Organisation/w3c> a dqc:Organisation ;
   rdfs:label "W3C (DCAT, DQV, CSVW, PROV)"@en ;
@@ -2063,6 +2063,46 @@ dqc:inScope a owl:ObjectProperty ;
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-return> a dqc:Stage ;
   rdfs:label "CDA return and dashboards"@en ;
   skos:definition "The critical data asset return and the portal's pipeline page."@en ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-identify> a dqc:Stage ;
+  rdfs:label "1 Identify critical data"@en ;
+  skos:definition "Register critical data assets, owners and the data items that matter most."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-define> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-source> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-define> a dqc:Stage ;
+  rdfs:label "2 Define rules and targets"@en ;
+  skos:definition "Plain-English rules, dimensions and targets, saved as a data contract."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-rule>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-contract>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-rules> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline> a dqc:Stage ;
+  rdfs:label "3 Measure and baseline"@en ;
+  skos:definition "Profile, run rules, log issues, break results down by group."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-prioritise> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-measure> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-prioritise> a dqc:Stage ;
+  rdfs:label "4 Prioritise"@en ;
+  skos:definition "Score issues with the issues framework and write the action plan."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-improve> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-issues-framework>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-action-plan-dqap> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-improve> a dqc:Stage ;
+  rdfs:label "5 Fix at source"@en ;
+  skos:definition "Find root causes and fix where the data is created."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-report> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/escalation> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-report> a dqc:Stage ;
+  rdfs:label "6 Report openly"@en ;
+  skos:definition "Data quality statement, DQV metadata and the CDA return."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-sustain> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-dqv>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-return> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-sustain> a dqc:Stage ;
+  rdfs:label "7 Monitor and sustain"@en ;
+  skos:definition "Automated checks, trends, alerts and escalation."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-review>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline> ;
+  dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/trust-level> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-review> a dqc:Stage ;
+  rdfs:label "8 Annual review"@en ;
+  skos:definition "Review the asset, rules and targets at least every 12 months."@en ;
+  dqc:flowsTo <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-identify> ;
   dqc:involves <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/rt-policy> a dqc:Stage ;
   rdfs:label "Policy or framework"@en ;

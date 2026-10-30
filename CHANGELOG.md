@@ -2,6 +2,18 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 1.4.0 — 2026-10-30
+### Added
+- Data quality management playbook for critical data assets (`playbook.html`, `knowledge/playbook.yaml`, `docs/DQ-MANAGEMENT-PLAYBOOK.md`): 7 principles, 8 stages (identify, define, baseline, prioritise, fix at source, report, sustain, annual review), each with steps, outputs, a checklist you can tick, RACI, UK DAM policy and DQAP clauses, comparable frameworks elsewhere, an inclusion check and a toolkit route. Rhythm, escalation, measures, 6 downloadable CSV templates, 7 inclusion checks and a finder for 11 jurisdictions. Generic: a terms table maps it to any mandate.
+- `scripts/build_playbook_doc.py` (with `--check` in CI) keeps the document and the page in step.
+- Horizon scan (October 2026), 10 new library items and 2 home page slides, each read at source: GDS guidance on AI-ready datasets, National Data Library growth, OSR 2025/26 forward look, NHS Scotland data quality strategy, ODCS v3.1.0, ODPS v1.0.0, CEN/CLC/TS 18331:2026, prEN 18352 (draft), EMA data quality framework and US H.R. 9341.
+- Playbook cycle as a lineage flow in the knowledge graph (468 concepts, 1,092 relationships).
+### Changed
+- All 86 previously unverified sources checked; framework cards show the date checked; two frameworks with no public document are labelled "Not publicly available" and can be filtered.
+- Notes added: Open Standards Board recommendations (RFC 4180 and OpenAPI 3, not CSVW); ICO accuracy guidance under review after the Data (Use and Access) Act 2025; 2020 news item marked historical.
+### Fixed
+- Links and dimension mappings corrected during verification; duplicate library title; empty-link warnings in content health.
+
 ## 1.3.0 — 2026-10-15
 ### Added
 - Knowledge map page: glossary (39 terms), ISO 25964-style thesaurus, data dictionary with an entity relationship diagram, taxonomies, ontology (23 classes, 27 relationship types) and an interactive knowledge graph of 460 concepts and over 1,000 relationships, with a trail, path finder, lineage diagrams and framework-to-evidence traceability.

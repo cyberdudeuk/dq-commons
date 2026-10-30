@@ -2,7 +2,7 @@
 # Versioning: semantic versioning (major.minor.patch). Major: changes that break files or links people rely on.
 # Minor: new features or pages. Patch: fixes and content updates. Types: new, changed, fixed, removed.
 # pages_new / pages_changed flag menu entries as "New" or "Updated" while that release is the latest or the one before.
-review: {last_reviewed: "2026-10-15", owner_role: Product owner (Commons)}
+review: {last_reviewed: "2026-10-30", owner_role: Product owner (Commons)}
 
 policy:
 - "Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content."
@@ -11,6 +11,20 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "1.4.0"
+  date: "2026-10-30"
+  title: "Data quality management playbook, horizon scan and verified sources"
+  pages_new: [playbook]
+  pages_changed: [index, frameworks, library, interop, knowledge, events]
+  items:
+  - {type: new, text: "Data quality management playbook for critical data assets: eight stages with steps, checklists, roles, templates and DAM policy mapping, usable under any mandate", link: "playbook.html"}
+  - {type: new, text: "Blank CSV templates: asset register, rule, issue log, action plan, quality statement and annual review", link: "playbook.html#templates"}
+  - {type: new, text: "Horizon scan, October 2026: AI-ready datasets guidance, National Data Library growth, OSR forward look, NHS Scotland strategy, ODCS v3.1, ODPS v1.0, CEN data space standards, EMA framework and a US AI-ready data bill", link: "library.html"}
+  - {type: new, text: "Playbook cycle added to the knowledge graph as a lineage flow", link: "knowledge.html#node=Stage:pb-identify"}
+  - {type: changed, text: "Every listed source has now been read: 86 sources checked, with dates shown on each framework card", link: "frameworks.html"}
+  - {type: changed, text: "Frameworks with no public document are labelled 'Not publicly available' and can be filtered", link: "frameworks.html"}
+  - {type: fixed, text: "Corrected links and dimension mappings found during verification (Code of Practice, FCSM, 360Giving, Data Cymru, NHS-R, Table Schema, G7 DFFT, Convention 108+, ISO 8000)"}
+  - {type: fixed, text: "Content health warnings cleared: duplicate library title and empty links"}
 - version: "1.3.0"
   date: "2026-10-15"
   title: "Knowledge map, events, skills and training"

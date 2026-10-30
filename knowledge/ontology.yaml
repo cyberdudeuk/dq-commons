@@ -175,6 +175,18 @@ lineage:
   - {id: st-catalogue, label: "Catalogue record", what: "DCAT, schema.org or CKAN record, woven with quality metadata.", links: [Term:dcat, Term:metadata, MetadataStandard:dcat-v3]}
   - {id: st-return, label: "CDA return and dashboards", what: "The critical data asset return and the portal's pipeline page.", links: [Term:critical-data-asset-cda]}
   flows: [[st-source, st-measure], [st-rules, st-measure], [st-measure, st-results], [st-results, st-issues], [st-results, st-dqv], [st-dqv, st-catalogue], [st-issues, st-return], [st-catalogue, st-return]]
+- id: playbook
+  title: "The data quality management playbook cycle"
+  stages:
+  - {id: pb-identify, label: "1 Identify critical data", what: "Register critical data assets, owners and the data items that matter most.", links: [Term:critical-data-asset-cda, Stage:st-source]}
+  - {id: pb-define, label: "2 Define rules and targets", what: "Plain-English rules, dimensions and targets, saved as a data contract.", links: [Term:data-quality-rule, Term:data-contract, Stage:st-rules]}
+  - {id: pb-baseline, label: "3 Measure and baseline", what: "Profile, run rules, log issues, break results down by group.", links: [Stage:st-measure]}
+  - {id: pb-prioritise, label: "4 Prioritise", what: "Score issues with the issues framework and write the action plan.", links: [Term:data-quality-issues-framework, Term:data-quality-action-plan-dqap]}
+  - {id: pb-improve, label: "5 Fix at source", what: "Find root causes and fix where the data is created.", links: [Term:escalation]}
+  - {id: pb-report, label: "6 Report openly", what: "Data quality statement, DQV metadata and the CDA return.", links: [Stage:st-dqv, Stage:st-return]}
+  - {id: pb-sustain, label: "7 Monitor and sustain", what: "Automated checks, trends, alerts and escalation.", links: [Term:trust-level]}
+  - {id: pb-review, label: "8 Annual review", what: "Review the asset, rules and targets at least every 12 months.", links: [Term:critical-data-asset-cda]}
+  flows: [[pb-identify, pb-define], [pb-define, pb-baseline], [pb-baseline, pb-prioritise], [pb-prioritise, pb-improve], [pb-improve, pb-report], [pb-report, pb-sustain], [pb-sustain, pb-review], [pb-review, pb-identify], [pb-sustain, pb-baseline]]
 - id: requirement
   title: "From policy to evidence"
   stages:

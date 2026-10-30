@@ -90,3 +90,13 @@
 - **T-30** Every graph relationship type is declared in the ontology; no dangling links; one connected graph.
 - **T-31** The committed build bundle matches the documents.
 - **I-30** MCP tool `explore_knowledge` is read-only.
+
+## v1.4 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-140 | Show 8 playbook stages with steps, outputs, checklist, RACI, clauses, inclusion check and toolkit link | Functional | `playbook.html` |
+| F-141 | Remember checklist ticks per browser only; clear on request | Functional | localStorage `dqc.playbook` |
+| F-142 | Download blank CSV templates (6) through the artifact downloads capability or a browser download | Functional | `playbook.html#templates` |
+| T-140 | Playbook document generated from YAML; CI fails if stale | Technical | `scripts/build_playbook_doc.py --check` |
+| T-141 | Verification states yes, partly, unpublished; health counter accepts any YAML quoting | Technical | `scripts/self_check.py`, `tests/test_packs.py` |
+| I-140 | Playbook stages linked into the knowledge graph as a lineage flow | Integration | `knowledge/ontology.yaml` |

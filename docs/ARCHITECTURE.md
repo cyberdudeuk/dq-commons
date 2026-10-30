@@ -203,3 +203,9 @@ flowchart LR
 **Releases.** `knowledge/releases.yaml` drives the version, the What's new drawer (a non-modal dialog that keeps focus, closes on Escape and remembers the last version seen in local storage) and New or Updated flags in menus.
 
 **Bundle.** `scripts/build_bundle.py` converts the mandated Markdown documents with a small built-in converter into one standalone page; `--check` keeps the committed copy current.
+
+## 8. v1.4.0 design (30 October 2026)
+
+**Playbook.** `knowledge/playbook.yaml` is the single source. The portal build exposes it as `__K_PLAYBOOK__`; the page joins it with `__K_REQUIREMENTS__` (clause text) and `__K_FRAMEWORKS__` (jurisdiction finder) in the browser. `scripts/build_playbook_doc.py` renders the same data as Markdown for the build bundle. The playbook cycle is a lineage flow in `knowledge/ontology.yaml`, so the graph links each stage to the toolkit stages and glossary terms it uses.
+
+**Verification states.** `verified`/`checked` now take `yes`, `partly`, `listed` or `unpublished`; `checked_on` records the date read. The health check counts `yes` and `unpublished` as read in full.

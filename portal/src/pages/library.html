@@ -102,7 +102,7 @@ tabs.forEach((t, i) => {
 // curated library: Commons picks + framework sources + networks
 const items = [
   ...M.library.map(x => ({...x, src: "Commons pick"})),
-  ...F.map(f => ({title: f.name, type: "Framework or standard", topics: [f.sector, f.type], url: f.url, publisher: f.publisher, nation: f.jurisdiction, checked: f.verified === "yes" ? "yes" : "listed", src: "Frameworks registry"})),
+  ...F.map(f => ({title: f.name, type: "Framework or standard", topics: [f.sector, f.type], url: f.url, publisher: f.publisher, nation: f.jurisdiction, checked: f.verified === "unpublished" ? "yes" : (f.verified === "yes" ? "yes" : "listed"), src: "Frameworks registry"})),
   ...C.map(c => ({title: c.name, type: "Network or community", topics: [c.kind], url: c.url, publisher: c.scope, nation: c.scope, checked: c.verified === "yes" ? "yes" : "listed", src: "Networks"})),
 ];
 const opt = (vals, any) => `<option value="">${any}</option>` + vals.map(v => `<option>${esc(v)}</option>`).join("");

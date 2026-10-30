@@ -6,10 +6,10 @@ central and local government, the devolved governments, the wider public sector,
 and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories,
 Commonwealth and international partners the UK works with.
 
-**Status:** prototype (v1.3.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
+**Status:** prototype (v1.4.0). MIT-licensed code, OGL v3.0 content. Not an official government product.
 
 **See it first:** build the portal with `python scripts/build_dq_portal.py` and open
-`portal/dist/index.html`: 31 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
+`portal/dist/index.html`: 32 pages in six groups (Start, Do, Know, Govern, Scenarios, Community), each with
 a guided tour. Start with `docs/USER-GUIDE.md`. How support works: `docs/OPERATING-MODEL.md`.
 
 Scenarios include critical data assets under the GOV.UK
@@ -21,7 +21,7 @@ data, AI and machine learning, open data, the devolved nations and international
 
 | Area | Where |
 |---|---|
-| **Knowledge map**: glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph (460 concepts, 1,000+ relationships) with lineage, traceability and path finding | `knowledge/ontology.yaml`, `dqkit/graph.py`, `dqkit graph`, portal Know > Knowledge map |
+| **Knowledge map**: glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph (468 concepts, 1,000+ relationships) with lineage, traceability and path finding | `knowledge/ontology.yaml`, `dqkit/graph.py`, `dqkit graph`, portal Know > Knowledge map |
 | Knowledge graph as open SKOS and OWL | `vocab/knowledge-graph.ttl`, `vocab/knowledge-graph.jsonld`, MCP tool `explore_knowledge` |
 | **Events** calendar with list and month views, .ics downloads and moderated submissions | `knowledge/events.yaml`, portal Community > Events |
 | **Skills and training**: skills check by role, development plan, course and qualification catalogue | `knowledge/training.yaml`, portal Know > Skills and training |

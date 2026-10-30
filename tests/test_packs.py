@@ -20,7 +20,7 @@ class Registry(unittest.TestCase):
             self.assertEqual(set(f["map"]), set(f["dimensions"]), f["id"])
             for v in f["map"].values():
                 self.assertLessEqual(set(v), kit, f["id"])
-            self.assertIn(f["verified"], ("yes", "partly"), f["id"])
+            self.assertIn(f["verified"], ("yes", "partly", "unpublished"), f["id"])
             for k in ("name", "publisher", "jurisdiction", "sector", "type", "status"):
                 self.assertTrue(f.get(k), (f["id"], k))
         self.assertGreaterEqual(len(ids), 25)

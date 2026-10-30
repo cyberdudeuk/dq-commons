@@ -63,6 +63,7 @@ GROUPS = [
         ("library", "Library and knowledge base", "Curated resources, how-to articles and resources shared by members"),
     ]),
     ("Govern", [
+        ("playbook", "Data quality management playbook", "Eight stages to manage the quality of critical data assets: steps, checklists, roles, templates and the DAM policy, usable anywhere"),
         ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),
         ("legacy", "Legacy and modernisation", "Data debt, migration gates, MoSCoW, self-assessment and a reconciliation tool"),
         ("interop", "Interoperability and standards", "Identifiers, formats, data contracts, guardrails, measures and related capabilities"),
@@ -90,7 +91,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow"}
 
 
 def icon(name: str) -> str:
@@ -246,6 +247,7 @@ def knowledge() -> dict:
         "BUILD": lambda: y("build"),
         "HEALTH": lambda: health_summary(),
         "EVENTS": lambda: y("events"),
+        "PLAYBOOK": lambda: y("playbook"),
         "RELEASES": lambda: y("releases"),
         "TRAINING": lambda: y("training"),
         "GRAPH": lambda: knowledge_graph(),
@@ -330,7 +332,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook"}
 
 
 def provenance(names: set) -> str:

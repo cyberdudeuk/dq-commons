@@ -39,7 +39,7 @@ __BASE_CSS__
     <div class="field"><label for="q">Search</label><input type="search" id="q" placeholder="For example: ISO, statistics, Scotland"></div>
     <div class="field"><label for="fJ">Where</label><select id="fJ"></select></div>
     <div class="field"><label for="fT">Type</label><select id="fT"></select></div>
-    <div class="field"><label for="fV">Verified</label><select id="fV"><option value="">Any</option><option value="yes">Yes</option><option value="partly">Partly</option></select></div>
+    <div class="field"><label for="fV">Verified</label><select id="fV"><option value="">Any</option><option value="yes">Yes</option><option value="partly">Partly</option><option value="unpublished">Not publicly available</option></select></div>
   </div>
   <p class="count" id="regCount" role="status" aria-live="polite"></p>
   <div class="fw" id="fw"></div>
@@ -108,13 +108,14 @@ function drawRegistry() {
   $("regCount").textContent = `Showing ${list.length} of ${F.length}.`;
   $("fw").innerHTML = list.map(f => `<article class="card" id="fw-${esc(f.id)}">
     <div class="chips"><span class="chip acc">${esc(f.jurisdiction)}</span><span class="chip">${esc(f.type)}</span>
-      <span class="chip ${f.verified === "yes" ? "good" : "warn"}">${f.verified === "yes" ? "Verified" : "Partly verified"}</span></div>
+      <span class="chip ${f.verified === "yes" ? "good" : "warn"}">${f.verified === "yes" ? "Verified" + (f.checked_on ? " " + esc(f.checked_on) : "") : f.verified === "unpublished" ? "Not publicly available" : "Partly verified"}</span></div>
     <h3><a href="${esc(f.url)}" rel="noopener">${esc(f.name)}</a></h3>
     <p class="meta">${esc(f.publisher)}${f.year ? " · " + esc(f.year) : ""} · ${esc(f.status || "")}</p>
     <dl><dt>Sector</dt><dd>${esc(f.sector)}</dd>${f.applies_to ? `<dt>Applies to</dt><dd>${esc(f.applies_to)}</dd>` : ""}
       ${(f.dimensions || []).length ? `<dt>Dimensions</dt><dd>${f.dimensions.map(esc).join(", ")}</dd>` : ""}
       ${f.scoring ? `<dt>Scoring</dt><dd>${esc(f.scoring)}</dd>` : ""}
       ${f.pack ? `<dt>Pack</dt><dd><a href="#${esc(f.pack)}">${esc(f.pack)}</a></dd>` : ""}</dl>
+    ${f.source_note ? `<p class="small muted">${esc(f.source_note)}</p>` : ""}${f.verified === "unpublished" ? `<p class="small muted">Shared with the project but not published online, so readers can't check it themselves.</p>` : ""}
     ${(f.principles || []).length ? `<details><summary class="small">Principles (${f.principles.length})</summary><ul class="plain small">${f.principles.map(p => `<li>${esc(p)}</li>`).join("")}</ul></details>` : ""}
   </article>`).join("") || `<p>No frameworks match. Try fewer filters.</p>`;
 }

@@ -97,3 +97,8 @@ return. The GOV.UK DAM policy also requires a DQAP or equivalent for each asset.
 - **Events and training.** User need: "As a manager, I need to find affordable, accessible training and events that match my team's gaps."
 - **What's new.** User need: "As a returning user, I need to see what changed since my last visit."
 - **Build bundle.** User need: "As an assurer or reviewer, I need every design and delivery document for a version in one place."
+
+## v1.4 additions (2026-10-30)
+- **Playbook (must):** a data quality management playbook for critical data assets under the DAM policy, usable under any mandate: stages, checklists, RACI, templates, escalation, measures, inclusion checks and a jurisdiction finder. Success: a steward can run the first cycle on one asset using only the playbook and toolkit.
+- **Verification (must):** every listed source read at source, with the date shown. Success: content health reports 100% read in full.
+- **Horizon scan (should):** a dated scan of new guidance, standards and news each release.

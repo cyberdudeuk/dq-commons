@@ -38,6 +38,7 @@ DOCS = [  # (group, file, short title)
     ("Delivery", "docs/OPERATIONS.md", "Operations"),
     ("Delivery", "docs/OPERATING-MODEL.md", "Operating model"),
     ("Delivery", "docs/ASSURANCE-ROUTINES.md", "Assurance routines"),
+    ("Delivery", "docs/DQ-MANAGEMENT-PLAYBOOK.md", "Data quality management playbook"),
     ("Delivery", "CHARTER.md", "Co-design and contribution charter"),
     ("Records", "CHANGELOG.md", "Change log"),
     ("Records", "docs/DECISIONS.md", "Decision log"),

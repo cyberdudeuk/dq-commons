@@ -1,5 +1,17 @@
 # Build journal
 
+## 2026-10-30 — v1.4.0: data quality management playbook, horizon scan, every source verified
+
+**Built:** Data quality management playbook for critical data assets (page, YAML source, generated document, 6 CSV templates, knowledge graph lineage flow). `scripts/build_playbook_doc.py` with a CI check. A third verification state ("Not publicly available") with a filter on the frameworks page and dates on every card.
+
+**Research:** 86 previously unverified sources read at source and corrected where needed (9 links replaced, 5 dimension maps re-keyed, 2 frameworks marked not publicly available, 1 substitute source explained). October 2026 horizon scan: 10 new library items and 2 home page slides, each read at source. ODCS v3.1.0 confirmed as the version the toolkit already writes and validates.
+
+**Fixed:** the content health counter missed single-quoted YAML values, so it under-reported verification (it now reports 154 of 154 sources read in full); duplicate library title; empty-link warnings.
+
+**Checked:** all tests pass; parity 37 of 37; content health 0 errors, 0 warnings; browser checks on all 32 pages in desktop light and phone dark, with the playbook's checklist, stage navigation and jurisdiction finder exercised; graph is one connected component (468 nodes, 1,092 relationships).
+
+**Not yet possible here:** the external link checker and the axe-core CI run need network access this sandbox doesn't have (both run in GitHub Actions on push). GitHub push still waiting for access.
+
 ## 2026-10-15 — v1.3.0: knowledge map, events, skills and training, releases, logo, build bundle
 
 **Built:** Knowledge map (glossary, thesaurus, data dictionary, taxonomies, ontology, interactive graph with trail, path finder, lineage and traceability); knowledge graph module, CLI and MCP tool, with SKOS/OWL exports; Events page; Skills and training page; Commons logo, favicon and "What is a Commons?" panel; What's new drawer and menu flags driven by `knowledge/releases.yaml`; the standalone solution build and development bundle.

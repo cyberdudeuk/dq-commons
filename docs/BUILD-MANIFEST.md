@@ -104,3 +104,11 @@ Runtime dependencies: pandas ≥ 2.0, PyYAML ≥ 6.0, jsonschema ≥ 4.0, openpy
 | `portal/src/pages/knowledge.html`, `events.html`, `training.html` | New pages (31 in total) |
 | `portal/src/logo.svg` | Logo and favicon |
 | `scripts/build_bundle.py`, `docs/bundle/index.html` | Solution build and development bundle |
+
+## v1.4.0 additions
+| Path | What it is |
+|---|---|
+| `knowledge/playbook.yaml` | Source for the data quality management playbook |
+| `portal/src/pages/playbook.html` | Interactive playbook page (Govern group) |
+| `docs/DQ-MANAGEMENT-PLAYBOOK.md` | Generated playbook document (do not edit by hand) |
+| `scripts/build_playbook_doc.py` | Generates the document; `--check` used in CI |

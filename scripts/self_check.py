@@ -114,8 +114,9 @@ def verification():
     out = {}
     for f in sorted(K.glob("*.yaml")):
         text = f.read_text(encoding="utf-8")
-        yes = len(re.findall(r"\b(?:checked|verified): \"?yes\"?", text))
-        other = len(re.findall(r"\b(?:checked|verified): \"?(?:listed|partly|no)\"?", text))
+        # quotes may be single, double or none (yaml.safe_dump writes 'yes'); "unpublished" = checked, no public source
+        yes = len(re.findall(r"\b(?:checked|verified): [\"']?(?:yes|unpublished)[\"']?\s*[,}\n]", text))
+        other = len(re.findall(r"\b(?:checked|verified): [\"']?(?:listed|partly|no)[\"']?\s*[,}\n]", text))
         if yes + other:
             out[f.name] = {"read_in_full": yes, "not_yet": other, "ratio": round(100 * yes / (yes + other), 1)}
     return out
@@ -155,6 +156,8 @@ def check_links(r):
     for f in K.glob("*.yaml"):
         for m in re.finditer(r"url: \"?([^\s\",}]+)", f.read_text(encoding="utf-8")):
             u = m.group(1)
+            if u in ("''", '""'):
+                continue  # deliberately empty: no public source (e.g. verified: unpublished)
             if not (u.startswith("https://") or u.endswith(".html") or "#" in u or u.startswith("http://purl") or u.startswith("http://www.w3.org")):
                 r.add("warning", "links", f.name, f"Not an https link: {u}")
 

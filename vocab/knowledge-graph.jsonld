@@ -1899,8 +1899,8 @@
     "dqc:Framework"
    ],
    "label": "Code of Practice for Statistics, Edition 3.0",
-   "definition": "In force for official statistics; voluntary for other statistics and analysis",
-   "seeAlso": "https://code.statisticsauthority.gov.uk/wp-content/uploads/2025/10/Code-of-Practice-for-Statistics-3.0.pdf",
+   "definition": "Standards for Official Statistics apply to official statistics producers; anyone can apply the Code voluntarily; Standards for the Public Use of Statistics, Data and Wider Analysis apply to all public bodies",
+   "seeAlso": "https://osr.statisticsauthority.gov.uk/publications/the-code-of-practice-for-statistics/",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk"
@@ -1929,7 +1929,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "Quality Assurance of Administrative Data (QAAD) toolkit",
+   "label": "Quality Assurance of Administrative Data (QAAD): Setting the Standard, and the Administrative Data Quality Assurance Toolkit",
    "definition": "In use",
    "seeAlso": "https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/",
    "dqc:appliesIn": [
@@ -1960,7 +1960,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "The AQuA Book (guidance on producing quality analysis)",
+   "label": "The AQuA Book",
    "definition": "In use",
    "seeAlso": "https://www.gov.uk/guidance/the-aqua-book",
    "dqc:appliesIn": [
@@ -2106,8 +2106,8 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "Data standards in Scotland's public sector - framework for action (consultation analysis)",
-   "definition": "Check current status with the Scottish Government",
+   "label": "Data standards in Scotland's public sector - framework for action: consultation analysis",
+   "definition": "Consultation analysis (2021); proposed Framework for Action presented for discussion - check current status with the Scottish Government",
    "seeAlso": "https://www.gov.scot/publications/framework-action-data-standards-scotlands-public-sector/",
    "dqc:appliesIn": [
     {
@@ -2150,10 +2150,16 @@
    ],
    "dqc:mapsTo": [
     {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance"
+    },
+    {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
     },
     {
-     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/relevance"
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accessibility-clarity"
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability"
@@ -2281,7 +2287,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "ISO 8000 Data quality (series), including ISO 8000-8 measuring quality and ISO 8000-61 process reference model",
+   "label": "ISO 8000 Data quality (series), including ISO 8000-8:2015 Information and data quality: Concepts and measuring, and ISO 8000-61 process reference model",
    "definition": "International standard (paid)",
    "seeAlso": "https://scc-ccn.ca/standardsdb/standards/8158218",
    "dqc:appliesIn": [
@@ -2358,7 +2364,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "ISO/IEC 5259 Data quality for analytics and machine learning (series)",
+   "label": "ISO/IEC 5259 Artificial intelligence - Data quality for analytics and machine learning (ML) (series)",
    "definition": "International standard (paid)",
    "seeAlso": "https://www.iso.org/standard/81088.html",
    "dqc:appliesIn": [
@@ -2389,7 +2395,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "ISO 19157-1 Geographic information - Data quality",
+   "label": "ISO 19157-1:2023 Geographic information - Data quality - Part 1: General requirements",
    "definition": "International standard (paid)",
    "seeAlso": "https://www.iso.org/standard/78900.html",
    "dqc:appliesIn": [
@@ -2467,7 +2473,7 @@
    ],
    "label": "DAMA-DMBOK (Data Management Body of Knowledge), data quality chapter",
    "definition": "Professional reference (paid)",
-   "seeAlso": "https://dama.org/",
+   "seeAlso": "https://dama.org/articles/introducing-the-revised-dama-data-management-body-of-knowledge-2nd-edition",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international"
@@ -2499,7 +2505,7 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "European Statistical System Quality Assurance Framework (ESS QAF)",
+   "label": "Quality Assurance Framework of the European Statistical System (ESS QAF)",
    "definition": "In use across the ESS",
    "seeAlso": "https://ec.europa.eu/eurostat/web/quality/european-quality-standards/quality-assurance-framework",
    "dqc:appliesIn": [
@@ -2608,9 +2614,9 @@
    "@type": [
     "dqc:Framework"
    ],
-   "label": "A Framework for Data Quality (US Federal Committee on Statistical Methodology)",
+   "label": "A Framework for Data Quality (FCSM 20-04)",
    "definition": "In use",
-   "seeAlso": "https://apps.bea.gov/icsp/fcsm/assets/docs/2021.09.10%20Leveraging%20the%20Data%20Quality%20Framework%20Workshop%20Slides.pdf",
+   "seeAlso": "https://statspolicy.gov/assets/fcsm/files/docs/FCSM.20.04_A_Framework_for_Data_Quality.pdf",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/united-states"
@@ -2744,7 +2750,19 @@
    ],
    "dqc:mapsTo": [
     {
-     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/coherence-comparability"
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/uniqueness"
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity"
@@ -6906,7 +6924,7 @@
     "dqc:Course"
    ],
    "label": "Quality statistics in government",
-   "definition": "Government Analysis Function · See the provider page · Not stated",
+   "definition": "Government Data Quality Hub (Government Analysis Function) · Online, 1 hour · Not stated",
    "seeAlso": "https://analysisfunction.civilservice.gov.uk/training/quality-in-government-statistics",
    "dqc:teaches": [
     {
@@ -6920,7 +6938,7 @@
     "dqc:Course"
    ],
    "label": "Communicating quality, uncertainty and change",
-   "definition": "Government Analysis Function · See the provider page · Not stated",
+   "definition": "Government Data Quality Hub (Government Analysis Function) · Online, 1 hour · Not stated",
    "seeAlso": "https://analysisfunction.civilservice.gov.uk/training/communicating-quality-uncertainty-and-change/",
    "dqc:teaches": [
     {
@@ -6934,7 +6952,7 @@
     "dqc:Course"
    ],
    "label": "Quality Assurance of Administrative Data (QAAD) workshop",
-   "definition": "Government Analysis Function · Workshop · Not stated",
+   "definition": "Government Data Quality Hub (Government Analysis Function) · Face-to-face workshop, 2 hours; bespoke sessions need at least 15 attendees · Not stated",
    "seeAlso": "https://analysisfunction.civilservice.gov.uk/training/quality-assurance-of-administrative-data-qaad-workshop/",
    "dqc:teaches": [
     {
@@ -6985,7 +7003,7 @@
     "dqc:Course"
    ],
    "label": "TDWI Data Quality Fundamentals",
-   "definition": "TDWI · Virtual, instructor-led · Paid; see provider",
+   "definition": "TDWI · Virtual, instructor-led, 6 to 8 hours (5 CPE credits) · Not stated",
    "seeAlso": "https://tdwi.org/events/online-learning/virtual-training/courses/catalog/tdwi-data-quality-fundamentals.aspx",
    "dqc:teaches": [
     {
@@ -7002,7 +7020,7 @@
     "dqc:Course"
    ],
    "label": "Certified Data Management Professional (CDMP), Data Quality specialist exam",
-   "definition": "DAMA International · Online exams based on the DAMA-DMBOK; training from several providers · Paid; see provider",
+   "definition": "DAMA International · Online proctored exams (90 minutes, or 110 minutes for the English-as-a-second-language version), based on the DAMA-DMBOK; training from several providers · USD 311 per exam (Data Quality specialist exam)",
    "seeAlso": "https://cdmp.info/",
    "dqc:teaches": [
     {
@@ -7123,7 +7141,7 @@
     "dqc:Jurisdiction"
    ],
    "label": "Bailiwick of Guernsey",
-   "definition": "Statistics: States of Guernsey (Data and Analysis). Data protection: Data Protection (Bailiwick of Guernsey) Law 2017.",
+   "definition": "Statistics: States of Guernsey (Data and Analysis). Data protection: The Data Protection (Bailiwick of Guernsey) Law, 2017.",
    "seeAlso": "https://www.gov.gg/",
    "dqc:partOf": [
     {
@@ -7346,7 +7364,7 @@
    "@type": [
     "dqc:Organisation"
    ],
-   "label": "UN National Quality Assurance Frameworks Manual (2019)",
+   "label": "United Nations National Quality Assurance Frameworks Manual for Official Statistics (2019)",
    "definition": "A template quality framework any statistics office can adopt; useful for small offices without their own.",
    "seeAlso": "https://desapublications.un.org/publications/united-nations-quality-assurance-frameworks-manual",
    "dqc:appliesIn": [
@@ -7388,7 +7406,7 @@
    "@type": [
     "dqc:Organisation"
    ],
-   "label": "OECD Recommendation on Good Statistical Practice",
+   "label": "OECD Recommendation of the Council on Good Statistical Practice",
    "definition": "Good practice for national statistical systems, used in OECD peer reviews.",
    "seeAlso": "https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0417",
    "dqc:appliesIn": [
@@ -7488,7 +7506,7 @@
    ],
    "label": "G7 Data Free Flow with Trust",
    "definition": "Trusted cross-border data flows; trust depends on known data quality and provenance.",
-   "seeAlso": "https://www.oecd.org/en/topics/sub-issues/cross-border-data-flows.html",
+   "seeAlso": "https://www.oecd.org/en/about/programmes/data-free-flow-with-trust.html",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international"
@@ -7540,9 +7558,9 @@
    "@type": [
     "dqc:Organisation"
    ],
-   "label": "Council of Europe Convention 108+",
+   "label": "Council of Europe Convention 108+ (Convention 108 as amended by Protocol CETS No. 223)",
    "definition": "The international data protection treaty, which includes data accuracy as a principle.",
-   "seeAlso": "https://www.coe.int/en/web/data-protection/convention108-and-protocol",
+   "seeAlso": "https://rm.coe.int/16808ac918",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/supranational"
@@ -7556,7 +7574,7 @@
    ],
    "label": "ISO and IEC (ISO 8000, ISO/IEC 25012, ISO/IEC 5259)",
    "definition": "International data quality standards, available as packs in the toolkit.",
-   "seeAlso": "https://www.iso.org/standard/50798.html",
+   "seeAlso": "https://www.iso.org/standard/81745.html",
    "dqc:appliesIn": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/international"
@@ -8624,6 +8642,168 @@
    ],
    "label": "CDA return and dashboards",
    "definition": "The critical data asset return and the portal's pipeline page.",
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-identify",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "1 Identify critical data",
+   "definition": "Register critical data assets, owners and the data items that matter most.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-define"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-source"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-define",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "2 Define rules and targets",
+   "definition": "Plain-English rules, dimensions and targets, saved as a data contract.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-rule"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-contract"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-rules"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "3 Measure and baseline",
+   "definition": "Profile, run rules, log issues, break results down by group.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-prioritise"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-measure"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-prioritise",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "4 Prioritise",
+   "definition": "Score issues with the issues framework and write the action plan.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-improve"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-issues-framework"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/data-quality-action-plan-dqap"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-improve",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "5 Fix at source",
+   "definition": "Find root causes and fix where the data is created.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-report"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/escalation"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-report",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "6 Report openly",
+   "definition": "Data quality statement, DQV metadata and the CDA return.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-sustain"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/st-return"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-sustain",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "7 Monitor and sustain",
+   "definition": "Automated checks, trends, alerts and escalation.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-review"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-baseline"
+    }
+   ],
+   "dqc:involves": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/trust-level"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-review",
+   "@type": [
+    "dqc:Stage"
+   ],
+   "label": "8 Annual review",
+   "definition": "Review the asset, rules and targets at least every 12 months.",
+   "dqc:flowsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Stage/pb-identify"
+    }
+   ],
    "dqc:involves": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Term/critical-data-asset-cda"

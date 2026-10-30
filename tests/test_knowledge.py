@@ -131,3 +131,30 @@ class Knowledge(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Playbook(unittest.TestCase):
+    """The data quality management playbook is complete, consistent and its document is current."""
+
+    def test_playbook(self):
+        import subprocess
+        import sys as _sys
+        pb = load("playbook")
+        clauses = {r["clause"] for r in csv.DictReader(open(K / "requirements.csv", encoding="utf-8"))}
+        fws = {f["id"] for f in load("frameworks")["frameworks"]}
+        roles = {r["id"] for r in pb["roles"]}
+        self.assertEqual([s["n"] for s in pb["stages"]], list(range(1, 9)))
+        for s in pb["stages"]:
+            self.assertEqual(set(s["raci"]), roles, s["id"])
+            self.assertEqual(list(s["raci"].values()).count("A"), 1, f"{s['id']}: exactly one accountable role")
+            for c in s["dam"]:
+                self.assertIn(c, clauses, s["id"])
+            self.assertTrue(s["checklist"] and s["inclusion"], s["id"])
+            self.assertTrue((ROOT / "portal" / "src" / "pages" / s["toolkit"]["link"]).exists(), s["toolkit"]["link"])
+        for j in pb["jurisdictions"]:
+            for f in j["frameworks"]:
+                self.assertIn(f, fws, j["where"])
+        for t in pb["templates"]:
+            self.assertTrue(all(isinstance(x, str) and x for x in t["fields"]), t["id"])
+        r = subprocess.run([_sys.executable, str(ROOT / "scripts" / "build_playbook_doc.py"), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout)

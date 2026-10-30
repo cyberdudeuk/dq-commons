@@ -1,5 +1,22 @@
 # Decision log (this repository)
 
+## 2026-10-30 · D-072 · Horizon scans add only sources read at source
+- **Decision:** each scan (this one: October 2026) adds items only after reading the primary page; trade-press items are used only when they report a primary statement (for example a written parliamentary answer). Paid standards are listed by catalogue record and say so. Drafts and bills are labelled as such.
+- **Why:** keeps the library 100% "read in full" and stops hype or unconfirmed claims entering the Commons.
+
+## 2026-10-30 · D-071 · Frameworks with no public document are "Not publicly available", not "partly verified"
+- **Decision:** a third verification state, `unpublished`, for frameworks we were told about but which have no public source. They stay listed, with an explanation and an empty link, and can be filtered.
+- **Why:** "partly verified" implied a check was still to do. Hiding them would lose useful mappings; labelling them is honest.
+
+## 2026-10-30 · D-070 · One playbook source, generated document, generic terms
+- **Decision:** the data quality management playbook lives in `knowledge/playbook.yaml`; the portal page and `docs/DQ-MANAGEMENT-PLAYBOOK.md` are both generated from it (`--check` in CI). UK DAM policy and DQAP clauses are attached to each stage, but each stage is written as a plain job, with a terms table for other mandates.
+- **Why:** the user asked for a playbook for CDAs under the DAM policy that works anywhere. One source keeps page and document in step; plain jobs let devolved, local, international and non-government users adopt it without the UK mandate.
+- **Alternatives considered:** a separate playbook per jurisdiction (rejected: duplicates the same eight stages); a Word document (rejected: drifts from the toolkit and can't be ticked off).
+
+## 2026-10-30 · D-069 · Inclusion is a check in every stage, not a separate chapter
+- **Decision:** every playbook stage carries an inclusion check, results are broken down by group where lawful, and the issues framework weighs who is affected, not only how many.
+- **Why:** averaging hides poor quality for small groups, which is how data excludes people. Putting the check in each stage makes it routine.
+
 ## 2026-10-15 · D-068 · One release record drives the version, the drawer and the change log
 - **Decision:** `knowledge/releases.yaml` holds every release; the build takes the version from it; a test checks each release is in CHANGELOG.md.
 - **Why:** version numbers and release notes drifted between files. One source keeps the portal, repository and docs in step.

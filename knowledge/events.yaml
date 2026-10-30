@@ -3,103 +3,144 @@
 # when added (dates, place, cost); "listed" means found but not yet read in full. Accessibility is what the organiser
 # states; if nothing is stated we say so rather than guess. Members add events through moderation.
 # No speaker or organiser staff names: organisations only.
-review: {last_reviewed: "2026-10-15", owner_role: Content steward (events)}
-
-kinds: [Conference, Workshop, Course, Webinar, Forum, Meetup]
-formats: [In person, Online, Hybrid]
-
+review:
+  last_reviewed: '2026-10-30'
+  owner_role: Content steward (events)
+kinds:
+- Conference
+- Workshop
+- Course
+- Webinar
+- Forum
+- Meetup
+formats:
+- In person
+- Online
+- Hybrid
 events:
 - id: e-rss-dq-2026
-  title: "Data Quality and Statistics: Perfect together!"
-  start: "2026-10-22T09:00"
-  end: "2026-10-22T17:00"
+  title: 'Data Quality and Statistics: Perfect together!'
+  start: 2026-10-22T09:00
+  end: 2026-10-22T17:00
   tz: Europe/London
-  organiser: "Royal Statistical Society (Edinburgh Local Group, AI Task Force and Medical Section)"
+  organiser: Royal Statistical Society (Edinburgh Local Group, AI Task Force and Medical Section)
   kind: Conference
   format: In person
-  location: "Bayes Centre, Edinburgh"
+  location: Bayes Centre, Edinburgh
   region: Scotland
-  cost: "£55 to £99 (concessions for RSS Fellows)"
+  cost: £55 to £99 (concessions for RSS Fellows)
   free: false
-  topics: [statistics, data quality, AI]
-  capacity: "Limited to 50 participants"
-  accessibility: "Not stated on the event page. Ask the organiser about access needs."
-  url: "https://rss.org.uk/training-events/events/events-2026/local-groups/data-quality-and-statistics-perfect-together!/"
-  checked: "yes"
+  topics:
+  - statistics
+  - data quality
+  - AI
+  capacity: Limited to 50 participants
+  accessibility: Not stated on the event page. Ask the organiser about access needs.
+  url: https://rss.org.uk/training-events/events/events-2026/local-groups/data-quality-and-statistics-perfect-together!/
+  checked: 'yes'
 - id: e-irm-dai-2026
-  title: "Data & AI Conference Europe 2026"
-  start: "2026-11-02"
-  end: "2026-11-06"
+  title: Data & AI Conference Europe 2026
+  start: '2026-11-02'
+  end: '2026-11-06'
   tz: Europe/London
-  organiser: "IRM UK"
+  organiser: IRM UK
   kind: Conference
   format: In person
-  location: "etc.venues Fenchurch Street, London"
+  location: etc.venues Fenchurch Street, London
   region: England
-  cost: "Paid; see the ticket page"
+  cost: Paid; see the ticket page
   free: false
-  topics: [data governance, data quality, AI]
-  note: "Workshops 2, 5 and 6 November; conference and exhibition 3 and 4 November."
-  accessibility: "Not stated on the event page. Ask the organiser about access needs."
-  url: "https://irmuk.co.uk/event/data-ai-2026/"
-  checked: "yes"
+  topics:
+  - data governance
+  - data quality
+  - AI
+  note: Workshops 2, 5 and 6 November; conference and exhibition 3 and 4 November.
+  accessibility: Not stated on the event page. Ask the organiser about access needs.
+  url: https://irmuk.co.uk/event/data-ai-2026/
+  checked: 'yes'
 - id: e-unssc-dq-python-2026
-  title: "Data Quality for Impact, with Python (course run)"
-  start: "2026-11-09"
-  end: "2026-11-20"
+  title: Data Quality for Impact, with Python (course run)
+  start: '2026-11-09'
+  end: '2026-11-20'
   tz: Europe/Paris
-  organiser: "United Nations System Staff College (UNSSC)"
+  organiser: United Nations System Staff College (UNSSC)
   kind: Course
   format: Online
-  location: "Online (UN Learn platform, live webinars Tuesdays and Thursdays 15:00 to 16:30 CET)"
+  location: Online (UN Learn platform, live webinars Tuesdays and Thursdays 15:00 to 16:30 CET)
   region: International
-  cost: "USD 550"
+  cost: USD 550
   free: false
-  topics: [data quality, Python, statistics]
-  note: "Enrolment closes 6 November 2026. No prior Python needed."
-  accessibility: "Not stated. Recorded or asynchronous materials are part of the course."
-  url: "https://www.unssc.org/courses/data-quality-impact-python-fall-2026"
-  checked: "yes"
+  topics:
+  - data quality
+  - Python
+  - statistics
+  note: Enrolment closes 6 November 2026. No prior Python needed.
+  accessibility: Not stated. Recorded or asynchronous materials are part of the course.
+  url: https://www.unssc.org/courses/data-quality-impact-python-fall-2026
+  checked: 'yes'
 - id: e-unwdf-2026
-  title: "Sixth UN World Data Forum"
-  start: "2026-11-09"
-  end: "2026-11-12"
+  title: Sixth UN World Data Forum
+  start: '2026-11-09'
+  end: '2026-11-12'
   tz: Asia/Riyadh
-  organiser: "UN Statistics Division (UN DESA)"
+  organiser: UN Statistics Division (UN DESA)
   kind: Forum
   format: In person
-  location: "Riyadh, Saudi Arabia"
+  location: Riyadh, Saudi Arabia
   region: International
-  cost: "See the forum website"
+  cost: See the forum website
   free: false
-  topics: [official statistics, data for development, data quality]
-  accessibility: "Not stated on the about page. Check the forum website."
-  url: "https://unstats.un.org/unsd/undataforum/about"
-  checked: "yes"
+  topics:
+  - official statistics
+  - data for development
+  - data quality
+  accessibility: Not stated on the about page. Check the forum website.
+  url: https://unstats.un.org/unsd/undataforum/about
+  checked: 'yes'
 - id: e-irm-dg-2027
-  title: "Data & AI Governance Conference Europe 2027"
-  start: "2027-03-15"
-  end: "2027-03-19"
+  title: Data & AI Governance Conference Europe 2027
+  start: '2027-03-15'
+  end: '2027-03-19'
   tz: Europe/London
-  organiser: "IRM UK"
+  organiser: IRM UK
   kind: Conference
   format: In person
-  location: "London (venue to be confirmed by the organiser)"
+  location: London (venue to be confirmed by the organiser)
   region: England
-  cost: "Paid; see the event page"
+  cost: Paid; see the event page
   free: false
-  topics: [data governance, data quality, AI governance]
-  accessibility: "Not stated on the event page. Ask the organiser about access needs."
-  url: "https://datagovernance.irmuk.co.uk/"
-  checked: "yes"
+  topics:
+  - data governance
+  - data quality
+  - AI governance
+  accessibility: Not stated on the event page. Ask the organiser about access needs.
+  url: https://datagovernance.irmuk.co.uk/
+  checked: 'yes'
 
 # Recurring events whose exact dates are announced by their organisers each year.
 recurring:
-- {title: "International Open Data Day", when: "Each year, usually early March", organiser: "Open Knowledge Foundation and partners", url: "https://opendataday.org/", checked: listed}
-- {title: "UN Statistical Commission annual session", when: "Each year, usually late February or March, New York", organiser: "United Nations", url: "https://unstats.un.org/UNSDWebsite/statcom", checked: listed}
-- {title: "Royal Statistical Society events programme", when: "Throughout the year, including local groups across the UK", organiser: "Royal Statistical Society", url: "https://rss.org.uk/training-events/events/", checked: listed}
-- {title: "Analysis Function training and events", when: "Throughout the year, for UK government analysts", organiser: "Government Analysis Function", url: "https://analysisfunction.civilservice.gov.uk/learning-development/", checked: listed}
-
-commons_note: >-
-  Commons show and tells and co-design sessions will appear here once dates are agreed. Times rotate so
-  people in different time zones can join, and every session has captions and a transcript.
+- title: Open Data Day
+  when: Each year in early March, held over about a week (since 2023)
+  organiser: Coordinated by the Open Knowledge Foundation; events run by local groups worldwide
+  url: https://opendataday.org/
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- title: UN Statistical Commission annual session
+  when: Each year, usually early March (around four days), UN Headquarters, New York
+  organiser: United Nations (Statistical Commission of the Economic and Social Council, serviced by the UN Statistics Division)
+  url: https://unstats.un.org/UNSDWebsite/statcom
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- title: Royal Statistical Society events programme
+  when: Throughout the year, including local groups across the UK
+  organiser: Royal Statistical Society
+  url: https://rss.org.uk/training-events/events/
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- title: Analysis Function training and events
+  when: Throughout the year, for UK government analysts
+  organiser: Government Analysis Function
+  url: https://analysisfunction.civilservice.gov.uk/learning-development/
+  checked: 'yes'
+  checked_on: '2026-10-30'
+commons_note: Commons show and tells and co-design sessions will appear here once dates are agreed. Times rotate so people in different time zones can join, and every session has captions and a transcript.
