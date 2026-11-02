@@ -30,7 +30,7 @@ jobs:
         run: python scripts/sync_backlog.py --title "$TITLE" --body "$BODY" --url "$URL"
       - name: Comment the Jira key on the issue
         if: steps.jira.outputs.jira_key != ''
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         env:
           KEY: ${{ steps.jira.outputs.jira_key }}
         with:

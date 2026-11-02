@@ -17,7 +17,7 @@ jobs:
         run: python scripts/check_links.py --out link-report.md
         continue-on-error: true
       - if: steps.check.outcome == 'failure'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const body = require('fs').readFileSync('link-report.md', 'utf8');

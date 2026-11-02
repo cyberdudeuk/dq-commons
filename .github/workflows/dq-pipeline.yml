@@ -103,7 +103,7 @@ jobs:
       # Turn each escalation into a GitHub issue. One issue per asset and rule, titled "[DQ] <asset> <rule>: ...".
       # If the issue is already open, add a comment (once per measurement). Close issues that are now fixed.
       - name: Open, update or close escalation issues
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');
