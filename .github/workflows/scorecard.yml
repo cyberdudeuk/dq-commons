@@ -1,0 +1,30 @@
+# OpenSSF Scorecard: an independent, public health check of how this repository is run
+# (branch protection, pinned dependencies, security policy, code review, and so on).
+# Results appear under the Security tab and at https://scorecard.dev, which helps
+# departments assess the Commons before adopting it. Runs weekly and on changes to main.
+name: Scorecard
+on:
+  push: {branches: [main]}
+  schedule: [{cron: "41 5 * * 3"}]   # Wednesdays 05:41 UTC
+  workflow_dispatch:
+permissions: read-all
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      id-token: write
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v7
+        with: {persist-credentials: false}
+      - uses: ossf/scorecard-action@v2.5.0
+        with:
+          results_file: results.sarif
+          results_format: sarif
+          publish_results: true
+      - uses: actions/upload-artifact@v7
+        with: {name: scorecard-results, path: results.sarif, retention-days: 5}
+      - uses: github/codeql-action/upload-sarif@v4
+        with: {sarif_file: results.sarif}

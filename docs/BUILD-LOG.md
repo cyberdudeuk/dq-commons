@@ -1,5 +1,25 @@
 # Build journal
 
+## 2026-11-02 — repository goes live on GitHub: CI fixed, accessibility fixed, maintenance automation
+
+**Context:** the v1.6.0 history was pushed to `cyberdudeuk/dq-commons`, made public, and GitHub Pages turned on. The first automatic runs showed 4 of 6 workflows failing.
+
+**Fixed**
+- **Tests (also blocked the portal publish and content health):** CI installed pandas 3.1.0, which parses numbers differently from the version the browser engine copies; capped below 3.1 (D-CI-01). `odfpy` added to the declared dependencies.
+- **Accessibility (24 serious axe findings):**
+  - scrollable tables could not be reached by keyboard on phones: the portal build now makes every table wrapper focusable, with a role and a name (WCAG 2.1.1)
+  - 13-pixel tick boxes and 17–23-pixel stacked links: now at least 24 × 24 pixels, in the shared page shell so it applies to every page (WCAG 2.5.8)
+  - learn page: modules outside your pathway were faded to 55% opacity, which failed contrast on 35 elements; now a dashed card on a tinted background with a visible "Outside your pathway" label, so the difference is not shown by styling alone (WCAG 1.4.3, 1.4.1)
+  - labels on plain `div` and `span` elements (rating bar, ticks and crosses, vote tallies, trail, example requests) now carry a role (WCAG 4.1.2)
+- **Licence detection:** GitHub showed "NOASSERTION"; root `LICENSE` is now the exact MIT text and the OGL statement lives in `docs/CONTENT-LICENCE.md` (D-CI-03).
+- **Actions:** moved off deprecated Node 20 actions (D-CI-02). The weekly pipeline's Pages publish now queues behind the main publish instead of colliding.
+
+**Added:** Dependabot (weekly, grouped), CODEOWNERS, CodeQL security scanning, OpenSSF Scorecard (D-CI-04).
+
+**Checked:** 145 tests pass locally. All workflow files parse. A local Playwright probe for target size, contrast and ARIA rules finds no problems on the pages axe flagged; the full axe run is confirmed by CI on push.
+
+**Could not do from this session (proxy policy):** push version tags; change repository settings (description, website, topics, branch and tag rules). Steps are in the session summary and `docs/OPERATIONS.md`.
+
 ## 2026-10-30 — v1.6.0: for your role, CDO Council brief, gap register and Q-FAIR
 
 **Built:** For your role page (13 roles, key dates, CDO Council brief, gap register of 20); Q-FAIR ratings in the toolkit and CDA return (11 new columns); shared effort model (`knowledge/effort.yaml`, `dqkit effort`, MCP `estimate_effort`); Q-FAIR fields and self-rating on the baseline page.

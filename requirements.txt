@@ -1,5 +1,12 @@
-pandas>=2.0
+# Runtime dependencies for dqkit and the portal build.
+# pandas is capped below 3.1 because pandas 3.1 changed how to_numeric parses
+# numbers, and the in-browser engine (portal) is verified to match pandas <=3.0
+# exactly. See DECISIONS.md D-CI-01. Lift the cap once the engine is re-aligned.
+pandas>=2.0,<3.1
 pyyaml>=6.0
 jsonschema>=4.0
 openpyxl>=3.1
 python-docx>=1.1
+# odfpy reads and writes OpenDocument (.ods) spreadsheets, an open standard
+# many public bodies use instead of .xlsx
+odfpy>=1.4

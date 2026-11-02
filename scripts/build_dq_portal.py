@@ -341,6 +341,11 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
              .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5])))
     # every page's eyebrow gets that page's icon
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
+    # WCAG 2.1.1 Keyboard: tables scroll sideways on small screens, so every table
+    # wrapper must be reachable and scrollable by keyboard, and named for screen readers.
+    fragment = re.sub(r'<div class="tbl"(?![^>]*tabindex)',
+                      '<div class="tbl" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"',
+                      fragment)
     head, body = split_fragment(fragment)
     head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)

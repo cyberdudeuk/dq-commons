@@ -183,7 +183,7 @@ const setState = h => { $("state").innerHTML = h; };
 function drawWish() {
   const sorted = [...wishes].sort((a, b) => (tally[b.id] || 0) - (tally[a.id] || 0) || String(a.title).localeCompare(b.title));
   $("wish").innerHTML = sorted.map(w => { const on = myVotes.includes(w.id);
-    return `<li><span class="tally" aria-label="${tally[w.id] || 0} votes">${tally[w.id] || 0}</span>
+    return `<li><span class="tally" role="img" aria-label="${tally[w.id] || 0} votes">${tally[w.id] || 0}</span>
       <div><b>${esc(w.title)}</b>${w.why ? `<br><span class="small muted">${esc(w.why)}</span>` : ""}${w.key ? ` <span class="chip">${esc(w.key)}</span>` : ""}${w.status ? ` <span class="chip good">${esc(w.status)}</span>` : ""}</div>
       <button type="button" class="vote" data-w="${esc(w.id)}" aria-pressed="${on}" ${db && uid && writable ? "" : "disabled"} aria-label="${on ? "Remove vote for" : "Vote for"} ${esc(w.title)}">${on ? "Voted" : "Vote"}</button></li>`; }).join("")
     || `<li>No wishlist items yet. ${db ? "" : `See the <a href="${esc(B.repo)}/issues?q=label%3Awishlist">wishlist issues on GitHub</a>.`}</li>`;

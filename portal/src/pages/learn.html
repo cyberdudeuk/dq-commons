@@ -9,7 +9,8 @@ __BASE_CSS__
 .roles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 .path{display:flex;flex-direction:column;gap:10px}
 .mod{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
-.mod.dim{opacity:.55}
+.mod.dim{background:var(--sunk);border-style:dashed}
+.mod .other{display:inline-block;font-size:.78rem;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:middle}
 .mod .num{font-family:var(--f-mono);font-weight:700;color:var(--accent);font-size:.9rem;padding-top:2px}
 .mod h3{font-size:1rem}
 .mod ul{margin:4px 0 0;padding-left:1.1em;font-size:.86rem}

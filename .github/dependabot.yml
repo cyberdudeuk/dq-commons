@@ -1,0 +1,31 @@
+# Dependabot keeps the kit's libraries and GitHub Actions up to date.
+# In plain English: once a week it checks for newer versions and opens ONE pull request
+# per group. The tests, accessibility and content-health checks run on that pull request,
+# so you only merge it when everything is green.
+# Security fixes are raised straight away, separately (Settings > Code security).
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule: {interval: weekly, day: monday, time: "05:47", timezone: Europe/London}
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    commit-message: {prefix: "deps"}
+    groups:
+      python-libraries:
+        patterns: ["*"]
+    ignore:
+      # pandas 3.1 changed how numbers are parsed; the in-browser engine must be
+      # re-aligned first. See DECISIONS.md D-CI-01. Remove this once that is done.
+      - dependency-name: pandas
+        versions: [">=3.1"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule: {interval: weekly, day: monday, time: "05:47", timezone: Europe/London}
+    open-pull-requests-limit: 5
+    labels: [dependencies]
+    commit-message: {prefix: "ci"}
+    groups:
+      github-actions:
+        patterns: ["*"]

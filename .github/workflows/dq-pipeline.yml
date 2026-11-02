@@ -9,7 +9,7 @@
 #      issues that are now fixed.
 #   6. If there is a web portal to build, it builds it and publishes it on GitHub Pages.
 #
-# See docs/OPERATIONS.md for how to switch it on. It has not been run on GitHub yet.
+# See docs/OPERATIONS.md for how to switch it on.
 name: Data quality pipeline
 
 on:
@@ -42,11 +42,11 @@ jobs:
     steps:
       # Get a copy of this repository onto the runner.
       - name: Get the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Install Python, the language the kit is written in.
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -95,7 +95,7 @@ jobs:
 
       # Keep a downloadable copy of this run's results on the workflow run page (kept for 90 days).
       - name: Keep a copy of the results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dq-portfolio-results
           path: assessments/portfolio
@@ -103,7 +103,7 @@ jobs:
       # Turn each escalation into a GitHub issue. One issue per asset and rule, titled "[DQ] <asset> <rule>: ...".
       # If the issue is already open, add a comment (once per measurement). Close issues that are now fixed.
       - name: Open, update or close escalation issues
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
@@ -176,7 +176,7 @@ jobs:
       # Package the built portal for GitHub Pages.
       - name: Package the portal for GitHub Pages
         if: steps.portal.outputs.built == 'true'
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: portal/dist
 
@@ -185,6 +185,8 @@ jobs:
     needs: assess
     # Only publish when a portal was actually built.
     if: needs.assess.outputs.has_portal == 'true'
+    # Share the "pages" queue with pages.yml, so two publishes never collide.
+    concurrency: {group: pages, cancel-in-progress: false}
     runs-on: ubuntu-latest
     # Publishing to GitHub Pages needs these two permissions, and nothing else.
     permissions:
@@ -197,4 +199,4 @@ jobs:
       # Publish the packaged portal to GitHub Pages.
       - name: Publish to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

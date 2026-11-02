@@ -225,3 +225,28 @@ fill in the Causes and Actions tabs, and close the loop at the next measurement.
 | Deploy fails with "Pages not enabled" or "environment protection" | Pages source is not "GitHub Actions" | Settings → Pages → Source: GitHub Actions |
 | The weekly run did not commit anything | Nothing measured changed (the fingerprint in `portfolio.json` is the same) | Expected. The run page still has a downloadable copy |
 | Scheduled runs stopped | GitHub pauses scheduled workflows after 60 days with no repository activity | Make any commit, or press "Run workflow" |
+
+## 10. Looking after the repository (maintainer guide)
+
+### What runs automatically
+
+| When | Workflow | What it does | What you do |
+|---|---|---|---|
+| Every push and pull request | tests, Accessibility, Content health, CodeQL | Runs 145 tests, axe accessibility checks on every page (desktop light and phone dark), content and link health, security scanning | Nothing if green. If red, open the run and read the first error |
+| Every push to `main` | publish portal, Docs to Confluence, Backlog to issues, Scorecard | Publishes the portal to Pages; mirrors docs to Confluence (skips quietly without secrets); keeps backlog issues in step; updates the public health score | Nothing |
+| Monday 05:47 (UK) | Dependabot | Opens at most one pull request for Python libraries and one for GitHub Actions | Merge it when its checks are green |
+| Monday 06:17 UTC | Data quality pipeline, Content health | Measures the portfolio, saves changed results, opens or closes escalation issues | Read new escalation issues |
+| Tuesday / Wednesday | CodeQL, Scorecard | Weekly re-scan | Check the Security tab once a month |
+| 1st of the month | Link check | Finds broken links | Fix or replace links it reports |
+| Version tag pushed (`v1.2.3`) | release | Creates a GitHub release from `knowledge/releases.yaml` | Push one tag per release |
+
+### One-off settings (only the repository owner can change these)
+
+1. **About box** (repository home page, cog icon next to "About"): description, website `https://cyberdudeuk.github.io/dq-commons/`, tick "Use your GitHub Pages website", add topics.
+2. **Protect `main`** (Settings → Rules → Rulesets → New branch ruleset): target the default branch; tick "Restrict deletions" and "Block force pushes". Leave pull requests optional while there is one maintainer.
+3. **Protect release tags** (New tag ruleset): target `v*`; tick "Restrict deletions" and "Restrict updates", so a published version can never silently change.
+4. **Private vulnerability reporting** (Settings → Code security): turn on, so people can report security problems privately (see `SECURITY.md`).
+5. **Secrets for Jira and Confluence sync** (Settings → Secrets and variables → Actions): `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `CONFLUENCE_BASE_URL`. Without them those workflows skip safely.
+
+### Known follow-up
+- pandas is capped below 3.1 (DECISIONS.md D-CI-01). Re-align the browser engine's number parsing with pandas 3.1, test both versions, then lift the cap and remove the Dependabot ignore.

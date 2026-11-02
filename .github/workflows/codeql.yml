@@ -1,0 +1,33 @@
+# Security scanning (CodeQL). Free for public repositories.
+# In plain English: GitHub reads the Python, JavaScript and workflow files looking for
+# known kinds of security weakness (for example unsafe input handling) and lists anything
+# it finds under the Security tab. It runs on every change to main, on pull requests,
+# and once a week in case new kinds of weakness are added to its rules.
+name: CodeQL
+on:
+  push: {branches: [main]}
+  pull_request: {branches: [main]}
+  schedule: [{cron: "23 5 * * 2"}]   # Tuesdays 05:23 UTC
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, javascript-typescript, actions]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+      - uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{ matrix.language }}"

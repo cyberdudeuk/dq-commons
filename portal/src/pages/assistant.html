@@ -39,7 +39,7 @@ __BASE_CSS__
     <h2 id="chat-h" class="sr-only">Conversation</h2>
     <div class="log" id="log" role="log" aria-live="polite" aria-relevant="additions"></div>
     <form class="ask" id="ask">
-      <div class="quick" id="quick" aria-label="Example requests"></div>
+      <div class="quick" id="quick" role="group" aria-label="Example requests"></div>
       <label for="msg" class="sr-only">Your message</label>
       <textarea id="msg" placeholder="For example: every claim needs a valid National Insurance number, a claim date that isn't in the future, and one claim per person per month."></textarea>
       <div class="row"><button class="btn" type="submit" id="send">Send</button><button class="btn ghost" type="button" id="stop" hidden>Stop</button><button class="btn ghost" type="button" id="clear">Start again</button></div>

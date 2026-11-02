@@ -181,7 +181,7 @@ const TRUSTCLS = {"Trustworthy":"pr-meets","Useable":"pr-Medium","Requires impro
 $("stats").innerHTML = `
  <div class="stat"><span class="v">${n}</span><span class="k">curated data pages in 7 collections</span></div>
  <div class="stat"><span class="v">${D.mean}%</span><span class="k">average score across 20 checks</span>
-   <div class="ragbar" aria-label="${D.rag.green} green, ${D.rag.amber} amber, ${D.rag.red} red"><span style="width:${100*D.rag.green/n}%;background:var(--good)"></span><span style="width:${100*D.rag.amber/n}%;background:var(--warn)"></span><span style="width:${100*D.rag.red/n}%;background:var(--crit)"></span></div>
+   <div class="ragbar" role="img" aria-label="${D.rag.green} green, ${D.rag.amber} amber, ${D.rag.red} red"><span style="width:${100*D.rag.green/n}%;background:var(--good)"></span><span style="width:${100*D.rag.amber/n}%;background:var(--warn)"></span><span style="width:${100*D.rag.red/n}%;background:var(--crit)"></span></div>
    <span class="k">${D.rag.green} green · ${D.rag.amber} amber · ${D.rag.red} red</span></div>
  <div class="stat"><span class="v">${D.cov}%</span><span class="k">average coverage of the 13 CDA metadata properties</span></div>
  <div class="stat"><span class="v">${D.checks.filter(c=>c.priority==="Critical").length}</span><span class="k">checks at Critical priority, all from the DAM policy</span></div>
@@ -246,7 +246,7 @@ hbars("collChart", Object.entries(D.collections).map(([k,v])=>[COLL[k]+` (${v.pa
 $("charts").innerHTML = D.charts.map(c => `<div class="card"><h3>${esc(c.t)}</h3>
   <p class="muted" style="font-size:.84rem">${c.rows} rows · <b class="${c.met===c.tot?'ok':'bad'}">${c.met} of ${c.tot} rules met</b> · <a href="${esc(c.url)}">page</a></p>
   <p style="font-size:.84rem"><span class="pill ${TRUSTCLS[c.trust]}">${esc(c.trust)}</span> <span class="muted">${esc(c.share)}</span></p>
-  <div>${c.res.map(r=>`<div class="rule"><span class="${r.m?'ok':'bad'}" aria-label="${r.m?'met':'not met'}">${r.m?'✓':'✗'}</span><span>${esc(r.d)} <span class="muted">(${esc(r.dim)})</span>${!r.m && r.det && r.det.latest_period ? `<br><span class="muted">Latest period ${r.det.latest_period}; ${r.det.age_days} days old, ${r.det.allowed_days} allowed</span>`:""}</span><span>${r.m?`<span class="muted" style="font-family:var(--f-mono);font-size:.8rem">${r.p}%</span>`:`<span class="pill pr-${r.pr}">${r.pr}</span>`}</span></div>`).join("")}</div></div>`).join("");
+  <div>${c.res.map(r=>`<div class="rule"><span class="${r.m?'ok':'bad'}" role="img" aria-label="${r.m?'Met':'Not met'}">${r.m?'✓':'✗'}</span><span>${esc(r.d)} <span class="muted">(${esc(r.dim)})</span>${!r.m && r.det && r.det.latest_period ? `<br><span class="muted">Latest period ${r.det.latest_period}; ${r.det.age_days} days old, ${r.det.allowed_days} allowed</span>`:""}</span><span>${r.m?`<span class="muted" style="font-family:var(--f-mono);font-size:.8rem">${r.p}%</span>`:`<span class="pill pr-${r.pr}">${r.pr}</span>`}</span></div>`).join("")}</div></div>`).join("");
 window.DQP_TOUR = [
   {sel: "#stats", title: "Headline", text: "Scores across all 84 NDL data pages."},
   {sel: "#checkRows", title: "The 20 checks", text: "Each check, its source, and how many pages pass."},

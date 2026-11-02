@@ -1,5 +1,24 @@
 # Decision log (this repository)
 
+## 2026-11-02 · D-CI-04 · Security scanning and a public health score
+- **Decision:** add CodeQL (Python, JavaScript, Actions; security-and-quality queries) and OpenSSF Scorecard workflows. Add Dependabot for pip and GitHub Actions, grouped into one weekly pull request each, plus CODEOWNERS.
+- **Why:** the repository is now public and meant for reuse across government. Departments assessing it need visible, independent evidence that it is maintained securely. Automation keeps it current without manual checking.
+- **Alternatives considered:** GitHub's one-click CodeQL "default setup" (equivalent, but needs a settings change this session cannot make, and is less visible in the repository).
+
+## 2026-11-02 · D-CI-03 · Root LICENSE is the exact MIT text; OGL statement moves to docs/CONTENT-LICENCE.md
+- **Decision:** remove the appended OGL paragraph from `LICENSE`; state the content licence in `docs/CONTENT-LICENCE.md` and link it from the README.
+- **Why:** GitHub showed the licence as "NOASSERTION" (unknown), because it only recognises an exact licence text. An unlabelled licence discourages reuse and hides the repo from licence-filtered searches.
+- **Alternatives considered:** keeping one combined file (rejected: GitHub cannot detect it); a second root LICENSE-OGL file (rejected: two root licence files can also confuse detection).
+
+## 2026-11-02 · D-CI-02 · Move GitHub Actions to Node 24 releases
+- **Decision:** checkout, setup-python, setup-node, upload-artifact v7; upload-pages-artifact and deploy-pages v5; github-script v8 (same scripting interface as v7); Node 22 for the checks. Dependabot keeps them current from now on.
+- **Why:** every run warned that Node 20 actions are deprecated and being forced onto Node 24; Node 20 itself is end of life.
+
+## 2026-11-02 · D-CI-01 · Cap pandas below 3.1 until the browser engine is re-aligned
+- **Decision:** `pandas>=2.0,<3.1` in `requirements.txt` and `pyproject.toml`; Dependabot ignores pandas 3.1+. Add `odfpy` (OpenDocument spreadsheets) as a declared dependency.
+- **Why:** on the first GitHub run, CI installed pandas 3.1.0, which parses numbers precisely (for example "0.30000000000000004" stays as written). The portal's JavaScript engine is verified to match pandas 3.0 exactly, so the parity test failed (536 differences in one micro-test, 10 in the finance fixture). `odfpy` was installed on the build machine but never declared, so `.ods` tests failed on a clean runner.
+- **Alternatives considered:** change the JavaScript engine to the pandas 3.1 behaviour now (rejected for this fix: then results would differ for anyone on pandas 3.0; needs its own change with both versions tested). Follow-up tracked as a GitHub issue.
+
 ## 2026-10-30 · D-077 · One effort model, two front ends
 - **Decision:** activities and defaults live in `knowledge/effort.yaml`; the baseline page and `dqkit/effort.py` both read it, and a test checks they agree on a known case.
 - **Why:** the CDO Council brief needs the same numbers as the interactive page; a second copy would drift.

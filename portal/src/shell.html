@@ -107,6 +107,9 @@
 .dqp-navflag.upd{background:#d9e6f7;color:#1d3a6b}
 .dqp-drawer :focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
 @media (max-width:1000px){.dqp-newbtn{margin-left:0}}
+/* WCAG 2.2 SC 2.5.8 Target size (minimum): standalone links and tick boxes are at least 24 x 24 CSS px */
+input[type=checkbox],input[type=radio]{width:24px;height:24px;margin:0;flex:none;accent-color:var(--accent,#1d70b8)}
+li>a:only-child,.card>a,.step>a,.toc a{display:inline-flex;align-items:center;min-height:24px}
 </style>
 <a class="dqp-skip" href="#dqp-main">Skip to main content</a>
 {{ICONS}}

@@ -2,6 +2,16 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## Unreleased
+### Fixed
+- CI: pandas capped below 3.1 (the browser engine matches pandas 3.0 number parsing); `odfpy` declared.
+- Accessibility: keyboard access to scrollable tables, 24-pixel minimum targets, contrast on the learn page, roles for labelled elements.
+- GitHub now detects the MIT licence; the OGL content licence is in `docs/CONTENT-LICENCE.md`.
+### Changed
+- GitHub Actions moved to Node 24 releases; Node 22 for checks.
+### Added
+- Dependabot, CODEOWNERS, CodeQL scanning and OpenSSF Scorecard workflows.
+
 ## 1.6.0 — 2026-10-30
 ### Added
 - `roles.html` (For your role) from `knowledge/stakeholders.yaml`: 13 roles with needs, decisions, what to watch, measures and routes; key dates (confirmed or to confirm); a CDO Council brief built from live effort scenarios and the portfolio's Q-FAIR picture, downloadable as Markdown; a gap register of 20 gaps (9 addressed, 7 partly, 4 open) with filters.
