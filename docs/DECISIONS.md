@@ -3,6 +3,7 @@
 ## 2026-11-02 · D-CI-04 · Security scanning and a public health score
 - **Decision:** add CodeQL (Python, JavaScript, Actions; security-and-quality queries) and OpenSSF Scorecard workflows. Add Dependabot for pip and GitHub Actions, grouped into one weekly pull request each, plus CODEOWNERS.
 - **Why:** the repository is now public and meant for reuse across government. Departments assessing it need visible, independent evidence that it is maintained securely. Automation keeps it current without manual checking.
+- **Dependabot range rule:** `increase-if-necessary` for pip. The default raised every minimum to the newest release (PR #28), which would lock out departments on older, centrally managed environments with no benefit, since CI already installs the newest allowed versions.
 - **Alternatives considered:** GitHub's one-click CodeQL "default setup" (equivalent, but needs a settings change this session cannot make, and is less visible in the repository).
 
 ## 2026-11-02 · D-CI-03 · Root LICENSE is the exact MIT text; OGL statement moves to docs/CONTENT-LICENCE.md

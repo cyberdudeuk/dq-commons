@@ -9,6 +9,10 @@ updates:
     directory: "/"
     schedule: {interval: weekly, day: monday, time: "05:47", timezone: Europe/London}
     open-pull-requests-limit: 5
+    # Only widen a range when a new release falls outside it. Never raise the minimum
+    # versions just because newer ones exist: departments on centrally managed laptops
+    # often have older libraries, and the kit should keep working for them.
+    versioning-strategy: increase-if-necessary
     labels: [dependencies]
     commit-message: {prefix: "deps"}
     groups:
