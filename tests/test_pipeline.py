@@ -333,9 +333,11 @@ class Workflows(unittest.TestCase):
         self.assertIn("portal/dist/index.html", runs)
         self.assertLess(runs.index("unittest"), runs.index("dqkit run"))
         uses = self._uses(assess) + self._uses(deploy)
-        for action in ("actions/checkout@v4", "actions/setup-python@v5", "actions/github-script@v7",
-                       "actions/upload-artifact@v4", "actions/upload-pages-artifact@v3", "actions/deploy-pages@v4"):
-            self.assertIn(action, uses)
+        # Which actions, not which versions: Dependabot moves the versions (DECISIONS D-CI-02).
+        names = {u.split("@")[0] for u in uses}
+        for action in ("actions/checkout", "actions/setup-python", "actions/github-script",
+                       "actions/upload-artifact", "actions/upload-pages-artifact", "actions/deploy-pages"):
+            self.assertIn(action, names)
         for u in uses:
             self.assertRegex(u, r"@v\d+$")  # pinned to a major version
         script = next(s["with"]["script"] for s in assess["steps"] if s.get("uses", "").startswith("actions/github-script"))

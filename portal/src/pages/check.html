@@ -56,7 +56,7 @@ details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weigh
       <input type="file" id="csvFile" accept=".csv,.tsv,.tab,.xlsx,.xlsm,.ods,.json,.jsonl,.ndjson,text/csv"></div>
     <div class="field" id="sheetBox" hidden><label for="sheet">Sheet</label><select id="sheet"></select></div>
     <p class="small muted" id="dataInfo"></p>
-    <div class="preview" id="preview"></div>
+    <div class="preview" id="preview" tabindex="0" role="region" aria-label="Preview of your file, scrolls sideways and down"></div>
     <details class="prof" id="profBox"><summary>Profile this data</summary>
       <p class="small muted">What each column holds: how full it is, how many distinct values, the most common values, and the type and identifier format it looks like. Worked out in your browser.</p>
       <div class="tbl"><table><thead><tr><th>Column</th><th>Filled</th><th>Distinct</th><th>Looks like</th><th>Most common values</th></tr></thead><tbody id="prof"></tbody></table></div>

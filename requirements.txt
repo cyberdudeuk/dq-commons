@@ -10,3 +10,5 @@ python-docx>=1.1
 # odfpy reads and writes OpenDocument (.ods) spreadsheets, an open standard
 # many public bodies use instead of .xlsx
 odfpy>=1.4
+# requests fetches files from CKAN portals (such as data.gov.uk) in dqkit/sources.py
+requests>=2.31

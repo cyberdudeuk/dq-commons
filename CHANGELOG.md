@@ -4,7 +4,7 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 
 ## Unreleased
 ### Fixed
-- CI: pandas capped below 3.1 (the browser engine matches pandas 3.0 number parsing); `odfpy` declared.
+- CI: pandas capped below 3.1 (the browser engine matches pandas 3.0 number parsing); `odfpy` and `requests` declared; workflow test no longer breaks on action updates.
 - Accessibility: keyboard access to scrollable tables, 24-pixel minimum targets, contrast on the learn page, roles for labelled elements.
 - GitHub now detects the MIT licence; the OGL content licence is in `docs/CONTENT-LICENCE.md`.
 ### Changed
