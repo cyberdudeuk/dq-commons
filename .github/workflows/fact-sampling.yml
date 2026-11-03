@@ -1,0 +1,21 @@
+# Quarterly: open a checklist issue with a random 5% of sourced claims for a person to re-check (routine "Fact sampling").
+name: Fact sampling
+on:
+  schedule: [{cron: "29 7 2 1,4,7,10 *"}]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.12"}
+      - run: pip install pyyaml
+      - run: python scripts/sample_facts.py --out fact-sample.md
+      - env: {GH_TOKEN: "${{ github.token }}"}
+        run: |
+          gh label create fact-sampling --color 1d76db 2>/dev/null || true
+          gh issue create --label fact-sampling --title "$(head -1 fact-sample.md | sed 's/^# //')" --body-file fact-sample.md

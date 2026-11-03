@@ -1,5 +1,6 @@
 # Create a GitHub issue for every backlog item in knowledge/build.yaml that doesn't have one yet.
-# Idempotent: existing issues are found by their [BL-nn] prefix and left alone.
+# Idempotent: existing issues are found by their [BL-nn] prefix. --sync puts each in the Now, Next, Later or Done
+# milestone (the portal's roadmap stages), updates its Status line and the needs-people label.
 name: Backlog to issues
 on:
   push:
@@ -17,6 +18,6 @@ jobs:
       - uses: actions/setup-python@v7
         with: {python-version: "3.12"}
       - run: pip install pyyaml
-      - run: python scripts/backlog_to_issues.py --apply
+      - run: python scripts/backlog_to_issues.py --apply --sync
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

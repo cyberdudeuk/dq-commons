@@ -5,7 +5,7 @@ labels: [contribution, triage]
 body:
   - type: dropdown
     id: kind
-    attributes: {label: "Type", options: [Case study, Insight or lesson, Resource or link, Guidance or method, Training material, Dataset quality assessment]}
+    attributes: {label: "Type", options: [Case study, Insight or lesson, Resource or link, Knowledge base article, Guidance or method, Training material, Rule or pack, Dataset quality assessment, Event, Blog post, Video, Podcast episode]}
     validations: {required: true}
   - type: textarea
     id: summary
@@ -14,6 +14,9 @@ body:
   - type: input
     id: link
     attributes: {label: "Link (if published elsewhere)"}
+  - type: textarea
+    id: details
+    attributes: {label: "Details (optional)", description: "Anything else moderators need: nation or region, sector, licence, how to credit it, dates and place for an event, captions or transcript for a video or podcast. The portal fills this in for you when you start from it. No names or email addresses."}
   - type: dropdown
     id: share
     attributes: {label: "Can it be published openly?", options: ["Yes, as is", "Yes, anonymised", "Commons members only"]}

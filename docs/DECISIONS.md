@@ -1,5 +1,10 @@
 # Decision log (this repository)
 
+## 2026-11-03 · D-GH-01 · GitHub is the working system behind every portal feature
+- **Decision:** each portal feature maps to a GitHub feature (map on `github.html`). Forms that save on claude.ai open the matching GitHub issue form or discussion, pre-filled, everywhere else (`window.DQP_GITHUB` in the shell). The roadmap is computed from backlog statuses and mirrored as milestones by `scripts/backlog_to_issues.py --sync` with the same rule. The portal build reads public issue data once (issue numbers, states, thumbs-up votes, wishlist) with a read-only token; visitors' browsers never call GitHub (D-POL-01). Release tags stay a person's decision: the release workflow runs when a maintainer pushes a tag.
+- **Why:** the portal described processes (roadmap, votes, co-design, releases) that only fully worked on claude.ai or existed only on paper. GitHub already offers forms, reactions, milestones, discussions, releases and Actions, so the Commons uses them rather than building its own.
+- **Alternatives considered:** GitHub Projects board (left for later: user-owned projects need a personal token, which the Commons doesn't hold); calling the GitHub API from the browser (rejected: third-party requests and rate limits); creating tags automatically from the release record (rejected: releasing stays a deliberate human step).
+
 ## 2026-11-03 · D-REPO-01 · No decks or films in the repository unless explicitly allowed
 - **Decision:** slide decks and video files are ignored by `.gitignore` and refused by `tests/test_repo_policy.py`, unless their path is listed in `.media-allowlist`.
 - **Why:** the project lead's standing rule. They are large, hard to review and hard to make accessible, and they belong where they are presented.

@@ -1,0 +1,21 @@
+title: "[Idea] "
+labels: [idea]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ideas and co-design for the Commons happen here, in the open (docs/community/CO-DESIGN.md). Anyone can comment in their own time, so nobody has to join a live session. Please don't include personal data or email addresses.
+  - type: textarea
+    id: idea
+    attributes: {label: "What would you like the Commons to do?", description: "Describe the need and who it is for, not only the solution."}
+    validations: {required: true}
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Portal, Rules and checks, Metadata Weaver, Frameworks and packs, Learning, Community, Accessibility, AI assistant, Other]
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where do you work? (helps us cover every nation and partner)
+      options: [England, Wales, Scotland, Northern Ireland, UK-wide, Crown Dependency, Overseas Territory, Commonwealth or international partner, Prefer not to say]

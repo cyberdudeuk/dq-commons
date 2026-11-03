@@ -261,7 +261,7 @@ def knowledge() -> dict:
         "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
         "GLOBAL": lambda: y("global"),
-        "BUILD": lambda: y("build"),
+        "BUILD": lambda: (lambda b: {**b, "roadmap": roadmap(b["backlog"]), "github_live": github_live()})(y("build")),
         "HEALTH": lambda: health_summary(),
         "EVENTS": lambda: y("events"),
         "PLAYBOOK": lambda: y("playbook"),
@@ -274,6 +274,61 @@ def knowledge() -> dict:
         "ONTOLOGY": lambda: {**{k: v for k, v in y("ontology").items() if k != "review"}, "weaver_fields": weaver_fields()},
         "INTEGRATIONS": lambda: yaml.safe_load((ROOT / "integrations" / "config.yaml").read_text(encoding="utf-8")),
     }
+
+
+# ---------- live GitHub data, read at build time (D-GH-01) ----------
+# The portal never calls GitHub from a visitor's browser (D-POL-01). The build reads public issue data once,
+# so the backlog shows each item's issue, state and votes (thumbs-up reactions), and the wishlist works on
+# GitHub Pages too. If GitHub can't be reached (offline builds), the portal links to searches instead.
+_GH_CACHE: dict = {}
+
+
+def github_live() -> dict:
+    if "v" in _GH_CACHE:
+        return _GH_CACHE["v"]
+    import os
+    import urllib.request
+    repo = REPO[0].replace("https://github.com/", "")
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    def get(path):
+        req = urllib.request.Request(f"https://api.github.com/repos/{repo}/{path}", headers={
+            "Accept": "application/vnd.github+json", "User-Agent": "dq-commons-portal-build", **({"Authorization": f"Bearer {token}"} if token else {})})
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read())
+    out = {"backlog": {}, "wishes": [], "read": ""}
+    try:
+        for label in ("backlog", "wishlist"):
+            for i in get(f"issues?labels={label}&state=all&per_page=100"):
+                if i.get("pull_request"):
+                    continue
+                row = {"n": i["number"], "state": i["state"], "votes": (i.get("reactions") or {}).get("+1", 0),
+                       "comments": i.get("comments", 0), "milestone": (i.get("milestone") or {}).get("title", "")}
+                if label == "backlog" and i["title"].startswith("[BL-"):
+                    out["backlog"][i["title"][1:].split("]")[0]] = row
+                elif label == "wishlist" and i["state"] == "open":
+                    out["wishes"].append({**row, "title": re.sub(r"^\[Wish\]\s*", "", i["title"])})
+        out["wishes"].sort(key=lambda w: (-w["votes"], w["n"]))
+        out["read"] = date.today().isoformat()
+    except Exception as e:  # noqa: BLE001 - offline or rate-limited: the portal falls back to links
+        print(f"GitHub data not read ({type(e).__name__}); the portal will link to GitHub instead.")
+    _GH_CACHE["v"] = out
+    return out
+
+
+def roadmap(backlog: list) -> list:
+    """The roadmap, worked out from backlog statuses with the same rule as the GitHub milestones
+    (scripts/backlog_to_issues.py stage()), so the two can never disagree."""
+    def stage(b):
+        if b["status"] == "done":
+            return "Done"
+        if b["status"] == "in-progress":
+            return "Now"
+        return "Next" if b["moscow"] in ("must", "should") else "Later"
+    labels = {"Now": "Being built, or prepared and waiting on people", "Next": "Must and should items", "Later": "Could items",
+              "Done": f"Delivered by v{VERSION}"}
+    return [{"stage": st, "label": labels[st], "items": [{"id": b["id"], "title": b["title"], "needs_people": "needs" in str(b.get("done", "")).lower() and st == "Now"}
+                                                       for b in backlog if stage(b) == st]}
+            for st in ("Now", "Next", "Later", "Done")]
 
 
 # ---------- releases and versioning (knowledge/releases.yaml is the single source) ----------
@@ -308,6 +363,7 @@ SEARCH_SOURCES = {"frameworks": "frameworks", "professions": "professions", "lea
 NAME_KEYS = ("name", "title", "term", "label", "question")
 DESC_KEYS = ("summary", "description", "definition", "what", "why", "answer", "desc", "purpose", "note")
 SECTION_FLAGS: dict = {}
+REPO = ["https://github.com/cyberdudeuk/dq-commons"]  # set from --repo in main()
 BASELINE = ROOT / "portal" / "section-baseline.json"
 
 
@@ -445,7 +501,8 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
              .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, ""))
              .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip())
              .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5]))
-             .replace("{{SECTION_FLAGS}}", js_json(SECTION_FLAGS.get(stem, {}))))
+             .replace("{{SECTION_FLAGS}}", js_json(SECTION_FLAGS.get(stem, {})))
+             .replace("{{REPO}}", html.escape(REPO[0])))
     # every page's eyebrow gets that page's icon
     fragment = re.sub(r'<span class="eyebrow">[^<·]*·', lambda m: f'<span class="eyebrow">{GROUP_TITLE.get(GROUP_OF.get(stem, ""), "Commons")} ·', fragment, count=1)
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
@@ -577,6 +634,7 @@ def main(argv=None) -> int:
     }
 
     kb, kcache = knowledge(), {}
+    REPO[0] = a.repo.rstrip("/")
     SECTION_FLAGS.update(section_flags())
 
     def render(target: Path, download_base: str, artifact: bool):

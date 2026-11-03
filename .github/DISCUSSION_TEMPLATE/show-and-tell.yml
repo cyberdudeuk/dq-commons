@@ -1,0 +1,13 @@
+title: "[Show and tell] "
+labels: [show-and-tell]
+body:
+  - type: markdown
+    attributes:
+      value: "Share what you did with the Commons: a case study, a rules file, a lesson learned. The portal's Case studies page can draft one for you from measured results. No names, email addresses or real records."
+  - type: textarea
+    id: story
+    attributes: {label: "What did you do, and what changed?"}
+    validations: {required: true}
+  - type: dropdown
+    id: share
+    attributes: {label: "Can the Commons add this to the library?", options: ["Yes, as is", "Yes, anonymised", "No, just sharing here"]}

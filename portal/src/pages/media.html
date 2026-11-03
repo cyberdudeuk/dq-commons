@@ -92,7 +92,7 @@ function ext(list, kind, empty) {
     : `<div class="empty">${empty} <a href="#" data-share>Share one</a>.</div>`;
 }
 function drawExt() {
-  $("vlog").innerHTML = ext(videos, "video", "No videos yet. Commons walk-throughs of each tool are planned, with captions and transcripts.");
+  $("vlog").innerHTML = ext(videos, "video", "No videos yet. Share one with the form below: every video needs captions or a transcript.");
   $("pod").innerHTML = ext(pods, "podcast", "No podcasts yet.");
 }
 document.addEventListener("click", e => { if (e.target.closest("[data-share]")) { e.preventDefault(); show($("tab-sub"), true); } });
@@ -117,7 +117,9 @@ $("mForm").addEventListener("submit", async e => {
     v.link && !safeUrl(v.link) ? "Links must start with https://" : v.media !== "blog" && (!v.access || v.access.startsWith("Not needed")) ? "Videos and podcasts need captions or a transcript." : null;
   if (err) { $("mMsg").innerHTML = `<span class="msg err">${err}</span>`; return; }
   if (PII.some(re => re.test(v.title + " " + v.summary))) { $("mMsg").innerHTML = `<span class="msg err">It looks like this includes personal data. Please remove it.</span>`; return; }
-  if (!db || !uid || !writable) { location.href = `${B.repo}/issues/new?template=5-contribution.yml`; return; }
+  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Media] " + v.title, {kind: {blog: "Blog post", video: "Video", podcast: "Podcast episode"}[v.media], summary: v.summary, link: v.link,
+    details: `Topics: ${v.sector || "not stated"}\nCaptions or transcript: ${v.access || "not stated"}\nCredit as: ${v.org || "not stated"}`}));
+    $("mMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
   try {
     const ref = db.doc(`queue/${uid}`), snap = await ref.get(), list = (snap.exists && snap.data().items) || [];
     list.push({kind: "media", ...v, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});

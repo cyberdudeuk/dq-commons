@@ -22,7 +22,7 @@ __BASE_CSS__
 <header class="page">
   <span class="eyebrow">Community · Operating model and support</span>
   <h1>How the Commons runs, and how to get help</h1>
-  <p class="lede">Who the Commons supports, the four tiers of help, who does what, and how a request becomes a released feature, through GitHub, the Jira backlog and Confluence. Written so that any team could run the Commons.</p>
+  <p class="lede">Who the Commons supports, the four tiers of help, who does what, and how a request becomes a released feature, through GitHub, with Jira and Confluence as optional mirrors. Written so that any team could run the Commons.</p>
   <nav class="toc" aria-label="On this page"><a href="#tiers">Getting help</a><a href="#roles">Roles</a><a href="#flow">From request to release</a><a href="#systems">GitHub, Jira and Confluence</a><a href="#moderation">Moderation</a><a href="#measures">Measures</a></nav>
 </header>
 
@@ -55,18 +55,18 @@ __BASE_CSS__
   <ol class="flow">
     <li><b>Request</b>Anyone raises it: wishlist, a GitHub form, a commission or the contact form.</li>
     <li><b>Weekly triage</b>30 minutes, open notes. Each item is labelled backlog, answered, community, specialist or declined (with the reason).</li>
-    <li><b>Backlog</b>The backlog label creates a Jira story under the Commons epic automatically, and comments its key back on GitHub.</li>
+    <li><b>Backlog</b>Each backlog item is a GitHub issue, placed in the Now, Next, Later or Done milestone automatically, the same stages as the portal's roadmap. With Jira connected, the backlog label also creates a Jira story and comments its key back.</li>
     <li><b>Prioritise</b>Monthly: user value × reach × inclusion benefit ÷ effort. Ties go to accessibility and inclusion.</li>
     <li><b>Build</b>A pull request that passes tests, the parity check and accessibility checks, with docs changed in the same request.</li>
-    <li><b>Release</b>Merging runs the pipeline, rebuilds the portal and publishes the docs to Confluence. The Jira story moves to Done.</li>
-    <li><b>Tell people</b>A changelog entry and a note to the networks.</li>
+    <li><b>Release</b>Merging rebuilds and publishes the portal. A version tag makes a GitHub Release with notes, a source zip and the offline portal, and opens an inclusion review. Commits that say "Closes #n" close the issue. With Confluence connected, the docs are published there too.</li>
+    <li><b>Tell people</b>A changelog entry, the What's new panel, the GitHub Release (people who watch the repository for releases are notified) and a note to the networks.</li>
   </ol>
 </section>
 
 <section id="systems" aria-labelledby="s-h">
   <h2 id="s-h">GitHub, Jira and Confluence</h2>
   <div class="sys" id="sys"></div>
-  <div class="callout info"><p class="small"><b>Status:</b> the workflows run as dry runs until the repository is published and its Jira and Confluence secrets are added. They log what they would do, so nothing breaks before then.</p></div>
+  <div class="callout info"><p class="small"><b>Status:</b> GitHub is live: issues, milestones, discussions, releases, Actions and Pages all run. The Jira and Confluence workflows run as dry runs until an owner adds their secrets (repository Settings, Secrets and variables, Actions); they log what they would do, so nothing breaks before then.</p></div>
 </section>
 
 <section id="moderation" aria-labelledby="m-h">
@@ -94,17 +94,17 @@ __BASE_CSS__
 const I = __K_INTEGRATIONS__, B = __BUILD__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const forms = [["1-feature-request.yml", "Feature or wishlist item"], ["2-bug.yml", "Something isn't working"], ["3-rule-or-pack.yml", "Rule, identifier, value set or pack"], ["4-commission.yml", "Ask for help (commission)"], ["5-contribution.yml", "Contribute to the library"]];
+const forms = [["0-contact.yml", "Contact the Commons"], ["1-feature-request.yml", "Feature or wishlist item"], ["2-bug.yml", "Something isn't working"], ["3-rule-or-pack.yml", "Rule, identifier, value set or pack"], ["4-commission.yml", "Ask for help (commission)"], ["5-contribution.yml", "Contribute to the library"]];
 $("sys").innerHTML = `
   <div class="card"><h3>GitHub</h3><p class="small">Code, rules, packs, knowledge base, issues and pull requests. The pipeline and portal build run here.</p>
-    <p class="small">Repository: <code>${esc(I.github.repository)}</code> (proposed; not published yet)</p>
+    <p class="small">Repository: <a href="${esc(B.repo)}"><code>${esc(I.github.repository)}</code></a> (public). See <a href="github.html#map-h">how every portal feature connects to GitHub</a>.</p>
     <ul class="plain small">${forms.map(([f, l]) => `<li><a href="${esc(B.repo)}/issues/new?template=${f}">${esc(l)}</a></li>`).join("")}</ul></div>
   <div class="card"><h3>Jira</h3><p class="small">The plan. Issues labelled <code>${esc(I.github.backlog_label)}</code> become stories in project <code>${esc(I.jira.project)}</code> under epic <code>${esc(I.jira.epic)}</code>. Support requests come in through the contact form, which opens a GitHub contact issue.</p></div>
   <div class="card"><h3>Confluence</h3><p class="small">How support is given, for staff and partners. On every release these docs are published to space <code>${esc(I.confluence.space)}</code>:</p>
     <ul class="plain small">${Object.values(I.confluence.pages).map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`;
 window.DQP_TOUR = [
   {sel: "#tiers", title: "Four tiers of help", text: "From help yourself to specialist teams, with response times."},
-  {sel: "#flow", title: "From request to release", text: "How a request is triaged, planned in Jira, built, released and announced."},
-  {sel: "#systems", title: "Connected systems", text: "GitHub for code and requests, Jira for the plan, Confluence for how support is given."},
+  {sel: "#flow", title: "From request to release", text: "How a request is triaged, placed on the roadmap, built, released and announced."},
+  {sel: "#systems", title: "Connected systems", text: "GitHub for code, requests, roadmap and releases; Jira and Confluence as optional mirrors."},
 ];
 </script>

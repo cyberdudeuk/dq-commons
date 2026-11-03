@@ -7,32 +7,8 @@ intro: >-
   The Commons is built in the open, with the people who use it. Vote on what comes next, pick up a backlog item,
   join a co-design session, or tell us what's wrong. Everything here is moderated and nobody needs to share personal data.
 
-roadmap:
-- stage: Now
-  label: v1.2
-  items:
-  - Metadata Weaver and contract change check
-  - Crown Dependencies, Overseas Territories, Commonwealth and international partners
-  - GOV.UK blog features in the media centre
-  - Self-checking content health report
-  - Co-design charter, contribution rules and safeguards
-  - Contact form that never shows an email address
-- stage: Next
-  label: 3 months
-  items:
-  - "User research with 5 organisation types, including one Crown Dependency or Overseas Territory (XDMH-212)"
-  - "Independent accessibility audit to WCAG 2.2 AA (XDMH-213)"
-  - "AI assistant assurance and an Algorithmic Transparency Recording Standard record (XDMH-214)"
-  - "Weaver: GeoDCAT-AP, StatDCAT-AP and UK metadata standard profiles"
-- stage: Later
-  label: 6 to 12 months
-  items:
-  - "Welsh language version (XDMH-216)"
-  - "Outlier and anomaly checks (XDMH-215)"
-  - "Record linkage quality with Splink (XDMH-222)"
-  - "Power Automate and Fabric connector (XDMH-219)"
-  - "Moderation workflow at scale (XDMH-217)"
-  - "Weaver: SHACL validation and CSVW and Frictionless package inputs"
+# The roadmap is worked out from the backlog statuses below at build time (build_dq_portal.py roadmap()),
+# with the same rule as the GitHub milestones Now, Next, Later and Done, so the two always agree.
 
 # moscow: must, should, could, wont. status: proposed, ready, in-progress, done. area: one word, used as a label.
 backlog:
@@ -101,8 +77,8 @@ charter:
   - {method: "Discovery interviews", when: "Before we build something new", how: "45-minute conversations about your work, not about the Commons."}
   - {method: "Co-design workshops", when: "Each quarter", how: "Small groups shape a feature together. Times rotate across time zones."}
   - {method: "Usability testing", when: "Before each release", how: "Try a task while we watch and learn. Assistive technology users are always included."}
-  - {method: "Asynchronous feedback", when: "Any time", how: "Comment on a GitHub discussion or use the contact form, at your own pace."}
-  - {method: "Show and tells", when: "Monthly", how: "We show what changed and why. Recorded with captions and a transcript."}
+  - {method: "Asynchronous feedback", when: "Any time", how: "Start or comment on an idea in GitHub Discussions (Ideas category, with its own form), or use the contact form, at your own pace."}
+  - {method: "Show and tells", when: "Monthly", how: "We show what changed and why, with a written summary in the GitHub Release notes and a Show and tell discussion for questions. Recordings, if any, have captions and a transcript and are kept outside the repository."}
 
 contributors:
   how: >-
@@ -142,21 +118,23 @@ github:
 
 # Self-checking routines that keep content current, accurate and trustworthy. status: running (in CI), on-demand, planned.
 routines:
-- {name: "Unit and integration tests", what: "116+ tests: toolkit, knowledge base, portal build, privacy guards.", when: "Every change (CI)", status: running}
+- {name: "Unit and integration tests", what: "150+ tests: toolkit, knowledge base, portal build, privacy guards.", when: "Every change (CI)", status: running}
 - {name: "Two-engine parity", what: "The browser engine and the Python toolkit give the same answer, case by case, including the Metadata Weaver.", when: "Every change", status: running}
 - {name: "Content health report", what: "Review dates, freshness, verification ratio, personal and sensitive data, duplicates, claims recounted from data, links, language.", when: "Every change and weekly", status: running}
-- {name: "Link checker", what: "Every external link is requested; broken ones open an issue.", when: "Weekly", status: running}
+- {name: "Link checker", what: "Every external link is requested; broken ones keep one tracked issue up to date, with an archived copy for each.", when: "Monthly", status: running}
 - {name: "Review dates", what: "Every knowledge file names an owning role; a test fails after 12 months without review. Each page shows when its content was last reviewed and by which role.", when: "Every change", status: running}
 - {name: "Community docs in sync", what: "CHARTER.md and CONTRIBUTORS.md are regenerated from the same source as the portal.", when: "Every change", status: running}
-- {name: "Backlog to issues", what: "Every backlog item has exactly one GitHub issue.", when: "When the backlog changes", status: running}
-- {name: "Moderation", what: "People check every contribution before it is public.", when: "Within 10 working days", status: running}
-- {name: "Accessibility checks in CI", what: "Automated axe-core checks on every page, light and dark, desktop and phone (runs on GitHub on every change).", when: "Every change", status: on-demand}
-- {name: "Source archiving", what: "An archived copy of each cited source, so evidence survives link rot.", when: "Monthly", status: planned}
-- {name: "Freshness issues", what: "Stale news and reviews open (and later close) one GitHub issue for the owning roles automatically.", when: "Weekly", status: on-demand}
-- {name: "Source diffing", what: "Detect when an official source changes after we summarised it, and flag the summary for review.", when: "Monthly", status: planned}
-- {name: "Fact sampling", what: "A person re-checks a random 5% of claims against sources each quarter, and publishes the error rate.", when: "Quarterly", status: planned}
+- {name: "Backlog to issues and roadmap", what: "Every backlog item has exactly one GitHub issue, in the Now, Next, Later or Done milestone that matches this page's roadmap.", when: "When the backlog changes", status: running}
+- {name: "Moderation and triage", what: "People check every contribution before it is public; a daily Triage workflow flags anything waiting past its service level (docs/MODERATION.md).", when: "Daily triage; decisions within 10 working days", status: running}
+- {name: "Accessibility checks in CI", what: "Automated axe-core checks on every page, light and dark, desktop and phone (runs on GitHub on every change).", when: "Every change", status: running}
+- {name: "Source archiving", what: "The monthly link check asks the Internet Archive to save a rotating slice of sources, and every broken link comes with its archived copy.", when: "Monthly", status: running}
+- {name: "Freshness issues", what: "Stale news and reviews open (and later close) one GitHub issue for the owning roles automatically.", when: "Weekly", status: running}
+- {name: "Source diffing", what: "The monthly link check fingerprints each source's text and lists the ones that changed, so the summaries citing them are re-read.", when: "Monthly", status: running}
+- {name: "Fact sampling", what: "Each quarter a workflow opens a checklist of a random 5% of sourced claims; a person re-checks them and records the error rate.", when: "Quarterly", status: running}
+- {name: "Repository health", what: "Settings are compared with .github/settings-baseline.json and missing labels are created; drift keeps one tracked issue up to date.", when: "Weekly", status: running}
+- {name: "Weekly maintenance", what: "A scheduled Claude task reviews runs, issues, Dependabot pull requests and content health, fixes what it safely can and reports the rest.", when: "Mondays", status: running}
 - {name: "AI output evaluation", what: "The rule-drafting assistant is scored against a fixed evaluation set before each change.", when: "Before AI changes", status: on-demand}
-- {name: "Inclusion review", what: "Check content and examples for missing groups, nations and jurisdictions, with people affected.", when: "Each release", status: planned}
-- {name: "Dependency and secret scanning", what: "GitHub Dependabot and secret scanning on the repository.", when: "Continuous", status: planned}
+- {name: "Inclusion review", what: "Each GitHub Release opens an inclusion review checklist: assistive technology, plain English, every nation and territory, no new account barriers, no personal data.", when: "Each release", status: running}
+- {name: "Dependency and secret scanning", what: "Dependabot updates, secret scanning with push protection, CodeQL, OpenSSF Scorecard, and a test that refuses credentials, private links and marking banners.", when: "Continuous", status: running}
 
 contact_topics: [General question, Report a problem with content, Accessibility problem, Suggest a partner or framework, Join co-design, Withdraw my contribution, Media or speaking request, Something else]

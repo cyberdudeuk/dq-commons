@@ -250,3 +250,19 @@ fill in the Causes and Actions tabs, and close the loop at the next measurement.
 
 ### Known follow-up
 - Numbers are read by the toolkit's own rule (`dqkit/numbers.py`, mirrored in `engine.js`), so pandas upgrades no longer change results (D-TK-02). If a pandas upgrade breaks the parity test, the cause is elsewhere: read the failing case first.
+
+## GitHub automation at a glance (v2.2.0)
+
+| Workflow | When | What it does |
+|---|---|---|
+| tests, Accessibility, CodeQL, Scorecard | Every change | Tests and parity; axe-core on every page; code and supply-chain scanning |
+| publish portal | Every change to main | Builds the portal (reading issue numbers, states and votes read-only) and publishes GitHub Pages |
+| Backlog to issues | When `knowledge/build.yaml` changes | One issue per backlog item; milestones Now, Next, Later, Done and the `needs-people` label kept in step (`--sync`) |
+| release | When a maintainer pushes a `vX.Y.Z` tag | GitHub Release with notes, source zip and offline portal; opens an inclusion review |
+| Content health | Every change and weekly | Self-check; one tracked issue |
+| Link check | Monthly | Broken links with archived copies; Internet Archive snapshots; source diffing (fingerprints cached between runs) |
+| Fact sampling | Quarterly | Checklist issue of a random 5% of sourced claims |
+| Triage | Working days | Flags contact and contribution issues waiting past their service level |
+| Repository health | Weekly | Settings drift against `.github/settings-baseline.json`; creates missing labels |
+| Data quality pipeline | Mondays | Measures the portfolio; one issue per escalation (`dq-escalation`) |
+| Docs to Confluence, Backlog sync to Jira | On change | Dry runs until an owner adds the Atlassian secrets |

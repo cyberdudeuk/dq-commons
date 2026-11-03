@@ -52,7 +52,9 @@ class Knowledge(unittest.TestCase):
         for sv in s["surveys"]:
             for q in sv["questions"]:
                 self.assertIsNone(re.search(r"\b(your name|email address|date of birth)\b", q["q"], re.I), q["q"])
-        self.assertIn("don't ask for your name", s["privacy_notice"])
+        self.assertIn("never ask for your name", s["privacy_notice"])
+        # D-REPO-02: commissions reply on the request itself, so no contact field is ever asked for
+        self.assertNotIn("contact", [f.get("id") for f in s["commissions"]["fields"]])
 
     def test_learning_links_point_to_portal_pages_or_https(self):
         pages = {p.stem for p in (ROOT / "portal" / "src" / "pages").glob("*.html")}

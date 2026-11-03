@@ -144,16 +144,20 @@ const WAYS = [["blocks", "Pick up a backlog item", "Comment on the GitHub issue 
   ["layers", "Add a framework or pack", "Especially from the nations, Crown Dependencies, Territories and partners.", gh("3-rule-or-pack.yml")],
   ["alert", "Report a problem", "Something wrong, out of date or hard to use.", gh("2-bug.yml")], ["message", "Contact us", "No email needed.", "#contact"]];
 $("wayz").innerHTML = WAYS.map(([i, t, d, h]) => `<a href="${esc(h)}">${DQI(i, "dqi-lg")}<b>${esc(t)}</b><span>${esc(d)}</span></a>`).join("");
-$("road").innerHTML = K.roadmap.map(s => `<div class="card"><h3>${esc(s.stage)} <span class="chip ${s.stage === "Now" ? "good" : "acc"}">${esc(s.label)}</span></h3><ul>${s.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+const GL = K.github_live || {backlog: {}, wishes: []};
+const issueOf = id => GL.backlog[id];
+const issueUrl = b => issueOf(b.id) ? `${B.repo}/issues/${issueOf(b.id).n}` : `${B.repo}/issues?q=${encodeURIComponent(`is:issue label:backlog "${b.id}"`)}`;
+$("road").innerHTML = K.roadmap.map(s => `<div class="card"><h3>${esc(s.stage)} <span class="chip ${s.stage === "Now" ? "good" : s.stage === "Done" ? "" : "acc"}">${s.items.length}</span></h3>
+  <p class="small muted">${esc(s.label)} · <a href="${esc(B.repo)}/milestones?state=all&q=${encodeURIComponent(s.stage)}" rel="noopener">GitHub milestone</a></p>
+  <ul>${s.items.map(i => `<li><a href="${esc(issueUrl({id: i.id}))}" rel="noopener">${esc(i.title)}</a>${i.needs_people ? ' <span class="chip warn">Needs people</span>' : ""}</li>`).join("") || `<li>Nothing here yet. <a href="#wl-h">Suggest something</a> or vote on the wishlist.</li>`}</ul></div>`).join("");
 const areas = [...new Set(K.backlog.map(b => b.area))].sort();
 $("ba").innerHTML = `<option value="">Any</option>` + areas.map(a => `<option>${esc(a)}</option>`).join("");
-const issueUrl = b => `${B.repo}/issues?q=${encodeURIComponent(`is:issue label:backlog "${b.id}"`)}`;
 function drawBl() {
   const q = $("bq").value.trim().toLowerCase(), a = $("ba").value, m = $("bm").value;
   const L = K.backlog.filter(b => (!a || b.area === a) && (!m || b.moscow === m) && (!q || JSON.stringify(b).toLowerCase().includes(q)));
   $("bN").textContent = `${L.length} of ${K.backlog.length} items.`;
   $("bl").innerHTML = L.map(b => `<tr><td><a href="${esc(issueUrl(b))}" rel="noopener"><span class="mono">${esc(b.id)}</span> ${esc(b.title)}</a>${b.jira ? ` <span class="chip">${esc(b.jira)}</span>` : ""}</td>
-    <td><span class="pill m-${esc(b.moscow)}">${esc(b.moscow)}</span></td><td>${esc(b.area)}</td><td>${esc(b.status)}</td><td class="small">${esc(b.why)}</td></tr>`).join("") || `<tr><td colspan="5">Nothing matches.</td></tr>`;
+    <td><span class="pill m-${esc(b.moscow)}">${esc(b.moscow)}</span></td><td>${esc(b.area)}</td><td>${esc(b.status)}${issueOf(b.id) ? `<br><span class="small muted">GitHub #${issueOf(b.id).n}, ${issueOf(b.id).state}${issueOf(b.id).votes ? `, ${issueOf(b.id).votes} 👍` : ""}</span>` : ""}</td><td class="small">${esc(b.why)}${b.done ? `<br><b>Progress:</b> ${esc(b.done)}` : ""}</td></tr>`).join("") || `<tr><td colspan="5">Nothing matches.</td></tr>`;
 }
 ["bq", "ba", "bm"].forEach(id => $(id).addEventListener("input", drawBl)); drawBl();
 // Time zone planner (BL-17, issue #17): three rotating slots, shown in each partner's local time.
@@ -210,7 +214,16 @@ function drawWish() {
     return `<li><span class="tally" role="img" aria-label="${tally[w.id] || 0} votes">${tally[w.id] || 0}</span>
       <div><b>${esc(w.title)}</b>${w.why ? `<br><span class="small muted">${esc(w.why)}</span>` : ""}${w.key ? ` <span class="chip">${esc(w.key)}</span>` : ""}${w.status ? ` <span class="chip good">${esc(w.status)}</span>` : ""}</div>
       <button type="button" class="vote" data-w="${esc(w.id)}" aria-pressed="${on}" ${db && uid && writable ? "" : "disabled"} aria-label="${on ? "Remove vote for" : "Vote for"} ${esc(w.title)}">${on ? "Voted" : "Vote"}</button></li>`; }).join("")
-    || `<li>No wishlist items yet. ${db ? "" : `See the <a href="${esc(B.repo)}/issues?q=label%3Awishlist">wishlist issues on GitHub</a>.`}</li>`;
+    || (db ? `<li>No wishlist items yet.</li>` : ghWishes());
+}
+// Away from claude.ai the wishlist is the GitHub issues labelled "wishlist"; a thumbs-up reaction on an issue is a vote.
+function ghWishes() {
+  const top = GL.wishes.slice(0, 20);
+  return (top.length ? top.map(w => `<li><span class="tally" role="img" aria-label="${w.votes} votes">${w.votes}</span>
+      <div><b>${esc(w.title)}</b><br><span class="small muted">GitHub #${w.n}${w.comments ? `, ${w.comments} comments` : ""}</span></div>
+      <a class="btn ghost" href="${esc(B.repo)}/issues/${w.n}" rel="noopener" aria-label="Vote for ${esc(w.title)} on GitHub with a thumbs-up">Vote on GitHub</a></li>`).join("")
+    : `<li>No wishlist issues yet.</li>`) +
+    `<li class="small muted" style="display:block">On GitHub, a 👍 reaction on an issue counts as a vote${GL.read ? ` (counts as of ${esc(GL.read)})` : ""}. <a href="${esc(B.repo)}/issues?q=is%3Aopen+label%3Awishlist+sort%3Areactions-%2B1-desc" rel="noopener">See every wish, most votes first</a>.</li>`;
 }
 $("wish").addEventListener("click", async e => {
   const b = e.target.closest(".vote"); if (!b || !db || !uid) return;
@@ -236,7 +249,8 @@ $("wForm").addEventListener("submit", async e => {
   const t = $("wT").value.trim(), w = $("wW").value.trim();
   if (!t) { $("wMsg").innerHTML = `<span class="msg err">Describe what you need to do.</span>`; $("wT").focus(); return; }
   const p = piiCheck(t + " " + w); if (p) { $("wMsg").innerHTML = `<span class="msg err">It looks like this includes ${p}. Please remove it and try again.</span>`; return; }
-  if (!db || !uid || !writable) { location.href = gh("1-feature-request.yml"); return; }
+  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("1-feature-request.yml", "[Wish] " + t.slice(0, 80), {need: t, why: w}));
+    $("wMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
   try { await addToQueue({kind: "wish", title: t, why: w}); $("wForm").reset(); $("wMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will add it to the wishlist.</span>`; }
   catch (er) { $("wMsg").innerHTML = `<span class="msg err">It couldn't be saved: ${esc(er.message || er.code)}.</span>`; }
 });

@@ -53,8 +53,8 @@ We build the Commons with the people who use it, so it meets real needs, include
 | Discovery interviews | Before we build something new | 45-minute conversations about your work, not about the Commons. |
 | Co-design workshops | Each quarter | Small groups shape a feature together. Times rotate across time zones. |
 | Usability testing | Before each release | Try a task while we watch and learn. Assistive technology users are always included. |
-| Asynchronous feedback | Any time | Comment on a GitHub discussion or use the contact form, at your own pace. |
-| Show and tells | Monthly | We show what changed and why. Recorded with captions and a transcript. |
+| Asynchronous feedback | Any time | Start or comment on an idea in GitHub Discussions (Ideas category, with its own form), or use the contact form, at your own pace. |
+| Show and tells | Monthly | We show what changed and why, with a written summary in the GitHub Release notes and a Show and tell discussion for questions. Recordings, if any, have captions and a transcript and are kept outside the repository. |
 
 ## Decisions
 

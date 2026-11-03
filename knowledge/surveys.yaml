@@ -2,14 +2,14 @@
 # government, devolved administrations, the wider public sector, and private and voluntary bodies.
 #
 # Question types: single, multi, text, long, rating (1-5, 5 is always best), band.
-# Every survey shows the privacy notice first. Names and emails are never asked for; contact is
-# optional and only if the respondent asks to be contacted. Results are shown only in aggregate,
+# Every survey shows the privacy notice first. Names, emails and contact details are never asked for (D-REPO-02):
+# we reply on the request itself. Results are shown only in aggregate,
 # with counts under 5 suppressed.
 
-review: {last_reviewed: "2026-10-15", owner_role: Service owner}
+review: {last_reviewed: "2026-11-03", owner_role: Service owner}
 privacy_notice: >-
-  We collect only what each question asks. We don't ask for your name or email. If you choose to be
-  contacted, we use the contact detail you give only for that follow-up and delete it within 12 months.
+  We collect only what each question asks. We never ask for your name, email or any other contact detail:
+  we reply on your request itself (in your Commons inbox on claude.ai, or on the GitHub issue).
   Answers are shown only as totals, and any total under 5 is hidden so no organisation can be
   identified. You can skip any question. This is a prototype service, not an official government survey.
 
@@ -122,4 +122,3 @@ commissions:
   - {id: sector, q: "Which sector or domain is it about?", type: text}
   - {id: detail, q: "Tell us what you need and by when.", type: long}
   - {id: urgency, q: "How urgent is it?", type: single, options: [This week, This month, This quarter, No deadline]}
-  - {id: contact, q: "How should we contact you? (optional - a team inbox is best)", type: text}

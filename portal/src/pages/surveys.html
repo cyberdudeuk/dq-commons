@@ -167,8 +167,9 @@ $("cmForm").addEventListener("submit", async e => {
   const v = {type: $("cmForm").querySelector("input[name=cmType]:checked").value};
   cmFields.forEach(q => { v[q.id] = qValue(q, "c", $("cmForm")); });
   if (!v.detail) { $("cmMsg").innerHTML = `<span class="msg err">Tell us what you need.</span>`; $("c_detail").focus(); return; }
-  if (hasPII(v.detail) || hasPII(v.sector)) { $("cmMsg").innerHTML = `<span class="msg err">Please remove personal data from the description. Put a contact only in the contact box.</span>`; return; }
-  if (!db || !uid || !writable) { location.href = gh("4-commission.yml"); return; }
+  if (hasPII(v.detail) || hasPII(v.sector)) { $("cmMsg").innerHTML = `<span class="msg err">Please remove personal data from the description. We reply on the request itself, so no contact details are needed.</span>`; return; }
+  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("4-commission.yml", "[Commission] " + String(v.detail).slice(0, 70), {detail: Object.entries(v).filter(([k, x]) => x && k !== "detail").map(([k, x]) => `${k}: ${x}`).join("\n") + "\n\n" + v.detail}));
+    $("cmMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
   try {
     const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
     const name = (CM.types.find(t => t.id === v.type) || {}).name;

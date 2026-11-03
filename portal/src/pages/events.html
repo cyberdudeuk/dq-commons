@@ -179,7 +179,9 @@ $("eForm").addEventListener("submit", async e => {
     : !safeUrl(v.url) ? ["eU", "Add a link starting with https:// to the organiser's page."] : null;
   if (err) { $("eMsg").innerHTML = `<span class="msg err">${err[1]}</span>`; $(err[0]).focus(); return; }
   if (PII.some(r => r.test(Object.values(v).join(" ")))) { $("eMsg").innerHTML = `<span class="msg err">Please remove email addresses and phone numbers. Link to the organiser's page instead.</span>`; return; }
-  if (!db || !uid || !writable) { location.href = gh("5-contribution.yml"); return; }
+  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Event] " + v.title, {kind: "Event", summary: `${v.kind}, ${v.format}, organised by ${v.organiser || "not stated"}.`, link: v.url,
+    details: `Starts: ${v.start}\nEnds: ${v.end}\nWhere: ${v.location || "not stated"}\nNation or region: ${v.region}\nCost: ${v.cost}\nAccessibility: ${v.accessibility}`}));
+    $("eMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
   try {
     const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
     if (items.filter(i => i.status === "pending").length >= 20) throw {message: "You have 20 items waiting for moderation already."};

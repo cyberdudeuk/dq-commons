@@ -11,6 +11,21 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.2.0"
+  date: "2026-11-03"
+  title: "Every portal feature connected to GitHub; every routine running"
+  pages_new: []
+  pages_changed: [github, build, operate, pipeline, weaver, community, library, media, events, surveys, share]
+  items:
+  - {type: new, text: "How every portal feature connects to GitHub: a map from each portal feature to its GitHub form, milestone, discussion, workflow or release", link: "github.html#map-h"}
+  - {type: new, text: "Roadmap worked out from the backlog and mirrored as GitHub milestones (Now, Next, Later, Done); items waiting on people are marked", link: "build.html#r-h"}
+  - {type: new, text: "Backlog shows each item's GitHub issue, state and votes; away from claude.ai the wishlist is the GitHub wishlist, voted with a thumbs-up", link: "build.html#wl-h"}
+  - {type: new, text: "GitHub Discussions forms for ideas and co-design, questions, and show and tell"}
+  - {type: new, text: "Fact sampling each quarter and source diffing each month, so every self-checking routine now runs"}
+  - {type: new, text: "Each GitHub Release includes the offline portal and opens an inclusion review"}
+  - {type: changed, text: "Every portal form that saves on claude.ai now opens the matching GitHub form already filled in with what you typed, everywhere else"}
+  - {type: changed, text: "Commissions no longer ask for contact details: we reply on the request itself"}
+  - {type: changed, text: "Operating model, pipeline and Weaver pages describe how things run on GitHub now", link: "operate.html#s-h"}
 - version: "2.1.0"
   date: "2026-11-03"
   title: "Search, page drawer, plain English summaries, and 16 backlog items delivered"

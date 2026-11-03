@@ -99,7 +99,7 @@ select{font:inherit;font-size:.88rem;padding:6px 8px;border:1px solid var(--line
     <div><span class="n">5</span><b>Escalate</b><span>Open, update or close one GitHub issue per overdue problem.</span></div>
     <div><span class="n">6</span><b>Publish</b><span>Rebuild this portal and publish it on GitHub Pages.</span></div>
   </div>
-  <p class="note small">Status: the workflow has been checked by the kit's tests but has not yet run on GitHub, because the repository is not published yet. The same pipeline runs locally with <code>python -m dqkit run portfolio.ndl.yaml</code>. The runbook is <code>docs/OPERATIONS.md</code>.</p>
+  <p class="note small">Status: the workflow runs on GitHub every Monday morning, and anyone with access can start it from <a href="https://github.com/cyberdudeuk/dq-commons/actions/workflows/dq-pipeline.yml" rel="noopener">the Data quality pipeline page in GitHub Actions</a> (Run workflow). Escalations appear as <a href="https://github.com/cyberdudeuk/dq-commons/issues?q=label%3Adq-escalation" rel="noopener">GitHub issues labelled dq-escalation</a>. The same pipeline runs locally with <code>python -m dqkit run portfolio.ndl.yaml</code>. The runbook is <code>docs/OPERATIONS.md</code>.</p>
 </section>
 </div>
 

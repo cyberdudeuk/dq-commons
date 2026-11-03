@@ -4,7 +4,7 @@ name: publish portal
 on:
   push: {branches: [main]}
   workflow_dispatch:
-permissions: {contents: read, pages: write, id-token: write}
+permissions: {contents: read, issues: read, pages: write, id-token: write}
 concurrency: {group: pages, cancel-in-progress: true}
 jobs:
   build:
@@ -17,6 +17,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests
       - run: python scripts/build_dq_portal.py --repo "https://github.com/${{ github.repository }}"
+        env: {GITHUB_TOKEN: "${{ github.token }}"}  # read-only: issue numbers, states and votes for the backlog and wishlist
       # The build bundle page sits alongside the portal at /bundle/
       - run: mkdir -p portal/dist/bundle && cp docs/bundle/index.html portal/dist/bundle/index.html
       - uses: actions/upload-pages-artifact@v5

@@ -2,6 +2,19 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.2.0 — 2026-11-03
+### Added
+- `github.html#map-h`: portal-to-GitHub feature map. `window.DQP_GITHUB` helper in the shell.
+- Roadmap computed from backlog statuses; GitHub milestones and `needs-people` label kept in step (`scripts/backlog_to_issues.py --sync`).
+- Build-time GitHub data (issue numbers, states, votes, wishlist) on Help us build this.
+- `.github/DISCUSSION_TEMPLATE/` (ideas, q-a, show-and-tell); `.github/inclusion-review.md`.
+- `scripts/sample_facts.py` and the Fact sampling workflow; source diffing (`check_links.py --diff`).
+### Changed
+- Portal form fallbacks open pre-filled GitHub forms; the contribution form covers events, blogs, videos and podcasts and has a details field.
+- Commissions no longer ask for contact details; survey privacy notice updated.
+- Releases attach the offline portal and open an inclusion review.
+- `knowledge/build.yaml`: static roadmap removed; routines and GitHub links updated.
+
 ## 2.1.0 — 2026-11-03
 ### Added
 - Portal search (`/` or Ctrl+K), an "On this page" drawer with collapsible sections and New or Updated flags, a contextual icon on each section heading, and reduced-motion-safe reveal motion.

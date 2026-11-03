@@ -212,6 +212,22 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
   <p class="dqp-shelp" id="dqp-scount" role="status" aria-live="polite">Type at least 2 letters. Use the arrow keys to move through results, Enter to open, Escape to close.</p>
   <ul class="dqp-sres" id="dqp-sres"></ul>
 </dialog>
+<script>
+/* One way to reach GitHub from any page (D-GH-01). Every portal form that saves on claude.ai falls back to the
+   matching GitHub issue form or discussion, pre-filled with what the person already typed, so nothing is lost. */
+window.DQP_GITHUB = (function () {
+  var repo = "{{REPO}}";
+  function q(fields) { return Object.keys(fields || {}).filter(function (k) { return fields[k]; })
+    .map(function (k) { return encodeURIComponent(k) + "=" + encodeURIComponent(String(fields[k]).slice(0, 2500)); }).join("&"); }
+  return {
+    repo: repo,
+    issue: function (template, title, fields) { return repo + "/issues/new?template=" + template + (title ? "&title=" + encodeURIComponent(title) : "") + (fields ? "&" + q(fields) : ""); },
+    discuss: function (category, title, body) { return repo + "/discussions/new?category=" + category + (title ? "&title=" + encodeURIComponent(title) : "") + (body ? "&body=" + encodeURIComponent(body.slice(0, 2500)) : ""); },
+    issues: function (query) { return repo + "/issues?q=" + encodeURIComponent(query); },
+    open: function (url) { window.open(url, "_blank", "noopener"); }
+  };
+})();
+</script>
 <script type="application/json" id="dqp-secflags">{{SECTION_FLAGS}}</script>
 <script type="application/json" id="dqp-releases">{{RELEASES}}</script>
 <span id="dqp-main" tabindex="-1"></span>

@@ -1,0 +1,13 @@
+title: "[Question] "
+labels: [question]
+body:
+  - type: markdown
+    attributes:
+      value: "Ask anything about data quality or using the Commons. Someone from the community will answer. Please use made-up example data and don't include personal data or email addresses."
+  - type: textarea
+    id: question
+    attributes: {label: "Your question"}
+    validations: {required: true}
+  - type: input
+    id: page
+    attributes: {label: "Which page or tool is it about? (optional)", placeholder: "For example: Check your data"}

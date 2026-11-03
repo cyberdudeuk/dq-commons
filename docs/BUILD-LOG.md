@@ -1,5 +1,16 @@
 # Build journal
 
+## 2026-11-03 — v2.2.0: portal connected to GitHub, outstanding portal items closed
+
+**Asked for:** deal with any remaining outstanding, open or pending items described in the portal and its roadmap, and connect them and every other portal feature to the matching GitHub features and workflows.
+
+**Built**
+- Map of every portal feature to its GitHub counterpart (`github.html#map-h`); `window.DQP_GITHUB` helper; pre-filled GitHub fallbacks on Community, Library, Media, Events, wishlist and commissions; contribution form extended (events, blogs, videos, podcasts, details).
+- Roadmap computed from the backlog and mirrored as milestones with a needs-people label (`backlog_to_issues.py --sync`); backlog rows show issue, state and votes; GitHub wishlist with thumbs-up votes away from claude.ai.
+- Discussion forms (ideas, Q&A, show and tell); co-design and case studies point to them.
+- Routines: fact sampling (quarterly workflow), source diffing (monthly link check with cached fingerprints), inclusion review on every release, release assets include the offline portal; routine list updated (17 running, 1 on demand).
+- Stale text fixed: operating model (GitHub live; Jira and Confluence are dry runs until secrets are added), pipeline status, Weaver next steps, videos note. Commission contact field removed.
+
 ## 2026-11-03 — v2.1.0: search, page drawer, plain English summaries, backlog cleared where it can be
 
 **Asked for:** deal with every issue in the backlog; contact by form only, everywhere, never an email address; no decks or films in any repository unless asked; act on every recommendation that needs no intervention, and take over ongoing maintenance; a retractable page drawer with collapsible sections and flags for new or changed content; search across the portal; more contextual icons, visual elements and motion; link to and learn from the GitHub Repos Asset Catalogue.
