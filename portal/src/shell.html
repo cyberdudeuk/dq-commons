@@ -164,12 +164,12 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 .dqp-search .dqp-shelp{font-size:12.5px;color:var(--dqp-panel-muted);padding:0 14px 12px}
 /* Motion: gentle, and only for people who haven't asked for less */
 @media (prefers-reduced-motion: no-preference){
-  .dqp-motion .dqp-reveal{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
-  .dqp-motion .dqp-reveal.dqp-shown{opacity:1;transform:none}
+  .dqp-motion .dqp-reveal{transform:translateY(12px);transition:transform .45s ease}
+  .dqp-motion .dqp-reveal.dqp-shown{transform:none}
   .card{transition:transform .15s ease,box-shadow .15s ease}
   a.card:hover,.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
   .dqp-secflag{animation:dqp-pop .6s ease 1}
-  @keyframes dqp-pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+  @keyframes dqp-pop{0%{transform:scale(.6)}70%{transform:scale(1.08)}100%{transform:scale(1)}}
 }
 @media (prefers-reduced-motion: reduce){.dqp-otp{transition:none}.dqp-sectog .dqi{transition:none}}
 @media print{.dqp-otpbtn,.dqp-otp,.dqp-sectog,.dqp-searchbtn{display:none !important}.dqp-collapsed > *{display:revert !important}.dqp-reveal{opacity:1 !important;transform:none !important}.dqp-easy{display:block}}
