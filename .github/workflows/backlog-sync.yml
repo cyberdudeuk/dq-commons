@@ -1,0 +1,39 @@
+# Mirror GitHub issues to the Jira backlog.
+# When an issue is labelled "backlog", create a Jira story under the Commons epic and comment the
+# Jira key back on the issue. Dry run until the Jira secrets are set (see integrations/config.yaml).
+name: Backlog sync (GitHub to Jira)
+on:
+  issues:
+    types: [labeled]
+permissions:
+  issues: write
+  contents: read
+jobs:
+  mirror:
+    # Items that already have a Jira story carry the jira-linked label and are skipped.
+    if: github.event.label.name == 'backlog' && !contains(github.event.issue.labels.*.name, 'jira-linked')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.12"}
+      - run: pip install pyyaml
+      - name: Create the Jira story
+        id: jira
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          TITLE: ${{ github.event.issue.title }}
+          BODY: ${{ github.event.issue.body }}
+          URL: ${{ github.event.issue.html_url }}
+        run: python scripts/sync_backlog.py --title "$TITLE" --body "$BODY" --url "$URL"
+      - name: Comment the Jira key on the issue
+        if: steps.jira.outputs.jira_key != ''
+        uses: actions/github-script@v8
+        env:
+          KEY: ${{ steps.jira.outputs.jira_key }}
+        with:
+          script: |
+            await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number,
+              body: `Mirrored to the Jira backlog as ${process.env.KEY}.` });

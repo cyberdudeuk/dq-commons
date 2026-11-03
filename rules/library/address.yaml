@@ -1,0 +1,12 @@
+# Starting rules for addresses and property records.
+asset:
+  id: my-address-records
+  title: Address records (template)
+  owner: '[organisation]'
+  importance: 3
+rules:
+  - {id: A01, check: not_null, column: uprn, description: Every address has a UPRN}
+  - {id: A02, check: identifier, column: uprn, scheme: uprn, description: UPRN is 1 to 12 digits}
+  - {id: A03, check: unique, columns: [uprn], description: One record per property}
+  - {id: A04, check: identifier, column: postcode, scheme: uk_postcode, description: Postcode is in Royal Mail format}
+  - {id: A05, check: not_null, column: address_line_1, description: First address line is present}

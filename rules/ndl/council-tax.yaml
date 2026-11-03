@@ -1,0 +1,16 @@
+asset:
+  id: ndl-government-council-tax-chart
+  title: "NDL Government and Parliament collection: Council tax chart data"
+  iri: https://www.data.gov.uk/collections/government-and-parliament/council-tax-statistics
+  owner: Ministry of Housing, Communities and Local Government
+  importance: 3
+  source: external        # NDL republishes data it does not produce
+  influence: false        # NDL cannot change the publisher\'s data structure
+  target_policy: low
+rules:
+  - {id: R1, check: unique, columns: [Year]}
+  - {id: R2, check: type, column: Year, kind: year}
+  - {id: R3, check: type, column: Average band D council tax, kind: number}
+  - {id: R4, check: freshness, column: Year, expected: P1Y, lag: P3M}
+  - {id: R5, check: no_gaps, column: Year}
+  - {id: R6, check: header_has_unit, columns: [Average band D council tax], tokens: ["£", "gbp", "pounds"], description: "The amount says it is in pounds and whether it is per dwelling"}

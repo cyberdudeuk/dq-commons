@@ -1,0 +1,53 @@
+<title>Share and Learn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+/* Share and learn: draft case studies from measured results. */
+.steps{counter-reset:s;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.steps li{list-style:none;counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:.88rem;display:flex;flex-direction:column;gap:4px}
+.steps li::before{content:"Step " counter(s);font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
+.steps{padding:0;margin:0}
+.must{color:var(--crit);font-weight:700}
+.should{color:var(--warn);font-weight:700}
+.status{font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--warn-soft);color:var(--warn);white-space:nowrap}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Case studies</span>
+  <h1>Share and learn</h1>
+  <p class="lede">Turn measured results into case studies other departments can learn from, and share what worked.</p>
+  <div class="dqc-ctx" role="note"><b>Case studies.</b> Drafted from measured results in the NDL pilot. Add your own case studies and resources through the <a href="library.html#tab-pub">library</a>, share posts in the <a href="media.html">media centre</a>, or run a survey through <a href="surveys.html">surveys and commissions</a>.</div>
+</header>
+
+<section aria-labelledby="cs-h">
+  <h2 id="cs-h">Draft case studies</h2>
+  <p class="lede">The kit drafts a case study from each asset's results. The steps taken, the before-and-after table and the reusable assets are filled in. People write the parts only they know: what triggered the work, the lessons, and whether it can be shared.</p>
+  <div class="tbl"><table style="min-width:700px">
+    <thead><tr><th>Asset</th><th>Trust level</th><th>Rules met</th><th>Draft</th></tr></thead>
+    <tbody id="cases"></tbody>
+  </table></div>
+  <ol class="steps">
+    <li>Open the draft and check every line against what really happened.</li>
+    <li>Complete each "[To complete]" part: trigger, why you started there, actions, lessons.</li>
+    <li>Choose a permission: publish as is, light redactions, anonymised, or internal only.</li>
+    <li>Share it through the <a href="library.html#tab-pub">library</a> or your own community of practice.</li>
+  </ol>
+  <p class="note small">No names or contact details are filled in. The three extra sections (CDA identifier, before and after, inclusion) are marked as proposed additions.</p>
+</section>
+
+</div>
+
+<script>
+const P = __PORTFOLIO__, DL = "__DOWNLOADS__";
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const slug = s => String(s || "").replace(/\s+/g, "-");
+$("cases").innerHTML = P.assets.map(a => `<tr><td><b>${esc(a.title.split(": ").pop())}</b><div class="small muted">${esc(a.owner)}</div></td>
+  <td><span class="pill t-${slug(a.trust.level)}">${esc(a.trust.level)}</span></td><td class="num">${a.rules_met}/${a.rules_total}</td>
+  <td class="small">${a.files.case_study ? `<a href="${DL}${esc(a.files.case_study)}">Markdown</a>` : ""}${a.files.case_study_docx ? ` · <a href="${DL}${esc(a.files.case_study_docx)}">Word</a>` : ""}</td></tr>`).join("");
+
+window.DQP_TOUR = [
+  {sel: "#cases", title: "Case studies", text: "Drafts written from each asset's results, for people to finish."},
+];
+</script>

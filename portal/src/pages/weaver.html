@@ -1,0 +1,228 @@
+<title>Metadata Weaver</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.loom{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:center}
+@media (max-width:820px){.loom{grid-template-columns:minmax(0,1fr)}.loom .mid{transform:rotate(90deg);justify-self:center}}
+.loom .side{display:flex;flex-wrap:wrap;gap:8px}
+.loom .side span{display:inline-flex;gap:6px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-size:.86rem}
+.loom .mid{color:var(--accent);width:56px;height:56px}
+.loom .mid .dqi{width:56px;height:56px}
+.ex{display:flex;flex-wrap:wrap;gap:6px}
+.ex button{font:inherit;font-size:.84rem;padding:5px 11px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+#rec{font-family:var(--f-mono);font-size:.82rem;min-height:200px}
+.cov{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.cov .card h3{display:flex;justify-content:space-between;gap:8px}
+.cov .card h3 b{font-family:var(--f-mono)}
+.st-pass{color:var(--good);background:var(--good-soft)} .st-partial{color:var(--warn);background:var(--warn-soft)} .st-missing{color:var(--crit);background:var(--crit-soft)}
+.canon input{width:100%}
+.canon td:first-child{min-width:170px}
+pre.out{margin:0;max-height:440px;overflow:auto;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:12px;font-family:var(--f-mono);font-size:.8rem;white-space:pre-wrap;word-break:break-word}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.chg td:first-child{white-space:nowrap}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Do · Metadata Weaver</span>
+  <h1>Describe your data once. Publish it everywhere.</h1>
+  <p class="lede">Paste one metadata record. The Weaver reads DCAT, schema.org, CKAN or an ODCS data contract, writes it out in all four, and shows exactly what each catalogue is missing, including the 13 critical data asset properties. It runs in your browser. Nothing is uploaded.</p>
+  <div class="loom" aria-hidden="true">
+    <div class="side"><span>DCAT</span><span>schema.org</span><span>CKAN</span><span>ODCS</span></div>
+    <div class="mid"><svg class="dqi"><use href="#i-weave"/></svg></div>
+    <div class="side"><span>DCAT v3</span><span>schema.org</span><span>CKAN</span><span>ODCS</span><span>CDA check</span></div>
+  </div>
+  <nav class="toc" aria-label="On this page"><a href="#in">Your record</a><a href="#gaps">Gaps</a><a href="#fields">Fill the gaps</a><a href="#out">Outputs</a><a href="#contracts">Contract change check</a><a href="#replicate">Run it yourself</a><a href="#assess">Why a weaver</a></nav>
+</header>
+
+<section id="in" aria-labelledby="in-h">
+  <h2 id="in-h">1. Your record</h2>
+  <div class="ex" role="group" aria-label="Try an example"><span class="small" style="align-self:center">Try an example:</span></div>
+  <div class="field"><label for="rec">Metadata record (JSON or YAML-free JSON)</label><span class="hint" id="recH">For example a data.gov.uk CKAN package, a DCAT JSON-LD record, a schema.org Dataset from a web page, or an ODCS contract.</span>
+    <textarea id="rec" aria-describedby="recH" spellcheck="false"></textarea></div>
+  <div class="row">
+    <div class="field" style="max-width:220px"><label for="fmt">Format</label><select id="fmt"><option value="">Work it out</option><option value="dcat">DCAT</option><option value="schema">schema.org</option><option value="ckan">CKAN</option><option value="odcs">ODCS</option></select></div>
+    <div class="field" style="max-width:260px"><label for="file">Or open a file</label><input type="file" id="file" accept=".json,.jsonld,application/json,application/ld+json"></div>
+    <button class="btn" type="button" id="go">Weave</button>
+    <span class="msg" id="msg" role="status" aria-live="polite"></span>
+  </div>
+  <p class="small muted">Don't paste personal data. Contact points should name a team or role, not a person.</p>
+</section>
+
+<section id="gaps" aria-labelledby="gaps-h" hidden>
+  <h2 id="gaps-h">2. Gaps</h2>
+  <div class="cov" id="cov"></div>
+  <h3>Critical data asset metadata (13 properties)</h3>
+  <div class="bar-h" id="cdaBar"></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Property</th><th scope="col">Status</th><th scope="col">Why</th></tr></thead><tbody id="cda"></tbody></table></div>
+</section>
+
+<section id="fields" aria-labelledby="f-h" hidden>
+  <h2 id="f-h">3. Fill the gaps</h2>
+  <p class="small">Edit any field and the outputs update. Lists take commas. Distributions take one per line: <code>title | url | format</code>. Each field is mapped through the <a href="interop.html#rosetta">Metadata Rosetta</a>.</p>
+  <div class="tbl canon"><table><thead><tr><th scope="col">Field</th><th scope="col">Value</th><th scope="col">Rosetta concept</th><th scope="col">CDA property</th></tr></thead><tbody id="canon"></tbody></table></div>
+</section>
+
+<section id="out" aria-labelledby="o-h" hidden>
+  <h2 id="o-h">4. Outputs</h2>
+  <div class="tabs" role="tablist" aria-label="Output formats" id="otabs"></div>
+  <div id="opanel" role="tabpanel" tabindex="0"></div>
+  <div class="row"><button class="btn ghost" type="button" id="copy">Copy</button><button class="btn ghost" type="button" id="dl">Download</button><span class="msg" id="oMsg" role="status" aria-live="polite"></span></div>
+  <p class="small muted" id="oNote"></p>
+</section>
+
+<section id="contracts" aria-labelledby="c-h">
+  <h2 id="c-h">Contract change check</h2>
+  <p>Before you publish a new version of an ODCS data contract, check it, and compare it with the last version. The check lists changes that would break the people who use your data, and the version number to use.</p>
+  <div class="two">
+    <div class="field"><label for="cOld">Previous version (optional)</label><textarea id="cOld" spellcheck="false" style="font-family:var(--f-mono);font-size:.8rem"></textarea></div>
+    <div class="field"><label for="cNew">New version</label><textarea id="cNew" spellcheck="false" style="font-family:var(--f-mono);font-size:.8rem"></textarea></div>
+  </div>
+  <div class="row"><button class="btn" type="button" id="cGo">Check the contract</button><button class="btn ghost" type="button" id="cEx">Load an example</button><span class="msg" id="cMsg" role="status" aria-live="polite"></span></div>
+  <div id="cOut"></div>
+</section>
+
+<section id="replicate" aria-labelledby="r-h">
+  <h2 id="r-h">Run it yourself</h2>
+  <p>The Weaver is part of the open toolkit (MIT licence). Use it in your own catalogue, pipeline or AI agent, with no dependency on this site.</p>
+  <div class="two">
+    <div class="card"><h3>Command line</h3><pre class="out">python -m dqkit weave record.json --report
+python -m dqkit weave record.json --to dcat
+python -m dqkit contract-check new.yaml --against old.yaml</pre></div>
+    <div class="card"><h3>Python</h3><pre class="out">from dqkit import weaver, contracts
+w = weaver.weave(record)
+w["outputs"]["dcat"], w["cda"]["coverage"]
+contracts.diff_odcs(old, new)</pre></div>
+    <div class="card"><h3>AI agents (MCP)</h3><p class="small">The toolkit's MCP server offers <code>weave_metadata</code> and <code>check_contract</code>, read-only. See <a href="learn.html#t7">the tutorial</a>.</p></div>
+    <div class="card"><h3>In GitHub Actions</h3><p class="small">Fail a pull request when a contract change breaks consumers without a major version bump: <code>contract-check</code> exits with 1.</p></div>
+  </div>
+</section>
+
+<section id="assess" aria-labelledby="a-h">
+  <h2 id="a-h">Why a weaver, not just a crosswalk</h2>
+  <details class="disc"><summary>Our assessment</summary><div class="body">
+    <p>A crosswalk tells you that <code>dct:title</code> and <code>name</code> mean the same thing. Teams still have to retype records for each catalogue, and gaps only show up after publishing. A weaver does the translation, keeps one source of truth, and shows gaps before anything goes live.</p>
+    <ul class="plain small">
+      <li><b>Worth building:</b> the same dataset is often described in data.gov.uk (CKAN), a department catalogue (DCAT), web pages (schema.org) and a data contract (ODCS). Each copy drifts.</li>
+      <li><b>Safe to share:</b> it's deterministic, open and runs offline, so any organisation can replicate it, including Crown Dependencies, Overseas Territories and partners abroad.</li>
+      <li><b>Honest:</b> nothing is invented. Missing fields stay missing and are reported. Fields a standard can't carry are listed as "not carried".</li>
+      <li><b>Next steps on the roadmap:</b> UK metadata standard profiles, GeoDCAT-AP and StatDCAT-AP outputs, CSVW and Frictionless package inputs, and SHACL validation. Vote for them on <a href="build.html#roadmap">Help us build this</a>.</li>
+    </ul></div></details>
+</section>
+</div>
+
+<script>
+__ENGINE__
+</script>
+<script>
+const B = __BUILD__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS"};
+const EXAMPLES = {
+  "CKAN (data.gov.uk style)": {result: {id: "example-0001", name: "road-noise", title: "Road noise", notes: "Strategic noise mapping of English road sources from 2022, for planning and health.",
+    organization: {title: "Department for Environment, Food and Rural Affairs"}, license_id: "uk-ogl", tags: [{name: "noise"}, {name: "roads"}],
+    extras: [{key: "temporal_start", value: "2022-01-01"}, {key: "temporal_end", value: "2022-12-31"}, {key: "spatial_text", value: "England"}],
+    resources: [{name: "Road noise (GeoPackage)", url: "https://example.org/road-noise.gpkg", format: "GPKG"}]}},
+  "DCAT JSON-LD": {"@context": {dcat: "http://www.w3.org/ns/dcat#", dct: "http://purl.org/dc/terms/"}, "@type": "dcat:Dataset", "dct:title": "Flood alerts",
+    "dct:description": "Flood alerts and warnings in England, searchable by location, updated daily.", "dct:publisher": {"foaf:name": "Environment Agency"},
+    "dcat:keyword": ["flood", "warnings"], "dct:license": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "dct:accrualPeriodicity": "daily", "dcat:distribution": [{"dcat:accessURL": "https://example.org/flood-api", "dcat:mediaType": "application/json"}]},
+  "schema.org Dataset": {"@context": "https://schema.org/", "@type": "Dataset", name: "Bus stops", description: "Every bus stop in Great Britain, with location and accessibility details.",
+    creator: {"@type": "Organization", name: "Department for Transport", contactPoint: {name: "Transport data team"}}, keywords: "transport, buses, accessibility",
+    temporalCoverage: "2024/2025", distribution: [{contentUrl: "https://example.org/stops.csv", encodingFormat: "text/csv"}]},
+  "ODCS contract": {apiVersion: "v3.1.0", kind: "DataContract", id: "claims-monthly", version: "1.4.0", status: "active", name: "Monthly claims",
+    description: {purpose: "Monthly count of new claims by local authority, for planning services.", limitations: "Counts under 5 are suppressed."},
+    team: {name: "Claims analysis team"}, slaProperties: [{property: "frequency", value: 1, unit: "month"}],
+    schema: [{name: "claims", properties: [{name: "la_code", logicalType: "string", required: true}, {name: "count", logicalType: "integer"}]}]},
+};
+const ex = document.querySelector(".ex");
+Object.keys(EXAMPLES).forEach(k => { const b = document.createElement("button"); b.type = "button"; b.textContent = k;
+  b.onclick = () => { $("rec").value = JSON.stringify(EXAMPLES[k], null, 2); $("fmt").value = ""; weave(); }; ex.appendChild(b); });
+$("file").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; $("rec").value = await f.text(); weave(); });
+
+let C = null, src = "", cur = "dcat";
+const F = W.FIELDS;
+function weave() {
+  let rec;
+  try { rec = JSON.parse($("rec").value); } catch (e) { $("msg").className = "msg err"; $("msg").textContent = "That isn't valid JSON. Check brackets and quotes."; return; }
+  try { const r = W.read(rec, $("fmt").value || undefined); src = r[0]; C = r[1]; }
+  catch (e) { $("msg").className = "msg err"; $("msg").textContent = e.message; return; }
+  $("msg").className = "msg ok"; $("msg").textContent = `Read as ${NAMES[src]}.`;
+  ["gaps", "fields", "out"].forEach(id => $(id).hidden = false);
+  drawCanon(); redraw();
+}
+$("go").onclick = weave;
+function val(k) { const v = C[k]; if (k === "distributions") return v.map(d => [d.title, d.url, d.format || d.media_type].join(" | ")).join("\n"); return Array.isArray(v) ? v.join(", ") : v; }
+function drawCanon() {
+  $("canon").innerHTML = F.map(([k, label, ros, cda]) => `<tr><td><label for="f-${k}"><b>${esc(label)}</b></label></td><td>${k === "distributions" || k === "description"
+    ? `<textarea id="f-${k}" data-k="${k}" rows="3">${esc(val(k))}</textarea>` : `<input type="text" id="f-${k}" data-k="${k}" value="${esc(val(k))}">`}</td>
+    <td class="small">${esc(ros)}</td><td class="small">${cda ? `<code>${esc(cda)}</code>` : "–"}</td></tr>`).join("");
+}
+$("canon").addEventListener("input", e => {
+  const k = e.target.dataset.k; if (!k) return;
+  const v = e.target.value;
+  if (k === "keywords" || k === "theme") C[k] = v.split(",").map(x => x.trim()).filter(Boolean);
+  else if (k === "distributions") C[k] = v.split("\n").map(l => l.trim()).filter(Boolean).map(l => { const [t, u, f] = l.split("|").map(x => (x || "").trim());
+    return {title: t || "", url: u || "", format: f && !f.includes("/") ? f.toUpperCase() : "", media_type: f && f.includes("/") ? f : ""}; });
+  else C[k] = v.trim();
+  redraw();
+});
+const label = k => (F.find(f => f[0] === k) || [k, k])[1];
+function redraw() {
+  const cov = W.coverage(C), cda = W.cdaCheck(C);
+  $("cov").innerHTML = W.TARGETS.map(t => { const c = cov[t], pct = Math.round(100 * c.filled / c.total);
+    return `<div class="card"><h3>${esc(NAMES[t])}<b>${c.filled}/${c.total}</b></h3><div class="bar-h"><span class="track"><i style="width:${pct}%"></i></span><b>${pct}%</b></div>
+      <p class="small">${c.missing.length ? "Missing: " + c.missing.map(label).map(esc).join(", ") : "Nothing missing."}</p>
+      ${c.not_carried.length ? `<p class="small muted">Not carried by this standard: ${c.not_carried.map(label).map(esc).join(", ")}</p>` : ""}</div>`; }).join("");
+  $("cdaBar").innerHTML = `<span>CDA coverage</span><span class="track"><i style="width:${cda.coverage}%"></i></span><b>${cda.coverage}%</b>`;
+  $("cda").innerHTML = Object.entries(cda.properties).map(([p, v]) => `<tr><td><code>${esc(p)}</code></td><td><span class="pill st-${v.status}">${esc(v.status)}</span></td><td>${esc(v.why)} <span class="muted">(${esc(label(v.field))})</span></td></tr>`).join("");
+  drawOut();
+}
+const tabs = $("otabs");
+tabs.innerHTML = W.TARGETS.map((t, i) => `<button role="tab" id="ot-${t}" aria-controls="opanel" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""} data-t="${t}">${esc(NAMES[t])}</button>`).join("");
+const tb = [...tabs.children];
+function sel(b, focus) { tb.forEach(x => { const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; }); cur = b.dataset.t; $("opanel").setAttribute("aria-labelledby", b.id); drawOut(); if (focus) b.focus(); }
+tb.forEach((b, i) => { b.onclick = () => sel(b); b.onkeydown = e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); sel(tb[(i + d + tb.length) % tb.length], true); } }; });
+$("opanel").setAttribute("aria-labelledby", "ot-dcat");
+const outText = () => JSON.stringify(W.write[cur](C), null, 2);
+function drawOut() {
+  if (!C) return;
+  $("opanel").innerHTML = `<pre class="out">${esc(outText())}</pre>`;
+  $("oNote").textContent = cur === "odcs" ? "A contract skeleton. Add the columns and quality rules from Check your data (Share the rules as a data contract). If the record had no identifier or version, the skeleton uses placeholders: change them." :
+    cur === "dcat" ? "Security classification and expiry use the Commons vocabulary (dqc:), because DCAT has no property for them." : "";
+}
+$("copy").onclick = async () => { try { await navigator.clipboard.writeText(outText()); $("oMsg").textContent = "Copied."; } catch (e) { $("oMsg").textContent = "Copying isn't allowed here. Select the text instead."; } };
+$("dl").onclick = async () => {
+  const name = `metadata.${cur}.json`, text = outText();
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("oMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("oMsg").textContent = "Downloaded."; }
+  catch (e) { $("oMsg").textContent = "Downloading isn't allowed here. Use Copy."; }
+};
+
+// Contract change check
+$("cEx").onclick = () => {
+  const old = EXAMPLES["ODCS contract"], nw = JSON.parse(JSON.stringify(old));
+  nw.version = "1.5.0"; nw.schema[0].properties[1].logicalType = "number"; nw.schema[0].properties.push({name: "region"});
+  $("cOld").value = JSON.stringify(old, null, 2); $("cNew").value = JSON.stringify(nw, null, 2); check();
+};
+function check() {
+  let a = null, b;
+  try { b = JSON.parse($("cNew").value); if ($("cOld").value.trim()) a = JSON.parse($("cOld").value); }
+  catch (e) { $("cMsg").className = "msg err"; $("cMsg").textContent = "One of the contracts isn't valid JSON."; return; }
+  const probs = DQ.contracts.validateOdcs(b), d = a ? DQ.contracts.diffOdcs(a, b) : null, errs = probs.filter(p => p.level === "error").length;
+  $("cMsg").className = "msg " + (errs || (d && d.version_ok === false) ? "err" : "ok");
+  $("cMsg").textContent = errs ? `${errs} error(s) to fix.` : d && d.version_ok === false ? `Breaking changes need version ${d.suggested_version}.` : "Looks good.";
+  $("cOut").innerHTML = `<h3>Checks</h3>${probs.length ? `<ul class="plain small">${probs.map(p => `<li><span class="pill ${p.level === "error" ? "st-missing" : "st-partial"}">${esc(p.level)}</span> <code>${esc(p.where)}</code> ${esc(p.message)}</li>`).join("")}</ul>` : '<p class="small">No problems found.</p>'}` +
+    (d ? `<h3>Changes since the previous version</h3><p class="small">${d.changes.length} change(s), ${d.breaking ? "<b>including breaking changes</b>" : "none breaking"}. Suggested version: <b>${esc(d.suggested_version || "–")}</b>; stated: ${esc(d.stated_version || "–")}${d.version_ok === false ? " (<b>too small a bump</b>)" : ""}.</p>
+      <div class="tbl chg"><table><thead><tr><th scope="col">Where</th><th scope="col">Change</th><th scope="col">Breaks consumers?</th></tr></thead><tbody>${d.changes.map(c => `<tr><td><code>${esc(c.where)}</code></td><td>${esc(c.message)}</td><td>${c.breaking ? '<span class="pill st-missing">Yes</span>' : '<span class="pill st-pass">No</span>'}</td></tr>`).join("") || '<tr><td colspan="3">No changes.</td></tr>'}</tbody></table></div>` : "");
+}
+$("cGo").onclick = check;
+window.DQP_TOUR = [
+  {sel: ".ex", title: "Start with an example", text: "Try a CKAN, DCAT, schema.org or ODCS record, or paste your own."},
+  {sel: "#go", title: "Weave", text: "The Weaver reads your record and writes it in every standard."},
+  {sel: "#contracts", title: "Contract change check", text: "Compare two versions of a data contract and see what would break."},
+  {sel: "#replicate", title: "Run it yourself", text: "The same code runs from the command line, in Python, in GitHub Actions and for AI agents."},
+];
+</script>

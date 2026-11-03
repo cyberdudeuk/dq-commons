@@ -1,0 +1,25 @@
+name: Feature request or wish
+description: Suggest something the Commons portal or kit should do.
+title: "[Wish] "
+labels: [wishlist, triage]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you. Please don't include personal data. Requests are triaged weekly and mirrored to the Jira backlog."
+  - type: textarea
+    id: need
+    attributes: {label: "What do you need to do?", description: "Describe the task and who it is for, not the solution."}
+    validations: {required: true}
+  - type: textarea
+    id: why
+    attributes: {label: "Why does it matter?", description: "Who is affected, how often, and what happens today."}
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [Portal, Rules and checks, Pipeline, Frameworks and packs, Surveys and commissions, Library and community, AI assistant, Learning and guides, Accessibility, Other]
+  - type: dropdown
+    id: org
+    attributes:
+      label: Your kind of organisation
+      options: [Central government, Arm's length body, Local government, Devolved government, NHS or health, Police or justice, Education, Voluntary sector, Private sector, Academia, Other]

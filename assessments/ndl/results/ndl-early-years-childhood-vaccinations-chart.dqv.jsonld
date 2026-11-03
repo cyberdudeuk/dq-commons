@@ -1,0 +1,361 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL Early years collection: Childhood vaccinations chart data",
+      "dct:publisher": "UK Health Security Agency",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R4"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R5"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R6"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R7"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R8"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R9"
+        }
+      ],
+      "dqv:hasQualityAnnotation": [
+        {
+          "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#issue-R9"
+        }
+      ]
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R1"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R2"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R4"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R5",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R5"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R6",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R6"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R7",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R7"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R8",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R8"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 97.5,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 12
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#m-R9",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R9"
+      },
+      "value": 0.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 97.5,
+      "ndq:meetsTarget": false,
+      "ndq:recordsChecked": 4
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations#issue-R9",
+      "@type": "dqv:QualityAnnotation",
+      "oa:hasTarget": {
+        "@id": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations"
+      },
+      "oa:motivatedBy": {
+        "@id": "dqv:qualityAssessment"
+      },
+      "oa:hasBody": {
+        "@type": "oa:TextualBody",
+        "oa:value": "Measure not described: A column has no unit, measure definition or reference period, so values can be misread."
+      },
+      "ndq:issueType": {
+        "@id": "ndq:issue/undocumented-measure"
+      },
+      "ndq:priority": "High",
+      "ndq:resolution": "Within 1 measurement cycle",
+      "ndq:responsibility": "provider"
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "One row per year",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "type",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "England coverage is a valid percentage",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R5",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R6",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R7",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "freshness",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:timeliness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R8",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "no_gaps",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-early-years-childhood-vaccinations-chart/R9",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Column names say which vaccine, at what age, and that values are percentages",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "ndq:completeness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:timeliness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Timeliness",
+      "skos:definition": "The degree to which data represent reality from the required point in time.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

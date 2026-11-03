@@ -1,0 +1,135 @@
+<title>About the Commons</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.mission{font-family:var(--f-display);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.35;max-width:46ch}
+.obj{counter-reset:o;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.obj .card{counter-increment:o}
+.obj .card h3::before{content:"O" counter(o) "  ";font-family:var(--f-mono);color:var(--accent)}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:12px}
+.road .card h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.road ul{margin:0;padding-left:1.1em;font-size:.9rem;display:flex;flex-direction:column;gap:4px}
+.who{display:flex;flex-wrap:wrap;gap:6px}
+.toc-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:8px;counter-reset:s;margin:0;padding:0;list-style:none}
+.toc-flow li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px;position:relative}
+.toc-flow li b{display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent);margin-bottom:4px}
+.start-gh{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:14px 16px;background:var(--surface)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · About</span>
+  <h1>About the Public Sector Data Quality Commons</h1>
+  <p class="mission" id="mission">A free, open, shared place where anyone working with public sector data can check it, improve it, learn how, and help each other, so that public services and decisions rest on data people can trust.</p>
+  <p class="lede">The Commons began as the data quality work behind the UK data asset management (DAM) policy and the National Data Library (NDL). It is now general: the same toolkit and knowledge work for any data quality purpose, in any organisation, with sections specific to each framework, policy, sector and platform.</p>
+</header>
+
+<nav class="toc" aria-label="On this page"><a href="#bg-h">Background</a><a href="#why-h">Why it exists</a><a href="#aims-h">Purpose and aims</a><a href="#goals-h">Goals and outcomes</a><a href="#obj-h">Objectives</a><a href="#pri-h">Priorities</a><a href="#hon-h">What it is not</a></nav>
+
+<div class="start-gh"><svg class="dqi" aria-hidden="true" focusable="false"><use href="#i-repo"/></svg><div><b>New to GitHub?</b> The portal and its toolkit live in an open GitHub repository, and that is where you report problems, suggest changes and see every past version. <a href="github.html">Start with our plain-English introduction to GitHub</a>, then come back here for the background and aims.</div></div>
+
+<section aria-labelledby="bg-h">
+  <h2 id="bg-h">Background</h2>
+  <p>Government runs on data: benefits, health care, schools, planning and statistics all depend on records being complete, accurate and up to date. The <a href="https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework" rel="noopener">Government Data Quality Framework</a> (2020) set out principles and dimensions for managing quality. In 2026 the <a href="https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government" rel="noopener">data asset management policy</a> asked departments to identify their critical data assets and keep a data quality action plan, or equivalent, for each one, and the National Data Library began bringing high-value data together in one place.</p>
+  <p>The Commons started as the practical data quality work behind those two developments. It is now general: the same toolkit and knowledge work for any public body, sector or nation.</p>
+</section>
+
+<section aria-labelledby="why-h">
+  <h2 id="why-h">Why it exists: the problem it solves</h2>
+  <ul>
+    <li><b>Everyone starts from scratch.</b> Teams across government build their own rule engines and spreadsheets, so results can't be compared and effort is duplicated.</li>
+    <li><b>Frameworks don't talk to each other.</b> UK, devolved, sector and international frameworks use different words for the same ideas, which makes shared data hard to judge.</li>
+    <li><b>Quality is rarely published.</b> People who reuse data often can't see how good it is, or which groups it leaves out.</li>
+    <li><b>Skills and time are thin.</b> Data quality sits inside many professions' frameworks but is a full-time job for very few people.</li>
+    <li><b>Tools can be costly.</b> Smaller bodies, local government and the voluntary sector often have no budget for commercial platforms.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="who-h">
+  <h2 id="who-h">Who it is for</h2>
+  <div class="who" id="who"></div>
+  <p class="small muted">No coding needed. Every task has a no-install route in the browser, and your data never leaves your device unless you choose to share something.</p>
+</section>
+
+<section aria-labelledby="aims-h">
+  <h2 id="aims-h">Purpose and aims</h2>
+  <div class="grid">
+    <div class="card"><h3>One place</h3><p>Bring frameworks, standards, tools, rules, training and people for data quality into one shared front door, with signposts to the official sources.</p></div>
+    <div class="card"><h3>Practical by default</h3><p>Everything leads to something you can do today: run a check, write a rule, prioritise an issue, report a baseline.</p></div>
+    <div class="card"><h3>Open and portable</h3><p>Open standards (W3C DQV, DCAT, CSV, YAML), MIT code and OGL content. Rules move between tools; nothing locks you in.</p></div>
+    <div class="card"><h3>Fair and inclusive</h3><p>Check who data leaves out, design for people who use assistive technology, and give every nation and sector a place.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="goals-h">
+  <h2 id="goals-h">Goals and desired outcomes</h2>
+  <p>How the work is meant to lead to change (from the <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/docs/THEORY-OF-CHANGE.md" rel="noopener">theory of change</a>):</p>
+  <ol class="toc-flow">
+    <li><b>Inputs</b>Published guidance and standards, open code from across government, and the Commons community.</li>
+    <li><b>Activities</b>Build an open toolkit and knowledge base; organisations check data, learn by role and share what works.</li>
+    <li><b>Outputs</b>Measured baselines, rules that move between tools, translated results across frameworks, case studies.</li>
+    <li><b>Short-term outcomes</b>A common language and method; fewer duplicated tools; inclusion checks routine for personal data.</li>
+    <li><b>Medium-term outcomes</b>Quality published alongside data; issues fixed at source; skills spread across professions.</li>
+    <li><b>Impact</b>Public services and decisions rest on data people can trust, including for the groups data often leaves out.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="obj-h">
+  <h2 id="obj-h">Objectives for the first year</h2>
+  <div class="obj">
+    <div class="card"><h3>Measure what matters</h3><p>Help organisations set a measured baseline for their critical data assets, using the government's issues framework.</p><p class="small muted">Measure: assets with a baseline (opt-in reporting).</p></div>
+    <div class="card"><h3>Make frameworks usable</h3><p>Map 28 frameworks and standards to one set of dimensions and checks, so a result in one translates into another.</p><p class="small muted">Measure: frameworks verified and mapped; packs in use.</p></div>
+    <div class="card"><h3>Build skills</h3><p>Offer role-based learning from Awareness to Expert, linked to the Government Digital and Data (GDaD) capability framework and the other government professions' frameworks (see <a href="professions.html">Data quality across the professions</a>).</p><p class="small muted">Measure: modules completed; confidence from the feedback survey.</p></div>
+    <div class="card"><h3>Share what works</h3><p>Grow a moderated library of case studies, rules and lessons from across sectors and nations.</p><p class="small muted">Measure: contributions, and the share from outside central government.</p></div>
+    <div class="card"><h3>Use AI safely</h3><p>Show how to get value from AI for data quality, with evaluation and assurance before anything is reused.</p><p class="small muted">Measure: AI components evaluated and recorded under ATRS.</p></div>
+    <div class="card"><h3>Include everyone</h3><p>Meet WCAG 2.2 AA, offer a Welsh version, and make inclusion checks routine for personal data.</p><p class="small muted">Measure: open accessibility issues and their age.</p></div>
+  </div>
+</section>
+
+<section aria-labelledby="pri-h">
+  <h2 id="pri-h">Priorities</h2>
+  <ol class="plain">
+    <li><b>Critical data first.</b> Work that helps the most important data, used by the most people, comes first.</li>
+    <li><b>Accessibility and inclusion.</b> When priorities tie, the change that helps people often left out wins.</li>
+    <li><b>Reuse before build.</b> Signpost official guidance and existing tools; build only where there is a gap.</li>
+    <li><b>Evidence over opinion.</b> Every claim links to a source, and anything not yet checked says so.</li>
+    <li><b>Human decisions.</b> AI drafts and explains; people decide.</li>
+  </ol>
+</section>
+
+<section aria-labelledby="what-h">
+  <h2 id="what-h">What's in the Commons</h2>
+  <div class="kpis" id="kpis"></div>
+</section>
+
+<section aria-labelledby="road-h">
+  <h2 id="road-h">Roadmap</h2>
+  <p>The roadmap, backlog and wishlist are now in one place, with votes, co-design and a way to contact us: <a href="build.html#roadmap">Help us build this</a>.</p>
+</section>
+
+<section aria-labelledby="hon-h">
+  <h2 id="hon-h">What the Commons is not</h2>
+  <div class="note">
+    <p>It is a prototype public good service, not an official government product, and it doesn't replace official guidance. Where an official source exists (for example the Government Data Quality Framework, the DAM policy or NHS England's DQMI), we link to it first. Anything we haven't checked against the source is marked "partly verified".</p>
+  </div>
+</section>
+</div>
+
+<script>
+const F = __K_FRAMEWORKS__, P = __K_PACKS__, L = __K_LEARNING__, C = __K_COMMUNITIES__, LIB = __K_LIBRARY__, S = __K_SCHEMES__;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+document.getElementById("who").innerHTML = ["Central government", "Devolved governments", "Local authorities", "NHS and care", "Police and justice", "Education",
+  "Arm's length bodies", "Voluntary and community sector", "Suppliers", "Researchers", "Crown Dependencies", "Overseas Territories",
+  "Commonwealth partners", "International and supranational bodies"].map(x => `<span class="chip acc">${esc(x)}</span>`).join("");
+const nRules = Object.values(LIB).reduce((n, l) => n + ((l.spec && l.spec.rules) || []).length, 0);
+document.getElementById("kpis").innerHTML = [
+  [F.length, "frameworks and standards mapped"], [P.length, "framework and scenario packs"], [nRules, "reusable rule templates"],
+  [S.length, "identifier schemes checked"], [L.modules.length, "learning modules"], [L.tutorials.length, "tutorials"], [C.length, "networks and communities"],
+].map(([n, l]) => `<div class="kpi"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
+window.DQP_TOUR = [
+  {sel: "#mission", title: "Our mission", text: "The Commons exists so public services and decisions rest on data people can trust."},
+  {sel: "#who", title: "Who it's for", text: "Any organisation working with public sector data, in any nation and sector. No coding needed."},
+  {sel: "#obj-h", title: "Objectives", text: "Six objectives for the first year, each with how we'll measure it."},
+  {sel: "#road-h", title: "Roadmap and wishlist", text: "What's done, what's next, and how to ask for something new."},
+];
+</script>

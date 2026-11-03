@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="t d">
+  <title id="t">Public Sector Data Quality Commons</title>
+  <desc id="d">The Commons mark: three overlapping circles for the many organisations that hold public data, sharing one space in the middle, the commons, marked with a tick for quality.</desc>
+  <rect width="64" height="64" rx="14" fill="#0b4f52"/>
+  <g fill="none" stroke="#f2f7f7" stroke-width="3.2">
+    <circle cx="32" cy="24.5" r="13"/>
+    <circle cx="23.2" cy="39.5" r="13"/>
+    <circle cx="40.8" cy="39.5" r="13"/>
+  </g>
+  <circle cx="32" cy="34.6" r="7.4" fill="#ffbf47"/>
+  <path d="M28.4 34.8l2.6 2.6 4.8-5.2" fill="none" stroke="#0b0c0c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

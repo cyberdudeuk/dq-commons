@@ -1,0 +1,162 @@
+# Help us build this: roadmap, backlog, co-design charter, contribution rules and safeguards, and GitHub resources.
+# The backlog here is the source for GitHub issues (scripts/backlog_to_issues.py, .github/workflows/backlog-issues.yml).
+# No named individuals anywhere: roles and organisations only.
+review: {last_reviewed: "2026-10-15", owner_role: Product owner (Commons)}
+
+intro: >-
+  The Commons is built in the open, with the people who use it. Vote on what comes next, pick up a backlog item,
+  join a co-design session, or tell us what's wrong. Everything here is moderated and nobody needs to share personal data.
+
+roadmap:
+- stage: Now
+  label: v1.2
+  items:
+  - Metadata Weaver and contract change check
+  - Crown Dependencies, Overseas Territories, Commonwealth and international partners
+  - GOV.UK blog features in the media centre
+  - Self-checking content health report
+  - Co-design charter, contribution rules and safeguards
+  - Contact form that never shows an email address
+- stage: Next
+  label: 3 months
+  items:
+  - "User research with 5 organisation types, including one Crown Dependency or Overseas Territory (XDMH-212)"
+  - "Independent accessibility audit to WCAG 2.2 AA (XDMH-213)"
+  - "AI assistant assurance and an Algorithmic Transparency Recording Standard record (XDMH-214)"
+  - "Weaver: GeoDCAT-AP, StatDCAT-AP and UK metadata standard profiles"
+- stage: Later
+  label: 6 to 12 months
+  items:
+  - "Welsh language version (XDMH-216)"
+  - "Outlier and anomaly checks (XDMH-215)"
+  - "Record linkage quality with Splink (XDMH-222)"
+  - "Power Automate and Fabric connector (XDMH-219)"
+  - "Moderation workflow at scale (XDMH-217)"
+  - "Weaver: SHACL validation and CSVW and Frictionless package inputs"
+
+# moscow: must, should, could, wont. status: proposed, ready, in-progress, done. area: one word, used as a label.
+backlog:
+- {id: BL-01, title: "User research with five organisation types", area: research, moscow: must, status: ready, jira: XDMH-212, why: "Make sure the Commons works for central, local, devolved, Crown Dependency or Overseas Territory, and voluntary sector users."}
+- {id: BL-02, title: "Independent WCAG 2.2 AA accessibility audit", area: accessibility, moscow: must, status: ready, jira: XDMH-213, why: "Our own checks aren't a substitute for testing with disabled people and assistive technology."}
+- {id: BL-03, title: "ATRS record for the AI assistant", area: ai, moscow: must, status: ready, jira: XDMH-214, why: "Public bodies using algorithmic tools publish a transparency record. We should too."}
+- {id: BL-04, title: "Verify every partly verified source", area: content, moscow: must, status: done, jira: XDMH-221, why: "Trust depends on every claim being checked against its source.", done: "Re-audited 3 November 2026: every source in the knowledge files is read at source (verified or checked: yes); 2 frameworks have no public document and are labelled Not publicly available."}
+- {id: BL-05, title: "More GSS geography value sets", area: toolkit, moscow: should, status: ready, jira: XDMH-220, why: "More geography checks without users building their own lists."}
+- {id: BL-06, title: "Welsh language version", area: accessibility, moscow: should, status: proposed, jira: XDMH-216, why: "Welsh public bodies have duties under the Welsh Language Standards."}
+- {id: BL-07, title: "Outlier and anomaly checks", area: toolkit, moscow: should, status: proposed, jira: XDMH-215, why: "Catch values that are valid but implausible."}
+- {id: BL-08, title: "Record linkage quality with Splink", area: toolkit, moscow: could, status: proposed, jira: XDMH-222, why: "Measure match rates and false matches when data is joined about people."}
+- {id: BL-09, title: "Power Automate and Fabric connector", area: integrations, moscow: could, status: proposed, jira: XDMH-219, why: "Run checks where many teams already work."}
+- {id: BL-10, title: "Moderation at scale", area: community, moscow: should, status: proposed, jira: XDMH-217, why: "More moderators, rotas and service levels as contributions grow."}
+- {id: BL-11, title: "Weaver: GeoDCAT-AP and StatDCAT-AP outputs", area: weaver, moscow: should, status: proposed, jira: XDMH-225, why: "Geospatial and statistical catalogues need their own profiles."}
+- {id: BL-12, title: "Weaver: UK metadata standard profile", area: weaver, moscow: should, status: proposed, jira: XDMH-226, why: "Align outputs with the cross-government metadata model when it's final."}
+- {id: BL-13, title: "Weaver: SHACL validation of DCAT output", area: weaver, moscow: could, status: proposed, jira: XDMH-227, why: "Machine-check outputs against published application profiles."}
+- {id: BL-14, title: "Weaver: CSVW and Frictionless Data Package inputs", area: weaver, moscow: could, status: proposed, jira: XDMH-228, why: "Many datasets already ship with this metadata."}
+- {id: BL-15, title: "Framework packs for Crown Dependency codes of practice", area: international, moscow: should, status: proposed, jira: XDMH-229, why: "Jersey and the Isle of Man publish codes of practice for statistics; a pack makes them usable in the toolkit."}
+- {id: BL-16, title: "UN NQAF and IMF DQAF packs", area: international, moscow: should, status: done, jira: XDMH-230, why: "Small statistics offices often use these frameworks rather than UK ones."}
+- {id: BL-17, title: "Time zone friendly co-design sessions", area: community, moscow: should, status: proposed, jira: XDMH-231, why: "Partners from the Pacific to the Caribbean can't all join at 10am London time."}
+- {id: BL-18, title: "Accessibility checks in CI (axe-core)", area: assurance, moscow: should, status: in-progress, jira: XDMH-232, why: "Catch regressions on every change, alongside our own checks."}
+- {id: BL-19, title: "Freshness alerts for news and spotlights", area: assurance, moscow: should, status: in-progress, jira: XDMH-233, why: "Stale news erodes trust; the self-check should open an issue automatically."}
+- {id: BL-20, title: "Archive snapshots for every linked source", area: assurance, moscow: could, status: proposed, jira: XDMH-234, why: "Links rot. Recording an archived copy keeps evidence available."}
+- {id: BL-21, title: "Content provenance (who changed what, when) on every page", area: assurance, moscow: could, status: in-progress, jira: XDMH-235, why: "Readers can see how current and reviewed each page is."}
+- {id: BL-22, title: "Easy read and plain English summaries", area: accessibility, moscow: could, status: proposed, jira: XDMH-236, why: "Some readers, including people with learning disabilities, need simpler versions."}
+- {id: BL-23, title: "Translation into the main community languages used by public services", area: accessibility, moscow: could, status: proposed, jira: XDMH-237, why: "Data quality affects everyone; guidance should reach staff and partners in their language."}
+- {id: BL-24, title: "Offline and low-bandwidth version", area: accessibility, moscow: could, status: proposed, jira: XDMH-238, why: "Small island and rural teams may have limited connectivity."}
+
+charter:
+  purpose: "We build the Commons with the people who use it, so it meets real needs, includes everyone and stays a public good."
+  principles:
+  - {title: "Open by default", text: "Code is MIT, content is OGL v3.0. Decisions, roadmap and backlog are public."}
+  - {title: "Nothing about us without us", text: "People affected by data, including people who are often left out, help shape what we build."}
+  - {title: "Plain English", text: "We write for everyone. Jargon is explained or removed."}
+  - {title: "Accessible to all", text: "We aim for WCAG 2.2 AA, test with assistive technology, and offer alternatives for every activity."}
+  - {title: "Privacy first", text: "We never need your name or email. Contributions credit organisations, or nobody."}
+  - {title: "Evidence over opinion", text: "Claims link to sources. Unchecked claims are labelled."}
+  - {title: "Fair participation", text: "Sessions rotate times and formats, so different time zones, caring responsibilities and working patterns can take part."}
+  - {title: "Transparent decisions", text: "Votes inform priority; the product owner decides and records why in the decision log."}
+  rules:
+  - "Be respectful and constructive. Follow the code of conduct."
+  - "No personal data: no names, emails, phone numbers or identifiers of real people, unless it's your own organisation's public contact route."
+  - "No official-sensitive or classified material. If in doubt, leave it out."
+  - "No advertising or selling. Suppliers are welcome to share evidence and open resources, not sales material."
+  - "Cite your sources and say what you haven't checked."
+  - "Only share what you have the right to share, under an open licence."
+  - "AI-assisted content is welcome if you say so and a person has checked it."
+  guidelines:
+  - "Describe the problem and who has it before suggesting a solution."
+  - "Keep contributions short. Link to longer documents."
+  - "Use the issue forms on GitHub, or the forms here, so we have what we need."
+  - "One idea per suggestion, so people can vote on it."
+  - "Say which nation, sector or jurisdiction your contribution applies to."
+  safeguards:
+  - {title: "Moderation", text: "Every contribution is checked before it's public: no personal data, accurate links, plain English, an open licence."}
+  - {title: "Automatic personal data checks", text: "Forms block obvious emails, phone numbers, National Insurance and NHS numbers before anything is sent."}
+  - {title: "Small numbers hidden", text: "Survey and benchmark results show totals only, and hide groups under 5."}
+  - {title: "No tracking", text: "No analytics, cookies or third-party trackers. Fonts are the only external request."}
+  - {title: "Masked contact", text: "Contact is through a form. The team's email address is never shown, to prevent spam and impersonation."}
+  - {title: "Security reports in private", text: "Security problems go through GitHub private vulnerability reporting, never public issues."}
+  - {title: "Right to withdraw", text: "Ask through the contact form and we'll remove your contribution."}
+  - {title: "Safeguarding", text: "Content about vulnerable people must be about data and services, never about identifiable individuals."}
+  - {title: "Conflicts of interest", text: "Contributors say if they work for a supplier of a product they're discussing."}
+  - {title: "Escalation", text: "Concerns about conduct or content go to the moderators through the contact form; they reply within 5 working days."}
+  codesign:
+  - {method: "Discovery interviews", when: "Before we build something new", how: "45-minute conversations about your work, not about the Commons."}
+  - {method: "Co-design workshops", when: "Each quarter", how: "Small groups shape a feature together. Times rotate across time zones."}
+  - {method: "Usability testing", when: "Before each release", how: "Try a task while we watch and learn. Assistive technology users are always included."}
+  - {method: "Asynchronous feedback", when: "Any time", how: "Comment on a GitHub discussion or use the contact form, at your own pace."}
+  - {method: "Show and tells", when: "Monthly", how: "We show what changed and why. Recorded with captions and a transcript."}
+
+contributors:
+  how: >-
+    We recognise every kind of contribution, not just code, following the all-contributors approach. Contributors are
+    credited by GitHub username or organisation, never by personal details, and only if they agree.
+  types:
+  - {type: code, text: "Toolkit, portal and tests"}
+  - {type: content, text: "Guidance, articles and frameworks"}
+  - {type: research, text: "User research and evidence"}
+  - {type: design, text: "Design, icons and accessibility"}
+  - {type: review, text: "Reviewing pull requests and sources"}
+  - {type: ideas, text: "Ideas, wishlist items and backlog"}
+  - {type: translation, text: "Welsh and other languages"}
+  - {type: a11y, text: "Accessibility testing"}
+  - {type: data, text: "Rules, value sets and packs"}
+  - {type: community, text: "Moderation and co-design"}
+
+github:
+- {group: "This project", name: "cyberdudeuk/dq-commons", url: "https://github.com/cyberdudeuk/dq-commons", what: "The Commons: toolkit, portal, knowledge base and backlog."}
+- {group: "This project", name: "Issues and backlog", url: "https://github.com/cyberdudeuk/dq-commons/issues", what: "Every backlog item, bug and suggestion."}
+- {group: "This project", name: "Discussions", url: "https://github.com/cyberdudeuk/dq-commons/discussions", what: "Questions, ideas and co-design, in the open."}
+- {group: "UK government", name: "alphagov", url: "https://github.com/alphagov", what: "Government Digital Service: GOV.UK, the design system and more."}
+- {group: "UK government", name: "co-cddo", url: "https://github.com/co-cddo", what: "Cross-government data and digital standards work."}
+- {group: "UK government", name: "co-cddo/ukgov-metadata-exchange-model", url: "https://github.com/co-cddo/ukgov-metadata-exchange-model", what: "The cross-government metadata model the Weaver aligns with."}
+- {group: "UK government", name: "ONSdigital", url: "https://github.com/ONSdigital", what: "Office for National Statistics code."}
+- {group: "UK government", name: "i-dot-ai", url: "https://github.com/i-dot-ai", what: "Incubator for Artificial Intelligence."}
+- {group: "UK government", name: "gds-dtx", url: "https://github.com/gds-dtx", what: "Related digital transformation work."}
+- {group: "UK government", name: "alphagov/govuk-frontend", url: "https://github.com/alphagov/govuk-frontend", what: "GOV.UK Frontend, for accessible patterns."}
+- {group: "Open standards and tools", name: "bitol-io/open-data-contract-standard", url: "https://github.com/bitol-io/open-data-contract-standard", what: "The Open Data Contract Standard (ODCS)."}
+- {group: "Open standards and tools", name: "frictionlessdata/frictionless-py", url: "https://github.com/frictionlessdata/frictionless-py", what: "Frictionless Data: Table Schema and Data Package."}
+- {group: "Open standards and tools", name: "great-expectations/great_expectations", url: "https://github.com/great-expectations/great_expectations", what: "Great Expectations, which the toolkit exports to."}
+- {group: "Open standards and tools", name: "sodadata/soda-core", url: "https://github.com/sodadata/soda-core", what: "Soda Core data quality checks."}
+- {group: "Open standards and tools", name: "moj-analytical-services/splink", url: "https://github.com/moj-analytical-services/splink", what: "Splink record linkage, from the Ministry of Justice."}
+- {group: "Open standards and tools", name: "ckan/ckan", url: "https://github.com/ckan/ckan", what: "CKAN, the catalogue behind data.gov.uk and many others."}
+- {group: "Open standards and tools", name: "w3c/dxwg", url: "https://github.com/w3c/dxwg", what: "W3C Dataset Exchange Working Group (DCAT)."}
+- {group: "Open standards and tools", name: "all-contributors/all-contributors", url: "https://github.com/all-contributors/all-contributors", what: "How we credit every kind of contribution."}
+
+# Self-checking routines that keep content current, accurate and trustworthy. status: running (in CI), on-demand, planned.
+routines:
+- {name: "Unit and integration tests", what: "116+ tests: toolkit, knowledge base, portal build, privacy guards.", when: "Every change (CI)", status: running}
+- {name: "Two-engine parity", what: "The browser engine and the Python toolkit give the same answer, case by case, including the Metadata Weaver.", when: "Every change", status: running}
+- {name: "Content health report", what: "Review dates, freshness, verification ratio, personal and sensitive data, duplicates, claims recounted from data, links, language.", when: "Every change and weekly", status: running}
+- {name: "Link checker", what: "Every external link is requested; broken ones open an issue.", when: "Weekly", status: running}
+- {name: "Review dates", what: "Every knowledge file names an owning role; a test fails after 12 months without review. Each page shows when its content was last reviewed and by which role.", when: "Every change", status: running}
+- {name: "Community docs in sync", what: "CHARTER.md and CONTRIBUTORS.md are regenerated from the same source as the portal.", when: "Every change", status: running}
+- {name: "Backlog to issues", what: "Every backlog item has exactly one GitHub issue.", when: "When the backlog changes", status: running}
+- {name: "Moderation", what: "People check every contribution before it is public.", when: "Within 10 working days", status: running}
+- {name: "Accessibility checks in CI", what: "Automated axe-core checks on every page, light and dark, desktop and phone (workflow written; first run on GitHub).", when: "Every change", status: on-demand}
+- {name: "Source archiving", what: "An archived copy of each cited source, so evidence survives link rot.", when: "Monthly", status: planned}
+- {name: "Freshness issues", what: "Stale news and reviews open (and later close) one GitHub issue for the owning roles automatically.", when: "Weekly", status: on-demand}
+- {name: "Source diffing", what: "Detect when an official source changes after we summarised it, and flag the summary for review.", when: "Monthly", status: planned}
+- {name: "Fact sampling", what: "A person re-checks a random 5% of claims against sources each quarter, and publishes the error rate.", when: "Quarterly", status: planned}
+- {name: "AI output evaluation", what: "The rule-drafting assistant is scored against a fixed evaluation set before each change.", when: "Before AI changes", status: on-demand}
+- {name: "Inclusion review", what: "Check content and examples for missing groups, nations and jurisdictions, with people affected.", when: "Each release", status: planned}
+- {name: "Dependency and secret scanning", what: "GitHub Dependabot and secret scanning on the repository.", when: "Continuous", status: planned}
+
+contact_topics: [General question, Report a problem with content, Accessibility problem, Suggest a partner or framework, Join co-design, Withdraw my contribution, Media or speaking request, Something else]

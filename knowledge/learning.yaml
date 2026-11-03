@@ -1,0 +1,202 @@
+# Learning pathway, tutorials and glossary for data quality management and its neighbouring capabilities.
+# Skill levels follow the Government Digital and Data profession: Awareness, Working, Practitioner, Expert.
+
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (learning)}
+levels: [Awareness, Working, Practitioner, Expert]
+
+roles:
+- {id: owner, name: Data owner, needs: "Decide priorities, accept risk, sign off the DQAP and act on escalations", level: Working, ddat: "Information asset owner duties; senior responsible owner (not a DDaT role)"}
+- {id: steward, name: Data steward, needs: "Write rules, run checks, log and work issues, report", level: Practitioner, ddat: "Data governance manager"}
+- {id: analyst, name: Data analyst or engineer, needs: "Automate checks in pipelines, profile data, investigate root causes", level: Practitioner, ddat: "Data analyst; Data engineer"}
+- {id: statistician, name: Statistician or analyst producing statistics, needs: "Assure sources (QAAD), state quality to users, meet the Code of Practice", level: Practitioner, ddat: "Statistician (Government Statistical Service)"}
+- {id: governance, name: Data governance manager, needs: "Run the DQ operating model, policy compliance and reporting across the organisation", level: Expert, ddat: "Data governance manager; Data architect"}
+- {id: cdo, name: Chief data officer or senior responsible owner, needs: "Set direction, fund improvement, report to boards and the CDO Council", level: Working, ddat: "Chief data officer; Head of data"}
+- {id: product, name: Service or product owner, needs: "Prevent poor data at source in the service, and act on user impact", level: Awareness, ddat: "Product manager; Service owner"}
+- {id: ai, name: AI or data science lead, needs: "Prove data is fit to train or feed a model, including fairness across groups", level: Practitioner, ddat: "Data scientist; Machine learning engineer"}
+modules:
+- id: m1
+  title: Why data quality matters, and what "good enough" means
+  capability: Data quality management
+  levels: [Awareness]
+  roles: [owner, steward, analyst, statistician, governance, cdo, product, ai]
+  minutes: 20
+  outcomes: ["Explain fitness for purpose", "Name the six core dimensions", "Say who is accountable for quality"]
+  resources:
+  - {title: The Government Data Quality Framework, url: "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework"}
+  - {title: "Portal guide: Home and roles", url: "guide.html"}
+- id: m2
+  title: Writing data quality rules from business rules
+  capability: Data quality management
+  levels: [Working, Practitioner]
+  roles: [steward, analyst]
+  minutes: 45
+  outcomes: ["Turn a business rule into measurable checks", "Choose dimensions and targets with the issues framework", "Use the public sector rule library"]
+  resources:
+  - {title: "Tutorial: run your first check", url: "learn.html#t1"}
+  - {title: "Tutorial: plain English to rules", url: "learn.html#t2"}
+  - {title: Implementing a data quality action plan, url: "https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide"}
+- id: m3
+  title: Prioritising issues with the data quality issues framework
+  capability: Data quality management
+  levels: [Working, Practitioner]
+  roles: [steward, owner, governance]
+  minutes: 30
+  outcomes: ["Score importance and impact", "Read performance bands", "Set resolution timescales and escalate"]
+  resources:
+  - {title: Data quality issues framework, url: "https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework"}
+  - {title: Issues framework calculator, url: "guidance.html"}
+- id: m4
+  title: Root cause analysis and fixing at source
+  capability: Data quality management
+  levels: [Practitioner]
+  roles: [steward, analyst, product]
+  minutes: 40
+  outcomes: ["Use 5 whys", "Tell containment from correction and prevention", "Place controls at source, in the pipeline or in reporting"]
+  resources:
+  - {title: "Portal guide: Operating model and workflows", url: "operate.html"}
+- id: m5
+  title: Metadata and publishing quality (DCAT and DQV)
+  capability: Metadata management
+  levels: [Working, Practitioner]
+  roles: [steward, governance, analyst]
+  minutes: 40
+  outcomes: ["Record the 13 CDA metadata properties", "Publish quality as DQV", "Make assets findable in the NDL"]
+  resources:
+  - {title: Recording metadata to describe critical data assets, url: "https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets"}
+  - {title: W3C Data Quality Vocabulary, url: "https://www.w3.org/TR/vocab-dqv/"}
+- id: m6
+  title: Quality of statistics and administrative data (Code of Practice 3.0 and QAAD)
+  capability: Statistics quality assurance
+  levels: [Practitioner, Expert]
+  roles: [statistician]
+  minutes: 60
+  outcomes: ["Apply the Trustworthiness, Quality and Value framework", "Set a QAAD assurance level", "Write a quality statement"]
+  resources:
+  - {title: Code of Practice for Statistics 3.0, url: "https://code.statisticsauthority.gov.uk/wp-content/uploads/2025/10/Code-of-Practice-for-Statistics-3.0.pdf"}
+  - {title: Analysis Function quality guidance, url: "https://analysisfunction.civilservice.gov.uk/guidances/quality"}
+- id: m7
+  title: Inclusion - checking who your data leaves out
+  capability: Data ethics and inclusion
+  levels: [Working, Practitioner]
+  roles: [steward, analyst, statistician, ai, owner]
+  minutes: 35
+  outcomes: ["Measure defaulted characteristics", "Compare quality across groups", "Signpost data for every UK nation"]
+  resources:
+  - {title: "Portal: Check your data (not_unknown and group_disparity checks)", url: "check.html"}
+- id: m8
+  title: Data quality for AI and machine learning (ISO/IEC 5259)
+  capability: AI data readiness
+  levels: [Practitioner, Expert]
+  roles: [ai, analyst]
+  minutes: 45
+  outcomes: ["Check representativeness and balance", "Document provenance", "Know what the kit can't check (labels, drift)"]
+  resources:
+  - {title: ISO/IEC 5259-1, url: "https://www.iso.org/standard/81088.html"}
+  - {title: "Pack: AI and machine learning readiness", url: "frameworks.html#ai-ml-readiness"}
+- id: m9
+  title: Running a data quality operating model
+  capability: Data governance
+  levels: [Practitioner, Expert]
+  roles: [governance, cdo, owner]
+  minutes: 50
+  outcomes: ["Set roles and RACI", "Run the pipeline and escalation", "Report maturity and progress to boards"]
+  resources:
+  - {title: "Portal: Operating model and support", url: "operate.html"}
+  - {title: "Portal: Maturity check", url: "maturity.html"}
+- id: m10
+  title: Standards and frameworks - choosing and translating
+  capability: Data architecture and standards
+  levels: [Practitioner, Expert]
+  roles: [governance, analyst, statistician]
+  minutes: 40
+  outcomes: ["Compare UK, devolved and international frameworks", "Translate results to ISO/IEC 25012 or ESS terms", "Pick a pack"]
+  resources:
+  - {title: "Portal: Frameworks and standards", url: "frameworks.html"}
+
+tutorials:
+- id: t1
+  title: Run your first check in the browser
+  minutes: 5
+  steps:
+  - Open Check your data. An NDL example is already loaded.
+  - "Choose another example, or load your own CSV or spreadsheet. Nothing leaves your browser."
+  - Press Run the checks. Read the trust level, the route and each rule's pass rate against its target.
+  - Open a failing rule's examples to see the rows that failed.
+  - Copy the DQV metadata or DQAP rows to take the results with you.
+- id: t2
+  title: Turn plain English into rules
+  minutes: 10
+  steps:
+  - "Open the assistant (or Check your data, then Describe your rules)."
+  - "Describe what good looks like, for example: every claim has a valid NI number and a date not in the future."
+  - The assistant drafts a rules file and the page checks it with the kit before you see it.
+  - Review every rule. Add purposes and set the importance of the asset.
+  - Run the checks. Keep the rules file; the pipeline uses the same file.
+- id: t3
+  title: Measure your assets every week
+  minutes: 20
+  steps:
+  - Add a line per asset to a portfolio file (rules file, data source, schedule, packs).
+  - Run python -m dqkit run your-portfolio.yaml locally and read run-summary.md.
+  - Push the repository to GitHub and switch on Actions and Pages (see the operating model page).
+  - Overdue issues become GitHub issues; the portal rebuilds after each run.
+- id: t4
+  title: Report in another framework's terms
+  minutes: 5
+  steps:
+  - Open Frameworks and standards and pick a framework, for example ISO/IEC 25012.
+  - See how its dimensions map to the kit's.
+  - "From the command line: python -m dqkit crosswalk results.json --to iso-iec-25012"
+  - Dimensions the data rules can't measure are listed so you can gather other evidence.
+- id: t5
+  title: Check your organisation's maturity
+  minutes: 10
+  steps:
+  - Open the Maturity check and choose the statement that fits best for each of the 8 themes.
+  - Read your level per theme and the recommended next steps.
+  - Optionally share an anonymous result to help build the cross-sector picture.
+- id: t6
+  title: Contribute to the library
+  minutes: 5
+  steps:
+  - Open Community, then Library.
+  - Add a case study, rule pattern, insight, resource or framework note.
+  - Choose who it covers (sector, nation) and whether it can be shared publicly.
+  - The Commons team reviews it before it shows as published.
+- id: t7
+  title: Use the kit from an AI agent
+  minutes: 10
+  steps:
+  - Start the kit's MCP server - python -m dqkit.mcp_server.
+  - Add it to your agent or Claude as a local MCP server.
+  - Ask the agent to check a file, suggest rules, assess against a pack or translate results.
+
+glossary:
+- {term: Accuracy, definition: "How well data describes the real thing or event it is about."}
+- {term: Completeness, definition: "How much of the data that should be there is there."}
+- {term: Consistency, definition: "Whether the same thing is recorded the same way in different places."}
+- {term: Timeliness, definition: "Whether data describes reality at the time it is needed."}
+- {term: Uniqueness, definition: "Nothing is recorded more than once."}
+- {term: Validity, definition: "Data follows its agreed format, type and allowed values."}
+- {term: Representativeness, definition: "Data covers the groups of people or places it should, without gaps that hide some of them."}
+- {term: Critical data asset (CDA), definition: "A data asset of high value shared across government, in scope of the DAM policy."}
+- {term: Q-FAIR, definition: "The Geospatial Commission's approach: data of the right Quality that is also Findable, Accessible, Interoperable and Reusable, rated Good, Improving or Attention required."}
+- {term: Data quality baseline, definition: "The first measurement of an asset's quality against its rules, used as the benchmark for every later report."}
+- {term: Data quality action plan (DQAP), definition: "The plan that records an asset's rules, baseline, issues, actions and reporting."}
+- {term: Data quality issues framework, definition: "GOV.UK method that sets targets from importance and impact, then scores how far below target a rule is."}
+- {term: Combined score, definition: "Importance of purpose (1-4) times impact of the rule failing (1-4)."}
+- {term: Trust level, definition: "Untrustworthy, Requires improvement, Useable or Trustworthy - says how data may be used and shared."}
+- {term: Control point, definition: "Where a control belongs - at source (capture), in the pipeline, or in reporting."}
+- {term: Escalation, definition: "Raising an issue to the data owner or governance board when it stays open longer than allowed."}
+- {term: DQV, definition: "W3C Data Quality Vocabulary - a standard way to publish quality results as metadata."}
+- {term: DCAT, definition: "W3C vocabulary for describing datasets in catalogues."}
+- {term: Pack, definition: "A profile that applies a framework, standard or scenario to the kit's results."}
+- {term: Crosswalk, definition: "A table that maps one framework's dimensions or terms to another's."}
+- {term: QAAD, definition: "Quality Assurance of Administrative Data - OSR's toolkit and assurance levels A0 to A3."}
+- {term: DQMI, definition: "NHS England's Data Quality Maturity Index for provider datasets."}
+- {term: Data owner, definition: "The senior person accountable for an asset's fitness, priorities and acceptable risk."}
+- {term: Data steward, definition: "The person who runs the quality work day to day - rules, measurement, issues and reporting."}
+- {term: Root cause analysis, definition: "Finding why an issue happens (process, system or people) so the fix prevents it coming back."}
+- {term: Containment, definition: "A quick action that limits harm while the real fix is made."}
+- {term: MCP, definition: "Model Context Protocol - a standard way for AI agents to call tools such as this kit."}
+- {term: Declarative, definition: "Saying what good looks like (rules, portfolios, packs) and letting the tools work out how to check it."}

@@ -1,0 +1,105 @@
+<title>AI for Data Quality</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.princ{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.princ .card h3 span{font-family:var(--f-mono);color:var(--accent);margin-right:6px}
+.route{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:1000px){.route{grid-template-columns:minmax(0,1fr)}}
+.stage{padding:14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.stage:last-child{border-right:0}
+@media (max-width:1000px){.stage{border-right:0;border-bottom:1px solid var(--line)}.stage:last-child{border-bottom:0}}
+.stage .n{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.stage p{font-size:.84rem}
+.stage .gate{font-size:.8rem;border-top:1px dashed var(--line);padding-top:6px;color:var(--fg)}
+.stage .gate::before{content:"Gate: ";font-weight:700;color:var(--accent)}
+.comp td{font-size:.86rem}
+.ex ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:5px;font-size:.9rem}
+.check{columns:2 300px;column-gap:24px;padding-left:1.2em;margin:0}
+.check li{margin-bottom:6px;break-inside:avoid}
+.mat-Proven{color:var(--good);background:var(--good-soft)} .mat-Emerging{color:var(--info);background:var(--info-soft)} .mat-Experimental{color:var(--warn);background:var(--warn-soft)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Know · AI for data quality</span>
+  <h1>Getting real value from AI to improve data quality, safely</h1>
+  <p class="lede">Guidance, use cases, worked examples and case studies for using AI on data quality, whether it is built into a supplier's product or built as your own tool. Also: the route by which an AI capability is tested and assured before it joins the shared toolkit for everyone to reuse.</p>
+  <nav class="toc" aria-label="On this page"><a href="#principles">Principles</a><a href="#uses">Use cases</a><a href="#vendor">Vendor tools</a><a href="#examples">Worked examples</a><a href="#cases">Case studies</a><a href="#route">Route to the toolkit</a><a href="#components">Components</a></nav>
+  <div class="callout"><p><b>The core idea:</b> AI drafts, finds and explains; a deterministic, reviewable rule decides. Keep people in charge of anything that changes data or affects someone.</p></div>
+</header>
+
+<section id="principles" aria-labelledby="pr-h"><h2 id="pr-h">Principles</h2><div class="princ" id="princ"></div></section>
+
+<section id="uses" aria-labelledby="uc-h">
+  <h2 id="uc-h">Use cases</h2>
+  <div class="filters"><div class="field"><label for="ucM">Maturity</label><select id="ucM"></select></div><div class="field"><label for="ucD">Dimension</label><select id="ucD"></select></div></div>
+  <div class="tbl"><table><thead><tr><th>Use case</th><th>Dimensions</th><th>Maturity</th><th>How</th><th>Risk</th></tr></thead><tbody id="ucRows"></tbody></table></div>
+</section>
+
+<section id="vendor" aria-labelledby="vq-h">
+  <h2 id="vq-h">AI inside suppliers' tools: questions to ask before you buy or switch on</h2>
+  <p>Many data quality and catalogue products now include AI features. Ask these questions, in writing, and keep the answers with your DPIA.</p>
+  <ol class="plain" id="vq"></ol>
+  <p class="small">Then compare options on <a href="tooling.html">Tooling</a>, and use the <a href="surveys.html">tooling survey</a> to learn from organisations already using them.</p>
+</section>
+
+<section id="examples" aria-labelledby="we-h">
+  <h2 id="we-h">Worked examples</h2>
+  <p class="small"><span class="chip warn">Illustrative</span> These examples show the method with realistic but invented details. They are not reports of real projects.</p>
+  <div class="grid ex" id="we"></div>
+</section>
+
+<section id="cases" aria-labelledby="cs-h"><h2 id="cs-h">Case studies</h2><div class="grid" id="cs"></div>
+  <p class="small">Have a case study? <a href="community.html#contribute">Contribute it</a>, or use the case study drafter on <a href="share.html">Case studies</a>.</p></section>
+
+<section id="route" aria-labelledby="rt-h">
+  <h2 id="rt-h">From experiment to shared toolkit: the route</h2>
+  <p id="rtSum"></p>
+  <div class="route" id="stages"></div>
+  <details class="disc" open><summary>Checklist before reuse</summary><div class="body"><ol class="check" id="chk"></ol></div></details>
+  <p class="small" id="refs"></p>
+</section>
+
+<section id="components" aria-labelledby="cp-h">
+  <h2 id="cp-h">AI and automation components in the toolkit</h2>
+  <div class="tbl"><table class="comp"><thead><tr><th>Component</th><th>Kind</th><th>Stage</th><th>Owner</th></tr></thead><tbody id="comp"></tbody></table></div>
+  <p class="small">Want to take a component through the route? Raise a <a href="surveys.html#commission">commission</a> or add it to the <a href="build.html#wishlist">wishlist</a>.</p>
+</section>
+</div>
+
+<script>
+const A = __K_AI__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const uniq = a => [...new Set(a)].sort();
+$("princ").innerHTML = A.principles.map(p => `<div class="card"><h3><span>${esc(p.id)}</span>${esc(p.title)}</h3><p class="small">${esc(p.text)}</p></div>`).join("");
+$("ucM").innerHTML = `<option value="">Any</option>` + uniq(A.use_cases.map(u => u.maturity)).map(m => `<option>${esc(m)}</option>`).join("");
+$("ucD").innerHTML = `<option value="">Any</option>` + uniq(A.use_cases.flatMap(u => u.dimension || [])).map(m => `<option>${esc(m)}</option>`).join("");
+function uc() {
+  const m = $("ucM").value, d = $("ucD").value;
+  $("ucRows").innerHTML = A.use_cases.filter(u => (!m || u.maturity === m) && (!d || (u.dimension || []).includes(d))).map(u =>
+    `<tr><td><b>${esc(u.name)}</b></td><td>${(u.dimension || []).map(esc).join(", ")}</td><td><span class="pill mat-${esc(u.maturity)}">${esc(u.maturity)}</span></td><td>${esc(u.how)}</td><td>${esc(u.risk)}</td></tr>`).join("");
+}
+["ucM", "ucD"].forEach(id => $(id).addEventListener("input", uc)); uc();
+$("vq").innerHTML = A.vendor_questions.map(q => `<li>${esc(q)}</li>`).join("");
+$("we").innerHTML = A.worked_examples.map(w => `<article class="card"><span class="chip warn" style="align-self:flex-start">${esc(w.id)} · illustrative</span><h3>${esc(w.title)}</h3>
+  <ol>${w.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol><p class="small"><b>Lesson:</b> ${esc(w.lesson)}</p></article>`).join("");
+$("cs").innerHTML = A.case_studies.map(c => `<article class="card"><span class="chip acc" style="align-self:flex-start">${esc(c.status)}</span><h3>${esc(c.title)}</h3>
+  <p class="small muted">${esc(c.organisation)}</p><p class="small"><b>What:</b> ${esc(c.what)}</p><p class="small"><b>Why it matters for quality:</b> ${esc(c.why_dq)}</p>
+  <p class="small"><b>Assurance:</b> ${esc(c.assurance)}</p><p class="small"><b>Lesson:</b> ${esc(c.lesson)}</p>
+  ${(c.sources || []).length ? `<p class="small">Sources: ${c.sources.map(s => `<a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>`).join("; ")}</p>` : ""}</article>`).join("");
+const R = A.route_to_toolkit;
+$("rtSum").textContent = R.summary;
+$("stages").innerHTML = R.stages.map(s => `<div class="stage"><span class="n">Stage ${s.n}</span><h3>${esc(s.name)}</h3><p>${esc(s.do)}</p><p class="gate">${esc(s.gate)}</p></div>`).join("");
+$("chk").innerHTML = R.checklist.map(c => `<li>${esc(c)}</li>`).join("");
+$("refs").innerHTML = "References: " + R.references.map(r => `<a href="${esc(r.url)}" rel="noopener">${esc(r.title)}</a>`).join("; ");
+$("comp").innerHTML = A.components.map(c => `<tr><td>${esc(c.name)}</td><td>${esc(c.kind)}</td><td><span class="chip ${c.stage === "Released" ? "good" : c.stage === "Experiment" ? "warn" : ""}">${esc(c.stage)}</span></td><td>${esc(c.owner)}</td></tr>`).join("");
+window.DQP_TOUR = [
+  {sel: "#principles", title: "Principles", text: "Start from the quality problem, keep people deciding, and measure with deterministic rules."},
+  {sel: "#uses", title: "Use cases", text: "Where AI helps data quality, how mature each use is, and the risks."},
+  {sel: "#vendor", title: "Supplier tools", text: "Questions to ask before switching on AI features in a product."},
+  {sel: "#examples", title: "Worked examples", text: "Step-by-step illustrations of the method."},
+  {sel: "#stages", title: "Route to the toolkit", text: "Seven stages, each with an exit gate, before an AI capability is shared for reuse."},
+];
+</script>

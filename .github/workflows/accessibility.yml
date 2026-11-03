@@ -1,0 +1,19 @@
+# Automated accessibility checks (axe-core) on every page, desktop light and phone dark.
+name: Accessibility
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.12"}
+      - uses: actions/setup-node@v7
+        with: {node-version: "22"}
+      - run: pip install -r requirements.txt
+      - run: python scripts/build_dq_portal.py --out portal/dist
+      - run: npm install --no-save playwright@1.48.2 @axe-core/playwright@4.10.1
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/a11y_check.mjs portal/dist

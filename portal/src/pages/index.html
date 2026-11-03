@@ -1,0 +1,391 @@
+<title>Data Quality Commons</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+/* Home: thesis and live status first, then routes by role, then the DQAP cycle mapped to pages. */
+header.page.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:26px;align-items:start}
+@media (max-width:860px){header.page.hero{grid-template-columns:minmax(0,1fr)}}
+.hero h1{font-size:clamp(2rem,4.6vw,3.1rem);letter-spacing:-.01em}
+.commons{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-left:5px solid #ffbf47;border-radius:14px;padding:18px 20px;align-self:stretch}
+.commons .mark{width:84px;height:84px;color:var(--accent)}
+.commons h2{font-size:1.3rem}
+.commons>div{display:flex;flex-direction:column;gap:8px}
+.commons p{font-size:.92rem}
+@media (min-width:861px) and (max-width:1100px){.commons .mark{width:64px;height:64px}}
+.status{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.status .row{display:flex;justify-content:space-between;gap:10px;align-items:baseline;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.status .row:last-of-type{border-bottom:0}
+.status .row span{color:var(--muted);font-size:.88rem}
+.status .row b{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.roles button{font:inherit;font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.roles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.route{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.route a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.route a:hover{border-color:var(--accent)}
+.route a b{color:var(--accent)}
+.route a .why{font-size:.86rem;color:var(--muted)}
+.cycle{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:980px){.cycle{grid-template-columns:minmax(0,1fr)}}
+.step{padding:14px 14px 16px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-width:0}
+.step:last-child{border-right:0}
+@media (max-width:980px){.step{border-right:0;border-bottom:1px solid var(--line)}.step:last-child{border-bottom:0}}
+.step .n{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+.step h3{font-size:.95rem}
+.step p{font-size:.84rem;color:var(--muted)}
+.step a{font-size:.84rem;font-weight:600}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.tile{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+.tile:hover{border-color:var(--accent)}
+.tile h3{color:var(--accent);display:flex;gap:10px;align-items:center}
+.tile .dqi-lg{width:22px;height:22px}
+.latest .card h3{display:flex;gap:8px;align-items:center}
+.latest .card h3 .dqi{color:var(--accent)}
+.car .k .dqi{margin-right:5px}
+.car .glyph{position:absolute;right:-30px;top:-30px;width:240px;height:240px;color:rgba(255,255,255,.07);pointer-events:none;stroke-width:1.2}
+.spot .types button .dqi{margin-right:4px}
+.world{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.world a{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.world a:hover{border-color:var(--accent)}
+.world b{display:block;color:var(--accent)}
+.world span{font-size:.84rem;color:var(--muted)}
+.tile p{font-size:.88rem;color:var(--muted)}
+.tile .fig{font-family:var(--f-mono);font-size:.8rem;color:var(--fg)}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.search{display:flex;gap:8px;max-width:640px}
+.search input{flex:1;min-width:0;font-size:1rem;min-height:46px}
+.quickgo{display:flex;flex-wrap:wrap;gap:6px}
+.quickgo button{font:inherit;font-size:.84rem;padding:5px 11px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
+/* Hero carousel and spotlight web parts */
+.showcase{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:16px;align-items:stretch}
+@media (max-width:960px){.showcase{grid-template-columns:minmax(0,1fr)}}
+.car{position:relative;border-radius:14px;overflow:hidden;background:#0b4f52;color:#f2f7f7;min-height:300px;display:flex;flex-direction:column}
+.car .slides{flex:1;display:grid}
+.car .slide{position:relative;grid-area:1/1;padding:26px 28px 18px;display:flex;flex-direction:column;gap:12px;visibility:hidden;opacity:0;transition:opacity .4s}
+.car .slide.on{visibility:visible;opacity:1}
+.car .k{align-self:flex-start;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:#ffbf47;color:#0b0c0c;border-radius:4px;padding:3px 8px}
+.car h3{font-family:var(--f-display);font-size:clamp(1.35rem,2.6vw,1.95rem);line-height:1.2;color:#fff}
+.car p{color:#d7e8e7;max-width:62ch}
+.car .src{font-size:.8rem;color:#b9d6d5}
+.car .src a{color:#fff}
+.car .go{align-self:flex-start;background:#fff;color:#0b4f52;font-weight:700;text-decoration:none;border-radius:6px;padding:9px 14px}
+.car .go:hover{background:#ffbf47;color:#0b0c0c}
+.car .ctl{display:flex;align-items:center;gap:8px;padding:10px 20px 16px;flex-wrap:wrap}
+.car .ctl button{font:inherit;font-weight:600;font-size:.84rem;background:transparent;color:#fff;border:1px solid #6fa3a3;border-radius:6px;padding:6px 10px;cursor:pointer;min-height:36px}
+.car .ctl button:hover{border-color:#fff}
+.car .dots{display:flex;gap:2px;margin-left:auto}
+.car .ctl .dots button{width:26px;height:26px;min-height:26px;padding:0;border:0;border-radius:50%;background:transparent;display:grid;place-items:center}
+.car .dots button::before{content:"";width:14px;height:14px;border-radius:50%;border:2px solid #b9d6d5;box-sizing:border-box}
+.car .dots button[aria-current="true"]::before{background:#ffbf47;border-color:#ffbf47}
+.car :focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.car .slide{transition:none}}
+.spot{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+.spot .types{display:flex;flex-wrap:wrap;gap:6px}
+.spot .types button{font:inherit;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.spot .types button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.spot h3{font-family:var(--f-display);font-size:1.3rem}
+.spot .stand{color:var(--muted);font-weight:600}
+.spot .story{font-size:.92rem}
+.spot ul{margin:0;padding-left:1.1em;font-size:.9rem}
+.latest{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.latest .card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.latest .card li a{font-weight:600}
+.latest .card li span{display:block;font-size:.82rem;color:var(--muted)}
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px;counter-reset:j}
+.journey .card{border-top:4px solid var(--accent)}
+.journey .card ol{margin:6px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.journey .card h3 small{display:block;font-weight:500;font-size:.8rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="page hero">
+  <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+    <span class="eyebrow">Public Sector Data Quality Commons</span>
+    <h1>Is the data good enough to use, and is someone fixing it?</h1>
+    <p class="lede">One free, open place for everything about data quality in the public sector: check your data in the browser, find the frameworks and standards that apply to you, learn, use AI safely, and share what works. For central and local government, the devolved governments, the wider public sector, the voluntary and private bodies that deliver public services, and the Crown Dependencies, Overseas Territories, Commonwealth and international partners the UK works with.</p>
+    <form class="search" id="find" role="search" aria-label="Find in the Commons"><label for="fq" class="sr-only">What do you want to do?</label>
+      <input type="search" id="fq" placeholder="What do you want to do? For example: check NHS numbers, ISO 8000, Wales" autocomplete="off" list="fqList"><datalist id="fqList"></datalist><button class="btn" type="submit">Go</button></form>
+    <div class="quickgo" id="quickgo"></div>
+  </div>
+  <aside class="commons" aria-labelledby="what-commons">
+    <svg class="mark" viewBox="0 0 64 64" role="img" aria-labelledby="mark-t"><title id="mark-t">The Commons mark: three overlapping circles sharing one space, with a tick at the centre</title>
+      <g fill="none" stroke="currentColor" stroke-width="3"><circle cx="32" cy="24.5" r="13"/><circle cx="23.2" cy="39.5" r="13"/><circle cx="40.8" cy="39.5" r="13"/></g>
+      <circle cx="32" cy="34.6" r="7.4" fill="#ffbf47"/><path d="M28.4 34.8l2.6 2.6 4.8-5.2" fill="none" stroke="#0b0c0c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <div>
+      <h2 id="what-commons">What is a Commons?</h2>
+      <p>A commons is something a community looks after together, for everyone's benefit, like common land, Wikipedia or open-source software. Nobody owns it, everyone can use it, and the people who use it agree the rules and keep it in good shape.</p>
+      <p>Here, the commons is <b>shared knowledge, tools and practice for data quality</b>: open code (MIT), open content (OGL), and rules made with the people who use them, through the <a href="build.html#charter">charter</a>.</p>
+      <p class="small"><b>The mark:</b> three circles for the many organisations that hold public data, overlapping in one shared space. At its heart, a tick for quality, the common good they share.</p>
+    </div>
+  </aside>
+</header>
+
+<section aria-labelledby="news-h">
+  <h2 id="news-h" class="sr-only">News, insights and spotlight</h2>
+  <div class="showcase">
+    <div class="car" id="car" role="region" aria-roledescription="carousel" aria-label="News, insights and knowledge">
+      <div class="slides" id="slides" aria-live="off"></div>
+      <div class="ctl">
+        <button type="button" id="prev" aria-label="Previous slide">‹ Previous</button>
+        <button type="button" id="next" aria-label="Next slide">Next ›</button>
+        <button type="button" id="play" aria-label="Pause the slides">Pause</button>
+        <div class="dots" id="dots" role="group" aria-label="Choose a slide"></div>
+      </div>
+    </div>
+    <aside class="spot" id="spot" aria-labelledby="spot-h">
+      <span class="eyebrow" id="spot-h">Spotlight</span>
+      <div class="types" id="spotTypes" role="group" aria-label="Spotlight on"></div>
+      <div id="spotBody" aria-live="polite"></div>
+    </aside>
+  </div>
+</section>
+
+<section aria-labelledby="latest-h">
+  <h2 id="latest-h">Latest from the library, knowledge base and media centre</h2>
+  <div class="latest">
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-book"/></svg>Knowledge base</h3><ul id="lKb"></ul><a href="library.html#tab-kb">All articles ›</a></div>
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-mic"/></svg>Blog, vlog and podcasts</h3><ul id="lMedia"></ul><a href="media.html">Media centre ›</a></div>
+    <div class="card"><h3><svg class="dqi" aria-hidden="true"><use href="#i-library"/></svg>Curated library</h3><ul id="lLib"></ul><a href="library.html">Browse the library ›</a> · <a href="library.html#tab-pub">Publish yours ›</a></div>
+  </div>
+</section>
+
+<section aria-labelledby="task-h">
+  <h2 id="task-h">What do you need to do?</h2>
+  <div class="tiles" id="tasks"></div>
+</section>
+
+<section aria-labelledby="st-h" class="two">
+  <div class="status">
+    <h2 id="st-h" style="font-size:1.05rem;font-family:var(--f-body)">Example portfolio: latest pipeline run</h2>
+    <p class="small muted" style="margin-top:-6px">National Data Library pilot. Your own portfolio runs the same way.</p>
+    <div id="status"></div>
+    <a class="btn" href="pipeline.html">See the full run</a>
+  </div>
+  <div class="card"><h3>Run this for your own data</h3><p class="small">The same weekly pipeline measures any portfolio of datasets: trust levels, issues, escalations and a quality return. It runs in GitHub Actions and writes open formats.</p>
+    <p class="small"><a href="operate.html">How it runs</a> · <a href="learn.html#t3">Tutorial</a> · <a href="check.html">Check one file now</a></p></div>
+</section>
+
+<section aria-labelledby="jr-h">
+  <h2 id="jr-h">Where to start: your journey</h2>
+  <div class="journey">
+    <div class="card"><h3>Beginner<small>New to data quality, or to the Commons</small></h3><ol>
+      <li><a href="about.html">Why the Commons exists</a></li>
+      <li><a href="github.html">New to GitHub? How the portal and its code connect</a></li>
+      <li><a href="learn.html#pathway">Your learning pathway</a></li>
+      <li><a href="check.html">Check a file in your browser</a></li>
+    </ol></div>
+    <div class="card"><h3>Intermediate<small>Managing data quality for an asset or team</small></h3><ol>
+      <li><a href="professions.html">Data quality in your profession's framework</a></li>
+      <li><a href="guidance.html">Prioritise issues with the issues framework</a></li>
+      <li><a href="playbook.html">Follow the eight-stage playbook</a></li>
+      <li><a href="frameworks.html">Translate between frameworks</a></li>
+    </ol></div>
+    <div class="card"><h3>Advanced<small>Automating, integrating or contributing</small></h3><ol>
+      <li><a href="pipeline.html">Automate checks with the pipeline</a></li>
+      <li><a href="weaver.html">Add quality to your metadata</a></li>
+      <li><a href="interop.html">Data contracts and interoperability</a></li>
+      <li><a href="build.html">Help build the Commons</a></li>
+    </ol></div>
+  </div>
+</section>
+
+<section aria-labelledby="role-h">
+  <h2 id="role-h">Start from your role</h2>
+  <div class="roles" role="group" aria-label="Choose your role" id="roles"></div>
+  <div class="route" id="route" aria-live="polite"></div>
+</section>
+
+<section aria-labelledby="cyc-h">
+  <h2 id="cyc-h">The data quality cycle, step by step</h2>
+  <p class="lede">The 7 steps of the GOV.UK data quality action plan (DQAP), which match the cycle in most frameworks, and where each one lives in the Commons.</p>
+  <div class="cycle" id="cycle"></div>
+</section>
+
+<section aria-labelledby="sc-h">
+  <h2 id="sc-h">Scenarios</h2>
+  <p>Same toolkit, different frameworks and rules. <a href="scenarios.html">See all scenarios</a>.</p>
+  <div class="chips" id="scen"></div>
+</section>
+
+<section class="two" aria-label="Inclusion and limits">
+  <div class="card">
+    <h3>Who could this miss?</h3>
+    <ul class="plain small">
+      <li>Data that leaves out groups of people can pass every overall check. The toolkit's inclusion checks look for unknown values and for quality that differs between groups.</li>
+      <li>People in Scotland, Wales and Northern Ireland are often less well served by UK data. In the NDL pilot, 45 of 48 pages covering only part of the UK didn't point to data for the other nations.</li>
+      <li>Data without an open, machine-readable format is harder to use with assistive technology.</li>
+      <li>Staff who use assistive technology must be able to run checks and work the issue log. The tooling survey asks suppliers about this.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>What this is, and isn't</h3>
+    <ul class="plain small">
+      <li>A working prototype, built in the open as a public good: MIT-licensed code, OGL v3.0 content. It is not an official government product, and links to official guidance first.</li>
+      <li>Your data stays in your browser. Only what you choose to contribute is saved, and it is moderated.</li>
+      <li>Trust levels and AI drafts are suggestions for a person to confirm. They are not decisions.</li>
+      <li>See the <a href="about.html">mission and roadmap</a>, and <a href="operate.html">how to get help</a>.</li>
+    </ul>
+  </div>
+</section>
+</div>
+
+<script>
+const P = __PORTFOLIO__, B = __BUILD__, FW = __K_FRAMEWORKS__, PK = __K_PACKS__, MEDIA = __K_MEDIA__, KBA = __K_ARTICLES__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// ---- Hero carousel (WAI-ARIA carousel pattern: pause control, stops on hover and focus, no autoplay with reduced motion) ----
+(function () {
+  const S = MEDIA.slides, n = S.length;
+  let i = 0, timer = null, wantPlay = false, held = false;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const KIND = l => /news|blog/i.test(l) ? "news" : /insight|research/i.test(l) ? "bulb" : /data|figure|stat/i.test(l) ? "chart" : /standard|policy/i.test(l) ? "layers" : /law|legal/i.test(l) ? "scale" :
+    /tool|kit/i.test(l) ? "wrench" : /learn|guide/i.test(l) ? "grad" : /community|event/i.test(l) ? "users" : /ai/i.test(l) ? "cpu" : /world|international/i.test(l) ? "globe" : "sparkle";
+  $("slides").innerHTML = S.map((s, k) => `<div class="slide" role="group" aria-roledescription="slide" aria-label="${k + 1} of ${n}: ${esc(s.label)}" id="sl${k}">
+    ${DQI(KIND(s.label), "glyph")}<span class="k">${DQI(KIND(s.label))}${esc(s.label)}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>
+    ${s.source ? `<span class="src">Source: <a href="${esc(s.source.url)}" rel="noopener">${esc(s.source.title)}</a>${s.date ? " · " + esc(s.date) : ""}</span>` : (s.date ? `<span class="src">${esc(s.date)}</span>` : "")}
+    <a class="go" href="${esc(s.link)}">${esc(s.cta)} ›</a></div>`).join("");
+  $("dots").innerHTML = S.map((s, k) => `<button type="button" aria-label="Show slide ${k + 1}: ${esc(s.title)}"></button>`).join("");
+  function go(k) {
+    i = (k + n) % n;
+    [...$("slides").children].forEach((el, j) => { const on = j === i; el.classList.toggle("on", on); el.setAttribute("aria-hidden", on ? "false" : "true");
+      el.querySelectorAll("a").forEach(a => { a.tabIndex = on ? 0 : -1; }); });
+    [...$("dots").children].forEach((b, j) => b.setAttribute("aria-current", j === i ? "true" : "false"));
+  }
+  // wantPlay: the viewer's choice (Play/Pause). held: hover or keyboard focus inside the carousel.
+  function sync() {
+    const on = wantPlay && !held;
+    clearInterval(timer); timer = on ? setInterval(() => go(i + 1), 8000) : null;
+    $("play").textContent = wantPlay ? "Pause" : "Play";
+    $("play").setAttribute("aria-label", wantPlay ? "Pause the slides" : "Play the slides");
+    $("slides").setAttribute("aria-live", on ? "off" : "polite");
+  }
+  $("prev").onclick = () => go(i - 1);
+  $("next").onclick = () => go(i + 1);
+  $("dots").addEventListener("click", e => { const b = e.target.closest("button"); if (b) go([...$("dots").children].indexOf(b)); });
+  $("play").onclick = () => { wantPlay = !wantPlay; sync(); };
+  const car = $("car");
+  car.addEventListener("mouseenter", () => { held = true; sync(); });
+  car.addEventListener("mouseleave", () => { held = car.contains(document.activeElement); sync(); });
+  car.addEventListener("focusin", () => { held = true; sync(); });
+  car.addEventListener("focusout", e => { if (!car.contains(e.relatedTarget)) { held = car.matches(":hover"); sync(); } });
+  go(0); wantPlay = !reduce; sync();
+})();
+
+// ---- Spotlight ----
+(function () {
+  const SP = MEDIA.spotlights;
+  let cur = 0;
+  const SPI = {"Story": "quote", "Use case": "target", "Case study": "quote", "Capability": "blocks", "Domain": "database", "Theme": "layers", "Topic": "bulb",
+    "Subject": "book", "Process": "refresh", "Workflow": "workflow"};
+  $("spotTypes").innerHTML = SP.map((s, k) => `<button type="button" aria-pressed="${k === 0}">${DQI(SPI[s.type] || "sparkle")}${esc(s.type)}</button>`).join("");
+  function draw() {
+    const s = SP[cur];
+    [...$("spotTypes").children].forEach((b, k) => b.setAttribute("aria-pressed", k === cur));
+    $("spotBody").innerHTML = `<h3>${esc(s.title)}</h3><p class="stand">${esc(s.standfirst)}</p><p class="story">${esc(s.story)}</p>
+      <ul>${s.try.map(([t, h]) => `<li><a href="${esc(h)}">${esc(t)}</a></li>`).join("")}</ul>`;
+  }
+  $("spotTypes").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; cur = [...$("spotTypes").children].indexOf(b); draw(); });
+  draw();
+})();
+
+// ---- Latest ----
+$("lKb").innerHTML = KBA.articles.slice(0, 4).map(a => `<li><a href="library.html#${esc(a.id)}">${esc(a.title)}</a><span>${esc(a.type)} · ${a.minutes} min</span></li>`).join("");
+$("lMedia").innerHTML = MEDIA.blog.slice(0, 3).map(b => `<li><a href="media.html#${esc(b.id)}">${esc(b.title)}</a><span>Blog · ${esc(b.date)}</span></li>`).join("") +
+  (MEDIA.govuk_blogs || []).slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 2).map(g => `<li><a href="${esc(g.url)}" rel="noopener">${esc(g.title)}</a><span>${esc(g.blog)} · ${esc(g.date)}</span></li>`).join("") +
+  MEDIA.podcasts.slice(0, 1).map(p => `<li><a href="${esc(p.url)}" rel="noopener">${esc(p.title)}</a><span>Podcast · ${esc(p.publisher)}</span></li>`).join("");
+$("lLib").innerHTML = MEDIA.library.filter(x => x.checked === "yes").slice(0, 4).map(x => `<li><a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a><span>${esc(x.type)} · ${esc(x.publisher)}</span></li>`).join("");
+const T = P.totals, M = P.metadata || {};
+
+const rows = [
+  ["Results as of", P.as_of], ["Assets measured", `${T.assets_measured} of ${T.assets}`], ["Rules meeting target", `${T.rules_met} of ${T.rules_total}`],
+  ["Open issues", `${T.open_issues}` + (T.issues_by_priority.Critical ? ` (${T.issues_by_priority.Critical} Critical)` : ` (${T.issues_by_priority.High} High)`)],
+  ["Overdue, escalated", `${T.overdue_issues}, ${T.escalations}`],
+];
+$("status").innerHTML = rows.map(r => `<div class="row"><span>${esc(r[0])}</span><b>${esc(r[1])}</b></div>`).join("");
+
+const TICON = {check: "check", assistant: "sparkle", frameworks: "layers", maturity: "gauge", guidance: "flag", learn: "grad", ai: "cpu", community: "users",
+  weaver: "weave", global: "globe", build: "blocks", commercial: "contract"};
+const TASKS = [
+  ["check", "Check a dataset", "Run checks on a CSV in your browser, including NHS numbers, NI numbers, postcodes, UPRNs and GSS codes.", "Nothing is uploaded"],
+  ["assistant", "Write rules in plain English", "Describe what good looks like; the AI assistant drafts and tests a rules file.", "AI drafts, rules decide"],
+  ["frameworks", "Find what applies to me", "Frameworks, standards and policies from the UK, devolved nations and abroad, side by side.", `${FW.length} frameworks · ${PK.length} packs`],
+  ["maturity", "See how mature we are", "Eight themes, five levels, and the next steps to move up.", "About 10 minutes"],
+  ["guidance", "Prioritise issues", "Score issues with the government's issues framework.", "Importance × impact"],
+  ["learn", "Learn data quality", "Pathways by role, modules, tutorials and a glossary.", "Awareness to Expert"],
+  ["ai", "Use AI safely", "Use cases, supplier questions, worked examples and the route to reuse.", "Assure before reuse"],
+  ["weaver", "Describe data once, publish everywhere", "The Metadata Weaver turns one record into DCAT, schema.org, CKAN, ODCS and CDA, and shows the gaps.", "Runs in your browser"],
+  ["commercial", "Put quality into contracts", "Supplier obligations, model clauses and tender questions, so the burden isn't on the taxpayer.", "20 model clauses"],
+  ["community", "Share and connect", "Contributions, networks, surveys and help requests.", "Moderated, no personal data"],
+  ["build", "Help us build this", "Vote on the roadmap, pick up a backlog item, or join a co-design session.", "Open to everyone"],
+];
+$("tasks").innerHTML = TASKS.map(([k, t, d, f]) => `<a class="tile" href="${k}.html"><h3>${DQI(TICON[k] || "arrow", "dqi-lg")}${esc(t)}</h3><p>${esc(d)}</p><span class="fig">${esc(f)}</span></a>`).join("");
+
+// find: a simple index of pages, frameworks and scenarios
+const pageLinks = [...document.querySelectorAll(".dqp-drop .dqp-grp a")].map(a => ({t: a.dataset.t, d: a.querySelector("small").textContent, h: a.getAttribute("href")}));
+const INDEX = [...pageLinks.map(p => ({...p, k: p.t + " " + p.d})),
+  ...FW.map(f => ({t: f.name, d: f.publisher, h: "frameworks.html#fw-" + f.id, k: [f.name, f.id, f.publisher, f.jurisdiction, f.sector, f.type].join(" ")})),
+  ...[["NHS number", "check.html"], ["National Insurance number", "check.html"], ["UPRN", "check.html"], ["Postcode", "check.html"], ["GSS code", "check.html"],
+      ["Critical data asset", "scenarios.html#dam"], ["Official statistics", "scenarios.html#stats"], ["Local government", "scenarios.html#local"], ["Health", "scenarios.html#health"],
+      ["Scotland", "scenarios.html#devolved"], ["Wales", "scenarios.html#devolved"], ["Northern Ireland", "scenarios.html#devolved"], ["Jersey", "global.html#cd"], ["Guernsey", "global.html#cd"], ["Isle of Man", "global.html#cd"],
+      ["Overseas Territories", "global.html#ot"], ["Commonwealth", "global.html#cw"], ["United Nations", "global.html#partners"], ["OECD", "global.html#partners"], ["Metadata", "weaver.html"], ["DCAT", "weaver.html"], ["Contact", "build.html#contact"], ["Roadmap", "build.html#roadmap"], ["Backlog", "build.html#backlog"], ["Geospatial", "scenarios.html#geo"],
+      ["Personal data accuracy", "scenarios.html#personal"], ["Survey", "surveys.html"], ["Help request", "surveys.html#commission"], ["Glossary", "learn.html#glossary"],
+      ["Wishlist", "build.html#wishlist"], ["Support", "operate.html"], ["Accessibility", "guide.html#accessibility"]].map(([t, h]) => ({t, d: "", h, k: t}))];
+$("fqList").innerHTML = INDEX.map(i => `<option value="${esc(i.t)}">`).join("");
+$("find").addEventListener("submit", e => {
+  e.preventDefault();
+  const q = $("fq").value.trim().toLowerCase(); if (!q) return;
+  const words = q.split(/\s+/), score = i => words.filter(w => i.k.toLowerCase().includes(w)).length + (i.t.toLowerCase() === q ? 5 : 0);
+  const best = INDEX.map(i => [score(i), i]).filter(([s]) => s).sort((a, b) => b[0] - a[0]);
+  if (best.length) location.href = best[0][1].h;
+  else $("quickgo").innerHTML = `<span class="small">Nothing matched. Try the <a href="guide.html">user guide</a> or <a href="assistant.html">ask the assistant</a>.</span>`;
+});
+$("quickgo").innerHTML = ["Check NHS numbers", "ISO 8000", "Wales", "Maturity", "AI"].map(q => `<button type="button">${esc(q)}</button>`).join("");
+$("quickgo").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { $("fq").value = b.textContent; $("find").requestSubmit(); } });
+
+const ROLES = {
+  "Data steward": [["check", "Run your rules", "Check a file in the browser, then take the rules file into the pipeline."], ["assistant", "Draft rules from plain English", "The assistant writes and tests the rules file for you to review."], ["guidance", "Score an issue", "Use the issues framework calculator to check a priority."]],
+  "Data owner": [["maturity", "Know where you stand", "A maturity self-assessment with next steps."], ["pipeline", "Decide on escalations", "Overdue High and Critical issues come to you."], ["share", "Share your story", "Turn results into a case study."]],
+  "Analyst or engineer": [["check", "Reuse the engine", "The same scoring in Python and the browser, checked case by case."], ["tooling", "Fit your platform", "Routes into Great Expectations, R, Fabric, Databricks and more."], ["learn", "Automate", "Tutorials for the pipeline and the MCP server for AI agents."]],
+  "Statistician": [["scenarios", "Official statistics", "Code of Practice, QAAD and ESS output quality, as packs."], ["frameworks", "Compare frameworks", "Clause by clause, with devolved and international comparisons."], ["learn", "Write quality statements", "Module on reporting quality and limitations."]],
+  "Chief data officer": [["maturity", "Benchmark maturity", "Eight themes, levels that sit beside the DMA."], ["baseline", "Resource the baseline", "Effort for critical data assets, with and without a shared kit."], ["about", "Mission and roadmap", "What the Commons will deliver, and when."]],
+  "AI or data science": [["ai", "Use AI safely", "Principles, use cases and the route from experiment to shared toolkit."], ["frameworks", "AI data readiness", "ISO/IEC 5259 pack: completeness, representativeness and currency."], ["assistant", "Try the assistant", "Generative drafting with deterministic checking."]],
+  "Voluntary or local": [["check", "Check data for free", "No install and nothing uploaded."], ["scenarios", "Your scenario", "Local government, voluntary sector, health and more."], ["surveys", "Ask for help", "Request an assessment, training or a peer review."]],
+};
+let role = "Data steward";
+try { role = localStorage.getItem("dqp-role") || role; } catch (e) {}
+if (!ROLES[role]) role = "Data steward";
+const label = h => (pageLinks.find(p => p.h === h + ".html") || {t: ""}).t;
+function drawRoles() {
+  $("roles").innerHTML = Object.keys(ROLES).map(r => `<button type="button" aria-pressed="${r === role}">${esc(r)}</button>`).join("");
+  $("route").innerHTML = ROLES[role].map(([p, t, w]) => `<a href="${p}.html"><b>${esc(t)}</b><span class="why">${esc(w)}</span><span class="small muted">${esc(label(p))} ›</span></a>`).join("");
+}
+$("roles").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; role = b.textContent; try { localStorage.setItem("dqp-role", role); } catch (er) {} drawRoles(); });
+drawRoles();
+
+const STEPS = [
+  ["Identify critical data", "Choose the assets and the data items that matter most.", "baseline", "Tier your assets"],
+  ["Identify rules", "Say what good looks like, with targets from the issues framework.", "check", "Build rules"],
+  ["Assess current quality", "Measure every rule and record a baseline.", "check", "Run a check"],
+  ["Prioritise and set goals", "Score each issue: importance × impact × how far below target.", "guidance", "Score an issue"],
+  ["Root cause and action", "Fix at source where you can; contain, correct and prevent.", "learn", "Learn root cause"],
+  ["Report", "Tell users: trust level, DQV metadata, quality statements.", "pipeline", "Downloads"],
+  ["Repeat over time", "Measure on a schedule; escalate what stays open too long.", "pipeline", "Escalations"],
+];
+$("cycle").innerHTML = STEPS.map((s, i) => `<div class="step"><span class="n">Step ${i + 1}</span><h3>${esc(s[0])}</h3><p>${esc(s[1])}</p><a href="${s[2]}.html">${esc(s[3])} ›</a></div>`).join("");
+
+$("scen").innerHTML = [["dam", "Critical data assets"], ["ndl", "National Data Library"], ["stats", "Official statistics"], ["health", "Health and care"], ["local", "Local government"],
+  ["devolved", "Scotland, Wales, NI"], ["world", "Crown Dependencies, Territories, Commonwealth"], ["geo", "Geospatial"], ["personal", "Personal data"], ["ai", "AI and ML"], ["open", "Open data"], ["vcse", "Voluntary sector"], ["platforms", "Your platform"]]
+  .map(([id, t]) => `<a class="chip acc" href="scenarios.html#${id}">${esc(t)}</a>`).join("");
+window.DQP_TOUR = [
+  {sel: "#find", title: "Find anything", text: "Type a task, framework, identifier or nation, and go straight there."},
+  {sel: "#car", title: "News and insights", text: "Latest news, insights and data. Use Pause, Previous and Next; the slides stop when you hover or tab into them."},
+  {sel: "#spot", title: "Spotlight", text: "A closer look at a capability, case study, theme, workflow, topic or domain. Choose one above the story."},
+  {sel: "#latest-h", title: "Library, knowledge base and media", text: "The newest articles, posts, podcasts and curated resources."},
+  {sel: "#tasks", title: "Common tasks", text: "The things people come here to do most often."},
+  {sel: "#roles", title: "Start from your role", text: "Three good first steps for each role."},
+  {sel: ".dqp-nav, .dqp-menu", title: "The menu", text: "Six groups in journey order, from 1 Start to 6 Contribute, each page marked Beginner, Intermediate or Advanced. Every page has its own tour."},
+  {sel: "#scen", title: "Scenarios", text: "Policies, sectors, nations and platforms, each with what applies and where to start."},
+];
+</script>

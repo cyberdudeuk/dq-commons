@@ -1,0 +1,7 @@
+Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
+Year,R1,unique,uniqueness,unique,3,4,12,99.9,100.0,2026-10-14
+Year,R2,type,validity,type,3,3,9,97.5,100.0,2026-10-14
+Mean number of days with moderate or above pollution,R3,range,accuracy,range,3,3,9,97.5,100.0,2026-10-14
+Year,R4,"Annual air quality statistics are usually published in spring, so the previous year should be present by autumn",timeliness,freshness,3,3,9,97.5,0.0,2026-10-14
+Year,R5,no_gaps,completeness,no_gaps,3,2,6,90.0,100.0,2026-10-14
+Mean number of days with moderate or above pollution,R6,header_has_unit,validity,header_has_unit,3,2,6,90.0,100.0,2026-10-14

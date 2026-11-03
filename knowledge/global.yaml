@@ -1,0 +1,286 @@
+# UK and the world: who the Commons is for beyond UK government, and the partners the UK works with.
+# Honesty rules: "checked: yes" means the source was read when added; "listed" means found by search, not yet read
+# in full (shown as "Not yet reviewed"). We never assume UK law or UK frameworks apply outside the UK.
+review:
+  last_reviewed: '2026-10-15'
+  owner_role: Content steward (international)
+summary: 'Data quality matters wherever public services are delivered. The Commons is open to the UK''s Crown Dependencies, Overseas Territories, Commonwealth partners, and the national, international and
+  supranational bodies the UK works with. Each has its own laws, constitution, statistics system and data protection rules. The toolkit is neutral: you choose the framework pack that fits where you are.'
+principles:
+- id: P1
+  title: Respect each jurisdiction
+  text: Crown Dependencies and Overseas Territories have their own constitutions, governments and laws. Nothing here assumes UK law, UK policy or UK frameworks apply to them.
+- id: P2
+  title: Your framework, your choice
+  text: 'Pick the pack that fits: a local code of practice, the UN national quality assurance framework, the IMF data quality framework, or the UK government framework.'
+- id: P3
+  title: Small teams first
+  text: Many small jurisdictions have a statistics office of a handful of people. Everything works in a browser, free, with no install and nothing uploaded.
+- id: P4
+  title: Share both ways
+  text: Good practice flows in every direction. Small island statistics offices, Commonwealth partners and international bodies are contributors, not only users.
+- id: P5
+  title: Data protection differs
+  text: Jersey, Guernsey and the Isle of Man have their own data protection laws, and the Overseas Territories have their own regimes. Check yours before sharing any personal data.
+- id: P6
+  title: No one left out
+  text: Smaller places are often missing from UK-wide data. The inclusion checks flag places and groups that disappear in totals.
+crown_dependencies:
+- id: JE
+  name: Jersey
+  iso: JE
+  stats_body: Statistics Jersey
+  stats_url: https://www.gov.je/statistics
+  code: Code of Practice for Statistics (2019)
+  code_url: https://www.gov.je/SiteCollectionDocuments/Government%20and%20administration/Code%20of%20Practice%20for%20Statistics%202019.pdf
+  dp: Data Protection (Jersey) Law 2018
+  checked: 'yes'
+- id: GG
+  name: Bailiwick of Guernsey
+  iso: GG
+  stats_body: States of Guernsey (Data and Analysis)
+  stats_url: https://www.gov.gg/
+  code: ''
+  code_url: ''
+  dp: The Data Protection (Bailiwick of Guernsey) Law, 2017
+  checked: 'yes'
+  url: https://www.gov.gg/
+  checked_on: '2026-10-30'
+- id: IM
+  name: Isle of Man
+  iso: IM
+  stats_body: Statistics Isle of Man
+  stats_url: https://www.gov.im/about-the-government/departments/cabinet-office/statistics-isle-of-man/
+  code: Code of Practice for Statistics (2023)
+  code_url: https://www.gov.im/media/1380246/2023-code-of-practice-for-statistics.pdf
+  dp: Data Protection Act 2018 (Isle of Man)
+  checked: 'yes'
+overseas_territories_source:
+  title: 'UK Overseas Territories: information paper (PCGN, December 2020)'
+  url: https://assets.publishing.service.gov.uk/media/5fe1ec2ed3bf7f3a3c5fb9b7/UKOTs_Information_Paper_Dec_2020.pdf
+  checked: 'yes'
+overseas_territories:
+- name: Anguilla
+  iso: AI
+  region: Caribbean
+- name: Bermuda
+  iso: BM
+  region: North Atlantic
+- name: British Antarctic Territory
+  iso: ''
+  region: Antarctica
+  note: No permanent population; scientific data
+- name: British Indian Ocean Territory
+  iso: IO
+  region: Indian Ocean
+- name: British Virgin Islands
+  iso: VG
+  region: Caribbean
+- name: Cayman Islands
+  iso: KY
+  region: Caribbean
+- name: Falkland Islands
+  iso: FK
+  region: South Atlantic
+- name: Gibraltar
+  iso: GI
+  region: Europe
+- name: Montserrat
+  iso: MS
+  region: Caribbean
+- name: Pitcairn, Henderson, Ducie and Oeno Islands
+  iso: PN
+  region: Pacific
+- name: St Helena, Ascension and Tristan da Cunha
+  iso: SH
+  region: South Atlantic
+- name: South Georgia and the South Sandwich Islands
+  iso: GS
+  region: South Atlantic
+  note: No permanent population
+- name: Sovereign Base Areas of Akrotiri and Dhekelia
+  iso: ''
+  region: Europe
+- name: Turks and Caicos Islands
+  iso: TC
+  region: Caribbean
+commonwealth:
+  summary: A voluntary association of 56 independent countries, supported by the Commonwealth Secretariat. Its Data Platform brings together datasets from sources such as the World Bank and IMF, with dashboards
+    and visualisations.
+  links:
+  - title: 'The Commonwealth: about us'
+    url: https://thecommonwealth.org/about-us
+    checked: 'yes'
+    checked_on: '2026-10-30'
+  - title: Commonwealth Data Platform
+    url: https://data.thecommonwealth.org/
+    checked: 'yes'
+
+# Bodies and frameworks the UK works with, by level. type: framework, network, body.
+partners:
+- id: un-fpos
+  level: International
+  type: framework
+  name: UN Fundamental Principles of Official Statistics
+  use: Ten principles behind every national statistics code, including relevance, impartiality and professional standards.
+  url: https://unstats.un.org/fpos/
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: un-nqaf
+  level: International
+  type: framework
+  name: United Nations National Quality Assurance Frameworks Manual for Official Statistics (2019)
+  use: A template quality framework any statistics office can adopt; useful for small offices without their own.
+  url: https://desapublications.un.org/publications/united-nations-quality-assurance-frameworks-manual
+  pack: un-nqaf
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: unsc
+  level: International
+  type: body
+  name: UN Statistical Commission
+  use: The top body of the global statistical system; endorsed the NQAF manual in 2019.
+  url: https://unstats.un.org/UNSDWebsite/statcom
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: imf-dqaf
+  level: International
+  type: framework
+  name: IMF Data Quality Assessment Framework and data standards (SDDS Plus)
+  use: Five quality dimensions plus prerequisites; the UK adheres to the IMF's highest data dissemination standard.
+  url: https://dsbb.imf.org/
+  pack: imf-dqaf
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: oecd
+  level: International
+  type: framework
+  name: OECD Recommendation of the Council on Good Statistical Practice
+  use: Good practice for national statistical systems, used in OECD peer reviews.
+  url: https://legalinstruments.oecd.org/en/instruments/OECD-LEGAL-0417
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: unece
+  level: International
+  type: network
+  name: UNECE High-Level Group for the Modernisation of Official Statistics
+  use: Shared models (GSBPM, GSIM) and quality work for modern statistics production.
+  url: https://unece.org/statistics/modernization-of-official-statistics
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: paris21
+  level: International
+  type: network
+  name: PARIS21
+  use: Capacity building for statistics in lower-income countries, including small island states.
+  url: https://www.paris21.org/
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: gpsdd
+  level: International
+  type: network
+  name: Global Partnership for Sustainable Development Data
+  use: Partnerships to fill data gaps for the Sustainable Development Goals.
+  url: https://www.data4sdgs.org/
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: who-score
+  level: International
+  type: framework
+  name: WHO SCORE for health data
+  use: Technical package to strengthen country health information systems and data quality.
+  url: https://www.who.int/data/data-collection-tools/score
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: digital-nations
+  level: International
+  type: network
+  name: Digital Nations
+  use: Leading digital governments sharing practice; its charter commits to user needs, open standards, open source and sharing.
+  url: https://www.leadingdigitalgovs.org/
+  pack: ''
+  checked: 'yes'
+- id: ogp
+  level: International
+  type: network
+  name: Open Government Partnership
+  use: The UK was a founding member in 2011; national action plans often include open data quality commitments.
+  url: https://www.opengovpartnership.org/members/united-kingdom/
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g7-dfft
+  level: International
+  type: network
+  name: G7 Data Free Flow with Trust
+  use: Trusted cross-border data flows; trust depends on known data quality and provenance.
+  url: https://www.oecd.org/en/about/programmes/data-free-flow-with-trust.html
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g20-dgi
+  level: International
+  type: network
+  name: G20 Data Gaps Initiative
+  use: Closing gaps in economic and financial statistics across G20 economies.
+  url: https://www.imf.org/en/News/Seminars/Conferences/g20-data-gaps-initiative
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: ess-cop
+  level: Supranational
+  type: framework
+  name: European Statistics Code of Practice
+  use: The EU's statistics code. Relevant for comparability and, through the Windsor Framework, some Northern Ireland data.
+  url: https://ec.europa.eu/eurostat/web/quality/european-quality-standards/european-statistics-code-of-practice
+  pack: ess-output-quality
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: coe-108
+  level: Supranational
+  type: framework
+  name: Council of Europe Convention 108+ (Convention 108 as amended by Protocol CETS No. 223)
+  use: The international data protection treaty, which includes data accuracy as a principle.
+  url: https://rm.coe.int/16808ac918
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: iso
+  level: International
+  type: body
+  name: ISO and IEC (ISO 8000, ISO/IEC 25012, ISO/IEC 5259)
+  use: International data quality standards, available as packs in the toolkit.
+  url: https://www.iso.org/standard/81745.html
+  pack: iso-8000-8
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: w3c
+  level: International
+  type: body
+  name: W3C (DCAT, DQV, CSVW, PROV)
+  use: Open web standards for describing data and its quality; used by the Metadata Weaver.
+  url: https://www.w3.org/TR/vocab-dcat-3/
+  pack: ''
+  checked: 'yes'
+- id: ireland
+  level: National
+  type: body
+  name: 'Ireland: Central Statistics Office'
+  use: Neighbour and partner; all-island data for Northern Ireland and Ireland needs comparable definitions and quality.
+  url: https://www.cso.ie/
+  pack: ''
+  checked: 'yes'
+  checked_on: '2026-10-30'
+how_to_join:
+- 'Use everything on the Commons now: no account, no cost, nothing uploaded.'
+- Choose a framework pack for your jurisdiction, or ask us to add one through Help us build this.
+- Share a case study or resource. Tell us your jurisdiction so others can find it.
+- Join a co-design session. We rotate times so people in different time zones can take part.
+- Translate or adapt content. Everything is open (OGL v3.0 and MIT), so you can reuse it locally.

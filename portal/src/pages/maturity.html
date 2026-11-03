@@ -1,0 +1,166 @@
+<title>Maturity Self-Assessment</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.theme{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.theme legend{font-weight:700;font-size:1.02rem;padding:0}
+.opts{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.opts label{display:grid;grid-template-columns:auto auto 1fr;gap:10px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:6px;cursor:pointer;font-size:.92rem}
+.opts label:hover{border-color:var(--accent)}
+.opts input{margin-top:4px;width:18px;height:18px}
+.opts input:checked+.lvl{background:var(--accent);color:var(--accent-fg)}
+.opts label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.lvl{font-family:var(--f-mono);font-size:.74rem;font-weight:700;padding:2px 7px;border-radius:4px;background:var(--sunk);white-space:nowrap}
+.res{display:grid;gap:16px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media (max-width:860px){.res{grid-template-columns:minmax(0,1fr)}}
+.radar{width:100%;max-width:420px;height:auto;justify-self:center}
+.radar text{font:600 11px var(--f-body);fill:var(--fg)}
+.next li{margin-bottom:6px}
+.sticky{position:sticky;bottom:0;background:var(--bg);padding:10px 0;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Do · Maturity self-assessment</span>
+  <h1>How mature is your organisation's data quality practice?</h1>
+  <p class="lede">For each of 8 themes, choose the statement closest to where you are today. You'll get a level for each theme, from Beginning to Mastering, and the next steps to move up. It takes about 10 minutes. Your answers stay in this browser.</p>
+  <p class="small muted">Level names match the Data Maturity Assessment for Government so you can put the results side by side. The themes and statements are the Commons' own, written for data quality. It is a self-assessment aid, not an official DMA.</p>
+</header>
+
+<form id="form" aria-describedby="formHelp"><p id="formHelp" class="sr-only">Each theme is a group of five options. Choose one per theme.</p><div style="display:flex;flex-direction:column;gap:14px" id="themes"></div>
+  <div class="sticky"><span id="answered" aria-live="polite" class="small"></span><button class="btn" type="submit">See my results</button><button class="btn ghost" type="button" id="reset">Start again</button></div>
+</form>
+
+<section id="results" aria-labelledby="res-h" hidden tabindex="-1">
+  <h2 id="res-h">Your results</h2>
+  <div class="res">
+    <svg class="radar" id="radar" viewBox="0 0 420 380" role="img" aria-labelledby="radarT"><title id="radarT">Maturity by theme</title></svg>
+    <div class="tbl"><table><thead><tr><th>Theme</th><th>Level</th></tr></thead><tbody id="resRows"></tbody></table></div>
+  </div>
+  <p id="overall"></p>
+  <h3>Your next steps</h3>
+  <p class="small muted">Starting with your lowest themes.</p>
+  <ol class="next" id="next"></ol>
+  <div class="actions" style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" type="button" id="copy">Copy results as text</button><button class="btn ghost" type="button" id="csv">Copy as CSV</button><span id="copyMsg" role="status" aria-live="polite" class="small"></span></div>
+  <textarea id="copyFallback" hidden aria-label="Results to copy"></textarea>
+  <div class="card" id="shareBox">
+    <h3>Help build the benchmark (optional)</h3>
+    <p class="small">Share your levels anonymously so everyone can compare with organisations like theirs. We record only your organisation type, nation and levels, never your name or organisation name. Averages are published only for groups of 5 or more.</p>
+    <div class="filters"><div class="field"><label for="bOrg">Organisation type</label><select id="bOrg"></select></div><div class="field"><label for="bNation">Nation</label><select id="bNation"></select></div>
+      <button class="btn" type="button" id="bShare">Share my levels</button></div>
+    <span id="bMsg" class="small" role="status" aria-live="polite"></span>
+  </div>
+</section>
+
+<section id="bench" aria-labelledby="bench-h">
+  <h2 id="bench-h">How organisations compare</h2>
+  <p class="small muted">Average level for each theme from organisations that chose to share, published by the Commons editors. Groups with fewer than 5 organisations are not shown.</p>
+  <div class="filters"><div class="field"><label for="bView">Compare with</label><select id="bView"><option value="all">All organisations</option></select></div></div>
+  <div class="tbl"><table><thead><tr><th>Theme</th><th class="num">Average level</th><th class="num">You</th></tr></thead><tbody id="benchRows"><tr><td colspan="3">No benchmark has been published yet.</td></tr></tbody></table></div>
+  <p class="small" id="benchN"></p>
+  <div class="card" id="benchAdmin" hidden><h3>Editors: count and publish the benchmark</h3>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" type="button" id="bCount">Count shared results</button><button class="btn" type="button" id="bPub" disabled>Publish</button></div><div id="bOut" class="small"></div></div>
+</section>
+</div>
+
+<script>
+const M = __K_MATURITY__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+let ans = store.get("dqc.maturity", {});
+$("themes").innerHTML = M.themes.map((t, ti) => `<fieldset class="theme"><legend>${ti + 1}. ${esc(t.name)}</legend><div class="opts">` +
+  t.statements.map((s, i) => `<label><input type="radio" name="${esc(t.id)}" value="${i + 1}"${ans[t.id] == i + 1 ? " checked" : ""}><span class="lvl">${esc(M.levels[i].name)}</span><span>${esc(s)}</span></label>`).join("") +
+  `</div></fieldset>`).join("");
+function count() { $("answered").textContent = `${Object.keys(ans).length} of ${M.themes.length} themes answered.`; }
+$("form").addEventListener("change", e => { if (e.target.type === "radio") { ans[e.target.name] = +e.target.value; store.set("dqc.maturity", ans); count(); } });
+count();
+$("reset").addEventListener("click", () => { ans = {}; store.set("dqc.maturity", ans); $("form").reset(); $("results").hidden = true; count(); });
+function radar(vals) {
+  const cx = 210, cy = 190, R = 130, n = vals.length, pt = (i, r) => [cx + r * Math.sin(2 * Math.PI * i / n), cy - r * Math.cos(2 * Math.PI * i / n)];
+  let g = "";
+  for (let l = 1; l <= 5; l++) g += `<polygon points="${vals.map((_, i) => pt(i, R * l / 5).join(",")).join(" ")}" fill="none" stroke="var(--line)"/>`;
+  vals.forEach((v, i) => { const [x, y] = pt(i, R), [lx, ly] = pt(i, R + 22);
+    g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/><text x="${lx}" y="${ly}" text-anchor="${Math.abs(lx - cx) < 10 ? "middle" : lx > cx ? "start" : "end"}" dominant-baseline="middle">${esc(v.short)}</text>`; });
+  g += `<polygon points="${vals.map((v, i) => pt(i, R * (v.n || 0) / 5).join(",")).join(" ")}" fill="var(--accent)" fill-opacity=".25" stroke="var(--accent)" stroke-width="2"/>`;
+  g += vals.map((v, i) => { const [x, y] = pt(i, R * (v.n || 0) / 5); return `<circle cx="${x}" cy="${y}" r="4" fill="var(--accent)"/>`; }).join("");
+  $("radar").innerHTML = `<title id="radarT">Maturity by theme: ${vals.map(v => `${v.name} ${v.n ? M.levels[v.n - 1].name : "not answered"}`).join("; ")}</title>` + g;
+}
+let lastText = "", lastCsv = "";
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+  const missing = M.themes.filter(t => !ans[t.id]);
+  if (missing.length) { $("answered").innerHTML = `<span class="msg err">Answer every theme first. Still to do: ${missing.map(t => esc(t.name)).join(", ")}.</span>`;
+    document.querySelector(`input[name="${missing[0].id}"]`).focus(); return; }
+  const vals = M.themes.map(t => ({id: t.id, name: t.name, short: t.name.split(/ and |,/)[0], n: ans[t.id]}));
+  radar(vals);
+  $("resRows").innerHTML = vals.map(v => `<tr><td>${esc(v.name)}</td><td><b>${v.n}</b> ${esc(M.levels[v.n - 1].name)}</td></tr>`).join("");
+  const avg = vals.reduce((a, v) => a + v.n, 0) / vals.length, low = Math.min(...vals.map(v => v.n));
+  $("overall").innerHTML = `Average <b>${avg.toFixed(1)}</b> out of 5. Your lowest themes hold the rest back, so start there.`;
+  const order = [...vals].sort((a, b) => a.n - b.n);
+  $("next").innerHTML = order.filter(v => v.n < 5).slice(0, 5).map(v => { const t = M.themes.find(x => x.id === v.id), s = t.next[v.n - 1];
+    return `<li><b>${esc(t.name)}</b> (${esc(M.levels[v.n - 1].name)} to ${esc(M.levels[v.n].name)}): <a href="${esc(s.link)}">${esc(s.text)}</a></li>`; }).join("") ||
+    `<li>You're at Mastering everywhere. Share how with the <a href="community.html">Commons</a>.</li>`;
+  lastText = `Data quality maturity self-assessment (${new Date().toISOString().slice(0, 10)})\n` + vals.map(v => `${v.name}: ${v.n} ${M.levels[v.n - 1].name}`).join("\n") + `\nAverage: ${avg.toFixed(1)}`;
+  lastCsv = "theme,level,level_name\n" + vals.map(v => `"${v.name}",${v.n},${M.levels[v.n - 1].name}`).join("\n");
+  $("results").hidden = false; $("results").focus(); drawBench();
+});
+async function copy(t) {
+  try { await navigator.clipboard.writeText(t); $("copyMsg").textContent = "Copied."; $("copyFallback").hidden = true; }
+  catch (e) { const f = $("copyFallback"); f.hidden = false; f.value = t; f.focus(); f.select(); $("copyMsg").textContent = "Copying isn't allowed here. The text is selected: press Ctrl+C (or Cmd+C)."; }
+}
+$("copy").addEventListener("click", () => copy(lastText)); $("csv").addEventListener("click", () => copy(lastCsv));
+// ---- benchmarking ----
+const SV = __K_SURVEYS__, SUPPRESS = 5;
+$("bOrg").innerHTML = SV.shared.org_type.options.map(o => `<option>${esc(o)}</option>`).join("");
+$("bNation").innerHTML = SV.shared.nation.options.map(o => `<option>${esc(o)}</option>`).join("");
+let db = null, uid = null, admin = false, bench = null, pending = null;
+const avg = rows => Object.fromEntries(M.themes.map(t => [t.id, Math.round(10 * rows.reduce((s, r) => s + (r.levels[t.id] || 0), 0) / rows.length) / 10]));
+function aggregate(rows) {
+  const out = {n: rows.length, groups: {}};
+  if (rows.length >= SUPPRESS) out.groups.all = {label: "All organisations", n: rows.length, themes: avg(rows)};
+  const by = (key, prefix) => { const g = {}; rows.forEach(r => (g[r[key]] = g[r[key]] || []).push(r));
+    Object.entries(g).forEach(([k, rs]) => { if (rs.length >= SUPPRESS) out.groups[prefix + k] = {label: k, n: rs.length, themes: avg(rs)}; }); };
+  by("org_type", "org:"); by("nation", "nation:");
+  return out;
+}
+function drawBench() {
+  if (!bench || !Object.keys(bench.groups || {}).length) { $("benchRows").innerHTML = `<tr><td colspan="3">${bench ? "Not enough organisations have shared yet (5 or more are needed)." : "No benchmark has been published yet."}</td></tr>`; return; }
+  const cur = $("bView").value in bench.groups ? $("bView").value : Object.keys(bench.groups)[0];
+  $("bView").innerHTML = Object.entries(bench.groups).map(([k, g]) => `<option value="${esc(k)}"${k === cur ? " selected" : ""}>${esc(g.label)} (${g.n})</option>`).join("");
+  const g = bench.groups[cur];
+  $("benchRows").innerHTML = M.themes.map(t => { const a = g.themes[t.id], me = ans[t.id];
+    return `<tr><td>${esc(t.name)}</td><td class="num">${a} <span class="small muted">${esc(M.levels[Math.max(0, Math.round(a) - 1)].name)}</span></td><td class="num">${me ? `${me}${me > a ? " ▲" : me < a ? " ▼" : ""}` : "–"}</td></tr>`; }).join("");
+  $("benchN").textContent = `Based on ${g.n} organisations. Published ${String(bench.published || "").slice(0, 10)}. ▲ above average, ▼ below.`;
+}
+$("bView").addEventListener("change", drawBench);
+$("bShare").addEventListener("click", async () => {
+  if (M.themes.some(t => !ans[t.id])) { $("bMsg").innerHTML = `<span class="msg err">Answer every theme first.</span>`; return; }
+  if (!db || !uid) { $("bMsg").textContent = "Sharing works on the Commons site on claude.ai, when you're signed in."; return; }
+  try {
+    const ref = db.doc(`responses/${uid}`), snap = await ref.get(), cur = snap.exists ? snap.data() : {};
+    await ref.set({...cur, s_maturity: {org_type: $("bOrg").value, nation: $("bNation").value, levels: {...ans}, at: new Date().toISOString().slice(0, 10)}});
+    $("bMsg").innerHTML = `<span class="msg ok">Thank you. Your levels are shared anonymously. Sharing again replaces them.</span>`;
+  } catch (er) { $("bMsg").innerHTML = `<span class="msg err">They couldn't be shared (${esc(er.code || er.message)}).</span>`; }
+});
+$("bCount").addEventListener("click", async () => {
+  const snap = await db.collection("responses").get();
+  const rows = snap.docs.map(d => (d.data() || {}).s_maturity).filter(r => r && r.levels);
+  pending = aggregate(rows);
+  $("bOut").textContent = `${rows.length} organisations have shared. Groups shown: ${Object.values(pending.groups).map(g => `${g.label} (${g.n})`).join(", ") || "none yet (each needs 5 or more)"}.`;
+  $("bPub").disabled = !Object.keys(pending.groups).length;
+});
+$("bPub").addEventListener("click", async () => { await db.doc("results/maturity").set({...pending, published: new Date().toISOString()}); $("bOut").textContent += " Published."; $("bPub").disabled = true; });
+(async () => {
+  if (!window.claude || typeof claude.use !== "function") return;
+  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d; if (!db) return;
+  if (user) { uid = await user.id(); admin = await user.canEdit(); }
+  if (admin) $("benchAdmin").hidden = false;
+  db.doc("results/maturity").onSnapshot(s => { bench = s.exists ? s.data() : null; drawBench(); });
+})();
+window.DQP_TOUR = [
+  {sel: "#themes .theme", title: "One theme at a time", text: "Choose the statement that best describes you today, not where you'd like to be."},
+  {sel: ".sticky", title: "See your results", text: "When every theme is answered, see your level per theme and the next steps."},
+  {sel: "#bench", title: "Compare", text: "See average levels for all organisations, or for your sector or nation, from those who chose to share."},
+];
+</script>

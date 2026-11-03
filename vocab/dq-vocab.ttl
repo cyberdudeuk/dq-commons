@@ -1,0 +1,539 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dqv: <http://www.w3.org/ns/dqv#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix ndq: <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#> .
+
+ndq:GovernmentDataQualityFramework a dqv:Category, skos:ConceptScheme ;
+    skos:prefLabel "Data quality dimensions (DAMA UK, Government Data Quality Framework, plus extensions)"@en ;
+    dct:license <https://opensource.org/licenses/MIT> .
+
+ndq:IssueTypes a skos:ConceptScheme ;
+    skos:prefLabel "Cross-government data quality issue types"@en ;
+    dct:source "MHCLG planning data specification, GOV.UK DAM policy and DQAP guidance, NHS England QAFDL"@en .
+
+ndq:completeness a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Completeness"@en ;
+    skos:definition "The proportion of stored data against the potential of being 100% complete."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:uniqueness a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Uniqueness"@en ;
+    skos:definition "Nothing will be recorded more than once based upon how that thing is identified."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:consistency a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Consistency"@en ;
+    skos:definition "The absence of difference when comparing two or more representations of a thing against a definition."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:timeliness a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Timeliness"@en ;
+    skos:definition "The degree to which data represent reality from the required point in time."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:validity a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Validity"@en ;
+    skos:definition "Data are valid if they conform to the syntax (format, type, range) of their definition."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:accuracy a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Accuracy"@en ;
+    skos:definition "The degree to which data correctly describe the real-world object or event being described."@en ;
+    dct:source "DAMA UK / Government Data Quality Framework"@en .
+
+ndq:representativeness a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Representativeness"@en ;
+    skos:definition "The degree to which data cover, and are equally good for, every group of people they describe. Extension proposed by this project; not one of the six DAMA UK dimensions."@en ;
+    dct:source "This project (inclusion extension)"@en .
+
+ndq:metadata a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Metadata quality"@en ;
+    skos:definition "The degree to which an asset is described well enough to find, understand, trust and reuse it. Covers GOV.UK critical data asset metadata and DAM policy duties."@en ;
+    dct:source "This project (from GOV.UK DAM policy and CDA metadata guidance)"@en .
+
+ndq:relevance a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Relevance"@en ;
+    skos:definition "Whether the data meets the needs of users. ESS 'plus' dimension, assessed mainly by qualitative evidence."@en ;
+    dct:source "European Statistical System quality framework (used in the IOPC data trust scales)"@en .
+
+ndq:coherence-comparability a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Coherence and comparability"@en ;
+    skos:definition "Whether the data is coherent with other sources and comparable over time and between areas. ESS 'plus' dimension."@en ;
+    dct:source "European Statistical System quality framework (used in the IOPC data trust scales)"@en .
+
+ndq:accessibility-clarity a dqv:Dimension, skos:Concept ;
+    skos:inScheme ndq:GovernmentDataQualityFramework ;
+    dqv:inCategory ndq:GovernmentDataQualityFramework ;
+    skos:prefLabel "Accessibility and clarity"@en ;
+    skos:definition "Whether the data is clear, released in a convenient form, and has supporting metadata and guidance. ESS 'plus' dimension."@en ;
+    dct:source "European Statistical System quality framework (used in the IOPC data trust scales)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/missing-value> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Missing value"@en ;
+    skos:definition "A required field is blank for a record."@en ;
+    skos:broader ndq:completeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "missing value"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/missing-field> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Missing field"@en ;
+    skos:definition "A required field is absent from the file."@en ;
+    skos:broader ndq:completeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/unexplained-gap> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Unexplained gap in a series"@en ;
+    skos:definition "A time or area series has a missing period or area with no explanation."@en ;
+    skos:broader ndq:completeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/duplicate-record> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Duplicate record"@en ;
+    skos:definition "The same thing is recorded more than once."@en ;
+    skos:broader ndq:uniqueness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "DQAP implementation guide"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/duplicate-reference> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Reference not unique"@en ;
+    skos:definition "Two or more records share an identifier that should be unique."@en ;
+    skos:broader ndq:uniqueness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "reference values are not unique"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/invalid-type> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Invalid data type"@en ;
+    skos:definition "A value cannot be read as its declared type (number, date, flag, URI)."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "invalid integer / invalid decimal / invalid date / invalid flag / invalid URI"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/pattern-mismatch> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Value does not match pattern"@en ;
+    skos:definition "A value does not follow its required format, for example a code pattern."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/invalid-category> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Invalid category value"@en ;
+    skos:definition "A value is not in the agreed list of allowed values."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "invalid category value"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/invalid-geometry> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Invalid geometry"@en ;
+    skos:definition "A shape or coordinate cannot be processed."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "invalid geometry - not fixable"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/out-of-range> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Value out of range"@en ;
+    skos:definition "A number is smaller or larger than its allowed range."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "too small / too large"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/future-date> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Date in the future"@en ;
+    skos:definition "A date that cannot be in the future is in the future."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "future entry-date"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/implausible-date> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Implausible date"@en ;
+    skos:definition "A date is too far in the past or future to be credible."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "far-past-date / far-future-date"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/out-of-bounds> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Location out of bounds"@en ;
+    skos:definition "Coordinates fall outside the expected area."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "WGS84 out of bounds of England"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/cross-field-inconsistency> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Fields disagree"@en ;
+    skos:definition "Two fields in the same record contradict each other."@en ;
+    skos:broader ndq:consistency ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/totals-mismatch> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Parts do not add up"@en ;
+    skos:definition "Parts do not sum to the stated total, or shares exceed 100%."@en ;
+    skos:broader ndq:consistency ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/reference-mismatch> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Reference not found"@en ;
+    skos:definition "A value refers to something that does not exist in its reference list."@en ;
+    skos:broader ndq:consistency ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "missing associated entity"@en ;
+    dct:source "MHCLG planning data specification"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/stale-data> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Data out of date"@en ;
+    skos:definition "The latest period in the data is older than the update frequency allows."@en ;
+    skos:broader ndq:timeliness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/late-publication> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Late publication"@en ;
+    skos:definition "A release arrived after its scheduled date."@en ;
+    skos:broader ndq:timeliness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/undocumented-measure> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Measure not described"@en ;
+    skos:definition "A column has no unit, measure definition or reference period, so values can be misread."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/characteristic-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Protected characteristic not recorded"@en ;
+    skos:definition "A field for a protected characteristic or need is blank."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/characteristic-defaulted> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Protected characteristic defaulted or unknown"@en ;
+    skos:definition "A protected characteristic holds a default, 'unknown' or 'not stated' value."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/group-disparity> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Quality differs between groups"@en ;
+    skos:definition "A quality measure is materially worse for one group of people than for others."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "NHS England QAFDL fairness criteria"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/undercoverage> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Population undercoverage"@en ;
+    skos:definition "Some people or places the data should describe are missing."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/owner-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "No named data owner"@en ;
+    skos:definition "The asset does not name an accountable owner organisation or role."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "GOV.UK DAM policy"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/dqap-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "No data quality action plan or equivalent"@en ;
+    skos:definition "No DQAP, quality statement or methodology is published or linked."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 4 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "GOV.UK DAM policy"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/review-overdue> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Metadata review overdue"@en ;
+    skos:definition "The record has not been reviewed in the last 12 months."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/frequency-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Update frequency not stated"@en ;
+    skos:definition "Users cannot tell how often the data is refreshed."@en ;
+    skos:broader ndq:timeliness ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "NDL curation criteria"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/temporal-coverage-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Time period not stated"@en ;
+    skos:definition "The period the data covers is not stated (temporalCoverage)."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/geography-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Geography not stated"@en ;
+    skos:definition "The places the data covers are not stated."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/created-date-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Creation date not stated"@en ;
+    skos:definition "The dateCreated property is not recorded."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/version-info-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Version information missing"@en ;
+    skos:definition "The expires and supersededBy properties are not recorded."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/schema-not-declared> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Schema or standard not declared"@en ;
+    skos:definition "The conformsTo property is not recorded, so structure cannot be checked."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/classification-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Security classification not stated"@en ;
+    skos:definition "The securityClassification property is not recorded."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/licence-not-specific> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Licence not stated for the asset"@en ;
+    skos:definition "Only a site-wide licence applies; the asset's own licence is not stated."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/access-unclear> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Access rights unclear"@en ;
+    skos:definition "It is not clear whether access is open, charged or restricted."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "GOV.UK CDA metadata guidance"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/link-publisher-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Link has no named publisher"@en ;
+    skos:definition "A data link does not say who publishes it."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "NDL curation criteria"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/not-machine-readable> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "No machine-readable format"@en ;
+    skos:definition "Data is only offered as PDF, web pages or dashboards."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project (FAIR / MQA-style)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/no-api> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "No API"@en ;
+    skos:definition "No programmatic access is offered."@en ;
+    skos:broader ndq:metadata ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project (FAIR / MQA-style)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/methodology-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Methodology not linked"@en ;
+    skos:definition "No methodology or quality information is linked."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "Code of Practice for Statistics / QAAD"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/caveats-missing> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Quality caveats not stated"@en ;
+    skos:definition "Known limitations are not described."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "DQAP step 6 (report on data quality)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/content-error> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Error on the page"@en ;
+    skos:definition "The page contains a factual error, for example a wrong organisation name."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "This project"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/breakdowns-not-stated> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Breakdowns by people not stated"@en ;
+    skos:definition "For data about people, the page does not say which groups can be compared."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/nations-not-covered> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "UK nations not signposted"@en ;
+    skos:definition "Data covers part of the UK and does not point users to the other nations."@en ;
+    skos:broader ndq:representativeness ;
+    ndq:appliesTo "metadata"@en ;
+    ndq:defaultImpact 1 ;
+    ndq:responsibility "platform"@en ;
+    dct:source "This project (inclusion)"@en .
+
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/invalid-identifier> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Invalid identifier"@en ;
+    skos:definition "An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation."@en ;
+    skos:broader ndq:validity ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 3 ;
+    ndq:responsibility "provider"@en ;
+    dct:source "This project"@en .

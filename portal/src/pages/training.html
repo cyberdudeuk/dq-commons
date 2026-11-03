@@ -1,0 +1,134 @@
+<title>Skills and Training</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.roles button{font:inherit;font-size:.9rem;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer}
+.roles button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.sk{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,2fr);gap:10px 16px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+@media (max-width:760px){.sk{grid-template-columns:minmax(0,1fr)}}
+.sk h3{font-size:.98rem;display:flex;gap:8px;align-items:center}
+.sk p{font-size:.84rem;color:var(--muted)}
+.lv{display:flex;flex-wrap:wrap;gap:4px;border:0;padding:0;margin:0}
+.lv label{display:inline-flex;align-items:center;gap:5px;font-size:.84rem;padding:6px 10px;border:1px solid var(--line);border-radius:6px;cursor:pointer;background:var(--bg)}
+.lv label:has(input:checked){border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.lv label.tgt{box-shadow:inset 0 -3px 0 var(--warn)}
+.gap{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.gap .card h3{display:flex;gap:8px;align-items:center}
+.bars{display:flex;flex-direction:column;gap:6px}
+.cat{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+.cat .card h3{display:flex;gap:8px;align-items:flex-start}
+.cat .card .meta{display:flex;flex-wrap:wrap;gap:6px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Know · Skills and training</span>
+  <h1>Grow your data quality skills</h1>
+  <p class="lede">Check your skills against your role, see your gaps, and find training that fills them: free courses first, then paid courses and qualifications. Skills follow the Government Digital and Data (GDaD) capability framework (see also <a href="professions.html">every profession</a>), and link to the Commons' own learning pathway.</p>
+  <nav class="toc" aria-label="On this page"><a href="#assess">Skills check</a><a href="#plan">Your plan</a><a href="#catalogue">Training catalogue</a><a href="#develop">Developing a team</a><a href="learn.html">Learn pathway</a><a href="events.html">Events</a></nav>
+</header>
+
+<section id="assess" aria-labelledby="a-h">
+  <h2 id="a-h">1. Skills check</h2>
+  <p class="small">Choose your role, then pick the level that fits you for each skill. The orange line marks your role's target level. Your answers stay in this browser.</p>
+  <div class="roles" id="roles" role="group" aria-label="Your role"></div>
+  <div id="skills" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div>
+</section>
+
+<section id="plan" aria-labelledby="p-h">
+  <h2 id="p-h">2. Your plan</h2>
+  <div class="bars" id="bars"></div>
+  <p id="sum" aria-live="polite"></p>
+  <div class="gap" id="gaps"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" type="button" id="dl">Download my development plan</button><span class="small muted" id="dlMsg" role="status" aria-live="polite">A plain text plan with your gaps and suggested training. No personal details.</span></div>
+</section>
+
+<section id="catalogue" aria-labelledby="c-h">
+  <h2 id="c-h">3. Training catalogue</h2>
+  <p class="small">Every entry links to its provider. "Not yet reviewed" means we found it but haven't read the provider's page in full. Free options come first.</p>
+  <div class="filters">
+    <div class="field"><label for="cs">Skill</label><select id="cs"></select></div>
+    <div class="field"><label for="cl">Level</label><select id="cl"></select></div>
+    <div class="field"><label for="cc">Cost</label><select id="cc"><option value="">Any</option><option value="free">Free</option><option value="paid">Paid</option><option value="not stated">Not stated</option></select></div>
+    <div class="field"><label for="ck">Kind</label><select id="ck"><option value="">Any</option><option value="course">Course</option><option value="pathway">Pathway</option><option value="qualification">Qualification</option><option value="guidance">Guidance</option></select></div>
+  </div>
+  <p class="small muted" id="cn" role="status" aria-live="polite"></p>
+  <div class="cat" id="cat"></div>
+  <p class="small">Know a good course? <a href="build.html#contact">Tell us</a>, or see training dates on <a href="events.html">Events</a>.</p>
+</section>
+
+<section id="develop" aria-labelledby="d-h"><h2 id="d-h">Developing a team</h2><div class="grid" id="dev"></div></section>
+</div>
+
+<script>
+const T = __K_TRAINING__, L = __K_LEARNING__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+const LV = ["Not yet", ...T.levels], lvIdx = l => LV.indexOf(l);
+const SI = {"SK-ASSESS": "check", "SK-ACTION": "flag", "SK-GOV": "shield", "SK-META": "weave", "SK-STAT": "chart", "SK-PROT": "lock", "SK-ENG": "workflow", "SK-AI": "cpu", "SK-INC": "eye", "SK-COMM": "contract"};
+const modsById = Object.fromEntries(L.modules.map(m => [m.id, m]));
+let role = store.get("dqc.learn.role", L.roles[0].id); if (!L.roles.some(r => r.id === role)) role = L.roles[0].id;
+let mine = store.get("dqc.skills", {});
+// a role needs a skill if any module on its pathway teaches it; its target is the role's target level
+const needs = r => T.skills.filter(s => s.modules.some(m => (modsById[m]?.roles || []).includes(r.id)));
+const R = () => L.roles.find(r => r.id === role);
+$("roles").innerHTML = L.roles.map(r => `<button type="button" data-r="${esc(r.id)}" aria-pressed="${r.id === role}">${esc(r.name)}</button>`).join("");
+$("roles").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; role = b.dataset.r; store.set("dqc.learn.role", role); drawSkills(); plan(); });
+function drawSkills() {
+  [...$("roles").children].forEach(b => b.setAttribute("aria-pressed", b.dataset.r === role));
+  const need = new Set(needs(R()).map(s => s.id)), tgt = R().level;
+  $("skills").innerHTML = T.skills.map(s => `<div class="sk" id="${esc(s.id)}"><div><h3>${DQI(SI[s.id] || "bulb")}${esc(s.name)}${need.has(s.id) ? ' <span class="chip acc">Your role</span>' : ""}</h3><p>${esc(s.what)} Closest GDaD skills: ${esc(s.ddat)}.</p></div>
+    <fieldset class="lv"><legend class="sr-only">Your level in ${esc(s.name)}</legend>${LV.map(l => `<label class="${need.has(s.id) && l === tgt ? "tgt" : ""}"><input type="radio" name="${esc(s.id)}" value="${esc(l)}"${(mine[s.id] || "Not yet") === l ? " checked" : ""}>${esc(l)}${need.has(s.id) && l === tgt ? '<span class="sr-only"> (your role\'s target)</span>' : ""}</label>`).join("")}</fieldset></div>`).join("");
+}
+$("skills").addEventListener("change", e => { if (e.target.type === "radio") { mine[e.target.name] = e.target.value; store.set("dqc.skills", mine); plan(); } });
+const courseFor = s => T.courses.filter(c => c.skills.includes(s.id)).sort((a, b) => ["free", "not stated", "paid"].indexOf(a.cost_band) - ["free", "not stated", "paid"].indexOf(b.cost_band));
+function gapsNow() {
+  const tgt = lvIdx(R().level);
+  return needs(R()).map(s => ({s, have: lvIdx(mine[s.id] || "Not yet"), tgt})).filter(x => x.have < x.tgt);
+}
+function plan() {
+  const need = needs(R()), tgt = lvIdx(R().level), G = gapsNow();
+  $("bars").innerHTML = need.map(s => { const have = lvIdx(mine[s.id] || "Not yet"), pct = Math.round(100 * Math.min(have, tgt) / tgt);
+    return `<div class="bar-h"><span style="min-width:min(260px,45%)">${esc(s.name)}</span><span class="track" role="img" aria-label="${esc(mine[s.id] || "Not yet")} of target ${esc(R().level)}"><i style="width:${pct}%"></i></span><b>${pct}%</b></div>`; }).join("");
+  $("sum").innerHTML = `<b>${esc(R().name)}</b>: ${need.length} skills, target level <b>${esc(R().level)}</b>. ` + (G.length ? `${G.length} gap${G.length === 1 ? "" : "s"} to work on.` : "No gaps: well done. Consider mentoring others or the next level.");
+  $("gaps").innerHTML = G.map(({s}) => { const cs = courseFor(s).slice(0, 3);
+    return `<div class="card"><h3>${DQI(SI[s.id] || "bulb")}${esc(s.name)}</h3><p class="small">Commons modules: ${s.modules.map(m => `<a href="learn.html#${esc(m)}">${esc(m.toUpperCase())} ${esc(modsById[m]?.title || "")}</a>`).join("; ")}</p>
+      <ul class="plain small">${cs.map(c => `<li><a href="${esc(c.url)}"${c.url.startsWith("http") ? ' rel="noopener"' : ""}>${esc(c.title)}</a> · ${esc(c.provider)} · ${esc(c.cost)}</li>`).join("")}</ul></div>`; }).join("");
+}
+$("dl").onclick = async () => {
+  const G = gapsNow(), lines = [`My data quality development plan (${new Date().toISOString().slice(0, 10)})`, `Role: ${R().name}. Target level: ${R().level}.`, ""];
+  if (!G.length) lines.push("No gaps against my role's target level.");
+  G.forEach(({s}) => { lines.push(`* ${s.name} (now: ${mine[s.id] || "Not yet"})`); s.modules.forEach(m => lines.push(`  - Commons module ${m.toUpperCase()}: ${modsById[m]?.title || ""}`));
+    courseFor(s).slice(0, 3).forEach(c => lines.push(`  - ${c.title} (${c.provider}, ${c.cost}): ${c.url.startsWith("http") ? c.url : "Commons portal: " + c.url}`)); lines.push(""); });
+  lines.push("From the Public Sector Data Quality Commons. Skills follow the GDaD capability framework.");
+  const text = lines.join("\n"), name = "dq-development-plan.txt";
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("dlMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("dlMsg").textContent = "Downloaded."; }
+  catch (e) { $("dlMsg").textContent = "Downloading isn't allowed here."; }
+};
+$("cs").innerHTML = `<option value="">Any</option>` + T.skills.map(s => `<option value="${esc(s.id)}">${esc(s.name)}</option>`).join("");
+$("cl").innerHTML = `<option value="">Any</option>` + T.levels.map(l => `<option>${esc(l)}</option>`).join("");
+const KIND = {course: "grad", pathway: "workflow", qualification: "filecheck", guidance: "book"};
+function cat() {
+  const s = $("cs").value, l = $("cl").value, c = $("cc").value, k = $("ck").value;
+  const list = T.courses.filter(x => (!s || x.skills.includes(s)) && (!l || x.level === l) && (!c || x.cost_band === c) && (!k || x.kind === k))
+    .sort((a, b) => ["free", "not stated", "paid"].indexOf(a.cost_band) - ["free", "not stated", "paid"].indexOf(b.cost_band));
+  $("cn").textContent = `${list.length} of ${T.courses.length} shown.`;
+  $("cat").innerHTML = list.map(x => `<article class="card" id="${esc(x.id)}"><h3>${DQI(KIND[x.kind] || "grad", "dqi-lg")}<a href="${esc(x.url)}"${x.url.startsWith("http") ? ' rel="noopener"' : ""}>${esc(x.title)}</a></h3>
+    <div class="meta"><span class="chip acc">${esc(x.kind)}</span><span class="chip">${esc(x.level)}</span><span class="chip ${x.cost_band === "free" ? "good" : ""}">${esc(x.cost)}</span>${x.checked === "yes" ? "" : '<span class="chip warn">Not yet reviewed</span>'}</div>
+    <p class="small">${esc(x.provider)}. ${esc(x.format)}.</p><p class="small muted">For: ${esc(x.audience)}</p>
+    <p class="small">Skills: ${x.skills.map(id => esc((T.skills.find(s => s.id === id) || {}).name || id)).join(", ")}</p></article>`).join("") || "<p>Nothing matches.</p>";
+}
+["cs", "cl", "cc", "ck"].forEach(id => $(id).addEventListener("input", cat));
+$("dev").innerHTML = T.development.map(d => `<div class="card"><h3>${esc(d.title)}</h3><p class="small">${esc(d.text)}</p></div>`).join("");
+drawSkills(); plan(); cat();
+if (location.hash && document.querySelector(location.hash)) setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 50);
+window.DQP_TOUR = [
+  {sel: "#roles", title: "Your role", text: "Your role sets which skills matter and the target level."},
+  {sel: "#skills .sk", title: "Rate yourself", text: "Pick your level for each skill. The orange line is your role's target."},
+  {sel: "#plan", title: "Your plan", text: "Gaps, with Commons modules and courses that fill them. Download it as a plan."},
+  {sel: "#catalogue .filters", title: "Training catalogue", text: "Filter by skill, level, cost and kind. Free options first."},
+];
+</script>

@@ -1,0 +1,26 @@
+# Portfolio file for the National Data Library (NDL) chart data assets.
+# Run it with:  python -m dqkit run portfolio.ndl.yaml --out assessments/portfolio
+# Format: dqkit/portfolio.schema.json. Paths are relative to this file; history_dir is relative to the output folder.
+portfolio:
+  id: ndl-charts
+  title: National Data Library chart data
+  owner: National Data Library team
+defaults:
+  target_policy: low
+  packs: [uk-dam-cda, ndl-curation, uk-gdqf]   # framework and scenario packs to assess every asset against
+  out_dir: assessments/portfolio
+  history_dir: history          # i.e. assessments/portfolio/history
+assets:
+  - {rules: rules/ndl/births.yaml, data: assessments/ndl/chart-data/people__births.csv, schedule: quarterly, tags: [people]}
+  - {rules: rules/ndl/childhood-vaccinations.yaml, data: assessments/ndl/chart-data/early-years__childhood-vaccinations.csv, schedule: quarterly, tags: [early-years, health]}
+  - {rules: rules/ndl/road-traffic.yaml, data: assessments/ndl/chart-data/transport__road-traffic.csv, schedule: quarterly, tags: [transport]}
+  - {rules: rules/ndl/air-quality.yaml, data: assessments/ndl/chart-data/environment__air-quality.csv, schedule: quarterly, tags: [environment]}
+  - {rules: rules/ndl/election-results.yaml, data: assessments/ndl/chart-data/government-and-parliament__election-results.csv, schedule: quarterly, tags: [government-and-parliament]}
+  - {rules: rules/ndl/mot-results.yaml, data: assessments/ndl/chart-data/transport__mot-results.csv, schedule: quarterly, tags: [transport]}
+  - {rules: rules/ndl/council-tax.yaml, data: assessments/ndl/chart-data/government-and-parliament__council-tax-statistics.csv, schedule: quarterly, tags: [government-and-parliament]}
+  - {rules: rules/ndl/social-mobility.yaml, data: assessments/ndl/chart-data/people__social-mobility.csv, schedule: quarterly, tags: [people]}
+notify:
+  escalate_priorities: [Critical, High]
+  escalate_when: overdue        # escalate once an issue is open longer than the issues framework allows
+metadata:
+  records: assessments/ndl/harvest.jsonl   # the 84 NDL curated data pages

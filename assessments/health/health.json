@@ -1,0 +1,79 @@
+{
+  "as_of": "2026-10-30",
+  "version": "1.6.0",
+  "counts": {
+    "error": 0,
+    "warning": 0,
+    "note": 1
+  },
+  "verification": {
+    "by_file": {
+      "commercial.yaml": {
+        "read_in_full": 8,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "communities.yaml": {
+        "read_in_full": 21,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "events.yaml": {
+        "read_in_full": 9,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "frameworks.yaml": {
+        "read_in_full": 30,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "global.yaml": {
+        "read_in_full": 24,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "interop.yaml": {
+        "read_in_full": 9,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "legacy.yaml": {
+        "read_in_full": 3,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "media.yaml": {
+        "read_in_full": 37,
+        "not_yet": 0,
+        "ratio": 100.0
+      },
+      "training.yaml": {
+        "read_in_full": 13,
+        "not_yet": 0,
+        "ratio": 100.0
+      }
+    },
+    "read_in_full": 154,
+    "total": 154,
+    "ratio": 100.0
+  },
+  "checks": [
+    "review dates",
+    "freshness",
+    "verification",
+    "personal or sensitive data",
+    "duplicates",
+    "links",
+    "claims match the data",
+    "plain and inclusive language"
+  ],
+  "items": [
+    {
+      "level": "note",
+      "check": "freshness",
+      "where": "media.yaml govuk_blogs/g-moj",
+      "message": "Feature from 2024-01-30 is over 2 years old: consider archiving."
+    }
+  ]
+}

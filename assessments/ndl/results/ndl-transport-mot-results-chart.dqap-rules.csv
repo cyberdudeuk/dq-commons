@@ -1,0 +1,6 @@
+Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
+Financial year,R1,unique,uniqueness,unique,2,4,8,97.5,100.0,2026-10-14
+Financial year,R2,"Financial years are written as 2024-25, not 2024",validity,regex,2,2,4,90.0,0.0,2026-10-14
+"fails_millions, tests_millions",R3,Fails never exceed tests,consistency,compare,2,3,6,90.0,100.0,2026-10-14
+tests_millions,R4,range,accuracy,range,2,3,6,90.0,100.0,2026-10-14
+"tests_millions, fails_millions",R5,header_has_unit,validity,header_has_unit,2,2,4,90.0,100.0,2026-10-14

@@ -1,0 +1,74 @@
+{
+  "expectation_suite_name": "ndl-environment-air-quality-chart.dqap",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "Year",
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "uniqueness",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "Year",
+        "regex": "^[-+]?\\d+$",
+        "mostly": 0.975
+      },
+      "meta": {
+        "rule_id": "R2",
+        "dimension": "validity",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "Mean number of days with moderate or above pollution",
+        "min_value": 0,
+        "max_value": 366,
+        "mostly": 0.975
+      },
+      "meta": {
+        "rule_id": "R3",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    }
+  ],
+  "meta": {
+    "generated_by": "ndl-dq-assurance dqkit",
+    "asset": {
+      "id": "ndl-environment-air-quality-chart",
+      "title": "NDL Environment collection: Air quality chart data",
+      "iri": "https://www.data.gov.uk/collections/environment/air-quality",
+      "owner": "Department for Environment, Food and Rural Affairs",
+      "importance": 3,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low"
+    },
+    "not_exported": [
+      {
+        "rule_id": "R4",
+        "check": "freshness",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R5",
+        "check": "no_gaps",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R6",
+        "check": "header_has_unit",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      }
+    ]
+  }
+}

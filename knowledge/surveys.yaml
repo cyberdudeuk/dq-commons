@@ -1,0 +1,125 @@
+# Surveys and commissions run through the Commons. Open to any organisation: central and local
+# government, devolved administrations, the wider public sector, and private and voluntary bodies.
+#
+# Question types: single, multi, text, long, rating (1-5, 5 is always best), band.
+# Every survey shows the privacy notice first. Names and emails are never asked for; contact is
+# optional and only if the respondent asks to be contacted. Results are shown only in aggregate,
+# with counts under 5 suppressed.
+
+review: {last_reviewed: "2026-10-15", owner_role: Service owner}
+privacy_notice: >-
+  We collect only what each question asks. We don't ask for your name or email. If you choose to be
+  contacted, we use the contact detail you give only for that follow-up and delete it within 12 months.
+  Answers are shown only as totals, and any total under 5 is hidden so no organisation can be
+  identified. You can skip any question. This is a prototype service, not an official government survey.
+
+shared:
+  org_type: &org_type
+    id: org_type
+    q: What kind of organisation do you work for?
+    type: single
+    options: [Ministerial department, Non-ministerial department, Arm's length body, Local authority, Devolved government,
+              NHS or health and care body, Police or justice body, Education body, Voluntary or charity organisation,
+              Private sector supplier, University or research body, Crown Dependency government or body,
+              Overseas Territory government or body, Government outside the UK, International or supranational organisation, Other]
+  nation: &nation
+    id: nation
+    q: Where does your organisation mainly work?
+    type: multi
+    options: [England, Wales, Scotland, Northern Ireland, UK-wide, Crown Dependencies, Overseas Territories, Commonwealth country, Other country, International]
+  size: &size
+    id: size
+    q: About how many people work in your organisation?
+    type: single
+    options: [Under 50, 50 to 249, 250 to 999, "1,000 to 9,999", "10,000 or more", Don't know]
+
+surveys:
+- id: tooling
+  title: Data quality tools in use
+  purpose: Builds an open picture of which data quality tools organisations use, what for, and how well they work.
+  note: >-
+    This is the Commons edition, which includes the fixes in our review of the cross-government survey.
+    If you've been sent the GDS Data Management Team's survey, answer that one too: it is the official one.
+  minutes: 8
+  questions:
+  - *org_type
+  - *nation
+  - *size
+  - {id: tools, q: "Which data quality tools do you use?", type: multi,
+     options: [Spreadsheets, "In-house scripts (SQL, Python or R)", Great Expectations, Soda, dbt tests, R validate or pointblank,
+               Microsoft Purview, Microsoft Fabric, Databricks, Informatica, Qlik / Talend, Experian Aperture, Collibra, Ataccama,
+               SAS, Datactics, dqkit (this Commons kit), Other]}
+  - {id: steps, q: "Which steps of a data quality action plan do your tools support?", type: multi,
+     options: [Identify critical data, Write rules, Measure, Prioritise issues, Root cause and action, Report, Repeat measurement]}
+  - {id: cdas, q: "How many critical data assets (or key datasets) do your tools cover?", type: band, options: [None, 1 to 5, 6 to 20, 21 to 100, More than 100, Don't know]}
+  - {id: users, q: "How many people use the tools?", type: band, options: [1 to 5, 6 to 20, 21 to 100, More than 100, Don't know]}
+  - {id: integrates, q: "How well do the tools fit with the rest of your systems?", type: rating}
+  - {id: value, q: "How good is the value for money?", type: rating}
+  - {id: ease, q: "How easy was it to get value from them?", type: rating}
+  - {id: accessible, q: "Can staff who use assistive technology use the tools?", type: single, options: [Yes, Partly, No, Don't know]}
+  - {id: open_export, q: "Can results leave the tools in an open format (for example CSV, JSON or W3C DQV)?", type: single, options: [Yes, Partly, No, Don't know]}
+  - {id: exit, q: "How hard would it be to move to a different tool?", type: rating, low: Very hard, high: Very easy}
+  - {id: cost, q: "Roughly what do the tools cost a year?", type: band, options: [Nothing, "Under £10,000", "£10,000 to £50,000", "£50,000 to £250,000", "£250,000 to £1 million", "Over £1 million", Prefer not to say]}
+  - {id: lesson, q: "What's the one thing you'd tell another organisation choosing a data quality tool?", type: long}
+- id: baseline-readiness
+  title: Critical data asset baseline readiness
+  purpose: Shows how ready organisations are to report data quality for their critical data assets, and where help is needed.
+  minutes: 4
+  questions:
+  - *org_type
+  - *nation
+  - {id: cdas, q: "How many critical data assets does your organisation have?", type: band, options: [None identified yet, 1 to 5, 6 to 20, 21 to 100, More than 100]}
+  - {id: owners, q: "How many of them have a named data owner?", type: single, options: [All, Most, Some, None, Don't know]}
+  - {id: dqap, q: "How many have a data quality action plan or equivalent?", type: single, options: [All, Most, Some, None, Don't know]}
+  - {id: baseline, q: "How confident are you of reporting a quality baseline for them in time?", type: rating}
+  - {id: blockers, q: "What's in the way?", type: multi, options: [Data access, Staff time, Skills, Tools, Unclear guidance, Ownership not agreed, Supplier data we don't control, Other]}
+  - {id: help, q: "What help would make the biggest difference?", type: long}
+- id: inclusion
+  title: Checking who your data leaves out
+  purpose: Finds out how organisations check data quality for different groups of people and places, so good practice can be shared.
+  minutes: 4
+  questions:
+  - *org_type
+  - *nation
+  - {id: personal, q: "Does your key data describe people?", type: single, options: [Yes, No, Some of it]}
+  - {id: practices, q: "Which of these do you do?", type: multi,
+     options: [Count unknown or defaulted characteristics, Compare quality between groups, Compare coverage with a reference population,
+               Use GSS harmonised standards, Signpost data for other UK nations, Test with people who use assistive technology, None of these]}
+  - {id: confidence, q: "How confident are you that no group is missing or misrecorded in your data?", type: rating}
+  - {id: example, q: "Share an example of a gap you found and what you did, if you can.", type: long}
+- id: portal-feedback
+  title: Tell us about the Commons
+  purpose: User research. Helps us improve the portal and kit for everyone, including people who use assistive technology.
+  minutes: 3
+  questions:
+  - {id: role, q: "Which best describes your role?", type: single,
+     options: [Data owner, Data steward, Analyst or engineer, Statistician, Data governance, Chief data officer or senior leader, Service or product owner, AI or data science, Other]}
+  - *org_type
+  - {id: task, q: "What did you come here to do?", type: long}
+  - {id: done, q: "Could you do it?", type: single, options: [Yes, Partly, No]}
+  - {id: easy, q: "How easy was the portal to use?", type: rating}
+  - {id: at, q: "Did you use assistive technology (for example a screen reader, magnifier or voice control)?", type: single, options: [Yes, No, Prefer not to say]}
+  - {id: improve, q: "What one change would help you most?", type: long}
+
+commissions:
+  purpose: >-
+    Ask the Commons for help. Requests are triaged weekly in the open backlog. Anything that needs
+    an official decision is passed to the right government team, with your agreement.
+  types:
+  - {id: assessment, name: Assess one of our data assets, what: "We help you write rules, run a baseline and read the results."}
+  - {id: rules, name: Help writing rules, what: "Turn your business rules into checks, using the rule library."}
+  - {id: pack, name: A new framework or scenario pack, what: "Add a framework, standard or sector to the packs and crosswalks."}
+  - {id: dqap-review, name: Peer review of a data quality action plan, what: "A second pair of eyes from another organisation."}
+  - {id: training, name: A training session, what: "A walk-through of the portal, the kit or a learning module for your team."}
+  - {id: tooling, name: Tooling advice, what: "Options for your estate, including open-source and existing tools."}
+  - {id: incident, name: Help with a data quality incident, what: "Containment, root cause and communication when something has gone wrong."}
+  - {id: survey, name: Run a survey through the Commons, what: "Use the survey runner for your own sector or network."}
+  - {id: other, name: Something else, what: ""}
+  fields:
+  - {id: type, q: "What do you need?", type: single, from: types}
+  - *org_type
+  - *nation
+  - {id: sector, q: "Which sector or domain is it about?", type: text}
+  - {id: detail, q: "Tell us what you need and by when.", type: long}
+  - {id: urgency, q: "How urgent is it?", type: single, options: [This week, This month, This quarter, No deadline]}
+  - {id: contact, q: "How should we contact you? (optional - a team inbox is best)", type: text}

@@ -1,0 +1,377 @@
+<title>Check Your Data</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+/* Checker: inputs on the left (data, rules, rule builder), results on the right; stacks on phones. */
+.work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:20px;align-items:start}
+@media (max-width:980px){.work{grid-template-columns:minmax(0,1fr)}}
+.panel{display:flex;flex-direction:column;gap:14px;min-width:0}
+fieldset{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 16px;margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+legend{font-weight:700;padding:0 6px}
+label{font-weight:600;font-size:.88rem}
+.hint{font-size:.8rem;color:var(--muted);font-weight:400}
+input[type=text],input[type=date],input[type=number],select,textarea{font:inherit;font-size:.9rem;padding:7px 9px;border:1px solid var(--muted);border-radius:6px;background:var(--bg);color:var(--fg);width:100%;min-width:0}
+input[type=file]{font-size:.85rem;max-width:100%}
+textarea{font-family:var(--f-mono);font-size:.8rem;line-height:1.5;min-height:260px;resize:vertical;tab-size:2}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.msg{font-size:.86rem;padding:8px 12px;border-radius:6px}
+.msg.err{background:var(--crit-soft);color:var(--crit)}
+.msg.ok{background:var(--good-soft);color:var(--good)}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px}
+.preview{overflow-x:auto;border:1px solid var(--line);border-radius:6px;max-height:190px}
+.preview table{font-size:.78rem}
+.preview th{position:sticky;top:0}
+details.ex summary{cursor:pointer;font-size:.8rem;color:var(--accent);font-weight:600}
+.ex pre{font-family:var(--f-mono);font-size:.75rem;white-space:pre-wrap;margin:4px 0 0;background:var(--sunk);padding:6px 8px;border-radius:4px}
+.prof summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--accent)}
+.prof{display:flex;flex-direction:column;gap:8px}
+.meter{display:flex;align-items:center;gap:8px}
+.meter .track{flex:1;height:7px;border-radius:4px;background:var(--sunk);overflow:hidden;min-width:40px;position:relative}
+.meter .fill{height:100%}
+.meter .tgt{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--fg)}
+.meter b{font-family:var(--f-mono);font-size:.78rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.copy{display:flex;flex-wrap:wrap;gap:8px}
+.privacy{display:flex;gap:10px;align-items:flex-start;background:var(--accent-soft);border-radius:8px;padding:10px 14px;font-size:.88rem}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Data quality kit · in your browser</span>
+  <h1>Check your data</h1>
+  <p class="lede">Run a rules file against a CSV and get the same answers as the Python kit: pass rates, issues framework priorities, a suggested trust level, and the DQAP route. An example is loaded so you can see a result straight away. Your file stays in your browser.</p>
+  <div class="privacy"><strong>Private by design.</strong><span>Your files never leave this browser tab. The checks run on your device; nothing is uploaded or stored. Close the tab and they are gone.</span></div>
+</header>
+
+<div class="work">
+<div class="panel">
+  <fieldset>
+    <legend>1. Data</legend>
+    <div class="field"><label for="ex">Start from an example</label>
+      <select id="ex"></select></div>
+    <div class="field"><label for="csvFile">Or use your own file <span class="hint">CSV, TSV, Excel (.xlsx), OpenDocument (.ods), JSON or JSON Lines. First row must be column names.</span></label>
+      <input type="file" id="csvFile" accept=".csv,.tsv,.tab,.xlsx,.xlsm,.ods,.json,.jsonl,.ndjson,text/csv"></div>
+    <div class="field" id="sheetBox" hidden><label for="sheet">Sheet</label><select id="sheet"></select></div>
+    <p class="small muted" id="dataInfo"></p>
+    <div class="preview" id="preview" tabindex="0" role="region" aria-label="Preview of your file, scrolls sideways and down"></div>
+    <details class="prof" id="profBox"><summary>Profile this data</summary>
+      <p class="small muted">What each column holds: how full it is, how many distinct values, the most common values, and the type and identifier format it looks like. Worked out in your browser.</p>
+      <div class="tbl"><table><thead><tr><th>Column</th><th>Filled</th><th>Distinct</th><th>Looks like</th><th>Most common values</th></tr></thead><tbody id="prof"></tbody></table></div>
+    </details>
+  </fieldset>
+
+  <fieldset>
+    <legend>2. Rules</legend>
+    <div class="field"><label for="rules">Rules file (YAML) <span class="hint">Edit here, or load a file</span></label>
+      <textarea id="rules" spellcheck="false" aria-describedby="rulesHelp"></textarea>
+      <span class="hint" id="rulesHelp">Same format as the Python kit. Importance runs from 1 (Low) to 4 (Critical).</span></div>
+    <div class="row2">
+      <div class="field"><label for="libPick">Start from a rule library template</label><select id="libPick"></select></div>
+      <div class="field" style="justify-content:flex-end"><button class="btn ghost" type="button" id="libLoad">Use this template</button></div>
+    </div>
+    <div class="field"><label for="rulesFile">Load a rules file or a data contract <span class="hint">Toolkit rules (YAML), an Open Data Contract Standard (ODCS) contract, or a Frictionless Table Schema</span></label><input type="file" id="rulesFile" accept=".yaml,.yml,.json"></div>
+    <div class="row2">
+      <div class="field"><label for="asOf">Measure as if on</label><input type="date" id="asOf"></div>
+      <div class="field"><label for="policy">Default target policy</label>
+        <select id="policy"><option value="">As in the rules file</option><option value="low">Low end of range</option><option value="mid">Middle of range</option><option value="high">High end of range</option></select></div>
+    </div>
+    <div class="actions"><button class="btn" type="button" id="run">Run the checks</button><span id="runMsg" role="status" aria-live="polite"></span></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Add a rule</legend>
+    <p class="small muted">Pick a check and a column, and the rule is added to the rules file above. Comments in the file are removed when you add a rule.</p>
+    <div class="row2">
+      <div class="field"><label for="bCheck">Check</label><select id="bCheck"></select></div>
+      <div class="field"><label for="bCol">Column</label><select id="bCol"></select></div>
+    </div>
+    <div class="row2" id="bParams"></div>
+    <div class="field"><label for="bDesc">What the rule means, in plain English</label><input type="text" id="bDesc" placeholder="For example: every claim has a valid NI number"></div>
+    <div class="actions"><button class="btn ghost" type="button" id="bAdd">Add rule</button><span id="bMsg" role="status" aria-live="polite" class="small"></span></div>
+  </fieldset>
+</div>
+
+<div class="panel" aria-live="polite" id="out">
+  <section aria-labelledby="res-h" class="card">
+    <h2 id="res-h" style="font-size:1.2rem">Results</h2>
+    <div id="verdict" class="verdict"></div>
+    <p class="small" id="why"></p>
+  </section>
+  <div class="tbl"><table style="min-width:640px">
+    <thead><tr><th>Rule</th><th>Dimension</th><th>Pass rate against target</th><th>Priority</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <section class="card" aria-labelledby="iss-h"><h3 id="iss-h">Issues to fix</h3><div id="iss" class="small"></div></section>
+  <section class="card" aria-labelledby="exp-h">
+    <h3 id="exp-h">Take the results with you</h3>
+    <p class="small muted">Copy the results into a catalogue (DQV metadata) or the GOV.UK DQAP template (CSV rows). For the full workbook, case study and history, run the same rules file through the pipeline.</p>
+    <div class="copy">
+      <button class="btn ghost" type="button" data-copy="dqv">Copy DQV metadata</button>
+      <button class="btn ghost" type="button" data-copy="rules">Copy DQAP rule rows</button>
+      <button class="btn ghost" type="button" data-copy="issues">Copy DQAP issue rows</button>
+      <button class="btn ghost" type="button" data-copy="yaml">Copy rules file</button>
+    </div>
+    <span id="copyMsg" role="status" aria-live="polite" class="small"></span>
+    <textarea id="copyFallback" hidden aria-label="Text to copy" style="min-height:120px"></textarea>
+  </section>
+  <section class="card" aria-labelledby="ct-h" id="contracts">
+    <h3 id="ct-h">Share the rules as a data contract or with other tools</h3>
+    <p class="small muted">The same rules in open standards and tools other teams already use. Thresholds come with them, from the issues framework. Anything a format can't express is kept as a toolkit extension or listed, never silently dropped.</p>
+    <div class="field"><label for="ctFmt">Format</label><select id="ctFmt">
+      <option value="odcs">Open Data Contract Standard (ODCS v3, YAML)</option>
+      <option value="ts">Frictionless Table Schema (JSON)</option>
+      <option value="csvw">W3C CSV on the Web metadata (JSON-LD)</option>
+      <option value="gx">Great Expectations suite (JSON)</option>
+      <option value="rv">R validate rules (YAML)</option></select></div>
+    <div class="copy"><button class="btn ghost" type="button" id="ctMake">Show</button><button class="btn ghost" type="button" id="ctCopy">Copy</button><button class="btn ghost" type="button" id="ctSave">Download</button></div>
+    <span id="ctMsg" role="status" aria-live="polite" class="small"></span>
+    <label for="ctOut" class="sr-only">Exported rules</label><textarea id="ctOut" readonly hidden style="min-height:200px"></textarea>
+  </section>
+</div>
+</div>
+</div>
+
+<script>__JSYAML__</script>
+<script>
+__ENGINE__
+</script>
+<script>
+__SHEETS__
+</script>
+<script>
+const V = __VOCAB__, EX = __EXAMPLES__, VS = __K_VALUESETS__, LIB = __K_LIBRARY__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const slug = s => String(s || "").replace(/\s+/g, "-");
+DQ.setVocab(V.issue_types, V.dimensions);
+const YAML = window.jsyaml;
+let table = null, csvName = "", last = null;
+$("asOf").value = new Date().toISOString().slice(0, 10);
+
+$("ex").innerHTML = EX.map((e, i) => `<option value="${i}">${esc(e.title)}</option>`).join("") + `<option value="own" disabled>Your own file</option>`;
+
+function setTable(text, name) {
+  try {
+    table = DQ.parseCSV(text); csvName = name;
+    const cols = table.columns, rows = table.rows || [];
+    $("dataInfo").textContent = `${name}: ${rows.length} rows, ${cols.length} columns.`;
+    $("preview").innerHTML = `<table><thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead><tbody>` +
+      rows.slice(0, 6).map(r => `<tr>${cols.map((c, j) => `<td>${esc(Array.isArray(r) ? r[j] : r[c])}</td>`).join("")}</tr>`).join("") + "</tbody></table>";
+    $("bCol").innerHTML = `<option value="">(none)</option>` + cols.map(c => `<option>${esc(c)}</option>`).join("");
+    return true;
+  } catch (e) {
+    table = null; $("dataInfo").innerHTML = `<span class="msg err">That file could not be read as CSV: ${esc(e.message)}. Check it has one header row and the same number of fields on every row.</span>`;
+    return false;
+  }
+}
+function loadExample(i) {
+  const e = EX[i]; setTable(e.csv, e.csv_name); $("rules").value = e.rules; run();
+}
+$("ex").addEventListener("change", e => { if (e.target.value !== "own") loadExample(+e.target.value); });
+function readFile(input, cb) {
+  const f = input.files && input.files[0]; if (!f) return;
+  if (f.size > 25 * 1024 * 1024) { $("runMsg").innerHTML = `<span class="msg err">That file is over 25 MB. Use the Python kit for large files.</span>`; return; }
+  const r = new FileReader(); r.onload = () => cb(String(r.result).replace(/^﻿/, ""), f.name); r.readAsText(f);
+}
+let dataFile = null;
+async function loadData(sheet) {
+  const f = dataFile; if (!f) return;
+  if (f.size > 25 * 1024 * 1024) { $("runMsg").innerHTML = `<span class="msg err">That file is over 25 MB. Use the Python toolkit for large files.</span>`; return; }
+  try {
+    const r = await DQSheets.read(f, sheet);
+    if (r.sheets.length > 1) { $("sheetBox").hidden = false; $("sheet").innerHTML = r.sheets.map(s => `<option${s === r.sheet ? " selected" : ""}>${esc(s)}</option>`).join(""); }
+    else $("sheetBox").hidden = true;
+    const label = f.name + (r.sheet && r.sheets.length > 1 ? ` (sheet ${r.sheet})` : "");
+    if (setTable(r.csv, label)) { $("ex").value = "own"; $("runMsg").innerHTML = `<span class="small muted">Loaded ${esc(label)}. Edit the rules to match its columns, then run.</span>`; }
+  } catch (er) { $("dataInfo").innerHTML = `<span class="msg err">That file couldn't be read: ${esc(er.message)}.</span>`; }
+}
+$("csvFile").addEventListener("change", e => { dataFile = e.target.files && e.target.files[0]; loadData(); });
+$("sheet").addEventListener("change", e => loadData(e.target.value));
+// a rules file, or a data contract converted into rules
+$("rulesFile").addEventListener("change", e => readFile(e.target, (t, n) => {
+  let doc = null; try { doc = /\.json$/i.test(n) ? JSON.parse(t) : YAML.load(t); } catch (er) {}
+  if (doc && doc.kind === "DataContract") {
+    const spec = DQ.contracts.fromOdcs(doc), skip = DQ.contracts.unsupported(doc);
+    $("rules").value = YAML.dump(spec, {lineWidth: 110, noRefs: true});
+    $("runMsg").innerHTML = `<span class="small muted">Converted the ODCS contract ${esc(doc.id || n)} into ${spec.rules.length} rules.${skip.length ? ` ${skip.length} rule(s) use SQL, text or another tool and weren't imported: ${skip.map(s => esc(s.id || s.description)).join(", ")}.` : ""}</span>`;
+  } else if (doc && Array.isArray(doc.fields)) {
+    const spec = DQ.contracts.fromTableSchema(doc, {id: n.replace(/\.[^.]+$/, ""), importance: 3});
+    $("rules").value = YAML.dump(spec, {lineWidth: 110, noRefs: true});
+    $("runMsg").innerHTML = `<span class="small muted">Converted the Table Schema into ${spec.rules.length} rules.</span>`;
+  } else $("rules").value = t;
+}));
+
+// profile
+function profile() {
+  if (!table) { $("prof").innerHTML = ""; return; }
+  const cols = table.columns, rows = table.rows, n = rows.length, at = (r, j, c) => Array.isArray(r) ? r[j] : r[c];
+  $("prof").innerHTML = cols.map((c, j) => {
+    const vals = rows.map(r => at(r, j, c)).filter(v => v !== null && v !== undefined && String(v).trim() !== "").map(String);
+    const counts = {}; vals.forEach(v => { counts[v] = (counts[v] || 0) + 1; });
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const share = (re) => vals.length && vals.filter(v => re.test(v)).length / vals.length;
+    let looks = !vals.length ? "empty" : share(/^[-+]?\d+$/) > .95 ? "whole numbers" : share(/^[-+]?(\d+\.?\d*|\.\d+)([eE][-+]?\d+)?$/) > .95 ? "numbers" :
+      share(/^\d{4}-\d{2}-\d{2}/) > .9 ? "dates" : "text";
+    const id = DQ.IDENTIFIER_SCHEMES.find(s => vals.length >= 3 && vals.slice(0, 200).filter(v => DQ.identifierOk(v, s)).length / Math.min(vals.length, 200) > .8 &&
+      !(["uprn", "school_urn", "ods_code"].includes(s) && !/uprn|urn|ods|code/i.test(c)));
+    if (id) looks += `; ${id.replace(/_/g, " ")} format`;
+    const fill = n ? Math.round(1000 * vals.length / n) / 10 : 0, distinct = Object.keys(counts).length;
+    return `<tr><td>${esc(c)}</td><td class="num">${fill}%</td><td class="num">${distinct}${distinct === vals.length && vals.length > 1 ? " (all different)" : ""}</td><td>${esc(looks)}</td>
+      <td class="small">${top.map(([v, k]) => `${esc(v.length > 24 ? v.slice(0, 24) + "…" : v)} <span class="muted">(${k})</span>`).join(", ")}</td></tr>`;
+  }).join("");
+}
+$("profBox").addEventListener("toggle", () => { if ($("profBox").open) profile(); });
+
+// contracts and exports
+function exportText() {
+  const s = spec(true); DQ.expandValuesets(s, VS); DQ.validateSpec(s);
+  const f = $("ctFmt").value, C = DQ.contracts;
+  if (f === "odcs") return ["# Open Data Contract Standard v3 (bitol.io), generated by the Commons toolkit\n" + YAML.dump(C.toOdcs(s), {lineWidth: 120, noRefs: true}), "yaml", "odcs.yaml"];
+  if (f === "ts") return [JSON.stringify(C.toTableSchema(s), null, 2), "json", "tableschema.json"];
+  if (f === "csvw") return [JSON.stringify(C.toCsvw(s, csvName || "data.csv"), null, 2), "json", "csv-metadata.json"];
+  if (f === "gx") return [JSON.stringify(DQ.exporters.toGreatExpectations(s), null, 2), "json", "expectations.json"];
+  return [DQ.exporters.toRValidate(s, d => YAML.dump(d, {lineWidth: -1, noRefs: true})), "yaml", "validate-rules.yaml"];
+}
+function ctShow() { try { const [text] = exportText(); $("ctOut").hidden = false; $("ctOut").value = text; $("ctMsg").textContent = ""; return text; }
+  catch (er) { $("ctMsg").innerHTML = `<span class="msg err">The rules file isn't ready: ${esc(er.message)}</span>`; return null; } }
+$("ctMake").addEventListener("click", ctShow);
+$("ctFmt").addEventListener("change", () => { if (!$("ctOut").hidden) ctShow(); });
+$("ctCopy").addEventListener("click", async () => { const t = ctShow(); if (t === null) return;
+  try { await navigator.clipboard.writeText(t); $("ctMsg").textContent = "Copied."; } catch (er) { $("ctOut").focus(); $("ctOut").select(); $("ctMsg").textContent = "Copying isn't allowed here. The text is selected: press Ctrl+C (or Cmd+C)."; } });
+$("ctSave").addEventListener("click", async () => {
+  let x; try { x = exportText(); } catch (er) { ctShow(); return; }
+  const [text, , name] = x, base = ((spec(true).asset || {}).id || "rules") + "." + name;
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: base, data: text}); $("ctMsg").textContent = "Saved."; return; } } } catch (er) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = base; document.body.appendChild(a); a.click(); a.remove(); $("ctMsg").textContent = "Downloaded " + base + "."; }
+  catch (er) { ctShow(); $("ctMsg").textContent = "Downloading isn't allowed here; use Copy."; }
+});
+
+function spec(raw) {
+  let s;
+  try { s = YAML.load($("rules").value); }
+  catch (e) { throw new Error("The rules file isn't valid YAML: " + (e.reason || e.message) + (e.mark ? ` (line ${e.mark.line + 1})` : "")); }
+  if (!s || typeof s !== "object") throw new Error("The rules file is empty. It needs an 'asset' block and a 'rules' list.");
+  if (raw) return s;
+  if ($("policy").value) { s.asset = s.asset || {}; s.asset.target_policy = $("policy").value; }
+  return DQ.expandValuesets(JSON.parse(JSON.stringify(s)), VS);
+}
+function meter(p, t, ok) {
+  const col = ok ? "var(--good)" : "var(--crit)";
+  return `<div class="meter"><div class="track"><div class="fill" style="width:${Math.max(0, Math.min(100, p))}%;background:${col}"></div><div class="tgt" style="left:calc(${t}% - 1px)" title="Target ${t}%"></div></div><b>${p}% / ${t}%</b></div>`;
+}
+function run() {
+  $("runMsg").textContent = "";
+  if (!table) { $("runMsg").innerHTML = `<span class="msg err">Choose an example or load a CSV first.</span>`; return; }
+  let s;
+  try { s = spec(); DQ.validateSpec(s); }
+  catch (e) { $("runMsg").innerHTML = `<span class="msg err">${esc(e.message)}</span>`; return; }
+  let res;
+  try { res = DQ.run(table, s, $("asOf").value); }
+  catch (e) { $("runMsg").innerHTML = `<span class="msg err">A rule could not run: ${esc(e.message)}. Check the column names match the CSV exactly.</span>`; return; }
+  const tr = DQ.trust(res, (s.asset && s.asset.personal_data_columns) || null), rt = DQ.route(s.asset || {});
+  last = {res, s, tr};
+  $("runMsg").innerHTML = `<span class="msg ok">Checked ${res.rows} rows against ${res.rules_total} rules.</span>`;
+  $("verdict").innerHTML = [
+    `<div class="kpi"><b>${res.rules_met}/${res.rules_total}</b><span>rules meeting target</span></div>`,
+    `<div class="kpi"><b>${res.issues.length}</b><span>open issues</span></div>`,
+    `<div class="kpi"><span class="pill t-${slug(tr.level)}" style="align-self:flex-start;font-size:.8rem">${esc(tr.level)}</span><span>${esc(tr.sharing)}</span></div>`,
+  ].join("");
+  $("why").innerHTML = `<b>Why this trust level:</b> ${esc(tr.reasons.join(" "))}<br><b>Route:</b> ${esc(rt.route)}. ${esc(rt.responsibility)}`;
+  $("rows").innerHTML = res.results.map(r => {
+    const a = r.assessment, ex = (r.examples || []).length ? `<details class="ex"><summary>Failing examples</summary><pre>${esc(r.examples.map(x => JSON.stringify(x)).join("\n"))}</pre></details>` : "";
+    return `<tr><td><span class="mono">${esc(r.id)}</span> ${esc(r.description)}${ex}</td><td>${esc(r.dimension)}</td><td>${meter(r.performance, a.target, a.meets_target)}</td>
+      <td>${a.priority ? `<span class="pill p-${a.priority}">${a.priority}</span>` : '<span class="pill p-ok">Meets</span>'}</td></tr>`;
+  }).join("");
+  $("iss").innerHTML = res.issues.length ? `<ol class="plain">${res.issues.map(i => `<li><span class="pill p-${i.priority}">${i.priority}</span> <b>${esc(i.rule)} ${esc(i.label)}</b> (${esc(i.dimension)}): ${i.performance}% against ${i.target}%. Fix ${esc(String(i.resolution).toLowerCase())}.</li>`).join("")}</ol>` : "<p>None. Every rule meets its target. Consider tightening the targets or adding rules.</p>";
+}
+$("run").addEventListener("click", run);
+
+// rule library templates (rules/library/*.yaml): columns are placeholders to rename to match your file
+$("libPick").innerHTML = Object.entries(LIB).map(([k, v]) => `<option value="${esc(k)}">${esc((v.spec.asset && v.spec.asset.title) || k)} (${(v.spec.rules || []).length} rules)</option>`).join("");
+$("libLoad").addEventListener("click", () => { $("rules").value = LIB[$("libPick").value].text;
+  $("runMsg").innerHTML = `<span class="small muted">Template loaded. Rename the columns to match your file, then run.</span>`; $("rules").focus(); });
+if (/[?&]from=assistant\b/.test(location.search)) {
+  let d = null; try { d = localStorage.getItem("dqc.rules.draft"); } catch (e) {}
+  if (d) setTimeout(() => { $("rules").value = d; $("runMsg").innerHTML = `<span class="small muted">Rules file from the AI assistant loaded. Review it, open your file, then run.</span>`; }, 0);
+}
+
+// rule builder
+const PARAMS = {
+  not_null: [], unique: [], not_future: [],
+  required_columns: [["columns", "Columns (comma separated)", "text", "auto"]],
+  type: [["kind", "Type", ["integer", "number", "year", "date"]]],
+  regex: [["pattern", "Pattern (Python regular expression)", "text", "[A-Z]{2}[0-9]{6}[A-D]"]],
+  in_set: [["values", "Allowed values (comma separated)", "text", ""]],
+  range: [["min", "Minimum", "number", ""], ["max", "Maximum", "number", ""]],
+  compare: [["op", "Operator", ["<=", "<", "==", "!=", ">=", ">"]], ["right", "Other column or a number", "text", ""]],
+  sum_max: [["max", "Maximum total", "number", "100"]],
+  freshness: [["expected", "Expected update (ISO 8601)", "text", "P1Y"], ["lag", "Allowed lag", "text", "P3M"]],
+  no_gaps: [],
+  header_has_unit: [],
+  not_unknown: [],
+  identifier: [["scheme", "Identifier scheme", DQ.IDENTIFIER_SCHEMES]],
+  in_valueset: [["valueset", "Value set", Object.keys(VS)], ["match", "Match on", ["label", "code"]]],
+  group_disparity: [["group", "Group column (e.g. sex, ethnicity)", "text", ""], ["tolerance", "Largest gap allowed (points)", "number", "5"]],
+};
+$("bCheck").innerHTML = Object.keys(PARAMS).map(k => `<option>${k}</option>`).join("");
+function drawParams() {
+  $("bParams").innerHTML = PARAMS[$("bCheck").value].map(([k, l, t, d]) => Array.isArray(t)
+    ? `<div class="field"><label for="p_${k}">${esc(l)}</label><select id="p_${k}">${t.map(o => `<option>${esc(o)}</option>`).join("")}</select></div>`
+    : `<div class="field"><label for="p_${k}">${esc(l)}</label><input type="${t}" id="p_${k}" value="${esc(d === "auto" ? (table ? table.columns.join(", ") : "") : d)}"></div>`).join("");
+}
+$("bCheck").addEventListener("change", drawParams); drawParams();
+$("bAdd").addEventListener("click", () => {
+  const msg = t => { $("bMsg").textContent = t; };
+  let s; try { s = spec(true); } catch (e) { msg(e.message); return; }
+  s.rules = Array.isArray(s.rules) ? s.rules : [];
+  const check = $("bCheck").value, col = $("bCol").value;
+  let n = s.rules.length + 1; while (s.rules.some(r => r.id === "R" + n)) n++;
+  const rule = {id: "R" + n, check};
+  const noColumn = ["required_columns", "header_has_unit"];
+  if (!noColumn.includes(check)) {
+    if (!col) { msg("Choose a column first."); return; }
+    if (check === "compare") rule.left = col;
+    else if (check === "unique") rule.columns = [col];
+    else if (check === "group_disparity") rule.inner = {check: "not_null", column: col};
+    else rule.column = col;
+  }
+  for (const [k, , t] of PARAMS[check]) {
+    const v = ($(`p_${k}`) || {}).value;
+    if (v === "" || v === undefined) continue;
+    if (k === "columns" || k === "values") rule[k] = v.split(",").map(x => x.trim()).filter(Boolean);
+    else if (t === "number") rule[k] = Number(v);
+    else if (k === "right" && v.trim() !== "" && !isNaN(Number(v)) && !(table && table.columns.includes(v))) rule[k] = Number(v);
+    else rule[k] = v;
+  }
+  if ($("bDesc").value.trim()) rule.description = $("bDesc").value.trim();
+  try { DQ.validateSpec(DQ.expandValuesets(JSON.parse(JSON.stringify({...s, rules: [...s.rules, rule]})), VS)); }
+  catch (e) { msg("That rule isn't complete: " + e.message); return; }
+  s.rules.push(rule);
+  $("rules").value = YAML.dump(s, {lineWidth: 110, noRefs: true});
+  msg(`Added ${rule.id}. Run the checks to see it.`); $("bDesc").value = "";
+});
+
+// copy
+$("out").addEventListener("click", async e => {
+  const b = e.target.closest("[data-copy]"); if (!b) return;
+  if (!last) { $("copyMsg").textContent = "Run the checks first."; return; }
+  const k = b.dataset.copy, csv = DQ.toDqapCsv(last.res);
+  const text = k === "dqv" ? JSON.stringify(DQ.toDQV(last.res, (last.s.asset || {}).iri || null, (last.s.asset || {}).dqap || null), null, 2)
+    : k === "rules" ? csv.rules : k === "issues" ? csv.issues : $("rules").value;
+  try { await navigator.clipboard.writeText(text); $("copyMsg").textContent = "Copied."; $("copyFallback").hidden = true; }
+  catch (er) { const t = $("copyFallback"); t.hidden = false; t.value = text; t.focus(); t.select(); $("copyMsg").textContent = "Copying isn't allowed here. The text is selected below: press Ctrl+C (or Cmd+C)."; }
+});
+
+loadExample(3);
+window.DQP_TOUR = [
+  {sel: "#ex", title: "Start from an example", text: "Examples come from real published data. Or open your own CSV below: it never leaves your browser."},
+  {sel: "#libPick", title: "Rule library", text: "Templates for people, addresses, organisations, geography and publications. Rename the columns to match your file."},
+  {sel: "#rules", title: "The rules file", text: "Plain YAML, the same format as the Python toolkit and the pipeline."},
+  {sel: "#bCheck", title: "Add a rule", text: "Pick a check, including identifiers such as NHS number or UPRN, and value sets such as GSS nation codes."},
+  {sel: "#run", title: "Run", text: "Results show pass rates against targets, priorities from the issues framework, and a trust level."},
+  {sel: "#out .copy", title: "Take the results with you", text: "Copy DQV metadata for your catalogue, or rows for the DQAP template."},
+  {sel: "#ctFmt", title: "Data contracts", text: "Share the same rules as an ODCS contract, Table Schema, CSVW, Great Expectations or R validate. You can also load a contract as rules."},
+];
+$("ex").value = "3";
+</script>

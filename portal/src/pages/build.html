@@ -1,0 +1,247 @@
+<title>Help Us Build This</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.ways{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.ways a{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.ways a:hover{border-color:var(--accent)}
+.ways a b{color:var(--accent)}
+.ways a span{font-size:.86rem;color:var(--muted)}
+.road{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.road ul{margin:0;padding-left:1.1em;font-size:.9rem;display:flex;flex-direction:column;gap:4px}
+.m-must{color:var(--crit);background:var(--crit-soft)} .m-should{color:var(--warn);background:var(--warn-soft)} .m-could{color:var(--info);background:var(--info-soft)} .m-wont{color:var(--muted);background:var(--sunk)}
+.wish{list-style:none;display:flex;flex-direction:column;gap:8px}
+.wish li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.wish .tally{font-family:var(--f-mono);font-weight:700;font-size:1.2rem;color:var(--accent);min-width:2.2ch;text-align:center}
+.wish .vote{font:inherit;font-weight:600;font-size:.86rem;padding:6px 12px;border-radius:6px;border:1px solid var(--accent);background:var(--surface);color:var(--accent);cursor:pointer;min-height:36px}
+.wish .vote[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg)}
+.wish .vote:disabled{opacity:.5;cursor:not-allowed}
+.pr{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))}
+.pr .card h3{display:flex;gap:8px;align-items:center}
+.gh{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
+.gh a{display:flex;gap:10px;align-items:flex-start;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.gh a:hover{border-color:var(--accent)}
+.gh a b{display:block;color:var(--accent);word-break:break-word}
+.gh a span{font-size:.84rem;color:var(--muted)}
+.form{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px}
+.form .full{grid-column:1/-1}
+.state{font-size:.88rem}
+.contrib{display:flex;flex-wrap:wrap;gap:6px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Community · Help us build this</span>
+  <h1>Help us build the Commons</h1>
+  <p class="lede" id="intro"></p>
+  <nav class="toc" aria-label="On this page"><a href="#ways">Ways to help</a><a href="#roadmap">Roadmap</a><a href="#backlog">Backlog</a><a href="#wishlist">Wishlist and votes</a><a href="#codesign">Co-design</a><a href="#charter">Charter and safeguards</a><a href="#trust">Trust</a><a href="#contributors">Contributors</a><a href="#github">GitHub</a><a href="#contact">Contact us</a></nav>
+  <p class="state" id="state" role="status" aria-live="polite">Checking whether saving is available here…</p>
+</header>
+
+<section id="ways" aria-labelledby="w-h"><h2 id="w-h">Ways to help</h2><div class="ways" id="wayz"></div></section>
+
+<section id="roadmap" aria-labelledby="r-h"><h2 id="r-h">Roadmap</h2><div class="road" id="road"></div></section>
+
+<section id="backlog" aria-labelledby="b-h">
+  <h2 id="b-h">Backlog</h2>
+  <p class="small">Every item is also a GitHub issue labelled <code>backlog</code>, so you can comment, follow or pick it up. Priority uses MoSCoW: must, should, could, won't (this time).</p>
+  <div class="filters"><div class="field"><label for="bq">Search</label><input type="search" id="bq"></div>
+    <div class="field"><label for="ba">Area</label><select id="ba"></select></div><div class="field"><label for="bm">Priority</label><select id="bm"><option value="">Any</option><option>must</option><option>should</option><option>could</option><option>wont</option></select></div></div>
+  <p class="small muted" id="bN" role="status" aria-live="polite"></p>
+  <div class="tbl"><table><thead><tr><th scope="col">Item</th><th scope="col">Priority</th><th scope="col">Area</th><th scope="col">Status</th><th scope="col">Why it matters</th></tr></thead><tbody id="bl"></tbody></table></div>
+</section>
+
+<section id="wishlist" aria-labelledby="wl-h">
+  <h2 id="wl-h">Wishlist and votes</h2>
+  <p>Vote for the features you need most. Votes help set the order of the backlog. You can vote for up to 5 items and change your votes at any time.</p>
+  <ul class="wish" id="wish" style="padding:0;margin:0"><li>Loading…</li></ul>
+  <details class="disc"><summary>Suggest something new</summary><div class="body">
+    <form id="wForm" novalidate style="display:flex;flex-direction:column;gap:10px">
+      <div class="field"><label for="wT">What do you need to do?</label><span class="hint" id="wTH">Describe the task and who it is for, not the solution.</span><input type="text" id="wT" maxlength="160" aria-describedby="wTH"></div>
+      <div class="field"><label for="wW">Why does it matter?</label><input type="text" id="wW" maxlength="400"></div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Suggest</button><span id="wMsg" role="status" aria-live="polite"></span></div>
+    </form></div></details>
+</section>
+
+<section id="codesign" aria-labelledby="cd-h"><h2 id="cd-h">Co-design</h2>
+  <p class="small">Every method has an alternative: if a live session doesn't suit you, use the asynchronous route or the contact form. We provide captions, transcripts and materials in advance.</p>
+  <div class="tbl"><table><thead><tr><th scope="col">Method</th><th scope="col">When</th><th scope="col">How</th></tr></thead><tbody id="cd"></tbody></table></div></section>
+
+<section id="charter" aria-labelledby="ch-h">
+  <h2 id="ch-h">Charter, rules and safeguards</h2>
+  <p id="purpose"></p>
+  <h3>Principles</h3><div class="pr" id="prin"></div>
+  <div class="grid">
+    <div class="card"><h3>House rules</h3><ul class="plain small" id="rules"></ul></div>
+    <div class="card"><h3>Guidelines</h3><ul class="plain small" id="guide"></ul></div>
+  </div>
+  <h3>Safeguards</h3><div class="pr" id="safe"></div>
+  <p class="small">Read the full <a id="lCharter" href="#">charter</a>, <a id="lCoc" href="#">code of conduct</a> and <a id="lContrib" href="#">contributing guide</a> on GitHub.</p>
+</section>
+
+<section id="trust" aria-labelledby="tr-h">
+  <h2 id="tr-h">How we keep content trustworthy</h2>
+  <p class="small">The Commons checks itself. These routines run automatically or on a schedule; "planned" ones are on the backlog.</p>
+  <div class="kpis" id="hk"></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Routine</th><th scope="col">What it does</th><th scope="col">When</th><th scope="col">Status</th></tr></thead><tbody id="rt"></tbody></table></div>
+  <details class="disc"><summary>Open findings from the latest content health report</summary><div class="body" id="hOpen"></div></details>
+</section>
+
+<section id="contributors" aria-labelledby="co-h"><h2 id="co-h">Contributors</h2><p class="small" id="coHow"></p><div class="contrib" id="coT"></div>
+  <p class="small">See the <a id="lContributors" href="#">contributors list</a>. Credit is by GitHub username or organisation, never personal details.</p></section>
+
+<section id="github" aria-labelledby="g-h"><h2 id="g-h">GitHub resources</h2><div id="ghs"></div></section>
+
+<section id="releases" aria-labelledby="rl-h">
+  <h2 id="rl-h">Releases and change log</h2>
+  <ul class="plain small" id="rlPolicy"></ul>
+  <div id="rl"></div>
+  <p class="small">The same notes are in <a id="lChangelog" href="#">CHANGELOG.md</a>, and each release is tagged in Git. Open <button class="lnk" type="button" id="rlDrawer" style="font:inherit;background:none;border:0;color:var(--accent);text-decoration:underline;cursor:pointer;padding:0">What's new</button> from any page.</p>
+</section>
+
+<section id="bundle" aria-labelledby="bu-h">
+  <h2 id="bu-h">Solution build and development bundle</h2>
+  <p>Every product, architecture and delivery document for this version in one standalone page: product requirements, theory of change, user research, architecture (solution, high-level and low-level design), functional, technical and integration requirements, build manifest, README, change log, decisions and build log.</p>
+  <p><a class="btn" id="lBundle" href="#">Open the bundle (repository copy)</a></p>
+  <p class="small muted">The bundle is generated from the repository's docs by <code>scripts/build_bundle.py</code>, so it always matches the build.</p>
+</section>
+
+<section id="contact" aria-labelledby="ct-h">
+  <h2 id="ct-h">Contact us</h2>
+  <p>Send us a message through this form. We never show the team's email address, which keeps spam and impersonation down. You don't need to give your name or email: we reply here, on this page, when you come back signed in.</p>
+  <form class="form" id="ctForm" novalidate>
+    <div class="field"><label for="ctTopic">Topic</label><select id="ctTopic"></select></div>
+    <div class="field"><label for="ctOrg">Organisation or jurisdiction (optional)</label><input type="text" id="ctOrg" maxlength="120"></div>
+    <div class="field full"><label for="ctMsg">Your message</label><span class="hint" id="ctH">Up to 2,000 characters. Please don't include personal data, or anything official-sensitive.</span><textarea id="ctMsg" maxlength="2000" aria-describedby="ctH"></textarea></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send message</button><span id="ctOut" role="status" aria-live="polite"></span></div>
+  </form>
+  <p class="small" id="myMsgs"></p>
+  <p class="small muted">Security problem? Report it privately through GitHub's <a id="lSec" href="#">vulnerability reporting</a>, not here.</p>
+</section>
+</div>
+
+<script>
+const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const gh = t => `${B.repo}/issues/new?template=${t}`;
+const PII = [[/[\w.+-]+@[\w-]+\.[\w.]+/, "an email address"], [/\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, "a phone number"],
+  [/\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i, "a National Insurance number"], [/\b\d{3}\s?\d{3}\s?\d{4}\b/, "what looks like an NHS number"],
+  [/OFFICIAL[- ]SENSITIVE|\bSECRET\b/i, "a security marking"]];
+const piiCheck = t => { for (const [re, what] of PII) if (re.test(t)) return what; return null; };
+$("intro").textContent = K.intro;
+[["lCharter", "/blob/main/CHARTER.md"], ["lCoc", "/blob/main/CODE_OF_CONDUCT.md"], ["lContrib", "/blob/main/CONTRIBUTING.md"], ["lContributors", "/blob/main/CONTRIBUTORS.md"], ["lSec", "/security/advisories/new"]]
+  .forEach(([id, p]) => { $(id).href = B.repo + p; });
+const WAYS = [["blocks", "Pick up a backlog item", "Comment on the GitHub issue to say you're working on it.", "#backlog"],
+  ["heart", "Vote on the wishlist", "Up to 5 votes. They help set priorities.", "#wishlist"], ["chat", "Join co-design", "Shape a feature with others, live or in your own time.", "#codesign"],
+  ["library", "Share a resource", "Case studies, guidance and training, moderated before they're public.", "community.html#contribute"],
+  ["layers", "Add a framework or pack", "Especially from the nations, Crown Dependencies, Territories and partners.", gh("3-rule-or-pack.yml")],
+  ["alert", "Report a problem", "Something wrong, out of date or hard to use.", gh("2-bug.yml")], ["message", "Contact us", "No email needed.", "#contact"]];
+$("wayz").innerHTML = WAYS.map(([i, t, d, h]) => `<a href="${esc(h)}">${DQI(i, "dqi-lg")}<b>${esc(t)}</b><span>${esc(d)}</span></a>`).join("");
+$("road").innerHTML = K.roadmap.map(s => `<div class="card"><h3>${esc(s.stage)} <span class="chip ${s.stage === "Now" ? "good" : "acc"}">${esc(s.label)}</span></h3><ul>${s.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`).join("");
+const areas = [...new Set(K.backlog.map(b => b.area))].sort();
+$("ba").innerHTML = `<option value="">Any</option>` + areas.map(a => `<option>${esc(a)}</option>`).join("");
+const issueUrl = b => `${B.repo}/issues?q=${encodeURIComponent(`is:issue label:backlog "${b.id}"`)}`;
+function drawBl() {
+  const q = $("bq").value.trim().toLowerCase(), a = $("ba").value, m = $("bm").value;
+  const L = K.backlog.filter(b => (!a || b.area === a) && (!m || b.moscow === m) && (!q || JSON.stringify(b).toLowerCase().includes(q)));
+  $("bN").textContent = `${L.length} of ${K.backlog.length} items.`;
+  $("bl").innerHTML = L.map(b => `<tr><td><a href="${esc(issueUrl(b))}" rel="noopener"><span class="mono">${esc(b.id)}</span> ${esc(b.title)}</a>${b.jira ? ` <span class="chip">${esc(b.jira)}</span>` : ""}</td>
+    <td><span class="pill m-${esc(b.moscow)}">${esc(b.moscow)}</span></td><td>${esc(b.area)}</td><td>${esc(b.status)}</td><td class="small">${esc(b.why)}</td></tr>`).join("") || `<tr><td colspan="5">Nothing matches.</td></tr>`;
+}
+["bq", "ba", "bm"].forEach(id => $(id).addEventListener("input", drawBl)); drawBl();
+$("cd").innerHTML = K.charter.codesign.map(c => `<tr><td><b>${esc(c.method)}</b></td><td>${esc(c.when)}</td><td>${esc(c.how)}</td></tr>`).join("");
+$("purpose").textContent = K.charter.purpose;
+const PI = ["eye", "users", "book", "access", "lock", "filecheck", "calendar", "scale"];
+$("prin").innerHTML = K.charter.principles.map((p, i) => `<div class="card"><h3>${DQI(PI[i % PI.length])}${esc(p.title)}</h3><p class="small">${esc(p.text)}</p></div>`).join("");
+$("rules").innerHTML = K.charter.rules.map(r => `<li>${esc(r)}</li>`).join("");
+$("guide").innerHTML = K.charter.guidelines.map(r => `<li>${esc(r)}</li>`).join("");
+$("safe").innerHTML = K.charter.safeguards.map(s => `<div class="card"><h3>${DQI("shield")}${esc(s.title)}</h3><p class="small">${esc(s.text)}</p></div>`).join("");
+$("coHow").textContent = K.contributors.how;
+$("coT").innerHTML = K.contributors.types.map(t => `<span class="chip acc" title="${esc(t.text)}">${esc(t.type)}: ${esc(t.text)}</span>`).join("");
+const groups = [...new Set(K.github.map(g => g.group))];
+$("ghs").innerHTML = groups.map(g => `<h3 style="margin:10px 0 8px">${esc(g)}</h3><div class="gh">${K.github.filter(x => x.group === g).map(x =>
+  `<a href="${esc(x.url)}" rel="noopener">${DQI("repo", "dqi-lg")}<div><b>${esc(x.name)}</b><span>${esc(x.what)}</span></div></a>`).join("")}</div>`).join("");
+$("hk").innerHTML = [[H.counts.error, "errors"], [H.counts.warning, "warnings"], [`${H.verification.ratio}%`, `sources read in full (${H.verification.read_in_full} of ${H.verification.total})`], [H.checks.length, "checks in the health report"]]
+  .map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
+$("rt").innerHTML = K.routines.map(r => `<tr><td><b>${esc(r.name)}</b></td><td>${esc(r.what)}</td><td>${esc(r.when)}</td><td><span class="chip ${r.status === "running" ? "good" : r.status === "planned" ? "" : "acc"}">${esc(r.status)}</span></td></tr>`).join("");
+$("hOpen").innerHTML = H.open.length ? `<ul class="plain small">${H.open.map(i => `<li><b>${esc(i.level)}</b> · ${esc(i.check)} · <code>${esc(i.where)}</code>: ${esc(i.message)}</li>`).join("")}</ul><p class="small muted">Report generated ${esc(H.as_of)}.</p>` : `<p class="small">No open findings as of ${esc(H.as_of)}.</p>`;
+$("rlPolicy").innerHTML = REL.policy.map(p => `<li>${esc(p)}</li>`).join("");
+const FL = {new: "New", changed: "Changed", fixed: "Fixed", removed: "Removed"};
+$("rl").innerHTML = REL.releases.map((r, i) => `<details class="disc"${i === 0 ? " open" : ""}><summary>Version ${esc(r.version)}: ${esc(r.title)} <span class="small muted">(${esc(r.date)})</span></summary><div class="body">
+  ${["new", "changed", "fixed", "removed"].map(t => { const xs = r.items.filter(x => x.type === t); return xs.length ? `<ul class="plain small">${xs.map(x => `<li><span class="dqp-flag ${t}">${FL[t]}</span>${x.link ? `<a href="${esc(x.link)}">${esc(x.text)}</a>` : esc(x.text)}</li>`).join("")}</ul>` : ""; }).join("")}</div></details>`).join("");
+$("lChangelog").href = B.repo + "/blob/main/CHANGELOG.md";
+$("lBundle").href = B.repo + "/blob/main/docs/bundle/index.html";
+$("rlDrawer").onclick = () => { if (window.DQP_openNews) window.DQP_openNews(); };
+$("ctTopic").innerHTML = K.contact_topics.map(t => `<option>${esc(t)}</option>`).join("");
+
+// Shared store (claude.ai): wishlist, votes and a per-member queue. Elsewhere: GitHub forms.
+let db = null, user = null, uid = null, writable = true, wishes = [], tally = {}, myVotes = [];
+const setState = h => { $("state").innerHTML = h; };
+function drawWish() {
+  const sorted = [...wishes].sort((a, b) => (tally[b.id] || 0) - (tally[a.id] || 0) || String(a.title).localeCompare(b.title));
+  $("wish").innerHTML = sorted.map(w => { const on = myVotes.includes(w.id);
+    return `<li><span class="tally" role="img" aria-label="${tally[w.id] || 0} votes">${tally[w.id] || 0}</span>
+      <div><b>${esc(w.title)}</b>${w.why ? `<br><span class="small muted">${esc(w.why)}</span>` : ""}${w.key ? ` <span class="chip">${esc(w.key)}</span>` : ""}${w.status ? ` <span class="chip good">${esc(w.status)}</span>` : ""}</div>
+      <button type="button" class="vote" data-w="${esc(w.id)}" aria-pressed="${on}" ${db && uid && writable ? "" : "disabled"} aria-label="${on ? "Remove vote for" : "Vote for"} ${esc(w.title)}">${on ? "Voted" : "Vote"}</button></li>`; }).join("")
+    || `<li>No wishlist items yet. ${db ? "" : `See the <a href="${esc(B.repo)}/issues?q=label%3Awishlist">wishlist issues on GitHub</a>.`}</li>`;
+}
+$("wish").addEventListener("click", async e => {
+  const b = e.target.closest(".vote"); if (!b || !db || !uid) return;
+  const id = b.dataset.w, on = myVotes.includes(id);
+  if (!on && myVotes.length >= 5) { setState(`<span class="msg err">You can vote for up to 5 items. Remove a vote first.</span>`); return; }
+  b.disabled = true;
+  try { await db.doc(`votes/${uid}`).set({items: on ? myVotes.filter(x => x !== id) : [...myVotes, id], at: new Date().toISOString()}); }
+  catch (er) { setState(`<span class="msg err">Your vote couldn't be saved (${esc(er.code || er.message)}).</span>`); b.disabled = false; }
+});
+async function addToQueue(item) {
+  const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
+  if (items.filter(i => i.status === "pending").length >= 20) throw {message: "You have 20 items waiting for moderation already."};
+  items.push({...item, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
+  await ref.set({items, updated: new Date().toISOString()});
+  return items;
+}
+function drawMine(items) {
+  const m = (items || []).filter(i => i.kind === "contact");
+  $("myMsgs").innerHTML = m.length ? "Your messages: " + m.map(i => `<br>${esc(String(i.at).slice(0, 10))} · ${esc(i.topic)} <span class="chip ${i.status === "answered" ? "good" : ""}">${esc(i.status)}</span>${i.reply ? `<br><b>Reply:</b> ${esc(i.reply)}` : ""}`).join("") : "";
+}
+$("wForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const t = $("wT").value.trim(), w = $("wW").value.trim();
+  if (!t) { $("wMsg").innerHTML = `<span class="msg err">Describe what you need to do.</span>`; $("wT").focus(); return; }
+  const p = piiCheck(t + " " + w); if (p) { $("wMsg").innerHTML = `<span class="msg err">It looks like this includes ${p}. Please remove it and try again.</span>`; return; }
+  if (!db || !uid || !writable) { location.href = gh("1-feature-request.yml"); return; }
+  try { await addToQueue({kind: "wish", title: t, why: w}); $("wForm").reset(); $("wMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will add it to the wishlist.</span>`; }
+  catch (er) { $("wMsg").innerHTML = `<span class="msg err">It couldn't be saved: ${esc(er.message || er.code)}.</span>`; }
+});
+$("ctForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("ctMsg").value.trim(), org = $("ctOrg").value.trim(), topic = $("ctTopic").value;
+  if (!msg) { $("ctOut").innerHTML = `<span class="msg err">Write your message.</span>`; $("ctMsg").focus(); return; }
+  const p = piiCheck(msg + " " + org); if (p) { $("ctOut").innerHTML = `<span class="msg err">It looks like this includes ${p}. Please remove it: we don't need it to reply.</span>`; return; }
+  if (!db || !uid || !writable) {
+    $("ctOut").innerHTML = `<span class="msg">Messages can't be saved on this copy of the portal. Use a <a href="${esc(B.repo)}/discussions">GitHub discussion</a> (public) or a <a href="${esc(gh("1-feature-request.yml"))}">GitHub issue</a>. For anything private or security related, use <a href="${esc(B.repo)}/security/advisories/new">private reporting</a>.</span>`; return; }
+  try { drawMine(await addToQueue({kind: "contact", topic, title: topic, summary: msg, org})); $("ctForm").reset(); $("ctOut").innerHTML = `<span class="msg ok">Sent. We aim to reply within 5 working days, here on this page.</span>`; }
+  catch (er) { $("ctOut").innerHTML = `<span class="msg err">It couldn't be sent: ${esc(er.message || er.code)}.</span>`; }
+});
+(async () => {
+  const fallback = why => { db = null; setState(`${esc(why)} You can still vote and suggest through <a href="${esc(B.repo)}/issues?q=label%3Awishlist">GitHub issues</a>.`); wishes = []; drawWish(); };
+  if (!window.claude || typeof claude.use !== "function") { fallback("Saving isn't available on this copy of the portal."); return; }
+  [db, user] = await Promise.all([claude.use("db"), claude.use("user")]);
+  if (!db) { fallback("Saving isn't available here, or you aren't signed in."); return; }
+  if (user) { uid = await user.id(); const w = await user.can("data.write"); if (w === false) writable = false; }
+  setState(uid ? (writable ? "Signed in. Votes, suggestions and messages are saved to the Commons." : "You can read everything. To vote or send a message, ask for Contributor access, or use GitHub.") : "Sign in to vote or send a message.");
+  db.collection("wishlist").onSnapshot(s => { wishes = s.docs.map(d => ({id: d.id, ...d.data()})); drawWish(); });
+  db.collection("votes").onSnapshot(s => { tally = {}; myVotes = [];
+    s.docs.forEach(d => { const items = (d.data() || {}).items || []; items.forEach(i => { tally[i] = (tally[i] || 0) + 1; }); if (d.id === uid) myVotes = items; }); drawWish(); });
+  if (uid) { try { const m = await db.doc(`queue/${uid}`).get(); if (m.exists) drawMine(m.data().items); } catch (e) {} }
+})();
+window.DQP_TOUR = [
+  {sel: "#wayz", title: "Ways to help", text: "Pick up work, vote, co-design, share, or tell us what's wrong."},
+  {sel: "#road", title: "Roadmap", text: "What's done, next and later."},
+  {sel: "#bl", title: "Backlog", text: "Every item is a GitHub issue you can follow or pick up."},
+  {sel: "#wishlist", title: "Wishlist", text: "Vote for up to 5 items."},
+  {sel: "#charter", title: "Charter and safeguards", text: "How we work together, and how we protect people and data."},
+  {sel: "#ctForm", title: "Contact us", text: "No email address needed, and ours is never shown."},
+];
+</script>

@@ -1,0 +1,5 @@
+Critical data item,Rule ID,Rule description,Dimension,Measure,Importance (1-4),Impact (1-4),Combined score,Target (%),Baseline (%),Date measured
+Socio-economic background,R1,unique,uniqueness,unique,3,4,12,99.9,100.0,2026-10-14
+Socio-economic background,R2,in_set,validity,in_set,3,3,9,97.5,100.0,2026-10-14
+Percentage (%),R3,range,accuracy,range,3,3,9,97.5,100.0,2026-10-14
+"Socio-economic background, Percentage (%), Measure, Year",R4,The file says what the percentage measures and for which year,completeness,required_columns,3,3,9,97.5,50.0,2026-10-14

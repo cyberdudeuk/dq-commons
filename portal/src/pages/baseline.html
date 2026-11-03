@@ -1,0 +1,385 @@
+<title>CDA Quality Baseline Effort</title>
+<style>
+/* Layout: working tool — verdict strip, then controls beside live results, then reference sections in a single reading column */
+:root{
+  --bg:#f5f7f7; --surface:#ffffff; --fg:#17212b; --muted:#56636e; --line:#d6dddf;
+  --accent:#0d6b6e; --accent-soft:#e1f0ef;
+  --good:#1f7a3d; --warn:#9a5b00; --crit:#b3261e;
+  --tierA:#2f7d6d; --tierB:#c08a1e; --tierC:#b4513a;
+  --f-display:"Source Serif 4", Georgia, serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077;
+  --tierA:#5bb5a2; --tierB:#e0b04f; --tierC:#e08a72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077;
+  --tierA:#5bb5a2; --tierB:#e0b04f; --tierC:#e08a72; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(1.7rem,3.5vw,2.4rem)}
+h2{font-size:1.35rem}
+h3{font-size:1.02rem;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{color:var(--muted);max-width:68ch}
+header{display:flex;flex-direction:column;gap:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:.8rem;border:1px solid var(--line);background:var(--surface);padding:3px 10px;border-radius:999px;color:var(--muted)}
+.chip b{color:var(--fg)}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat .v{font-family:var(--f-mono);font-size:1.6rem;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .k{font-size:.82rem;color:var(--muted)}
+.banner{border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;padding:12px 16px}
+.banner.ok{border-color:var(--good)} .banner.bad{border-color:var(--crit)}
+.grid2{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-weight:600;font-size:.88rem;display:flex;justify-content:space-between;gap:8px}
+.field label output{font-family:var(--f-mono);font-weight:600;color:var(--accent)}
+.field small{color:var(--muted);font-size:.78rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number]{font:inherit;font-family:var(--f-mono);padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg);width:100%}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:.86rem;padding:8px;border:0;background:var(--bg);color:var(--fg);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--surface);font-weight:600}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mix{display:flex;height:12px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.mix span{display:block;height:100%}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:620px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--bg)}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:700;border-bottom:0}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
+section{display:flex;flex-direction:column;gap:12px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+ul,ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.muted{color:var(--muted)}
+.pill{font-size:.72rem;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.c{color:var(--crit)} .pill.w{color:var(--warn)} .pill.g{color:var(--good)}
+svg text{fill:var(--fg);font-family:var(--f-body)}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.85em}
+@media (prefers-reduced-motion:no-preference){.bar{transition:width .25s ease}}
+.qf{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));margin-bottom:10px}
+.qf legend{padding:0 4px}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Scenarios · Critical data asset baseline</span>
+  <h1>What will it take to report data quality for every critical data asset by your deadline?</h1>
+  <p class="lede">An effort model for producing a first data quality baseline for each critical data asset (CDA) in the baseline reporting return. Built from the GOV.UK policy and guidance, not from the earlier AI Mode answers. Every default is an assumption you can change.</p>
+  <div class="chips">
+    <span class="chip">Today <b id="cToday">12 Oct 2026</b></span>
+    <span class="chip"><label for="dl">Your reporting deadline</label>&nbsp;<input type="date" id="dl"></span>
+    <span class="chip">Working days <b id="cWd"></b> (England and Wales bank holidays removed)</span>
+    <span class="chip">Policy published <b>27 May 2026</b></span>
+  </div>
+  <div class="dqc-ctx" role="note"><b>Scenario: UK government critical data assets.</b> An effort model for the first data quality baseline under the data asset management policy. Devolved and other public bodies can use it to plan any baseline; see <a href="scenarios.html#dam">the scenario</a> and <a href="legacy.html">legacy and modernisation</a>.</div>
+</header>
+
+<div class="verdict" aria-live="polite">
+  <div class="stat"><span class="v" id="sTotal">–</span><span class="k">person-days across government</span></div>
+  <div class="stat"><span class="v" id="sFte">–</span><span class="k">full-time people needed for the whole window</span></div>
+  <div class="stat"><span class="v" id="sAvg">–</span><span class="k">average days per CDA</span></div>
+  <div class="stat"><span class="v" id="sCov">–</span><span class="k">of CDAs baselined with the capacity you set</span></div>
+</div>
+<div class="banner" id="banner"></div>
+
+<div class="grid2">
+  <form class="panel" id="controls" onsubmit="return false">
+    <h2>Your assumptions</h2>
+    <div class="field">
+      <label for="nCda">CDAs in the return</label>
+      <input type="number" id="nCda" min="1" max="5000" value="100">
+      <small>An example. Enter the number of critical data assets you need to baseline.</small>
+    </div>
+    <div class="field">
+      <label>Reporting depth</label>
+      <div class="seg" role="group" aria-label="Reporting depth">
+        <button type="button" id="optFull" aria-pressed="true">Full baseline</button>
+        <button type="button" id="optLite" aria-pressed="false">Proportionate</button>
+      </div>
+      <small id="optNote"></small>
+    </div>
+    <div class="field">
+      <label>Shared starter kit</label>
+      <div class="seg" role="group" aria-label="Shared starter kit">
+        <button type="button" id="kitOff" aria-pressed="true">Without kit</button>
+        <button type="button" id="kitOn" aria-pressed="false">With dqkit</button>
+      </div>
+      <small id="kitNote">Assumes each department builds its own rules, scoring and return.</small>
+    </div>
+    <div class="field">
+      <label for="pA">Measured (tier A) <output id="oA"></output></label>
+      <input type="range" id="pA" min="0" max="100" value="15">
+      <label for="pB">Partial (tier B) <output id="oB"></output></label>
+      <input type="range" id="pB" min="0" max="100" value="45">
+      <label>Unmeasured (tier C) <output id="oC"></output></label>
+      <div class="mix" aria-hidden="true"><span id="mA" style="background:var(--tierA)"></span><span id="mB" style="background:var(--tierB)"></span><span id="mC" style="background:var(--tierC)"></span></div>
+      <small>Tier C takes whatever A and B leave. Default mix reflects the fragmented maturity found in the data management discovery workshops.</small>
+    </div>
+    <div class="field">
+      <label for="cdi">Critical data items per CDA <output id="oCdi"></output></label>
+      <input type="range" id="cdi" min="3" max="60" value="15">
+      <small>Fields or tables that carry the asset's purpose. Rule-writing, measuring and issue logging scale with this.</small>
+    </div>
+    <div class="field">
+      <label for="cont">Contingency <output id="oCont"></output></label>
+      <input type="range" id="cont" min="0" max="50" value="20">
+    </div>
+    <div class="field">
+      <label for="days">Effective working days available</label>
+      <input type="number" id="days" min="10" max="200" value="70">
+      <small id="daysNote"></small>
+    </div>
+    <div class="field">
+      <label for="cap">People you can field (FTE)</label>
+      <input type="number" id="cap" min="1" max="2000" value="15">
+      <small>Stewards, analysts and engineers across departments and ALBs who can work on this.</small>
+    </div>
+  </form>
+
+  <div class="panel" style="gap:20px">
+    <div>
+      <h2>Effort per CDA, by DQAP activity</h2>
+      <p class="muted">Person-days for one CDA at the chosen depth and number of critical data items.</p>
+    </div>
+    <div class="tbl"><table id="actTbl">
+      <thead><tr><th>Activity</th><th>DQAP step</th><th>Main role</th><th class="n"><span class="dot" style="background:var(--tierA)"></span>A</th><th class="n"><span class="dot" style="background:var(--tierB)"></span>B</th><th class="n"><span class="dot" style="background:var(--tierC)"></span>C</th></tr></thead>
+      <tbody></tbody><tfoot></tfoot>
+    </table></div>
+    <div>
+      <h3>Where the total goes</h3>
+      <svg id="roleChart" viewBox="0 0 640 230" width="100%" role="img" aria-label="Person-days by role"></svg>
+    </div>
+  </div>
+</div>
+
+<section>
+  <h2>How the tiers are defined</h2>
+  <div class="cols">
+    <div class="card"><h3><span class="dot" style="background:var(--tierA)"></span>A · Measured</h3><p>Rules exist for the critical data items and checks run on a schedule. A DQAP or equivalent exists. The work is mapping existing results into the return.</p></div>
+    <div class="card"><h3><span class="dot" style="background:var(--tierB)"></span>B · Partial</h3><p>Some rules or ad hoc checks. Known issues are logged somewhere. No agreed targets and no complete baseline across dimensions.</p></div>
+    <div class="card"><h3><span class="dot" style="background:var(--tierC)"></span>C · Unmeasured</h3><p>No rules, no profiling, and often unresolved data access, ownership or sharing-agreement questions. Data access is the biggest source of delay.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>What each CDA's quality entry should contain</h2>
+  <p class="lede">The baseline template itself is not public, so this is the minimum set that the DQAP guide and issues framework support. Compare it with the real template to check the effort model fits.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Field</th><th>Why it is needed</th><th>Source in GOV.UK guidance</th><th>Proportionate?</th></tr></thead>
+    <tbody>
+      <tr><td>DQAP status (none, in progress, in place, equivalent)</td><td>Policy requires a DQAP or equivalent for every CDA</td><td>DAM policy; DQAP guide</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Named data owner and steward</td><td>Accountable for meaning, content and quality</td><td>Identify and record CDAs; data ownership model</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Number of critical data items measured</td><td>Shows baseline coverage</td><td>DQAP step 1 (Data Criticality Matrix)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Dimensions measured, with rule count</td><td>Six DAMA UK dimensions; not all apply to every asset</td><td>DQAP step 2</td><td><span class="pill w">3 core</span></td></tr>
+      <tr><td>Baseline score per dimension (%) and date measured</td><td>The benchmark for every later report</td><td>DQAP step 3</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Target per rule, from importance × impact</td><td>Targets come from the combined score, not a flat percentage</td><td>Data quality issues framework</td><td><span class="pill w">Later</span></td></tr>
+      <tr><td>Open issues by priority (critical, high, medium, low)</td><td>Drives funding and remediation order</td><td>Issues framework, priority score</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Measurement frequency and method (automated or manual)</td><td>Shows whether the baseline can be repeated</td><td>DQAP step 7</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Coverage and equality check for personal data</td><td>Completeness can look high while groups are missing or misrecorded</td><td>Not in the guidance (recommended addition)</td><td><span class="pill c">Add</span></td></tr>
+      <tr><td>Confidence in the baseline (high, medium, low)</td><td>Separates measured results from estimates</td><td>Not in the guidance (recommended addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Access route (open, restricted, on request, closed)</td><td>Q-FAIR <b>Accessible</b>: users need to know how to get the data</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Standards it conforms to, and shared identifiers used</td><td>Q-FAIR <b>Interoperable</b>: joins up only if formats and identifiers are shared</td><td>CDA metadata "conformsTo"; DAM interoperability requirement</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Licence</td><td>Q-FAIR <b>Reusable</b>: no licence means no lawful reuse</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill g">Yes</span></td></tr>
+      <tr><td>Provenance (where it comes from, how it is made)</td><td>Q-FAIR <b>Reusable</b>: users judge fitness from origin and processing</td><td>Not in the guidance (Q-FAIR addition)</td><td><span class="pill w">Later</span></td></tr>
+      <tr><td>Q-FAIR rating per area: Good, Improving or Attention required</td><td>One comparable picture across organisations, using the Geospatial Commission's scale</td><td>Q-FAIR benchmark (Geospatial Commission, 2022)</td><td><span class="pill g">Yes</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="qfair" aria-labelledby="qf-h">
+  <h2 id="qf-h">Q-FAIR: rate one asset in two minutes</h2>
+  <p class="lede">Q-FAIR adds Quality to the FAIR principles (Findable, Accessible, Interoperable, Reusable). The Geospatial Commission uses it to benchmark national geospatial data. Use the same three levels for any critical data asset. The toolkit fills these columns in the CDA return automatically from measured results and the asset record.</p>
+  <div id="qfForm" class="qf"></div>
+  <div class="card" id="qfOut" aria-live="polite"></div>
+  <p class="small">The DAM policy does not mention FAIR or Q-FAIR. Only the Geospatial Commission's six partner bodies are publicly known to have used Q-FAIR (2021 to 2022 benchmark). Ratings are an indicator, not an absolute measure.</p>
+</section>
+
+<section>
+  <h2>Inclusion check built into the estimate</h2>
+  <div class="card">
+    <p>Each CDA carries a small allowance for an equality and coverage check. Standard completeness and validity scores can hide exclusion: a record can be complete while sex, ethnicity, disability or language fields are defaulted, or while people with no fixed address or without a digital footprint never appear at all. For CDAs holding personal data, the baseline should report:</p>
+    <ul>
+      <li>Completeness of protected-characteristic and need fields, separately from overall completeness</li>
+      <li>Use of default or "unknown" values in those fields</li>
+      <li>Coverage against a reference population where one exists (for example, ONS mid-year estimates)</li>
+      <li>Whether quality differs between groups, such as match rates by age band or postcode type</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Assumptions and open questions</h2>
+  <div class="cols">
+    <div class="card"><h3>Assumed</h3><ul>
+      <li>The first return asks for a first baseline, not a complete DQAP across all 7 steps.</li>
+      <li>Per-activity days come from typical DQ assessment work, not from GOV.UK. The guidance gives no time estimates.</li>
+      <li>Rule, measurement and issue effort scale with critical data items at a power of 0.7, because rules get reused across similar fields.</li>
+      <li>Departments do the work; GDS runs guidance, a helpdesk and aggregation (shown as a central line).</li>
+    </ul></div>
+    <div class="card"><h3>To confirm</h3><ul>
+      <li>The exact fields in the CDA baseline reporting template and when it reaches departments.</li>
+      <li>How many CDAs were actually submitted, and the split between departments and ALBs.</li>
+      <li>Whether "DQAP in progress" with a dated plan is acceptable for unmeasured (tier C) assets in the first return.</li>
+      <li>Whether CDAs shared by several organisations get one baseline (owner) or one per user.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Where the earlier AI Mode answers differ from GOV.UK</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Earlier claim</th><th>What the published guidance says</th></tr></thead>
+    <tbody>
+      <tr><td>Flat targets such as 99.5% for critical fields, or sector bands such as 99.99%</td><td>Targets follow importance × impact (score 1–16), giving ranges from 75% to 100%.</td></tr>
+      <tr><td>Data owner must be Senior Civil Service</td><td>The owner is "usually a senior individual". No grade is mandated.</td></tr>
+      <tr><td>Mandatory metadata: UUID, steward, update frequency, AI readiness tags</td><td>Named fields include creator, created date, title, description, expires, supersededBy, temporal coverage, conformsTo and security classification. Update frequency, AI tags and UUIDs are not required.</td></tr>
+      <tr><td>Metadata "reported to GDS annually"</td><td>Returns must be maintained and reviewed every 12 months. No fixed date is published.</td></tr>
+      <tr><td>Sector calibration matrix and a generated rule-engine file</td><td>Not part of the policy. Useful as an idea, but it should not be presented as GOV.UK guidance.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Connections to your other work</h2>
+  <div class="cols">
+    <div class="card"><h3>GDS DAM portal</h3><p>The departmental return workspace and its Dataverse schema can take the quality fields above as new columns, and the assurance dashboard can show baseline coverage by organisation.</p></div>
+    <div class="card"><h3>DQAP implementation playbook</h3><p>Your Implementation Guide Playbook v1.0 already has a RACI and an implementation checklist that match the activity rows in this model.</p></div>
+    <div class="card"><h3>National Data Library</h3><p>Baseline quality scores make CDAs safer to reuse, and are the evidence the NDL needs to decide which assets to prioritise.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government">Data asset management policy in government</a> (GDS, 27 May 2026)</li>
+    <li><a href="https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets">Identifying and recording critical data assets</a></li>
+    <li><a href="https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets">Recording metadata to describe critical data assets</a></li>
+    <li><a href="https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide">Implementing a data quality action plan</a></li>
+    <li><a href="https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework">Data quality issues framework</a></li>
+  </ul>
+</section>
+</div>
+
+<script>
+// Working days from today to your reporting deadline, excluding weekends and England and Wales bank holidays (GOV.UK, 2026 to 2028).
+const HOL=["2026-01-01","2026-04-03","2026-04-06","2026-05-04","2026-05-25","2026-08-31","2026-12-25","2026-12-28",
+  "2027-01-01","2027-03-26","2027-03-29","2027-05-03","2027-05-31","2027-08-30","2027-12-27","2027-12-28",
+  "2028-01-03","2028-04-14","2028-04-17","2028-05-01","2028-05-29","2028-08-28","2028-12-25","2028-12-26"];
+const TODAY=new Date(new Date().toISOString().slice(0,10)+"T00:00:00Z");
+function windowDays(){
+  const v=document.getElementById("dl").value, end=v?new Date(v+"T00:00:00Z"):new Date(TODAY.getTime()+84*864e5);
+  let wd=0; for(let d=new Date(TODAY); d<=end; d.setUTCDate(d.getUTCDate()+1)){const w=d.getUTCDay(), iso=d.toISOString().slice(0,10); if(w&&w<6&&!HOL.includes(iso)) wd++;}
+  document.getElementById("cWd").textContent=wd;
+  document.getElementById("days").value=Math.max(10,wd-7);
+  document.getElementById("daysNote").textContent=wd+" working days to your deadline, less a week for roll-out.";
+}
+document.getElementById("cToday").textContent=TODAY.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+document.getElementById("dl").value=new Date(TODAY.getTime()+84*864e5).toISOString().slice(0,10);
+windowDays();
+const EFFORT=__K_EFFORT__, ACT=EFFORT.activities; // single source: knowledge/effort.yaml (also dqkit/effort.py)
+const ROLES=["Steward","Technical","Analyst","Data owner","Coordinator","GDS central"];
+const $=id=>document.getElementById(id);
+let lite=false, kit=false;
+const fmt=(x,dp=0)=>x.toLocaleString("en-GB",{maximumFractionDigits:dp,minimumFractionDigits:dp});
+function perCda(a,tier,cdi){const f=a.sc?Math.pow(cdi/15,0.7):1;return a.d[tier]*f*(lite?a.lite:1)*(kit?a.kit:1)}
+function calc(){
+  let pA=+$("pA").value,pB=+$("pB").value;
+  if(pA+pB>100){pB=100-pA;$("pB").value=pB}
+  const pC=100-pA-pB, mix=[pA/100,pB/100,pC/100];
+  const n=Math.max(1,+$("nCda").value||1), cdi=+$("cdi").value, cont=+$("cont").value/100;
+  const days=Math.max(1,+$("days").value||1), cap=Math.max(1,+$("cap").value||1);
+  $("oA").textContent=pA+"%";$("oB").textContent=pB+"%";$("oC").textContent=pC+"%";
+  $("mA").style.width=pA+"%";$("mB").style.width=pB+"%";$("mC").style.width=pC+"%";
+  $("oCdi").textContent=cdi;$("oCont").textContent=Math.round(cont*100)+"%";
+  $("optNote").textContent=lite?"Top 5 critical data items, three dimensions (completeness, validity, timeliness), issues logged but targets set later. Full DQAP follows after the first return.":"All critical data items, all relevant dimensions, targets set from importance × impact.";
+  // table
+  const tb=$("actTbl").tBodies[0]; tb.innerHTML="";
+  const tot=[0,0,0]; const role={};ROLES.forEach(r=>role[r]=0);
+  const effCdi=lite?Math.min(cdi,5):cdi;
+  ACT.forEach(a=>{
+    const v=[0,1,2].map(t=>perCda(a,t,effCdi));
+    v.forEach((x,i)=>tot[i]+=x);
+    const wtd=v.reduce((s,x,i)=>s+x*mix[i],0);
+    role[a.r]+=wtd*n;
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${a.n}</td><td>${a.s}</td><td>${a.r}</td>`+v.map(x=>`<td class="n">${fmt(x,2)}</td>`).join("");
+    tb.appendChild(tr);
+  });
+  $("actTbl").tFoot.innerHTML=`<tr><td colspan="3">Total per CDA (before contingency)</td>${tot.map(x=>`<td class="n">${fmt(x,1)}</td>`).join("")}</tr>`;
+  const central=0.1*n+3*days; // per-CDA central QA + 3 FTE for the window
+  role["GDS central"]=central;
+  let dept=Object.keys(role).filter(r=>r!=="GDS central").reduce((s,r)=>s+role[r],0);
+  Object.keys(role).forEach(r=>{if(r!=="GDS central")role[r]*=1+cont});
+  const total=dept*(1+cont)+central;
+  const fte=total/days, avg=(dept*(1+cont))/n;
+  const cov=Math.min(1,(cap*days)/total);
+  $("sTotal").textContent=fmt(total);
+  $("sFte").textContent=fmt(fte,0);
+  $("sAvg").textContent=fmt(avg,1);
+  $("sCov").textContent=fmt(cov*100)+"%";
+  const b=$("banner");
+  if(cov>=1){b.className="banner ok";b.innerHTML=`<b>Achievable with the capacity you set.</b> ${fmt(cap)} FTE over ${days} days gives ${fmt(cap*days)} person-days against ${fmt(total)} needed.`}
+  else if(cov>=0.6){b.className="banner";b.innerHTML=`<b>Tight.</b> About ${fmt(cov*n)} of ${fmt(n)} CDAs can be baselined in time. Try the proportionate depth, or report tier C assets as "DQAP in progress" with a dated plan.`}
+  else{b.className="banner bad";b.innerHTML=`<b>Not achievable as set.</b> Only about ${fmt(cov*n)} of ${fmt(n)} CDAs can be baselined in time. A full baseline for every CDA by your deadline needs about ${fmt(fte)} FTE. Phase it: tier A and B first, tier C by a later date.`}
+  drawRoles(role);
+}
+function drawRoles(role){
+  const svg=$("roleChart"),W=640,lw=110,top=8,bh=26,gap=10,max=Math.max(...ROLES.map(r=>role[r]))||1;
+  const cols={"Steward":"var(--accent)","Technical":"var(--tierA)","Analyst":"var(--tierB)","Data owner":"var(--tierC)","Coordinator":"var(--muted)","GDS central":"var(--line)"};
+  let h="";
+  ROLES.forEach((r,i)=>{const y=top+i*(bh+gap),w=(role[r]/max)*(W-lw-90);
+    h+=`<text x="0" y="${y+bh/2+5}" font-size="13">${r}</text><rect class="bar" x="${lw}" y="${y}" width="${Math.max(2,w)}" height="${bh}" rx="3" fill="${cols[r]}"></rect><text x="${lw+Math.max(2,w)+8}" y="${y+bh/2+5}" font-size="12" font-family="var(--f-mono)">${fmt(role[r])} d</text>`});
+  svg.innerHTML=h;
+}
+$("optFull").onclick=()=>{lite=false;$("optFull").setAttribute("aria-pressed","true");$("optLite").setAttribute("aria-pressed","false");calc()};
+$("kitOff").onclick=()=>{kit=false;$("kitOff").setAttribute("aria-pressed","true");$("kitOn").setAttribute("aria-pressed","false");$("kitNote").textContent="Assumes each department builds its own rules, scoring and return.";calc()};
+$("kitOn").onclick=()=>{kit=true;$("kitOn").setAttribute("aria-pressed","true");$("kitOff").setAttribute("aria-pressed","false");$("kitNote").textContent="Rule templates, automatic issues-framework scoring, built-in inclusion checks and DQAP/DQV outputs. Assumed savings: rules 40%, measurement 40%, issue scoring 70%, inclusion 30%, return 30%. Data access is unchanged.";calc()};
+$("optLite").onclick=()=>{lite=true;$("optLite").setAttribute("aria-pressed","true");$("optFull").setAttribute("aria-pressed","false");calc()};
+["nCda","pA","pB","cdi","cont","days","cap"].forEach(id=>$(id).addEventListener("input",calc));
+$("dl").addEventListener("change",()=>{windowDays();calc();});
+calc();
+
+// Q-FAIR self-rating (same criteria as dqkit/qfair.py)
+const QF=[
+ {k:"quality",n:"Quality",c:["Rules exist for the critical data items","At least three dimensions measured","No critical or high issues open","Every rule meets its target"]},
+ {k:"findable",n:"Findable",c:["Persistent identifier or catalogue link","Title","Description","Owning organisation recorded"]},
+ {k:"accessible",n:"Accessible",c:["Access route recorded (open, restricted, on request)","Security classification recorded"]},
+ {k:"interoperable",n:"Interoperable",c:["Standards it conforms to are named","Shared identifiers or code lists used and checked"]},
+ {k:"reusable",n:"Reusable",c:["Licence stated","Provenance described"]}
+];
+const qfState={};
+$("qfForm").innerHTML=QF.map(p=>`<fieldset class="card"><legend><b>${p.n}</b></legend>${p.c.map((c,i)=>`<label class="small" style="display:flex;gap:6px;align-items:flex-start;margin:4px 0"><input type="checkbox" data-p="${p.k}" data-i="${i}"> ${c}</label>`).join("")}</fieldset>`).join("");
+function qfRate(){
+  const lv=["Attention required","Improving","Good"], pts={"Good":2,"Improving":1,"Attention required":0};
+  const r=QF.map(p=>{const n=p.c.filter((_,i)=>qfState[p.k+i]).length;
+    let l= n===p.c.length?"Good":(n?"Improving":"Attention required");
+    if(p.k==="quality"){ if(!qfState.quality0) l="Attention required"; else if(!qfState.quality2) l="Attention required"; else if(qfState.quality3&&qfState.quality1) l="Good"; else l="Improving"; }
+    return {p,l}});
+  const tot=r.reduce((s,x)=>s+pts[x.l],0), ov=tot>=8?"Good":(tot>=5?"Improving":"Attention required");
+  const col={"Good":"g","Improving":"w","Attention required":"c"};
+  $("qfOut").innerHTML=`<div class="tbl"><table><thead><tr><th>Area</th><th>Rating</th><th>Return column</th></tr></thead><tbody>${r.map(x=>`<tr><td>${x.p.n}</td><td><span class="pill ${col[x.l]}">${x.l}</span></td><td><code>gds_qfair_${x.p.k}</code></td></tr>`).join("")}<tr><th scope="row">Overall</th><td><span class="pill ${col[ov]}">${ov}</span> <span class="small">${tot} of 10 points</span></td><td><code>gds_qfair_overall</code></td></tr></tbody></table></div>`;
+}
+$("qfForm").addEventListener("change",e=>{const t=e.target;if(t.dataset.p){qfState[t.dataset.p+t.dataset.i]=t.checked;qfRate();}});
+qfRate();
+window.DQP_TOUR = [
+  {sel: "#nCda", title: "Number of assets", text: "Set how many critical data assets you need to baseline."},
+  {sel: "#controls", title: "Your assumptions", text: "Every default is an assumption you can change."},
+  {sel: "#sTotal", title: "Effort", text: "Total effort, and the staff needed to finish by the deadline."},
+  {sel: "#qfForm", title: "Q-FAIR rating", text: "Tick what is true for one asset to see its Quality and FAIR ratings and the matching return columns."},
+];
+</script>

@@ -1,0 +1,871 @@
+# Data quality frameworks, standards, policies and methods relevant to the UK public sector.
+#
+# One entry per source. "dimensions" uses each source's own words; "map" translates each of them to
+# the kit's dimensions (vocab/dimensions.csv), which drives the crosswalk and conversion
+# (`dqkit crosswalk`). A source dimension mapped to several kit dimensions lists them all; one with
+# no kit equivalent maps to [] and is reported as "not measured by data rules".
+#
+# verified: "yes" means the facts here were checked against the source or its publisher's page in
+# October 2026. "partly" means the existence, owner and link were checked, but some detail comes from
+# general knowledge and should be confirmed against the full text (several ISO texts are paid-for).
+# Summaries are in our own words. Nothing here reproduces a standard's text.
+review:
+  last_reviewed: '2026-10-15'
+  owner_role: Content steward (standards)
+frameworks:
+- id: uk-gdqf
+  name: The Government Data Quality Framework
+  publisher: Government Data Quality Hub (ONS)
+  jurisdiction: UK
+  sector: Cross-government
+  type: framework
+  year: '2020'
+  status: In use (guidance)
+  applies_to: All government data
+  url: https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework
+  verified: 'yes'
+  principles:
+  - Commit to data quality
+  - Know your users and their needs
+  - Assess quality throughout the data lifecycle
+  - Communicate data quality clearly and effectively
+  - Anticipate changes affecting data quality
+  lifecycle:
+  - Plan
+  - Collect or acquire, and ingest
+  - Prepare, store and maintain
+  - Use and process
+  - Share and publish
+  - Archive or destroy
+  dimensions:
+  - Completeness
+  - Uniqueness
+  - Consistency
+  - Timeliness
+  - Validity
+  - Accuracy
+  map:
+    Completeness:
+    - completeness
+    Uniqueness:
+    - uniqueness
+    Consistency:
+    - consistency
+    Timeliness:
+    - timeliness
+    Validity:
+    - validity
+    Accuracy:
+    - accuracy
+  scoring: None prescribed; recommends action plans and root cause analysis
+  pack: uk-gdqf
+- id: uk-dam-policy
+  name: Data asset management policy in government
+  publisher: Government Digital Service (DSIT)
+  jurisdiction: UK
+  sector: Cross-government
+  type: policy
+  year: '2026'
+  status: Mandatory for departments and arm's length bodies (shared critical data assets)
+  applies_to: Critical data assets (CDAs)
+  url: https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government
+  verified: 'yes'
+  dimensions:
+  - Data quality (via DQAP)
+  - Discoverability
+  - Interoperability
+  - Ownership
+  map:
+    Data quality (via DQAP):
+    - completeness
+    - uniqueness
+    - consistency
+    - timeliness
+    - validity
+    - accuracy
+    Discoverability:
+    - metadata
+    Interoperability:
+    - coherence-comparability
+    - validity
+    Ownership:
+    - metadata
+  scoring: Data quality issues framework (importance × impact, bands, priority)
+  pack: uk-dam-cda
+  notes: Not mandatory for the devolved governments, which can adopt it voluntarily.
+- id: uk-dqap
+  name: Implement a data quality action plan, and the data quality issues framework
+  publisher: Government Digital Service (DSIT)
+  jurisdiction: UK
+  sector: Cross-government
+  type: guidance
+  year: '2026'
+  status: Guidance supporting the DAM policy
+  applies_to: Critical data assets
+  url: https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide
+  verified: 'yes'
+  lifecycle:
+  - Identify critical data
+  - Identify rules
+  - Assess current quality
+  - Prioritise and set goals
+  - Root cause and action
+  - Report
+  - Repeat
+  dimensions:
+  - Completeness
+  - Uniqueness
+  - Consistency
+  - Timeliness
+  - Validity
+  - Accuracy
+  map:
+    Completeness:
+    - completeness
+    Uniqueness:
+    - uniqueness
+    Consistency:
+    - consistency
+    Timeliness:
+    - timeliness
+    Validity:
+    - validity
+    Accuracy:
+    - accuracy
+  scoring: Combined score (importance × impact) sets the target range; bands below target; priority = importance × impact × band
+  pack: uk-dam-cda
+- id: uk-cda-metadata
+  name: Recording metadata to describe critical data assets
+  publisher: Government Digital Service (DSIT)
+  jurisdiction: UK
+  sector: Cross-government
+  type: guidance
+  year: '2026'
+  status: Guidance supporting the DAM policy
+  url: https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets
+  verified: 'yes'
+  dimensions:
+  - Metadata completeness
+  map:
+    Metadata completeness:
+    - metadata
+  pack: uk-dam-cda
+- id: uk-code-of-practice-3
+  name: Code of Practice for Statistics, Edition 3.0
+  publisher: Office for Statistics Regulation (UK Statistics Authority)
+  jurisdiction: UK
+  sector: Official statistics
+  type: code of practice
+  year: 2025 (Edition 3.0, published 3 November 2025)
+  status: Standards for Official Statistics apply to official statistics producers; anyone can apply the Code voluntarily; Standards for the Public Use of Statistics, Data and Wider Analysis apply to all
+    public bodies
+  url: https://osr.statisticsauthority.gov.uk/publications/the-code-of-practice-for-statistics/
+  verified: 'yes'
+  principles:
+  - Trustworthiness
+  - Quality
+  - Value
+  dimensions:
+  - Trustworthiness (Show integrity, Lead responsibly, Be transparent, Manage data responsibly)
+  - Quality (Prioritise quality, Be rigorous, Be open about quality)
+  - Value (Be relevant, Be clear, Be accessible)
+  map:
+    Trustworthiness (Show integrity, Lead responsibly, Be transparent, Manage data responsibly): []
+    Quality (Prioritise quality, Be rigorous, Be open about quality):
+    - accuracy
+    - validity
+    - coherence-comparability
+    Value (Be relevant, Be clear, Be accessible):
+    - relevance
+    - accessibility-clarity
+  structure: '10 Code Principles grouped under Trustworthiness, Quality and Value; Standards for Official Statistics (10, named as the principles); Standards for the Public Use of Statistics, Data and Wider
+    Analysis (3: Equality of access, Supporting understanding, Decision making and leadership)'
+  pack: uk-statistics
+  notes: Edition 3.0 published 3 November 2025 (cover dated Autumn 2025). 'Suitable data sources and sound methods' is wording in the Be rigorous standard, not a principle name.
+  checked_on: '2026-10-30'
+- id: uk-qaad
+  name: 'Quality Assurance of Administrative Data (QAAD): Setting the Standard, and the Administrative Data Quality Assurance Toolkit'
+  publisher: Office for Statistics Regulation
+  jurisdiction: UK
+  sector: Official statistics
+  type: toolkit
+  year: 2015 (toolkit PDF edition February 2019; online toolkit last updated May 2026)
+  status: In use
+  url: https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/
+  verified: 'yes'
+  dimensions:
+  - Operational context & administrative data collection
+  - Communication with data supply partners
+  - QA principles, standards and checks applied by data suppliers
+  - Producers' QA investigations & documentation
+  map:
+    Operational context & administrative data collection:
+    - accuracy
+    - completeness
+    Communication with data supply partners: []
+    QA principles, standards and checks applied by data suppliers:
+    - validity
+    - consistency
+    Producers' QA investigations & documentation:
+    - accuracy
+    - metadata
+  scoring: Quality Assurance Matrix (quality risk and public interest); assurance levels A0 No assurance, A1 Basic, A2 Enhanced, A3 Comprehensive
+  pack: uk-statistics
+  checked_on: '2026-10-30'
+- id: uk-aqua-book
+  name: The AQuA Book
+  publisher: Government Operational Research Service and Government Analysis Function (with the Government Actuary's Department and Office for National Statistics)
+  jurisdiction: UK
+  sector: Analysis
+  type: guidance
+  year: 2025 (published 30 July 2025)
+  status: In use
+  url: https://www.gov.uk/guidance/the-aqua-book
+  verified: 'yes'
+  dimensions:
+  - Proportionate assurance
+  - Roles (commissioner, analyst, assurer, approver)
+  - Uncertainty
+  - Documentation
+  map:
+    Proportionate assurance: []
+    Roles (commissioner, analyst, assurer, approver): []
+    Uncertainty:
+    - accuracy
+    Documentation:
+    - metadata
+  notes: About the quality of analysis built on data, not the data itself. Complements a DQAP.
+  checked_on: '2026-10-30'
+- id: uk-analysis-function-quality
+  name: Analysis Function quality guidance, and quality questions and red flags
+  publisher: Government Analysis Function
+  jurisdiction: UK
+  sector: Analysis and statistics
+  type: guidance
+  year: Ongoing
+  status: In use
+  url: https://analysisfunction.civilservice.gov.uk/guidances/quality
+  verified: 'yes'
+  dimensions:
+  - ESS quality dimensions, for statistics
+  map:
+    ESS quality dimensions, for statistics:
+    - relevance
+    - accuracy
+    - timeliness
+    - accessibility-clarity
+    - coherence-comparability
+- id: uk-ico-accuracy
+  name: UK GDPR accuracy principle (Article 5(1)(d)) and ICO guidance
+  publisher: Information Commissioner's Office
+  jurisdiction: UK
+  sector: Personal data (all sectors)
+  type: law and regulatory guidance
+  year: '2018'
+  status: Legal requirement for personal data
+  url: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/accuracy/
+  verified: 'yes'
+  dimensions:
+  - Accuracy of personal data
+  - Kept up to date where necessary
+  - Rectification
+  map:
+    Accuracy of personal data:
+    - accuracy
+    Kept up to date where necessary:
+    - timeliness
+    Rectification: []
+  pack: uk-personal-data-accuracy
+  checked_on: '2026-10-30'
+  source_note: The ICO says this guidance is under review following the Data (Use and Access) Act 2025. The accuracy principle itself is unchanged; check the page for updates.
+- id: uk-geospatial-qfair
+  name: Q-FAIR approach to geospatial data improvement
+  publisher: Geospatial Commission
+  jurisdiction: UK
+  sector: Geospatial
+  type: approach
+  year: '2021'
+  status: Guidance
+  url: https://gdsgeospatial.blog.gov.uk/2021/06/25/byte-ing-back-better-introducing-a-q-fair-approach-to-geospatial-data-improvement/
+  verified: 'yes'
+  dimensions:
+  - Quality
+  - Findable
+  - Accessible
+  - Interoperable
+  - Reusable
+  map:
+    Quality:
+    - accuracy
+    - completeness
+    - timeliness
+    Findable:
+    - metadata
+    Accessible:
+    - accessibility-clarity
+    Interoperable:
+    - coherence-comparability
+    Reusable:
+    - metadata
+- id: wales-sqms
+  name: Statistical quality management strategy (Welsh Government)
+  publisher: Welsh Government
+  jurisdiction: Wales
+  sector: Official statistics
+  type: strategy
+  year: '2018'
+  status: In use, reviewed annually
+  url: https://www.gov.wales/statistical-quality-management-strategy-html
+  verified: 'yes'
+  dimensions:
+  - Fitness for intended use
+  - Not materially misleading
+  - Factual and presentational quality
+  map:
+    Fitness for intended use:
+    - relevance
+    - accuracy
+    Not materially misleading:
+    - accuracy
+    - accessibility-clarity
+    Factual and presentational quality:
+    - accuracy
+    - accessibility-clarity
+  notes: Four objectives - train staff in QA, question data, publish quality information, review processes with data providers.
+- id: scotland-data-standards
+  name: 'Data standards in Scotland''s public sector - framework for action: consultation analysis'
+  publisher: Scottish Government
+  jurisdiction: Scotland
+  sector: Cross-public-sector (Scotland)
+  type: framework (consultation stage)
+  year: 2021 (published 21 October 2021)
+  status: Consultation analysis (2021); proposed Framework for Action presented for discussion - check current status with the Scottish Government
+  url: https://www.gov.scot/publications/framework-action-data-standards-scotlands-public-sector/
+  verified: 'yes'
+  dimensions:
+  - Data standards adoption
+  map:
+    Data standards adoption:
+    - validity
+    - coherence-comparability
+  notes: Proposed framework has an ambition, principles, three pillars of activity and short-term actions, and adopts the FAIR principles. Scottish Government official statistics also publish a quality
+    management policy (Producing official statistics).
+  checked_on: '2026-10-30'
+- id: scotland-official-statistics-quality
+  name: Producing official statistics - quality management policy (Scottish Government)
+  publisher: Scottish Government
+  jurisdiction: Scotland
+  sector: Official statistics
+  type: policy
+  year: 2020 (first published 13 January 2020; updated 2 July 2026)
+  status: In use
+  url: https://www.gov.scot/publications/producing-official-statistics/pages/quality-management-policy/
+  verified: 'yes'
+  dimensions:
+  - Relevance
+  - Accuracy
+  - Timeliness
+  - Accessibility
+  - Comparability
+  map:
+    Relevance:
+    - relevance
+    Accuracy:
+    - accuracy
+    Timeliness:
+    - timeliness
+    Accessibility:
+    - accessibility-clarity
+    Comparability:
+    - coherence-comparability
+  checked_on: '2026-10-30'
+- id: nhs-dqmi
+  name: Data Quality Maturity Index (DQMI)
+  publisher: NHS England
+  jurisdiction: England
+  sector: Health
+  type: index
+  year: Ongoing
+  status: Published regularly for NHS providers
+  url: https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/data-quality/data-quality-maturity-index-methodology/methodology
+  verified: 'yes'
+  dimensions:
+  - Coverage
+  - Completeness
+  - Validity
+  - Default values
+  map:
+    Coverage:
+    - completeness
+    Completeness:
+    - completeness
+    Validity:
+    - validity
+    Default values:
+    - representativeness
+    - accuracy
+  scoring: Data item score = (valid and complete records - excess defaults) / records x 100; index = mean item score x mean coverage
+  pack: nhs-dqmi-style
+- id: iso-8000
+  name: 'ISO 8000 Data quality (series), including ISO 8000-8:2015 Information and data quality: Concepts and measuring, and ISO 8000-61 process reference model'
+  publisher: ISO (TC 184/SC 4)
+  jurisdiction: International
+  sector: General, master data
+  type: standard
+  year: 2015 onwards
+  status: International standard (paid)
+  url: https://scc-ccn.ca/standardsdb/standards/8158218
+  verified: 'yes'
+  dimensions:
+  - Syntactic quality
+  - Semantic quality
+  - Pragmatic quality
+  map:
+    Syntactic quality:
+    - validity
+    Semantic quality:
+    - accuracy
+    - consistency
+    Pragmatic quality:
+    - relevance
+  pack: iso-8000-8
+  notes: ISO 8000-8 frames quality as syntactic (conforms to the format), semantic (correctly represents the thing) and pragmatic (fit for the use).
+  checked_on: '2026-10-30'
+- id: iso-iec-25012
+  name: ISO/IEC 25012 Data quality model
+  publisher: ISO/IEC (JTC 1/SC 7)
+  jurisdiction: International
+  sector: Software and data
+  type: standard
+  year: '2008'
+  status: International standard (paid); measures in ISO/IEC 25024
+  url: https://webstore.iec.ch/publication/11246
+  verified: 'yes'
+  dimensions:
+  - Accuracy
+  - Completeness
+  - Consistency
+  - Credibility
+  - Currentness
+  - Accessibility
+  - Compliance
+  - Confidentiality
+  - Efficiency
+  - Precision
+  - Traceability
+  - Understandability
+  - Availability
+  - Portability
+  - Recoverability
+  map:
+    Accuracy:
+    - accuracy
+    Completeness:
+    - completeness
+    Consistency:
+    - consistency
+    Credibility:
+    - accuracy
+    Currentness:
+    - timeliness
+    Accessibility:
+    - accessibility-clarity
+    Compliance:
+    - validity
+    Confidentiality: []
+    Efficiency: []
+    Precision:
+    - accuracy
+    Traceability:
+    - metadata
+    Understandability:
+    - accessibility-clarity
+    - metadata
+    Availability: []
+    Portability: []
+    Recoverability: []
+  pack: iso-iec-25012
+  notes: 5 inherent characteristics, 7 both inherent and system-dependent, 3 system-dependent.
+  checked_on: '2026-10-30'
+- id: iso-iec-5259
+  name: ISO/IEC 5259 Artificial intelligence - Data quality for analytics and machine learning (ML) (series)
+  publisher: ISO/IEC (JTC 1/SC 42)
+  jurisdiction: International
+  sector: AI and machine learning
+  type: standard
+  year: 2024 onwards (parts 1-4 2024, part 5 2025)
+  status: International standard (paid)
+  url: https://www.iso.org/standard/81088.html
+  verified: 'yes'
+  dimensions:
+  - Data quality measures (part 2)
+  - Data quality management requirements and guidelines (part 3)
+  - Data quality process framework (part 4)
+  - Data quality governance framework (part 5)
+  map:
+    Data quality measures (part 2):
+    - completeness
+    - accuracy
+    - representativeness
+    - consistency
+    - timeliness
+    Data quality management requirements and guidelines (part 3): []
+    Data quality process framework (part 4): []
+    Data quality governance framework (part 5): []
+  pack: ai-ml-readiness
+  notes: Adds characteristics that matter for training data, such as representativeness, balance and label quality.
+  checked_on: '2026-10-30'
+- id: iso-19157
+  name: 'ISO 19157-1:2023 Geographic information - Data quality - Part 1: General requirements'
+  publisher: ISO (TC 211)
+  jurisdiction: International
+  sector: Geospatial
+  type: standard
+  year: '2023'
+  status: International standard (paid)
+  url: https://www.iso.org/standard/78900.html
+  verified: 'yes'
+  dimensions:
+  - Completeness
+  - Logical consistency
+  - Positional accuracy
+  - Thematic accuracy
+  - Temporal quality
+  - Usability
+  map:
+    Completeness:
+    - completeness
+    Logical consistency:
+    - consistency
+    - validity
+    Positional accuracy:
+    - accuracy
+    Thematic accuracy:
+    - accuracy
+    Temporal quality:
+    - timeliness
+    Usability:
+    - relevance
+  pack: iso-19157-geospatial
+  checked_on: '2026-10-30'
+- id: w3c-dqv
+  name: Data Quality Vocabulary (DQV)
+  publisher: W3C (Data on the Web Best Practices Working Group)
+  jurisdiction: International
+  sector: Metadata and open data
+  type: vocabulary
+  year: '2016'
+  status: W3C Working Group Note
+  url: https://www.w3.org/TR/vocab-dqv/
+  verified: 'yes'
+  dimensions:
+  - Any (DQV carries dimensions, metrics, measurements and annotations defined elsewhere)
+  map:
+    Any (DQV carries dimensions, metrics, measurements and annotations defined elsewhere): []
+  notes: The kit publishes every result as DQV, so any catalogue that reads DCAT can show it.
+- id: fair
+  name: FAIR guiding principles
+  publisher: Wilkinson et al. (2016), GO FAIR
+  jurisdiction: International
+  sector: Research and open data
+  type: principles
+  year: '2016'
+  status: Widely adopted
+  url: https://www.go-fair.org/fair-principles/
+  verified: 'yes'
+  dimensions:
+  - Findable
+  - Accessible
+  - Interoperable
+  - Reusable
+  map:
+    Findable:
+    - metadata
+    Accessible:
+    - accessibility-clarity
+    Interoperable:
+    - coherence-comparability
+    - validity
+    Reusable:
+    - metadata
+  pack: fair
+  checked_on: '2026-10-30'
+- id: dama-dmbok
+  name: DAMA-DMBOK (Data Management Body of Knowledge), data quality chapter
+  publisher: DAMA International
+  jurisdiction: International
+  sector: Data management profession
+  type: body of knowledge
+  year: 2nd edition (2017), revised edition 2024
+  status: Professional reference (paid)
+  url: https://dama.org/articles/introducing-the-revised-dama-data-management-body-of-knowledge-2nd-edition
+  verified: 'yes'
+  dimensions:
+  - Completeness
+  - Uniqueness
+  - Consistency
+  - Timeliness
+  - Validity
+  - Accuracy
+  map:
+    Completeness:
+    - completeness
+    Uniqueness:
+    - uniqueness
+    Consistency:
+    - consistency
+    Timeliness:
+    - timeliness
+    Validity:
+    - validity
+    Accuracy:
+    - accuracy
+  notes: The six dimensions most UK guidance uses (accuracy, completeness, uniqueness, consistency, timeliness, validity) are those defined by DAMA UK, as cited by the Government Data Quality Hub. The 2024
+    revised DMBOK2 refined the Data Quality chapter's structure and added an appendix.
+  checked_on: '2026-10-30'
+- id: ess-qaf
+  name: Quality Assurance Framework of the European Statistical System (ESS QAF)
+  publisher: Eurostat
+  jurisdiction: EU / ESS
+  sector: Official statistics
+  type: framework
+  year: Version 2.0 (approved by the ESS Committee, May 2019)
+  status: In use across the ESS
+  url: https://ec.europa.eu/eurostat/web/quality/european-quality-standards/quality-assurance-framework
+  verified: 'yes'
+  dimensions:
+  - Relevance
+  - Accuracy and reliability
+  - Timeliness and punctuality
+  - Coherence and comparability
+  - Accessibility and clarity
+  map:
+    Relevance:
+    - relevance
+    Accuracy and reliability:
+    - accuracy
+    Timeliness and punctuality:
+    - timeliness
+    Coherence and comparability:
+    - coherence-comparability
+    Accessibility and clarity:
+    - accessibility-clarity
+  pack: ess-output-quality
+  checked_on: '2026-10-30'
+- id: un-nqaf
+  name: United Nations National Quality Assurance Frameworks Manual for Official Statistics
+  publisher: UN Statistics Division
+  jurisdiction: International
+  sector: Official statistics
+  type: framework
+  year: '2019'
+  status: Endorsed by the UN Statistical Commission
+  url: https://unstats.un.org/unsd/methodology/dataquality/un-nqaf/
+  verified: 'yes'
+  dimensions:
+  - Managing the statistical system
+  - Managing the institutional environment
+  - Managing statistical processes
+  - Managing statistical outputs
+  map:
+    Managing the statistical system: []
+    Managing the institutional environment: []
+    Managing statistical processes:
+    - validity
+    - accuracy
+    Managing statistical outputs:
+    - relevance
+    - accuracy
+    - timeliness
+    - accessibility-clarity
+    - coherence-comparability
+  checked_on: '2026-10-30'
+- id: imf-dqaf
+  name: IMF Data Quality Assessment Framework (DQAF)
+  publisher: International Monetary Fund
+  jurisdiction: International
+  sector: Macroeconomic statistics
+  type: framework
+  year: 2001, updated July 2003
+  status: In use
+  url: https://dsbb.imf.org/content/pdfs/DQAF_EXD_Statistics.pdf
+  verified: 'yes'
+  source_note: The link is the IMF's DQAF for external debt statistics, which uses the same prerequisites and five dimensions as the generic framework. The IMF's generic DQAF page could not be read online, so this dataset-specific version is the source we checked.
+  dimensions:
+  - Prerequisites of quality
+  - Assurances of integrity
+  - Methodological soundness
+  - Accuracy and reliability
+  - Serviceability
+  - Accessibility
+  map:
+    Prerequisites of quality: []
+    Assurances of integrity: []
+    Methodological soundness:
+    - validity
+    - coherence-comparability
+    Accuracy and reliability:
+    - accuracy
+    Serviceability:
+    - timeliness
+    - relevance
+    - coherence-comparability
+    Accessibility:
+    - accessibility-clarity
+    - metadata
+  checked_on: '2026-10-30'
+- id: us-fcsm
+  name: A Framework for Data Quality (FCSM 20-04)
+  publisher: Federal Committee on Statistical Methodology (FCSM)
+  jurisdiction: United States
+  sector: Federal statistics and data
+  type: framework
+  year: 2020 (September 2020)
+  status: In use
+  url: https://statspolicy.gov/assets/fcsm/files/docs/FCSM.20.04_A_Framework_for_Data_Quality.pdf
+  verified: 'yes'
+  dimensions:
+  - Relevance
+  - Accessibility
+  - Timeliness
+  - Punctuality
+  - Granularity
+  - Accuracy and reliability
+  - Coherence
+  - Scientific integrity
+  - Credibility
+  - Computer and physical security
+  - Confidentiality
+  map:
+    Relevance:
+    - relevance
+    Accessibility:
+    - accessibility-clarity
+    Timeliness:
+    - timeliness
+    Punctuality:
+    - timeliness
+    Granularity:
+    - relevance
+    Accuracy and reliability:
+    - accuracy
+    Coherence:
+    - coherence-comparability
+    Scientific integrity: []
+    Credibility: []
+    Computer and physical security: []
+    Confidentiality: []
+  notes: Grouped in three domains - utility, objectivity and integrity.
+  checked_on: '2026-10-30'
+- id: canada-gc-dq
+  name: Guidance on Data Quality (Government of Canada)
+  publisher: Treasury Board of Canada Secretariat
+  jurisdiction: Canada
+  sector: Cross-government
+  type: guidance
+  year: '2024'
+  status: In use
+  url: https://www.canada.ca/en/government/system/digital-government/digital-government-innovations/information-management/guidance-data-quality.html
+  verified: 'yes'
+  dimensions:
+  - Access
+  - Accuracy
+  - Coherence
+  - Completeness
+  - Consistency
+  - Interpretability
+  - Relevance
+  - Reliability
+  - Timeliness
+  map:
+    Access:
+    - accessibility-clarity
+    Accuracy:
+    - accuracy
+    Coherence:
+    - coherence-comparability
+    Completeness:
+    - completeness
+    Consistency:
+    - consistency
+    Interpretability:
+    - accessibility-clarity
+    - metadata
+    Relevance:
+    - relevance
+    Reliability:
+    - accuracy
+    Timeliness:
+    - timeliness
+  notes: A close international peer to the UK DAM policy and DQAP guidance - cross-government and lifecycle-based.
+- id: abs-dqf
+  name: ABS Data Quality Framework
+  publisher: Australian Bureau of Statistics
+  jurisdiction: Australia
+  sector: Statistics and government data
+  type: framework
+  year: '2009'
+  status: In use
+  url: https://www.abs.gov.au/statistics/detailed-methodology-information/concepts-sources-methods/australian-system-government-finance-statistics-concepts-sources-and-methods/2015/16-data-quality/part-b-abs-data-quality-framework
+  verified: 'yes'
+  dimensions:
+  - Institutional environment
+  - Relevance
+  - Timeliness
+  - Accuracy
+  - Coherence
+  - Interpretability
+  - Accessibility
+  map:
+    Institutional environment: []
+    Relevance:
+    - relevance
+    Timeliness:
+    - timeliness
+    Accuracy:
+    - accuracy
+    Coherence:
+    - coherence-comparability
+    Interpretability:
+    - accessibility-clarity
+    - metadata
+    Accessibility:
+    - accessibility-clarity
+- id: au-naa-data-quality
+  name: Data quality (National Archives of Australia information management guidance)
+  publisher: National Archives of Australia
+  jurisdiction: Australia
+  sector: Cross-government
+  type: guidance
+  year: Ongoing
+  status: In use
+  url: https://www.naa.gov.au/information-management/building-interoperability/interoperability-development-phases/data-governance-and-management/data-quality
+  verified: 'yes'
+  dimensions:
+  - Accuracy
+  - Completeness
+  - Consistency
+  - Integrity
+  - Reasonability
+  - Timeliness
+  - Uniqueness/deduplication
+  - Validity
+  map:
+    Accuracy:
+    - accuracy
+    Completeness:
+    - completeness
+    Consistency:
+    - consistency
+    Integrity:
+    - consistency
+    Reasonability:
+    - accuracy
+    Timeliness:
+    - timeliness
+    Uniqueness/deduplication:
+    - uniqueness
+    Validity:
+    - validity
+  notes: Treats data quality as an ongoing improvement programme across the data lifecycle; uses DAMA dimensions and also points to ABS dimensions for statistical data and ISO 8000.
+  checked_on: '2026-10-30'

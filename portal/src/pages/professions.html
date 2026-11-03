@@ -1,0 +1,105 @@
+<title>Data quality across the professions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:10px}
+.caps .card h3{font-size:.95rem}
+.caps .card .id{font-family:var(--f-mono);color:var(--accent);margin-right:6px}
+.caps .anchors{font-size:.8rem;color:var(--muted);margin:6px 0 0;padding-left:1.1em}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin:10px 0}
+.prof{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))}
+.prof .card h3{font-size:1rem}
+.prof .chips{margin-top:4px}
+.prof .insight{border-left:4px solid var(--accent);background:var(--accent-soft);padding:8px 10px;border-radius:6px;font-size:.88rem}
+.callout{border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:8px;padding:12px 14px;background:var(--surface)}
+.chip.cap{font-family:var(--f-mono)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Learn · Data quality across the professions</span>
+  <h1>Where data quality sits in every profession's skills framework</h1>
+  <p class="lede" id="intro"></p>
+  <nav class="toc" aria-label="On this page"><a href="#caps-h">The capability set</a><a href="#finding-h">What we found</a><a href="#map-h">Profession by profession</a><a href="#levels-h">Levels compared</a><a href="#next-h">What to do next</a></nav>
+</header>
+
+<section aria-labelledby="caps-h">
+  <h2 id="caps-h">The data quality capability set</h2>
+  <p class="small">Twelve sub-capabilities named by the Government Data Quality Framework and by open standards and bodies of knowledge (DAMA-DMBOK, the ISO 8000 series). Each card shows the anchor in each.</p>
+  <div class="caps" id="caps"></div>
+</section>
+
+<section aria-labelledby="finding-h">
+  <h2 id="finding-h">What we found</h2>
+  <div class="callout">
+    <p><b>Data quality is everywhere and named almost nowhere.</b> Most professions describe data quality skills under other names: quality assurance, data preparation, evidence, data standards. The Government Digital and Data framework has no standalone data quality skill. That makes the capability hard to see in job descriptions, skills audits and workforce plans.</p>
+    <p class="small">Australia's APS Data Capability Framework is one model with a dedicated data quality area. The Civil Service Skills Taxonomy, now being adopted across professions, is a natural place to name data quality as a universal skill.</p>
+  </div>
+</section>
+
+<section aria-labelledby="map-h">
+  <h2 id="map-h">Profession by profession</h2>
+  <div class="filters">
+    <div class="field"><label for="fG">Where</label><select id="fG"><option value="">All</option></select></div>
+    <div class="field"><label for="fC">Capability</label><select id="fC"><option value="">Any</option></select></div>
+    <div class="field"><label for="fP">Your role (persona)</label><select id="fP"><option value="">Any</option></select></div>
+    <span id="pN" class="small" role="status" aria-live="polite"></span>
+  </div>
+  <p class="small muted">"Where" quotes or summarises the source, checked on the date shown. Capability tags are the Commons' own mapping.</p>
+  <div class="prof" id="prof"></div>
+</section>
+
+<section aria-labelledby="levels-h">
+  <h2 id="levels-h">Levels compared</h2>
+  <p class="small">How each framework's levels line up with the three audiences used across the Commons.</p>
+  <div class="tbl"><table><caption class="dqp-sr">Levels compared across frameworks</caption><thead><tr><th>Framework</th><th>Beginner</th><th>Intermediate</th><th>Advanced</th></tr></thead><tbody id="lv"></tbody></table></div>
+</section>
+
+<section aria-labelledby="next-h">
+  <h2 id="next-h">What to do next</h2>
+  <ol>
+    <li>Check your own skills against your role: <a href="training.html">Skills and training</a>.</li>
+    <li>Follow the learning pathway for your role: <a href="learn.html#pathway">Learn</a>.</li>
+    <li>See what your role needs, decides and should watch: <a href="roles.html">For your role</a>.</li>
+    <li>Know a framework we've missed, or an update? <a href="github.html#steps-h">Tell us on GitHub</a>.</li>
+  </ol>
+</section>
+</div>
+
+<script>
+const D = __K_PROFESSIONS__, L = __K_LEARNING__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const CAP = Object.fromEntries(D.capabilities.map(c => [c.id, c]));
+const PER = Object.fromEntries((L.roles || []).map(r => [r.id, r.name]));
+const fmt = d => new Date(d + "T00:00:00Z").toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric", timeZone: "UTC"});
+$("intro").textContent = D.intro;
+$("caps").innerHTML = D.capabilities.map(c => `<div class="card" id="${c.id}"><h3><span class="id">${c.id}</span>${esc(c.name)}</h3><p class="small">${esc(c.what)}</p>
+  <ul class="anchors"><li>Government Data Quality Framework: ${esc(c.gdqf)}</li><li>DAMA-DMBOK: ${esc(c.dama)}</li><li>ISO: ${esc(c.iso)}</li></ul></div>`).join("");
+const groups = [...new Set(D.professions.map(p => p.group))];
+$("fG").innerHTML += groups.map(g => `<option>${esc(g)}</option>`).join("");
+$("fC").innerHTML += D.capabilities.map(c => `<option value="${c.id}">${c.id} ${esc(c.name)}</option>`).join("");
+$("fP").innerHTML += Object.entries(PER).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("");
+function draw() {
+  const g = $("fG").value, c = $("fC").value, r = $("fP").value;
+  const list = D.professions.filter(p => (!g || p.group === g) && (!c || p.capabilities.includes(c)) && (!r || (p.personas || []).includes(r)));
+  $("pN").textContent = `Showing ${list.length} of ${D.professions.length}.`;
+  $("prof").innerHTML = list.map(p => `<article class="card"><div class="chips"><span class="chip acc">${esc(p.group)}</span></div>
+    <h3>${esc(p.name)}</h3>
+    <p class="small"><a href="${esc(p.url)}" rel="noopener">${esc(p.framework)}</a></p>
+    <p class="small">${esc(p.where)}</p>
+    ${p.roles ? `<p class="small muted"><b>Roles:</b> ${p.roles.map(esc).join("; ")}</p>` : ""}
+    <div class="chips">${p.capabilities.map(id => `<a class="chip cap" href="#${id}" title="${esc(CAP[id].name)}">${id} ${esc(CAP[id].name)}</a>`).join("")}</div>
+    ${p.personas && p.personas.length ? `<p class="small"><b>Personas:</b> ${p.personas.map(x => `<a href="learn.html#pathway">${esc(PER[x] || x)}</a>`).join(", ")}</p>` : ""}
+    ${p.insight ? `<p class="insight">${esc(p.insight)}</p>` : ""}
+    ${p.more ? `<p class="small"><a href="${esc(p.more)}">More in the portal ›</a></p>` : ""}
+    <p class="small muted">Checked ${fmt(p.checked_on)}</p></article>`).join("") || "<p>Nothing matches. Try fewer filters.</p>";
+}
+["fG", "fC", "fP"].forEach(id => $(id).addEventListener("change", draw)); draw();
+$("lv").innerHTML = D.levels.scales.map(s => `<tr><td>${esc(s.framework)}</td><td>${esc(s.beginner)}</td><td>${esc(s.intermediate)}</td><td>${esc(s.advanced)}</td></tr>`).join("");
+window.DQP_TOUR = [
+  {sel: "#caps", title: "The capability set", text: "Twelve data quality sub-capabilities, anchored in the government framework and open standards."},
+  {sel: "#fC", title: "Filter", text: "Pick a capability, a place or your role to see which frameworks cover it."},
+  {sel: "#lv", title: "Levels compared", text: "How each framework's levels match Beginner, Intermediate and Advanced."},
+];
+</script>

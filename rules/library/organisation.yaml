@@ -1,0 +1,13 @@
+# Starting rules for organisation records. Keep the rules for the identifiers you hold.
+asset:
+  id: my-organisation-records
+  title: Organisation records (template)
+  owner: '[organisation]'
+  importance: 3
+rules:
+  - {id: O01, check: identifier, column: company_number, scheme: company_number, description: Company number is in Companies House format}
+  - {id: O02, check: identifier, column: charity_number, scheme: charity_number, description: Charity number is in a UK regulator's format}
+  - {id: O03, check: identifier, column: school_urn, scheme: school_urn, description: School URN is 6 digits}
+  - {id: O04, check: identifier, column: ods_code, scheme: ods_code, description: NHS ODS code is in the right format}
+  - {id: O05, check: identifier, column: lei, scheme: lei, description: LEI passes its check digits}
+  - {id: O06, check: unique, columns: [company_number], description: One record per company}

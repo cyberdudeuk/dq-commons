@@ -1,0 +1,834 @@
+{
+  "@context": {
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "dct": "http://purl.org/dc/terms/",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#"
+  },
+  "@graph": [
+    {
+      "@id": "ndq:completeness",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:consistency",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Consistency",
+      "skos:definition": "The absence of difference when comparing two or more representations of a thing against a definition.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:timeliness",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Timeliness",
+      "skos:definition": "The degree to which data represent reality from the required point in time.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dct:source": "DAMA UK / Government Data Quality Framework"
+    },
+    {
+      "@id": "ndq:representativeness",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Representativeness",
+      "skos:definition": "The degree to which data cover, and are equally good for, every group of people they describe. Extension proposed by this project; not one of the six DAMA UK dimensions.",
+      "dct:source": "This project (inclusion extension)"
+    },
+    {
+      "@id": "ndq:metadata",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Metadata quality",
+      "skos:definition": "The degree to which an asset is described well enough to find, understand, trust and reuse it. Covers GOV.UK critical data asset metadata and DAM policy duties.",
+      "dct:source": "This project (from GOV.UK DAM policy and CDA metadata guidance)"
+    },
+    {
+      "@id": "ndq:relevance",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Relevance",
+      "skos:definition": "Whether the data meets the needs of users. ESS 'plus' dimension, assessed mainly by qualitative evidence.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
+      "@id": "ndq:coherence-comparability",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Coherence and comparability",
+      "skos:definition": "Whether the data is coherent with other sources and comparable over time and between areas. ESS 'plus' dimension.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
+      "@id": "ndq:accessibility-clarity",
+      "@type": [
+        "dqv:Dimension",
+        "skos:Concept"
+      ],
+      "skos:prefLabel": "Accessibility and clarity",
+      "skos:definition": "Whether the data is clear, released in a convenient form, and has supporting metadata and guidance. ESS 'plus' dimension.",
+      "dct:source": "European Statistical System quality framework (used in the IOPC data trust scales)"
+    },
+    {
+      "@id": "ndq:issue/missing-value",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Missing value",
+      "skos:definition": "A required field is blank for a record.",
+      "skos:broader": {
+        "@id": "ndq:completeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "missing value"
+    },
+    {
+      "@id": "ndq:issue/missing-field",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Missing field",
+      "skos:definition": "A required field is absent from the file.",
+      "skos:broader": {
+        "@id": "ndq:completeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/unexplained-gap",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Unexplained gap in a series",
+      "skos:definition": "A time or area series has a missing period or area with no explanation.",
+      "skos:broader": {
+        "@id": "ndq:completeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/duplicate-record",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Duplicate record",
+      "skos:definition": "The same thing is recorded more than once.",
+      "skos:broader": {
+        "@id": "ndq:uniqueness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "DQAP implementation guide"
+    },
+    {
+      "@id": "ndq:issue/duplicate-reference",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Reference not unique",
+      "skos:definition": "Two or more records share an identifier that should be unique.",
+      "skos:broader": {
+        "@id": "ndq:uniqueness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "reference values are not unique"
+    },
+    {
+      "@id": "ndq:issue/invalid-type",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Invalid data type",
+      "skos:definition": "A value cannot be read as its declared type (number, date, flag, URI).",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "invalid integer / invalid decimal / invalid date / invalid flag / invalid URI"
+    },
+    {
+      "@id": "ndq:issue/pattern-mismatch",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Value does not match pattern",
+      "skos:definition": "A value does not follow its required format, for example a code pattern.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/invalid-category",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Invalid category value",
+      "skos:definition": "A value is not in the agreed list of allowed values.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "invalid category value"
+    },
+    {
+      "@id": "ndq:issue/invalid-geometry",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Invalid geometry",
+      "skos:definition": "A shape or coordinate cannot be processed.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "invalid geometry - not fixable"
+    },
+    {
+      "@id": "ndq:issue/out-of-range",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Value out of range",
+      "skos:definition": "A number is smaller or larger than its allowed range.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "too small / too large"
+    },
+    {
+      "@id": "ndq:issue/future-date",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Date in the future",
+      "skos:definition": "A date that cannot be in the future is in the future.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "future entry-date"
+    },
+    {
+      "@id": "ndq:issue/implausible-date",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Implausible date",
+      "skos:definition": "A date is too far in the past or future to be credible.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "far-past-date / far-future-date"
+    },
+    {
+      "@id": "ndq:issue/out-of-bounds",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Location out of bounds",
+      "skos:definition": "Coordinates fall outside the expected area.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "WGS84 out of bounds of England"
+    },
+    {
+      "@id": "ndq:issue/cross-field-inconsistency",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Fields disagree",
+      "skos:definition": "Two fields in the same record contradict each other.",
+      "skos:broader": {
+        "@id": "ndq:consistency"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/totals-mismatch",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Parts do not add up",
+      "skos:definition": "Parts do not sum to the stated total, or shares exceed 100%.",
+      "skos:broader": {
+        "@id": "ndq:consistency"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/reference-mismatch",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Reference not found",
+      "skos:definition": "A value refers to something that does not exist in its reference list.",
+      "skos:broader": {
+        "@id": "ndq:consistency"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "MHCLG planning data specification",
+      "skos:closeMatch": "missing associated entity"
+    },
+    {
+      "@id": "ndq:issue/stale-data",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Data out of date",
+      "skos:definition": "The latest period in the data is older than the update frequency allows.",
+      "skos:broader": {
+        "@id": "ndq:timeliness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/late-publication",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Late publication",
+      "skos:definition": "A release arrived after its scheduled date.",
+      "skos:broader": {
+        "@id": "ndq:timeliness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/undocumented-measure",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Measure not described",
+      "skos:definition": "A column has no unit, measure definition or reference period, so values can be misread.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/characteristic-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Protected characteristic not recorded",
+      "skos:definition": "A field for a protected characteristic or need is blank.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/characteristic-defaulted",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Protected characteristic defaulted or unknown",
+      "skos:definition": "A protected characteristic holds a default, 'unknown' or 'not stated' value.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/group-disparity",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Quality differs between groups",
+      "skos:definition": "A quality measure is materially worse for one group of people than for others.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "NHS England QAFDL fairness criteria"
+    },
+    {
+      "@id": "ndq:issue/undercoverage",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Population undercoverage",
+      "skos:definition": "Some people or places the data should describe are missing.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/owner-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "No named data owner",
+      "skos:definition": "The asset does not name an accountable owner organisation or role.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "GOV.UK DAM policy"
+    },
+    {
+      "@id": "ndq:issue/dqap-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "No data quality action plan or equivalent",
+      "skos:definition": "No DQAP, quality statement or methodology is published or linked.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 4,
+      "ndq:responsibility": "provider",
+      "dct:source": "GOV.UK DAM policy"
+    },
+    {
+      "@id": "ndq:issue/review-overdue",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Metadata review overdue",
+      "skos:definition": "The record has not been reviewed in the last 12 months.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA guidance"
+    },
+    {
+      "@id": "ndq:issue/frequency-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Update frequency not stated",
+      "skos:definition": "Users cannot tell how often the data is refreshed.",
+      "skos:broader": {
+        "@id": "ndq:timeliness"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "NDL curation criteria"
+    },
+    {
+      "@id": "ndq:issue/temporal-coverage-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Time period not stated",
+      "skos:definition": "The period the data covers is not stated (temporalCoverage).",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/geography-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Geography not stated",
+      "skos:definition": "The places the data covers are not stated.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/created-date-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Creation date not stated",
+      "skos:definition": "The dateCreated property is not recorded.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/version-info-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Version information missing",
+      "skos:definition": "The expires and supersededBy properties are not recorded.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/schema-not-declared",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Schema or standard not declared",
+      "skos:definition": "The conformsTo property is not recorded, so structure cannot be checked.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/classification-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Security classification not stated",
+      "skos:definition": "The securityClassification property is not recorded.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/licence-not-specific",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Licence not stated for the asset",
+      "skos:definition": "Only a site-wide licence applies; the asset's own licence is not stated.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/access-unclear",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Access rights unclear",
+      "skos:definition": "It is not clear whether access is open, charged or restricted.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "GOV.UK CDA metadata guidance"
+    },
+    {
+      "@id": "ndq:issue/link-publisher-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Link has no named publisher",
+      "skos:definition": "A data link does not say who publishes it.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "platform",
+      "dct:source": "NDL curation criteria"
+    },
+    {
+      "@id": "ndq:issue/not-machine-readable",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "No machine-readable format",
+      "skos:definition": "Data is only offered as PDF, web pages or dashboards.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project (FAIR / MQA-style)"
+    },
+    {
+      "@id": "ndq:issue/no-api",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "No API",
+      "skos:definition": "No programmatic access is offered.",
+      "skos:broader": {
+        "@id": "ndq:metadata"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project (FAIR / MQA-style)"
+    },
+    {
+      "@id": "ndq:issue/methodology-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Methodology not linked",
+      "skos:definition": "No methodology or quality information is linked.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "Code of Practice for Statistics / QAAD"
+    },
+    {
+      "@id": "ndq:issue/caveats-missing",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Quality caveats not stated",
+      "skos:definition": "Known limitations are not described.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "DQAP step 6 (report on data quality)"
+    },
+    {
+      "@id": "ndq:issue/content-error",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Error on the page",
+      "skos:definition": "The page contains a factual error, for example a wrong organisation name.",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "platform",
+      "dct:source": "This project"
+    },
+    {
+      "@id": "ndq:issue/breakdowns-not-stated",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Breakdowns by people not stated",
+      "skos:definition": "For data about people, the page does not say which groups can be compared.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "platform",
+      "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/nations-not-covered",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "UK nations not signposted",
+      "skos:definition": "Data covers part of the UK and does not point users to the other nations.",
+      "skos:broader": {
+        "@id": "ndq:representativeness"
+      },
+      "ndq:appliesTo": "metadata",
+      "ndq:defaultImpact": 1,
+      "ndq:responsibility": "platform",
+      "dct:source": "This project (inclusion)"
+    },
+    {
+      "@id": "ndq:issue/invalid-identifier",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Invalid identifier",
+      "skos:definition": "An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation.",
+      "skos:broader": {
+        "@id": "ndq:validity"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 3,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project"
+    }
+  ]
+}

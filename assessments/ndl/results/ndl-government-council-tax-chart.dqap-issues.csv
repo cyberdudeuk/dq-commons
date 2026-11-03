@@ -1,0 +1,2 @@
+Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
+ndl-government-council-tax-chart-I001,R6,Measure not described,"A column has no unit, measure definition or reference period, so values can be misread.",validity,0.0,90.0,low,18,High,Within 1 measurement cycle,provider,"Ministry of Housing, Communities and Local Government",Open

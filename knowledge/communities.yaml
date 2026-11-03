@@ -1,0 +1,169 @@
+# Communities, networks, working groups and forums for data quality in the public sector.
+# verified: "yes" = link checked October 2026; "partly" = organisation checked, link from its public site
+# address and worth confirming. Members-only groups are listed with how to join, never with private links.
+review:
+  last_reviewed: '2026-10-15'
+  owner_role: Content steward (community)
+communities:
+- name: Government Data Quality Hub
+  kind: Centre of expertise
+  scope: UK government
+  sector: Cross-government
+  what: Runs the Government Data Quality Framework, the cross-government data quality community, guidance and training.
+  url: https://www.gov.uk/government/organisations/government-data-quality-hub
+  verified: 'yes'
+- name: Government data quality community
+  kind: Community of practice
+  scope: UK government
+  sector: Cross-government
+  what: Practitioners across departments sharing data quality methods, tools and case studies.
+  url: https://www.gov.uk/government/news/introducing-the-government-data-quality-community
+  verified: 'yes'
+- name: Data Management Community (cross-government, on Knowledge Hub)
+  kind: Community of practice
+  scope: UK government
+  sector: Cross-government
+  what: Cross-government network of data management practitioners that looks after the Data Asset Management Policy. Members-only group on Knowledge Hub.
+  url: https://data.gov.uk/data-manual/join-a-data-community
+  join: Request to join through Knowledge Hub, using the link on the data.gov.uk Data Manual 'Join a data community' page.
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Government Analysis Function
+  kind: Profession and function
+  scope: UK government
+  sector: Analysis and statistics
+  what: Quality guidance, quality questions and red flags, and the AQuA Book for quality analysis.
+  url: https://analysisfunction.civilservice.gov.uk/guidances/quality
+  verified: 'yes'
+- name: Office for Statistics Regulation
+  kind: Regulator
+  scope: UK
+  sector: Official statistics
+  what: Code of Practice for Statistics (Edition 3.0), QAAD toolkit, assessments and systemic reviews.
+  url: https://osr.statisticsauthority.gov.uk
+  verified: 'yes'
+- name: GOV.UK data community documentation
+  kind: Shared guidance
+  scope: UK government
+  sector: Cross-government
+  what: Practical guidance from the cross-government data community, including analytical quality assurance.
+  url: https://docs.data-community.publishing.service.gov.uk/analysis/best-practice/analytical-quality-assurance
+  verified: 'yes'
+- name: Geospatial Commission
+  kind: Expert committee
+  scope: UK
+  sector: Geospatial
+  what: Q-FAIR approach and FAIR assessments of national geospatial data assets.
+  url: https://www.gov.uk/government/publications/how-fair-are-the-uks-geospatial-assets/how-fair-are-our-national-geospatial-data-assets-assessment-of-the-uks-national-geospatial-data-html
+  verified: 'yes'
+- name: Data Cymru
+  kind: Local government company (not-for-profit)
+  scope: Wales
+  sector: Local government
+  what: Not-for-profit Welsh local government company that helps councils and public services find and use data, with analysis, research, surveys and training.
+  url: https://www.data.cymru/eng
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Improvement Service
+  kind: Public body
+  scope: Scotland
+  sector: Local government
+  what: Improvement and data support for Scottish councils, including benchmarking.
+  url: https://www.improvementservice.org.uk
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Northern Ireland Statistics and Research Agency (NISRA)
+  kind: Statistics producer
+  scope: Northern Ireland
+  sector: Official statistics
+  what: Official statistics quality practice in Northern Ireland.
+  url: https://www.nisra.gov.uk
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: London Office of Technology and Innovation (LOTI)
+  kind: Network
+  scope: London local government
+  sector: Local government
+  what: London local government's collaborative innovation team, helping boroughs and the GLA use innovation, data and technology.
+  url: https://loti.london
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: NHS-OA Community (formerly NHS-R Community)
+  kind: Community of practice
+  scope: UK health and care
+  sector: Health
+  what: Community of practice for health and care analysts sharing open code, tools and methods, including quality assurance practice.
+  url: https://nhsoa.uk
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: 360Giving
+  kind: Data standard and community
+  scope: UK grantmaking
+  sector: Voluntary and charity
+  what: An open data standard for grants, with data quality tools for funders.
+  url: https://www.360giving.org/
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Open Data Institute
+  kind: Non-profit
+  scope: UK and international
+  sector: Open data
+  what: Open data and data stewardship guidance, training and tools.
+  url: https://theodi.org
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: DAMA International and its chapters (including DAMA UK)
+  kind: Professional body
+  scope: International
+  sector: Data management profession
+  what: DAMA-DMBOK, CDMP certification and local chapters. DAMA UK's working group produced the six dimensions most UK guidance uses.
+  url: https://dama.org/chapters/
+  verified: 'yes'
+- name: UN Statistics Division - data quality and NQAF
+  kind: International body
+  scope: International
+  sector: Official statistics
+  what: National Quality Assurance Frameworks manual and expert group.
+  url: https://unstats.un.org/unsd/methodology/dataquality/un-nqaf/
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Eurostat - quality
+  kind: International body
+  scope: EU and ESS
+  sector: Official statistics
+  what: ESS Quality Assurance Framework, quality reporting standards.
+  url: https://ec.europa.eu/eurostat/web/quality/european-quality-standards/quality-assurance-framework
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: W3C Dataset Exchange Working Group
+  kind: Standards working group
+  scope: International
+  sector: Metadata
+  what: Maintains DCAT, which DQV quality metadata attaches to.
+  url: https://www.w3.org/groups/wg/dx/
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: ISO/IEC JTC 1/SC 42 Artificial intelligence
+  kind: Standards committee
+  scope: International
+  sector: AI
+  what: Develops the ISO/IEC 5259 series on data quality for analytics and machine learning. UK participation is through BSI.
+  url: https://www.iso.org/committee/6794475.html
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: BSI (UK national standards body)
+  kind: Standards body
+  scope: UK
+  sector: Standards
+  what: Route for UK organisations to take part in ISO data quality committees (ISO 8000, ISO/IEC 25012, ISO/IEC 5259, ISO 19157).
+  url: https://www.bsigroup.com
+  verified: 'yes'
+  checked_on: '2026-10-30'
+- name: Research Data Alliance
+  kind: International community
+  scope: International
+  sector: Research data
+  what: Global community whose working and interest groups develop tools, standards and practices for data sharing, including FAIR data and data versioning.
+  url: https://www.rd-alliance.org
+  verified: 'yes'
+  checked_on: '2026-10-30'

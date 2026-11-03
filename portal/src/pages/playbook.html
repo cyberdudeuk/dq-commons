@@ -1,0 +1,195 @@
+<title>Data Quality Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.cycle{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin:8px 0 14px;list-style:none;padding:0}
+@media (max-width:900px){.cycle{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:480px){.cycle{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cycle button{font:inherit;width:100%;height:100%;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:8px 10px;cursor:pointer;display:flex;flex-direction:column;gap:4px;font-size:.84rem}
+.cycle button .n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted)}
+.cycle button[aria-current="step"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.cycle .bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.cycle .bar i{display:block;height:100%;background:var(--good)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.panel h3{margin-top:0}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.chk{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.chk label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.chk input{margin-top:.25em;width:1.1em;height:1.1em;flex:none}
+.clause{border-left:3px solid var(--accent);padding:4px 10px;margin:4px 0;font-size:.88rem}
+.incl{border-left:4px solid var(--info);background:var(--accent-soft);padding:8px 12px;border-radius:6px;font-size:.9rem}
+.raci td.c{text-align:center;font-family:var(--f-mono);font-weight:600}
+.raci td.A{background:var(--accent-soft)}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.tpl{display:flex;flex-direction:column;gap:8px}
+.tpl ul{margin:0;padding-left:1.1em;font-size:.86rem}
+.lvl-Critical{color:var(--crit);font-weight:700}.lvl-High{color:var(--warn);font-weight:700}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Govern · Data quality management playbook</span>
+  <h1>Manage the quality of the data that matters most</h1>
+  <p class="lede" id="sum"></p>
+  <nav class="toc" aria-label="On this page"><a href="#stages">Eight stages</a><a href="#adapt">Use it anywhere</a><a href="#principles">Principles</a><a href="#raci">Who does what</a><a href="#cadence">Rhythm and escalation</a><a href="#measures">Measures</a><a href="#templates">Templates</a><a href="#inclusion">Inclusion checks</a><a href="#where">Where it applies</a><a href="#sources">Sources</a></nav>
+</header>
+
+<section id="stages" aria-labelledby="st-h">
+  <h2 id="st-h">Eight stages, one cycle</h2>
+  <p class="small muted">Choose a stage. Tick the checklist as you go; your ticks stay in this browser only. Stages 3 to 7 repeat every cycle; stage 8 happens at least once a year.</p>
+  <ol class="cycle" id="cycle" aria-label="Playbook stages"></ol>
+  <div class="panel" id="stage" tabindex="-1" aria-live="polite"></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px"><span id="prog" role="status" class="small"></span>
+    <label class="small" for="asset">Asset name</label><input id="asset" type="text" maxlength="120" style="max-width:220px" placeholder="for example Births register">
+    <button class="btn" type="button" id="report">Download progress report</button>
+    <button class="btn ghost" type="button" id="reset">Clear my ticks</button><span id="rMsg" class="small" role="status" aria-live="polite"></span></div>
+  <details style="margin-top:10px"><summary>Run the playbook from the toolkit</summary>
+    <p class="small">The same eight stages work from the command line. These commands make a folder of templates and a checklist, then say which stages have evidence:</p>
+    <pre><code>python -m dqkit playbook init births --asset births-register --title "Births register"
+python -m dqkit suggest data.csv --id births-register --out births/births-register.rules.yaml
+python -m dqkit check data.csv births/births-register.rules.yaml --out births/results --history births/history
+python -m dqkit playbook status births</code></pre>
+    <p class="small">AI assistants connected to the toolkit's MCP server can use the <code>playbook</code> tool for the same answers.</p></details>
+</section>
+
+<section id="adapt" aria-labelledby="ad-h">
+  <h2 id="ad-h">Use it anywhere</h2>
+  <p id="adIntro"></p>
+  <div class="tbl"><table><thead><tr><th>In this playbook</th><th>You might call it</th></tr></thead><tbody id="terms"></tbody></table></div>
+  <p class="small" id="adRule"></p>
+  <h3>Who it is for</h3><ul id="appl"></ul>
+</section>
+
+<section id="principles" aria-labelledby="pr-h"><h2 id="pr-h">Principles</h2><div class="cards" id="prin"></div></section>
+
+<section id="raci" aria-labelledby="ra-h">
+  <h2 id="ra-h">Who does what</h2>
+  <p class="small">R = does the work, A = accountable (one per stage), C = consulted, I = informed.</p>
+  <div class="tbl"><table class="raci"><caption class="dqp-sr">Roles and responsibilities by stage</caption><thead id="raH"></thead><tbody id="raB"></tbody></table></div>
+  <dl id="roles" class="small"></dl>
+</section>
+
+<section id="cadence" aria-labelledby="ca-h">
+  <h2 id="ca-h">Rhythm and escalation</h2>
+  <div class="two">
+    <div><h3>Rhythm</h3><div class="tbl"><table><thead><tr><th>When</th><th>What</th><th>Who</th></tr></thead><tbody id="cad"></tbody></table></div></div>
+    <div><h3>Escalation</h3><div class="tbl"><table><thead><tr><th>Level</th><th>Trigger</th><th>Action</th><th>By</th></tr></thead><tbody id="esc"></tbody></table></div></div>
+  </div>
+</section>
+
+<section id="measures" aria-labelledby="me-h"><h2 id="me-h">Measures of a healthy routine</h2><div class="tbl"><table><thead><tr><th>Measure</th><th>Target</th></tr></thead><tbody id="meas"></tbody></table></div></section>
+
+<section id="templates" aria-labelledby="tp-h">
+  <h2 id="tp-h">Templates</h2>
+  <p class="small">Each downloads as a CSV file with the column headings, ready for a spreadsheet. Use roles and contact forms, not personal names or emails.</p>
+  <div class="cards" id="tpls"></div><p id="tMsg" class="small" role="status" aria-live="polite"></p>
+</section>
+
+<section id="inclusion" aria-labelledby="in-h"><h2 id="in-h">Inclusion checks</h2><p class="small">Poor data quality often falls hardest on people already under-served. Ask these at every stage.</p><ul class="chk" id="incl"></ul></section>
+
+<section id="where" aria-labelledby="wh-h">
+  <h2 id="wh-h">Where it applies</h2>
+  <div class="field" style="max-width:420px"><label for="jur">Show the basis for</label><select id="jur"></select></div>
+  <div class="panel" id="jurOut" aria-live="polite"></div>
+</section>
+
+<section id="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul class="plain small" id="src"></ul></section>
+</div>
+
+<script>
+const PB = __K_PLAYBOOK__, REQ = __K_REQUIREMENTS__, FW = __K_FRAMEWORKS__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+const CL = Object.fromEntries(REQ.map(r => [r.clause, r]));
+const FWN = Object.fromEntries(FW.map(f => [f.id, f]));
+const ROLE = Object.fromEntries(PB.roles.map(r => [r.id, r]));
+let ticks = store.get("dqc.playbook", {});
+let cur = 0;
+
+$("sum").textContent = PB.summary;
+const total = PB.stages.reduce((n, s) => n + s.checklist.length, 0);
+function done(s) { return s.checklist.filter((_, i) => ticks[`${s.id}.${i}`]).length; }
+function drawCycle() {
+  $("cycle").innerHTML = PB.stages.map((s, i) => `<li><button type="button" data-i="${i}"${i === cur ? ' aria-current="step"' : ""}><span class="n">Stage ${s.n}</span><b>${esc(s.name)}</b><span class="bar" aria-hidden="true"><i style="width:${100 * done(s) / s.checklist.length}%"></i></span><span class="dqp-sr">${done(s)} of ${s.checklist.length} checks done</span></button></li>`).join("");
+  const d = PB.stages.reduce((n, s) => n + done(s), 0);
+  $("prog").textContent = `${d} of ${total} checks ticked across all stages.`;
+}
+function drawStage(focus) {
+  const s = PB.stages[cur];
+  const clauses = s.dam.map(c => CL[c] ? `<div class="clause"><b>${esc(c)}</b> ${esc(CL[c].requirement)} <span class="small muted">(${esc(CL[c].strength || "")})</span></div>` : `<div class="clause"><b>${esc(c)}</b></div>`).join("");
+  const raci = Object.entries(s.raci).filter(([, v]) => v === "A" || v === "R").map(([k, v]) => `${esc(ROLE[k].name)} (${v})`).join(", ");
+  $("stage").innerHTML = `<h3>Stage ${s.n}: ${esc(s.name)}</h3><p><b>Goal:</b> ${esc(s.goal)} <span class="small muted">Typical effort: ${esc(s.effort)}.</span></p>
+  <div class="two">
+    <div><h4>Steps</h4><ol>${s.steps.map(x => `<li>${esc(x)}</li>`).join("")}</ol>
+      <h4>Outputs</h4><ul>${s.outputs.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <p class="small"><b>Leads:</b> ${raci}</p></div>
+    <div><h4>Checklist</h4><ul class="chk">${s.checklist.map((x, i) => `<li><label><input type="checkbox" data-k="${s.id}.${i}"${ticks[`${s.id}.${i}`] ? " checked" : ""}> <span>${esc(x)}</span></label></li>`).join("")}</ul>
+      <h4>UK DAM policy and DQAP</h4>${clauses}
+      <p class="small"><b>Elsewhere:</b> ${esc(s.elsewhere)}</p></div>
+  </div>
+  <p class="incl"><b>Inclusion check:</b> ${esc(s.inclusion)}</p>
+  <p><a class="btn ghost" href="${esc(s.toolkit.link)}">${DQI("arrow")} ${esc(s.toolkit.text)}</a>
+  ${cur > 0 ? `<button class="btn ghost" type="button" data-go="${cur - 1}">Previous stage</button>` : ""}
+  ${cur < PB.stages.length - 1 ? `<button class="btn" type="button" data-go="${cur + 1}">Next stage</button>` : ""}</p>`;
+  if (focus) $("stage").focus();
+}
+$("cycle").addEventListener("click", e => { const b = e.target.closest("button[data-i]"); if (b) { cur = +b.dataset.i; drawCycle(); drawStage(true); } });
+$("stage").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) { cur = +b.dataset.go; drawCycle(); drawStage(true); } });
+$("stage").addEventListener("change", e => { if (e.target.dataset.k) { ticks[e.target.dataset.k] = e.target.checked; store.set("dqc.playbook", ticks); drawCycle(); } });
+$("reset").onclick = () => { ticks = {}; store.set("dqc.playbook", ticks); drawCycle(); drawStage(false); };
+$("asset").value = store.get("dqc.playbook.asset", "");
+$("asset").addEventListener("input", () => store.set("dqc.playbook.asset", $("asset").value));
+$("report").onclick = async () => {
+  const name = $("asset").value.trim() || "Critical data asset", today = new Date().toISOString().slice(0, 10);
+  const L = [`# Data quality playbook progress: ${name}`, "", `Date: ${today}. ${PB.stages.reduce((n, s) => n + done(s), 0)} of ${total} checks ticked.`, ""];
+  PB.stages.forEach(s => {
+    L.push(`## Stage ${s.n}: ${s.name} (${done(s)} of ${s.checklist.length})`, "");
+    s.checklist.forEach((c, i) => L.push(`- [${ticks[`${s.id}.${i}`] ? "x" : " "}] ${c}`));
+    L.push("", `Requirements: ${s.dam.join(", ")}. Inclusion check: ${s.inclusion}`, "");
+  });
+  const next = PB.stages.find(s => done(s) < s.checklist.length);
+  L.push(next ? `Next: stage ${next.n}, ${next.name}. ${next.steps[0]}` : "All checks ticked. Book the next annual review.", "",
+    "Made with the Public Sector Data Quality Commons playbook. Content: Open Government Licence v3.0.");
+  const text = L.join("\n"), file = `playbook-progress-${today}.md`;
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: file, data: text}); $("rMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/markdown"})); a.download = file; document.body.appendChild(a); a.click(); a.remove(); $("rMsg").textContent = "Downloaded."; }
+  catch (e) { $("rMsg").textContent = "Downloading isn't allowed here."; }
+};
+const hashStage = PB.stages.findIndex(s => location.hash === "#" + s.id); if (hashStage >= 0) cur = hashStage;
+drawCycle(); drawStage(false);
+
+$("adIntro").textContent = PB.adapt.intro; $("adRule").textContent = PB.adapt.rule;
+$("terms").innerHTML = PB.adapt.terms.map(t => `<tr><td><b>${esc(t.here)}</b></td><td>${esc(t.elsewhere)}</td></tr>`).join("");
+$("appl").innerHTML = PB.applies_to.map(a => `<li>${esc(a)}</li>`).join("");
+$("prin").innerHTML = PB.principles.map(p => `<div class="card"><h3>${esc(p.name)}</h3><p class="small">${esc(p.text)}</p></div>`).join("");
+$("raH").innerHTML = `<tr><th scope="col">Role</th>${PB.stages.map(s => `<th scope="col" class="num" title="${esc(s.name)}">${s.n}</th>`).join("")}</tr>`;
+$("raB").innerHTML = PB.roles.map(r => `<tr><th scope="row">${esc(r.name)}</th>${PB.stages.map(s => `<td class="c ${s.raci[r.id] || ""}">${s.raci[r.id] || ""}</td>`).join("")}</tr>`).join("");
+$("roles").innerHTML = PB.roles.map(r => `<dt><b>${esc(r.name)}</b></dt><dd>${esc(r.text)}</dd>`).join("");
+$("cad").innerHTML = PB.cadence.map(c => `<tr><td>${esc(c.when)}</td><td>${esc(c.what)}</td><td>${esc(c.who)}</td></tr>`).join("");
+$("esc").innerHTML = PB.escalation.map(c => `<tr><td class="lvl-${esc(c.level)}">${esc(c.level)}</td><td>${esc(c.trigger)}</td><td>${esc(c.action)}</td><td>${esc(c.timescale)}</td></tr>`).join("");
+$("meas").innerHTML = PB.measures.map(m => `<tr><td>${esc(m.name)}</td><td>${esc(m.target)}</td></tr>`).join("");
+$("tpls").innerHTML = PB.templates.map(t => `<div class="card tpl"><h3>${esc(t.name)}</h3><ul>${t.fields.map(f => `<li>${esc(f)}</li>`).join("")}</ul><button class="btn ghost" type="button" data-t="${esc(t.id)}">Download CSV</button></div>`).join("");
+const csvCell = v => /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+async function save(name, text) {
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("tMsg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/csv"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("tMsg").textContent = "Downloaded."; }
+  catch (e) { $("tMsg").textContent = "Downloading isn't allowed here. Copy the headings from the card instead."; }
+}
+$("tpls").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (b) { const t = PB.templates.find(x => x.id === b.dataset.t); save(`${t.id.replace("t-", "dq-")}.csv`, t.fields.map(csvCell).join(",") + "\r\n"); } });
+$("incl").innerHTML = PB.inclusion_checks.map((q, i) => `<li><label><input type="checkbox" data-i="${i}"> <span>${esc(q)}</span></label></li>`).join("");
+$("jur").innerHTML = PB.jurisdictions.map((j, i) => `<option value="${i}">${esc(j.where)}</option>`).join("");
+function drawJur() {
+  const j = PB.jurisdictions[+$("jur").value];
+  $("jurOut").innerHTML = `<p><b>${esc(j.where)}:</b> ${esc(j.basis)}</p><ul>${j.frameworks.map(id => FWN[id] ? `<li><a href="frameworks.html#fw-${esc(id)}">${esc(FWN[id].name)}</a> <span class="small muted">${esc(FWN[id].publisher || "")}</span></li>` : "").join("")}</ul><p class="small">The eight stages stay the same; only the names and the reporting route change.</p>`;
+}
+$("jur").onchange = drawJur; drawJur();
+$("src").innerHTML = PB.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a></li>`).join("");
+window.DQP_TOUR = [
+  {sel: "#cycle", title: "Eight stages", text: "From identifying critical data to the annual review. Choose one to see its steps."},
+  {sel: "#stage", title: "Stage detail", text: "Steps, outputs, a checklist, the DAM policy clauses it meets and an inclusion check."},
+  {sel: "#terms", title: "Use it anywhere", text: "Swap in your own terms: the stages work under any mandate."},
+  {sel: "#raB", title: "Who does what", text: "One accountable role per stage."},
+  {sel: "#tpls", title: "Templates", text: "Download blank CSV templates for the register, rules, issues, plan, statement and review."},
+];
+</script>

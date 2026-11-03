@@ -1,0 +1,162 @@
+# Proposed extension to the UK Cross-Government Metadata Exchange Model
+# (https://github.com/co-cddo/ukgov-metadata-exchange-model) — decision D-014.
+#
+# It adds the quality properties the model is missing, so that a critical data
+# asset (CDA) can carry its data quality action plan (DQAP) and baseline results
+# with its metadata. Uses the W3C Data Quality Vocabulary (DQV), which is designed
+# to sit alongside DCAT.
+#
+# Status: PROPOSAL. Not yet agreed with the model's owners at GDS.
+# Hand-written; the matching JSON Schema and SHACL files in this folder were also
+# written by hand because LinkML tooling could not be installed in the build
+# environment. Regenerate them with `gen-json-schema` and `gen-shacl` before use.
+
+id: https://cyberdudeuk.github.io/ndl-dq-assurance/model/cda-quality
+name: cda_quality
+title: Critical data asset quality extension
+version: 0.1.0
+license: https://opensource.org/licenses/MIT
+prefixes:
+  linkml: https://w3id.org/linkml/
+  dcat: http://www.w3.org/ns/dcat#
+  dct: http://purl.org/dc/terms/
+  dqv: http://www.w3.org/ns/dqv#
+  oa: http://www.w3.org/ns/oa#
+  skos: http://www.w3.org/2004/02/skos/core#
+  xsd: http://www.w3.org/2001/XMLSchema#
+  ndq: https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#
+default_prefix: ndq
+imports:
+  - linkml:types
+default_range: string
+
+classes:
+  QualityAssuredAsset:
+    mixin: true
+    description: >-
+      Add to the model's DataSet and DataService classes. Holds the DAM policy
+      quality duties for a critical data asset.
+    slots:
+      - data_quality_action_plan
+      - dqap_status
+      - quality_assessment_date
+      - quality_measurements
+      - quality_issues
+      - inclusion_assessed
+      - trust_level
+
+  QualityMeasurement:
+    class_uri: dqv:QualityMeasurement
+    description: One measured rule result, for example "completeness of NHS number, 98.7%".
+    slots: [metric, dimension, value, target, meets_target, measured_on, records_checked]
+    slot_usage:
+      value: {required: true}
+      dimension: {required: true}
+
+  QualityIssue:
+    class_uri: dqv:QualityAnnotation
+    description: An open data quality issue, scored with the GOV.UK issues framework.
+    slots: [issue_type, dimension, priority, priority_score, resolution, responsibility, status]
+    slot_usage:
+      issue_type: {required: true}
+      priority: {required: true}
+
+slots:
+  data_quality_action_plan:
+    slot_uri: ndq:dataQualityActionPlan
+    range: uri
+    description: Link to the asset's DQAP, or equivalent (DAM policy requirement).
+  dqap_status:
+    range: DqapStatusEnum
+    required: true
+  quality_assessment_date:
+    slot_uri: dct:date
+    range: date
+  quality_measurements:
+    slot_uri: dqv:hasQualityMeasurement
+    range: QualityMeasurement
+    multivalued: true
+    inlined_as_list: true
+  quality_issues:
+    slot_uri: dqv:hasQualityAnnotation
+    range: QualityIssue
+    multivalued: true
+    inlined_as_list: true
+  inclusion_assessed:
+    range: boolean
+    description: True when coverage and quality have been checked for groups of people (protected characteristics, digital exclusion).
+  trust_level:
+    range: TrustLevelEnum
+    description: Suggested or confirmed trust level (IOPC data trust scale). Tells users how they may use and share the data.
+  metric:
+    slot_uri: dqv:isMeasurementOf
+    description: The rule or metric measured.
+  dimension:
+    slot_uri: dqv:inDimension
+    range: DimensionEnum
+  value:
+    slot_uri: dqv:value
+    range: decimal
+    minimum_value: 0
+    maximum_value: 100
+    description: Percentage of records passing the rule.
+  target:
+    range: decimal
+    minimum_value: 0
+    maximum_value: 100
+  meets_target:
+    range: boolean
+  measured_on:
+    slot_uri: dct:date
+    range: date
+  records_checked:
+    range: integer
+    minimum_value: 0
+  issue_type:
+    range: uriorcurie
+    description: An issue type from vocab/issue-types.csv, for example ndq:issue/missing-value.
+  priority:
+    range: PriorityEnum
+  priority_score:
+    range: integer
+    minimum_value: 1
+    maximum_value: 64
+  resolution:
+    description: Investigation and fix timescale from the issues framework, Table 8.
+  responsibility:
+    range: ResponsibilityEnum
+  status:
+    range: IssueStatusEnum
+
+enums:
+  DqapStatusEnum:
+    permissible_values:
+      none: {description: No DQAP or equivalent.}
+      in_progress: {description: DQAP being written; a target date should be recorded.}
+      in_place: {description: DQAP in place and measured at least once.}
+      equivalent: {description: An existing quality process covering all seven DQAP steps.}
+  DimensionEnum:
+    permissible_values:
+      completeness: {meaning: ndq:completeness}
+      uniqueness: {meaning: ndq:uniqueness}
+      consistency: {meaning: ndq:consistency}
+      timeliness: {meaning: ndq:timeliness}
+      validity: {meaning: ndq:validity}
+      accuracy: {meaning: ndq:accuracy}
+      representativeness: {meaning: ndq:representativeness, description: Inclusion extension proposed by this project.}
+      metadata: {meaning: ndq:metadata}
+      relevance: {meaning: ndq:relevance, description: ESS plus dimension (qualitative).}
+      coherence-comparability: {meaning: ndq:coherence-comparability, description: ESS plus dimension.}
+      accessibility-clarity: {meaning: ndq:accessibility-clarity, description: ESS plus dimension.}
+  TrustLevelEnum:
+    permissible_values:
+      Untrustworthy: {description: Internal use only.}
+      Requires improvement: {description: Internal use only.}
+      Useable: {description: Can be used externally with caveats.}
+      Trustworthy: {description: Can be used externally.}
+  PriorityEnum:
+    permissible_values: {Low: {}, Medium: {}, High: {}, Critical: {}}
+  ResponsibilityEnum:
+    permissible_values: {provider: {}, platform: {}}
+  IssueStatusEnum:
+    permissible_values: {Open: {}, In progress: {}, Resolved: {}, Accepted risk: {}}

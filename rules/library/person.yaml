@@ -1,0 +1,21 @@
+# Starting rules for records about people. Rename columns, delete what doesn't apply.
+asset:
+  id: my-person-records
+  title: Records about people (template)
+  owner: '[organisation]'
+  importance: 4
+  source: internal
+  personal_data_columns: [nhs_number, ni_number, date_of_birth, postcode, ethnic_group, sex]
+rules:
+  - {id: P01, check: not_null, column: nhs_number, description: Every record has an NHS number}
+  - {id: P02, check: identifier, column: nhs_number, scheme: nhs_number, description: NHS number passes the check digit}
+  - {id: P03, check: unique, columns: [nhs_number], description: One record per person}
+  - {id: P04, check: identifier, column: ni_number, scheme: nino, description: National Insurance number is in a valid format}
+  - {id: P05, check: type, column: date_of_birth, kind: date, description: Date of birth is a real date}
+  - {id: P06, check: not_future, column: date_of_birth, description: Date of birth is not in the future}
+  - {id: P07, check: identifier, column: postcode, scheme: uk_postcode, description: Postcode is in Royal Mail format}
+  - {id: P08, check: in_valueset, column: ethnic_group, valueset: ethnic_group_ew_2021_high_level,
+     description: "Ethnic group uses the Census 2021 England and Wales groups (change for Scotland or Northern Ireland)"}
+  - {id: P09, check: not_unknown, column: ethnic_group, description: "Ethnic group is recorded, not defaulted to unknown"}
+  - {id: P10, check: group_disparity, group: sex, tolerance: 5, inner: {check: identifier, column: nhs_number, scheme: nhs_number},
+     description: NHS number quality is similar for every sex group}

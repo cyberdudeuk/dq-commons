@@ -1,0 +1,22 @@
+id: uk-dam-cda
+name: UK data asset management policy - critical data assets
+summary: For critical data assets under the 2026 data asset management (DAM) policy, with the DQAP guide and issues framework.
+jurisdiction: UK
+sector: Cross-government
+frameworks: [uk-dam-policy, uk-dqap, uk-cda-metadata]
+target_policy: low
+requirements:
+  - {id: DAM-1, text: "A named data owner organisation is recorded for the asset.", evidence: {asset_field: owner}}
+  - {id: DAM-2, text: "A data steward (or equivalent role) is recorded.", evidence: {asset_field: steward}}
+  - {id: DAM-3, text: "A data quality action plan (DQAP) or equivalent exists and is linked.", evidence: {asset_field: dqap}}
+  - {id: DAM-4, text: "Importance of purpose is set (1-4) so targets follow the issues framework.", evidence: {asset_field: importance}}
+  - {id: DQAP-1, text: "Rules exist for critical data items (DQAP step 2).", evidence: {min_rules: 3}}
+  - {id: DQAP-2, text: "Core dimensions are measured - completeness, validity and timeliness at least.", evidence: {dimensions: [completeness, validity, timeliness]}}
+  - {id: DQAP-3, text: "A baseline is recorded (DQAP step 3).", evidence: {history_cycles: 1}}
+  - {id: DQAP-4, text: "Issues are prioritised with the data quality issues framework (DQAP step 4).", evidence: {automatic: true}}
+  - {id: DQAP-5, text: "Root causes and actions are recorded for open issues (DQAP step 5).", evidence: {manual: "DQAP workbook Causes and Actions tabs"}}
+  - {id: DQAP-6, text: "Results are reported to users (DQAP step 6).", evidence: {automatic: true, note: "DQV metadata and run summary"}}
+  - {id: DQAP-7, text: "Quality is re-measured over time (DQAP step 7).", evidence: {history_cycles: 2}}
+  - {id: CDA-M1, text: "The asset's metadata includes its identifier (IRI).", evidence: {asset_field: iri}}
+  - {id: INC-1, text: "Where the asset holds personal data, representativeness is checked.", evidence: {personal_data_inclusion: true}}
+report: [Asset and ownership, Rules and dimensions, Baseline results, Issues by priority, Actions, Trust level and route]

@@ -1,0 +1,14 @@
+id: iso-19157-geospatial
+name: Geospatial data quality (ISO 19157-1)
+summary: Maps results to the ISO 19157 data quality elements used for geographic information.
+jurisdiction: International
+sector: Geospatial
+frameworks: [iso-19157, uk-geospatial-qfair]
+target_policy: mid
+requirements:
+  - {id: GEO-1, text: "Completeness (commission and omission) is measured.", evidence: {dimensions: [completeness]}}
+  - {id: GEO-2, text: "Logical consistency - formats, domains and topology rules are checked.", evidence: {any_dimension: [validity, consistency]}}
+  - {id: GEO-3, text: "Geographic identifiers (UPRN, GSS codes, postcodes) are valid.", evidence: {checks: [identifier]}}
+  - {id: GEO-4, text: "Temporal quality is checked.", evidence: {dimensions: [timeliness]}}
+  - {id: GEO-5, text: "Positional and thematic accuracy are assessed against a reference.", evidence: {dimensions: [accuracy]}}
+report: [Completeness, Logical consistency, Identifiers, Temporal quality, Accuracy]

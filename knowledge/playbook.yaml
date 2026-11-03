@@ -1,0 +1,303 @@
+# Data quality management playbook for critical data assets.
+# Written for critical data assets (CDAs) under the UK government Data Asset Management (DAM) policy and its data
+# quality action plan (DQAP) guidance, but generic: every stage names the plain-language job, so any organisation,
+# sector or country can use it by swapping in its own mandate (see "adapt").
+# Honesty rules: clause IDs (DAM-1 etc.) are the kit's own short labels for the published requirements in
+# knowledge/requirements.csv; mappings to other frameworks are "comparable to", not "equivalent to".
+# Templates are blank structures; any filled-in example is marked illustrative.
+review:
+  last_reviewed: '2026-10-30'
+  owner_role: Data quality lead (Commons)
+
+summary: >-
+  A repeatable way to know, prove and improve the quality of the data that matters most. Eight stages, from
+  choosing your critical data to keeping it healthy year after year. Each stage has steps, outputs, a checklist,
+  who does what, an inclusion check and the matching requirement in the UK DAM policy and elsewhere.
+
+applies_to:
+- UK government departments and arm's length bodies with critical data assets (mandatory under the DAM policy)
+- Devolved administrations, local government, the NHS, police and the third sector (voluntary adoption)
+- Crown Dependencies, Overseas Territories and international partners
+- Any organisation with data that many people or services depend on
+
+adapt:
+  intro: Use your own words. The playbook works the same whatever your mandate calls things.
+  terms:
+  - {here: Critical data asset (CDA), elsewhere: "Critical data, key dataset, master or reference data, high-value dataset (EU), essential shared data asset (older UK term)"}
+  - {here: DAM policy, elsewhere: "Your data strategy, data governance policy, statistics code, regulator's rules or contract"}
+  - {here: Data quality action plan (DQAP), elsewhere: "Data quality plan, improvement plan, quality assurance plan (Canada, Australia, US agencies)"}
+  - {here: Data owner, elsewhere: "Information asset owner, data custodian, accountable executive, business owner"}
+  - {here: CDA return, elsewhere: "Annual data inventory, asset register submission, catalogue record"}
+  rule: If your context has no mandate, start at stage 1 and use the issues framework as your method. Nothing here depends on the UK policy.
+
+principles:
+- {id: P1, name: Fit for purpose, text: "Quality means good enough for the decisions and services that rely on the data. Agree what 'good enough' means with the people who use it."}
+- {id: P2, name: Start with what matters, text: "Focus on the few data items that drive important decisions, not every column."}
+- {id: P3, name: "Measure, don't guess", text: "Write rules down, test them automatically and keep the results. A score without a rule is an opinion."}
+- {id: P4, name: "Fix causes, not symptoms", text: "Cleaning data downstream hides the problem. Fix it where the data is created."}
+- {id: P5, name: Be open about limits, text: "Publish what you know about quality, including what is wrong. Users trust honest data more than perfect-looking data."}
+- {id: P6, name: Include everyone, text: "Check that quality is as good for every group of people the data describes. Missing or wrong data about some groups excludes them from services."}
+- {id: P7, name: Keep it going, text: "Quality is a routine, not a project. Measure on a cycle, review every year and hand over cleanly."}
+
+roles:
+- {id: O, name: Data owner, text: "Senior person accountable for the asset and its quality. Signs off targets, accepts risks, funds fixes."}
+- {id: S, name: Data steward, text: "Day-to-day lead. Writes rules, runs checks, keeps the issue log and plan."}
+- {id: P, name: Data producer or system owner, text: "Team or supplier that creates or changes the data. Fixes causes at source."}
+- {id: U, name: Data users, text: "Teams, services and analysts who rely on the data. Say what they need and report problems."}
+- {id: Q, name: Data quality lead or analyst, text: "Specialist support: methods, tooling, profiling and reporting."}
+- {id: G, name: Data governance board or CDO, text: "Sets policy, sees the portfolio, resolves escalations, reports to the centre."}
+- {id: C, name: People the data describes, text: "Citizens, communities and their representatives. Help spot exclusion and test whether published quality information is understandable."}
+
+stages:
+- n: 1
+  id: identify
+  name: Identify your critical data
+  goal: Know which data assets are critical and which data items in them matter most.
+  steps:
+  - List data assets other teams, services or organisations depend on.
+  - "Test each against your criteria. Under the DAM policy: shared value across government, open or restricted classification, serving one or more of the policy's purposes."
+  - Record each critical asset with an owner, a steward and the standard metadata properties.
+  - For each asset, name the 5 to 15 data items that drive the most important decisions (critical data elements).
+  - Record who uses the data, for what, and the people or places it describes.
+  outputs: [Critical data asset register, Critical data elements list per asset, User and purpose map]
+  checklist:
+  - Every critical asset has a named owner and steward (roles, not just a team).
+  - Metadata is complete enough for someone outside your team to find and understand the asset.
+  - Critical data elements are agreed with at least two user teams.
+  - You know which groups of people, places or organisations the data covers, and which it might miss.
+  raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: I}
+  dam: [DAM-1, DAM-2, DAM-4, DQAP-1, CDA-M]
+  elsewhere: "Comparable to: ISO 8000-61 (data quality planning), DAMA-DMBOK (critical data elements), Canada GC data quality guidance (identify key data), EU high-value datasets."
+  toolkit: {text: "Describe the asset once and see gaps against the CDA metadata", link: weaver.html}
+  inclusion: "Check the user map includes services for disabled people, people on low incomes, Welsh and other language users, and all four UK nations where relevant."
+  effort: 1 to 3 days per asset
+
+- n: 2
+  id: define
+  name: Define quality rules and targets
+  goal: Turn 'good enough' into rules a computer can test, with agreed targets.
+  steps:
+  - For each critical data element, choose the dimensions that matter (completeness, uniqueness, consistency, timeliness, validity, accuracy).
+  - Write each rule in plain English first, then as a testable rule.
+  - Set a target for each rule using the importance of the purpose and the impact of failure (issues framework target ranges).
+  - Record the rules as a data contract so suppliers and users see the same promise.
+  - Agree targets with the data owner and the main users.
+  outputs: [Rule catalogue, Targets per rule, Data contract (ODCS)]
+  checklist:
+  - Every critical data element has at least one rule.
+  - Every rule names its dimension, owner and target.
+  - Targets come from user impact, not from what the data already achieves.
+  - Rules are stored as files, not only in a tool, so they survive a change of supplier.
+  raci: {O: A, S: R, P: C, U: C, Q: R, G: I, C: I}
+  dam: [DAM-3, DAM-5, DQAP-2, IF-1, IF-2]
+  elsewhere: "Comparable to: ISO/IEC 25012 (quality characteristics), ODCS v3.1 quality rules, W3C DQV, ESS and UN NQAF quality dimensions."
+  toolkit: {text: "Write rules in plain English with the assistant, then save them as a data contract", link: assistant.html}
+  inclusion: "Add rules for fields that affect fair treatment: completeness of protected characteristics where lawfully collected, valid address formats for all nations, names in all scripts."
+  effort: 2 to 5 days per asset
+
+- n: 3
+  id: baseline
+  name: Measure and set a baseline
+  goal: Know where you are today.
+  steps:
+  - Profile the data to see patterns, gaps and outliers.
+  - Run every rule and record results with the date and data version.
+  - Log every failure as an issue with its dimension, size and affected users.
+  - Break results down by group (region, nation, age band, channel) where you lawfully can.
+  - Write the baseline into a short data quality statement.
+  outputs: [Baseline results, Issue log, First data quality statement]
+  checklist:
+  - Results are reproducible (same rules, same data, same result).
+  - Each issue says how many records and which users are affected.
+  - You have looked for differences in quality between groups.
+  - Results are stored where the next steward will find them.
+  raci: {O: A, S: R, P: C, U: I, Q: R, G: I, C: I}
+  dam: [DQAP-3]
+  elsewhere: "Comparable to: ISO 8000-8 (measurement), IMF DQAF assessment, ABS data quality statements."
+  toolkit: {text: "Profile and check a file in your browser; nothing is uploaded", link: check.html}
+  inclusion: "If quality is worse for a group, record it as a separate issue so it is not averaged away."
+  effort: 1 to 3 days per asset
+
+- n: 4
+  id: prioritise
+  name: Prioritise
+  goal: Fix the issues that hurt most first.
+  steps:
+  - "Score each issue with the issues framework: importance of purpose times impact, then the band below target."
+  - Sort by priority. Critical issues are fixed immediately; high in one cycle; medium in three; low in six.
+  - Agree the order with the data owner. Record accepted risks explicitly.
+  - Turn the top issues into a data quality action plan with goals and dates.
+  outputs: [Prioritised issue list, Data quality action plan, Risk acceptances]
+  checklist:
+  - Every issue has a priority score and a resolution timescale.
+  - Accepted risks are signed by the data owner, with a review date.
+  - The plan has measurable goals (rule X from 82% to 95% by a date).
+  - Issues that affect some groups more than others are not ranked down because they are 'small'.
+  raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: C}
+  dam: [DQAP-4, IF-3, IF-4]
+  elsewhere: "Comparable to: risk-based prioritisation in ISO 31000 and DAMA-DMBOK; US agency data quality plans."
+  toolkit: {text: "Score and rank issues with the government method", link: guidance.html}
+  inclusion: "Weight impact by who is affected, not only how many: a small number of wrong records can stop someone getting a service."
+  effort: Half a day per cycle
+
+- n: 5
+  id: improve
+  name: Find causes and fix at source
+  goal: Stop problems coming back.
+  steps:
+  - For each priority issue, ask why until you reach the cause (people, process, system, supplier, standard).
+  - Choose the fix closest to where the data is created. Prefer prevention (validation at entry, shared identifiers, code lists) over cleaning.
+  - Give each action an owner and a date. Put supplier actions into the contract or change request.
+  - Re-run the rules to prove the fix worked.
+  outputs: [Root cause records, Actions with owners, Evidence that fixes worked]
+  checklist:
+  - Every fix is tested by re-running the rule.
+  - Fixes at source are preferred; any downstream cleaning is recorded and temporary.
+  - Supplier obligations are in the contract with a KPI.
+  - Changes to forms or systems were tested with users, including assistive technology users.
+  raci: {O: A, S: R, P: R, U: C, Q: C, G: I, C: C}
+  dam: [DQAP-5]
+  elsewhere: "Comparable to: ISO 8000-61 improvement process, Plan-Do-Check-Act, Lean root cause analysis."
+  toolkit: {text: "Put data quality duties and KPIs into supplier contracts", link: commercial.html}
+  inclusion: "Fix forms that force wrong answers (no 'prefer not to say', one-line names, UK-only postcodes). These cause bias at source."
+  effort: Varies by cause
+
+- n: 6
+  id: report
+  name: Report and be open
+  goal: Users know how good the data is and what it can safely be used for.
+  steps:
+  - "Update the data quality statement each cycle: scores, trends, known issues and what the data should not be used for."
+  - Publish quality metadata with the asset (W3C DQV or the CDA return fields) so catalogues such as the National Data Library can show it.
+  - Report the portfolio to your governance board and the centre (for example the CDA return).
+  - "Rate the asset with Q-FAIR (quality, findable, accessible, interoperable, reusable): record access route, standards, licence and provenance so the ratings can be shown."
+  - Tell affected users directly about critical issues.
+  outputs: [Data quality statement, Quality metadata, Portfolio report or CDA return]
+  checklist:
+  - The statement is in plain English, accessible (WCAG 2.2 AA) and dated.
+  - It says what the data is not fit for, not only what it is fit for.
+  - Machine-readable quality metadata is published with the catalogue record.
+  - Group differences in quality are reported, not hidden.
+  raci: {O: A, S: R, P: I, U: I, Q: C, G: I, C: I}
+  dam: [DAM-4, DQAP-6]
+  elsewhere: "Comparable to: Code of Practice for Statistics (Quality pillar), ESS quality reports, ABS and Statistics Canada quality statements, W3C DQV."
+  toolkit: {text: "Export results as DQV and CDA return rows", link: pipeline.html}
+  inclusion: "Test the statement with people outside the data team. Offer it in Welsh where required and in Easy Read where the data describes the public."
+  effort: Half a day per cycle
+
+- n: 7
+  id: sustain
+  name: Monitor and sustain
+  goal: Quality stays good without heroics.
+  steps:
+  - Run checks automatically on every new load or on a fixed cycle (monthly is a good start).
+  - Track trends; alert when a rule drops below its target.
+  - Escalate using agreed thresholds (see escalation).
+  - "Build skills: train stewards and producers; share rules and lessons with other teams."
+  - Keep rules, results and the plan in version control so they survive staff and supplier changes.
+  outputs: [Automated checks, Trend dashboard, Escalation log, Training record]
+  checklist:
+  - Checks run without manual effort.
+  - Someone is alerted when quality drops, and knows what to do.
+  - The steward role has a named deputy.
+  - Rules and results are stored openly where licensing allows (MIT code, OGL content).
+  raci: {O: A, S: R, P: R, U: I, Q: R, G: I, C: I}
+  dam: [DQAP-7]
+  elsewhere: "Comparable to: data observability practice, ISO 8000-150 (roles), continual improvement in ISO 9001."
+  toolkit: {text: "Schedule checks in a pipeline and watch the status", link: pipeline.html}
+  inclusion: "Keep the group breakdowns in the monitoring, not just the baseline."
+  effort: Hours per month once set up
+
+- n: 8
+  id: review
+  name: Review every year
+  goal: The asset, rules and targets still match what users need.
+  steps:
+  - At least every 12 months, review the asset record, owner, rules, targets and plan.
+  - Ask users whether the data still meets their needs; add rules for new uses (for example AI training).
+  - Retire rules that no longer matter; raise targets that are now easy.
+  - Check maturity and set next year's goals.
+  - Submit the updated record or return.
+  outputs: [Annual review note, Updated register entry, Next year's goals]
+  checklist:
+  - The review is dated and signed off by the data owner.
+  - New uses (such as AI) have been assessed against the AI-ready data guidance.
+  - The asset is still correctly classed as critical, or has been retired with a reason.
+  - Lessons are shared with the Commons or your community.
+  raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: C}
+  dam: [DAM-6]
+  elsewhere: "Comparable to: annual statistical quality reviews, ISO 8000-61 review, management review in ISO 9001."
+  toolkit: {text: "Re-run the maturity self-assessment", link: maturity.html}
+  inclusion: "Ask representatives of groups the data describes whether anything has changed for them."
+  effort: 1 day per asset per year
+
+cadence:
+- {when: Every load or monthly, what: "Run rules, update the trend, alert on drops", who: Steward}
+- {when: Quarterly, what: "Update the action plan, report to the data owner and governance board", who: "Steward, owner"}
+- {when: Every 12 months, what: "Annual review, update the register entry or CDA return", who: "Owner, steward"}
+- {when: On any change, what: "Re-baseline after a system migration, supplier change or new use", who: "Steward, producer"}
+
+escalation:
+- {level: Critical, trigger: "A rule for a critical data element falls into the lowest band, or wrong data could harm people or break the law", action: "Tell users the same day; owner decides whether to pause use; governance board informed", timescale: Immediately}
+- {level: High, trigger: "A rule falls more than one band below target", action: "Owner agrees a fix in the action plan", timescale: Within one cycle}
+- {level: Medium, trigger: "A rule falls one band below target", action: "Steward plans a fix", timescale: Within three cycles}
+- {level: Low, trigger: "Slightly below target, low impact", action: "Log and monitor", timescale: Within six cycles}
+
+measures:
+- {name: Critical assets with a named owner and steward, target: 100%}
+- {name: Critical data elements with at least one rule, target: 100%}
+- {name: Rules meeting target, target: "Rising each quarter"}
+- {name: Critical issues resolved within timescale, target: 100%}
+- {name: Assets with a current data quality statement, target: 100%}
+- {name: Assets reviewed in the last 12 months, target: 100%}
+- {name: Assets with quality broken down by group where lawful, target: "Rising each year"}
+
+templates:
+- id: t-register
+  name: Critical data asset register entry
+  fields: [Asset name, Identifier, Description, Data owner (role), Data steward (role), Classification, Policy purposes served, Users and uses, Critical data elements, "Coverage (people, places, period)", Known gaps in coverage, Update frequency, Licence, Catalogue link, Last reviewed]
+- id: t-rule
+  name: Data quality rule
+  fields: [Rule ID, Data element, Plain-English rule, Dimension, Test (data contract or toolkit rule), Target, Importance of purpose (1-5), Impact of failure (1-5), Owner, Date agreed]
+- id: t-issue
+  name: Issue log entry
+  fields: [Issue ID, Date found, Rule ID, Description, Records affected, Users or groups affected, Combined score, Band below target, Priority, Resolution timescale, Root cause, Action and owner, Status, Date closed]
+- id: t-plan
+  name: Data quality action plan
+  fields: [Asset, Goals for this period, Issues in scope by priority, Actions, Owners, Dates, Risks accepted and by whom, Resources needed, Review date]
+- id: t-statement
+  name: Data quality statement
+  fields: [Asset and version, Date, Overall summary in plain English, Scores by dimension and trend, Known issues and their effect, Quality by group where lawful, What the data is fit for, What it should not be used for, How to report a problem, "Contact (role or form, not a personal email)"]
+- id: t-review
+  name: Annual review note
+  fields: [Asset, Date, "Still critical? (yes, no and why)", Owner and steward confirmed, Rules added or retired, Targets changed, New uses assessed (including AI), Maturity level, Goals for next year, Sign-off (role)]
+
+jurisdictions:
+- {where: UK government (departments and ALBs), basis: "DAM policy (mandatory for CDAs), DQAP and issues framework guidance, CDA metadata guidance, Government Data Quality Framework", frameworks: [uk-dam-policy, uk-dqap, uk-cda-metadata, uk-gdqf]}
+- {where: UK official statistics, basis: "Code of Practice for Statistics 3.0 (Quality pillar)", frameworks: [uk-code-of-practice-3]}
+- {where: Scotland, basis: "Not bound by the DAM policy; Scottish data standards and official statistics quality guidance", frameworks: [scotland-data-standards, scotland-official-statistics-quality]}
+- {where: Wales, basis: "Not bound by the DAM policy; Welsh Government statistical quality management", frameworks: [wales-sqms]}
+- {where: Health (England), basis: "NHS Data Quality Maturity Index", frameworks: [nhs-dqmi]}
+- {where: Personal data (all UK), basis: "UK GDPR accuracy principle", frameworks: [uk-ico-accuracy]}
+- {where: European statistics and data spaces, basis: "ESS Quality Assurance Framework; CEN/CLC/TS 18331 maturity model; prEN 18352 governance quality framework (draft)", frameworks: [ess-qaf]}
+- {where: Canada, basis: "Government of Canada data quality guidance (nine dimensions)", frameworks: [canada-gc-dq]}
+- {where: Australia, basis: "ABS Data Quality Framework; National Archives data quality guidance", frameworks: [abs-dqf, au-naa-data-quality]}
+- {where: United States, basis: "FCSM data quality framework for federal statistics", frameworks: [us-fcsm]}
+- {where: International, basis: "UN National Quality Assurance Frameworks; IMF DQAF; ISO 8000; ISO/IEC 25012; ISO/IEC 5259 for AI", frameworks: [un-nqaf, imf-dqaf, iso-8000, iso-iec-25012, iso-iec-5259]}
+
+inclusion_checks:
+- Does the data cover everyone it should? Compare its coverage with an independent count (census, register) by group and place.
+- Is missing data worse for some groups? Break completeness down by group where you lawfully can.
+- Do forms and systems allow people to describe themselves accurately (names, addresses, sex and gender questions following current statistical guidance, 'prefer not to say')?
+- Do rules work for all four UK nations and overseas addresses, not just England?
+- Are quality statements accessible (WCAG 2.2 AA), in plain English, and in Welsh where required?
+- Have people the data describes, or their representatives, had a chance to comment?
+- If the data feeds automated decisions or AI, have you checked for bias against the AI-ready data guidance and ISO/IEC 5259?
+
+sources:
+- {id: dam, title: Data asset management policy in government, url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government"}
+- {id: dqap, title: Implement a data quality action plan (DQAP implementation guide), url: "https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide"}
+- {id: gdqf, title: The Government Data Quality Framework, url: "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework"}
+- {id: aiready, title: Guidelines and best practices for making government datasets ready for AI, url: "https://www.gov.uk/government/publications/making-government-datasets-ready-for-ai/guidelines-and-best-practices-for-making-government-datasets-ready-for-ai"}
+- {id: odcs, title: Open Data Contract Standard, url: "https://bitol-io.github.io/open-data-contract-standard/latest/"}
+- {id: dqv, title: W3C Data Quality Vocabulary, url: "https://www.w3.org/TR/vocab-dqv/"}

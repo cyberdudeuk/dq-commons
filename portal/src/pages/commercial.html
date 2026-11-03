@@ -1,0 +1,139 @@
+<title>Buying and Suppliers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.facts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+.fact{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:.9rem}
+.bar{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.bar .card h3{font-size:.98rem}
+.bar .fix{font-size:.8rem}
+.prn{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))}
+.prn .card h3 span{font-family:var(--f-mono);color:var(--accent);margin-right:6px}
+.life{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+@media (max-width:1000px){.life{grid-template-columns:minmax(0,1fr)}}
+.life div{padding:12px;border-right:1px solid var(--line);font-size:.84rem;display:flex;flex-direction:column;gap:4px}
+.life div:last-child{border-right:0}
+@media (max-width:1000px){.life div{border-right:0;border-bottom:1px solid var(--line)}.life div:last-child{border-bottom:0}}
+.life b{font-size:.95rem}
+.builder{display:grid;gap:16px;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+@media (max-width:960px){.builder{grid-template-columns:minmax(0,1fr)}}
+.cl{display:flex;flex-direction:column;gap:6px;max-height:640px;overflow-y:auto;padding-right:4px}
+.cl label{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+.cl label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.cl input{margin-top:4px;width:18px;height:18px}
+.cl .t{font-weight:700;font-size:.92rem}
+.cl .w{font-size:.8rem;color:var(--muted)}
+.m-must{color:var(--crit);background:var(--crit-soft)} .m-should{color:var(--warn);background:var(--warn-soft)} .m-could{color:var(--info);background:var(--info-soft)}
+#sched{font-family:var(--f-mono);font-size:.78rem;min-height:420px;line-height:1.5}
+.score td select{min-width:110px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Govern · Buying and suppliers</span>
+  <h1>Make suppliers responsible for the quality of public data</h1>
+  <p class="lede">Most public sector data is created, held or changed by suppliers' systems. Without clear obligations, public bodies pay twice: once for the service, and again to find, fix and work around poor data. This page sets out the barriers, the principles, and model clauses, KPIs and tender questions that put the responsibility where it belongs.</p>
+  <nav class="toc" aria-label="On this page"><a href="#why">Why it matters</a><a href="#barriers">Barriers</a><a href="#principles">Principles</a><a href="#lifecycle">Through the contract</a><a href="#clauses">Clause builder</a><a href="#tender">Tender questions</a><a href="#raci">Who does what</a><a href="#sources">Sources</a></nav>
+  <div class="note"><p class="small" id="disc"></p></div>
+</header>
+
+<section id="why" aria-labelledby="why-h"><h2 id="why-h">Why it matters</h2><p id="ctxSum"></p><div class="facts" id="facts"></div></section>
+
+<section id="barriers" aria-labelledby="b-h"><h2 id="b-h">Commercial barriers to good data</h2><p class="small muted">Each barrier links to the clauses that address it. Select a clause number to add it to the builder.</p><div class="bar" id="bars"></div></section>
+
+<section id="principles" aria-labelledby="p-h"><h2 id="p-h">Principles for every contract that touches public data</h2><div class="prn" id="prn"></div></section>
+
+<section id="lifecycle" aria-labelledby="l-h"><h2 id="l-h">Data quality through the life of a contract</h2><div class="life" id="life"></div></section>
+
+<section id="clauses" aria-labelledby="c-h">
+  <h2 id="c-h">Clause builder</h2>
+  <p>Choose the clauses you need. "Must" clauses are the floor for any contract that creates or holds public data. The schedule on the right updates as you choose, ready to copy into a specification or contract schedule for your commercial and legal teams to adapt.</p>
+  <div class="filters"><div class="field"><label for="fTheme">Theme</label><select id="fTheme"></select></div>
+    <div class="field"><label for="fM">Priority</label><select id="fM"><option value="">All</option><option value="must">Must</option><option value="should">Should</option><option value="could">Could</option></select></div>
+    <div class="field" style="flex:0 0 auto"><span class="small" style="font-weight:600">Quick picks</span><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" type="button" id="pMust">All musts</button><button class="btn ghost" type="button" id="pAll">Everything</button><button class="btn ghost" type="button" id="pNone">Clear</button></div></div></div>
+  <div class="builder">
+    <fieldset><legend class="sr-only">Clauses</legend><div class="cl" id="cl"></div></fieldset>
+    <div class="card"><h3>Your data quality schedule</h3>
+      <div class="field"><label for="buyer">Buying organisation (optional)</label><input type="text" id="buyer" placeholder="The Authority"></div>
+      <label for="sched" class="sr-only">Schedule text</label><textarea id="sched" readonly></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" type="button" id="copy">Copy</button><button class="btn ghost" type="button" id="save">Download</button><span id="msg" role="status" aria-live="polite" class="small"></span></div></div>
+  </div>
+</section>
+
+<section id="tender" aria-labelledby="t-h">
+  <h2 id="t-h">Tender questions, with what good looks like</h2>
+  <p class="small">Use these in evaluation. Score each answer 0 to 4; the total shows how ready a bidder is to carry data quality responsibility.</p>
+  <div class="tbl"><table class="score"><thead><tr><th>Question</th><th>A good answer</th><th>Score</th></tr></thead><tbody id="tq"></tbody></table></div>
+  <p id="tqTotal" aria-live="polite"></p>
+</section>
+
+<section id="raci" aria-labelledby="r-h"><h2 id="r-h">Who does what</h2><div class="tbl"><table><thead><tr><th>Activity</th><th>Supplier</th><th>Public body</th></tr></thead><tbody id="raciRows"></tbody></table></div>
+  <p class="small">Related: <a href="legacy.html">legacy and modernisation</a> for exit and migration, <a href="interop.html">interoperability and standards</a> for formats and identifiers, <a href="ai.html#vendor">AI inside suppliers' tools</a>, and <a href="tooling.html">tooling</a>.</p></section>
+
+<section id="sources" aria-labelledby="s-h"><h2 id="s-h">Sources</h2><ul class="plain small" id="src"></ul></section>
+</div>
+
+<script>
+const K = __K_COMMERCIAL__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const SRC = Object.fromEntries(K.sources.map(s => [s.id, s]));
+const byId = Object.fromEntries(K.clauses.map(c => [c.id, c]));
+$("disc").textContent = K.disclaimer;
+$("ctxSum").textContent = K.context.summary;
+$("facts").innerHTML = K.context.facts.map(f => `<div class="fact">${esc(f.text)} <a class="small" href="${esc(SRC[f.source].url)}" rel="noopener">Source</a></div>`).join("");
+$("bars").innerHTML = K.barriers.map(b => `<article class="card"><h3>${esc(b.name)}</h3><p class="small">${esc(b.what)}</p>
+  <p class="fix">Addressed by: ${b.fix.map(id => `<button type="button" class="chip acc" data-add="${id}" style="cursor:pointer" aria-label="Add clause ${id}, ${esc(byId[id].title)}">${id}</button>`).join(" ")}</p></article>`).join("");
+$("prn").innerHTML = K.principles.map(p => `<div class="card"><h3><span>${esc(p.id)}</span>${esc(p.title)}</h3><p class="small">${esc(p.text)}</p></div>`).join("");
+$("life").innerHTML = K.lifecycle.map(l => `<div><b>${esc(l.stage)}</b><span>${esc(l.do)}</span></div>`).join("");
+
+// clause builder
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+let chosen = new Set(store.get("dqc.clauses", K.clauses.filter(c => c.moscow === "must").map(c => c.id)));
+$("fTheme").innerHTML = `<option value="">All themes</option>` + [...new Set(K.clauses.map(c => c.theme))].map(t => `<option>${esc(t)}</option>`).join("");
+function drawList() {
+  const th = $("fTheme").value, m = $("fM").value;
+  $("cl").innerHTML = K.clauses.filter(c => (!th || c.theme === th) && (!m || c.moscow === m)).map(c => `<label><input type="checkbox" value="${c.id}"${chosen.has(c.id) ? " checked" : ""}>
+    <span><span class="t">${esc(c.id)} ${esc(c.title)}</span> <span class="pill m-${c.moscow}">${esc(c.moscow)}</span><br><span class="w">${esc(c.theme)} · ${esc(c.why)}</span></span></label>`).join("");
+}
+function drawSched() {
+  const buyer = $("buyer").value.trim() || "the Authority", list = K.clauses.filter(c => chosen.has(c.id));
+  const sub = s => s.replace(/the Authority/g, buyer).replace(/The Authority/g, buyer.charAt(0).toUpperCase() + buyer.slice(1)).replace(/Authority Data/g, (buyer === "the Authority" ? "Authority" : buyer.replace(/^the /, "")) + " Data");
+  $("sched").value = `SCHEDULE [X]: DATA QUALITY\n\n${K.disclaimer}\n\n` + (list.length ? list.map((c, i) => `${i + 1}. ${sub(c.title).toUpperCase()} (${c.id}, ${c.moscow})\n${sub(c.text)}\n   Evidence from the Supplier: ${c.supplier_evidence}\n   How it's measured: ${c.measure}\n`).join("\n") : "(No clauses chosen yet.)\n")
+    + `\nGenerated by the Public Sector Data Quality Commons on ${new Date().toISOString().slice(0, 10)}.`;
+  store.set("dqc.clauses", [...chosen]);
+}
+$("cl").addEventListener("change", e => { if (e.target.type !== "checkbox") return; e.target.checked ? chosen.add(e.target.value) : chosen.delete(e.target.value); drawSched(); });
+["fTheme", "fM"].forEach(id => $(id).addEventListener("input", drawList));
+$("buyer").addEventListener("input", drawSched);
+$("pMust").onclick = () => { chosen = new Set(K.clauses.filter(c => c.moscow === "must").map(c => c.id)); drawList(); drawSched(); };
+$("pAll").onclick = () => { chosen = new Set(K.clauses.map(c => c.id)); drawList(); drawSched(); };
+$("pNone").onclick = () => { chosen = new Set(); drawList(); drawSched(); };
+$("bars").addEventListener("click", e => { const b = e.target.closest("[data-add]"); if (!b) return; chosen.add(b.dataset.add); drawList(); drawSched();
+  $("msg").textContent = `Added ${b.dataset.add} to your schedule.`; });
+$("copy").onclick = async () => { try { await navigator.clipboard.writeText($("sched").value); $("msg").textContent = "Copied."; } catch (e) { $("sched").focus(); $("sched").select(); $("msg").textContent = "Copying isn't allowed here; the text is selected: press Ctrl+C (or Cmd+C)."; } };
+$("save").onclick = async () => {
+  const text = $("sched").value, name = "data-quality-schedule.txt";
+  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("msg").textContent = "Saved."; return; } } } catch (e) {}
+  try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("msg").textContent = "Downloaded."; }
+  catch (e) { $("msg").textContent = "Downloading isn't allowed here; use Copy."; }
+};
+drawList(); drawSched();
+
+// tender scoring
+$("tq").innerHTML = K.tender_questions.map(q => `<tr><td><b>${esc(q.id)}</b> ${esc(q.q)}</td><td class="small">${esc(q.good)}</td>
+  <td><label class="sr-only" for="s_${q.id}">Score for ${esc(q.id)}</label><select id="s_${q.id}" data-q><option value="">-</option>${[0, 1, 2, 3, 4].map(n => `<option>${n}</option>`).join("")}</select></td></tr>`).join("");
+$("tq").addEventListener("change", () => {
+  const vals = [...document.querySelectorAll("[data-q]")].map(s => s.value).filter(v => v !== "").map(Number), max = K.tender_questions.length * 4, tot = vals.reduce((a, b) => a + b, 0);
+  $("tqTotal").innerHTML = vals.length ? `<b>${tot} out of ${vals.length * 4}</b> for the ${vals.length} questions scored (${Math.round(100 * tot / (vals.length * 4))}%).${vals.length < K.tender_questions.length ? ` ${K.tender_questions.length - vals.length} still to score.` : ""} ${vals.some(v => v <= 1) ? "Any score of 0 or 1 is a material risk to discuss before award." : ""}` : "";
+});
+$("raciRows").innerHTML = K.raci.map(r => `<tr><td>${esc(r.activity)}</td><td>${esc(r.supplier)}</td><td>${esc(r.authority)}</td></tr>`).join("");
+$("src").innerHTML = K.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>${s.verified === "yes" ? "" : ` <span class="chip warn">Partly verified</span>`}</li>`).join("");
+window.DQP_TOUR = [
+  {sel: "#facts", title: "Why it matters", text: "Most public data passes through suppliers. These figures show the cost of weak oversight."},
+  {sel: "#bars", title: "Barriers", text: "Common commercial barriers. Each links to the clauses that fix it."},
+  {sel: "#cl", title: "Clause builder", text: "Pick clauses. 'Must' clauses are the floor for any contract that creates or holds public data."},
+  {sel: "#sched", title: "Your schedule", text: "Ready to copy into a specification for your commercial and legal teams to adapt. Not legal advice."},
+  {sel: "#tq", title: "Tender questions", text: "Score bidders on how ready they are to carry data quality responsibility."},
+];
+</script>

@@ -1,0 +1,44 @@
+# SHACL shapes for the critical data asset quality extension (proposal, D-014).
+# Hand-written from cda-quality.linkml.yaml; regenerate with LinkML gen-shacl.
+# Not machine-validated in the build environment (no RDF tooling available); validate with pySHACL before use.
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix dqv:  <http://www.w3.org/ns/dqv#> .
+@prefix oa:   <http://www.w3.org/ns/oa#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix ndq:  <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#> .
+
+ndq:QualityAssuredAssetShape
+    a sh:NodeShape ;
+    sh:targetClass dcat:Dataset ;
+    sh:property [
+        sh:path ndq:dataQualityActionPlan ;
+        sh:nodeKind sh:IRI ;
+        sh:maxCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "A critical data asset should link to its data quality action plan (DAM policy)." ] ;
+    sh:property [
+        sh:path dqv:hasQualityMeasurement ;
+        sh:class dqv:QualityMeasurement ;
+        sh:minCount 1 ;
+        sh:severity sh:Warning ;
+        sh:message "No data quality baseline measurement recorded." ] ;
+    sh:property [
+        sh:path dqv:hasQualityAnnotation ;
+        sh:class dqv:QualityAnnotation ] .
+
+ndq:QualityMeasurementShape
+    a sh:NodeShape ;
+    sh:targetClass dqv:QualityMeasurement ;
+    sh:property [ sh:path dqv:value ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 100 ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path dqv:isMeasurementOf ; sh:nodeKind sh:IRI ; sh:minCount 1 ; sh:maxCount 1 ] ;
+    sh:property [ sh:path dqv:computedOn ; sh:nodeKind sh:IRI ; sh:minCount 1 ] ;
+    sh:property [ sh:path dct:date ; sh:datatype xsd:date ; sh:minCount 1 ] .
+
+ndq:QualityIssueShape
+    a sh:NodeShape ;
+    sh:targetClass dqv:QualityAnnotation ;
+    sh:property [ sh:path ndq:issueType ; sh:nodeKind sh:IRI ; sh:minCount 1 ] ;
+    sh:property [ sh:path ndq:priority ; sh:in ( "Low" "Medium" "High" "Critical" ) ; sh:minCount 1 ] ;
+    sh:property [ sh:path oa:hasTarget ; sh:nodeKind sh:IRI ; sh:minCount 1 ] .

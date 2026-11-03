@@ -1,0 +1,105 @@
+<title>For Your Role</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.picker{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.picker button{font:inherit;font-size:.86rem;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 12px;cursor:pointer}
+.picker button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.panel h3{margin-top:0}
+.cols{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.cols h4{margin:.2em 0 .4em;display:flex;gap:6px;align-items:center}
+.cols ul{margin:0;padding-left:1.1em;font-size:.9rem;display:flex;flex-direction:column;gap:4px}
+.timeline{list-style:none;padding:0;margin:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.timeline li{border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:8px;padding:10px 12px;background:var(--surface);font-size:.88rem}
+.timeline .when{font-family:var(--f-mono);font-weight:600}
+.counts{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.count{border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--surface);min-width:120px}
+.count b{display:block;font-size:1.5rem;font-family:var(--f-serif)}
+.sev-High{color:var(--crit);font-weight:700}.sev-Medium{color:var(--warn);font-weight:700}
+.st-addressed{color:var(--good);font-weight:600}.st-partly{color:var(--warn);font-weight:600}.st-open{color:var(--crit);font-weight:600}
+.filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:8px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · For your role</span>
+  <h1>What you need, decide and should watch</h1>
+  <p class="lede" id="sum"></p>
+  <nav class="toc" aria-label="On this page"><a href="#pick">Your role</a><a href="#dates">Key dates</a><a href="#gaps">Gap register</a><a href="#sources">Sources</a></nav>
+</header>
+
+<section id="pick" aria-labelledby="pk-h">
+  <h2 id="pk-h">Choose your role</h2>
+  <div class="picker" id="picker" role="group" aria-label="Roles"></div>
+  <div class="panel" id="role" tabindex="-1" aria-live="polite"></div>
+</section>
+
+<section id="dates" aria-labelledby="dt-h">
+  <h2 id="dt-h">Key dates</h2>
+  <ol class="timeline" id="tl"></ol>
+  <p class="small muted">Only dates published on GOV.UK are shown. More will be added when they are published.</p>
+</section>
+<section id="gaps" aria-labelledby="gp-h">
+  <h2 id="gp-h">Gap register</h2>
+  <p class="small">Gaps found across policy, guidance, data and tools, who they affect and what the Commons does about each. "Open" means it needs a decision or action outside the Commons.</p>
+  <div class="counts" id="gc"></div>
+  <div class="filters">
+    <div class="field"><label for="fS">Status</label><select id="fS"><option value="">Any</option><option value="open">Open</option><option value="partly">Partly addressed</option><option value="addressed">Addressed</option></select></div>
+    <div class="field"><label for="fV">Severity</label><select id="fV"><option value="">Any</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+    <div class="field"><label for="fR">Affects</label><select id="fR"><option value="">Anyone</option></select></div>
+    <span id="gN" class="small" role="status"></span>
+  </div>
+  <div class="tbl"><table><caption class="dqp-sr">Gap register</caption><thead><tr><th>ID</th><th>Gap</th><th>Affects</th><th>Severity</th><th>Status</th><th>What the Commons does</th></tr></thead><tbody id="gb"></tbody></table></div>
+</section>
+
+<section id="sources" aria-labelledby="src-h"><h2 id="src-h">Sources</h2><ul class="plain small" id="src"></ul></section>
+</div>
+
+<script>
+const S = __K_STAKEHOLDERS__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+const RN = Object.fromEntries(S.roles.map(r => [r.id, r.name]));
+const ST = {open: "Open", partly: "Partly addressed", addressed: "Addressed"};
+$("sum").textContent = S.summary;
+
+// role picker
+let cur = (S.roles.find(r => location.hash === "#" + r.id) || {}).id || store.get("dqc.role", "council");
+if (!RN[cur]) cur = "council";
+function list(title, icon, items) { return items && items.length ? `<div><h4>${DQI(icon)} ${title}</h4><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""; }
+function drawRole(focus) {
+  $("picker").innerHTML = S.roles.map(r => `<button type="button" data-r="${r.id}" aria-pressed="${r.id === cur}">${esc(r.name)}</button>`).join("");
+  const r = S.roles.find(x => x.id === cur), mine = S.gaps.filter(g => g.affects.includes(cur));
+  $("role").innerHTML = `<h3>${esc(r.name)}</h3><p class="small muted">${esc(r.who)}. <b>Accountable for:</b> ${esc(r.accountable)}.</p>
+  <div class="cols">${list("What you need", "target", r.needs)}${list("Decisions coming up", "flag", r.decide)}${list("Be aware", "alert", r.watch)}${list("Measures to ask for", "chart", r.measures)}</div>
+  ${r.routes && r.routes.length ? `<h4>Go to</h4><p>${r.routes.map(x => `<a class="btn ghost" href="${esc(x.link)}">${DQI("arrow")} ${esc(x.text)}</a>`).join(" ")}</p>` : ""}
+  ${mine.length ? `<h4>Gaps that affect you (${mine.length})</h4><ul class="small">${mine.map(g => `<li><b>${g.id}</b> <span class="st-${g.status}">${ST[g.status]}</span>: ${esc(g.gap)}</li>`).join("")}</ul>` : ""}`;
+  if (focus) $("role").focus();
+}
+$("picker").addEventListener("click", e => { const b = e.target.closest("[data-r]"); if (b) { cur = b.dataset.r; store.set("dqc.role", cur); drawRole(true); } });
+drawRole(false);
+
+// dates
+const fmtD = w => w.length === 7 ? new Date(w + "-01T00:00:00Z").toLocaleDateString("en-GB", {month: "long", year: "numeric", timeZone: "UTC"}) : new Date(w + "T00:00:00Z").toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric", timeZone: "UTC"});
+$("tl").innerHTML = S.dates.map(d => `<li><div class="when">${fmtD(d.when)}</div><div>${esc(d.what)}</div><div class="small">${d.confirmed ? '<span class="chip">Confirmed</span>' : '<span class="chip warn">To confirm with GDS</span>'} ${esc(d.source)}</div></li>`).join("");
+
+// gaps
+$("fR").innerHTML += S.roles.map(r => `<option value="${r.id}">${esc(r.name)}</option>`).join("");
+const cnt = k => S.gaps.filter(g => g.status === k).length;
+$("gc").innerHTML = `<div class="count"><b>${S.gaps.length}</b>gaps found</div><div class="count"><b class="st-addressed">${cnt("addressed")}</b>addressed</div><div class="count"><b class="st-partly">${cnt("partly")}</b>partly addressed</div><div class="count"><b class="st-open">${cnt("open")}</b>open (need a decision)</div>`;
+function drawGaps() {
+  const s = $("fS").value, v = $("fV").value, r = $("fR").value;
+  const L = S.gaps.filter(g => (!s || g.status === s) && (!v || g.severity === v) && (!r || g.affects.includes(r)));
+  $("gN").textContent = `Showing ${L.length} of ${S.gaps.length}.`;
+  $("gb").innerHTML = L.map(g => `<tr id="${g.id}"><td><b>${g.id}</b><div class="small muted">${esc(g.area)}</div></td><td>${esc(g.gap)}</td><td class="small">${g.affects.map(a => esc(RN[a] || a)).join(", ")}</td><td class="sev-${g.severity}">${g.severity}</td><td class="st-${g.status}">${ST[g.status]}</td><td class="small">${esc(g.response)}${g.where ? ` <a href="${esc(g.where)}">Go</a>` : ""}</td></tr>`).join("");
+}
+["fS", "fV", "fR"].forEach(id => $(id).addEventListener("change", drawGaps)); drawGaps();
+$("src").innerHTML = S.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a></li>`).join("");
+window.DQP_TOUR = [
+  {sel: "#picker", title: "Your role", text: "Thirteen roles, from the CDO Council to the people the data describes."},
+  {sel: "#role", title: "Tailored view", text: "What you need, decisions coming up, what to watch, measures to ask for and the gaps that affect you."},
+  {sel: "#gb", title: "Gap register", text: "The gaps found, who they affect and what is being done. Filter by status, severity or role."},
+];
+</script>

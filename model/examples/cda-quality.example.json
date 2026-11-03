@@ -1,0 +1,13 @@
+{
+  "data_quality_action_plan": "https://example.gov.uk/dqap/births-registrations",
+  "dqap_status": "in_place",
+  "quality_assessment_date": "2026-10-14",
+  "inclusion_assessed": true,
+  "quality_measurements": [
+    {"metric": "ndq:metric/births/R1", "dimension": "completeness", "value": 100, "target": 99, "meets_target": true, "measured_on": "2026-10-14", "records_checked": 88},
+    {"metric": "ndq:metric/births/R6", "dimension": "timeliness", "value": 100, "target": 95, "meets_target": true, "measured_on": "2026-10-14", "records_checked": 1}
+  ],
+  "quality_issues": [
+    {"issue_type": "ndq:issue/undocumented-measure", "dimension": "validity", "priority": "Medium", "priority_score": 12, "resolution": "Within 3 measurement cycles", "responsibility": "provider", "status": "Open"}
+  ]
+}

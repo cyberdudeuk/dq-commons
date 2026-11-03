@@ -1,0 +1,407 @@
+{
+  "asset": {
+    "id": "ndl-environment-air-quality-chart",
+    "title": "NDL Environment collection: Air quality chart data",
+    "iri": "https://www.data.gov.uk/collections/environment/air-quality",
+    "owner": "Department for Environment, Food and Rural Affairs",
+    "importance": 3,
+    "source": "external",
+    "influence": false,
+    "target_policy": "low"
+  },
+  "as_of": "2026-10-14",
+  "rows": 15,
+  "rules_total": 6,
+  "rules_met": 5,
+  "dimensions": {
+    "uniqueness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "validity": {
+      "rules": 2,
+      "met": 2,
+      "mean_performance": 100.0
+    },
+    "accuracy": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    },
+    "timeliness": {
+      "rules": 1,
+      "met": 0,
+      "mean_performance": 0.0
+    },
+    "completeness": {
+      "rules": 1,
+      "met": 1,
+      "mean_performance": 100.0
+    }
+  },
+  "issues": [
+    {
+      "rule": "R4",
+      "issue_type": "stale-data",
+      "label": "Data out of date",
+      "dimension": "timeliness",
+      "priority": "High",
+      "resolution": "Within 1 measurement cycle",
+      "performance": 0.0,
+      "target": 97.5
+    }
+  ],
+  "results": [
+    {
+      "id": "R1",
+      "check": "unique",
+      "description": "unique",
+      "dimension": "uniqueness",
+      "issue_type": "duplicate-reference",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 4,
+        "combined": 12,
+        "target": 99.9,
+        "target_range": [
+          99.9,
+          100.0
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 1,000 records",
+        "error_rate_actual": "0 records"
+      },
+      "meta": {
+        "control_point": "pipeline"
+      },
+      "failed": 0
+    },
+    {
+      "id": "R2",
+      "check": "type",
+      "description": "type",
+      "dimension": "validity",
+      "issue_type": "invalid-type",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "kind": "year"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 97.5,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "0 records"
+      },
+      "meta": {
+        "control_point": "source"
+      },
+      "failed": 0
+    },
+    {
+      "id": "R3",
+      "check": "range",
+      "description": "range",
+      "dimension": "accuracy",
+      "issue_type": "out-of-range",
+      "columns": [
+        "Mean number of days with moderate or above pollution"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "min": 0,
+        "max": 366
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 97.5,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "0 records"
+      },
+      "meta": {
+        "control_point": "source"
+      },
+      "failed": 0
+    },
+    {
+      "id": "R4",
+      "check": "freshness",
+      "description": "Annual air quality statistics are usually published in spring, so the previous year should be present by autumn",
+      "dimension": "timeliness",
+      "issue_type": "stale-data",
+      "columns": [
+        "Year"
+      ],
+      "checked": 1,
+      "passed": 0,
+      "performance": 0.0,
+      "examples": [
+        {
+          "latest_period": "2024-12-31",
+          "age_days": 652,
+          "allowed_days": 548,
+          "expected": "P1Y",
+          "lag": "P6M",
+          "as_of": "2026-10-14"
+        }
+      ],
+      "detail": {
+        "latest_period": "2024-12-31",
+        "age_days": 652,
+        "allowed_days": 548,
+        "expected": "P1Y",
+        "lag": "P6M",
+        "as_of": "2026-10-14"
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 3,
+        "combined": 9,
+        "target": 97.5,
+        "target_range": [
+          97.5,
+          99.9
+        ],
+        "performance": 0.0,
+        "meets_target": false,
+        "band": "low",
+        "band_score": 3,
+        "priority_score": 27,
+        "priority": "High",
+        "resolution": "Within 1 measurement cycle",
+        "error_rate_target": "1 in 40 records",
+        "error_rate_actual": "1 in 1 records"
+      },
+      "meta": {
+        "control_point": "pipeline"
+      },
+      "failed": 1
+    },
+    {
+      "id": "R5",
+      "check": "no_gaps",
+      "description": "no_gaps",
+      "dimension": "completeness",
+      "issue_type": "unexplained-gap",
+      "columns": [
+        "Year"
+      ],
+      "checked": 15,
+      "passed": 15,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {
+        "first": 2010,
+        "last": 2024
+      },
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 90.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "0 records"
+      },
+      "meta": {
+        "control_point": "pipeline"
+      },
+      "failed": 0
+    },
+    {
+      "id": "R6",
+      "check": "header_has_unit",
+      "description": "header_has_unit",
+      "dimension": "validity",
+      "issue_type": "undocumented-measure",
+      "columns": [
+        "Mean number of days with moderate or above pollution"
+      ],
+      "checked": 1,
+      "passed": 1,
+      "performance": 100.0,
+      "examples": [],
+      "detail": {},
+      "assessment": {
+        "importance": 3,
+        "impact": 2,
+        "combined": 6,
+        "target": 90.0,
+        "target_range": [
+          90.0,
+          97.5
+        ],
+        "performance": 100.0,
+        "meets_target": true,
+        "band": null,
+        "band_score": 0,
+        "priority_score": 0,
+        "priority": null,
+        "resolution": null,
+        "error_rate_target": "1 in 10 records",
+        "error_rate_actual": "0 records"
+      },
+      "meta": {
+        "control_point": "reporting"
+      },
+      "failed": 0
+    }
+  ],
+  "trust": {
+    "level": "Requires improvement",
+    "sharing": "Internal use only",
+    "reasons": [
+      "High priority issue on R4 (Annual air quality statistics are usually published in spring, so the previous year should be present by autumn): 0.0% against a 97.5% target"
+    ],
+    "action_plan_required": true,
+    "dimensions_measured": [
+      "accuracy",
+      "completeness",
+      "timeliness",
+      "uniqueness",
+      "validity"
+    ],
+    "crosswalk": {
+      "mhclg_quality_ladder": "indicative / verifiable",
+      "ndl_rag": "red"
+    },
+    "note": "Suggested level. The data owner confirms or overrides it, with reasons (IOPC approach)."
+  },
+  "route": {
+    "route": "External data, no influence: assess, caveat and communicate",
+    "responsibility": "Fixes sit with the supplier. Your job is to measure, record limitations and tell users.",
+    "steps": [
+      "Determine and define the use cases and stakeholders",
+      "Assess the data structure",
+      "Define domain-appropriate data quality assessment parameters (the rules file)",
+      "Record them in the DQAP",
+      "Measure data quality against the planned parameters",
+      "Store and visualise the results in an accessible format",
+      "Check the assessment meets its stated aims; if not, revise the parameters",
+      "Communicate the results to stakeholders",
+      "Make changes to improve data quality where appropriate",
+      "Repeat at a frequency that meets the original requirements"
+    ],
+    "source": "external",
+    "influence": false,
+    "basis": "Data Quality Assessment Decision Tree (government data quality community, July 2023)"
+  },
+  "operations": {
+    "cycles_measured": 1,
+    "defect_volume": 1,
+    "control_failure_rate": 16.7,
+    "open_issues": 1,
+    "overdue_issues": 0,
+    "mean_cycles_open": 1.0,
+    "recurrence_rate": 0.0,
+    "rules": {
+      "R1": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R2": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R3": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R4": {
+        "open": true,
+        "cycles_open": 1,
+        "priority": "High",
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R5": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      },
+      "R6": {
+        "open": false,
+        "cycles_open": 0,
+        "priority": null,
+        "recurrences": 0,
+        "overdue": false,
+        "escalate_to": ""
+      }
+    }
+  }
+}

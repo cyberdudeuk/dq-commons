@@ -1,0 +1,341 @@
+# Data quality across the professions: where data quality sits in each profession's capability framework,
+# in the UK nations and sectors, and internationally.
+# Honesty rules: every entry was read at source on checked_on. "where" says only what the source says;
+# "capabilities" is the Commons' mapping to the data quality capability set below (an interpretation, marked as such
+# on the page). Roles only, never named people. Update when a framework is revised.
+review:
+  last_reviewed: '2026-11-03'
+  owner_role: Content steward (learning)
+
+intro: >-
+  Data quality is not one profession's job. The Government Data Quality Framework calls for a culture where everyone
+  who collects, manages or uses data plays a part. Many professions already describe data quality skills in their
+  capability frameworks, usually under other names: quality assurance, data preparation, evidence, data standards.
+
+# The data quality capability set: the sub-capabilities named by the Government Data Quality Framework and by the
+# open standards and bodies of knowledge used in the UK and internationally.
+capabilities:
+- {id: C1, name: Data quality strategy and governance, what: "Set policy, roles (owner, steward), targets and a data quality action plan", gdqf: Commit to data quality, dama: Define a data quality strategy; governance, iso: ISO 8000-61 data quality planning; ISO 8000-150 roles}
+- {id: C2, name: Data profiling and assessment, what: "Measure data against dimensions and record a baseline", gdqf: Assess quality throughout the data life cycle, dama: Perform an initial data quality assessment; profiling, iso: ISO 8000-61 data quality monitoring and control}
+- {id: C3, name: "Rules, validation and standards", what: "Write testable rules and apply data standards and controls at source", gdqf: Assess quality throughout the data life cycle, dama: Identify critical data and business rules, iso: ISO 8000-8 information and data quality concepts and measuring}
+- {id: C4, name: Data quality monitoring and analytics, what: "Track quality over time, analyse trends and set alerts", gdqf: Assess quality throughout the data life cycle, dama: Measure and monitor data quality, iso: ISO 8000-61 data quality monitoring and control}
+- {id: C5, name: Issue management and root cause, what: "Log, prioritise and fix issues at source; prevent recurrence", gdqf: Assess quality throughout the data life cycle, dama: Identify and prioritise potential improvements; root cause analysis, iso: ISO 8000-61 data quality improvement}
+- {id: C6, name: "Cleansing, linkage and enrichment", what: "Correct, standardise, deduplicate and link records", gdqf: Assess quality throughout the data life cycle, dama: Develop and deploy data quality operations, iso: ISO 8000-61 data quality improvement}
+- {id: C7, name: Reporting and communicating quality, what: "Publish quality statements, caveats and dashboards people can understand", gdqf: Communicate quality clearly and effectively, dama: Report on data quality levels and findings, iso: ISO 8000-8 measuring and reporting}
+- {id: C8, name: Metadata and documentation, what: "Describe data so others can find, judge and reuse it", gdqf: Know your users and their needs, dama: Metadata management (supports data quality), iso: ISO 8000-110 and 115 for master data}
+- {id: C9, name: Quality assurance of analysis and evidence, what: "Check that inputs, methods and outputs are fit for the decision", gdqf: Know your users and their needs, dama: Data quality in analytics, iso: ISO/IEC 25012 data quality model}
+- {id: C10, name: Inclusion and representativeness, what: "Check who data leaves out or misrecords, and fix it", gdqf: Know your users and their needs, dama: Not a named activity, iso: ISO/IEC 5259 (data quality for AI) covers representativeness}
+- {id: C11, name: Data quality in contracts and suppliers, what: "Put data quality duties and measures into contracts", gdqf: Anticipate changes affecting quality, dama: Data quality in data acquisition, iso: ISO 8000-1 to 8000-8 for data requirements in exchange}
+- {id: C12, name: Data literacy and culture, what: "Build skills and a culture where quality is everyone's job", gdqf: Commit to data quality, dama: Data quality culture and training, iso: ISO 8000-150 responsibility groups}
+
+# How each framework's levels line up with the Commons' three audiences.
+levels:
+  audiences: [Beginner, Intermediate, Advanced]
+  scales:
+  - {framework: Government Digital and Data (GDaD), beginner: Awareness, intermediate: "Working; Practitioner", advanced: Expert}
+  - {framework: Policy Profession Standards, beginner: "Level 1: Developing", intermediate: "Level 2: Practitioner", advanced: "Level 3: Expert"}
+  - {framework: Project Delivery Capability Framework, beginner: Awareness, intermediate: "Working; Practitioner", advanced: Expert}
+  - {framework: Government Counter Fraud Profession, beginner: "Trainee; Foundation", intermediate: Practitioner, advanced: Advanced practitioner}
+  - {framework: APS Data Capability Framework (Australia), beginner: Foundation, intermediate: Intermediate, advanced: Advanced}
+  - {framework: GC Data Competency Framework (Canada), beginner: Foundational, intermediate: Intermediate, advanced: Advanced}
+  - {framework: SFIA 9, beginner: "Levels 1 to 2", intermediate: "Levels 3 to 4", advanced: "Levels 5 to 7"}
+  - {framework: JNCC Data Skills Framework (UK), beginner: Foundation, intermediate: Intermediate, advanced: Advanced}
+
+professions:
+# ---------- UK Civil Service professions and functions ----------
+- id: gdad
+  group: UK Civil Service profession
+  name: Government Digital and Data (GDaD)
+  framework: Government Digital and Data Profession Capability Framework
+  url: https://understand-digital-data-roles-skills.service.gov.uk/
+  where: >-
+    There is no standalone data quality skill. Data quality sits inside other skills: for data analysts, "data preparation
+    and linkage" (identify and resolve data quality issues; at principal level, set data quality standards); for data
+    governance managers, "data governance", "data management", "data maturity" and "data standards", with the role
+    expected to establish data management competencies such as data quality. "Metadata management" and "data compliance
+    and security" are separate skills. The framework moved to a new address and was last updated on 30 September 2026.
+  roles: [Data analyst, Data governance manager, Data engineer, Performance analyst, Data architect, Analytics engineer]
+  capabilities: [C1, C2, C3, C5, C6, C8, C12]
+  personas: [steward, analyst, governance, cdo]
+  levels: GDaD
+  insight: "A named data quality skill would make the capability visible in job descriptions and skills audits. The framework invites change proposals."
+  checked_on: '2026-11-03'
+- id: analysis
+  group: UK Civil Service profession
+  name: Government Analysis Function
+  framework: GovS 010 Analysis (v2.2, August 2025) and the Analysis Function SCS Capability Framework
+  url: https://www.gov.uk/guidance/government-analysis-function-scs-capability-framework
+  where: >-
+    Senior analysts ensure clear quality assurance policies and processes exist and are followed for data, evidence and
+    analysis, manage the risks in producing them, and promote a culture of quality assurance, including advising
+    non-analytical professions. The AQuA Book on analytical quality assurance was updated in 2024 to 2025.
+  roles: [Senior analysts across the analytical professions]
+  capabilities: [C1, C7, C9, C12]
+  personas: [statistician, analyst, cdo]
+  checked_on: '2026-11-03'
+- id: gsg
+  group: UK Civil Service profession
+  name: Government Statistician Group (GSS)
+  framework: GSG Competency Framework (November 2021)
+  url: https://analysisfunction.civilservice.gov.uk/policy-store/government-statistician-group-gsg-competency-framework/
+  where: >-
+    Statistical strand 1 (acquiring data and understanding customer needs) asks statisticians to perform and document
+    quality checks, advise whether data is suitable, and design and embed new quality assurance processes, rising to
+    driving a culture of quality assurance. The learning pathway includes the Quality Assurance of Administrative Data
+    (QAAD) workshop and "Quality in government statistics".
+  roles: [Statistical officer to senior statistician, Data scientists in the GSG]
+  capabilities: [C2, C3, C7, C9]
+  personas: [statistician, analyst]
+  checked_on: '2026-11-03'
+- id: ges
+  group: UK Civil Service profession
+  name: Government Economic Service (GES)
+  framework: GES Technical Framework (2022)
+  url: https://www.gov.uk/government/publications/ges-technical-framework-2022
+  where: "One of the framework's three core technical areas is Analysis of Data, alongside Application of Knowledge and Effective Communication."
+  roles: [Economists]
+  capabilities: [C9, C7]
+  personas: [analyst]
+  checked_on: '2026-11-03'
+- id: gors
+  group: UK Civil Service profession
+  name: Government Operational Research Service (GORS)
+  framework: GORS Technical Framework (2025)
+  url: https://www.gov.uk/government/publications/gors-technical-framework
+  where: "Sets the technical requirements for operational researchers and the data scientists in GORS. The published summary does not name data quality; the earlier behaviours framework asked researchers to understand data structures and make them usable."
+  roles: [Operational researchers, Data scientists in GORS]
+  capabilities: [C9, C6]
+  personas: [analyst, ai]
+  checked_on: '2026-11-03'
+- id: gsr
+  group: UK Civil Service profession
+  name: Government Social Research (GSR)
+  framework: GSR Technical Framework (version 4)
+  url: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1120224/Government_Social_Research_Technical_Framework_v4.pdf
+  where: "Defines the technical element of Success Profiles for social researchers, alongside the GSR Professional Skills Framework and the GSR Code."
+  roles: [Social researchers]
+  capabilities: [C9, C10]
+  personas: [analyst]
+  checked_on: '2026-11-03'
+- id: policy
+  group: UK Civil Service profession
+  name: Policy Profession
+  framework: Policy Profession Standards (2021 update)
+  url: https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1065808/UPDATED_PP_Standards_main_v5_acc.pdf
+  where: >-
+    The Strategy pillar includes "Data, Analysis and Scientific Advice". The Office for Statistics Regulation maps it to
+    the Code of Practice for Statistics: use evidence from data analysis and spot pitfalls, caveats and limitations
+    (level 1), and challenge poor evidence (level 3).
+  roles: [Policy professionals, from EO to SCS]
+  capabilities: [C7, C9, C12]
+  personas: [owner, cdo, product]
+  levels: Policy Profession Standards
+  checked_on: '2026-11-03'
+- id: finance
+  group: UK Civil Service function
+  name: Government Finance Function
+  framework: Government Finance Function learning (Data Quality module)
+  url: https://analysisfunction.civilservice.gov.uk/learning-development/learning-pathways/analytical-awareness-for-non-analysts-learning-pathway
+  where: "The Government Finance Function offers a Data Quality module that introduces six data quality dimensions and why they matter, listed in the Analysis Function's learning pathway for non-analysts."
+  roles: [Finance professionals, Management accountants, Finance business partners]
+  capabilities: [C2, C12]
+  personas: [owner, steward]
+  checked_on: '2026-11-03'
+- id: commercial
+  group: UK Civil Service function
+  name: Government Commercial Function
+  framework: GCF Data Standards (March 2021) and GovS 008 Commercial
+  url: https://assets.publishing.service.gov.uk/media/61026d34e90e0703b09ac4df/GCF_Data_Standards.pdf
+  where: "Sets out to improve the quality of contract, supplier and KPI data across the function, with data quality principles (including accuracy, completeness, consistency, relevance and timeliness), accountability as an enabler, and field definitions aligned to the Open Contracting Data Standard."
+  roles: [Commercial and procurement professionals, Contract managers]
+  capabilities: [C3, C8, C11]
+  personas: [owner, product]
+  more: commercial.html
+  checked_on: '2026-11-03'
+- id: project
+  group: UK Civil Service function
+  name: Government Project Delivery
+  framework: Project Delivery Capability Framework (refreshed) and the Project Data Analytics and AI framework (March 2024)
+  url: https://www.gov.uk/government/publications/data-analytics-and-ai-in-government-project-delivery/data-analytics-and-ai-in-government-project-delivery
+  where: >-
+    The refreshed capability framework sets out data skills for project delivery roles, with a technical competency for
+    using digital tools and data analytics. A first Project Data Standard, piloted with 10 projects, sets common
+    definitions and formats for core project data to improve data quality across government.
+  roles: [Project and programme managers, PMO analysts, Heads of profession]
+  capabilities: [C3, C4, C8]
+  personas: [product, owner]
+  levels: Project Delivery Capability Framework
+  checked_on: '2026-11-03'
+- id: counterfraud
+  group: UK Civil Service profession
+  name: Government Counter Fraud Profession
+  framework: GCFP standards, including the Practitioner Standard for Fraud Detection (May 2025)
+  url: https://assets.publishing.service.gov.uk/media/682c660160f66b9c23b00c7f/PSFA_Standards_-_Standard_for_Fraud_Detection_Practitioners.pdf
+  where: "Use of Data and Analytics is a core discipline; the detection standard has a data analytics section. Competence levels run from Trainee to Advanced Practitioner."
+  roles: [Fraud detection and data analytics practitioners]
+  capabilities: [C2, C4, C6]
+  personas: [analyst]
+  levels: Government Counter Fraud Profession
+  checked_on: '2026-11-03'
+- id: kim
+  group: UK Civil Service profession
+  name: Government Knowledge and Information Management (GKIM)
+  framework: GKIM skills framework (2024 version; being redeveloped)
+  url: https://gov.uk/government/organisations/civil-service-government-knowledge-information-management-profession/about
+  where: "Covers information management, information rights, knowledge management, library and records management. The framework is being redeveloped for the new Government Skills taxonomy, due in 2026."
+  roles: [Information managers, Records managers, Information rights officers, Information architects]
+  capabilities: [C1, C8]
+  personas: [governance, steward]
+  checked_on: '2026-11-03'
+- id: govskills
+  group: Cross-government
+  name: Civil Service Skills Taxonomy (Government Skills)
+  framework: Civil Service Skills Taxonomy
+  url: https://www.gov.uk/government/organisations/government-skills-and-curriculum-unit/about
+  where: "Government Skills runs a standardised skills taxonomy and digital skills portal. Professions are aligning to it: the Tax Profession's 2026 career framework uses its universal core skills, which include digital skills."
+  roles: [All civil servants]
+  capabilities: [C12]
+  personas: [owner, steward, analyst, cdo, product]
+  insight: "The taxonomy is the right place to name data quality as a universal skill, so every profession can recognise it."
+  checked_on: '2026-11-03'
+- id: dqcourse
+  group: Cross-government
+  name: Introduction to Data Quality course
+  framework: Government Data Quality Framework training
+  url: https://www.gov.uk/government/news/introduction-to-data-quality-course-launched
+  where: "Modules built on the framework's principles: commit to data quality and know your users (for everyone); assess quality: dimensions, improvements and management (for people who assess or manage data); communicate quality; anticipate change."
+  roles: [Everyone who handles data]
+  capabilities: [C1, C2, C5, C7, C12]
+  personas: [owner, steward, analyst, product]
+  checked_on: '2026-11-03'
+
+# ---------- UK nations, local government and sectors ----------
+- id: lga
+  group: Local government (England)
+  name: Local Government Association
+  framework: LGA transformation capability framework (data quality management) and the CDDaT framework (refreshed 2026)
+  url: https://www.local.gov.uk/our-support/transformation/transformation-capability-framework/data-quality
+  where: "Lists the skills: create and implement a data quality management framework, profile data, cleanse data, embed ongoing monitoring, conduct root cause analysis, use data quality tools, and train and coach data owners and stewards."
+  roles: [Council data and performance teams, Data owners and stewards]
+  capabilities: [C1, C2, C4, C5, C6, C12]
+  personas: [steward, governance, owner]
+  checked_on: '2026-11-03'
+- id: nhs
+  group: Health (England)
+  name: NHS England
+  framework: National Competency Framework for Data Professionals in Health and Care, and the Provider Data Quality Assurance Framework
+  url: https://transform.england.nhs.uk/media/documents/NCF_Framework_Booklet.pdf
+  where: >-
+    The competency framework links to the GDaD framework and covers analysis, engineering and science from assistant
+    analyst upward. The provider assurance framework has five themes, including people: dedicated data quality roles or
+    defined responsibilities for all staff. The Data Quality Maturity Index is written into the NHS Standard Contract.
+  roles: [Health and care analysts, Data quality teams, Information governance]
+  capabilities: [C1, C2, C4, C7, C12]
+  personas: [analyst, steward, governance]
+  checked_on: '2026-11-03'
+- id: scotland
+  group: Scotland
+  name: Scottish Government and health and social care
+  framework: Government Digital and Data profession (Scotland) and the Digital and Data Capability Framework for health and social care (July 2024)
+  url: https://www.gov.scot/publications/health-social-care-data-strategy-2025-update-progress-priorities/pages/6/
+  where: "The Scottish Government uses eight GDD job families, one of them data. Health and social care published a Digital and Data Capability Framework for everyone in the sector, with new essential data skills and data for stewards courses."
+  roles: [Scottish public sector data roles, Health and social care staff, Data stewards]
+  capabilities: [C1, C12]
+  personas: [steward, analyst]
+  checked_on: '2026-11-03'
+- id: wales
+  group: Wales
+  name: Welsh public services
+  framework: Digital Service Standards for Wales and the Digital and Data Standards Board
+  url: https://digitalpublicservices.gov.wales/node/942
+  where: "The Digital and Data Standards Board reviews and endorses standards for Welsh public services; Digital Public Services Wales trains public servants in digital skills; HEIW has a Digital Capability Framework for health and care."
+  roles: [Welsh public sector digital and data teams]
+  capabilities: [C3, C12]
+  personas: [product, steward]
+  checked_on: '2026-11-03'
+- id: ni
+  group: Northern Ireland
+  name: Northern Ireland Statistics and Research Agency (NISRA)
+  framework: Background quality reports and Quality Assurance of Administrative Data (QAAD) reports
+  url: https://www.nisra.gov.uk/publications/quality-assurance-administrative-data-qaad-deaths-data-northern-ireland
+  where: "A practice rather than a skills framework: NISRA publishes background quality reports against the quality dimensions and QAAD reports on the administrative data behind official statistics."
+  roles: [NISRA statisticians in Northern Ireland departments]
+  capabilities: [C2, C7, C9]
+  personas: [statistician]
+  checked_on: '2026-11-03'
+- id: jncc
+  group: UK (environment)
+  name: JNCC Data Skills Framework
+  framework: Data Skills Framework (JNCC Report 590, 2018)
+  url: https://hub.jncc.gov.uk/assets/6ef949ed-1c22-438f-b2f7-fd4818ec4566
+  where: "A generic framework covering data competencies from identifying data needs to visualisation, in seven themes and three levels (foundation, intermediate, advanced). Open Government Licence."
+  roles: [Anyone working with data]
+  capabilities: [C2, C3, C12]
+  personas: [steward, analyst]
+  levels: JNCC Data Skills Framework (UK)
+  checked_on: '2026-11-03'
+
+# ---------- International and supranational ----------
+- id: sfia
+  group: International
+  name: SFIA 9 (Skills Framework for the Information Age)
+  framework: SFIA 9, skill Data management (DATM)
+  url: https://sfia-online.org/en/skillcode/9/DATM
+  where: "Data management (DATM) is defined at levels 2 to 6; SFIA 9 added levels 2 and 3 for entry-level roles. Its guidance includes developing and enforcing data governance policies to ensure data quality, and at higher levels ensuring data quality and compliance. Quality management (QUMG) is a related skill."
+  roles: [Digital and data roles worldwide]
+  capabilities: [C1, C3, C8]
+  personas: [governance, steward, analyst]
+  levels: SFIA 9
+  checked_on: '2026-11-03'
+- id: iso8000-150
+  group: International standard
+  name: ISO 8000-150:2022
+  framework: Data quality management, roles and responsibilities
+  url: https://www.iso.org/standard/80753.html
+  where: "Specifies how organisations establish roles and responsibilities for data quality management, with a framework of role levels and responsibility groups and a comparison with the ISO 8000-61 process reference model. Maturity assessment is in ISO 8000-62 and 8000-64."
+  roles: [Any organisation's data quality roles]
+  capabilities: [C1, C12]
+  personas: [governance, cdo]
+  checked_on: '2026-11-03'
+- id: aps
+  group: Australia
+  name: APS Data Capability Framework
+  framework: APS Data Capability Framework, version 2 (2025)
+  url: https://www.apsc.gov.au/publication/aps-data-capability-framework
+  where: "26 data capability areas across the data life cycle, including a dedicated Data quality area, at foundation, intermediate and advanced levels. Version 2 aligns to SFIA and draws on Stats NZ's framework. Creative Commons licence."
+  roles: [All Australian Public Service staff who work with data]
+  capabilities: [C1, C2, C3, C7, C8, C12]
+  personas: [steward, analyst, governance]
+  levels: APS Data Capability Framework (Australia)
+  checked_on: '2026-11-03'
+- id: canada
+  group: Canada
+  name: Government of Canada Data Competency Framework
+  framework: GC Data Competency Framework (March 2023)
+  url: https://ecolecanada.gc.ca/tools/jobaids/data-competency-framework-eng.aspx
+  where: "A common framework for foundational, intermediate and advanced data competencies across the federal public service, led by the Canada School of Public Service's Digital Academy and Statistics Canada."
+  roles: [All federal public servants]
+  capabilities: [C2, C7, C12]
+  personas: [steward, analyst, owner]
+  levels: GC Data Competency Framework (Canada)
+  checked_on: '2026-11-03'
+- id: nz
+  group: New Zealand
+  name: Stats NZ data capability and stewardship
+  framework: Data Capability Framework and the Data Stewardship Framework
+  url: https://data.govt.nz/toolkit/data-stewardship/a-data-stewardship-framework-for-nz
+  where: "The Government Chief Data Steward's stewardship framework has a 'data capability and quality' element and a 'people capability and literacy' element; Stats NZ also publishes a data capability framework for defining and developing data and analytical capabilities."
+  roles: [New Zealand public sector data roles]
+  capabilities: [C1, C12]
+  personas: [governance, cdo]
+  checked_on: '2026-11-03'
+- id: us
+  group: United States
+  name: Federal Data Strategy data skills
+  framework: Curated Data Skills Catalog (November 2020)
+  url: https://www.cdo.gov/assets/documents/fds_data_skills_catalog.pdf
+  where: "A common vocabulary of data roles and skills across a Federal Data Lifecycle, with training options, maintained by the Federal Chief Data Officers Council."
+  roles: [US federal workforce]
+  capabilities: [C12]
+  personas: [steward, analyst]
+  checked_on: '2026-11-03'

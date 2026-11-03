@@ -1,0 +1,45 @@
+id,label,applies_to,dimension,default_impact,responsibility,definition,mhclg_equivalent,source
+missing-value,Missing value,data,completeness,3,provider,"A required field is blank for a record.",missing value,MHCLG planning data specification
+missing-field,Missing field,data,completeness,3,provider,"A required field is absent from the file.",,This project
+unexplained-gap,Unexplained gap in a series,data,completeness,2,provider,"A time or area series has a missing period or area with no explanation.",,This project
+duplicate-record,Duplicate record,data,uniqueness,3,provider,"The same thing is recorded more than once.",,DQAP implementation guide
+duplicate-reference,Reference not unique,data,uniqueness,4,provider,"Two or more records share an identifier that should be unique.",reference values are not unique,MHCLG planning data specification
+invalid-type,Invalid data type,data,validity,3,provider,"A value cannot be read as its declared type (number, date, flag, URI).","invalid integer / invalid decimal / invalid date / invalid flag / invalid URI",MHCLG planning data specification
+pattern-mismatch,Value does not match pattern,data,validity,2,provider,"A value does not follow its required format, for example a code pattern.",,This project
+invalid-category,Invalid category value,data,validity,3,provider,"A value is not in the agreed list of allowed values.",invalid category value,MHCLG planning data specification
+invalid-geometry,Invalid geometry,data,validity,4,provider,"A shape or coordinate cannot be processed.",invalid geometry - not fixable,MHCLG planning data specification
+out-of-range,Value out of range,data,accuracy,3,provider,"A number is smaller or larger than its allowed range.",too small / too large,MHCLG planning data specification
+future-date,Date in the future,data,accuracy,3,provider,"A date that cannot be in the future is in the future.",future entry-date,MHCLG planning data specification
+implausible-date,Implausible date,data,accuracy,2,provider,"A date is too far in the past or future to be credible.",far-past-date / far-future-date,MHCLG planning data specification
+out-of-bounds,Location out of bounds,data,accuracy,4,provider,"Coordinates fall outside the expected area.",WGS84 out of bounds of England,MHCLG planning data specification
+cross-field-inconsistency,Fields disagree,data,consistency,3,provider,"Two fields in the same record contradict each other.",,This project
+totals-mismatch,Parts do not add up,data,consistency,3,provider,"Parts do not sum to the stated total, or shares exceed 100%.",,This project
+reference-mismatch,Reference not found,data,consistency,3,provider,"A value refers to something that does not exist in its reference list.",missing associated entity,MHCLG planning data specification
+stale-data,Data out of date,data,timeliness,3,provider,"The latest period in the data is older than the update frequency allows.",,This project
+late-publication,Late publication,data,timeliness,2,provider,"A release arrived after its scheduled date.",,This project
+undocumented-measure,Measure not described,data,validity,2,provider,"A column has no unit, measure definition or reference period, so values can be misread.",,This project
+characteristic-missing,Protected characteristic not recorded,data,representativeness,3,provider,"A field for a protected characteristic or need is blank.",,This project (inclusion)
+characteristic-defaulted,Protected characteristic defaulted or unknown,data,representativeness,3,provider,"A protected characteristic holds a default, 'unknown' or 'not stated' value.",,This project (inclusion)
+group-disparity,Quality differs between groups,data,representativeness,4,provider,"A quality measure is materially worse for one group of people than for others.",,NHS England QAFDL fairness criteria
+undercoverage,Population undercoverage,data,representativeness,4,provider,"Some people or places the data should describe are missing.",,This project (inclusion)
+owner-missing,No named data owner,metadata,metadata,4,provider,"The asset does not name an accountable owner organisation or role.",,GOV.UK DAM policy
+dqap-missing,No data quality action plan or equivalent,metadata,metadata,4,provider,"No DQAP, quality statement or methodology is published or linked.",,GOV.UK DAM policy
+review-overdue,Metadata review overdue,metadata,metadata,3,platform,"The record has not been reviewed in the last 12 months.",,GOV.UK CDA guidance
+frequency-missing,Update frequency not stated,metadata,timeliness,2,platform,"Users cannot tell how often the data is refreshed.",,NDL curation criteria
+temporal-coverage-missing,Time period not stated,metadata,metadata,2,platform,"The period the data covers is not stated (temporalCoverage).",,GOV.UK CDA metadata guidance
+geography-missing,Geography not stated,metadata,metadata,2,platform,"The places the data covers are not stated.",,This project
+created-date-missing,Creation date not stated,metadata,metadata,1,platform,"The dateCreated property is not recorded.",,GOV.UK CDA metadata guidance
+version-info-missing,Version information missing,metadata,metadata,1,platform,"The expires and supersededBy properties are not recorded.",,GOV.UK CDA metadata guidance
+schema-not-declared,Schema or standard not declared,metadata,validity,2,provider,"The conformsTo property is not recorded, so structure cannot be checked.",,GOV.UK CDA metadata guidance
+classification-missing,Security classification not stated,metadata,metadata,1,platform,"The securityClassification property is not recorded.",,GOV.UK CDA metadata guidance
+licence-not-specific,Licence not stated for the asset,metadata,metadata,2,platform,"Only a site-wide licence applies; the asset's own licence is not stated.",,GOV.UK CDA metadata guidance
+access-unclear,Access rights unclear,metadata,metadata,2,platform,"It is not clear whether access is open, charged or restricted.",,GOV.UK CDA metadata guidance
+link-publisher-missing,Link has no named publisher,metadata,metadata,1,platform,"A data link does not say who publishes it.",,NDL curation criteria
+not-machine-readable,No machine-readable format,metadata,metadata,3,provider,"Data is only offered as PDF, web pages or dashboards.",,This project (FAIR / MQA-style)
+no-api,No API,metadata,metadata,1,provider,"No programmatic access is offered.",,This project (FAIR / MQA-style)
+methodology-missing,Methodology not linked,metadata,accuracy,2,platform,"No methodology or quality information is linked.",,Code of Practice for Statistics / QAAD
+caveats-missing,Quality caveats not stated,metadata,accuracy,2,platform,"Known limitations are not described.",,DQAP step 6 (report on data quality)
+content-error,Error on the page,metadata,accuracy,3,platform,"The page contains a factual error, for example a wrong organisation name.",,This project
+breakdowns-not-stated,Breakdowns by people not stated,metadata,representativeness,2,platform,"For data about people, the page does not say which groups can be compared.",,This project (inclusion)
+nations-not-covered,UK nations not signposted,metadata,representativeness,1,platform,"Data covers part of the UK and does not point users to the other nations.",,This project (inclusion)
+invalid-identifier,Invalid identifier,data,validity,3,provider,"An identifier fails its format or check-digit rule, so records may not link to the right person, place or organisation.",,This project

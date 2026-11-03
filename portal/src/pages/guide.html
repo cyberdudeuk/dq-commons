@@ -1,0 +1,105 @@
+<title>User Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.steps{counter-reset:s;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.steps li{list-style:none;counter-increment:s;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:.92rem}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--accent-fg);font-weight:700;margin-bottom:6px}
+.tours{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.tours a{display:flex;flex-direction:column;gap:2px;text-decoration:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;color:var(--fg)}
+.tours a:hover{border-color:var(--accent)}
+.tours a b{color:var(--accent)}
+.tours a span{font-size:.84rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · User guide</span>
+  <h1>How to use the Commons</h1>
+  <p class="lede">You don't need to install anything or know how to code. Data you check stays in your browser. This guide covers the basics, every page, guided tours and common questions.</p>
+  <nav class="toc" aria-label="On this page"><a href="#quick">Quick start</a><a href="#menu">The menu</a><a href="#tours">Guided tours</a><a href="#tasks">Common tasks</a><a href="#faq">Questions</a><a href="#accessibility">Accessibility</a><a href="#privacy">Privacy</a></nav>
+</header>
+
+<section id="quick" aria-labelledby="quick-h">
+  <h2 id="quick-h">Quick start in 5 minutes</h2>
+  <ol class="steps" style="padding:0;margin:0">
+    <li>On <a href="index.html">Home</a>, choose your role or task.</li>
+    <li>Press <b>Take the tour</b> at the top of any page for a walk-through. Escape leaves it.</li>
+    <li>Open <a href="check.html">Check your data</a> and run the example, or open your own CSV file. (The Python toolkit also reads Excel, ODS, JSON, Parquet, SQL databases and CKAN catalogues.)</li>
+    <li>Read each rule's pass rate against its target, and the priority of anything that fails.</li>
+    <li>Save the rules file so you can run the same checks next month, or in the pipeline.</li>
+  </ol>
+</section>
+
+<section id="menu" aria-labelledby="menu-h">
+  <h2 id="menu-h">The menu</h2>
+  <div class="tbl"><table><thead><tr><th>Group</th><th>Pages</th><th>Use it to</th></tr></thead><tbody id="menuRows"></tbody></table></div>
+</section>
+
+<section id="tours" aria-labelledby="tours-h">
+  <h2 id="tours-h">Guided tours</h2>
+  <p>Each link opens the page and starts its tour. Tours move focus to a small panel next to the part being explained. Use Next and Back, or the arrow keys, and Escape to stop.</p>
+  <div class="tours" id="tourLinks"></div>
+</section>
+
+<section id="tasks" aria-labelledby="tasks-h">
+  <h2 id="tasks-h">Common tasks</h2>
+  <details class="disc"><summary>Check a dataset</summary><div class="body">
+    <p>Go to <a href="check.html">Check your data</a>. Open a CSV file or choose an example. Add rules from the rule builder, or start from the rule library: person, address, organisation, geography and publication templates. Press <b>Run the checks</b>.</p>
+    <p>Identifier checks test the format and, where there is one, the check digit: NHS number, National Insurance number, postcode, UPRN, GSS code, Companies House number, charity number, school URN, ODS code and LEI.</p></div></details>
+  <details class="disc"><summary>Find what a framework or policy expects</summary><div class="body">
+    <p>Go to <a href="frameworks.html">Frameworks and standards</a>. Filter by nation, sector or type. Open a framework to see its dimensions and how they map. The clause table breaks policies down line by line, with devolved and international comparisons and known gaps.</p></div></details>
+  <details class="disc"><summary>Assess your maturity</summary><div class="body">
+    <p>Go to <a href="maturity.html">Maturity self-assessment</a>. For each of 8 themes, choose the statement that fits best. You'll get a level per theme and next steps. Your answers stay in your browser.</p></div></details>
+  <details class="disc"><summary>Prioritise issues</summary><div class="body">
+    <p>Use the calculator on <a href="guidance.html">Issues framework</a>. Enter how important the purpose is and how bad the impact would be. It gives the target, the priority band and how quickly to fix.</p></div></details>
+  <details class="disc"><summary>Get value from AI safely</summary><div class="body">
+    <p>Read <a href="ai.html">AI for data quality</a>, then try the <a href="assistant.html">AI assistant</a>. Always review what it drafts: the page tests every draft against the kit before showing it.</p></div></details>
+  <details class="disc"><summary>Contribute, take a survey, or ask for help</summary><div class="body">
+    <p>Use <a href="community.html">Community</a> for the contributions library and wishlist, and <a href="surveys.html">Surveys and commissions</a> to take or run a survey or request help. If saving isn't available where you opened the portal, each form links to a GitHub form instead.</p></div></details>
+  <details class="disc"><summary>Automate checks every week</summary><div class="body">
+    <p>See <a href="operate.html">Operating model</a> and <a href="pipeline.html">Pipeline status</a>. The GitHub Actions pipeline measures every asset, keeps history, opens escalation issues and rebuilds this portal.</p></div></details>
+</section>
+
+<section id="faq" aria-labelledby="faq-h">
+  <h2 id="faq-h">Questions</h2>
+  <details class="disc"><summary>Is this official government guidance?</summary><div class="body"><p>No. It's a prototype public good service. It links to official sources first and marks anything not yet verified.</p></div></details>
+  <details class="disc"><summary>Does my data get uploaded?</summary><div class="body"><p>No. Checks run in your browser. Only things you choose to submit (a contribution, a survey answer, a request) are saved, and those never include your name or email unless you add a contact detail.</p></div></details>
+  <details class="disc"><summary>Is it only for the National Data Library or the DAM policy?</summary><div class="body"><p>No. Those are two of the scenarios. The toolkit works for any data, and the <a href="scenarios.html">Scenarios</a> page covers statistics, health, local government, geospatial, personal data, AI and more.</p></div></details>
+  <details class="disc"><summary>Can we use the toolkit with our existing tools?</summary><div class="body"><p>Yes. Rules are plain YAML and results are W3C DQV, CSV and JSON. See <a href="tooling.html">Tooling</a> for routes into Great Expectations, R validate, Purview, Fabric and others, and the MCP server for AI agents.</p></div></details>
+  <details class="disc"><summary>How do I report a problem?</summary><div class="body"><p>See the support tiers on <a href="operate.html">Operating model</a>. Accessibility problems are answered within 1 working day.</p></div></details>
+</section>
+
+<section id="accessibility" aria-labelledby="acc-h">
+  <h2 id="acc-h">Accessibility</h2>
+  <p>We aim to meet WCAG 2.2 AA. The portal works with a keyboard alone, screen readers, voice control and zoom up to 400%, follows your light or dark setting and respects reduced motion. Charts always have a table or text alternative.</p>
+  <p><b>Known gaps:</b> the portal hasn't yet had an independent audit (planned, XDMH-213), and there is no Welsh version yet (XDMH-216). Tell us about anything that doesn't work for you through <a href="surveys.html#commission">Surveys and commissions</a> or the service desk.</p>
+</section>
+
+<section id="privacy" aria-labelledby="priv-h">
+  <h2 id="priv-h">Privacy</h2>
+  <ul class="plain">
+    <li>Data you check is processed in your browser and is not sent anywhere.</li>
+    <li>Surveys never ask for names or emails. Results are shown only as totals, and totals under 5 are hidden.</li>
+    <li>Contributions and requests are moderated before anything is public.</li>
+    <li>The maturity self-assessment is kept only in your browser.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const groups = [...document.querySelectorAll(".dqp-drop .dqp-grp")].map(g => ({name: g.querySelector("h2").textContent,
+  pages: [...g.querySelectorAll("a")].map(a => ({href: a.getAttribute("href"), label: a.dataset.t, desc: a.querySelector("small").textContent}))}));
+document.getElementById("menuRows").innerHTML = groups.map(g => g.pages.map((p, i) =>
+  `<tr>${i ? "" : `<th scope="rowgroup" rowspan="${g.pages.length}" style="background:none;color:var(--fg)">${esc(g.name)}</th>`}<td><a href="${esc(p.href)}">${esc(p.label)}</a></td><td>${esc(p.desc)}</td></tr>`).join("")).join("");
+const tourPages = ["index", "check", "frameworks", "maturity", "learn", "ai", "assistant", "community", "surveys", "scenarios"];
+document.getElementById("tourLinks").innerHTML = groups.flatMap(g => g.pages).filter(p => tourPages.includes(p.href.replace(".html", "")))
+  .map(p => `<a href="${esc(p.href)}?tour=1"><b>Tour: ${esc(p.label)}</b><span>${esc(p.desc)}</span></a>`).join("");
+window.DQP_TOUR = [
+  {sel: "#quick", title: "Quick start", text: "Five steps to your first data quality check."},
+  {sel: "#menu", title: "The menu", text: "Six groups in journey order: 1 Start, 2 Learn, 3 Check, 4 Improve, 5 Apply and 6 Contribute, each page marked Beginner, Intermediate or Advanced. Every page is listed here with what it's for."},
+  {sel: "#tours", title: "Tours for every page", text: "Each link opens a page and starts its tour."},
+  {sel: "#accessibility", title: "Accessibility", text: "What we support, known gaps, and how to tell us when something doesn't work."},
+];
+</script>

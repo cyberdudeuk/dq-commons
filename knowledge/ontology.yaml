@@ -1,0 +1,208 @@
+# The Commons ontology, thesaurus, data dictionary and lineage: one source for the Knowledge map.
+# dqkit/graph.py combines this with the rest of the knowledge base (frameworks, packs, vocab, Rosetta, learning,
+# training, events, international partners) into one knowledge graph, exported as SKOS/OWL Turtle and JSON-LD.
+# Namespace: https://cyberdudeuk.github.io/ndl-dq-assurance/vocab# (persistent identifiers, prefix dqc:).
+review: {last_reviewed: "2026-10-15", owner_role: Content steward (vocabulary)}
+
+# ---------- Ontology: classes and relationships ----------
+classes:
+- {id: Dataset, label: "Dataset or data asset", definition: "A collection of data managed as one thing, such as a critical data asset.", equivalent: "dcat:Dataset"}
+- {id: Rule, label: "Data quality rule", definition: "A testable statement of what good data looks like, with a target.", equivalent: "dqv:Metric (applied)"}
+- {id: Check, label: "Check type", definition: "A kind of test the toolkit can run, such as not_null or freshness.", equivalent: ""}
+- {id: Dimension, label: "Quality dimension", definition: "An aspect of quality, such as completeness or timeliness.", equivalent: "dqv:Dimension"}
+- {id: IssueType, label: "Issue type", definition: "A category of data quality problem from the cross-government vocabulary.", equivalent: "skos:Concept"}
+- {id: Measurement, label: "Quality measurement", definition: "The result of running a rule on a dataset on a date.", equivalent: "dqv:QualityMeasurement"}
+- {id: Issue, label: "Data quality issue", definition: "A rule below target, with a priority and a time to fix.", equivalent: ""}
+- {id: Framework, label: "Framework, standard or policy", definition: "A published source of data quality requirements.", equivalent: "dct:Standard"}
+- {id: Pack, label: "Framework pack", definition: "Requirements from a framework, tested automatically against results.", equivalent: ""}
+- {id: Requirement, label: "Requirement", definition: "One thing a pack or policy asks for, with the evidence that shows it.", equivalent: ""}
+- {id: PolicyClause, label: "Policy clause", definition: "One clause of a policy, broken down line by line.", equivalent: ""}
+- {id: MetadataConcept, label: "Metadata concept", definition: "A cataloguing concept mapped across standards in the Metadata Rosetta.", equivalent: "skos:Concept"}
+- {id: MetadataStandard, label: "Metadata standard", definition: "A standard for describing data, such as DCAT or schema.org.", equivalent: "dct:Standard"}
+- {id: Role, label: "Role", definition: "A job role with responsibilities for data quality.", equivalent: "org:Role"}
+- {id: Skill, label: "Skill", definition: "A data quality skill, aligned with the DDaT capability framework.", equivalent: ""}
+- {id: Module, label: "Learning module", definition: "A Commons learning module.", equivalent: ""}
+- {id: Course, label: "Course or qualification", definition: "External or Commons training.", equivalent: "schema:Course"}
+- {id: Event, label: "Event", definition: "A conference, workshop, course run or forum about data quality.", equivalent: "schema:Event"}
+- {id: Jurisdiction, label: "Jurisdiction", definition: "A nation, Crown Dependency, Overseas Territory or international level.", equivalent: "dct:Jurisdiction"}
+- {id: Organisation, label: "Organisation or network", definition: "A body, network or partner.", equivalent: "org:Organization"}
+- {id: Term, label: "Glossary term", definition: "A term defined in the Commons glossary.", equivalent: "skos:Concept"}
+- {id: Stage, label: "Lineage stage", definition: "A step data passes through, from source to report.", equivalent: "prov:Activity"}
+- {id: Thing, label: "Any thing", definition: "Any node in the graph (used as a range when a relationship can point to several classes).", equivalent: "owl:Thing"}
+
+properties:
+- {id: measures, label: "measures", domain: Rule, range: Dimension, definition: "The dimension a rule measures."}
+- {id: uses, label: "uses check", domain: Rule, range: Check, definition: "The check type a rule runs."}
+- {id: checksDimension, label: "checks dimension", domain: Check, range: Dimension, definition: "The dimension a check type usually measures."}
+- {id: classifiedAs, label: "classified as", domain: Issue, range: IssueType, definition: "The issue type of an issue."}
+- {id: inDimension, label: "in dimension", domain: IssueType, range: Dimension, definition: "The dimension an issue type belongs to."}
+- {id: mapsTo, label: "maps to", domain: Framework, range: Dimension, definition: "A framework dimension maps to a Commons dimension."}
+- {id: implements, label: "implements", domain: Pack, range: Framework, definition: "The framework a pack puts into practice."}
+- {id: requires, label: "requires", domain: Pack, range: Requirement, definition: "A requirement in a pack."}
+- {id: evidencedBy, label: "evidenced by", domain: Requirement, range: Check, definition: "Evidence that shows a requirement is met (a check or a dimension)."}
+- {id: clauseOf, label: "clause of", domain: PolicyClause, range: Framework, definition: "The policy a clause belongs to."}
+- {id: supportedBy, label: "supported by", domain: PolicyClause, range: Check, definition: "How the toolkit supports a clause."}
+- {id: appliesIn, label: "applies in", domain: Framework, range: Jurisdiction, definition: "Where a framework applies."}
+- {id: expressedIn, label: "expressed in", domain: MetadataConcept, range: MetadataStandard, definition: "A standard's term for a metadata concept."}
+- {id: needsSkill, label: "needs skill", domain: Role, range: Skill, definition: "A skill a role needs."}
+- {id: teaches, label: "teaches", domain: Course, range: Skill, definition: "A skill a course or module teaches."}
+- {id: forRole, label: "for role", domain: Module, range: Role, definition: "A module on a role's pathway."}
+- {id: about, label: "about", domain: Thing, range: Term, definition: "A glossary term this node is about (for example an event topic, or an open standard about metadata)."}
+- {id: partOf, label: "part of", domain: Jurisdiction, range: Jurisdiction, definition: "A place within a wider grouping."}
+- {id: flowsTo, label: "flows to", domain: Stage, range: Stage, definition: "Data lineage: the next stage."}
+- {id: broader, label: "broader", domain: Term, range: Term, definition: "A broader term (SKOS broader)."}
+- {id: related, label: "related", domain: Term, range: Term, definition: "A related term (SKOS related)."}
+- {id: definedBy, label: "defined by", domain: Term, range: Framework, definition: "The source of a term's definition."}
+- {id: defaultIssue, label: "default issue", domain: Check, range: IssueType, definition: "The issue type a failing check raises by default."}
+- {id: heldIn, label: "held in", domain: Event, range: Jurisdiction, definition: "Where an event takes place."}
+- {id: sameAs, label: "same as", domain: Term, range: Thing, definition: "The glossary term names the same thing as another node (a dimension, role or standard)."}
+- {id: involves, label: "involves", domain: Stage, range: Thing, definition: "A concept, standard or tool used at a lineage stage."}
+- {id: inScope, label: "in scope of", domain: Jurisdiction, range: Jurisdiction, definition: "A place or level the Commons serves."}
+
+# ---------- Thesaurus: extra terms and relationships ----------
+# Terms already in the Learn glossary get relationships here; new terms also get a definition.
+# alt = non-preferred terms (Use for); broader / related = other terms by preferred name.
+thesaurus:
+- {term: Q-FAIR, alt: [Quality and FAIR, FAIR plus quality], broader: [Data quality dimension], related: [Critical data asset (CDA), Metadata]}
+- {term: Data quality baseline, alt: [Baseline return, First measurement], related: [Data quality rule, Critical data asset (CDA)]}
+- {term: Accuracy, alt: [Correctness, Precision of values], broader: [Data quality dimension], related: [Validity, Root cause analysis]}
+- {term: Completeness, alt: [Coverage, Fill rate], broader: [Data quality dimension], related: [Representativeness]}
+- {term: Consistency, alt: [Coherence], broader: [Data quality dimension], related: [Validity]}
+- {term: Timeliness, alt: [Currency, Freshness, Punctuality], broader: [Data quality dimension], related: [Escalation]}
+- {term: Uniqueness, alt: [Deduplication, No duplicates], broader: [Data quality dimension], related: [Master data]}
+- {term: Validity, alt: [Conformity, Format compliance], broader: [Data quality dimension], related: [Accuracy, Data contract]}
+- {term: Representativeness, alt: [Inclusion, Coverage of groups], broader: [Data quality dimension], related: [Completeness]}
+- {term: Data quality dimension, definition: "An aspect of data quality that can be measured, such as completeness, accuracy or timeliness.", alt: [Quality characteristic, Quality criterion], related: [Data quality rule]}
+- {term: Data quality rule, definition: "A testable statement of what good data looks like for one data item, with a target pass rate.", alt: [Quality check, Validation rule, Expectation], related: [Data quality dimension, Data contract]}
+- {term: Data contract, definition: "A written, testable agreement between the people who produce and use a dataset: its structure, quality rules and service levels.", alt: [ODCS contract], related: [Data quality rule, Validity]}
+- {term: Data lineage, definition: "Where data came from and what happened to it on the way, from source to report.", alt: [Provenance, Data flow], related: [Metadata, Root cause analysis]}
+- {term: Metadata, definition: "Data that describes data: what it is, who owns it, how good it is and how to use it.", alt: [Data description], related: [DCAT, DQV, Data lineage]}
+- {term: Master data, definition: "Core shared data about things like people, places and organisations, used across many systems.", alt: [Reference entities], related: [Uniqueness]}
+- {term: Reference data, definition: "Agreed lists of codes and values, such as GSS geography codes, used to classify other data.", alt: [Code lists, Value sets], related: [Validity]}
+- {term: Data steward, alt: [Data custodian], broader: [], related: [Data owner, Data quality action plan (DQAP)]}
+- {term: Data owner, alt: [Information asset owner], related: [Data steward, Escalation]}
+- {term: Critical data asset (CDA), alt: [CDA, Essential shared data asset], related: [Metadata, Data owner]}
+- {term: Data quality action plan (DQAP), alt: [DQAP, Action plan], related: [Data quality issues framework, Root cause analysis]}
+- {term: Root cause analysis, alt: [Five whys], related: [Containment, Data lineage]}
+- {term: DCAT, alt: [Data Catalog Vocabulary], broader: [Metadata], related: [DQV]}
+- {term: DQV, alt: [Data Quality Vocabulary], broader: [Metadata], related: [DCAT]}
+- {term: Ontology, definition: "A formal model of the things in a domain and how they relate, which machines can reason with.", alt: [Domain model], related: [Taxonomy, Knowledge graph, Metadata]}
+- {term: Taxonomy, definition: "A hierarchy of categories, from broad to narrow.", alt: [Classification, Concept scheme], related: [Ontology, Thesaurus]}
+- {term: Thesaurus, definition: "A controlled vocabulary that records preferred terms, synonyms and broader, narrower and related terms.", alt: [Controlled vocabulary], related: [Taxonomy, Glossary]}
+- {term: Glossary, definition: "A list of terms with their definitions in plain English.", alt: [Lexicon], related: [Thesaurus]}
+- {term: Knowledge graph, definition: "A network of things and the relationships between them, which people and machines can explore.", alt: [Linked data graph], related: [Ontology]}
+- {term: Combined score, related: [Data quality issues framework]}
+- {term: Crosswalk, alt: [Mapping, Concordance], related: [Pack, Thesaurus]}
+- {term: QAAD, alt: [Quality Assurance of Administrative Data], related: [Data quality dimension, Data owner]}
+- {term: DQMI, alt: [Data Quality Maturity Index], related: [Data quality dimension]}
+- {term: MCP, alt: [Model Context Protocol], related: [Declarative, Knowledge graph]}
+- {term: Declarative, related: [Data quality rule, MCP]}
+- {term: Data quality issues framework, related: [Combined score, Data quality action plan (DQAP)]}
+- {term: Data dictionary, definition: "A list of the data items in a dataset or system, with their meaning, type, format and rules.", alt: [Data catalogue entry, Schema documentation], related: [Metadata, Data contract]}
+
+# ---------- Data dictionary: the Commons' own data model ----------
+entities:
+- id: Asset
+  label: Data asset
+  source: "Rules file asset block (rules/*.yaml), portfolio file"
+  attributes:
+  - {name: id, type: string, required: true, definition: "Short unique identifier", example: "ndl-births"}
+  - {name: title, type: string, required: true, definition: "Human-readable name", example: "Births in England and Wales"}
+  - {name: owner, type: string, required: false, definition: "Owning organisation or role (never a person)", example: "ONS"}
+  - {name: importance, type: "integer 1-4", required: true, definition: "Issues framework importance: 1 Low to 4 Critical", example: "3"}
+  - {name: source, type: "internal | external", required: false, definition: "Chooses the DQAP route", example: "external"}
+  - {name: target_policy, type: "low | mid | high", required: false, definition: "Sets default targets", example: "mid"}
+  - {name: personal_data_columns, type: "list of strings", required: false, definition: "Columns holding personal data", example: "[nhs_number]"}
+  relationships: [{to: Rule, label: "has rules", cardinality: "1 to many"}, {to: Measurement, label: "is measured by", cardinality: "1 to many"}]
+- id: Rule
+  label: Data quality rule
+  source: "Rules file rules list"
+  attributes:
+  - {name: id, type: string, required: true, definition: "Unique within the asset", example: "R1"}
+  - {name: check, type: "check type", required: true, definition: "What to test", example: "not_null"}
+  - {name: column, type: string, required: false, definition: "Column the rule tests", example: "postcode"}
+  - {name: target, type: "number (%)", required: false, definition: "Pass rate needed; default from the issues framework", example: "97.5"}
+  - {name: impact, type: "integer 1-4", required: false, definition: "Impact if the rule fails", example: "3"}
+  - {name: dimension, type: dimension, required: false, definition: "Override the default dimension", example: "validity"}
+  - {name: control_point, type: "source | pipeline | reporting", required: false, definition: "Where the control belongs", example: "source"}
+  relationships: [{to: Check, label: "uses", cardinality: "many to 1"}, {to: Dimension, label: "measures", cardinality: "many to 1"}, {to: Measurement, label: "produces", cardinality: "1 to many"}]
+- id: Measurement
+  label: Quality measurement
+  source: "*.results.json, history CSVs, DQV JSON-LD"
+  attributes:
+  - {name: rule, type: "rule id", required: true, definition: "The rule measured", example: "R1"}
+  - {name: date, type: date, required: true, definition: "When it was measured", example: "2026-10-14"}
+  - {name: performance, type: "number (%)", required: true, definition: "Share of rows that pass", example: "98.2"}
+  - {name: meets_target, type: boolean, required: true, definition: "Performance at or above target", example: "true"}
+  - {name: priority, type: "Low | Medium | High | Critical", required: false, definition: "From the issues framework when below target", example: "High"}
+  relationships: [{to: Issue, label: "raises (when below target)", cardinality: "1 to 0 or 1"}]
+- id: Issue
+  label: Data quality issue
+  source: "*.dqap-issues.csv, escalations.json"
+  attributes:
+  - {name: issue_type, type: "issue type id", required: true, definition: "Category from the vocabulary", example: "missing-value"}
+  - {name: priority, type: string, required: true, definition: "Low, Medium, High or Critical", example: "High"}
+  - {name: opened, type: date, required: true, definition: "First seen below target", example: "2026-09-01"}
+  - {name: due, type: date, required: true, definition: "Resolution deadline from the framework", example: "2026-10-01"}
+  - {name: escalated, type: boolean, required: true, definition: "Overdue High or Critical", example: "false"}
+  relationships: [{to: IssueType, label: "classified as", cardinality: "many to 1"}]
+- id: MetadataRecord
+  label: Metadata record (Weaver canonical)
+  source: "dqkit/weaver.py FIELDS"
+  attributes: []
+  relationships: [{to: Asset, label: "describes", cardinality: "many to 1"}, {to: MetadataConcept, label: "fields map to", cardinality: "many to many"}]
+- id: Contract
+  label: Data contract (ODCS)
+  source: "dqkit/contracts.py"
+  attributes:
+  - {name: apiVersion, type: string, required: true, definition: "ODCS version", example: "v3.1.0"}
+  - {name: id, type: string, required: true, definition: "Contract identifier", example: "claims-monthly"}
+  - {name: version, type: "semantic version", required: true, definition: "Major for breaking changes", example: "1.4.0"}
+  - {name: status, type: "proposed | draft | active | deprecated | retired", required: true, definition: "Lifecycle state", example: "active"}
+  - {name: team, type: object, required: false, definition: "Owning team (a role or group)", example: "Claims analysis team"}
+  - {name: slaProperties, type: list, required: false, definition: "Service levels such as frequency", example: "frequency 1 month"}
+  relationships: [{to: Rule, label: "carries quality rules", cardinality: "1 to many"}, {to: Asset, label: "governs", cardinality: "1 to 1"}]
+
+# ---------- Lineage: how data and evidence move through the Commons ----------
+lineage:
+- id: pipeline
+  title: "From source data to a quality return"
+  stages:
+  - {id: st-source, label: "Source data", what: "A file, database table or catalogue (CSV, Excel, ODS, JSON, Parquet, SQL, CKAN).", links: [Term:data-lineage]}
+  - {id: st-rules, label: "Rules file", what: "What good looks like, with targets from the issues framework.", links: [Term:data-quality-rule, Term:data-contract]}
+  - {id: st-measure, label: "Measure", what: "dqkit or the browser engine runs every rule.", links: [Term:data-quality-dimension]}
+  - {id: st-results, label: "Results and history", what: "Pass rates, targets and trends for each rule.", links: [Term:trust-level]}
+  - {id: st-issues, label: "Issues and escalations", what: "Below-target rules become prioritised issues; overdue ones escalate.", links: [Term:data-quality-issues-framework, Term:escalation, Term:data-quality-action-plan-dqap]}
+  - {id: st-dqv, label: "Quality metadata (DQV)", what: "Results published as W3C Data Quality Vocabulary.", links: [Term:dqv, MetadataStandard:dqv]}
+  - {id: st-catalogue, label: "Catalogue record", what: "DCAT, schema.org or CKAN record, woven with quality metadata.", links: [Term:dcat, Term:metadata, MetadataStandard:dcat-v3]}
+  - {id: st-return, label: "CDA return and dashboards", what: "The critical data asset return and the portal's pipeline page.", links: [Term:critical-data-asset-cda]}
+  flows: [[st-source, st-measure], [st-rules, st-measure], [st-measure, st-results], [st-results, st-issues], [st-results, st-dqv], [st-dqv, st-catalogue], [st-issues, st-return], [st-catalogue, st-return]]
+- id: playbook
+  title: "The data quality management playbook cycle"
+  stages:
+  - {id: pb-identify, label: "1 Identify critical data", what: "Register critical data assets, owners and the data items that matter most.", links: [Term:critical-data-asset-cda, Stage:st-source]}
+  - {id: pb-define, label: "2 Define rules and targets", what: "Plain-English rules, dimensions and targets, saved as a data contract.", links: [Term:data-quality-rule, Term:data-contract, Stage:st-rules]}
+  - {id: pb-baseline, label: "3 Measure and baseline", what: "Profile, run rules, log issues, break results down by group.", links: [Stage:st-measure]}
+  - {id: pb-prioritise, label: "4 Prioritise", what: "Score issues with the issues framework and write the action plan.", links: [Term:data-quality-issues-framework, Term:data-quality-action-plan-dqap]}
+  - {id: pb-improve, label: "5 Fix at source", what: "Find root causes and fix where the data is created.", links: [Term:escalation]}
+  - {id: pb-report, label: "6 Report openly", what: "Data quality statement, DQV metadata and the CDA return.", links: [Stage:st-dqv, Stage:st-return]}
+  - {id: pb-sustain, label: "7 Monitor and sustain", what: "Automated checks, trends, alerts and escalation.", links: [Term:trust-level]}
+  - {id: pb-review, label: "8 Annual review", what: "Review the asset, rules and targets at least every 12 months.", links: [Term:critical-data-asset-cda]}
+  flows: [[pb-identify, pb-define], [pb-define, pb-baseline], [pb-baseline, pb-prioritise], [pb-prioritise, pb-improve], [pb-improve, pb-report], [pb-report, pb-sustain], [pb-sustain, pb-review], [pb-review, pb-identify], [pb-sustain, pb-baseline]]
+- id: requirement
+  title: "From policy to evidence"
+  stages:
+  - {id: rt-policy, label: "Policy or framework", what: "For example the DAM policy or the Code of Practice.", links: [Term:critical-data-asset-cda]}
+  - {id: rt-clause, label: "Clause", what: "One requirement, broken down line by line."}
+  - {id: rt-pack, label: "Pack requirement", what: "The clause as a testable requirement.", links: [Term:pack]}
+  - {id: rt-evidence, label: "Evidence", what: "A check, a dimension, an asset field or a person's confirmation.", links: [Term:control-point]}
+  - {id: rt-result, label: "Result", what: "Met, partly, not met or needs a person."}
+  flows: [[rt-policy, rt-clause], [rt-clause, rt-pack], [rt-pack, rt-evidence], [rt-evidence, rt-result]]
+- id: metadata
+  title: "From one record to every catalogue"
+  stages:
+  - {id: mt-in, label: "Record in", what: "DCAT, schema.org, CKAN or ODCS.", links: [Term:metadata]}
+  - {id: mt-canon, label: "Canonical record", what: "22 fields, each tied to a Rosetta concept.", links: [Term:data-dictionary]}
+  - {id: mt-gaps, label: "Gaps and CDA check", what: "What each standard is missing; the 13 CDA properties.", links: [Term:critical-data-asset-cda]}
+  - {id: mt-out, label: "Records out", what: "DCAT v3, schema.org, CKAN and ODCS.", links: [MetadataStandard:dcat-v3, Term:dcat]}
+  flows: [[mt-in, mt-canon], [mt-canon, mt-gaps], [mt-canon, mt-out]]

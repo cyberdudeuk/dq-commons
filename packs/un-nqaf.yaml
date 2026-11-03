@@ -1,0 +1,20 @@
+id: un-nqaf
+name: UN National Quality Assurance Framework (NQAF)
+summary: For statistics offices of any size, including Crown Dependencies, Overseas Territories and Commonwealth partners - links results to the four levels of the UN NQAF Manual (2019). Paraphrased headings; check the manual for the full requirements.
+jurisdiction: International
+sector: Official statistics
+frameworks: [un-nqaf]
+target_policy: mid
+requirements:
+  - {id: NQAF-S1, text: "Managing the statistical system - who is accountable for the data is recorded.", evidence: {asset_field: owner}}
+  - {id: NQAF-S2, text: "Managing the statistical system - co-ordination with other producers and suppliers is documented.", evidence: {manual: "NQAF level A: co-ordination and relationships with data providers and users"}}
+  - {id: NQAF-I1, text: "Institutional environment - professional independence, impartiality and confidentiality are assured.", evidence: {manual: "NQAF level B: institutional environment"}}
+  - {id: NQAF-P1, text: "Statistical processes - sound methods: validity is checked.", evidence: {dimensions: [validity]}}
+  - {id: NQAF-P2, text: "Statistical processes - accuracy is measured.", evidence: {dimensions: [accuracy]}}
+  - {id: NQAF-P3, text: "Statistical processes - quality is measured repeatedly, not once.", evidence: {history_cycles: 2}}
+  - {id: NQAF-O1, text: "Statistical outputs - relevance: the primary use is recorded.", evidence: {asset_field: primary_use}}
+  - {id: NQAF-O2, text: "Statistical outputs - timeliness and punctuality are monitored.", evidence: {checks: [freshness]}}
+  - {id: NQAF-O3, text: "Statistical outputs - coherence and comparability: consistent codes and no gaps.", evidence: {any_checks: [no_gaps, identifier, in_set]}}
+  - {id: NQAF-O4, text: "Statistical outputs - accessibility and clarity: measures are labelled.", evidence: {checks: [header_has_unit]}}
+  - {id: NQAF-O5, text: "Leaving no one behind - quality is checked across groups of people where personal data is held.", evidence: {personal_data_inclusion: true}}
+report: [Statistical system, Institutional environment, Statistical processes, Statistical outputs, Inclusion]

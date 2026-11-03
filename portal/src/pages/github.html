@@ -1,0 +1,140 @@
+<title>GitHub for the Commons: a plain-English introduction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+__BASE_CSS__
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:10px;list-style:none;margin:0;padding:0}
+.flow li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.flow li b{display:block;color:var(--accent);margin-bottom:4px}
+.flow li .small{display:block;margin-top:6px}
+.lv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px}
+.lv .card h3 .tag{font-size:.75rem;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;color:var(--muted);vertical-align:middle}
+.terms{display:grid;grid-template-columns:minmax(120px,max-content) 1fr;gap:6px 16px;margin:0}
+.terms dt{font-weight:700}
+.terms dd{margin:0}
+.steps{counter-reset:st;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.steps li{counter-increment:st;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
+.steps li::before{content:counter(st);display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-fg);font-weight:700}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Get started · GitHub for the Commons</span>
+  <h1>New to GitHub? How the Commons and its code work together</h1>
+  <p class="lede">Everything you see in this portal is built from files kept in one open, public place on GitHub. You don't need to code to use it. This page explains what GitHub is, why the Commons uses it, and what you can do there at each level of confidence.</p>
+  <nav class="toc" aria-label="On this page"><a href="#what-h">What GitHub is</a><a href="#why-h">Why the Commons uses it</a><a href="#how-h">How the portal and repository connect</a><a href="#do-h">What you can do</a><a href="#steps-h">Step by step</a><a href="#words-h">Key words</a><a href="#safe-h">Staying safe</a></nav>
+</header>
+
+<section aria-labelledby="what-h">
+  <h2 id="what-h">What GitHub is</h2>
+  <p>GitHub is a website for keeping files that many people work on together. Think of it as a shared folder that remembers every change ever made, who made it and why, with a noticeboard attached where anyone can raise a problem or suggest an improvement. A project's folder on GitHub is called a <b>repository</b> (or "repo").</p>
+  <p>The Commons repository is <a href="https://github.com/cyberdudeuk/dq-commons" rel="noopener">github.com/cyberdudeuk/dq-commons</a>. It is public, so anyone can read it, and free to reuse: code under the MIT licence and content under the Open Government Licence.</p>
+</section>
+
+<section aria-labelledby="why-h">
+  <h2 id="why-h">Why the Commons uses it</h2>
+  <ul>
+    <li><b>Open by default.</b> Anyone can see how checks work and where every claim comes from, which builds trust. This follows the <a href="https://www.gov.uk/service-manual/service-standard/point-12-make-new-source-code-open" rel="noopener">Service Standard</a> on making source code open.</li>
+    <li><b>A full history.</b> Every version is kept, so nothing is lost and any change can be traced or undone.</li>
+    <li><b>Everyone can contribute.</b> Report a problem or suggest a change through a simple form, without installing anything.</li>
+    <li><b>Checks run automatically.</b> Every change is tested for errors, accessibility and broken links before it reaches the portal.</li>
+    <li><b>Free to reuse.</b> Any organisation can take a copy and adapt it, with nothing locked in.</li>
+  </ul>
+  <p>Background, aims and desired outcomes of the Commons itself are on <a href="about.html">About the Commons</a>.</p>
+</section>
+
+<section aria-labelledby="how-h">
+  <h2 id="how-h">How the portal and the repository connect</h2>
+  <ol class="flow" aria-label="From a change to the live portal">
+    <li><b>1. Files</b>Rules, frameworks, page content and the toolkit's code are files in the repository.<span class="small muted">Folders such as knowledge/, rules/ and dqkit/</span></li>
+    <li><b>2. A change</b>Someone suggests a change: a fix, a new framework, a case study.<span class="small muted">As an issue or a pull request</span></li>
+    <li><b>3. Review</b>A maintainer checks it for accuracy, personal data and plain English.<span class="small muted">See the <a href="build.html#charter">charter</a></span></li>
+    <li><b>4. Automatic checks</b>Tests, accessibility, security and link checks run on their own.<span class="small muted">Called GitHub Actions</span></li>
+    <li><b>5. Published</b>Once merged, the portal rebuilds and goes live within minutes.<span class="small muted">Hosted on GitHub Pages</span></li>
+    <li><b>6. Released</b>Bigger sets of changes get a version number and release notes.<span class="small muted">See <a href="build.html#releases">releases</a></span></li>
+  </ol>
+</section>
+
+<section aria-labelledby="do-h">
+  <h2 id="do-h">What you can do, by level</h2>
+  <div class="lv">
+    <div class="card"><h3>Beginner <span class="tag">no account needed</span></h3>
+      <ul>
+        <li>Read any file and its history in your browser.</li>
+        <li>Download a release as a zip file to keep or share.</li>
+        <li>Use everything in this portal; none of it needs GitHub.</li>
+      </ul></div>
+    <div class="card"><h3>Intermediate <span class="tag">free GitHub account</span></h3>
+      <ul>
+        <li>Report a problem or ask for a feature with a short form (an <b>issue</b>).</li>
+        <li>Join a conversation in <a href="https://github.com/cyberdudeuk/dq-commons/discussions" rel="noopener">Discussions</a>.</li>
+        <li>Suggest a wording fix straight in your browser (a <b>pull request</b>).</li>
+        <li>Watch the repository to hear about new releases.</li>
+      </ul></div>
+    <div class="card"><h3>Advanced <span class="tag">some technical confidence</span></h3>
+      <ul>
+        <li>Run the toolkit on your own computer (see the <a href="https://github.com/cyberdudeuk/dq-commons#readme" rel="noopener">README</a>).</li>
+        <li>Add rules, framework packs or code, with tests.</li>
+        <li>Take your own copy (a <b>fork</b>) to adapt for your organisation.</li>
+        <li>Read <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/CONTRIBUTING.md" rel="noopener">CONTRIBUTING.md</a> and the architecture notes.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section aria-labelledby="steps-h">
+  <h2 id="steps-h">Step by step</h2>
+  <div class="grid">
+    <div class="card"><h3>Report a problem or idea</h3>
+      <ol class="steps">
+        <li>Sign in to GitHub (creating an account is free).</li>
+        <li>Go to <a href="https://github.com/cyberdudeuk/dq-commons/issues/new/choose" rel="noopener">New issue</a>.</li>
+        <li>Choose the form that fits: bug, feature, rule or pack, or contribution.</li>
+        <li>Fill in the boxes in plain words. Leave out names and personal details.</li>
+        <li>Select <b>Create</b>. You'll get updates as it is worked on.</li>
+      </ol></div>
+    <div class="card"><h3>Suggest a wording change</h3>
+      <ol class="steps">
+        <li>Open the file you want to change on GitHub.</li>
+        <li>Select the pencil icon, "Edit this file". GitHub makes your own copy for you.</li>
+        <li>Make the change, then write one line saying what you changed and why.</li>
+        <li>Select <b>Propose changes</b>, then <b>Create pull request</b>.</li>
+        <li>A maintainer reviews it; the automatic checks run; once merged it goes live.</li>
+      </ol></div>
+  </div>
+  <p class="small">GitHub's own guide is a good next step: <a href="https://docs.github.com/en/get-started/start-your-journey/hello-world" rel="noopener">Hello World</a> (about 10 minutes).</p>
+</section>
+
+<section aria-labelledby="words-h">
+  <h2 id="words-h">Key words</h2>
+  <dl class="terms">
+    <dt>Repository (repo)</dt><dd>The project's folder of files and their full history.</dd>
+    <dt>Commit</dt><dd>One saved change, with a note saying what changed and why.</dd>
+    <dt>Branch</dt><dd>A separate line of work, so changes can be tried without affecting the live version.</dd>
+    <dt>Pull request</dt><dd>A proposal to bring a change into the main version, with room for review and discussion.</dd>
+    <dt>Issue</dt><dd>A numbered report of a problem, question or idea, with its conversation.</dd>
+    <dt>Fork</dt><dd>Your own copy of someone else's repository, to adapt or to propose changes from.</dd>
+    <dt>Release and tag</dt><dd>A named, numbered version (for example v2.0.0) you can download and refer to.</dd>
+    <dt>GitHub Actions</dt><dd>Automatic jobs that test, check and publish the work on every change.</dd>
+    <dt>GitHub Pages</dt><dd>GitHub's free website hosting, which serves this portal.</dd>
+    <dt>Dependabot</dt><dd>An automatic helper that proposes updates when tools the Commons relies on change.</dd>
+  </dl>
+</section>
+
+<section aria-labelledby="safe-h">
+  <h2 id="safe-h">Staying safe in a public space</h2>
+  <ul>
+    <li>Everything on GitHub here is public. Never post personal data, real records, passwords or anything marked OFFICIAL-SENSITIVE.</li>
+    <li>Use made-up example data when you report a problem with a check.</li>
+    <li>Report a security problem privately, as described in the <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/SECURITY.md" rel="noopener">security policy</a>, not as a public issue.</li>
+    <li>The <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/CODE_OF_CONDUCT.md" rel="noopener">code of conduct</a> applies everywhere.</li>
+    <li>Prefer not to use GitHub? Every route has an alternative: see <a href="operate.html">getting help</a>.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+window.DQP_TOUR = [
+  {sel: "#what-h", title: "What GitHub is", text: "A shared folder with full history and a noticeboard."},
+  {sel: "#how-h", title: "From a change to the portal", text: "Files, review, automatic checks, then live."},
+  {sel: "#do-h", title: "By level", text: "What beginners, intermediate and advanced users can do."},
+];
+</script>

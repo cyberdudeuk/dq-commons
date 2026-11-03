@@ -1,0 +1,202 @@
+# Data quality pipeline
+#
+# What this does, in plain English:
+#   1. Every Monday morning (or when someone presses "Run workflow"), GitHub starts a fresh computer.
+#   2. It checks the kit still works (runs the tests).
+#   3. It measures every asset in portfolio.ndl.yaml and writes the results to assessments/portfolio.
+#   4. If the results really changed, it saves them back into this repository.
+#   5. For every issue that needs escalating, it opens (or updates) a GitHub issue, and closes
+#      issues that are now fixed.
+#   6. If there is a web portal to build, it builds it and publishes it on GitHub Pages.
+#
+# See docs/OPERATIONS.md for how to switch it on.
+name: Data quality pipeline
+
+on:
+  schedule:
+    # Every Monday at 06:17 UTC (an odd minute, so we avoid the busy top of the hour).
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Measure as if on this date (YYYY-MM-DD). Leave blank for today."
+        required: false
+        default: ""
+        type: string
+
+# Only one run at a time, so two runs never try to save results at the same moment.
+concurrency:
+  group: dq-pipeline
+  cancel-in-progress: false
+
+jobs:
+  assess:
+    name: Measure data quality
+    runs-on: ubuntu-latest
+    # The job may save results to the repository and open or close GitHub issues.
+    permissions:
+      contents: write
+      issues: write
+    outputs:
+      has_portal: ${{ steps.portal.outputs.built }}
+    steps:
+      # Get a copy of this repository onto the runner.
+      - name: Get the repository
+        uses: actions/checkout@v7
+
+      # Install Python, the language the kit is written in.
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # Install the libraries listed in requirements.txt (pandas, pyyaml, jsonschema, openpyxl, python-docx).
+      - name: Install the kit's libraries
+        run: pip install -r requirements.txt
+
+      # Run the automated tests first. If the kit is broken, stop here rather than publish wrong results.
+      - name: Check the kit works (tests)
+        run: python -m unittest discover -s tests -v
+
+      # Measure every asset in the portfolio. History is kept in assessments/portfolio/history.
+      - name: Measure the portfolio
+        env:
+          AS_OF: ${{ inputs.as_of }}
+        run: |
+          ARGS=""
+          if [ -n "$AS_OF" ]; then ARGS="--as-of $AS_OF"; fi
+          python -m dqkit run portfolio.ndl.yaml --out assessments/portfolio $ARGS
+          cat assessments/portfolio/run-summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Decide whether anything really changed. portfolio.json carries a "fingerprint" of what was
+      # measured (not when the job ran), so a re-run with the same results does not create a commit.
+      - name: Check whether the results changed
+        id: changed
+        run: |
+          NEW=$(python -c "import json;print(json.load(open('assessments/portfolio/portfolio.json'))['fingerprint'])")
+          OLD=$(git show HEAD:assessments/portfolio/portfolio.json 2>/dev/null | python -c "import json,sys;print(json.load(sys.stdin)['fingerprint'])" 2>/dev/null || echo none)
+          echo "Fingerprint before: $OLD, after: $NEW"
+          if [ "$NEW" = "$OLD" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      # Save the new results and history back into the repository, as the "dq-pipeline" bot.
+      - name: Save the results to the repository
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          git config user.name "dq-pipeline"
+          git config user.email "dq-pipeline@users.noreply.github.com"
+          git add assessments/portfolio
+          if git diff --cached --quiet; then
+            echo "Nothing to save."
+          else
+            AS_OF=$(python -c "import json;print(json.load(open('assessments/portfolio/portfolio.json'))['as_of'])")
+            git commit -m "Data quality results as of $AS_OF (automated run)"
+            git push
+          fi
+
+      # Keep a downloadable copy of this run's results on the workflow run page (kept for 90 days).
+      - name: Keep a copy of the results
+        uses: actions/upload-artifact@v7
+        with:
+          name: dq-portfolio-results
+          path: assessments/portfolio
+
+      # Turn each escalation into a GitHub issue. One issue per asset and rule, titled "[DQ] <asset> <rule>: ...".
+      # If the issue is already open, add a comment (once per measurement). Close issues that are now fixed.
+      - name: Open, update or close escalation issues
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const escalations = JSON.parse(fs.readFileSync('assessments/portfolio/escalations.json', 'utf8'));
+            const portfolio = JSON.parse(fs.readFileSync('assessments/portfolio/portfolio.json', 'utf8'));
+            const LABEL = 'dq-escalation';
+            const { owner, repo } = context.repo;
+
+            // Create the label the first time.
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: LABEL });
+            } catch (e) {
+              if (e.status !== 404) throw e;
+              await github.rest.issues.createLabel({ owner, repo, name: LABEL, color: 'd4351c',
+                description: 'Data quality issue escalated by the data quality pipeline' });
+            }
+
+            // Every open escalation issue, keyed by "asset rule" read from its title.
+            const open = await github.paginate(github.rest.issues.listForRepo,
+              { owner, repo, state: 'open', labels: LABEL, per_page: 100 });
+            const key = (title) => { const m = /^\[DQ\] (\S+) ([^\s:]+)/.exec(title || ''); return m ? `${m[1]} ${m[2]}` : null; };
+            const byKey = new Map();
+            for (const i of open) { if (!i.pull_request && key(i.title)) byKey.set(key(i.title), i); }
+
+            // Open or update one issue per escalation.
+            for (const e of escalations) {
+              const k = `${e.asset_id} ${e.rule_id}`;
+              const marker = `<!-- dq-cycle ${k} ${e.measured_on} -->`;
+              const existing = byKey.get(k);
+              if (!existing) {
+                await github.rest.issues.create({ owner, repo, title: e.title, labels: [LABEL],
+                  body: `${e.body_markdown}\n${marker}` });
+                core.info(`Opened: ${e.title}`);
+                continue;
+              }
+              const comments = await github.paginate(github.rest.issues.listComments,
+                { owner, repo, issue_number: existing.number, per_page: 100 });
+              const already = (existing.body || '').includes(marker) || comments.some(c => (c.body || '').includes(marker));
+              if (already) { core.info(`Already up to date: ${k}`); continue; }
+              await github.rest.issues.createComment({ owner, repo, issue_number: existing.number,
+                body: `Still open after ${e.cycles_open} measurement cycle(s), measured on ${e.measured_on}.\n\n${e.body_markdown}\n${marker}` });
+              core.info(`Commented: ${k}`);
+            }
+
+            // Close issues whose asset was measured and whose rule now meets its target.
+            const stillOpen = new Set(portfolio.assets.flatMap(a => a.issues.map(i => `${a.id} ${i.rule}`)));
+            const assetIds = new Set(portfolio.assets.map(a => a.id));
+            for (const [k, issue] of byKey) {
+              const assetId = k.split(' ')[0];
+              if (!assetIds.has(assetId) || stillOpen.has(k)) continue;
+              await github.rest.issues.createComment({ owner, repo, issue_number: issue.number,
+                body: `Resolved: this rule met its target when measured as of ${portfolio.as_of}. Closing automatically. ` +
+                      `If it comes back, the pipeline will open a new issue and count it as a recurrence.` });
+              await github.rest.issues.update({ owner, repo, issue_number: issue.number, state: 'closed', state_reason: 'completed' });
+              core.info(`Closed: ${k}`);
+            }
+
+      # Build the web portal, but only if the build script exists in this repository.
+      - name: Build the portal (if there is one)
+        id: portal
+        run: |
+          if [ -f scripts/build_dq_portal.py ]; then
+            python scripts/build_dq_portal.py
+            mkdir -p portal/dist/bundle && cp docs/bundle/index.html portal/dist/bundle/index.html
+          else
+            echo "No scripts/build_dq_portal.py yet: skipping the portal."
+          fi
+          if [ -f portal/dist/index.html ]; then echo "built=true" >> "$GITHUB_OUTPUT"; else echo "built=false" >> "$GITHUB_OUTPUT"; fi
+
+      # Package the built portal for GitHub Pages.
+      - name: Package the portal for GitHub Pages
+        if: steps.portal.outputs.built == 'true'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: portal/dist
+
+  deploy:
+    name: Publish the portal
+    needs: assess
+    # Only publish when a portal was actually built.
+    if: needs.assess.outputs.has_portal == 'true'
+    # Share the "pages" queue with pages.yml, so two publishes never collide.
+    concurrency: {group: pages, cancel-in-progress: false}
+    runs-on: ubuntu-latest
+    # Publishing to GitHub Pages needs these two permissions, and nothing else.
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Publish the packaged portal to GitHub Pages.
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

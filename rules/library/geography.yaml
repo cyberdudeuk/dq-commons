@@ -1,0 +1,11 @@
+# Starting rules for statistics by area and period.
+asset:
+  id: my-area-statistics
+  title: Statistics by area (template)
+  owner: '[organisation]'
+  importance: 3
+rules:
+  - {id: G01, check: identifier, column: area_code, scheme: gss_code, description: Area code is a GSS code}
+  - {id: G02, check: unique, columns: [area_code, period], description: One row per area and period}
+  - {id: G03, check: in_valueset, column: nation, valueset: uk_nations, description: Nation is one of the four UK nations}
+  - {id: G04, check: not_null, column: value, description: Every area and period has a value}

@@ -1,0 +1,242 @@
+<title>Public Sector DQ Tooling Atlas</title>
+<style>
+/* Layout: research atlas — findings first, then the filterable evidence table, then landscape, standards gaps and actions in one reading column */
+:root{
+  --bg:#f5f7f7; --surface:#ffffff; --fg:#17212b; --muted:#56636e; --line:#d6dddf;
+  --accent:#0d6b6e; --accent-soft:#e1f0ef;
+  --good:#1f7a3d; --warn:#9a5b00; --crit:#b3261e; --info:#3b5b9a;
+  --f-display:"Source Serif 4", Georgia, serif;
+  --f-body:"Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --info:#8fb0ef; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10171c; --surface:#172129; --fg:#e5ecef; --muted:#9aa9b3; --line:#2b3a44;
+  --accent:#4fb8b4; --accent-soft:#16312f; --good:#5cc27f; --warn:#e2a54a; --crit:#f08077; --info:#8fb0ef; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1140px;margin:0 auto;padding-inline:20px;padding-block:28px 64px;display:flex;flex-direction:column;gap:32px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:clamp(1.7rem,3.4vw,2.35rem)} h2{font-size:1.35rem}
+h3{font-size:1rem;font-family:var(--f-body);font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.lede{color:var(--muted);max-width:70ch}
+header,section{display:flex;flex-direction:column;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:.8rem;border:1px solid var(--line);background:var(--surface);padding:3px 10px;border-radius:999px;color:var(--muted)}
+.chip b{color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.stat .v{font-family:var(--f-mono);font-size:1.55rem;font-weight:600;font-variant-numeric:tabular-nums}
+.stat .k{font-size:.82rem;color:var(--muted)}
+.find{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.card .n{font-family:var(--f-mono);color:var(--accent);font-weight:600;font-size:.85rem}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.filters label{display:flex;flex-direction:column;gap:3px;font-size:.8rem;font-weight:600;color:var(--muted)}
+select,input[type=search]{font:inherit;font-size:.9rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--fg);min-width:0}
+select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:860px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--bg);position:sticky;top:0}
+td.m{font-family:var(--f-mono);font-size:.8rem;white-space:nowrap}
+.pill{display:inline-block;font-size:.7rem;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.p-core{color:var(--accent)} .p-guide{color:var(--info)} .p-link{color:var(--good)} .p-meta{color:var(--warn)} .p-not{color:var(--muted)}
+.s-active{color:var(--good)} .s-quiet{color:var(--warn)} .s-dormant{color:var(--crit)}
+.count{font-size:.85rem;color:var(--muted)}
+ul,ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:5px}
+.bars{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}
+svg text{fill:var(--fg);font-family:var(--f-body)}
+a{color:var(--accent)}
+code{font-family:var(--f-mono);font-size:.85em}
+.note{border-left:4px solid var(--warn);background:var(--surface);border-radius:6px;padding:12px 16px}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">Know · Tooling research · October 2026</span>
+  <h1>How does the public sector check its data quality, and what does its open code show?</h1>
+  <p class="lede">A scan of data quality (DQ) frameworks and tools used across government, plus a read of 27 public GitHub repositories from 14 public sector organisations. It looks at which tools, quality dimensions and standards appear in real code, and what that means for reporting quality on critical data assets (CDAs) and bringing them into the National Data Library (NDL).</p>
+  <div class="chips">
+    <span class="chip"><b>27</b> repos cloned and scanned</span>
+    <span class="chip"><b>21</b> genuinely about data quality</span>
+    <span class="chip"><b>14</b> organisations</span>
+    <span class="chip">Search method: repo names and descriptions, then full-file scan</span>
+  </div>
+  <div class="dqc-ctx" role="note"><b>Evidence base.</b> This research started from critical data assets and the National Data Library; the findings apply to any organisation choosing tools. To share rules with the tools listed here, use <a href="check.html#contracts">data contracts and exports</a>; to buy well, see <a href="commercial.html">buying and suppliers</a>.</div>
+</header>
+
+<div class="stats">
+  <div class="stat"><span class="v">1 of 21</span><span class="k">data quality repos use a general open-source DQ framework (Great Expectations)</span></div>
+  <div class="stat"><span class="v">0</span><span class="k">repos use W3C Data Quality Vocabulary, Soda, Pandera, dbt tests or Deequ</span></div>
+  <div class="stat"><span class="v">0</span><span class="k">quality properties in the cross-government metadata exchange model</span></div>
+  <div class="stat"><span class="v">2</span><span class="k">repos that encode inclusion checks (DfE ethnicity standards, NHS linkage fairness)</span></div>
+</div>
+
+<section>
+  <h2>What the evidence shows</h2>
+  <div class="find">
+    <div class="card"><span class="n">Finding 1</span><h3>Teams build their own rule engines</h3><p>The strongest tools are domain-specific: the Home Office profiler (169 rule modules on Spark), the DfE open data screener (63 checks), and the planning data pipeline's YAML expectations engine. General frameworks are almost absent from public code.</p></div>
+    <div class="card"><span class="n">Finding 2</span><h3>Planning data has the most mature model</h3><p>MHCLG's specification maps 45 issue types to a quality dimension, a severity level and who must fix it (internal or data provider). It also defines a 7-step quality ladder from "no data" to "trustworthy". This is a ready-made pattern for CDA issue logs.</p></div>
+    <div class="card"><span class="n">Finding 3</span><h3>Quality is missing from the metadata model</h3><p>The cross-government metadata exchange model (LinkML, DCAT-based, outputs JSON Schema and SHACL) has no quality properties. A CDA's baseline scores can't be exchanged in a machine-readable way today.</p></div>
+    <div class="card"><span class="n">Finding 4</span><h3>The dimensions are uneven</h3><p>Uniqueness, validity and accuracy show up most in code. Timeliness is the least covered (6 of 21 repos), and none of the 45 planning issue types measures it. The six DAMA UK dimensions are named explicitly only in guidance repos.</p></div>
+    <div class="card"><span class="n">Finding 5</span><h3>The central data quality community has gone quiet</h3><p>The DQ Hub's resources repo is nearly empty and was last updated in 2022. The admin data quality framework stopped in 2023, and the question bank in 2024. Two once-public MoJ validation tools (data_linter, mojap-metadata) can no longer be reached.</p></div>
+    <div class="card"><span class="n">Finding 6</span><h3>Inclusion checks are rare</h3><p>Only DfE's screener enforces GSS harmonised ethnicity values, and only NHS England's linkage framework tests for uneven error across population groups. No repo reports completeness of protected-characteristic fields separately.</p></div>
+  </div>
+  <p class="note"><b>Limits of this scan.</b> GitHub's code search needs a sign-in, which this session doesn't have, so repos were found by name and description and then read in full. Private repos and commercial platform configurations are invisible. Some tool use inside large repos may be missed.</p>
+</section>
+
+<section>
+  <h2>Evidence table</h2>
+  <p class="lede">Every repository read for this analysis. Filter by sector or role. Status is based on the last commit: active means within 6 months, quiet means within 2 years, dormant means older than that.</p>
+  <div class="filters">
+    <label for="fRole">Role<select id="fRole"><option value="">All roles</option></select></label>
+    <label for="fSector">Organisation<select id="fSector"><option value="">All organisations</option></select></label>
+    <label for="fStatus">Status<select id="fStatus"><option value="">Any status</option><option>Active</option><option>Quiet</option><option>Dormant</option></select></label>
+    <label for="fText">Search<input type="search" id="fText" placeholder="Tool, dimension, standard"></label>
+    <span class="count" id="count" aria-live="polite"></span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Repository</th><th>Organisation</th><th>Role</th><th>What it does</th><th>Tools</th><th>Dimensions in code</th><th>Standards</th><th>Last commit</th><th>Status</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Coverage across the 21 data quality repos</h2>
+  <div class="bars">
+    <div class="card"><h3>Repos mentioning each quality dimension</h3><svg id="dimChart" viewBox="0 0 420 230" width="100%" role="img" aria-label="Repos per quality dimension"></svg></div>
+    <div class="card"><h3>Repos using each tool or standard</h3><svg id="toolChart" viewBox="0 0 420 330" width="100%" role="img" aria-label="Repos per tool or standard"></svg></div>
+  </div>
+  <p class="muted" style="color:var(--muted);font-size:.85rem">Counts come from pattern matching across all text and code files. "Uniqueness" includes any mention of duplicates, so it is the most generous count.</p>
+</section>
+
+<section>
+  <h2>The wider landscape</h2>
+  <div class="tbl"><table style="min-width:760px">
+    <thead><tr><th>Type</th><th>Examples</th><th>Public sector evidence</th><th>Fit for CDA reporting</th></tr></thead>
+    <tbody>
+      <tr><td>Government frameworks</td><td>Government Data Quality Framework (2020), DQAP guide and issues framework (2026), OSR QAAD toolkit and matrix, NHS Data Quality Maturity Index</td><td>Widely used. QAAD reports are routine at DWP, NHSBSA and Forestry</td><td><span class="pill p-core">Sets the method</span></td></tr>
+      <tr><td>Open-source frameworks</td><td>Great Expectations, Soda Core, Pandera, dbt tests, Deequ (AWS Glue Data Quality), R validate, pointblank</td><td>Great Expectations at ONS. R validate comes from Statistics Netherlands and the European Statistical System</td><td><span class="pill p-guide">Good for a starter kit</span></td></tr>
+      <tr><td>Commercial platforms</td><td>Collibra Data Quality, Experian Aperture Data Studio, Informatica, Microsoft Purview Data Quality, Ataccama</td><td>Collibra is listed on G-Cloud. NHSBSA bought a Datactics profiling tool (Contracts Finder, 2023). Deployments are not visible in public code</td><td><span class="pill p-meta">Department choice</span></td></tr>
+      <tr><td>Home-grown rule engines</td><td>Home Office profiler, DfE eesyscreener, MHCLG expectations, PHS dashboards</td><td>The strongest public evidence</td><td><span class="pill p-link">Reuse patterns</span></td></tr>
+      <tr><td>Metadata quality scoring</td><td>data.europa.eu Metadata Quality Assessment (DCAT-AP, DQV, SHACL)</td><td>EU-wide portal scoring. No UK equivalent found</td><td><span class="pill p-core">Model for NDL</span></td></tr>
+      <tr><td>International frameworks</td><td>US FCSM Framework for Data Quality (2020), ABS Data Quality Framework and quality statements</td><td>National statistics offices</td><td><span class="pill p-guide">Benchmark</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Standards: used, partly used, missing</h2>
+  <div class="find">
+    <div class="card"><h3 style="color:var(--good)">Used</h3><ul><li>DAMA UK six dimensions, through the Government Data Quality Framework</li><li>DCAT, in the metadata exchange model and planning specification</li><li>LinkML to JSON Schema and SHACL (CDDO)</li><li>GSS harmonised standards (DfE)</li><li>CSVW (planning data)</li></ul></div>
+    <div class="card"><h3 style="color:var(--warn)">Partly used</h3><ul><li>QAAD, in analysis guidance only</li><li>ESS validation and VTL, through R validate (international)</li><li>Frictionless table schema, mentioned but not enforced</li><li>ISO 8000 and ISO/IEC 25012, in 2 repos as references only</li></ul></div>
+    <div class="card"><h3 style="color:var(--crit)">Missing</h3><ul><li>W3C Data Quality Vocabulary (DQV), for publishing quality results as metadata</li><li>A shared issue-type vocabulary across departments</li><li>Machine-readable DQAP results</li><li>Representativeness and inclusion measures</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>What to do next, for CDAs and the NDL</h2>
+  <p class="lede">Status as of 14 October 2026. "Built" items are in the open ndl-dq-assurance kit.</p>
+  <div class="tbl"><table style="min-width:640px">
+    <thead><tr><th>Recommendation</th><th>Status</th><th>What exists now</th></tr></thead>
+    <tbody>
+      <tr><td><b>Add quality to the metadata model</b> using DQV</td><td><span class="pill p-meta">Proposal drafted</span></td><td>LinkML extension, JSON Schema, SHACL shapes and an example. The proposal to the GDS model owners has not been sent yet.</td></tr>
+      <tr><td><b>Shared issue vocabulary</b> from the planning data model</td><td><span class="pill p-core">Built</span></td><td>43 issue types and 8 dimensions in CSV, SKOS and JSON-LD, mapped to MHCLG equivalents and default impact scores</td></tr>
+      <tr><td><b>DQAP starter kit</b></td><td><span class="pill p-core">Built</span></td><td>dqkit: 15 checks, exact GOV.UK issues-framework scoring, DQAP template rows, DQV output, and export to Great Expectations and R validate, filled-in DQAP workbooks with issue ageing and escalation, draft case studies, and a weekly pipeline. 60 tests pass, and the browser version matches the Python kit in 30 of 30 parity cases. <a href="check.html">Try it in your browser</a>.</td></tr>
+      <tr><td><b>Score metadata quality in the NDL</b></td><td><span class="pill p-core">Built and run</span></td><td>All 84 NDL pages assessed: average 50.9%, CDA metadata coverage 46.4%. See the <a href="ndl-assurance.html">NDL assurance page</a>.</td></tr>
+      <tr><td><b>Inclusion checks</b></td><td><span class="pill p-core">Built</span></td><td>Representativeness dimension, unknown-value and group-disparity checks, and the NDL breakdowns and UK-nations checks</td></tr>
+      <tr><td><b>Restart and preserve community code</b></td><td><span class="pill p-meta">Drafts ready</span></td><td>Messages drafted for the DQ Hub and MoJ. Not sent.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Connections to your work</h2>
+  <div class="find">
+    <div class="card"><h3>i.AI and planning data</h3><p>MHCLG's quality-challenge repo names i.AI as its partner for AI-driven data quality checks on planning data. It is a direct lead for the NDL Kickstarter.</p></div>
+    <div class="card"><h3>CDA effort model</h3><p>Reusable rule kits and the planning issue vocabulary lower the measurement and issue-logging days for tier B and C assets.</p></div>
+    <div class="card"><h3>Standards Rosetta</h3><p>Add DQV, ISO 8000, ISO/IEC 25012, QAAD and the planning quality ladder as concepts, so the crosswalk covers quality as well as metadata.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework">The Government Data Quality Framework</a></li>
+    <li><a href="https://www.contractsfinder.service.gov.uk/Notice/33fd3350-4963-44fd-9d91-ff8203d59405">Contracts Finder: Self Service Data Quality (Data Profiling Tool), 2023</a></li>
+    <li><a href="https://www.gov.uk/government/publications/data-maturity-assessment-for-government-framework/data-maturity-assessment-for-government-framework-html">Data Maturity Assessment for Government: framework</a></li>
+    <li><a href="https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/">OSR: Quality Assurance of Administrative Data</a></li>
+    <li><a href="https://digital.nhs.uk/data-and-information/data-tools-and-services/data-services/data-quality/data-quality-maturity-index-methodology">NHS Data Quality Maturity Index methodology</a></li>
+    <li><a href="https://data.europa.eu/sites/default/files/course/data.europa.eu_training%20session_data%20and%20metadata%20quality.pdf">data.europa.eu: data and metadata quality</a></li>
+    <li><a href="https://apps.bea.gov/icsp/fcsm/assets/docs/Framework-Data-Quality-November-2020-presentation.pdf">FCSM Framework for Data Quality</a></li>
+    <li><a href="https://www.abs.gov.au/statistics/detailed-methodology-information/concepts-sources-methods/australian-system-government-finance-statistics-concepts-sources-and-methods/2015/16-data-quality/part-b-abs-data-quality-framework">ABS Data Quality Framework</a></li>
+    <li><a href="https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud/services/136629392504870">Collibra Data Quality on the Digital Marketplace</a></li>
+    <li>All repositories in the evidence table, at github.com/&lt;organisation&gt;/&lt;repository&gt;</li>
+  </ul>
+</section>
+</div>
+
+<script>
+const R=[
+["UKHomeOffice/data-quality-profiler-and-rules-engine","Home Office","Rule engine","Spark profiler and rules engine: 169 rule modules, reference data checks, compliance reports. MIT, built with 6point6","Scala, Spark","Validity, uniqueness","—","2024-03-19"],
+["dfe-analytical-services/eesyscreener","DfE","Rule engine","Screens open data files for Explore Education Statistics: 63 checks on structure, metadata, geography and time","R, testthat","Validity, uniqueness, completeness","GSS harmonised standards, DfE open data standards","2026-06-23"],
+["digital-land/digital-land-python","MHCLG","Rule engine","Planning data pipeline with a YAML expectations engine (about 30 check and expect functions) and issue logging","Python, pydantic, pytest","Validity, accuracy, uniqueness, completeness","—","2026-10-12"],
+["digital-land/specification","MHCLG","Vocabulary","45 issue types, each mapped to dimension, severity and responsibility. 7-level quality ladder","CSV, CSVW","Validity, accuracy, completeness, uniqueness, consistency","DCAT (partial), CSVW","2026-10-14"],
+["digital-land/quality-challenge","MHCLG","Rule engine","AI and machine learning challenges to scale planning data quality checks, with i.AI","Python, pytest","Validity, uniqueness","Government Data Quality Framework","2025-07-01"],
+["digital-land/green-box-data-quality","MHCLG","Rule engine","Earlier data quality test runner, replaced by the expectations module","Python","Uniqueness","—","2022-08-12"],
+["ONSdigital/pystagegate","ONS","Rule engine","Automated quality assurance for demographic outputs","Great Expectations, pytest","Uniqueness, consistency","—","2026-10-13"],
+["ONSdigital/crvs.pkg","ONS","Rule engine","Vital statistics from civil registration data, with a validation stage","R, testthat","Timeliness, consistency","—","2026-05-29"],
+["Public-Health-Scotland/phs-dq-dashboard","PHS","Reporting","Dashboard for Scottish Morbidity Records: completeness, timeliness, and accuracy from audits","R Shiny","Completeness, timeliness, accuracy","—","2023-02-02"],
+["Public-Health-Scotland/vacc-dq-reporting","PHS","Reporting","Data quality reporting for vaccination data","R","Uniqueness","—","2026-10-05"],
+["Public-Health-Scotland/phsmethods","PHS","Rule engine","Shared R functions, including CHI number validity checks","R, testthat","Validity, uniqueness","—","2026-08-27"],
+["best-practice-and-impact/Data-Quality-Question-Bank","Analysis Function","Guidance","Assessment questions for each of the six dimensions","Rmarkdown","All six","Government Data Quality Framework, DAMA UK, QAAD","2024-11-13"],
+["best-practice-and-impact/admin-data-quality-stats","Analysis Function","Guidance","Framework for assessing administrative data quality for statistics","R, HTML","All six","Government Data Quality Framework, QAAD","2023-02-27"],
+["best-practice-and-impact/dqhub-resources","DQ Hub","Guidance","Placeholder for Data Quality Hub resources. Nearly empty","—","—","—","2022-05-06"],
+["best-practice-and-impact/qa-of-code-guidance","ONS","Guidance","Quality assurance of code for analysis and research","Markdown","Consistency","AQuA Book, QAAD","2026-06-09"],
+["moj-analytical-services/splink","MoJ","Linkage quality","Probabilistic record linkage and deduplication, with completeness profiling charts","Python, Spark, DuckDB","Uniqueness, completeness, accuracy","—","2026-10-12"],
+["nhsengland/quality-assurance-framework-for-data-linkage","NHS England","Linkage quality","Linkage quality framework that includes fairness and bias criteria","MkDocs, Splink","Accuracy, validity, completeness","UK GDPR","2024-09-20"],
+["co-cddo/ukgov-metadata-exchange-model","GDS","Metadata model","Cross-government metadata model in LinkML that outputs JSON Schema and SHACL. Has no quality properties","LinkML, SHACL","—","DCAT","2026-06-01"],
+["DFE-Digital/dfe-reference-data","DfE","Reference data","Versioned reference lists, used as a source for validity checks","Ruby","Validity, uniqueness","—","2026-09-24"],
+["alphagov/GDS-Accessibility-Monitoring-Platform-Data-Audit-2022","GDS","Reporting","One-off data quality audit notebooks","Jupyter, Python","Completeness, accuracy","—","2022-10-07"],
+["data-cleaning/validate","Statistics Netherlands","Rule engine","Rule-based validation used across European statistics. International benchmark","R","Completeness, uniqueness","ESS validation, VTL, SDMX","2025-12-10"],
+["ukhsa-collaboration/standards-qat","UKHSA","Not data quality","Software testing standards","Markdown","—","—","2026-10-14"],
+["DEFRA/rpa-quality-checks","Defra","Not data quality","Business quality-check portal for payment cases","C#","—","—","2026-09-21"],
+["UKHomeOffice/dq-tf-apps","Home Office","Not data quality","Infrastructure for a platform named DQ (one of 123 dq- repos). No data quality logic found","Terraform","—","—","2026-06-09"],
+["dwp/quality-tool","DWP","Not data quality","GOV.UK prototype kit","Node","—","—","2020-05-05"],
+["dwp/miqat","DWP","Not data quality","Repository is empty","—","—","—",""],
+["moj-analytical-services/data_linter","MoJ","Not reachable","Was a public JSON-schema data validator. No longer publicly reachable","—","—","—",""]
+];
+const now=new Date("2026-10-14");
+function status(d){if(!d)return"Dormant";const m=(now-new Date(d))/2.63e9;return m<=6?"Active":m<=24?"Quiet":"Dormant"}
+const roleCls={"Rule engine":"p-core","Reporting":"p-core","Vocabulary":"p-meta","Metadata model":"p-meta","Reference data":"p-meta","Guidance":"p-guide","Linkage quality":"p-link"};
+const $=id=>document.getElementById(id);
+[...new Set(R.map(r=>r[2]))].forEach(v=>$("fRole").add(new Option(v,v)));
+[...new Set(R.map(r=>r[1]))].sort().forEach(v=>$("fSector").add(new Option(v,v)));
+function esc(s){return s.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+function render(){
+  const ro=$("fRole").value,se=$("fSector").value,st=$("fStatus").value,tx=$("fText").value.toLowerCase();
+  const rows=R.filter(r=>(!ro||r[2]===ro)&&(!se||r[1]===se)&&(!st||status(r[7])===st)&&(!tx||r.join(" ").toLowerCase().includes(tx)));
+  $("rows").innerHTML=rows.map(r=>{const s=status(r[7]);return `<tr><td><a href="https://github.com/${r[0]}" target="_blank" rel="noopener"><code>${esc(r[0])}</code></a></td><td>${esc(r[1])}</td><td><span class="pill ${roleCls[r[2]]||"p-not"}">${esc(r[2])}</span></td><td>${esc(r[3])}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td>${esc(r[6])}</td><td class="m">${r[7]||"—"}</td><td><span class="pill s-${s.toLowerCase()}">${s}</span></td></tr>`}).join("");
+  $("count").textContent=rows.length+" of "+R.length+" repositories";
+}
+["fRole","fSector","fStatus","fText"].forEach(id=>$(id).addEventListener("input",render));
+render();
+function bars(id,data,total,h){
+  const svg=$(id),lw=150,W=420,bh=22,gap=10,max=total;let s="";
+  data.forEach(([k,v],i)=>{const y=6+i*(bh+gap),w=Math.max(2,(v/max)*(W-lw-46));
+    s+=`<text x="0" y="${y+bh/2+5}" font-size="12.5">${k}</text><rect x="${lw}" y="${y}" width="${W-lw-46}" height="${bh}" rx="3" fill="var(--accent-soft)"></rect><rect x="${lw}" y="${y}" width="${w}" height="${bh}" rx="3" fill="${v===0?"var(--crit)":"var(--accent)"}"></rect><text x="${lw+(W-lw-46)+6}" y="${y+bh/2+5}" font-size="12" font-family="var(--f-mono)">${v}</text>`});
+  svg.innerHTML=s;
+}
+bars("dimChart",[["Uniqueness",18],["Accuracy",12],["Consistency",12],["Validity",11],["Completeness",8],["Timeliness",6]],21);
+bars("toolChart",[["Home-grown rules",9],["R testthat",5],["JSON Schema",4],["ESS / VTL / SDMX",4],["Gov DQ Framework",4],["QAAD",3],["Spark",3],["Splink",3],["Great Expectations",1],["Soda / Pandera / dbt",0]],21);
+window.DQP_TOUR = [
+  {sel: "#fRole", title: "Filter", text: "Find tools and frameworks by role, sector or status."},
+  {sel: "#rows", title: "Tools and standards", text: "What exists, who uses it, and how it fits."},
+  {sel: "#dimChart", title: "What public code checks", text: "Quality dimensions found in 21 public data quality repositories."},
+];
+</script>

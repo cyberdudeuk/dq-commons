@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberdudeuk.github.io/ndl-dq-assurance/model/cda-quality.schema.json",
+  "title": "Critical data asset quality extension (proposal)",
+  "description": "Quality properties for a critical data asset record. Hand-written from model/cda-quality.linkml.yaml; regenerate with LinkML gen-json-schema.",
+  "type": "object",
+  "required": [
+    "dqap_status"
+  ],
+  "properties": {
+    "data_quality_action_plan": {
+      "type": "string",
+      "format": "uri"
+    },
+    "dqap_status": {
+      "enum": [
+        "none",
+        "in_progress",
+        "in_place",
+        "equivalent"
+      ]
+    },
+    "quality_assessment_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "inclusion_assessed": {
+      "type": "boolean"
+    },
+    "quality_measurements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QualityMeasurement"
+      }
+    },
+    "quality_issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QualityIssue"
+      }
+    },
+    "trust_level": {
+      "enum": [
+        "Untrustworthy",
+        "Requires improvement",
+        "Useable",
+        "Trustworthy"
+      ],
+      "description": "Suggested or confirmed data trust level (IOPC scale)"
+    }
+  },
+  "$defs": {
+    "QualityMeasurement": {
+      "type": "object",
+      "required": [
+        "value",
+        "dimension"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "dimension": {
+          "enum": [
+            "completeness",
+            "uniqueness",
+            "consistency",
+            "timeliness",
+            "validity",
+            "accuracy",
+            "representativeness",
+            "metadata",
+            "relevance",
+            "coherence-comparability",
+            "accessibility-clarity"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "target": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "meets_target": {
+          "type": "boolean"
+        },
+        "measured_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "records_checked": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "QualityIssue": {
+      "type": "object",
+      "required": [
+        "issue_type",
+        "priority"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "issue_type": {
+          "type": "string"
+        },
+        "dimension": {
+          "enum": [
+            "completeness",
+            "uniqueness",
+            "consistency",
+            "timeliness",
+            "validity",
+            "accuracy",
+            "representativeness",
+            "metadata",
+            "relevance",
+            "coherence-comparability",
+            "accessibility-clarity"
+          ]
+        },
+        "priority": {
+          "enum": [
+            "Low",
+            "Medium",
+            "High",
+            "Critical"
+          ]
+        },
+        "priority_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "responsibility": {
+          "enum": [
+            "provider",
+            "platform"
+          ]
+        },
+        "status": {
+          "enum": [
+            "Open",
+            "In progress",
+            "Resolved",
+            "Accepted risk"
+          ]
+        }
+      }
+    }
+  }
+}

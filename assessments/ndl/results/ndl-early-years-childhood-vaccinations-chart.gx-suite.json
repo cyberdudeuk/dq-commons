@@ -1,0 +1,118 @@
+{
+  "expectation_suite_name": "ndl-early-years-childhood-vaccinations-chart.dqap",
+  "expectations": [
+    {
+      "expectation_type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "year",
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R1",
+        "dimension": "uniqueness",
+        "description": "One row per year"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "year",
+        "regex": "^[-+]?\\d+$",
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R2",
+        "dimension": "validity",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "england",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R3",
+        "dimension": "accuracy",
+        "description": "England coverage is a valid percentage"
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "scotland",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R4",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "wales",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R5",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    },
+    {
+      "expectation_type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "northern-ireland",
+        "min_value": 0,
+        "max_value": 100,
+        "mostly": 0.999
+      },
+      "meta": {
+        "rule_id": "R6",
+        "dimension": "accuracy",
+        "description": ""
+      }
+    }
+  ],
+  "meta": {
+    "generated_by": "ndl-dq-assurance dqkit",
+    "asset": {
+      "id": "ndl-early-years-childhood-vaccinations-chart",
+      "title": "NDL Early years collection: Childhood vaccinations chart data",
+      "iri": "https://www.data.gov.uk/collections/early-years/childhood-vaccinations",
+      "owner": "UK Health Security Agency",
+      "steward": "National Data Library team (chart curation)",
+      "importance": 4,
+      "source": "external",
+      "influence": false,
+      "target_policy": "low",
+      "measurement_cycle": "P1Y"
+    },
+    "not_exported": [
+      {
+        "rule_id": "R7",
+        "check": "freshness",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R8",
+        "check": "no_gaps",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      },
+      {
+        "rule_id": "R9",
+        "check": "header_has_unit",
+        "note": "no built-in GX expectation; run with dqkit or add a custom expectation"
+      }
+    ]
+  }
+}

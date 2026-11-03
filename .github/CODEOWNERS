@@ -1,0 +1,7 @@
+# Who is asked to review changes. GitHub requests a review from these people
+# automatically when a pull request touches matching files.
+# Add co-maintainers here as the Commons grows (see CHARTER.md, governance).
+*                     @cyberdudeuk
+/.github/             @cyberdudeuk
+/rules/               @cyberdudeuk
+/packs/               @cyberdudeuk

@@ -1,0 +1,688 @@
+# Front page, news, insights, spotlights, curated library resources and the media centre.
+# Honesty rules:
+#  - Every external item links to its source. "checked: yes" means the source was read when added;
+#    "checked: listed" means it was found by search but not yet read in full (shown as "Not yet reviewed").
+#  - Commons-written posts say so. No invented videos, podcasts, people or quotes.
+review:
+  last_reviewed: '2026-10-30'
+  owner_role: Content steward (media)
+
+# Hero carousel. kind: news, insight, knowledge, data, tool.
+slides:
+- id: s-ndl-grows
+  kind: news
+  label: News
+  title: The National Data Library now lists more than 46,000 datasets
+  text: It has replaced data.gov.uk and has 80+ collection pages. Its roadmap promises richer metadata, so the quality of what departments publish matters more than ever.
+  link: ndl-assurance.html
+  cta: Check your NDL pages
+  source:
+    title: PublicTechnology, 20 October 2026
+    url: https://www.publictechnology.net/2026/10/20/science-technology-and-research/national-data-library-grows-to-80-collections-and-46000-datasets/
+  date: '2026-10-20'
+- id: s-ai-ready
+  kind: knowledge
+  label: Guidance
+  title: AI-ready data starts with a Data Quality Action Plan
+  text: GDS guidance asks publishers to measure accuracy, completeness, consistency, timeliness, validity and uniqueness, then prioritise fixes. The new playbook shows how.
+  link: playbook.html
+  cta: Open the playbook
+  source:
+    title: Making government datasets ready for AI (GDS)
+    url: https://www.gov.uk/government/publications/making-government-datasets-ready-for-ai/guidelines-and-best-practices-for-making-government-datasets-ready-for-ai
+  date: '2026-01-19'
+- id: s-commons
+  kind: news
+  label: From the Commons
+  title: 'New: data contracts, supplier obligations and a migration reconciliation tool'
+  text: Share your rules as ODCS, Table Schema or CSVW; build a data quality schedule for supplier contracts; and prove a migration lost nothing.
+  link: check.html#contracts
+  cta: Try data contracts
+  date: '2026-10-15'
+- id: s-sodg
+  kind: insight
+  label: Insight
+  title: 70% say their data landscape isn't well co-ordinated or interoperable
+  text: The State of digital government review also found 28% of central government systems are legacy. Data quality and interoperability are the same problem seen from two sides.
+  link: interop.html
+  cta: Interoperability and standards
+  source:
+    title: State of digital government review (DSIT)
+    url: https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review
+  date: 2025-01
+- id: s-procurement
+  kind: knowledge
+  label: Policy
+  title: Contracts over £5 million need published KPIs. Make data quality one of them.
+  text: Under the Procurement Act 2023, at least three KPIs must be set, assessed at least every 12 months and published. Here's model wording.
+  link: commercial.html#clauses
+  cta: Build a data quality schedule
+  source:
+    title: 'Procurement Act 2023 guidance: key performance indicators'
+    url: https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-manage-phase/guidance-key-performance-indicators-html
+  date: '2025-02-24'
+- id: s-ndl
+  kind: data
+  label: Data
+  title: 45 of 48 National Data Library pages covering part of the UK don't point to the other nations' data
+  text: From our assessment of all 84 curated NDL pages against GOV.UK rules. People in Scotland, Wales and Northern Ireland are less well served.
+  link: ndl-assurance.html
+  cta: See the assessment
+  date: '2026-10-14'
+- id: s-dua
+  kind: knowledge
+  label: Law
+  title: The Data (Use and Access) Act 2025 became law on 19 June 2025
+  text: It sets up smart data schemes, a trust framework for digital verification services and a statutory National Underground Asset Register, all of which depend on good data.
+  link: frameworks.html
+  cta: Frameworks and standards
+  source:
+    title: 'Brodies: Data (Use and Access) Act 2025 becomes law'
+    url: https://brodies.com/insights/ip-technology-and-data/data-use-and-access-act-2025-becomes-law/
+  date: '2025-06-19'
+- id: s-gds-maturity
+  kind: insight
+  label: GOV.UK blog
+  title: Data maturity comes before AI readiness
+  text: GDS and The National Archives found that data must be well managed, understood and governed before it is AI ready. Start with a maturity assessment.
+  link: maturity.html
+  cta: Assess your maturity
+  source:
+    title: GDS blog, 4 June 2026
+    url: https://gds.blog.gov.uk/2026/06/04/data-maturity-the-foundation-for-ai-ready-public-sector-data/
+  date: '2026-06-04'
+- id: s-world
+  kind: news
+  label: International
+  own: true
+  title: The Commons now covers the Crown Dependencies, Overseas Territories and the Commonwealth
+  text: Data quality doesn't stop at the UK border. See the statistics bodies, frameworks and partners the UK works with, from Jersey to the UN.
+  link: global.html
+  cta: UK and the world
+  date: '2026-10-15'
+- id: s-packs
+  kind: tool
+  label: New packs
+  own: true
+  title: UN and IMF quality frameworks, now as packs
+  text: Small statistics offices often work to the UN National Quality Assurance Framework or the IMF Data Quality Assessment Framework. Check your results against either, in the browser or from the command
+    line.
+  link: frameworks.html#packs
+  cta: See the packs
+  date: '2026-10-15'
+- id: s-weaver
+  kind: tool
+  label: New tool
+  own: true
+  title: Describe your data once. Publish it everywhere.
+  text: The Metadata Weaver reads DCAT, schema.org, CKAN or ODCS and writes all of them, plus a critical data asset check. It runs in your browser.
+  link: weaver.html
+  cta: Try the Metadata Weaver
+  date: '2026-10-15'
+
+# Spotlight: one feature at a time, chosen by type.
+spotlights:
+- id: sp-contracts
+  type: Capability
+  title: Data contracts
+  standfirst: A written, testable promise about a dataset, between the people who make it and the people who use it.
+  story: 'Data breaks at boundaries: between teams, systems and organisations. A data contract makes expectations explicit and testable every time data crosses one. The Commons toolkit now writes your rules
+    as an Open Data Contract Standard contract, a Frictionless Table Schema or W3C CSVW metadata, keeps the thresholds from the issues framework, and reads contracts back as rules. Python and the browser
+    give identical results.
+
+    '
+  try:
+  - - Export your rules as a contract
+    - check.html#contracts
+  - - 'Read: what is a data contract?'
+    - library.html#kb-data-contract
+  - - Interoperability layers
+    - interop.html
+- id: sp-extract
+  type: Case study
+  title: 'Extract: turning planning documents into structured data'
+  standfirst: How i.AI and MHCLG used AI to read planning documents and make their data checkable and reusable.
+  story: 'Invalid planning applications often come from data that isn''t in the format digital planning tools need. Extract uses AI to read planning documents, pull out details such as addresses and dates,
+    trace map boundaries and place them on a map as structured data. It was tested against a ground-truth set of manually converted Article 4 directions before wider testing. The lesson: a model earns trust
+    through a ground-truth evaluation, and the results should be published.
+
+    '
+  try:
+  - - 'AI for data quality: case studies'
+    - ai.html#cases
+  - - The route from experiment to shared toolkit
+    - ai.html#route
+- id: sp-suppliers
+  type: Theme
+  title: Suppliers carry the responsibility
+  standfirst: When suppliers create or hold public data, they should prove its quality at their own cost.
+  story: 'About £21 billion of public sector digital and data spend in 2023 went to third parties, yet only 28% of leaders said they could monitor supplier performance. Twenty model clauses, a tender scoring
+    sheet and a who-does-what table put the burden of proof on the supplier: quality rules in the contract, a published KPI, fixes at the supplier''s cost, and an exit pack that works.
+
+    '
+  try:
+  - - Build a data quality schedule
+    - commercial.html#clauses
+  - - Tender questions
+    - commercial.html#tender
+- id: sp-reconcile
+  type: Workflow
+  title: Proving a migration lost nothing
+  standfirst: Six checks that show whether data arrived complete and unchanged.
+  story: 'Compare row counts, records missing or new, duplicate keys, totals of number columns, and values for matched records. Do it at every trial migration, not just at cut-over. The reconciliation tool
+    runs in the browser with nothing uploaded, and the same check runs in a pipeline.
+
+    '
+  try:
+  - - Reconcile two files
+    - legacy.html#reconcile
+  - - Migration gates
+    - legacy.html#stages
+- id: sp-inclusion
+  type: Topic
+  title: Who does your data leave out?
+  standfirst: Data can pass every overall check while failing particular groups of people.
+  story: 'Forced defaults, narrow name and address formats, and characteristics recorded as "unknown" hit some groups harder than others. Measure quality across groups, use GSS harmonised standards, and
+    make suppliers'' systems record people accurately.
+
+    '
+  try:
+  - - Recording people accurately
+    - library.html#kb-record-people
+  - - Inclusion survey
+    - surveys.html
+  - - Learning module M7
+    - learn.html#m7
+- id: sp-local
+  type: Domain
+  title: Local government data quality
+  standfirst: Addresses, places and services, measured with the identifiers councils already use.
+  story: 'Councils hold some of the data people depend on most: housing, care, schools, waste, council tax. The Commons checks UPRNs, postcodes, GSS codes and school URNs, and gives councils the same frameworks,
+    packs and supplier clauses as central government, for free.
+
+    '
+  try:
+  - - Local government scenario
+    - scenarios.html#local
+  - - Maturity self-assessment
+    - maturity.html
+
+# Curated content library (Commons-picked external resources). Community contributions are added through the portal.
+library:
+- title: The Government Data Quality Framework
+  type: Guidance
+  topics:
+  - frameworks
+  url: https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework
+  publisher: Government Data Quality Hub
+  nation: UK
+  checked: 'yes'
+- title: Government Data Quality Hub
+  type: Organisation
+  topics:
+  - community
+  - training
+  url: https://www.gov.uk/government/organisations/government-data-quality-hub
+  publisher: ONS
+  nation: UK
+  checked: 'yes'
+- title: Hidden costs of poor data quality
+  type: News story
+  topics:
+  - value
+  url: https://www.gov.uk/government/news/hidden-costs-of-poor-data-quality
+  publisher: Government Data Quality Hub
+  nation: UK
+  checked: 'yes'
+  date: '2021-08-05'
+  summary: Explains how inaccurate, incomplete or out-of-date data wastes money, weakens decisions and erodes trust, and argues that preventing problems early is cheaper than fixing them later.
+  checked_on: '2026-10-30'
+- title: Five zero-budget ways to boost your data quality culture
+  type: News story
+  topics:
+  - culture
+  url: https://www.gov.uk/government/news/five-zero-budget-ways-to-boost-your-data-quality-culture
+  publisher: Government Data Quality Hub
+  nation: UK
+  checked: 'yes'
+  date: '2021-12-23'
+  summary: Five low-cost actions senior leaders can take to build a data quality culture, such as asking about the quality behind reports and naming someone accountable for it.
+  checked_on: '2026-10-30'
+- title: Let's talk about data quality
+  type: News story
+  topics:
+  - culture
+  url: https://www.gov.uk/government/news/lets-talk-about-data-quality
+  publisher: Government Data Quality Hub
+  nation: UK
+  checked: 'yes'
+  date: '2020-12-07'
+  summary: 'Historical record (2020): promotes the events that launched the Government Data Quality Framework. The events have passed; kept for context on how the framework was introduced.'
+  checked_on: '2026-10-30'
+- title: Introducing the Government Data Quality Community
+  type: News story
+  topics:
+  - community
+  url: https://www.gov.uk/government/news/introducing-the-government-data-quality-community
+  publisher: Government Data Quality Hub
+  nation: UK
+  checked: 'yes'
+  date: '2024-09-05'
+  summary: Introduces a cross-government community for people working on data quality, which runs bimonthly virtual meetups and informal monthly networking sessions.
+  checked_on: '2026-10-30'
+- title: State of digital government review
+  type: Report
+  topics:
+  - legacy
+  - suppliers
+  - interoperability
+  url: https://www.gov.uk/government/publications/state-of-digital-government-review/state-of-digital-government-review
+  publisher: DSIT
+  nation: UK
+  checked: 'yes'
+- title: 'Procurement Act 2023 guidance: key performance indicators'
+  type: Guidance
+  topics:
+  - suppliers
+  - KPIs
+  url: https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-manage-phase/guidance-key-performance-indicators-html
+  publisher: Cabinet Office
+  nation: UK
+  checked: 'yes'
+- title: 'Procurement Act 2023 guidance: key performance indicators (Wales)'
+  type: Guidance
+  topics:
+  - suppliers
+  - KPIs
+  url: https://www.gov.wales/procurement-act-2023-guidance-key-performance-indicators-html
+  publisher: Welsh Government
+  nation: Wales
+  checked: 'yes'
+  date: '2024-12-17'
+  summary: Technical guidance on when contracting authorities must set, publish and assess KPIs under the Procurement Act 2023, including the rating scale used in contract performance notices.
+  checked_on: '2026-10-30'
+- title: The Technology Code of Practice
+  type: Standard
+  topics:
+  - interoperability
+  - suppliers
+  url: https://www.gov.uk/guidance/the-technology-code-of-practice
+  publisher: GDS
+  nation: UK
+  checked: 'yes'
+- title: 'ICO: contracts between controllers and processors'
+  type: Guidance
+  topics:
+  - privacy
+  - suppliers
+  url: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/guide-to-accountability-and-governance/contracts/
+  publisher: ICO
+  nation: UK
+  checked: 'yes'
+- title: Open Data Contract Standard
+  type: Standard
+  topics:
+  - contracts
+  - interoperability
+  url: https://bitol-io.github.io/open-data-contract-standard/latest/
+  publisher: Bitol (Linux Foundation)
+  nation: International
+  checked: 'yes'
+- title: API technical and data standards
+  type: Guidance
+  topics:
+  - interoperability
+  url: https://www.gov.uk/guidance/gds-api-technical-and-data-standards
+  publisher: Government Digital Service and Central Digital and Data Office
+  nation: UK
+  checked: 'yes'
+  date: '2018-02-07'
+  summary: Recommended standards for designing, building and running government APIs, covering REST design, access control, security, versioning and documentation.
+  checked_on: '2026-10-30'
+
+- title: Guidelines and best practices for making government datasets ready for AI
+  type: Guidance
+  topics:
+  - AI
+  - metadata
+  - frameworks
+  url: https://www.gov.uk/government/publications/making-government-datasets-ready-for-ai/guidelines-and-best-practices-for-making-government-datasets-ready-for-ai
+  publisher: Government Digital Service (with DSIT and DCMS)
+  nation: UK
+  checked: 'yes'
+  date: '2026-01-19'
+  summary: Four pillars for AI-ready data, one of which is data and metadata quality. Asks publishers to keep a Data Quality Action Plan with metrics for accuracy, completeness, consistency, timeliness, validity and uniqueness, prioritise fixes, and publish rich metadata (DCAT, Dublin Core). Includes a self-assessment checklist.
+  checked_on: '2026-10-30'
+- title: National Data Library grows to 80 collections and 46,000 datasets
+  type: News story
+  topics:
+  - NDL
+  - discoverability
+  url: https://www.publictechnology.net/2026/10/20/science-technology-and-research/national-data-library-grows-to-80-collections-and-46000-datasets/
+  publisher: PublicTechnology
+  nation: UK
+  checked: 'yes'
+  date: '2026-10-20'
+  summary: The NDL, which replaces data.gov.uk, now has over 80 collection pages and lists more than 46,000 datasets. Ministers say work has improved listing quality; the roadmap plans richer metadata, dataset relationships and a data manual.
+  checked_on: '2026-10-30'
+- title: OSR annual report 2025/26 and forward look
+  type: Report
+  topics:
+  - official statistics
+  - trust
+  url: https://osr.statisticsauthority.gov.uk/publication/office-for-statistics-regulation-annual-report-2025-26/pages/6/
+  publisher: Office for Statistics Regulation
+  nation: UK
+  checked: 'yes'
+  date: '2026-07-09'
+  summary: Plans for 2026/27 include reviews targeted at areas of highest data quality risk, triage of older unreviewed statistics, and self-evaluation tools for producers including an automated Trustworthiness, Quality and Value (TQV) checklist.
+  checked_on: '2026-10-30'
+- title: NHS Scotland data quality strategy for climate and sustainability
+  type: Strategy
+  topics:
+  - health
+  - sustainability
+  - frameworks
+  url: https://www.nss.nhs.scot/publications/nhs-scotland-data-quality-strategy-for-climate-and-sustainability/
+  publisher: NHS National Services Scotland
+  nation: Scotland
+  checked: 'yes'
+  date: '2026-07-08'
+  summary: A national approach to accurate, consistent sustainability data across NHS Scotland, with a strategy, roadmap and framework covering governance, standards, systems, skills and assurance.
+  checked_on: '2026-10-30'
+- title: ODCS v3.1.0 release notes
+  type: Standard
+  topics:
+  - contracts
+  - interoperability
+  url: https://jgp.ai/2025/12/11/odcs-v3-1-0-is-here-relationships-richer-metadata-and-stricter-validation/
+  publisher: Bitol (Linux Foundation) maintainers
+  nation: International
+  checked: 'yes'
+  date: '2025-12-11'
+  summary: 'Backward-compatible update adding predefined quality rules (nullValues, missingValues, invalidValues, duplicateValues, rowCount), executable SLA schedules, relationships between properties, date/time types and stricter schema validation.'
+  checked_on: '2026-10-30'
+- title: Open Data Product Standard (ODPS) v1.0.0
+  type: Standard
+  topics:
+  - data products
+  - interoperability
+  url: https://bitol.io/announcing-odps-v1-0-0-building-the-language-of-data-products/
+  publisher: Bitol (Linux Foundation)
+  nation: International
+  checked: 'yes'
+  date: '2025-09-24'
+  summary: A standard for describing data products, aligned with ODCS v3.1.0 so a product's ports can point to the data contracts that state its quality.
+  checked_on: '2026-10-30'
+- title: CEN/CLC/TS 18331:2026 Maturity assessment of Common European Data Spaces
+  type: Standard
+  topics:
+  - data spaces
+  - maturity
+  url: https://genorma.com/en/standards/cen-clc-ts-18331-2026
+  publisher: CEN and CENELEC
+  nation: International
+  checked: 'yes'
+  date: '2026-07-01'
+  summary: A published technical specification with a multi-dimensional maturity model and assessment criteria for data spaces. Full text is paid; the link is a catalogue record.
+  checked_on: '2026-10-30'
+- title: prEN 18352 Quality framework for internal data governance for participants in data spaces (draft)
+  type: Standard
+  topics:
+  - data governance
+  - data spaces
+  - maturity
+  url: https://www.dinmedia.de/de/norm-entwurf/din-en-18352/404553425
+  publisher: CEN (draft via DIN)
+  nation: International
+  checked: 'yes'
+  date: '2026-07-31'
+  summary: Draft European standard with a process reference model for data governance and data product management, and an assessment framework with six capability levels. Still a draft; text may change.
+  checked_on: '2026-10-30'
+- title: EMA data quality framework for medicines regulation
+  type: Framework
+  topics:
+  - health
+  - frameworks
+  - regulation
+  url: https://www.ema.europa.eu/et/about-us/how-we-work/data-regulation-big-data-other-sources/data-quality-framework-medicines-regulation
+  publisher: European Medicines Agency and Heads of Medicines Agencies
+  nation: International
+  checked: 'yes'
+  date: '2026-10-19'
+  summary: EU framework for the quality of data used in medicines regulation. Real-world data chapter finalised March 2026; a draft adverse drug reaction chapter is open for consultation from 19 October to 14 December 2026.
+  checked_on: '2026-10-30'
+- title: H.R. 9341 AI-Ready Federal Data Guidelines Act (US)
+  type: Legislation (bill)
+  topics:
+  - AI
+  - international
+  url: https://science.house.gov/2026/6/h-r-9341-ai-ready-federal-data-guidelines-act
+  publisher: US House Committee on Science, Space, and Technology
+  nation: International
+  checked: 'yes'
+  date: '2026-06-22'
+  summary: A US bill, passed by committee, directing NIST to write voluntary guidelines to make federal data, including open data, ready for AI with better quality, accessibility and usability. Not yet law.
+  checked_on: '2026-10-30'
+
+# Media centre. Blog posts written by the Commons are original; external items link out.
+blog:
+- id: b-contracts
+  title: Data contracts arrive in the Commons
+  date: '2026-10-15'
+  author: Commons team
+  topics:
+  - contracts
+  - interoperability
+  summary: Your rules can now travel as an ODCS contract, Table Schema or CSVW, and come back again, with thresholds intact.
+  body: 'Until now, quality rules written in the Commons lived in the Commons format. That''s fine for our own pipeline, but most organisations already have tools, suppliers and platforms of their own.
+
+
+    This release adds data contracts. The checker can export rules as an Open Data Contract Standard (ODCS) contract, a Frictionless Table Schema, W3C CSV on the Web metadata, a Great Expectations suite
+    or R validate rules. It can also read an ODCS contract or Table Schema and turn it into rules.
+
+
+    Two things we cared about. First, nothing is silently lost: checks a standard can''t express travel as a toolkit extension, and rules we can''t run (such as SQL) are listed, not dropped. Second, the
+    browser and Python give exactly the same output, checked case by case.
+
+
+    Try it on the Check your data page, under "Share the rules as a data contract".
+
+    '
+- id: b-suppliers
+  title: Why suppliers should carry the burden of data quality
+  date: '2026-10-15'
+  author: Commons team
+  topics:
+  - suppliers
+  - commercial
+  summary: Public bodies too often pay twice for poor data. Contracts can change that.
+  body: 'Most public data is created, held or changed in systems run by suppliers. When contracts describe functions but not the quality of the data, public bodies pay for the service, then pay again to
+    find and fix poor data, to work around it, or to leave.
+
+
+    The new Buying and suppliers page sets out twelve commercial barriers, eight principles and twenty model clauses. The core idea is simple: the supplier proves quality, at its own cost, against rules
+    the public body owns, and reports a data quality KPI that is published like any other.
+
+
+    The clauses are illustrative drafting, not legal advice. They''re a starting point for commercial and legal teams, and we''d like to hear how they work in practice.
+
+    '
+- id: b-v1
+  title: The Commons is now for everyone working with public sector data
+  date: '2026-10-15'
+  author: Commons team
+  topics:
+  - Commons
+  summary: What started as data quality work for the National Data Library is now a general hub and toolkit.
+  body: 'The Public Sector Data Quality Commons began with the National Data Library and the data asset management policy. Both are still here as scenarios. But the toolkit, frameworks, learning and community
+    now work for any public body, in any nation, and for the voluntary and private organisations that deliver public services.
+
+
+    Tell us what''s missing on the wishlist, and share what works in the library.
+
+    '
+
+# Featured posts from GOV.UK blogs (external; we link, summarise in our own words and never copy).
+govuk_blogs:
+- id: g-maturity-ai
+  title: 'Data maturity: the foundation for AI ready public sector data'
+  blog: Government Digital Service blog
+  date: '2026-06-04'
+  url: https://gds.blog.gov.uk/2026/06/04/data-maturity-the-foundation-for-ai-ready-public-sector-data/
+  topics:
+  - maturity
+  - AI
+  summary: Data needs good management, understanding, people, processes and governance before it is AI ready, so start any AI readiness assessment with data maturity. A revised data maturity service is
+    planned.
+  try: maturity.html
+  checked: 'yes'
+- id: g-connecting
+  title: Connecting data to enable modern digital government
+  blog: Data in government blog
+  date: '2026-09-03'
+  url: https://dataingovernment.blog.gov.uk/2026/09/03/connecting-data-to-enable-modern-digital-government/
+  topics:
+  - interoperability
+  summary: A discovery team suggests linking core shared data about people, organisations and places through common reference points and a federated model, where each organisation keeps its own data under
+    strong safeguards.
+  try: interop.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-vulnerability
+  title: 'Improving support for people at risk through better data: Introducing the Vulnerabilities Data Standards Alpha'
+  blog: Data in government blog
+  date: '2026-07-14'
+  url: https://dataingovernment.blog.gov.uk/2026/07/14/improving-support-for-people-at-risk-through-better-data-introducing-the-vulnerabilities-data-standards-alpha/
+  topics:
+  - standards
+  - inclusion
+  summary: Announces an early Alpha of shared data standards, including data models and a risk-factor taxonomy, so services can share information about people at risk consistently and lawfully; feedback
+    was invited.
+  try: scenarios.html#personal
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-datagovuk
+  title: What's changing on data.gov.uk and why
+  blog: Data in government blog
+  date: '2026-03-25'
+  url: https://dataingovernment.blog.gov.uk/2026/03/25/whats-changing-on-data-gov-uk-and-why/
+  topics:
+  - catalogues
+  - metadata
+  summary: Sets out changes to data.gov.uk, including a redesigned landing page, curated themed datasets, a first data manual and a public roadmap, in response to broken links and outdated search.
+  try: weaver.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-vuln-standards
+  title: Using data standards to support people at risk
+  blog: Data in government blog
+  date: '2026-03-16'
+  url: https://dataingovernment.blog.gov.uk/2026/03/16/using-data-standards-to-support-people-at-risk/
+  topics:
+  - standards
+  - inclusion
+  summary: Why shared standards matter for services that support people in vulnerable circumstances.
+  try: scenarios.html#personal
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-dbt-governance
+  title: 'Data governance and security: not optional anymore'
+  blog: Digital trade blog (DBT)
+  date: '2025-10-30'
+  url: https://digitaltrade.blog.gov.uk/2025/10/30/data-governance-and-security-not-optional-anymore/
+  topics:
+  - governance
+  summary: 'From a discovery with 15 organisations: ownership, stewardship and quality controls are strategic, not technical afterthoughts. Fragmented tools, slow manual approvals and too few data stewards
+    hold teams back.'
+  try: maturity.html
+  checked: 'yes'
+- id: g-dbt-strategy
+  title: 'Data strategy in practice: introduction and strategic ambitions'
+  blog: Digital trade blog (DBT)
+  date: '2025-09-30'
+  url: https://digitaltrade.blog.gov.uk/2025/09/30/data-strategy-in-practice-introduction-and-strategic-ambitions/
+  topics:
+  - strategy
+  - legacy
+  summary: Most organisations studied want better quality data for decisions and AI, but fragmented datasets, inconsistent governance and legacy systems slow them down.
+  try: legacy.html
+  checked: 'yes'
+- id: g-atrs
+  title: Making the Algorithmic Transparency Recording Standard (ATRS) mandatory across government
+  blog: Data in government blog
+  date: '2025-05-08'
+  url: https://dataingovernment.blog.gov.uk/2025/05/08/making-the-algorithmic-transparency-recording-standard-atrs-mandatory-across-government/
+  topics:
+  - AI
+  - transparency
+  summary: Rolling out and updating the ATRS, so the public can see how algorithmic tools are used.
+  try: ai.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-sharing
+  title: Unlocking data sharing across government
+  blog: Data in government blog
+  date: '2025-04-07'
+  url: https://dataingovernment.blog.gov.uk/2025/04/07/unlocking-data-sharing-across-government/
+  topics:
+  - sharing
+  summary: The Data Sharing Network of Experts and how it helps teams share data safely.
+  try: interop.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-api
+  title: 'Joining up the dots: the findings of our recent API discovery'
+  blog: Data in government blog
+  date: '2025-04-03'
+  url: https://dataingovernment.blog.gov.uk/2025/04/03/joining-up-the-dots-the-findings-of-our-recent-api-discovery/
+  topics:
+  - APIs
+  - interoperability
+  summary: Findings from an eight-week discovery into how ready departments are to share data through APIs, revealing low and uneven maturity, manual processes and fragmented data catalogues.
+  try: interop.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-homes
+  title: 'Building the future with data: Homes England''s data platform'
+  blog: Data in government blog
+  date: '2025-07-15'
+  url: https://dataingovernment.blog.gov.uk/2025/07/15/building-the-future-with-data-homes-englands-data-platform/
+  topics:
+  - platforms
+  - quality
+  summary: A secure data platform intended, among other things, to improve data quality.
+  try: tooling.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+- id: g-moj
+  title: Getting the data fundamentals right at the Ministry of Justice
+  blog: Data in government blog
+  date: '2024-01-30'
+  url: https://dataingovernment.blog.gov.uk/2024/01/30/getting-the-data-fundamentals-right/
+  topics:
+  - strategy
+  summary: The Ministry of Justice reviews progress on its 2022 data strategy and sets out a three-year roadmap to improve data quality, access and skills, moving from prototypes to pilots to wider adoption.
+  try: maturity.html
+  checked: 'yes'
+  checked_on: '2026-10-30'
+podcasts:
+- title: 'Podcast: The Data Standards Authority'
+  publisher: GDS blog
+  url: https://gds.blog.gov.uk/2020/09/30/podcast-the-data-standards-authority/
+  topics:
+  - standards
+  date: '2020-09-30'
+  checked: 'yes'
+  summary: A GDS podcast episode on how the Data Standards Authority uses common data standards to support better policy outcomes and more joined-up public services.
+  checked_on: '2026-10-30'
+- title: Data quality as the basis of informed decision-making
+  publisher: Digital Government podcast
+  url: https://digitalgovernmentpodcast.buzzsprout.com/1191800/episodes/13932123-data-quality-as-the-basis-of-informed-decision-making
+  topics:
+  - decision-making
+  checked: 'yes'
+  date: '2023-11-08'
+  summary: Argues that reliable digital records underpin sound government decisions, and that fixing data quality now prepares governments for AI and machine learning.
+  checked_on: '2026-10-30'
+videos: []

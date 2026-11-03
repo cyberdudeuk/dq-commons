@@ -1,0 +1,154 @@
+# Getting value from AI to improve data quality - guidelines, use cases, worked examples, case studies,
+# and the path from experiment to an assured part of the shared toolkit.
+#
+# Case studies are real, published examples (with sources). Scenarios are illustrative and say so.
+# Nothing here endorses a vendor.
+
+review: {last_reviewed: "2026-10-15", owner_role: AI assurance lead}
+principles:
+- {id: P1, title: "Start from the quality problem, not the AI", text: "Name the rule that fails, the dimension, the cost of the failure and who it affects. Use AI only where it beats a plain rule on that problem."}
+- {id: P2, title: Keep rules declarative and deterministic where you can, text: "Let AI propose rules, matches or fixes; let tested, explainable rules decide what passes. A rule file is reviewable; a model's judgement often isn't."}
+- {id: P3, title: A person stays accountable, text: "AI suggestions are drafts. A named steward accepts, edits or rejects each one, and the owner signs off what changes data or decisions."}
+- {id: P4, title: Measure it before you trust it, text: "Evaluate against a labelled ground-truth set: precision, recall, error by group of people, and cost per item. Repeat after every model or prompt change."}
+- {id: P5, title: Check it is fair, text: "Compare error rates across groups (sex, age, ethnicity, disability, nation, language). AI that fixes data well for most people can still fail some groups."}
+- {id: P6, title: Protect personal data, text: "Run a DPIA before personal data reaches a model. Prefer models that keep data in your boundary. Never paste personal data into a public chatbot."}
+- {id: P7, title: Be transparent, text: "Record AI tools that influence decisions with public effect in the Algorithmic Transparency Recording Standard (ATRS). Say in quality statements when AI touched the data."}
+- {id: P8, title: Keep results portable, text: "Whatever the tool, export rules and results in open formats (YAML rules, W3C DQV) so you can change supplier and compare like for like."}
+- {id: P9, title: Make it accessible, text: "AI features must work for staff who use assistive technology, and their outputs must be in plain English."}
+
+use_cases:
+- {id: U1, name: Suggest rules from data and documents, dimension: [validity, completeness, uniqueness], maturity: Proven,
+   how: "Profile the data (types, keys, code lists, identifiers) and read data dictionaries to draft rules. In the kit: dqkit suggest (deterministic) and the portal assistant (generative).",
+   risk: Low - a person reviews every rule before use}
+- {id: U2, name: Plain English to rules (declarative), dimension: [all], maturity: Emerging,
+   how: "A steward describes what good looks like; a model drafts a rules file; the kit validates it and runs it before anyone relies on it.",
+   risk: "Low to medium - the validation loop catches malformed rules; meaning still needs review"}
+- {id: U3, name: Anomaly and outlier detection, dimension: [accuracy, timeliness], maturity: Proven,
+   how: "Learn normal ranges and seasonal patterns, then flag unusual values, volumes or late arrivals. Most vendor observability tools do this.",
+   risk: Medium - alert fatigue; needs tuning and a steward to triage}
+- {id: U4, name: Matching and de-duplication, dimension: [uniqueness, accuracy], maturity: Proven,
+   how: "Probabilistic or ML record linkage to find the same person, place or organisation recorded differently (for example Splink).",
+   risk: "Medium to high - wrong merges harm people; test error rates by group and keep a review queue"}
+- {id: U5, name: Standardising and enriching values, dimension: [validity, consistency], maturity: Proven,
+   how: "Standardise addresses, names, dates and codes; enrich from reference data such as AddressBase or ONS codes.",
+   risk: Medium - enrichment can overwrite true values; keep the original}
+- {id: U6, name: Extracting structured data from documents, dimension: [completeness, accuracy], maturity: Emerging,
+   how: "Read PDFs, scans and maps into structured data so it can be checked and reused (see the Extract case study).",
+   risk: "Medium - must be tested against a ground-truth set before use"}
+- {id: U7, name: Coding free text to classifications, dimension: [validity, consistency], maturity: Emerging,
+   how: "Assign occupation, industry or other codes from free-text answers, with confidence scores and a human review band.",
+   risk: Medium - test by group; send low-confidence items to people}
+- {id: U8, name: Finding personal data where it shouldn't be, dimension: [validity], maturity: Proven,
+   how: "Detect names, NI numbers or health details in free-text fields or open data before publication.",
+   risk: Low to medium - false negatives matter most; combine with rules}
+- {id: U9, name: Explaining results and drafting DQAPs and quality statements, dimension: [metadata], maturity: Emerging,
+   how: "Turn results into plain-English summaries, root-cause hypotheses, action plans and user-facing quality statements.",
+   risk: "Low - a person edits before publication; watch for invented facts"}
+- {id: U10, name: Generating metadata, dimension: [metadata], maturity: Emerging,
+   how: "Draft descriptions, keywords and CDA metadata properties from the data and its documents.",
+   risk: Low - review for accuracy before publishing}
+- {id: U11, name: Agents that run the toolkit, dimension: [all], maturity: Experimental,
+   how: "An AI agent calls the kit's tools through MCP - check data, assess against a pack, translate results - and reports back.",
+   risk: "Medium - give agents read-only access first; log every call"}
+
+vendor_questions:
+- What exactly does the AI feature do, on what data, and where is that data processed and stored?
+- Is our data used to train the supplier's models? Can we switch that off by contract?
+- What accuracy, precision and recall has the feature shown, on what test data? Can we test it on ours?
+- How are errors by group of people measured and reported?
+- Can every AI suggestion be traced, reviewed and reversed by a person?
+- Can rules and results be exported in open formats (YAML or JSON rules, W3C DQV results)?
+- Does the feature meet WCAG 2.2 AA for staff, and is there an accessibility statement?
+- What do we need to publish under the Algorithmic Transparency Recording Standard, and will the supplier help?
+- What happens to our rules, history and models if we leave?
+
+# Worked examples are illustrative: the steps are real kit behaviour, the figures are made up.
+worked_examples:
+- id: W1
+  illustrative: true
+  title: From a sentence to a tested rules file
+  steps:
+  - "A benefits team steward writes: every claim must have a valid National Insurance number, a claim date that isn't in the future, and one claim per person per month."
+  - "The portal assistant drafts rules: identifier (nino), not_future (claim_date), unique (ni_number, claim_month)."
+  - "The page validates the rules file with the kit's own engine before showing it. A malformed rule is sent back to the model with the error, up to twice."
+  - "The steward runs it on a sample: 98.1% valid NI numbers against a 97.5% target, so the rule meets target; 3 duplicates flagged."
+  - "The steward adds purposes and importance, saves the file, and adds it to the portfolio. From then on, no AI is involved in measuring."
+  lesson: AI drafts; a deterministic rule decides. The rules file is the reviewable record.
+- id: W2
+  illustrative: true
+  title: Testing a vendor's AI matching before switching it on
+  steps:
+  - Build a ground-truth sample of 1,000 record pairs, labelled by two people, stratified by age band, sex and nation.
+  - Run the vendor's matching on the sample. Measure false merges and missed matches overall and for each group.
+  - Find that missed matches are three times higher for names written in non-Latin scripts.
+  - Agree with the supplier a lower automatic threshold plus a human review queue for those cases; re-test.
+  - Record the evaluation in the DQAP and an ATRS record, and re-run the test after every model update.
+  lesson: Test by group before go-live; vendor headline accuracy can hide who it fails.
+- id: W3
+  illustrative: true
+  title: Explaining a pipeline run to a data owner
+  steps:
+  - The weekly run finds the air quality chart is a year out of date (a High issue, now overdue).
+  - "The assistant drafts a three-line summary for the owner: what failed, why it matters, who acts (the supplier), and the suggested caveat for users."
+  - The steward checks the facts against the run summary, edits, and sends it.
+  lesson: Generative AI saves time on communication; facts come from the run, not the model.
+
+case_studies:
+- id: C1
+  title: Extract - AI to turn planning documents into structured data (i.AI and MHCLG)
+  organisation: Incubator for AI (i.AI, DSIT) and MHCLG Digital Planning
+  status: In incubation when reported (April 2025)
+  what: "Uses AI to read planning documents (often PDFs), extract details such as addresses, dates and permitted development rights, trace map boundaries with computer vision, and place them on a map as structured data."
+  why_dq: "Invalid planning applications often come from data that isn't in the format digital planning tools need. Extracting it into structured data lets it be checked and reused."
+  assurance: "Tested against a ground-truth dataset of manually converted Article 4 directions before wider testing with a small number of planning authorities. No accuracy results were reported at the time."
+  lesson: A model only earns trust through a ground-truth evaluation; publish the results when they exist.
+  sources:
+  - {title: "UKAuthority: i.AI and MHCLG develop AI tool for rapid processing of planning data", url: "https://www.ukauthority.com/articles/iai-and-mhclg-develop-ai-tool-for-rapid-processing-of-planning-data"}
+  - {title: "MHCLG Digital: exploring the use of AI to streamline the planning process", url: "https://mhclgdigital.blog.gov.uk/2024/08/01/exploring-the-use-of-artificial-intelligence-to-streamline-the-planning-process/"}
+- id: C2
+  title: This Commons - generative AI as a drafting aid, deterministic rules as the judge
+  organisation: Public Sector Data Quality Commons (this project)
+  status: Experimental
+  what: "The portal assistant drafts rules from plain English and explains results, using page tools that call the kit's own engine. The kit's MCP server lets other agents run checks."
+  why_dq: "Lowers the skill barrier to writing rules and reading results, while measurement stays deterministic and identical in Python and the browser (parity-checked)."
+  assurance: "Evaluation set for rule drafting (knowledge/ai-eval), validation loop on every draft, no data stored by the assistant, human review required. Not yet tested with users."
+  lesson: Put AI where a person reviews its output anyway.
+  sources: []
+
+route_to_toolkit:
+  summary: >-
+    How an AI capability - built in-house, or a vendor feature wrapped for reuse - becomes part of the
+    shared toolkit. Each stage has an exit gate. Nothing skips a gate because it is urgent.
+  stages:
+  - {n: 1, name: Discover, do: "Name the quality problem, the users and the current cost. Check whether a plain rule would do.", gate: "Problem statement and success measures agreed with a data owner"}
+  - {n: 2, name: Experiment, do: "Prototype on synthetic or approved sample data. Build a labelled ground-truth set.", gate: "Ground-truth set exists; DPIA screening done; no personal data outside approved boundaries"}
+  - {n: 3, name: Evaluate, do: "Measure precision, recall, error by group, cost, speed and failure modes against the ground truth.", gate: "Meets agreed thresholds overall and for every group; evaluation published in the repository"}
+  - {n: 4, name: Assure, do: "DPIA, security review (Secure by Design), accessibility check (WCAG 2.2 AA), ATRS record if in scope, model card and data sheet.", gate: "Data owner, information assurance and accessibility sign-off"}
+  - {n: 5, name: Pilot, do: "Run with 2-3 organisations in different sectors or nations, with a human review queue.", gate: "Pilot results meet thresholds; users can do the task; no harm to any group"}
+  - {n: 6, name: Package, do: "Wrap as a kit component - declarative config, tests, the evaluation set as a regression test, and open outputs (rules, DQV). Add a browser version only with a parity check.", gate: "Code review, tests in CI, documentation and a pack or rule-library entry"}
+  - {n: 7, name: Release and monitor, do: "Release as experimental, then supported. Re-run the evaluation on every model or prompt change and at least quarterly.", gate: "Monitoring in the pipeline; owner named; retirement criteria written"}
+  checklist:
+  - A named owner and a named steward
+  - Problem statement and success measures
+  - Labelled ground-truth set, versioned in the repository
+  - Evaluation results overall and by group
+  - DPIA (or screening showing none is needed)
+  - Security review
+  - Accessibility check of any user interface (WCAG 2.2 AA)
+  - ATRS record, if the tool influences decisions with public effect or interacts with the public
+  - Model card and data sheet
+  - Human review route for low-confidence or high-impact outputs
+  - Open outputs (rules as YAML, results as W3C DQV)
+  - Exit plan for vendor components
+  references:
+  - {title: Artificial Intelligence Playbook for the UK Government, url: "https://www.gov.uk/government/publications/ai-playbook-for-the-uk-government"}
+  - {title: Algorithmic Transparency Recording Standard hub, url: "https://www.gov.uk/government/collections/algorithmic-transparency-recording-standard-hub"}
+  - {title: Making the ATRS mandatory across government (blog), url: "https://dataingovernment.blog.gov.uk/2025/05/08/making-the-algorithmic-transparency-recording-standard-atrs-mandatory-across-government/"}
+  - {title: ISO/IEC 5259-1 data quality for analytics and ML, url: "https://www.iso.org/standard/81088.html"}
+
+components:
+- {id: suggest, name: dqkit suggest - starter rules from data, kind: Deterministic profiling (no model), stage: Released, owner: Commons maintainers}
+- {id: assistant, name: "Portal assistant - plain English to rules, and explaining results", kind: Generative AI (Claude via the artifact sample capability) with kit tools, stage: Experiment, owner: Commons maintainers}
+- {id: mcp, name: dqkit MCP server - lets AI agents run the kit, kind: Agent interface (no model), stage: Experiment, owner: Commons maintainers}
+- {id: anomaly, name: Outlier and volume anomaly checks, kind: Statistical, stage: Discover, owner: Open for contributors}
+- {id: linkage, name: Record linkage quality checks (Splink results), kind: Probabilistic, stage: Discover, owner: Open for contributors}

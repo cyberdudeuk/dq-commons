@@ -1,0 +1,12 @@
+id: iso-8000-8
+name: ISO 8000-8 - syntactic, semantic and pragmatic quality
+summary: Groups results the ISO 8000-8 way - does the data conform to its format, does it correctly represent the thing, and is it fit for the use.
+jurisdiction: International
+sector: General and master data
+frameworks: [iso-8000]
+target_policy: mid
+requirements:
+  - {id: SYN, text: "Syntactic quality - values conform to the agreed formats and code lists.", evidence: {dimensions: [validity]}}
+  - {id: SEM, text: "Semantic quality - values correctly represent the real-world thing.", evidence: {any_dimension: [accuracy, consistency]}}
+  - {id: PRA, text: "Pragmatic quality - the data is fit for its stated use.", evidence: {asset_field: primary_use}}
+report: [Syntactic, Semantic, Pragmatic]

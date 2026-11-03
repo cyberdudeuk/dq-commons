@@ -1,0 +1,245 @@
+{
+  "@context": {
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "dct": "http://purl.org/dc/terms/",
+    "dqv": "http://www.w3.org/ns/dqv#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "ndq": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#",
+    "value": {
+      "@id": "dqv:value",
+      "@type": "xsd:decimal"
+    },
+    "measuredOn": {
+      "@id": "dct:date",
+      "@type": "xsd:date"
+    }
+  },
+  "@graph": [
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results",
+      "@type": "dcat:Dataset",
+      "dct:title": "NDL Government and Parliament collection: Election results chart data",
+      "dct:publisher": "UK Parliament",
+      "dqv:hasQualityMeasurement": [
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R1"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R2"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R3"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R4"
+        },
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R5"
+        }
+      ],
+      "dqv:hasQualityAnnotation": [
+        {
+          "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#issue-R1"
+        }
+      ]
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R1",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R1"
+      },
+      "value": 66.667,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 97.5,
+      "ndq:meetsTarget": false,
+      "ndq:recordsChecked": 3
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R2",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R2"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 99.9,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 13
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R3",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R3"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 97.5,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 13
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R4",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R4"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 97.5,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#m-R5",
+      "@type": "dqv:QualityMeasurement",
+      "dqv:computedOn": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "dqv:isMeasurementOf": {
+        "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R5"
+      },
+      "value": 100.0,
+      "measuredOn": "2026-10-14",
+      "ndq:target": 90.0,
+      "ndq:meetsTarget": true,
+      "ndq:recordsChecked": 1
+    },
+    {
+      "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results#issue-R1",
+      "@type": "dqv:QualityAnnotation",
+      "oa:hasTarget": {
+        "@id": "https://www.data.gov.uk/collections/government-and-parliament/election-results"
+      },
+      "oa:motivatedBy": {
+        "@id": "dqv:qualityAssessment"
+      },
+      "oa:hasBody": {
+        "@type": "oa:TextualBody",
+        "oa:value": "Missing field: A required field is absent from the file."
+      },
+      "ndq:issueType": {
+        "@id": "ndq:issue/missing-field"
+      },
+      "ndq:priority": "High",
+      "ndq:resolution": "Within 1 measurement cycle",
+      "ndq:responsibility": "provider"
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R1",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "The file says which election the shares are for",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:completeness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R2",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "unique",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:uniqueness"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R3",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "range",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:accuracy"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R4",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "Shares do not add up to more than 100%",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:consistency"
+      }
+    },
+    {
+      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#metric/ndl-government-election-results-chart/R5",
+      "@type": "dqv:Metric",
+      "skos:prefLabel": "The share says it is a percentage",
+      "dqv:expectedDataType": {
+        "@id": "xsd:decimal"
+      },
+      "dqv:inDimension": {
+        "@id": "ndq:validity"
+      }
+    },
+    {
+      "@id": "ndq:completeness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Completeness",
+      "skos:definition": "The proportion of stored data against the potential of being 100% complete.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:uniqueness",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Uniqueness",
+      "skos:definition": "Nothing will be recorded more than once based upon how that thing is identified.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:consistency",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Consistency",
+      "skos:definition": "The absence of difference when comparing two or more representations of a thing against a definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:validity",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Validity",
+      "skos:definition": "Data are valid if they conform to the syntax (format, type, range) of their definition.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    },
+    {
+      "@id": "ndq:accuracy",
+      "@type": "dqv:Dimension",
+      "skos:prefLabel": "Accuracy",
+      "skos:definition": "The degree to which data correctly describe the real-world object or event being described.",
+      "dqv:inCategory": {
+        "@id": "ndq:GovernmentDataQualityFramework"
+      }
+    }
+  ]
+}

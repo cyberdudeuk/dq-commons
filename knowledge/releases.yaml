@@ -1,0 +1,127 @@
+# Releases: the single source for version numbers, the What's new drawer, the releases page and CHANGELOG.md.
+# Versioning: semantic versioning (major.minor.patch). Major: changes that break files or links people rely on.
+# Minor: new features or pages. Patch: fixes and content updates. Types: new, changed, fixed, removed.
+# pages_new / pages_changed flag menu entries as "New" or "Updated" while that release is the latest or the one before.
+review: {last_reviewed: "2026-11-03", owner_role: Product owner (Commons)}
+
+policy:
+- "Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content."
+- "Every release is tagged in Git (vX.Y.Z), listed here, and summarised in CHANGELOG.md, docs/BUILD-LOG.md and the decision log."
+- "Identifiers in the vocabulary and knowledge graph are persistent: they are never reused for a different meaning."
+- "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
+
+releases:
+- version: "2.0.0"
+  date: "2026-11-03"
+  title: "Journey-ordered portal, GitHub introduction, data quality across the professions"
+  pages_new: [github, professions]
+  pages_changed: [index, about, guidance, roles, baseline, share, tooling, learn, training]
+  items:
+  - {type: new, text: "New to GitHub? A plain-English introduction: what GitHub is, how the portal and its repository connect, and what you can do at each level", link: "github.html"}
+  - {type: new, text: "Data quality across the professions: 12 capabilities mapped to 26 frameworks across the Civil Service professions, UK nations, sectors and internationally, each checked at source", link: "professions.html"}
+  - {type: new, text: "About: background, why the Commons exists, goals and desired outcomes", link: "about.html#bg-h"}
+  - {type: changed, text: "Menu in journey order (1 Start to 6 Contribute) with Beginner, Intermediate and Advanced badges, and a journey strip on the home page", link: "index.html#jr-h"}
+  - {type: changed, text: "README organised for beginner, intermediate and advanced readers"}
+  - {type: changed, text: "Baseline effort model: set your own deadline; example defaults replace internal figures", link: "baseline.html"}
+  - {type: changed, text: "GDaD (formerly DDaT) framework links and skill names corrected; the framework has moved address"}
+  - {type: removed, text: "CDO Council brief, unconfirmed dates and the home page countdown, and content drawn from unpublished documents"}
+  - {type: removed, text: "dqkit survey command"}
+  - {type: fixed, text: "Pages work with no CDN or font service: the YAML reader is bundled and Google Fonts removed, so nothing is loaded from third parties"}
+  - {type: fixed, text: "Accessibility: target sizes for sliders, dates and heading links"}
+- version: "1.6.0"
+  date: "2026-10-30"
+  title: "For your role, CDO Council brief, gap register and Q-FAIR"
+  pages_new: [roles]
+  pages_changed: [baseline, playbook]
+  items:
+  - {type: new, text: "For your role: what the CDO Council, CDOs, data owners, stewards, quality leads and 8 other roles need, decide and should watch", link: "roles.html"}
+  - {type: new, text: "CDO Council brief (withdrawn from the public portal in 2.0.0; now kept privately)"}
+  - {type: new, text: "Gap register: 20 gaps across policy, guidance, data and tools, who they affect and what is being done", link: "roles.html#gaps"}
+  - {type: new, text: "Q-FAIR: four record fields and five ratings in the CDA return, rated automatically by the toolkit, and a two-minute self-rating", link: "baseline.html#qfair"}
+  - {type: new, text: "dqkit effort and MCP tool estimate_effort: the baseline effort model from the command line and for AI assistants"}
+  - {type: changed, text: "Baseline effort model now reads one source (knowledge/effort.yaml) shared with the toolkit, and includes recording Q-FAIR fields", link: "baseline.html"}
+  - {type: changed, text: "Playbook stage 6 asks for a Q-FAIR rating; glossary adds Q-FAIR and data quality baseline", link: "playbook.html#report"}
+- version: "1.5.0"
+  date: "2026-10-30"
+  title: "Playbook in the toolkit, automatic publishing and releases"
+  pages_new: []
+  pages_changed: [playbook]
+  items:
+  - {type: new, text: "dqkit playbook init, status and guide: start a workspace for a critical data asset, then see which stages have evidence and what to do next", link: "playbook.html#stages"}
+  - {type: new, text: "MCP tool 'playbook' so AI assistants can read stages and check a workspace's progress"}
+  - {type: new, text: "Download a progress report of your playbook checklist", link: "playbook.html#stages"}
+  - {type: new, text: "The portal publishes itself to GitHub Pages on every change to main, with the build bundle at /bundle/"}
+  - {type: new, text: "Tagged versions become GitHub releases automatically, with notes from the release record and a source zip"}
+  - {type: fixed, text: "Three playbook steps were read as headings with missing text; they now show in full, and a test stops it happening again"}
+  - {type: fixed, text: "Package, toolkit and MCP server version numbers now come from one place and are tested"}
+- version: "1.4.0"
+  date: "2026-10-30"
+  title: "Data quality management playbook, horizon scan and verified sources"
+  pages_new: [playbook]
+  pages_changed: [index, frameworks, library, interop, knowledge, events]
+  items:
+  - {type: new, text: "Data quality management playbook for critical data assets: eight stages with steps, checklists, roles, templates and DAM policy mapping, usable under any mandate", link: "playbook.html"}
+  - {type: new, text: "Blank CSV templates: asset register, rule, issue log, action plan, quality statement and annual review", link: "playbook.html#templates"}
+  - {type: new, text: "Horizon scan, October 2026: AI-ready datasets guidance, National Data Library growth, OSR forward look, NHS Scotland strategy, ODCS v3.1, ODPS v1.0, CEN data space standards, EMA framework and a US AI-ready data bill", link: "library.html"}
+  - {type: new, text: "Playbook cycle added to the knowledge graph as a lineage flow", link: "knowledge.html#node=Stage:pb-identify"}
+  - {type: changed, text: "Every listed source has now been read: 86 sources checked, with dates shown on each framework card", link: "frameworks.html"}
+  - {type: changed, text: "Frameworks with no public document are labelled 'Not publicly available' and can be filtered", link: "frameworks.html"}
+  - {type: fixed, text: "Corrected links and dimension mappings found during verification (Code of Practice, FCSM, 360Giving, Data Cymru, NHS-R, Table Schema, G7 DFFT, Convention 108+, ISO 8000)"}
+  - {type: fixed, text: "Content health warnings cleared: duplicate library title and empty links"}
+- version: "1.3.0"
+  date: "2026-10-15"
+  title: "Knowledge map, events, skills and training"
+  pages_new: [knowledge, events, training]
+  pages_changed: [index, learn, build]
+  items:
+  - {type: new, text: "Knowledge map: glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph", link: "knowledge.html"}
+  - {type: new, text: "Lineage and traceability: from source data to report, from policy to evidence, from one record to every catalogue", link: "knowledge.html#node=Stage:st-source"}
+  - {type: new, text: "Trace the path between any two concepts", link: "knowledge.html"}
+  - {type: new, text: "Events calendar with list and month views, calendar downloads and moderated submissions", link: "events.html"}
+  - {type: new, text: "Skills and training: skills check by role, a development plan and a catalogue of courses and qualifications", link: "training.html"}
+  - {type: new, text: "Commons logo, favicon and a 'What is a Commons?' panel on the home page", link: "index.html"}
+  - {type: new, text: "This What's new drawer, with releases and change logs", link: "build.html#releases"}
+  - {type: new, text: "Solution build and development bundle as a standalone page", link: "build.html#bundle"}
+  - {type: new, text: "Knowledge graph exports: SKOS and OWL Turtle and JSON-LD; dqkit graph command and MCP tool explore_knowledge"}
+  - {type: changed, text: "Menus flag new and updated pages"}
+- version: "1.2.1"
+  date: "2026-10-15"
+  title: "International packs and provenance"
+  pages_new: []
+  pages_changed: [frameworks, global]
+  items:
+  - {type: new, text: "UN NQAF and IMF DQAF framework packs", link: "frameworks.html#packs"}
+  - {type: new, text: "Every page shows when its content was last reviewed and by which role"}
+  - {type: new, text: "Weekly content health issue for owning roles; accessibility checks in CI"}
+  - {type: changed, text: "Retired a news slide over 6 months old"}
+- version: "1.2.0"
+  date: "2026-10-15"
+  title: "Weaver, world and help us build this"
+  pages_new: [weaver, global, build]
+  pages_changed: [about, community, media]
+  items:
+  - {type: new, text: "Metadata Weaver and contract change check", link: "weaver.html"}
+  - {type: new, text: "UK and the world: Crown Dependencies, Overseas Territories, Commonwealth and international partners", link: "global.html"}
+  - {type: new, text: "Help us build this: roadmap, backlog, wishlist, charter, safeguards and contact form", link: "build.html"}
+  - {type: new, text: "GOV.UK blog features in the media centre", link: "media.html"}
+  - {type: new, text: "Icon set, and a footer with licences, notices and colophon"}
+  - {type: changed, text: "Roadmap moved from About, and wishlist from Community, to Help us build this"}
+  - {type: fixed, text: "Git history uses a no-reply address; internal site address removed"}
+- version: "1.1.0"
+  date: "2026-10-15"
+  title: "Contracts, suppliers, legacy, front page, library and media"
+  pages_new: [commercial, legacy, interop, library, media, accessibility]
+  pages_changed: [index, check, maturity]
+  items:
+  - {type: new, text: "Data contracts (ODCS, Table Schema, CSVW) and exports", link: "check.html#contracts"}
+  - {type: new, text: "Buying and suppliers, Legacy and modernisation, Interoperability and standards", link: "commercial.html"}
+  - {type: new, text: "Front page carousel and spotlight, library, knowledge base and media centre"}
+  - {type: fixed, text: "Theme colours, heading levels, carousel pause, target sizes and survey saving"}
+- version: "1.0.0"
+  date: "2026-10-15"
+  title: "The Public Sector Data Quality Commons"
+  pages_new: []
+  pages_changed: []
+  items:
+  - {type: changed, text: "Renamed the Public Sector Data Quality Commons: a hub and toolkit for the whole public sector"}
+  - {type: new, text: "Frameworks, learning, maturity, AI assistant, scenarios, community, surveys and operating model"}
