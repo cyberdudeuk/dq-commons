@@ -11,6 +11,28 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.1.0"
+  date: "2026-11-03"
+  title: "Search, page drawer, plain English summaries, and 16 backlog items delivered"
+  pages_new: []
+  pages_changed: [weaver, build, accessibility, github, tooling, assistant]
+  items:
+  - {type: new, text: "Search across the whole portal: pages, sections, frameworks, professions, glossary and more. Press / or Ctrl+K on any page"}
+  - {type: new, text: "On this page: a drawer listing every section, with collapsible sections and New or Updated flags for anything changed since the last release"}
+  - {type: new, text: "In short: a plain English summary at the top of every page"}
+  - {type: new, text: "Offline copy of the whole portal in one zip file", link: "accessibility.html#off-h"}
+  - {type: new, text: "Metadata Weaver reads CSVW and Frictionless Data Packages, writes GeoDCAT-AP and StatDCAT-AP, and checks against DCAT-AP, GeoDCAT-AP, StatDCAT-AP and the UK critical data asset properties", link: "weaver.html"}
+  - {type: new, text: "Outlier check (IQR or z-score) for values that are valid but implausible, in the toolkit and the browser"}
+  - {type: new, text: "Record linkage quality: match rates, false and missed matches, and gaps between groups, from Splink or any linkage tool"}
+  - {type: new, text: "GSS geography value sets: UK groupings, English regions and GSS entity codes"}
+  - {type: new, text: "Time zone planner for co-design sessions", link: "build.html#cd-h"}
+  - {type: new, text: "Algorithmic transparency record for the AI assistant", link: "assistant.html"}
+  - {type: new, text: "Fabric notebook and an HTTP service for Power Automate (to be trialled in a live tenant)"}
+  - {type: changed, text: "Contact is by form only, everywhere: no email address is shown or collected, including in case study templates"}
+  - {type: changed, text: "Every page footer shows when the page last changed, with a link to every change"}
+  - {type: changed, text: "Links to the GitHub Repos Asset Catalogue, to find public sector code to reuse", link: "github.html#find-h"}
+  - {type: changed, text: "Numbers are read the same way in Python and the browser whatever the pandas version, so the pandas cap is lifted"}
+  - {type: fixed, text: "Broken links come with an Internet Archive copy, and sources are archived on a rotating schedule"}
 - version: "2.0.0"
   date: "2026-11-03"
   title: "Journey-ordered portal, GitHub introduction, data quality across the professions"

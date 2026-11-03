@@ -1,5 +1,40 @@
 # Decision log (this repository)
 
+## 2026-11-03 · D-REPO-01 · No decks or films in the repository unless explicitly allowed
+- **Decision:** slide decks and video files are ignored by `.gitignore` and refused by `tests/test_repo_policy.py`, unless their path is listed in `.media-allowlist`.
+- **Why:** the project lead's standing rule. They are large, hard to review and hard to make accessible, and they belong where they are presented.
+- **Alternatives considered:** Git LFS (rejected: the content still doesn't belong here); a size limit only (rejected: small decks would slip through).
+
+## 2026-11-03 · D-REPO-02 · Contact by form only, everywhere
+- **Decision:** the only way to reach the Commons is the contact form (a GitHub issue form, `0-contact.yml`, pre-filled from the portal). No email address appears in any page, document, data file or template; the case study template asks for a contact route, not a name and email. A test fails on any email address other than GitHub's no-reply addresses.
+- **Why:** the project lead's standing rule; publishing addresses invites spam and exposes people; one route is easier to moderate and measure.
+- **Alternatives considered:** a shared team inbox (rejected: still an address to publish and a single person's burden); a third-party form service (rejected: D-POL-01, no third-party requests).
+
+## 2026-11-03 · D-REPO-03 · Scan for credentials, private links and marking banners, with a self-test
+- **Decision:** `tests/test_repo_policy.py` refuses tokens and keys, links to private claude.ai chats, projects or artifacts, and protective marking banners, and plants one example of each to prove the scan works. A weekly Repository health workflow compares settings with `.github/settings-baseline.json` and reports drift without changing anything.
+- **Why:** adapted from the GitHub Repos Asset Catalogue, which uses the same patterns; the repository is public, so prevention must be automatic.
+- **Alternatives considered:** rely on GitHub secret scanning alone (kept as well, but it doesn't cover private links or markings).
+
+## 2026-11-03 · D-TK-02 · The toolkit reads numbers with its own rule
+- **Decision:** `dqkit/numbers.py` reads numbers from text (optional spaces and sign, digits with optional point, optional exponent, "inf"), giving the correctly rounded value; `engine.js` uses the same rule. pandas is no longer used for this, so the `<3.1` cap (D-CI-01) is lifted to `<4`.
+- **Why:** pandas 3.1 changed its parser, which made results depend on the installed pandas version and broke parity. Owning the rule makes Python and the browser agree on every pandas version. Issue #25.
+- **Alternatives considered:** copy pandas 3.1's parser into JavaScript (rejected: results would differ again for anyone on pandas 3.0, and again at the next change).
+
+## 2026-11-03 · D-UX-01 · Page drawer, collapsible sections, change flags and portal search
+- **Decision:** every page gets an "On this page" drawer built from its headings, collapsible sections, and New or Updated flags for sections that differ from the previous release (fingerprints in `portal/section-baseline.json`, regenerated at each release by `scripts/section_baseline.py`). Search covers pages, sections and named items in the knowledge base; its index (`search-index.js`) loads only when search is first opened. Motion is used only for content coming into view, never hides content already on screen, and is off for anyone who prefers reduced motion.
+- **Why:** pages are long; the menu helps across the portal but not within a page. Flags show returning readers what changed without reading release notes.
+- **Alternatives considered:** a server-side search service (rejected: D-POL-01 and cost); flags typed by hand (rejected: they would be forgotten); a fixed side table of contents (rejected: takes width from tables on smaller screens).
+
+## 2026-11-03 · D-WV-02 · Application profiles in the Weaver are simplified shapes, not full SHACL
+- **Decision:** the Weaver checks the DCAT output against simplified must/should property lists for DCAT-AP 3, GeoDCAT-AP, StatDCAT-AP and the UK critical data asset properties, plus ISO 8601 dates, in both engines. It says plainly to validate with the official SHACL shapes before publishing.
+- **Why:** a full SHACL engine in the browser is heavy; the common gaps are missing properties and bad dates, which these checks catch. Issues #11 and #13.
+- **Alternatives considered:** bundle a SHACL validator (rejected for now: size and a third-party dependency); skip the check (rejected: users asked to know if they meet a profile).
+
+## 2026-11-03 · D-OPS-02 · Weekly maintenance by a scheduled task, with people-dependent work kept open
+- **Decision:** a weekly scheduled task (Monday mornings, London time) reviews CI, open issues, Dependabot pull requests, content health and settings drift, fixes what it safely can, and reports the rest. Backlog items that need people (user research, independent audit, translation, live co-design, tenant trials, checks with statistics offices) are prepared in full and kept open.
+- **Why:** the project lead handed over ongoing maintenance; closing items that need people would overstate what is done.
+- **Alternatives considered:** close prepared items (rejected: misleading); daily runs (rejected: too noisy for the volume).
+
 ## 2026-11-03 · D-POL-03 · Version 2.0.0, not 1.7.0
 - **Decision:** release as 2.0.0.
 - **Why:** the release policy treats removing files, links or commands people rely on as a major change; this release removes `dqkit survey`, two documents and some page anchors.

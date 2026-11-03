@@ -9,6 +9,7 @@ pattern-mismatch,Value does not match pattern,data,validity,2,provider,"A value 
 invalid-category,Invalid category value,data,validity,3,provider,"A value is not in the agreed list of allowed values.",invalid category value,MHCLG planning data specification
 invalid-geometry,Invalid geometry,data,validity,4,provider,"A shape or coordinate cannot be processed.",invalid geometry - not fixable,MHCLG planning data specification
 out-of-range,Value out of range,data,accuracy,3,provider,"A number is smaller or larger than its allowed range.",too small / too large,MHCLG planning data specification
+implausible-value,Implausible value,data,accuracy,2,provider,"A number is allowed but so far from the rest that it needs checking (an outlier).",typing slip / wrong unit,This project
 future-date,Date in the future,data,accuracy,3,provider,"A date that cannot be in the future is in the future.",future entry-date,MHCLG planning data specification
 implausible-date,Implausible date,data,accuracy,2,provider,"A date is too far in the past or future to be credible.",far-past-date / far-future-date,MHCLG planning data specification
 out-of-bounds,Location out of bounds,data,accuracy,4,provider,"Coordinates fall outside the expected area.",WGS84 out of bounds of England,MHCLG planning data specification

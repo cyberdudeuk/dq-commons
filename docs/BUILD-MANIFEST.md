@@ -3,7 +3,8 @@
 | Path | Purpose | Generated? |
 |---|---|---|
 | dqkit/framework.py | GOV.UK issues framework | No |
-| dqkit/rules.py | Rules engine (15 checks) | No |
+| dqkit/rules.py | Rules engine (17 checks) | No |
+| dqkit/numbers.py | Reads numbers from text the same way as the browser engine | No |
 | dqkit/metadata.py | Catalogue record assessment (20 checks, 13 CDA properties) | No |
 | dqkit/dqv.py | DQV JSON-LD writer | No |
 | dqkit/exporters.py | GX, R validate, DQAP CSV | No |

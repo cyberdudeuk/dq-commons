@@ -15,8 +15,11 @@ specialists, but people still retype the same record into each catalogue, and th
 
 ## What it does now (v1.2)
 
-- **Reads:** W3C DCAT (JSON-LD), schema.org Dataset (JSON-LD), CKAN packages (including API responses), ODCS v3 contracts.
-- **Writes:** DCAT v3, schema.org, CKAN, and an ODCS contract skeleton.
+- **Reads:** W3C DCAT (JSON-LD), schema.org Dataset (JSON-LD), CKAN packages (including API responses), ODCS v3 contracts,
+  CSV on the Web (CSVW) table metadata and Frictionless Data Packages (`datapackage.json`).
+- **Writes:** DCAT v3, schema.org, CKAN, an ODCS contract skeleton, GeoDCAT-AP and StatDCAT-AP.
+- **Profile checks:** simplified must/should shapes for DCAT-AP 3, GeoDCAT-AP, StatDCAT-AP and the UK critical data asset
+  properties, plus ISO 8601 dates (`profiles` in the result). Validate with the official SHACL shapes before publishing (D-WV-02).
 - **Reports:** filled and missing fields for each standard, fields a standard can't carry ("not carried"), and the 13
   critical data asset metadata properties with pass, partial or missing.
 - **Contract change check:** validates an ODCS contract and lists changes between versions, which ones break consumers,

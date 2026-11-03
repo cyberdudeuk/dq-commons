@@ -283,6 +283,23 @@
       "skos:closeMatch": "too small / too large"
     },
     {
+      "@id": "ndq:issue/implausible-value",
+      "@type": "skos:Concept",
+      "skos:inScheme": {
+        "@id": "ndq:IssueTypes"
+      },
+      "skos:prefLabel": "Implausible value",
+      "skos:definition": "A number is allowed but so far from the rest that it needs checking (an outlier).",
+      "skos:broader": {
+        "@id": "ndq:accuracy"
+      },
+      "ndq:appliesTo": "data",
+      "ndq:defaultImpact": 2,
+      "ndq:responsibility": "provider",
+      "dct:source": "This project",
+      "skos:closeMatch": "typing slip / wrong unit"
+    },
+    {
       "@id": "ndq:issue/future-date",
       "@type": "skos:Concept",
       "skos:inScheme": {

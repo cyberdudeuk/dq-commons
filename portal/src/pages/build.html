@@ -27,6 +27,7 @@ __BASE_CSS__
 .form .full{grid-column:1/-1}
 .state{font-size:.88rem}
 .contrib{display:flex;flex-wrap:wrap;gap:6px}
+.tzpick{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0 12px}.tzc{display:flex;flex-wrap:wrap;gap:6px 16px}.tzc label{display:flex;gap:6px;align-items:center;min-height:24px;font-size:.9rem}
 </style>
 
 <div class="wrap">
@@ -65,7 +66,12 @@ __BASE_CSS__
 
 <section id="codesign" aria-labelledby="cd-h"><h2 id="cd-h">Co-design</h2>
   <p class="small">Every method has an alternative: if a live session doesn't suit you, use the asynchronous route or the contact form. We provide captions, transcripts and materials in advance.</p>
-  <div class="tbl"><table><thead><tr><th scope="col">Method</th><th scope="col">When</th><th scope="col">How</th></tr></thead><tbody id="cd"></tbody></table></div></section>
+  <div class="tbl"><table><thead><tr><th scope="col">Method</th><th scope="col">When</th><th scope="col">How</th></tr></thead><tbody id="cd"></tbody></table></div>
+  <h3>Session times that work across time zones</h3>
+  <p class="small">Live sessions rotate between three times, so no region always gets the early or late slot. Pick the partners taking part to see each slot in their local time. Times in grey fall outside 8am to 7pm local time; the asynchronous route is always open.</p>
+  <fieldset class="tzpick"><legend class="small">Who is taking part?</legend><div id="tzChoices" class="tzc"></div></fieldset>
+  <div class="tbl"><table><caption class="small muted" id="tzCap"></caption><thead id="tzHead"></thead><tbody id="tzBody"></tbody></table></div>
+</section>
 
 <section id="charter" aria-labelledby="ch-h">
   <h2 id="ch-h">Charter, rules and safeguards</h2>
@@ -108,7 +114,7 @@ __BASE_CSS__
 
 <section id="contact" aria-labelledby="ct-h">
   <h2 id="ct-h">Contact us</h2>
-  <p>Send us a message through this form. We never show the team's email address, which keeps spam and impersonation down. You don't need to give your name or email: we reply here, on this page, when you come back signed in.</p>
+  <p>Send us a message through this form. It is the only way to contact the team: we never publish an email address, which keeps spam and impersonation down, and you never need to give yours. On the public site the form opens a pre-filled GitHub contact issue (a free GitHub account is needed) and we reply there.</p>
   <form class="form" id="ctForm" novalidate>
     <div class="field"><label for="ctTopic">Topic</label><select id="ctTopic"></select></div>
     <div class="field"><label for="ctOrg">Organisation or jurisdiction (optional)</label><input type="text" id="ctOrg" maxlength="120"></div>
@@ -150,6 +156,26 @@ function drawBl() {
     <td><span class="pill m-${esc(b.moscow)}">${esc(b.moscow)}</span></td><td>${esc(b.area)}</td><td>${esc(b.status)}</td><td class="small">${esc(b.why)}</td></tr>`).join("") || `<tr><td colspan="5">Nothing matches.</td></tr>`;
 }
 ["bq", "ba", "bm"].forEach(id => $(id).addEventListener("input", drawBl)); drawBl();
+// Time zone planner (BL-17, issue #17): three rotating slots, shown in each partner's local time.
+const TZ = [["London (UK)", "Europe/London", true], ["Cardiff, Edinburgh, Belfast", "Europe/London", false], ["Jersey, Guernsey, Isle of Man", "Europe/London", false],
+  ["Gibraltar", "Europe/Gibraltar", true], ["Falkland Islands", "Atlantic/Stanley", true], ["Bermuda", "Atlantic/Bermuda", true],
+  ["Cayman Islands", "America/Cayman", true], ["Anguilla, Montserrat, BVI", "America/Port_of_Spain", false], ["Ottawa", "America/Toronto", false],
+  ["Nairobi", "Africa/Nairobi", false], ["New Delhi", "Asia/Kolkata", false], ["Singapore", "Asia/Singapore", false],
+  ["Pitcairn Islands", "Pacific/Pitcairn", false], ["Canberra", "Australia/Sydney", false], ["Wellington", "Pacific/Auckland", false], ["Suva (Fiji)", "Pacific/Fiji", false]];
+const SLOTS = [["Slot A (Europe, Africa, Asia)", 8], ["Slot B (Europe, Atlantic, Americas)", 15], ["Slot C (Asia, Pacific)", 21]];  // hours in UTC
+$("tzChoices").innerHTML = TZ.map(([n, z, on], i) => `<label><input type="checkbox" data-i="${i}"${on ? " checked" : ""}> ${esc(n)}</label>`).join("");
+function tzDraw() {
+  const picked = [...document.querySelectorAll("#tzChoices input:checked")].map(x => TZ[+x.dataset.i]);
+  const d = new Date(), base = Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + ((8 - d.getUTCDay()) % 7 || 7));  // next Monday
+  const fmt = z => new Intl.DateTimeFormat("en-GB", {timeZone: z, weekday: "short", hour: "numeric", minute: "2-digit", hour12: true});
+  const hour = (z, t) => +new Intl.DateTimeFormat("en-GB", {timeZone: z, hour: "numeric", hourCycle: "h23"}).format(t);
+  $("tzCap").textContent = `For the week starting ${new Date(base).toLocaleDateString("en-GB", {day: "numeric", month: "long", timeZone: "UTC"})}. Clocks change on different dates in different places, so times move by an hour at some points in the year.`;
+  $("tzHead").innerHTML = `<tr><th scope="col">Slot</th>${picked.map(p => `<th scope="col">${esc(p[0])}</th>`).join("")}<th scope="col">Within working hours</th></tr>`;
+  $("tzBody").innerHTML = SLOTS.map(([label, h]) => { const t = new Date(base + h * 3600e3); let ok = 0;
+    const cells = picked.map(([, z]) => { const hr = hour(z, t), good = hr >= 8 && hr < 19; ok += good; return `<td${good ? "" : ' class="muted"'}>${esc(fmt(z).format(t))}${good ? "" : " (outside hours)"}</td>`; }).join("");
+    return `<tr><th scope="row">${esc(label)}</th>${cells}<td><b>${ok} of ${picked.length}</b></td></tr>`; }).join("");
+}
+$("tzChoices").addEventListener("change", tzDraw); tzDraw();
 $("cd").innerHTML = K.charter.codesign.map(c => `<tr><td><b>${esc(c.method)}</b></td><td>${esc(c.when)}</td><td>${esc(c.how)}</td></tr>`).join("");
 $("purpose").textContent = K.charter.purpose;
 const PI = ["eye", "users", "book", "access", "lock", "filecheck", "calendar", "scale"];
@@ -220,7 +246,12 @@ $("ctForm").addEventListener("submit", async e => {
   if (!msg) { $("ctOut").innerHTML = `<span class="msg err">Write your message.</span>`; $("ctMsg").focus(); return; }
   const p = piiCheck(msg + " " + org); if (p) { $("ctOut").innerHTML = `<span class="msg err">It looks like this includes ${p}. Please remove it: we don't need it to reply.</span>`; return; }
   if (!db || !uid || !writable) {
-    $("ctOut").innerHTML = `<span class="msg">Messages can't be saved on this copy of the portal. Use a <a href="${esc(B.repo)}/discussions">GitHub discussion</a> (public) or a <a href="${esc(gh("1-feature-request.yml"))}">GitHub issue</a>. For anything private or security related, use <a href="${esc(B.repo)}/security/advisories/new">private reporting</a>.</span>`; return; }
+    // On the public site, the form opens a pre-filled GitHub contact issue: no email address is needed or shown.
+    const url = `${B.repo}/issues/new?template=0-contact.yml&title=${encodeURIComponent("[Contact] " + topic)}&topic=${encodeURIComponent(topic)}&message=${encodeURIComponent(msg)}&organisation=${encodeURIComponent(org)}`;
+    window.open(url, "_blank", "noopener");
+    $("ctOut").innerHTML = `<span class="msg ok">Your message is ready in a new tab on GitHub. Check it, then select <b>Create</b>. We reply there, usually within 5 working days. <a href="${esc(url)}" target="_blank" rel="noopener">Open it again</a>.</span>`;
+    return;
+  }
   try { drawMine(await addToQueue({kind: "contact", topic, title: topic, summary: msg, org})); $("ctForm").reset(); $("ctOut").innerHTML = `<span class="msg ok">Sent. We aim to reply within 5 working days, here on this page.</span>`; }
   catch (er) { $("ctOut").innerHTML = `<span class="msg err">It couldn't be sent: ${esc(er.message || er.code)}.</span>`; }
 });

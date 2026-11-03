@@ -1,0 +1,42 @@
+# Moderation at scale (docs/MODERATION.md, issue #10): every working day, flag contact and contribution issues
+# that have waited too long for a maintainer reply. Adds labels only; never closes, edits or deletes anything.
+name: Triage
+on:
+  schedule: [{cron: "23 7 * * 1-5"}]
+  workflow_dispatch:
+permissions:
+  issues: write
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            // First reply and decision targets in working days, by contact topic (docs/MODERATION.md, section 2).
+            const SLA = [
+              [/accessibility/i, 1, 5], [/report a problem/i, 2, 10], [/withdraw/i, 2, 5], [/conduct/i, 2, 5],
+            ];
+            const workingDays = (from) => {
+              let d = new Date(from), n = 0; const now = new Date();
+              while (d < now) { d.setUTCDate(d.getUTCDate() + 1); if (d <= now && d.getUTCDay() % 6 !== 0) n++; }
+              return n;
+            };
+            const owners = new Set((await github.paginate(github.rest.repos.listCollaborators, {...context.repo, permission: 'triage'})).map(u => u.login));
+            for (const label of ['contact', 'contribution']) {
+              const issues = await github.paginate(github.rest.issues.listForRepo, {...context.repo, state: 'open', labels: label});
+              for (const i of issues) {
+                if (i.pull_request) continue;
+                const text = `${i.title}\n${i.body || ''}`;
+                const [, reply, decide] = SLA.find(([rx]) => rx.test(text)) || [null, 5, 10];
+                const comments = await github.paginate(github.rest.issues.listComments, {...context.repo, issue_number: i.number});
+                const replied = comments.some(c => owners.has(c.user.login) && c.user.login !== i.user.login);
+                const age = workingDays(i.created_at), have = i.labels.map(l => l.name), add = [];
+                if (!replied && age > reply && !have.includes('needs-reply')) add.push('needs-reply');
+                if (age > decide && !have.includes('overdue')) add.push('overdue');
+                if (add.length) {
+                  await github.rest.issues.addLabels({...context.repo, issue_number: i.number, labels: add});
+                  core.info(`#${i.number}: ${add.join(', ')} (${age} working days)`);
+                }
+              }
+            }

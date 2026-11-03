@@ -83,6 +83,13 @@ table can take the extension's fields as columns (see the LLD mapping).
 `freshness`, `sum_max` and `group_disparity` give one pass or fail (checked = 1). `freshness` treats a year
 label as covering the whole year. It passes when (as_of − end of the latest period) ≤ expected frequency + lag.
 
+### Reading numbers and outliers
+Numbers are read by `dqkit/numbers.py` (mirrored by `pdNumber` in `engine.js`), not by pandas, so results do not
+change with the pandas version (D-TK-02). `outlier` counts only cells that are numbers; blanks and text are left to
+`not_null` and `type`. With `method: iqr` a value fails outside Q1 − k·IQR to Q3 + k·IQR (numpy's linear quantile,
+written out in both engines); with `method: zscore` it fails more than `threshold` sample standard deviations from
+the mean. Fewer than 4 numbers: nothing to compare, so every value passes.
+
 ### Mapping to the Dataverse return table (proposed new columns)
 
 | Extension slot | Dataverse column | Type |

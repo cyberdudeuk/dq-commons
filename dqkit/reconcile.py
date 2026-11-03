@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import pandas as pd
 
+from .numbers import to_numeric
+
 SEP = "\x1f"
 
 
@@ -16,7 +18,7 @@ def _key_list(df: pd.DataFrame, keys: list) -> list:
 
 
 def _numeric(s: pd.Series):
-    n = pd.to_numeric(s, errors="coerce")
+    n = to_numeric(s)
     filled = int(s.notna().sum())
     return n if filled > 0 and int(n.notna().sum()) == filled else None
 

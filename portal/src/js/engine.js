@@ -124,48 +124,16 @@
     return Number(s);
   }
 
-  // pandas.to_numeric(errors="coerce") for one text value. pandas uses its own C parser
-  // (precise_xstrtod): it reads at most 17 significant digits and scales by a power of ten,
-  // which is not always the correctly rounded value ("0.30000000000000004" reads as 0.3).
-  var E10 = [];
-  for (var k = 0; k <= 308; k++) E10.push(Number('1e' + k));
-  function isSp(c) { return c === ' ' || c === '\t' || c === '\n' || c === '\v' || c === '\f' || c === '\r'; }
+  // Reading a number from text: the same rule as dqkit/numbers.py (issue #25, D-TK-02), so results
+  // no longer depend on the pandas version. Spaces, optional sign, digits with an optional point,
+  // optional exponent, spaces; "inf"/"infinity" any case. The value is the correctly rounded double.
   function isDig(c) { return c >= '0' && c <= '9'; }
-  function xstrtod(s) {
-    var p = 0, n = s.length, neg = false, num = 0, exp = 0, nd = 0, ndec = 0, maybeInt = true;
-    while (p < n && isSp(s[p])) p++;
-    if (s[p] === '-') { neg = true; p++; } else if (s[p] === '+') p++;
-    for (; p < n && isDig(s[p]); p++) {
-      if (nd < 17) { num = num * 10 + (s.charCodeAt(p) - 48); nd++; } else exp++;
-    }
-    if (s[p] === '.') {
-      maybeInt = false; p++;
-      for (; nd < 17 && p < n && isDig(s[p]); p++) { num = num * 10 + (s.charCodeAt(p) - 48); nd++; ndec++; }
-      if (nd >= 17) while (p < n && isDig(s[p])) p++;
-      exp -= ndec;
-    }
-    if (nd === 0) return null;
-    if (neg) num = -num;
-    if (s[p] === 'e' || s[p] === 'E') {
-      maybeInt = false; p++;
-      var eneg = false, en = 0, ed = 0;
-      if (s[p] === '-') { eneg = true; p++; } else if (s[p] === '+') p++;
-      for (; p < n && isDig(s[p]); p++) { en = Math.min(en * 10 + (s.charCodeAt(p) - 48), 1e9); ed++; }
-      if (ed === 0) return null;
-      exp += eneg ? -en : en;
-    }
-    if (exp > 308) num = num === 0 ? 0 : (num < 0 ? -Infinity : Infinity);
-    else if (exp > 0) num *= E10[exp];
-    else if (exp < -308) { if (exp < -616) num = 0; else { num /= E10[-308 - exp]; num /= E10[308]; } }
-    else num /= E10[-exp];
-    while (p < n && isSp(s[p])) p++;
-    return p === n ? { v: num, maybeInt: maybeInt } : null;
-  }
+  var NUM_RX = /^[ \t\n\r\v\f]*([+-]?(?:[0-9]+\.?[0-9]*|\.[0-9]+))([eE][+-]?[0-9]+)?[ \t\n\r\v\f]*$/;
   function pdNumber(s) {
     if (s === null || s === undefined) return { v: NaN, isInt: false };
     s = String(s);
-    var r = xstrtod(s);
-    if (r) return { v: r.v, isInt: r.maybeInt, text: s };
+    var m = NUM_RX.exec(s);
+    if (m) return { v: Number(m[1] + (m[2] || '')), isInt: !m[2] && m[1].indexOf('.') < 0, text: m[1] };
     if (/^[+-]?inf(inity)?$/i.test(s)) return { v: s[0] === '-' ? -Infinity : Infinity, isInt: false };
     return { v: NaN, isInt: false };
   }
@@ -174,7 +142,9 @@
     var parsed = values.map(pdNumber);
     var allInt = parsed.length > 0 && parsed.every(function (x) { return x.isInt; });
     if (!allInt) return { vals: parsed.map(function (x) { return x.v; }), ints: null };
-    var ints = parsed.map(function (x) { return BigInt(x.text.trim().replace(/^\+/, '')); });
+    var ints = parsed.map(function (x) { return BigInt(x.text.replace(/^\+/, '')); });
+    var lo = -(BigInt(2) ** BigInt(63)), hi = BigInt(2) ** BigInt(63);
+    if (!ints.every(function (i) { return i >= lo && i < hi; })) return { vals: parsed.map(function (x) { return x.v; }), ints: null };
     return { vals: ints.map(Number), ints: ints };
   }
 
@@ -619,10 +589,10 @@
     type: 'invalid-type', regex: 'pattern-mismatch', in_set: 'invalid-category', range: 'out-of-range',
     not_future: 'future-date', compare: 'cross-field-inconsistency', sum_max: 'totals-mismatch',
     freshness: 'stale-data', no_gaps: 'unexplained-gap', header_has_unit: 'undocumented-measure',
-    not_unknown: 'characteristic-defaulted', group_disparity: 'group-disparity', identifier: 'invalid-identifier' };
+    not_unknown: 'characteristic-defaulted', group_disparity: 'group-disparity', identifier: 'invalid-identifier', outlier: 'implausible-value' };
   DQ.CONTROL_POINTS = ['source', 'pipeline', 'reporting'];
   DQ.DEFAULT_CONTROL = { not_null: 'source', required_columns: 'pipeline', unique: 'pipeline', type: 'source',
-    regex: 'source', in_set: 'source', range: 'source', not_future: 'source', compare: 'source',
+    outlier: 'source', regex: 'source', in_set: 'source', range: 'source', not_future: 'source', compare: 'source',
     sum_max: 'pipeline', freshness: 'pipeline', no_gaps: 'pipeline', header_has_unit: 'reporting',
     not_unknown: 'source', group_disparity: 'reporting', identifier: 'source' };
   var UNIT_TOKENS = ['%', 'percent', 'per cent', 'number', 'count', 'millions', 'million', 'billion',
@@ -639,6 +609,13 @@
       out.push(e);
     }
     return out;
+  }
+  // numpy's default ("linear") quantile of sorted numbers (rules.py quantile), step for step.
+  function quantile(xs, q) {
+    var n = xs.length, v = n * q + (1 + q * -1) - 1, lo = Math.floor(v), g = v - lo;
+    lo = Math.min(Math.max(lo, 0), n - 1);
+    var hi = Math.min(lo + 1, n - 1), a = xs[lo], b = xs[hi], d = b - a;
+    return g >= 0.5 ? b - d * (1 - g) : a + d * g;
   }
   function rowwise(f, cols, mask, detail) {
     return [mask.length, mask.filter(Boolean).length, examples(f, mask, cols), detail || {}];
@@ -727,6 +704,29 @@
     in_set: function (f, r) {
       var c = req(r, 'column'), allowed = new Set(req(r, 'values').map(pyStr));
       return rowwise(f, [c], column(f, c).map(function (v) { return v !== null && allowed.has(pyStr(v)); }));
+    },
+    // Valid but implausible numbers (rules.py check_outlier): only numbers count.
+    outlier: function (f, r) {
+      var c = req(r, 'column'), method = get(r, 'method', 'iqr');
+      var num = pdNumericColumn(column(f, c).map(function (v) { return pyStr(v === null ? NaN : v).replace(/,/g, ''); })).vals;
+      var okNum = num.map(function (x) { return !isNaN(x) && Math.abs(x) !== Infinity; });
+      var vals = num.filter(function (x, i) { return okNum[i]; });
+      if (vals.length < 4) return [vals.length, vals.length, [], { method: method, note: 'fewer than 4 numbers, nothing to compare' }];
+      var lo, hi, detail;
+      if (method === 'zscore') {
+        var t = get(r, 'threshold', 3), mean = pySum(vals) / vals.length;
+        var sd = Math.sqrt(pySum(vals.map(function (x) { return (x - mean) * (x - mean); })) / (vals.length - 1));
+        if (sd > 0) { lo = mean - t * sd; hi = mean + t * sd; } else { lo = mean; hi = mean; }
+        detail = { method: 'zscore', threshold: t, mean: pyRound(mean, 4), sd: pyRound(sd, 4) };
+      } else if (method === 'iqr') {
+        var k = get(r, 'k', 1.5), xs = vals.slice().sort(function (a, b) { return a - b; });
+        var q1 = quantile(xs, 0.25), q3 = quantile(xs, 0.75);
+        lo = q1 - k * (q3 - q1); hi = q3 + k * (q3 - q1);
+        detail = { method: 'iqr', k: k, q1: pyRound(q1, 4), q3: pyRound(q3, 4) };
+      } else throw new Error('outlier method must be iqr or zscore, not ' + pyRepr(method));
+      detail.low = pyRound(lo, 4); detail.high = pyRound(hi, 4);
+      var mask = num.map(function (x, i) { return !okNum[i] || (x >= lo && x <= hi); });
+      return [vals.length, mask.filter(function (m, i) { return m && okNum[i]; }).length, examples(f, mask, [c]), detail];
     },
     range: function (f, r) {
       var c = req(r, 'column');
@@ -1644,11 +1644,16 @@
       var t = has(rec, '@type') && truthy(rec['@type']) ? rec['@type'] : rec.type;
       var ts = Array.isArray(t) ? t.join(' ') : String(truthy(t) ? t : '');
       var ctx = JSON.stringify(has(rec, '@context') ? rec['@context'] : '');
+      if (has(rec, 'tableSchema')) return 'csvw';  // CSVW first: its notes may borrow DCAT terms
       if (ts.indexOf('dcat:Dataset') >= 0 || ctx.indexOf('dcat') >= 0 || Object.keys(rec).some(function (k) { return k.indexOf('dcat:') === 0 || k.indexOf('dct:') === 0; })) return 'dcat';
       if ((/Dataset$/.test(ts) && ctx.indexOf('schema.org') >= 0) || ts === 'Dataset') return 'schema';
+      if (has(rec, 'tableSchema') || (ctx.indexOf('csvw') >= 0 && has(rec, 'url'))) return 'csvw';
+      var res = rec.resources, prof = rec.profile, sch = rec['$schema'];
+      if (Array.isArray(res) && ((typeof prof === 'string' && prof.indexOf('package') >= 0) || (typeof sch === 'string' && sch.indexOf('frictionless') >= 0)
+          || res.some(function (x) { return isObj(x) && has(x, 'path'); }))) return 'frictionless';
       var r = isObj(rec.result) ? rec.result : rec;  // CKAN API responses wrap the package in "result"
       if (['resources', 'notes', 'license_id', 'organization', 'extras', 'maintainer'].some(function (k) { return has(r, k); })) return 'ckan';
-      throw new Error("Couldn't tell the format. Use DCAT or schema.org JSON-LD, a CKAN package, or an ODCS contract.");
+      throw new Error("Couldn't tell the format. Use DCAT or schema.org JSON-LD, a CKAN package, an ODCS contract, CSVW metadata or a Frictionless Data Package.");
     };
 
     var R = {};
@@ -1737,6 +1742,43 @@
       c.version = text(rec.version);
       (rec.servers || []).forEach(function (s) { if (isObj(s))
         c.distributions.push(dist(text(s.server), text(s.location) || text(s.host), text(s.format) || text(s.type), '')); });
+      return c;
+    };
+    // CSV on the Web (W3C) table metadata (weaver.py read_csvw).
+    R.csvw = function (rec) {
+      var r = strip(rec, ['dc:', 'dcterms:', 'dct:', 'schema:', 'dcat:']), c = empty();
+      c.title = text(r.title) || text(r.name); c.description = text(r.description);
+      c.identifier = text(r.identifier) || text(rec['@id']) || text(rec.url);
+      c.publisher = text(r.publisher) || text(r.creator);
+      c.keywords = list(r.keywords); if (!c.keywords.length) c.keywords = list(r.keyword); if (!c.keywords.length) c.keywords = list(r.subject);
+      c.licence = text(r.license) || text(r.rights);
+      c.issued = text(r.issued) || text(r.created) || text(r.datePublished); c.modified = text(r.modified) || text(r.dateModified);
+      c.spatial = text(r.spatial); c.temporal = text(r.temporal);
+      c.conforms_to = has(rec, 'tableSchema') ? 'http://www.w3.org/ns/csvw' : '';
+      c.language = text(rec['@language']) || text(r.language);
+      if (text(rec.url)) c.distributions.push(dist(c.title, text(rec.url), 'CSV', 'text/csv'));
+      return c;
+    };
+    // A Frictionless Data Package (weaver.py read_frictionless).
+    R.frictionless = function (rec) {
+      var c = empty(), people = (rec.contributors || []).filter(isObj);
+      function role() {
+        var rs = Array.prototype.slice.call(arguments);
+        for (var i = 0; i < people.length; i++) if (typeof people[i].role === 'string' && rs.indexOf(people[i].role.toLowerCase()) >= 0) return text(people[i].title);
+        return '';
+      }
+      c.title = text(rec.title) || text(rec.name); c.description = text(rec.description);
+      c.identifier = text(rec.id) || text(rec.name);
+      c.publisher = role('publisher') || role('author') || (people.length ? text(people[0].title) : '');
+      c.contact = role('maintainer', 'contact'); c.keywords = list(rec.keywords);
+      var lic = first(rec.licenses);
+      c.licence = isObj(lic) ? (text(lic.path) || text(lic.name)) : '';
+      c.issued = text(rec.created); c.version = text(rec.version); c.landing_page = text(rec.homepage);
+      var prof = text(rec.profile) || text(rec['$schema']);
+      c.conforms_to = prof.indexOf('http') === 0 ? prof : 'Frictionless Data Package';
+      (rec.resources || []).forEach(function (d) {
+        if (isObj(d)) c.distributions.push(dist(text(d.title) || text(d.name), typeof d.path === 'string' ? d.path : text(d.path), text(d.format), text(d.mediatype)));
+      });
       return c;
     };
     W.read = function (rec, fmt) {
@@ -1853,10 +1895,58 @@
       });
       return out;
     };
+    // Application profiles (weaver.py PROFILES): simplified SHACL-style shapes, issues #11, #12, #13.
+    var PROFILES = [
+      ['dcat-ap-3', 'DCAT-AP 3 (European data portals)', 'dcat', ['dct:title', 'dct:description'],
+        ['dcat:contactPoint', 'dcat:distribution', 'dcat:keyword', 'dct:publisher', 'dct:spatial', 'dct:temporal', 'dcat:theme']],
+      ['geodcat-ap', 'GeoDCAT-AP (geospatial catalogues)', 'geodcat', ['dct:title', 'dct:description', 'dcat:contactPoint', 'dct:publisher', 'dct:spatial'],
+        ['dct:conformsTo', 'dct:temporal', 'dct:license', 'dct:accessRights', 'dcat:distribution', 'dcat:keyword', 'dct:modified']],
+      ['statdcat-ap', 'StatDCAT-AP (statistical catalogues)', 'statdcat', ['dct:title', 'dct:description'],
+        ['dct:accrualPeriodicity', 'dct:temporal', 'dct:spatial', 'dcat:distribution', 'stat:dimension', 'stat:statMeasure', 'dqv:hasQualityAnnotation']],
+      ['uk-cda', 'UK critical data asset properties (GOV.UK data asset management guidance)', 'dcat',
+        ['dct:title', 'dct:description', 'dct:identifier', 'dct:publisher', 'dct:license', 'dct:accessRights', 'dqc:securityClassification',
+          'dct:issued', 'dct:temporal', 'dct:conformsTo', 'dcat:distribution'],
+        ['dqc:expires', 'dct:isReplacedBy', 'dcat:contactPoint', 'dct:accrualPeriodicity', 'dcat:keyword']]
+    ];
+    var DATE_PROPS = ['dct:issued', 'dct:modified', 'dqc:expires'];
+    var ISO_DATE = /^[0-9]{4}(-[0-9]{2}(-[0-9]{2}([T ][0-9]{2}:[0-9]{2}(:[0-9]{2}(\.[0-9]+)?)?(Z|[+-][0-9]{2}:?[0-9]{2})?)?)?)?$/;
+    function present(v) { return v !== undefined && v !== null && v !== '' && !(Array.isArray(v) && !v.length) && !(isObj(v) && !Object.keys(v).length); }
+    W.toGeodcat = function (c) {
+      var out = Wr.dcat(c);
+      out['@context'] = Object.assign({}, CTX, { locn: 'http://www.w3.org/ns/locn#' });
+      if (c.spatial) out['dct:spatial'] = c.spatial.indexOf('http') === 0 ? { '@type': 'dct:Location', '@id': c.spatial }
+        : { '@type': 'dct:Location', 'locn:geographicName': c.spatial };
+      return out;
+    };
+    W.toStatdcat = function (c) {
+      var out = Wr.dcat(c);
+      out['@context'] = Object.assign({}, CTX, { stat: 'http://data.europa.eu/(xyz)/statdcat-ap/', dqv: 'http://www.w3.org/ns/dqv#' });
+      return out;
+    };
+    W.checkProfile = function (out, must, should) {
+      var props = [];
+      [['must', must], ['should', should]].forEach(function (lk) { lk[1].forEach(function (k) {
+        props.push({ property: k, level: lk[0], status: present(out[k]) ? 'pass' : 'missing' }); }); });
+      var dates = DATE_PROPS.filter(function (k) { return typeof out[k] === 'string' && !ISO_DATE.test(out[k]); })
+        .map(function (k) { return { property: k, value: out[k], message: 'Not an ISO 8601 date (for example 2026-04-01)' }; });
+      var musts = props.filter(function (p) { return p.level === 'must'; });
+      var ok = function (p) { return p.status === 'pass'; };
+      return { conforms: musts.every(ok) && !dates.length, must_met: musts.filter(ok).length, must_total: musts.length,
+        should_met: props.filter(function (p) { return p.level === 'should' && ok(p); }).length, should_total: props.length - musts.length,
+        properties: props, date_issues: dates };
+    };
+    W.profiles = function (c) {
+      var outs = { dcat: Wr.dcat(c), geodcat: W.toGeodcat(c), statdcat: W.toStatdcat(c) }, res = {};
+      PROFILES.forEach(function (p) {
+        res[p[0]] = { label: p[1], check: W.checkProfile(outs[p[2]], p[3], p[4]) };
+        if (p[2] !== 'dcat') res[p[0]].output = outs[p[2]];
+      });
+      return res;
+    };
     W.weave = function (rec, fmt) {
       var r = W.read(rec, fmt), c = r[1], outputs = {};
       TARGETS.forEach(function (t) { outputs[t] = Wr[t](c); });
-      return { source_format: r[0], canonical: c, outputs: outputs, coverage: W.coverage(c), cda: W.cdaCheck(c) };
+      return { source_format: r[0], canonical: c, outputs: outputs, coverage: W.coverage(c), cda: W.cdaCheck(c), profiles: W.profiles(c) };
     };
     DQ.weaver = W;
   })();

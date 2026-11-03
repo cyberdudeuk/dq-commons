@@ -13,6 +13,3 @@ body:
     id: detail
     attributes: {label: "Tell us what you need and by when. Please don't include personal or sensitive data."}
     validations: {required: true}
-  - type: input
-    id: contact
-    attributes: {label: "Team inbox for follow-up (optional)"}

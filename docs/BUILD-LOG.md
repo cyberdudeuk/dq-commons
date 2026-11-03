@@ -1,5 +1,21 @@
 # Build journal
 
+## 2026-11-03 — v2.1.0: search, page drawer, plain English summaries, backlog cleared where it can be
+
+**Asked for:** deal with every issue in the backlog; contact by form only, everywhere, never an email address; no decks or films in any repository unless asked; act on every recommendation that needs no intervention, and take over ongoing maintenance; a retractable page drawer with collapsible sections and flags for new or changed content; search across the portal; more contextual icons, visual elements and motion; link to and learn from the GitHub Repos Asset Catalogue.
+
+**Built**
+- Shell: "On this page" drawer (sections from each page's headings, scroll position highlighted, expand or collapse all), collapsible sections, New and Updated flags measured against v2.0.0, a contextual icon on every section heading, search dialog (`/` or Ctrl+K, arrow keys, highlighted matches) over 1,000+ entries, gentle reveal motion for content coming into view (off with reduced motion).
+- "In short" plain English summary on every page (`knowledge/easy-read.yaml`); offline zip of the whole portal; page footers show the last change with a link to its history.
+- Toolkit: `outlier` check (IQR or z-score) in Python and JavaScript; `dqkit/numbers.py` so numbers read the same whatever the pandas version (pandas cap lifted); `dqkit/linkage.py` for record linkage quality and fairness; GSS geography value sets.
+- Weaver: CSVW and Frictionless inputs; GeoDCAT-AP and StatDCAT-AP outputs; profile checks for DCAT-AP, GeoDCAT-AP, StatDCAT-AP and the UK CDA properties.
+- Contact: `0-contact.yml` issue form, pre-filled from the portal; email fields and references removed everywhere; tests enforce it. Decks and films blocked by `.gitignore` and a test.
+- Operations: ATRS record for the AI assistant; moderation guide and daily Triage workflow; Internet Archive snapshots in the link check; freshness checks for events; Repository health workflow and settings baseline; credential, private-link and marking scan with a self-test; Fabric notebook and HTTP service for Power Automate.
+- Prepared and kept open (need people): research kit, accessibility audit brief, translation pack and exporter, co-design time zone planner, Crown Dependency packs, UK metadata model alignment, live tenant trial.
+- Linked the GitHub Repos Asset Catalogue from the README, the GitHub page and the tooling page.
+
+**Checked:** full test suite; two-engine parity (37 of 37 cases, including new outlier, number, CSVW, Frictionless and profile cases); self-check; browser probes of the drawer, search, collapsing, the planner and the Weaver profiles with no script errors.
+
 ## 2026-11-03 — v2.0.0: journey-ordered portal, GitHub introduction, professions, privacy clean-up
 
 **Asked for:** final verification and polish; a GitHub introduction for newcomers, linked to the Commons' background and aims; a more intuitive page order for beginners to experts; connections to personas, the GDaD framework and every profession's framework, the UK nations and international frameworks; a README for three audiences; remove the CDO Council brief and anything else that should be private; check any partly verified sources in full.

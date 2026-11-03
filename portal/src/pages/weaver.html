@@ -39,10 +39,10 @@ pre.out{margin:0;max-height:440px;overflow:auto;background:var(--sunk);border:1p
 <section id="in" aria-labelledby="in-h">
   <h2 id="in-h">1. Your record</h2>
   <div class="ex" role="group" aria-label="Try an example"><span class="small" style="align-self:center">Try an example:</span></div>
-  <div class="field"><label for="rec">Metadata record (JSON or YAML-free JSON)</label><span class="hint" id="recH">For example a data.gov.uk CKAN package, a DCAT JSON-LD record, a schema.org Dataset from a web page, or an ODCS contract.</span>
+  <div class="field"><label for="rec">Metadata record (JSON or YAML-free JSON)</label><span class="hint" id="recH">For example a data.gov.uk CKAN package, a DCAT JSON-LD record, a schema.org Dataset from a web page, an ODCS contract, CSV on the Web (CSVW) metadata or a Frictionless datapackage.json.</span>
     <textarea id="rec" aria-describedby="recH" spellcheck="false"></textarea></div>
   <div class="row">
-    <div class="field" style="max-width:220px"><label for="fmt">Format</label><select id="fmt"><option value="">Work it out</option><option value="dcat">DCAT</option><option value="schema">schema.org</option><option value="ckan">CKAN</option><option value="odcs">ODCS</option></select></div>
+    <div class="field" style="max-width:220px"><label for="fmt">Format</label><select id="fmt"><option value="">Work it out</option><option value="dcat">DCAT</option><option value="schema">schema.org</option><option value="ckan">CKAN</option><option value="odcs">ODCS</option><option value="csvw">CSVW</option><option value="frictionless">Frictionless Data Package</option></select></div>
     <div class="field" style="max-width:260px"><label for="file">Or open a file</label><input type="file" id="file" accept=".json,.jsonld,application/json,application/ld+json"></div>
     <button class="btn" type="button" id="go">Weave</button>
     <span class="msg" id="msg" role="status" aria-live="polite"></span>
@@ -56,6 +56,9 @@ pre.out{margin:0;max-height:440px;overflow:auto;background:var(--sunk);border:1p
   <h3>Critical data asset metadata (13 properties)</h3>
   <div class="bar-h" id="cdaBar"></div>
   <div class="tbl"><table><thead><tr><th scope="col">Property</th><th scope="col">Status</th><th scope="col">Why</th></tr></thead><tbody id="cda"></tbody></table></div>
+  <h3>Application profiles</h3>
+  <p class="small">Does the DCAT output meet each profile? <b>Must</b> properties are required; <b>should</b> properties are recommended. These are simplified shapes that catch the common gaps: check against the official SHACL shapes (from SEMIC for the European profiles) before you publish. The UK profile uses the critical data asset properties from the GOV.UK data asset management guidance, and will follow the cross-government metadata model as it settles.</p>
+  <div class="cov" id="prof"></div>
 </section>
 
 <section id="fields" aria-labelledby="f-h" hidden>
@@ -119,7 +122,8 @@ __ENGINE__
 const B = __BUILD__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS"};
+const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS", geodcat: "GeoDCAT-AP", statdcat: "StatDCAT-AP"};
+const OUT_TABS = [...W.TARGETS, "geodcat", "statdcat"], WRITE = {...W.write, geodcat: W.toGeodcat, statdcat: W.toStatdcat};
 const EXAMPLES = {
   "CKAN (data.gov.uk style)": {result: {id: "example-0001", name: "road-noise", title: "Road noise", notes: "Strategic noise mapping of English road sources from 2022, for planning and health.",
     organization: {title: "Department for Environment, Food and Rural Affairs"}, license_id: "uk-ogl", tags: [{name: "noise"}, {name: "roads"}],
@@ -132,6 +136,12 @@ const EXAMPLES = {
   "schema.org Dataset": {"@context": "https://schema.org/", "@type": "Dataset", name: "Bus stops", description: "Every bus stop in Great Britain, with location and accessibility details.",
     creator: {"@type": "Organization", name: "Department for Transport", contactPoint: {name: "Transport data team"}}, keywords: "transport, buses, accessibility",
     temporalCoverage: "2024/2025", distribution: [{contentUrl: "https://example.org/stops.csv", encodingFormat: "text/csv"}]},
+  "Frictionless Data Package": {profile: "tabular-data-package", name: "school-places", title: "School places", description: "Places and pupils by school in England, published each June.",
+    version: "1.2.0", keywords: ["education", "schools"], created: "2026-06-30", licenses: [{name: "OGL-UK-3.0", path: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"}],
+    contributors: [{title: "School places data team", role: "maintainer"}, {title: "Department for Education", role: "publisher"}],
+    resources: [{name: "places", path: "https://example.org/places.csv", format: "csv", mediatype: "text/csv"}]},
+  "CSVW": {"@context": "http://www.w3.org/ns/csvw", url: "https://example.org/stops.csv", "dc:title": "Bus stops (NaPTAN)", "dc:description": "Every bus stop in the county with its NaPTAN code and location.",
+    "dc:publisher": "County council transport team", "dc:license": "OGL-UK-3.0", tableSchema: {columns: [{name: "atco_code", titles: "ATCO code"}, {name: "name", titles: "Stop name"}]}},
   "ODCS contract": {apiVersion: "v3.1.0", kind: "DataContract", id: "claims-monthly", version: "1.4.0", status: "active", name: "Monthly claims",
     description: {purpose: "Monthly count of new claims by local authority, for planning services.", limitations: "Counts under 5 are suppressed."},
     team: {name: "Claims analysis team"}, slaProperties: [{property: "frequency", value: 1, unit: "month"}],
@@ -178,20 +188,28 @@ function redraw() {
       ${c.not_carried.length ? `<p class="small muted">Not carried by this standard: ${c.not_carried.map(label).map(esc).join(", ")}</p>` : ""}</div>`; }).join("");
   $("cdaBar").innerHTML = `<span>CDA coverage</span><span class="track"><i style="width:${cda.coverage}%"></i></span><b>${cda.coverage}%</b>`;
   $("cda").innerHTML = Object.entries(cda.properties).map(([p, v]) => `<tr><td><code>${esc(p)}</code></td><td><span class="pill st-${v.status}">${esc(v.status)}</span></td><td>${esc(v.why)} <span class="muted">(${esc(label(v.field))})</span></td></tr>`).join("");
+  const P = W.profiles(C);
+  $("prof").innerHTML = Object.entries(P).map(([id, p]) => { const k = p.check, miss = k.properties.filter(x => x.status === "missing");
+    return `<div class="card"><h4 style="margin:0 0 6px;font-size:1rem">${esc(p.label)}</h4>
+      <p class="small"><span class="pill st-${k.conforms ? "pass" : "missing"}">${k.conforms ? "Meets the must properties" : "Gaps to fill"}</span> Must: <b>${k.must_met}/${k.must_total}</b> · Should: <b>${k.should_met}/${k.should_total}</b></p>
+      ${miss.length ? `<p class="small">Missing: ${miss.map(x => `<code>${esc(x.property)}</code>${x.level === "must" ? " (must)" : ""}`).join(", ")}</p>` : ""}
+      ${k.date_issues.map(d => `<p class="small err"><code>${esc(d.property)}</code> "${esc(d.value)}": ${esc(d.message)}</p>`).join("")}</div>`; }).join("");
   drawOut();
 }
 const tabs = $("otabs");
-tabs.innerHTML = W.TARGETS.map((t, i) => `<button role="tab" id="ot-${t}" aria-controls="opanel" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""} data-t="${t}">${esc(NAMES[t])}</button>`).join("");
+tabs.innerHTML = OUT_TABS.map((t, i) => `<button role="tab" id="ot-${t}" aria-controls="opanel" aria-selected="${i === 0}"${i ? ' tabindex="-1"' : ""} data-t="${t}">${esc(NAMES[t])}</button>`).join("");
 const tb = [...tabs.children];
 function sel(b, focus) { tb.forEach(x => { const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; }); cur = b.dataset.t; $("opanel").setAttribute("aria-labelledby", b.id); drawOut(); if (focus) b.focus(); }
 tb.forEach((b, i) => { b.onclick = () => sel(b); b.onkeydown = e => { const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (d) { e.preventDefault(); sel(tb[(i + d + tb.length) % tb.length], true); } }; });
 $("opanel").setAttribute("aria-labelledby", "ot-dcat");
-const outText = () => JSON.stringify(W.write[cur](C), null, 2);
+const outText = () => JSON.stringify(WRITE[cur](C), null, 2);
 function drawOut() {
   if (!C) return;
   $("opanel").innerHTML = `<pre class="out">${esc(outText())}</pre>`;
   $("oNote").textContent = cur === "odcs" ? "A contract skeleton. Add the columns and quality rules from Check your data (Share the rules as a data contract). If the record had no identifier or version, the skeleton uses placeholders: change them." :
-    cur === "dcat" ? "Security classification and expiry use the Commons vocabulary (dqc:), because DCAT has no property for them." : "";
+    cur === "dcat" ? "Security classification and expiry use the Commons vocabulary (dqc:), because DCAT has no property for them." :
+    cur === "geodcat" ? "DCAT with the area as a dct:Location (a link if you gave one, otherwise a place name). Add a dct:conformsTo for the coordinate reference system if the profile check asks for it." :
+    cur === "statdcat" ? "DCAT ready for statistical catalogues. Add the dimensions, measures and quality annotations the profile check lists: they can't be worked out from catalogue metadata." : "";
 }
 $("copy").onclick = async () => { try { await navigator.clipboard.writeText(outText()); $("oMsg").textContent = "Copied."; } catch (e) { $("oMsg").textContent = "Copying isn't allowed here. Select the text instead."; } };
 $("dl").onclick = async () => {

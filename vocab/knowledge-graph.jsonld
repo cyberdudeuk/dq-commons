@@ -820,6 +820,25 @@
    ]
   },
   {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/implausible-value",
+   "@type": [
+    "dqc:IssueType",
+    "skos:Concept"
+   ],
+   "label": "Implausible value",
+   "definition": "A number is allowed but so far from the rest that it needs checking (an outlier).",
+   "owl:sameAs": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/implausible-value"
+    }
+   ],
+   "dqc:inDimension": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
+    }
+   ]
+  },
+  {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/future-date",
    "@type": [
     "dqc:IssueType",
@@ -1649,6 +1668,23 @@
    "dqc:checksDimension": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/representativeness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/outlier",
+   "@type": [
+    "dqc:Check"
+   ],
+   "label": "outlier",
+   "dqc:defaultIssue": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/implausible-value"
+    }
+   ],
+   "dqc:checksDimension": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
     }
    ]
   },

@@ -6,7 +6,8 @@ Usage:
 What it checks, in plain English (each finding is an error, a warning or a note):
  1. Review dates: every knowledge file names an owning role and was reviewed in the last 12 months
     (warning after 9 months, error after 12).
- 2. Freshness: news slides older than 6 months and GOV.UK blog features older than 2 years are flagged.
+ 2. Freshness: news slides older than 6 months, GOV.UK blog features older than 2 years, past events and an
+    events list with nothing upcoming are flagged (the weekly run opens or updates the Content health issue).
  3. Verification: the share of sources read in full ("checked: yes" / "verified: yes") per file.
  4. Personal and sensitive data: email addresses, phone numbers, National Insurance numbers, security
     markings, access tokens and private keys anywhere people read or code ships.
@@ -108,6 +109,14 @@ def check_freshness(r, today):
     for g in m.get("govuk_blogs", []):
         if (today - dt.date.fromisoformat(g["date"])).days > 730:
             r.add("note", "freshness", f"media.yaml govuk_blogs/{g['id']}", f"Feature from {g['date']} is over 2 years old: consider archiving.")
+    ev = _y("events")
+    upcoming = [e for e in ev.get("events", []) if str(e.get("end") or e.get("start", ""))[:10] >= today.isoformat()]
+    for e in ev.get("events", []):
+        end = str(e.get("end") or e.get("start", ""))[:10]
+        if len(end) == 10 and (today - dt.date.fromisoformat(end)).days > 30:
+            r.add("note", "freshness", f"events.yaml events/{e['id']}", f"Event ended on {end}: the page shows it as past; remove it after a year.")
+    if not upcoming:
+        r.add("warning", "freshness", "events.yaml", "No upcoming events listed: add the next ones so the Events page and spotlight stay current.")
 
 
 def verification():

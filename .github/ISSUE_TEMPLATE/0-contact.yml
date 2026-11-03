@@ -1,0 +1,44 @@
+name: Contact the Commons
+description: Questions, feedback, access needs or anything else. This is the only way to contact the team; we never publish an email address.
+title: "[Contact] "
+labels: ["contact"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for getting in touch. What you write here is **public**, so please don't include names, contact details, personal data or anything with a protective marking. We reply here, on this issue, usually within 5 working days.
+
+        - Security problem? Use the [security policy](https://github.com/cyberdudeuk/dq-commons/security/policy) instead, so it stays private.
+        - No GitHub account, or need another format? Ask a colleague who has one to post for you, or describe your access need below and we'll arrange an alternative.
+  - type: dropdown
+    id: topic
+    attributes:
+      label: What is it about?
+      options:
+        - General question
+        - Report a problem with content
+        - Accessibility problem
+        - Suggest a partner or framework
+        - Join co-design
+        - Withdraw my contribution
+        - Media or speaking request
+        - Something else
+    validations: {required: true}
+  - type: textarea
+    id: message
+    attributes:
+      label: Your message
+      description: Tell us what you need. If it's about a page, give its name or address.
+    validations: {required: true}
+  - type: input
+    id: organisation
+    attributes:
+      label: Organisation, sector or jurisdiction (optional)
+      description: Only if it helps us answer. Please don't give your name or contact details; we'll reply here.
+  - type: checkboxes
+    id: public
+    attributes:
+      label: Before you send
+      options:
+        - label: I understand this message is public, and I haven't included personal or sensitive information.
+          required: true

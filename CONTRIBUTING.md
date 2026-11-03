@@ -15,13 +15,15 @@ Please read the [charter](CHARTER.md) and [code of conduct](CODE_OF_CONDUCT.md) 
 | Ask for help | Use the portal's Commission form, or open a "Commission help" issue |
 | Suggest a feature | Add it to the wishlist on Help us build this, or open a "Feature request or wish" issue |
 | Pick up backlog work | Find an issue labelled `backlog` (each is a `[BL-nn]` item from `knowledge/build.yaml`) and comment that you're on it |
-| Contact the team | Use the contact form on Help us build this. We never publish an email address |
+| Contact the team | Use the [contact form](https://github.com/cyberdudeuk/dq-commons/issues/new?template=0-contact.yml) (also on the portal's Help us build this page). It is the only route: we never publish an email address |
 | Add a rule, identifier, value set, framework or pack | Open a "Add a rule, value set or framework pack" issue, or a pull request |
 | Fix or improve code | Open a pull request (see below) |
 
 ## Ground rules
 
 - **No personal data, anywhere:** code, tests, examples, issues or screenshots. Use made-up data.
+- **No email addresses.** The contact form is the only way to reach the team. A test fails the build if an email address appears in anything people read.
+- **No decks or films.** Slide decks and video files are never committed unless the project lead explicitly asks; such exceptions are listed in `.media-allowlist`. Link to them instead.
 - **Cite authoritative sources** for frameworks, standards, identifiers and value sets. Summarise in
   your own words. Don't copy text from paid standards.
 - **Plain English** in everything people read. Follow GOV.UK style.

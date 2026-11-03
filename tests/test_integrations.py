@@ -67,3 +67,26 @@ class Integrations(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HttpApiLogic(unittest.TestCase):
+    """integrations/http-api/function_app.py check(): runs without Azure, and never returns example values (issue #9)."""
+
+    def test_check_strips_examples(self):
+        import importlib.util
+        import sys
+        import types
+        sys.modules.setdefault("azure", types.ModuleType("azure"))
+        fake = types.ModuleType("azure.functions")
+        fake.FunctionApp = lambda **k: types.SimpleNamespace(route=lambda **kw: (lambda f: f))
+        fake.AuthLevel = types.SimpleNamespace(FUNCTION="function")
+        fake.HttpRequest = fake.HttpResponse = object
+        sys.modules["azure.functions"] = fake
+        path = Path(__file__).resolve().parent.parent / "integrations" / "http-api" / "function_app.py"
+        spec = importlib.util.spec_from_file_location("function_app", path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        res = mod.check({"csv": "id,v\n1,10\n2,\n3,12\n", "rules": "asset: {id: t}\nrules:\n  - {id: R1, check: not_null, column: v}\n",
+                         "as_of": "2026-11-03"})
+        self.assertEqual(res["rules_total"], 1)
+        self.assertNotIn("examples", res["results"][0])

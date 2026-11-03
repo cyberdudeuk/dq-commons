@@ -302,7 +302,8 @@ class OperationsAndCaseStudy(unittest.TestCase):
                             "What outcome did you achieve?", "Reusable assets"):
                 self.assertIn(section, md)
             self.assertEqual(len(dr["steps"]), 7)
-            self.assertIn("Name and email: [To complete]", md)
+            self.assertIn("Contact route: the Commons contact form", md)
+            self.assertNotIn("email:", md.lower())
             p = casestudy.to_docx(dr, f"{d}/c.docx")
             self.assertTrue(p.exists())
 
@@ -350,3 +351,50 @@ class RuleLibrary(unittest.TestCase):
         self.assertGreaterEqual(len(files), 5)
         for f in files:
             self.assertTrue(rules.load_rules(f)["rules"], f.name)
+
+
+class OutliersAndNumbers(unittest.TestCase):
+    """Issue #7 (outliers) and #25 (numbers read the same whatever the pandas version)."""
+
+    def test_numbers_rule(self):
+        from dqkit.numbers import to_numeric
+        s = to_numeric(["1", " 2 ", "+3", "-0"])
+        self.assertEqual(str(s.dtype), "int64")
+        f = to_numeric(["0.30000000000000004", ".5", "5.", "1e-19", "inf", "-Infinity", "1_000", "0x10", "", "n/a", None])
+        self.assertEqual(f[0], 0.30000000000000004)
+        self.assertEqual(f[3], 1e-19)
+        self.assertEqual(f[4], float("inf"))
+        self.assertTrue(all(f[i] != f[i] for i in range(6, 11)))  # NaN
+
+    def test_outlier_iqr_and_zscore(self):
+        import pandas as pd
+        from dqkit import rules
+        df = pd.DataFrame({"v": ["10", "11", "12", "11", "10", "12", "11", "500", "", "n/a"]}, dtype=str)
+        checked, passed, ex, d = rules.check_outlier(df, {"column": "v"})
+        self.assertEqual((checked, passed), (8, 7))
+        self.assertEqual(ex[0]["v"], "500")
+        checked, passed, ex, d = rules.check_outlier(df, {"column": "v", "method": "zscore", "threshold": 2})
+        self.assertEqual((checked, passed), (8, 7))
+        self.assertEqual(rules.check_outlier(df.head(3), {"column": "v"})[:2], (3, 3))
+        with self.assertRaises(ValueError):
+            rules.check_outlier(df, {"column": "v", "method": "mad"})
+
+
+class Linkage(unittest.TestCase):
+    """Issue #8: record linkage quality, including fairness across groups."""
+
+    def test_rates_review_and_groups(self):
+        import pandas as pd
+        from dqkit import linkage
+        rec = pd.DataFrame({"id": [str(i) for i in range(40)], "grp": ["A"] * 20 + ["B"] * 15 + ["C"] * 5})
+        pred = pd.DataFrame({"unique_id_l": [str(i) for i in range(0, 30, 2)], "unique_id_r": [str(i) for i in range(1, 31, 2)],
+                             "match_probability": [0.95] * 12 + [0.5] * 3})
+        ids = linkage.from_splink(pred)
+        self.assertEqual(len(ids), 24)
+        self.assertEqual(linkage.match_rate(rec, "id", ids), 60.0)
+        g = linkage.match_rate_by_group(rec, "id", "grp", ids)
+        self.assertEqual(g["by_group"], {"A": 100.0, "B": 26.667})
+        self.assertFalse(g["within_tolerance"])
+        self.assertEqual(g["suppressed_groups"], ["C"])
+        rv = linkage.clerical_review(pd.DataFrame({"match_probability": [0.99, 0.95, 0.4, 0.2], "is_match": [True, False, True, False]}))
+        self.assertEqual((rv["precision"], rv["recall"]), (50.0, 50.0))

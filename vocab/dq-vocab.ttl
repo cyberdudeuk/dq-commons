@@ -194,6 +194,17 @@ ndq:accessibility-clarity a dqv:Dimension, skos:Concept ;
     skos:closeMatch "too small / too large"@en ;
     dct:source "MHCLG planning data specification"@en .
 
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/implausible-value> a skos:Concept ;
+    skos:inScheme ndq:IssueTypes ;
+    skos:prefLabel "Implausible value"@en ;
+    skos:definition "A number is allowed but so far from the rest that it needs checking (an outlier)."@en ;
+    skos:broader ndq:accuracy ;
+    ndq:appliesTo "data"@en ;
+    ndq:defaultImpact 2 ;
+    ndq:responsibility "provider"@en ;
+    skos:closeMatch "typing slip / wrong unit"@en ;
+    dct:source "This project"@en .
+
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/future-date> a skos:Concept ;
     skos:inScheme ndq:IssueTypes ;
     skos:prefLabel "Date in the future"@en ;

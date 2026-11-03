@@ -22,7 +22,7 @@ Roles we design for: data owners, data stewards, analysts and engineers, statist
 |---|---|---|---|
 | 0. Self-service | Portal: user guide, guided tours, tutorials, learning pathway, rule library, frameworks, FAQ | Nobody needed | Instant |
 | 1. Community | Discussion in the Commons community space and the networks listed on the Community page; contributions library | Other members | Best effort |
-| 2. Commons team | Questions, bugs, commissions and access needs through the service desk (Jira project SUP) or a GitHub issue form | Commons team (rota) | Acknowledge in 2 working days; plan in 5 |
+| 2. Commons team | Questions, bugs, commissions and access needs through the contact form or a GitHub issue form (no email address is ever published or needed) | Commons team (rota) | Acknowledge in 2 working days; plan in 5 |
 | 3. Specialist | Anything needing an official decision (policy wording, the official DQMI, statistics regulation, data protection) | The owning government team, with the requester's agreement | As that team sets |
 
 Accessibility requests (for example an alternative format, or a problem with assistive technology) always go to tier 2 and are acknowledged in 1 working day.
@@ -43,7 +43,7 @@ Named people are kept in the team's own records, not in this repository.
 
 ## 4. How work flows
 
-1. **Idea or request.** Anyone raises it: a portal wishlist item, a GitHub issue form (feature, bug, rule or pack, commission, contribution) or a SUP service desk ticket.
+1. **Idea or request.** Anyone raises it: a portal wishlist item, a GitHub issue form (feature, bug, rule or pack, commission, contribution) or a message through the contact form.
 2. **Weekly triage** (30 minutes, open notes). Each item gets one label: `backlog`, `answered`, `community`, `specialist` or `declined` (with the reason).
 3. **Backlog.** The `backlog` label mirrors the issue to Jira automatically (`.github/workflows/backlog-sync.yml`): a story is created under epic XDMH-210 and its key is commented back on the issue. GitHub stays the place for discussion; Jira is the plan.
 4. **Prioritisation** (monthly). Score = user value x reach x inclusion benefit / effort. Items that help people who are often left out of data, or that fix accessibility, go first when scores tie.

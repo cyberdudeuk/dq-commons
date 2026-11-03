@@ -3,3 +3,21 @@ __pycache__/
 dq-results/
 .venv/
 portal/dist/
+
+# Decks and films are never kept in this repository unless the project lead explicitly asks
+# (decision D-REPO-01). Exceptions are listed, one path per line, in .media-allowlist.
+*.ppt
+*.pptx
+*.pps
+*.ppsx
+*.key
+*.odp
+*.mp4
+*.m4v
+*.mov
+*.webm
+*.avi
+*.mkv
+*.wmv
+*.mpg
+*.mpeg

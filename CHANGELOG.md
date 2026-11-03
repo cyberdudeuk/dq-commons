@@ -2,6 +2,22 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.1.0 — 2026-11-03
+### Added
+- Portal search (`/` or Ctrl+K), an "On this page" drawer with collapsible sections and New or Updated flags, a contextual icon on each section heading, and reduced-motion-safe reveal motion.
+- "In short" plain English summary on every page (`knowledge/easy-read.yaml`); offline zip (`downloads/dq-commons-offline.zip`); per-page change history in the footer.
+- Toolkit: `outlier` check; `dqkit/numbers.py`; `dqkit/linkage.py`; value sets `gss_uk_groupings`, `english_regions`, `gss_entity_codes` and library rules G05, G06.
+- Weaver: CSVW and Frictionless Data Package readers; GeoDCAT-AP and StatDCAT-AP writers; profile checks (`profiles` in the weave result).
+- `0-contact.yml` contact form; `docs/transparency/ATRS-AI-ASSISTANT.md`; `docs/MODERATION.md`; `docs/research/RESEARCH-KIT.md`; `docs/accessibility/AUDIT-BRIEF.md`; `docs/translation/README.md` and `scripts/export_strings.py`; `docs/community/CO-DESIGN.md`; `integrations/fabric/` and `integrations/http-api/`.
+- Workflows: Triage (daily), Repository health (weekly); Internet Archive snapshots in the link check; `scripts/check_settings.py`, `scripts/section_baseline.py`.
+### Changed
+- Contact by form only everywhere; no email fields or addresses (tests enforce it). Case study template asks for a contact route.
+- pandas cap lifted to `<4` (numbers no longer depend on pandas).
+- Link check keeps one tracked issue (opened, updated, closed) instead of opening a new one each month.
+### Fixed
+- Accessibility statement: contact route, axe-core testing, offline and plain English options.
+- Search anchors use each heading's own id.
+
 ## 2.0.0 — 2026-11-03
 ### Breaking
 - Removed `dqkit survey`, `docs/GUIDANCE-CROSSWALK.md`, `docs/SURVEY-REVIEW.md`, `docs/outreach/`, the CDO Council brief (`roles.html#brief`) and the guidance page's comparison sections. Links to them no longer work.

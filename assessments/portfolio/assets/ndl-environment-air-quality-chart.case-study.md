@@ -13,7 +13,7 @@ Can GDS share this case study with other public sector organisations? [To comple
 - Department or organisation: Department for Environment, Food and Rural Affairs
 - Function or team: [To complete]
 - Job title: [To complete]
-- Name and email: [To complete]
+- Contact route: the Commons contact form (no names or emails)
 
 ## Case study
 **Title:** Improving the quality of NDL Environment collection: Air quality chart data

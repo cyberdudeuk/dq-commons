@@ -301,6 +301,11 @@ dqc:inScope a owl:ObjectProperty ;
   skos:definition "A number is smaller or larger than its allowed range."@en ;
   owl:sameAs <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/out-of-range> ;
   dqc:inDimension <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/implausible-value> a dqc:IssueType, skos:Concept ;
+  rdfs:label "Implausible value"@en ;
+  skos:definition "A number is allowed but so far from the rest that it needs checking (an outlier)."@en ;
+  owl:sameAs <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#issue/implausible-value> ;
+  dqc:inDimension <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/future-date> a dqc:IssueType, skos:Concept ;
   rdfs:label "Date in the future"@en ;
   skos:definition "A date that cannot be in the future is in the future."@en ;
@@ -515,6 +520,10 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:label "not_unknown"@en ;
   dqc:defaultIssue <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/characteristic-defaulted> ;
   dqc:checksDimension <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/representativeness> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/outlier> a dqc:Check ;
+  rdfs:label "outlier"@en ;
+  dqc:defaultIssue <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/implausible-value> ;
+  dqc:checksDimension <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy> .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/range> a dqc:Check ;
   rdfs:label "range"@en ;
   dqc:defaultIssue <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/IssueType/out-of-range> ;

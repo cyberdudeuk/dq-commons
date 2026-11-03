@@ -1,0 +1,24 @@
+{
+  "_about": "The repository settings the Commons expects, with the reason for each (pattern from the GitHub Repos Asset Catalogue). The weekly Repository health workflow compares GitHub with this file and keeps one issue up to date with any drift. It never changes a setting: only an owner does, in Settings.",
+  "repo": {
+    "visibility": ["public", "The Commons is a public good, built in the open"],
+    "has_issues": [true, "Contact form, backlog and corrections arrive as issues"],
+    "has_discussions": [true, "Questions and ideas that are not yet work items"],
+    "has_wiki": [false, "Documentation lives in docs/ and is reviewed through pull requests, so a wiki would drift"],
+    "delete_branch_on_merge": [true, "Keeps the branch list short"],
+    "web_commit_signoff_required": [true, "Every web edit carries the author's sign-off"],
+    "homepage": ["https://cyberdudeuk.github.io/dq-commons/", "The repository links to the portal"]
+  },
+  "security": {
+    "secret_scanning": ["enabled", "Free on public repositories; catches leaked credentials"],
+    "secret_scanning_push_protection": ["enabled", "Blocks a push that contains a credential"],
+    "dependabot_security_updates": ["enabled", "Fixes for known vulnerabilities arrive as pull requests"],
+    "private_vulnerability_reporting": [true, "SECURITY.md promises a private way to report security problems"]
+  },
+  "rulesets": {
+    "main_protected": [true, "Protect the main branch: require a pull request and the CI check, and block force pushes and deletion"]
+  },
+  "labels": {
+    "required": [["contact", "contribution", "backlog", "content-health", "links", "needs-reply", "overdue", "maintenance", "repo-health"], "Forms and workflows apply these labels; GitHub skips a label that doesn't exist"]
+  }
+}

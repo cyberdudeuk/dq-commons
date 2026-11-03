@@ -1,0 +1,2 @@
+azure-functions>=1.18
+git+https://github.com/cyberdudeuk/dq-commons@main

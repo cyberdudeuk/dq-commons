@@ -31,7 +31,7 @@ __BASE_CSS__
   <div class="tiers">
     <div class="tier"><span class="n">0</span><h3>Help yourself</h3><p>The <a href="guide.html">user guide</a>, guided tours, <a href="learn.html">tutorials</a>, rule library, <a href="frameworks.html">frameworks</a> and FAQ.</p><p class="sla">Instant</p></div>
     <div class="tier"><span class="n">1</span><h3>Ask the community</h3><p>The <a href="community.html#networks">networks</a> and the <a href="community.html">contributions library</a>. Other members answer.</p><p class="sla">Best effort</p></div>
-    <div class="tier"><span class="n">2</span><h3>Ask the Commons team</h3><p>Questions, bugs and <a href="surveys.html#commission">commissions</a>, through the service desk (Jira project <span id="sup"></span>) or the <a href="#systems">GitHub forms</a>.</p><p class="sla">Acknowledge in 2 working days; plan in 5. Accessibility: 1 working day.</p></div>
+    <div class="tier"><span class="n">2</span><h3>Ask the Commons team</h3><p>Questions, bugs and <a href="surveys.html#commission">commissions</a>, through the <a href="build.html#contact">contact form</a> or the <a href="#systems">GitHub forms</a>. We never publish an email address.</p><p class="sla">Acknowledge in 2 working days; plan in 5. Accessibility: 1 working day.</p></div>
     <div class="tier"><span class="n">3</span><h3>Specialist teams</h3><p>Anything needing an official decision, for example policy wording, the official DQMI, statistics regulation or data protection, goes to the owning team with your agreement.</p><p class="sla">As that team sets</p></div>
   </div>
 </section>
@@ -53,7 +53,7 @@ __BASE_CSS__
 <section id="flow" aria-labelledby="f-h">
   <h2 id="f-h">From request to release</h2>
   <ol class="flow">
-    <li><b>Request</b>Anyone raises it: wishlist, a GitHub form, a commission or the service desk.</li>
+    <li><b>Request</b>Anyone raises it: wishlist, a GitHub form, a commission or the contact form.</li>
     <li><b>Weekly triage</b>30 minutes, open notes. Each item is labelled backlog, answered, community, specialist or declined (with the reason).</li>
     <li><b>Backlog</b>The backlog label creates a Jira story under the Commons epic automatically, and comments its key back on GitHub.</li>
     <li><b>Prioritise</b>Monthly: user value × reach × inclusion benefit ÷ effort. Ties go to accessibility and inclusion.</li>
@@ -94,13 +94,12 @@ __BASE_CSS__
 const I = __K_INTEGRATIONS__, B = __BUILD__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("sup").textContent = I.jira.support_desk;
 const forms = [["1-feature-request.yml", "Feature or wishlist item"], ["2-bug.yml", "Something isn't working"], ["3-rule-or-pack.yml", "Rule, identifier, value set or pack"], ["4-commission.yml", "Ask for help (commission)"], ["5-contribution.yml", "Contribute to the library"]];
 $("sys").innerHTML = `
   <div class="card"><h3>GitHub</h3><p class="small">Code, rules, packs, knowledge base, issues and pull requests. The pipeline and portal build run here.</p>
     <p class="small">Repository: <code>${esc(I.github.repository)}</code> (proposed; not published yet)</p>
     <ul class="plain small">${forms.map(([f, l]) => `<li><a href="${esc(B.repo)}/issues/new?template=${f}">${esc(l)}</a></li>`).join("")}</ul></div>
-  <div class="card"><h3>Jira</h3><p class="small">The plan. Issues labelled <code>${esc(I.github.backlog_label)}</code> become stories in project <code>${esc(I.jira.project)}</code> under epic <code>${esc(I.jira.epic)}</code>. Support requests go to the service desk <code>${esc(I.jira.support_desk)}</code>.</p></div>
+  <div class="card"><h3>Jira</h3><p class="small">The plan. Issues labelled <code>${esc(I.github.backlog_label)}</code> become stories in project <code>${esc(I.jira.project)}</code> under epic <code>${esc(I.jira.epic)}</code>. Support requests come in through the contact form, which opens a GitHub contact issue.</p></div>
   <div class="card"><h3>Confluence</h3><p class="small">How support is given, for staff and partners. On every release these docs are published to space <code>${esc(I.confluence.space)}</code>:</p>
     <ul class="plain small">${Object.values(I.confluence.pages).map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>`;
 window.DQP_TOUR = [

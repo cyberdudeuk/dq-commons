@@ -1,13 +1,16 @@
 """Metadata Weaver: read one metadata record, write it in every catalogue standard, and show the gaps.
 
 In plain English:
-- You give it a record in one of four shapes: W3C DCAT (JSON-LD), schema.org Dataset (JSON-LD), a CKAN
-  package (as data.gov.uk and many portals return it) or an ODCS data contract.
+- You give it a record in one of six shapes: W3C DCAT (JSON-LD), schema.org Dataset (JSON-LD), a CKAN
+  package (as data.gov.uk and many portals return it), an ODCS data contract, CSV on the Web (CSVW)
+  metadata or a Frictionless Data Package.
 - It reads the record into one neutral set of fields (the "canonical" record). Each field is tied to a
   concept in the Metadata Rosetta (knowledge/rosetta.yaml), so the mapping is explained, not hidden.
 - It writes the record back out as DCAT v3, schema.org, CKAN and an ODCS contract skeleton.
 - It reports, for every output, which fields were filled and which are missing, and checks the 13
   critical data asset (CDA) metadata properties from the GOV.UK data asset management guidance.
+- It checks the DCAT output against simplified shapes for DCAT-AP, GeoDCAT-AP, StatDCAT-AP and the UK CDA
+  properties, and writes GeoDCAT-AP and StatDCAT-AP versions.
 
 Nothing is invented: a field that isn't in the input stays empty and is reported as a gap. Fields with no
 home in a target standard are listed as "not carried", never dropped silently. The browser engine
@@ -127,7 +130,7 @@ def empty():
 # ---------- detect and read ----------
 
 def detect(rec: dict) -> str:
-    """Which shape the record is in: dcat, schema, ckan or odcs."""
+    """Which shape the record is in: dcat, schema, ckan, odcs, csvw or frictionless."""
     if not isinstance(rec, dict):
         raise ValueError("A metadata record must be a JSON object.")
     if rec.get("kind") == "DataContract" or "apiVersion" in rec:
@@ -135,14 +138,24 @@ def detect(rec: dict) -> str:
     t = rec.get("@type") or rec.get("type")
     ts = " ".join(t) if isinstance(t, list) else str(t or "")
     ctx = json.dumps(rec.get("@context", ""))
+    if "tableSchema" in rec:  # CSVW first: its notes may borrow DCAT terms
+        return "csvw"
     if "dcat:Dataset" in ts or "dcat" in ctx or any(k.startswith(("dcat:", "dct:")) for k in rec):
         return "dcat"
     if ts.endswith("Dataset") and "schema.org" in ctx or ts == "Dataset":
         return "schema"
+    if "tableSchema" in rec or ("csvw" in ctx and "url" in rec):
+        return "csvw"
+    res = rec.get("resources")
+    prof, schema = rec.get("profile"), rec.get("$schema")
+    if isinstance(res, list) and ((isinstance(prof, str) and "package" in prof) or (isinstance(schema, str) and "frictionless" in schema)
+                                  or any(isinstance(x, dict) and "path" in x for x in res)):
+        return "frictionless"
     r = rec["result"] if isinstance(rec.get("result"), dict) else rec  # CKAN API responses wrap the package in "result"
     if any(k in r for k in ("resources", "notes", "license_id", "organization", "extras", "maintainer")):
         return "ckan"
-    raise ValueError("Couldn't tell the format. Use DCAT or schema.org JSON-LD, a CKAN package, or an ODCS contract.")
+    raise ValueError("Couldn't tell the format. Use DCAT or schema.org JSON-LD, a CKAN package, an ODCS contract, "
+                     "CSVW metadata or a Frictionless Data Package.")
 
 
 def read_dcat(rec: dict) -> dict:
@@ -271,7 +284,54 @@ def read_odcs(rec: dict) -> dict:
     return c
 
 
-READERS = {"dcat": read_dcat, "schema": read_schema, "ckan": read_ckan, "odcs": read_odcs}
+def read_csvw(rec: dict) -> dict:
+    """CSV on the Web (W3C) table metadata: Dublin Core or schema.org notes on one CSV file."""
+    r, c = _strip(rec, "dc:", "dcterms:", "dct:", "schema:", "dcat:"), empty()
+    c["title"] = _text(r.get("title")) or _text(r.get("name"))
+    c["description"] = _text(r.get("description"))
+    c["identifier"] = _text(r.get("identifier")) or _text(rec.get("@id")) or _text(rec.get("url"))
+    c["publisher"] = _text(r.get("publisher")) or _text(r.get("creator"))
+    c["keywords"] = _list(r.get("keywords")) or _list(r.get("keyword")) or _list(r.get("subject"))
+    c["licence"] = _text(r.get("license")) or _text(r.get("rights"))
+    c["issued"] = _text(r.get("issued")) or _text(r.get("created")) or _text(r.get("datePublished"))
+    c["modified"] = _text(r.get("modified")) or _text(r.get("dateModified"))
+    c["spatial"] = _text(r.get("spatial"))
+    c["temporal"] = _text(r.get("temporal"))
+    c["conforms_to"] = "http://www.w3.org/ns/csvw" if "tableSchema" in rec else ""
+    c["language"] = _text(rec.get("@language")) or _text(r.get("language"))
+    if _text(rec.get("url")):
+        c["distributions"].append(_dist(c["title"], _text(rec.get("url")), "CSV", "text/csv"))
+    return c
+
+
+def read_frictionless(rec: dict) -> dict:
+    """A Frictionless Data Package (datapackage.json)."""
+    c = empty()
+    people = [p for p in rec.get("contributors") or [] if isinstance(p, dict)]
+    role = lambda *rs: next((_text(p.get("title")) for p in people if isinstance(p.get("role"), str) and p["role"].lower() in rs), "")
+    c["title"] = _text(rec.get("title")) or _text(rec.get("name"))
+    c["description"] = _text(rec.get("description"))
+    c["identifier"] = _text(rec.get("id")) or _text(rec.get("name"))
+    c["publisher"] = role("publisher") or role("author") or (_text(people[0].get("title")) if people else "")
+    c["contact"] = role("maintainer", "contact")
+    c["keywords"] = _list(rec.get("keywords"))
+    lic = _first(rec.get("licenses"))
+    c["licence"] = (_text(lic.get("path")) or _text(lic.get("name"))) if isinstance(lic, dict) else ""
+    c["issued"] = _text(rec.get("created"))
+    c["version"] = _text(rec.get("version"))
+    c["landing_page"] = _text(rec.get("homepage"))
+    prof = _text(rec.get("profile")) or _text(rec.get("$schema"))
+    c["conforms_to"] = prof if prof.startswith("http") else "Frictionless Data Package"
+    for d in rec.get("resources") or []:
+        if isinstance(d, dict):
+            path = d.get("path")
+            c["distributions"].append(_dist(_text(d.get("title")) or _text(d.get("name")), path if isinstance(path, str) else _text(path),
+                                            _text(d.get("format")), _text(d.get("mediatype"))))
+    return c
+
+
+READERS = {"dcat": read_dcat, "schema": read_schema, "ckan": read_ckan, "odcs": read_odcs, "csvw": read_csvw,
+           "frictionless": read_frictionless}
 
 
 def read(rec: dict, fmt: str | None = None) -> tuple[str, dict]:
@@ -400,6 +460,68 @@ def to_odcs(c: dict) -> dict:
     return out
 
 
+# ---------- application profiles (issues #11, #12, #13) ----------
+# Simplified shapes: which DCAT properties each profile says a dataset must or should have. They catch
+# the common gaps in the browser and in CI; check against the official SHACL shapes before you publish.
+PROFILES = [
+    ("dcat-ap-3", "DCAT-AP 3 (European data portals)", "dcat",
+     ["dct:title", "dct:description"],
+     ["dcat:contactPoint", "dcat:distribution", "dcat:keyword", "dct:publisher", "dct:spatial", "dct:temporal", "dcat:theme"]),
+    ("geodcat-ap", "GeoDCAT-AP (geospatial catalogues)", "geodcat",
+     ["dct:title", "dct:description", "dcat:contactPoint", "dct:publisher", "dct:spatial"],
+     ["dct:conformsTo", "dct:temporal", "dct:license", "dct:accessRights", "dcat:distribution", "dcat:keyword", "dct:modified"]),
+    ("statdcat-ap", "StatDCAT-AP (statistical catalogues)", "statdcat",
+     ["dct:title", "dct:description"],
+     ["dct:accrualPeriodicity", "dct:temporal", "dct:spatial", "dcat:distribution", "stat:dimension", "stat:statMeasure",
+      "dqv:hasQualityAnnotation"]),
+    ("uk-cda", "UK critical data asset properties (GOV.UK data asset management guidance)", "dcat",
+     ["dct:title", "dct:description", "dct:identifier", "dct:publisher", "dct:license", "dct:accessRights",
+      "dqc:securityClassification", "dct:issued", "dct:temporal", "dct:conformsTo", "dcat:distribution"],
+     ["dqc:expires", "dct:isReplacedBy", "dcat:contactPoint", "dct:accrualPeriodicity", "dcat:keyword"]),
+]
+DATE_PROPS = ("dct:issued", "dct:modified", "dqc:expires")
+ISO_DATE = __import__("re").compile(r"[0-9]{4}(-[0-9]{2}(-[0-9]{2}([T ][0-9]{2}:[0-9]{2}(:[0-9]{2}(\.[0-9]+)?)?(Z|[+-][0-9]{2}:?[0-9]{2})?)?)?)?")
+
+
+def to_geodcat(c: dict) -> dict:
+    out = to_dcat(c)
+    out["@context"] = {**DCAT_CONTEXT, "locn": "http://www.w3.org/ns/locn#"}
+    if c["spatial"]:
+        sp = c["spatial"]
+        out["dct:spatial"] = ({"@type": "dct:Location", "@id": sp} if sp.startswith("http")
+                              else {"@type": "dct:Location", "locn:geographicName": sp})
+    return out
+
+
+def to_statdcat(c: dict) -> dict:
+    out = to_dcat(c)
+    out["@context"] = {**DCAT_CONTEXT, "stat": "http://data.europa.eu/(xyz)/statdcat-ap/", "dqv": "http://www.w3.org/ns/dqv#"}
+    return out
+
+
+def check_profile(out: dict, must: list, should: list) -> dict:
+    """SHACL-style result: each property passes or is missing; dates must be ISO 8601."""
+    props = [{"property": k, "level": lvl, "status": "pass" if out.get(k) not in (None, "", [], {}) else "missing"}
+             for lvl, ks in (("must", must), ("should", should)) for k in ks]
+    dates = [{"property": k, "value": out[k], "message": "Not an ISO 8601 date (for example 2026-04-01)"}
+             for k in DATE_PROPS if isinstance(out.get(k), str) and not ISO_DATE.fullmatch(out[k])]
+    musts = [p for p in props if p["level"] == "must"]
+    return {"conforms": all(p["status"] == "pass" for p in musts) and not dates,
+            "must_met": sum(p["status"] == "pass" for p in musts), "must_total": len(musts),
+            "should_met": sum(p["status"] == "pass" for p in props if p["level"] == "should"),
+            "should_total": len(props) - len(musts), "properties": props, "date_issues": dates}
+
+
+def profiles(c: dict) -> dict:
+    outs = {"dcat": to_dcat(c), "geodcat": to_geodcat(c), "statdcat": to_statdcat(c)}
+    res = {}
+    for pid, label, base, must, should in PROFILES:
+        res[pid] = {"label": label, "check": check_profile(outs[base], must, should)}
+        if base != "dcat":
+            res[pid]["output"] = outs[base]
+    return res
+
+
 WRITERS = {"dcat": to_dcat, "schema": to_schema, "ckan": to_ckan, "odcs": to_odcs}
 
 
@@ -446,7 +568,7 @@ def weave(rec: dict, fmt: str | None = None) -> dict:
     """Read a record and write every format. Returns source format, canonical record, outputs and gaps."""
     src, c = read(rec, fmt)
     return {"source_format": src, "canonical": c, "outputs": {t: WRITERS[t](c) for t in TARGETS},
-            "coverage": coverage(c), "cda": cda_check(c)}
+            "coverage": coverage(c), "cda": cda_check(c), "profiles": profiles(c)}
 
 
 def fields() -> list:

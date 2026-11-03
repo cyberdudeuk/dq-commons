@@ -1,4 +1,5 @@
-# Monthly: check every external link in the knowledge base and portal; open an issue if any are broken.
+# Monthly: check every external link in the knowledge base and portal, ask the Internet Archive to save a
+# rotating slice of them (issue #20), and keep one "Broken links" issue up to date (opened, updated or closed).
 name: Link check
 on:
   schedule: [{cron: "17 6 1 * *"}]
@@ -14,11 +15,20 @@ jobs:
       - uses: actions/setup-python@v7
         with: {python-version: "3.12"}
       - id: check
-        run: python scripts/check_links.py --out link-report.md
+        run: python scripts/check_links.py --out link-report.md --archive 40
         continue-on-error: true
-      - if: steps.check.outcome == 'failure'
+      - if: always()
         uses: actions/github-script@v8
         with:
           script: |
-            const body = require('fs').readFileSync('link-report.md', 'utf8');
-            await github.rest.issues.create({ ...context.repo, title: 'Broken links found by the monthly check', body, labels: ['content'] });
+            const fs = require('fs');
+            const body = fs.existsSync('link-report.md') ? fs.readFileSync('link-report.md', 'utf8') : '';
+            const broken = '${{ steps.check.outcome }}' === 'failure';
+            const title = 'Broken links found by the monthly check';
+            const open = (await github.rest.issues.listForRepo({...context.repo, state: 'open', labels: 'links'})).data;
+            if (broken && open.length) await github.rest.issues.update({...context.repo, issue_number: open[0].number, body});
+            else if (broken) await github.rest.issues.create({...context.repo, title, body, labels: ['content', 'links']});
+            else for (const i of open) {
+              await github.rest.issues.createComment({...context.repo, issue_number: i.number, body: 'Every link works on this run. Closing.'});
+              await github.rest.issues.update({...context.repo, issue_number: i.number, state: 'closed'});
+            }

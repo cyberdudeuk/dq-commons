@@ -37,16 +37,26 @@ __BASE_CSS__
   <p>We think the Commons is <b>partially compliant</b> with the Web Content Accessibility Guidelines version 2.2 AA standard, because it hasn't yet been independently audited. Things we know about:</p>
   <ul>
     <li>There is no independent audit yet. One is planned (backlog item XDMH-213).</li>
-    <li>The Commons is in English only. A Welsh version is planned (XDMH-216). There is no Easy Read or British Sign Language version yet.</li>
+    <li>The Commons is in English only. A Welsh version is planned (XDMH-216): the translation pack is ready, and translation needs a qualified translator. Every page has a plain English summary under "In short", but there is no full Easy Read (with pictures, tested with readers) or British Sign Language version yet.</li>
     <li>Some older pages (the National Data Library assessment, tooling research and baseline model) have dense tables that are hard to use on small screens.</li>
     <li>Links to other organisations' websites, videos and podcasts go to content we don't control. We ask for captions or transcripts before we list a video or podcast.</li>
-    <li>Contributing, voting and answering surveys need a claude.ai sign-in, or a GitHub account for the alternative forms. We know both are barriers for some people; you can also ask for help through the service desk.</li>
+    <li>Contributing, voting and answering surveys need a claude.ai sign-in, or a GitHub account for the alternative forms. We know both are barriers for some people; you can also ask a colleague to send the contact form for you, or tell us your access needs in it.</li>
   </ul>
 </section>
 
 <section id="feedback" aria-labelledby="f-h">
   <h2 id="f-h">Tell us about a problem, or ask for another format</h2>
-  <p>If something doesn't work for you, or you need information in a different format, use <a href="surveys.html#commission">Ask the Commons for help</a> (choose "Something else") or the service desk described on the <a href="operate.html#tiers">operating model page</a>. We aim to reply within 1 working day for accessibility problems.</p>
+  <p>If something doesn't work for you, or you need information in a different format, use the <a href="build.html#contact">contact form</a> (choose "Accessibility problem") or <a href="surveys.html#commission">Ask the Commons for help</a>. We never publish an email address. We aim to reply within 1 working day for accessibility problems.</p>
+</section>
+
+<section id="offline" aria-labelledby="off-h">
+  <h2 id="off-h">Offline, low bandwidth and simpler versions</h2>
+  <ul>
+    <li><b>Offline copy.</b> <a href="downloads/dq-commons-offline.zip">Download the whole portal as one zip file</a>. Unzip it and open <code>index.html</code>. Every page, the data checker and search work without a connection, because nothing loads from other websites.</li>
+    <li><b>Low bandwidth.</b> Pages use no web fonts, trackers or outside scripts. Search loads its index only when you first open it.</li>
+    <li><b>Plain English.</b> Every page starts with "In short", a few short sentences about what the page is for.</li>
+    <li><b>Printing.</b> Pages print without menus, and sections you have collapsed are printed in full.</li>
+  </ul>
 </section>
 
 <section id="enforcement" aria-labelledby="e-h">
@@ -57,6 +67,7 @@ __BASE_CSS__
 <section id="testing" aria-labelledby="t-h">
   <h2 id="t-h">How we tested</h2>
   <p>Every page is checked automatically on each build in a real browser, at desktop width in light mode and phone width in dark mode, for: script errors, sideways scrolling, controls without labels, buttons and links without names, duplicate ids, skipped heading levels, text contrast (4.5:1, or 3:1 for large text) and hidden panels that show by mistake. Guided tours are tested for keyboard focus and closing with Escape. The front page carousel is tested with and without reduced motion.</p>
+  <p>Every change is also checked with axe-core, an independent open source accessibility engine, in continuous integration.</p>
   <p>Automated checks find only some problems. Testing with people who use assistive technology is part of the user research plan (XDMH-212).</p>
   <p>This statement was prepared on 15 October 2026.</p>
 </section>

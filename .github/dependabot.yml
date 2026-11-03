@@ -18,11 +18,6 @@ updates:
     groups:
       python-libraries:
         patterns: ["*"]
-    ignore:
-      # pandas 3.1 changed how numbers are parsed; the in-browser engine must be
-      # re-aligned first. See DECISIONS.md D-CI-01. Remove this once that is done.
-      - dependency-name: pandas
-        versions: [">=3.1"]
 
   - package-ecosystem: github-actions
     directory: "/"

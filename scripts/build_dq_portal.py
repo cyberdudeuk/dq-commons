@@ -299,6 +299,102 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
     (SRC / "logo.svg").read_text(encoding="utf-8").replace("\n", "").strip(), safe=":/=,#()'"))
 
 
+# ---------- section change flags and portal search ----------
+# Knowledge files that feed the search index, and the page each one is shown on.
+SEARCH_SOURCES = {"frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+                  "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
+                  "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
+                  "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles"}
+NAME_KEYS = ("name", "title", "term", "label", "question")
+DESC_KEYS = ("summary", "description", "definition", "what", "why", "answer", "desc", "purpose", "note")
+SECTION_FLAGS: dict = {}
+BASELINE = ROOT / "portal" / "section-baseline.json"
+
+
+def _plain(fragment: str) -> str:
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", fragment))).strip()
+
+
+def section_slug(text: str) -> str:
+    """Must match slug() in shell.html: the page drawer looks flags up by this key."""
+    s = re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:60]
+    return "s-" + (s or "section")
+
+
+def page_sections(src: str) -> dict:
+    """Each static <h2> on a page source and a fingerprint of everything up to the next <h2>."""
+    import hashlib
+    src = re.sub(r"<script\b.*?</script>|<style\b.*?</style>", "", src, flags=re.S)
+    parts = re.split(r"(<h2\b[^>]*>.*?</h2>)", src, flags=re.S)
+    out = {}
+    for i in range(1, len(parts), 2):
+        head = _plain(parts[i])
+        if head:
+            body = _plain(parts[i + 1] if i + 1 < len(parts) else "")
+            out[section_slug(head)] = hashlib.sha1(body.encode()).hexdigest()[:12]
+    return out
+
+
+def section_flags() -> dict:
+    """Per page: sections new or changed since the baseline release (portal/section-baseline.json).
+    Regenerate the baseline at each release with scripts/section_baseline.py."""
+    base = json.loads(BASELINE.read_text(encoding="utf-8")) if BASELINE.exists() else {"since": None, "pages": {}}
+    flags_by_page = {}
+    for stem, _, _ in PAGES:
+        old = base["pages"].get(stem)
+        now = page_sections((SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"))
+        f = {"_since": base.get("since")}
+        if old is not None:
+            for k, h in now.items():
+                if k not in old:
+                    f[k] = "new"
+                elif old[k] != h:
+                    f[k] = "upd"
+        flags_by_page[stem] = f
+    return flags_by_page
+
+
+def search_index() -> list:
+    """Everything worth finding: pages, their headings, and named items from the knowledge base."""
+    idx, seen = [], set()
+    def add(title, kind, url, text="", page=""):
+        title = _plain(str(title))[:140]
+        key = (title.lower(), url)
+        if title and key not in seen:
+            seen.add(key)
+            idx.append({"t": title, "k": kind, "u": url, "p": page, "x": _plain(str(text)).lower()[:400]})
+    labels = {stem: label for stem, label, _ in PAGES}
+    for stem, label, desc in PAGES:
+        add(label, "Page", f"{stem}.html", desc + " " + GROUP_TITLE[GROUP_OF[stem]], GROUP_TITLE[GROUP_OF[stem]])
+    for stem, label, _ in PAGES:
+        src = re.sub(r"<script\b.*?</script>|<style\b.*?</style>", "", (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"), flags=re.S)
+        for m in re.finditer(r"<h([23])\b([^>]*)>(.*?)</h\1>(.{0,600})", src, flags=re.S):
+            head = _plain(m.group(3))
+            if head:
+                hid = re.search(r'\bid="([^"]+)"', m.group(2))
+                anchor = hid.group(1) if hid else (section_slug(head) if m.group(1) == "2" else "")
+                add(head, "Section", f"{stem}.html" + (f"#{anchor}" if anchor else ""), m.group(4), labels[stem])
+    def walk(node, page, depth=0):
+        if depth > 5:
+            return
+        if isinstance(node, dict):
+            name = next((node[k] for k in NAME_KEYS if isinstance(node.get(k), str)), None)
+            if name:
+                desc = " ".join(str(node[k]) for k in DESC_KEYS if isinstance(node.get(k), str))
+                add(name, labels[page], f"{page}.html", desc + " " + str(node.get("id", "")))
+            for v in node.values():
+                if isinstance(v, (dict, list)):
+                    walk(v, page, depth + 1)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v, page, depth + 1)
+    for f, page in SEARCH_SOURCES.items():
+        path = ROOT / "knowledge" / f"{f}.yaml"
+        if path.exists() and page in labels:
+            walk(yaml.safe_load(path.read_text(encoding="utf-8")), page)
+    return idx
+
+
 # ---------- page assembly ----------
 
 def nav(active: str, long: bool) -> str:
@@ -320,6 +416,20 @@ def nav(active: str, long: bool) -> str:
     return "".join(out)
 
 
+EASY = yaml.safe_load((ROOT / "knowledge" / "easy-read.yaml").read_text(encoding="utf-8"))["pages"]
+
+
+def add_easy_read(stem: str, fragment: str) -> str:
+    """'In short': a plain English summary under the page title and introduction (issue #22)."""
+    lines = EASY.get(stem)
+    m = re.search(r"</h1>\s*(<p\b[^>]*>.*?</p>)?", fragment, flags=re.S)
+    if not lines or not m:
+        return fragment
+    box = ('\n<details class="dqp-easy"><summary>' + icon("book") + 'In short: a plain English summary</summary><ul>'
+           + "".join(f"<li>{html.escape(x)}</li>" for x in lines) + "</ul></details>\n")
+    return fragment[:m.end()] + box + fragment[m.end():]
+
+
 def split_fragment(text: str) -> tuple[str, str]:
     """Split a page fragment into head part (title, links, styles) and body part."""
     m = re.search(r"\n<(div|header|main|section)\b", text)
@@ -334,7 +444,8 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     shell = (shell.replace("{{NAV}}", nav(stem, False)).replace("{{NAV_LONG}}", nav(stem, True))
              .replace("{{BUILD}}", build_label).replace("{{BRAND}}", BRAND).replace("{{GROUP}}", GROUP_OF.get(stem, ""))
              .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip())
-             .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5])))
+             .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5]))
+             .replace("{{SECTION_FLAGS}}", js_json(SECTION_FLAGS.get(stem, {}))))
     # every page's eyebrow gets that page's icon
     fragment = re.sub(r'<span class="eyebrow">[^<·]*·', lambda m: f'<span class="eyebrow">{GROUP_TITLE.get(GROUP_OF.get(stem, ""), "Commons")} ·', fragment, count=1)
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
@@ -343,6 +454,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     fragment = re.sub(r'<div class="tbl"(?![^>]*tabindex)',
                       '<div class="tbl" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"',
                       fragment)
+    fragment = add_easy_read(stem, fragment)
     head, body = split_fragment(fragment)
     head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)
@@ -381,6 +493,21 @@ def provenance(names: set) -> str:
             f'anything older than 12 months fails the build.</p>')
 
 
+def page_history(stem: str, repo: str) -> str:
+    """Who changed what, when (issue #21): the page's last change, and a link to every change on GitHub."""
+    rel = f"portal/src/pages/{stem}.html"
+    try:
+        when = subprocess.run(["git", "log", "-1", "--format=%cs", "--", rel], cwd=ROOT, capture_output=True, text=True, timeout=20).stdout.strip()
+    except Exception:  # noqa: BLE001 - no git (a copied folder): leave the line out
+        when = ""
+    if not when:
+        return ""
+    r = html.escape(repo.rstrip("/"))
+    return (f'<p class="dqp-prov">{icon("history")} <b>Page last changed:</b> {html.escape(when)}. '
+            f'<a href="{r}/commits/main/{rel}">Every change to this page</a> (what changed, when and why, on GitHub); '
+            f'the knowledge it shows has its own history under <a href="{r}/commits/main/knowledge">knowledge</a>.</p>')
+
+
 def page_footer(repo: str, as_of: str, sha: str) -> str:
     """Licences, disclaimers, transparency notices and the colophon. No personal details, by design."""
     r = html.escape(repo)
@@ -398,7 +525,7 @@ def page_footer(repo: str, as_of: str, sha: str) -> str:
 <li>{icon("alert")} <b>Not an official government service.</b> A prototype public good, built in the open. Official guidance takes precedence; we link to it first.</li>
 <li>{icon("scale")} Not legal, commercial or professional advice. Model contract clauses are illustrative and need review by your own legal and commercial teams.</li>
 <li>{icon("sparkle")} <b>AI-assisted.</b> Parts of the code and content were drafted with AI and reviewed by people. Measuring is always done by rules, not models.</li>
-<li>{icon("eye")} Sources marked "partly verified" or "not yet reviewed" haven't been checked in full.</li>
+<li>{icon("eye")} Every source in the knowledge base is read at source before it is cited. The few with no public document say so. Spotted something wrong? <a href="build.html#contact">Tell us</a>.</li>
 <li>{icon("lock")} No cookies, analytics or trackers. Data you check stays in your browser. See <a href="accessibility.html#privacy">privacy</a>.</li>
 <li>{icon("access")} <a href="accessibility.html">Accessibility statement</a> (aiming for WCAG 2.2 AA).</li>
 </ul></div>
@@ -450,6 +577,7 @@ def main(argv=None) -> int:
     }
 
     kb, kcache = knowledge(), {}
+    SECTION_FLAGS.update(section_flags())
 
     def render(target: Path, download_base: str, artifact: bool):
         if target.exists():
@@ -467,7 +595,7 @@ def main(argv=None) -> int:
                     kcache[name] = js_json(kb[name]())
                 text = text.replace(f"__K_{name}__", kcache[name])
             text = text.replace("__DOWNLOADS__", download_base)
-            doc, frag = assemble(stem, text, build_label, footer.replace("<!--PROVENANCE-->", prov))
+            doc, frag = assemble(stem, text, build_label, footer.replace("<!--PROVENANCE-->", prov + page_history(stem, a.repo)))
             (target / f"{stem}.html").write_text(frag if (artifact and stem == "index") else doc, encoding="utf-8")
         if not artifact:
             dl = target / "downloads"
@@ -479,6 +607,16 @@ def main(argv=None) -> int:
                 if f.suffix in (".xlsx", ".docx", ".md", ".csv", ".jsonld", ".json"):
                     shutil.copy2(f, dl / "assets" / f.name)
             (target / ".nojekyll").write_text("", encoding="utf-8")
+        # Portal search: loaded only when someone opens search, so pages stay light.
+        (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+        # Offline copy (issue #24): the whole portal in one zip. Open index.html from the unzipped folder;
+        # every page works without a connection because nothing loads from other sites.
+        if not artifact:
+            import zipfile
+            with zipfile.ZipFile(dl / "dq-commons-offline.zip", "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+                for f in sorted(target.rglob("*")):
+                    if f.is_file() and f.name != "dq-commons-offline.zip":
+                        z.write(f, f"dq-commons/{f.relative_to(target).as_posix()}")
         print(f"Built {len(PAGES)} pages in {target}")
 
     render(out, "downloads/", artifact=False)

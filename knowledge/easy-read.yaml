@@ -1,0 +1,44 @@
+# Plain English summaries for every portal page (backlog BL-22, issue #22).
+# Written to Easy Read principles: short sentences, everyday words, one idea per sentence, no abbreviations.
+# They are not full Easy Read: that also needs pictures and testing with people with learning disabilities,
+# which is part of the user research plan (issue #1). Shown at the top of each page under "In short".
+review:
+  last_reviewed: 2026-11-03
+  owner_role: Commons content lead
+  next_step: Test with people with learning disabilities and their organisations; add pictures where they help.
+pages:
+  index: ["This website helps people who work with public data.", "Data is information, like numbers about schools or buses.", "Good quality data is correct, complete and up to date.", "You can check your data, learn, and get help here. It is free."]
+  github: ["This page explains GitHub.", "GitHub is a website where people share their work in the open.", "The code and words for this website are kept there.", "You can read everything without an account."]
+  about: ["This page says why the Commons was made.", "Poor data can lead to wrong decisions about people.", "The Commons helps teams find and fix problems in their data.", "It is shared, free and open to everyone."]
+  guide: ["This page shows you how to use the website.", "There are short tours you can follow step by step.", "There are answers to common questions."]
+  roles: ["This page is about jobs.", "Pick your job to see what matters to you.", "It shows what you need to do and what to look out for."]
+  accessibility: ["This page says how easy the website is to use.", "It lists the problems we know about.", "It says what happens to anything you share. We do not track you."]
+  learn: ["This page helps you learn about data quality.", "Pick a path for your job.", "Each path has short lessons and words explained."]
+  professions: ["Many jobs in government use data.", "This page shows where data quality fits in each job's skills.", "It covers the four UK nations and other countries too."]
+  training: ["This page helps you build your skills.", "Answer some questions to see what you already know.", "You get a plan and a list of courses."]
+  knowledge: ["This page explains the words we use.", "It shows how ideas link together, like a map.", "You can look up any word."]
+  library: ["This page is a library.", "It has guides, articles and tools from many places.", "We check each one before we add it."]
+  media: ["This page has blogs, videos and podcasts.", "They are about data quality.", "We ask for captions or transcripts before we add videos."]
+  events: ["This page lists events about data quality.", "Events can be online or in a room.", "You can add them to your calendar."]
+  check: ["This page checks a data file for problems.", "Your file stays on your computer. Nothing is sent to us.", "You get a list of problems and what to do next."]
+  maturity: ["This page asks questions about how your team works with data.", "It shows where you are now.", "It suggests your next steps."]
+  guidance: ["This page helps you decide which data problems to fix first.", "It uses the government's method.", "Bigger problems on important data come first."]
+  assistant: ["This page has a helper.", "You write what good data looks like in your own words.", "It turns your words into rules a computer can check.", "A person should always check the rules."]
+  baseline: ["This page helps you plan work.", "It works out how long it takes to check your most important data.", "You choose your own deadline."]
+  playbook: ["This page is a step by step guide.", "It has eight stages to look after important data.", "Each stage has a checklist and templates."]
+  frameworks: ["This page lists rules and standards about data quality.", "They come from the UK and other countries.", "You can compare them side by side."]
+  tooling: ["This page lists tools that check data quality.", "Many are free.", "It says which ones government teams use."]
+  ai: ["This page is about using artificial intelligence (computer programs that learn) on data.", "It shows where it helps and where it is risky.", "People must stay in charge."]
+  commercial: ["This page helps when you buy services from companies.", "It has words for contracts about data quality.", "Your own legal team must check them."]
+  legacy: ["This page is about old computer systems.", "Moving data from old systems can cause problems.", "It shows how to check data before and after a move."]
+  interop: ["This page is about data that works together.", "It shows shared codes and formats.", "Using the same ones makes data easier to join up."]
+  weaver: ["This page tidies up the description of a dataset.", "Paste the description in. It shows what is missing.", "It writes the description in several standard formats."]
+  pipeline: ["This page shows the latest automatic check.", "It runs every week.", "It lists problems and who should fix them."]
+  scenarios: ["This page helps you start.", "Pick your area of work.", "It shows what applies to you and where to begin."]
+  global: ["This page looks beyond the UK.", "It covers islands linked to the UK, the Commonwealth and other partners.", "Many places face the same data problems."]
+  ndl-assurance: ["This page checks pages of the National Data Library.", "The National Data Library helps people find public data.", "It shows what each page does well and what is missing."]
+  community: ["This page is about the people who use the Commons.", "You can share what you made.", "You can join groups and ask for new things."]
+  share: ["This page helps you write a short story about your work.", "The story says what you changed and what got better.", "It does not include anyone's name."]
+  surveys: ["This page has surveys about data quality.", "You can answer one or run your own.", "You can also ask the Commons for help."]
+  build: ["This page shows how to help build the Commons.", "You can vote for new features.", "You can contact us using a form. We never show an email address."]
+  operate: ["This page says how the Commons is run.", "It says who does what.", "It says how to get help and how quickly we reply."]

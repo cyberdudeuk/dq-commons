@@ -9,3 +9,5 @@ rules:
   - {id: G02, check: unique, columns: [area_code, period], description: One row per area and period}
   - {id: G03, check: in_valueset, column: nation, valueset: uk_nations, description: Nation is one of the four UK nations}
   - {id: G04, check: not_null, column: value, description: Every area and period has a value}
+  - {id: G05, check: in_valueset, column: region, valueset: english_regions, match: label, description: Region is one of the 9 English regions (England-only data)}
+  - {id: G06, check: in_valueset, column: area_type, valueset: gss_entity_codes, match: code, description: 'Area type (first 3 characters of the area code) is a known GSS entity'}

@@ -89,7 +89,7 @@ def to_markdown(d: dict) -> str:
          "## Permissions", "Can this case study be shared with other public sector organisations? " + TODO,
          "- Yes (OK to publish as is)", "- Yes, with light redactions", "- Yes, anonymised", "- No (internal learning only)", "",
          "## Responder information", f"- Department or organisation: {d['organisation']}",
-         f"- Function or team: {TODO}", f"- Job title: {TODO}", f"- Name and email: {TODO}", "",
+         f"- Function or team: {TODO}", f"- Job title: {TODO}", "- Contact route: the Commons contact form (no names or emails)", "",
          "## Case study", f"**Title:** {d['title']}", "", f"**Stage of data quality journey:** {d['stage']}", "",
          f"**Time period covered:** {d['period']}", "", f"**What triggered this work?** {d['trigger']}", "",
          f"**Where did you start?** {d['start']}", "", "**What did you do?**", ""]

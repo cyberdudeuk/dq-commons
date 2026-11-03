@@ -11,6 +11,7 @@ data quality issues framework (see framework.py).
 from __future__ import annotations
 
 import copy
+import math
 import csv
 import re
 from dataclasses import dataclass, field
@@ -19,6 +20,8 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 import pandas as pd
+
+from .numbers import to_numeric
 import yaml
 
 from . import framework
@@ -51,6 +54,7 @@ DEFAULT_ISSUE = {
     "not_unknown": "characteristic-defaulted",
     "group_disparity": "group-disparity",
     "identifier": "invalid-identifier",
+    "outlier": "implausible-value",
 }
 
 # Where the control that prevents each failure best belongs, following the controls model in
@@ -61,7 +65,7 @@ DEFAULT_CONTROL = {
     "not_null": "source", "required_columns": "pipeline", "unique": "pipeline", "type": "source",
     "regex": "source", "in_set": "source", "range": "source", "not_future": "source", "compare": "source",
     "sum_max": "pipeline", "freshness": "pipeline", "no_gaps": "pipeline", "header_has_unit": "reporting",
-    "not_unknown": "source", "group_disparity": "reporting", "identifier": "source",
+    "not_unknown": "source", "group_disparity": "reporting", "identifier": "source", "outlier": "source",
 }
 
 UNIT_TOKENS = ("%", "percent", "per cent", "number", "count", "millions", "million", "billion",
@@ -150,6 +154,49 @@ def _rowwise(df, cols, mask) -> tuple[int, int, list]:
     # Series whose sum() is "" rather than 0 (found by the JavaScript parity check).
     mask = mask.astype(bool) if len(mask) else pd.Series([], dtype=bool, index=mask.index)
     return len(mask), int(mask.sum()), _examples(df, mask, cols)
+
+
+def quantile(xs: list, q: float) -> float:
+    """numpy's default ("linear") quantile of sorted numbers, written out so the browser can match it exactly."""
+    n = len(xs)
+    v = n * q + (1 + q * -1) - 1
+    lo = int(v // 1)
+    g = v - lo
+    lo = min(max(lo, 0), n - 1)
+    hi = min(lo + 1, n - 1)
+    a, b = xs[lo], xs[hi]
+    d = b - a
+    return b - d * (1 - g) if g >= 0.5 else a + d * g
+
+
+def check_outlier(df, r):
+    """Values that are valid but implausible. Only numbers count: blanks and text are other checks' job.
+    method iqr (default): outside Q1 - k*IQR .. Q3 + k*IQR, k defaults to 1.5 (Tukey's fences).
+    method zscore: more than `threshold` (default 3) standard deviations from the mean."""
+    col, method = r["column"], r.get("method", "iqr")
+    num = to_numeric(df[col].astype(str).str.replace(",", ""))
+    ok_num = num.notna() & (num.abs() != float("inf"))
+    vals = [float(x) for x in num[ok_num].tolist()]
+    if len(vals) < 4:
+        return len(vals), len(vals), [], {"method": method, "note": "fewer than 4 numbers, nothing to compare"}
+    if method == "zscore":
+        t = r.get("threshold", 3)
+        mean = sum(vals) / len(vals)
+        sd = math.sqrt(sum((x - mean) * (x - mean) for x in vals) / (len(vals) - 1))
+        lo, hi = (mean - t * sd, mean + t * sd) if sd > 0 else (mean, mean)
+        detail = {"method": "zscore", "threshold": t, "mean": round(mean, 4), "sd": round(sd, 4)}
+    elif method == "iqr":
+        k = r.get("k", 1.5)
+        xs = sorted(vals)
+        q1, q3 = quantile(xs, 0.25), quantile(xs, 0.75)
+        lo, hi = q1 - k * (q3 - q1), q3 + k * (q3 - q1)
+        detail = {"method": "iqr", "k": k, "q1": round(q1, 4), "q3": round(q3, 4)}
+    else:
+        raise ValueError(f"outlier method must be iqr or zscore, not {method!r}")
+    detail.update({"low": round(lo, 4), "high": round(hi, 4)})
+    mask = ~ok_num | ((num >= lo) & (num <= hi))
+    mask = mask.astype(bool)
+    return len(vals), int(mask[ok_num].sum()), _examples(df, mask, [col]), detail
 
 
 # ---------- public sector identifiers ----------
@@ -258,7 +305,7 @@ def check_identifier(df, r):
 
 def check_range(df, r):
     col = r["column"]
-    num = pd.to_numeric(df[col].astype(str).str.replace(",", ""), errors="coerce")
+    num = to_numeric(df[col].astype(str).str.replace(",", ""))
     mask = num.notna()
     if "min" in r:
         mask &= num >= r["min"]
@@ -282,8 +329,8 @@ OPS: dict[str, Callable] = {"<": lambda a, b: a < b, "<=": lambda a, b: a <= b, 
 
 def check_compare(df, r):
     left, op, right = r["left"], r["op"], r["right"]
-    a = pd.to_numeric(df[left], errors="coerce")
-    b = pd.to_numeric(df[right], errors="coerce") if right in df.columns else float(right)
+    a = to_numeric(df[left])
+    b = to_numeric(df[right]) if right in df.columns else float(right)
     mask = OPS[op](a, b).fillna(False)
     cols = [left] + ([right] if right in df.columns else [])
     return _rowwise(df, cols, mask) + ({"expression": f"{left} {op} {right}"},)
@@ -291,7 +338,7 @@ def check_compare(df, r):
 
 def check_sum_max(df, r):
     col = r["column"]
-    total = pd.to_numeric(df[col], errors="coerce").sum()
+    total = to_numeric(df[col]).sum()
     ok = total <= r["max"] + r.get("tolerance", 0)
     return 1, int(ok), ([] if ok else [{"sum": round(float(total), 4), "max": r["max"]}]), {"sum": round(float(total), 4)}
 
@@ -369,6 +416,7 @@ CHECKS = {
     "not_unknown": lambda df, r, a: check_not_unknown(df, r),
     "group_disparity": check_group_disparity,
     "identifier": lambda df, r, a: check_identifier(df, r),
+    "outlier": lambda df, r, a: check_outlier(df, r),
 }
 
 

@@ -238,6 +238,10 @@ A_SPEC = {
          "inner": {"check": "type", "column": "amount", "kind": "number"}},
         {"id": "A32", "check": "not_null", "column": "ghost"},
         {"id": "A33", "check": "unique", "columns": ["person_id", "ghost2"]},
+        {"id": "A90", "check": "outlier", "column": "score"},
+        {"id": "A91", "check": "outlier", "column": "amount", "method": "zscore", "threshold": 1.5},
+        {"id": "A92", "check": "outlier", "column": "share", "k": 0.5},
+        {"id": "A93", "check": "group_disparity", "group": "sex", "tolerance": 50, "inner": {"check": "outlier", "column": "score"}},
         {"id": "A34", "check": "compare", "left": "amount", "op": ">=", "right": "1.5e2"},
         {"id": "A35", "check": "range", "column": "dob", "min": 0, "issue_type": "out-of-bounds", "impact": 2, "target": 50},
     ],
@@ -323,6 +327,8 @@ C_SPEC = {
         {"id": "C13", "check": "required_columns", "columns": ["Group", "Response"]},
         {"id": "C14", "check": "in_set", "column": "Group", "values": ["Wales", "nan", "Ålesund"]},
         {"id": "C15", "check": "compare", "left": "Satisfaction (%)", "op": "<=", "right": "100"},
+        {"id": "C90", "check": "outlier", "column": "Satisfaction (%)", "method": "zscore"},
+        {"id": "C91", "check": "outlier", "column": "Year", "k": 0},
         {"id": "C16", "check": "group_disparity", "group": "Response", "tolerance": 0,
          "inner": {"check": "freshness", "column": "Answered on", "expected": "P1Y"}},
     ],
@@ -518,6 +524,19 @@ WEAVE_CASES = [
     {"title": "Only a title", "notes": ""},
     {"something": "else"},
     ["not", "an", "object"],
+    {"@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}], "url": "https://example.org/stops.csv", "dc:title": "Bus stops",
+     "dc:description": "Every bus stop in the county with its NaPTAN code.", "dcterms:publisher": {"name": "County Council"}, "dc:license": "OGL-UK-3.0",
+     "dcat:keyword": ["bus", "transport"], "dc:modified": "01/02/2026", "tableSchema": {"columns": [{"name": "atco"}]}},
+    {"url": "x.csv", "@context": "http://www.w3.org/ns/csvw", "schema:name": "Minimal CSVW"},
+    {"profile": "tabular-data-package", "name": "school-places", "title": "School places", "description": "Places and pupils by school, published each June.",
+     "version": "1.2.0", "homepage": "https://example.org/sp", "keywords": ["education", "schools"], "created": "2026-06-30",
+     "licenses": [{"name": "OGL-UK-3.0", "path": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"}],
+     "contributors": [{"title": "Data Team", "role": "maintainer"}, {"title": "Department for Education", "role": "publisher"}],
+     "resources": [{"name": "places", "path": "places.csv", "format": "csv", "mediatype": "text/csv"}, {"name": "multi", "path": ["a.csv", "b.csv"]}]},
+    {"name": "x", "resources": [{"path": "data.csv"}], "contributors": [{"title": "Someone", "role": 3}], "licenses": "MIT", "profile": {"a": "package"}},
+    {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Rivers", "dct:description": "River centre lines for Wales.",
+     "dct:spatial": "https://example.org/geo/W92000004", "dcat:contactPoint": {"vcard:fn": "Geo team"}, "dct:publisher": "NRW", "dct:issued": "2026-13-45x"},
+    {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Areas", "dct:spatial": "Wales", "dct:modified": "2026-04-01T10:00:00Z"},
 ]
 _C1 = {"apiVersion": "v3.1.0", "kind": "DataContract", "id": "x", "version": "1.2.0", "status": "active", "team": {"name": "T"},
        "slaProperties": [{"property": "frequency", "value": 1}],
@@ -562,7 +581,7 @@ def micro_case():
             return re.fullmatch(p, s) is not None
         rx.append(attempt(f))
     py = {
-        "numbers": pd.to_numeric(pd.Series(numbers, dtype="str"), errors="coerce").map(lambda x: x).tolist(),
+        "numbers": __import__("dqkit.numbers", fromlist=["x"]).to_numeric(pd.Series(numbers, dtype="str")).map(lambda x: x).tolist(),
         "types": [attempt(lambda v=v, k=k: rules._is_type(v, k)) for v, k in TYPES],
         "dates": [attempt(lambda s=s: (d.isoformat() if (d := rules._parse_date(s)) else None)) for s in DATES],
         "regex": rx,
@@ -712,7 +731,7 @@ def cases():
 
 
 def check_coverage(all_cases) -> list:
-    """Every one of the 15 checks, and every option variant asked for, must appear in the fixtures."""
+    """Every check, and every option variant asked for, must appear in the fixtures."""
     used = [r for c in all_cases for r in c["spec"]["rules"]]
     used += [r["inner"] for r in used if r.get("check") == "group_disparity"]
     missing = sorted(set(rules.CHECKS) - {r["check"] for r in used})
@@ -735,7 +754,7 @@ def main(verbose=False) -> int:
     with tempfile.TemporaryDirectory() as tmp:
         w = Path(tmp)
         all_cases = cases()
-        rows.append(("fixture coverage (15 checks, all variants)", check_coverage(all_cases)))
+        rows.append(("fixture coverage (all checks, all variants)", check_coverage(all_cases)))
         for c in all_cases:
             rows.append((c["name"], check_run(c, w)))
         rows.append(("assess grid (4 x 4 x 16 x 3 + targets)", check_grid(w)))

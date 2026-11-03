@@ -1,0 +1,45 @@
+# Weekly: compare the repository's settings with .github/settings-baseline.json, create any missing labels the
+# forms and workflows rely on, and keep one "Repository settings" issue up to date. Settings themselves are never
+# changed: only an owner does that, in Settings (pattern from the GitHub Repos Asset Catalogue).
+name: Repository health
+on:
+  schedule: [{cron: "41 6 * * 1"}]
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  settings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.12"}
+      - name: Create missing labels
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const want = JSON.parse(require('fs').readFileSync('.github/settings-baseline.json', 'utf8')).labels.required[0];
+            const have = new Set((await github.paginate(github.rest.issues.listLabelsForRepo, context.repo)).map(l => l.name));
+            for (const name of want.filter(n => !have.has(n))) {
+              await github.rest.issues.createLabel({...context.repo, name, color: 'ededed'});
+              core.info(`Created label ${name}`);
+            }
+      - id: check
+        run: python scripts/check_settings.py --out settings-report.md
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        continue-on-error: true
+      - if: always()
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.existsSync('settings-report.md') ? fs.readFileSync('settings-report.md', 'utf8') : 'The check did not run.';
+            const drift = '${{ steps.check.outcome }}' === 'failure';
+            const open = (await github.rest.issues.listForRepo({...context.repo, state: 'open', labels: 'repo-health'})).data;
+            if (drift && open.length) await github.rest.issues.update({...context.repo, issue_number: open[0].number, body});
+            else if (drift) await github.rest.issues.create({...context.repo, title: 'Repository settings differ from the baseline', body, labels: ['repo-health']});
+            else for (const i of open) {
+              await github.rest.issues.createComment({...context.repo, issue_number: i.number, body: 'Settings match the baseline. Closing.'});
+              await github.rest.issues.update({...context.repo, issue_number: i.number, state: 'closed'});
+            }

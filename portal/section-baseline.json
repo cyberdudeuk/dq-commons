@@ -1,0 +1,279 @@
+{
+ "pages": {
+  "about": {
+   "s-background": "ff6a96d5ffae",
+   "s-goals-and-desired-outcomes": "c8553cbe60bb",
+   "s-objectives-for-the-first-year": "6dd73e130ef4",
+   "s-priorities": "d48f56dff37b",
+   "s-purpose-and-aims": "a2954e9cf259",
+   "s-roadmap": "0b399789f58a",
+   "s-what-s-in-the-commons": "da39a3ee5e6b",
+   "s-what-the-commons-is-not": "3a3f715f6de5",
+   "s-who-it-is-for": "51f0ed68c0d3",
+   "s-why-it-exists-the-problem-it-solves": "73a988ccaa5d"
+  },
+  "accessibility": {
+   "s-accessibility-statement-for-the-public-sector-data-quality-c": "6cde387a9b4e",
+   "s-enforcement-procedure": "a823adc14123",
+   "s-how-accessible-this-website-is-known-problems": "e8dbe6c82cc8",
+   "s-how-we-tested": "c77c9b891a84",
+   "s-privacy-notice": "b4513225f81f",
+   "s-tell-us-about-a-problem-or-ask-for-another-format": "a18b60f2656c"
+  },
+  "ai": {
+   "s-ai-and-automation-components-in-the-toolkit": "dc61f8d0a0a6",
+   "s-ai-inside-suppliers-tools-questions-to-ask-before-you-buy-or": "bfe5ae78891f",
+   "s-case-studies": "04cc4e27b932",
+   "s-from-experiment-to-shared-toolkit-the-route": "6a695d9ccf17",
+   "s-principles": "da39a3ee5e6b",
+   "s-use-cases": "6653aa5e6c48",
+   "s-worked-examples": "5e63a10304e2"
+  },
+  "assistant": {
+   "s-conversation": "a8cfe66fbf40",
+   "s-rules-file": "de02729e6afb",
+   "s-your-data-optional": "041ed3a4a65d"
+  },
+  "baseline": {
+   "s-assumptions-and-open-questions": "b60a8678dda4",
+   "s-connections-to-your-other-work": "ad48b4b9daa3",
+   "s-effort-per-cda-by-dqap-activity": "68cd21e9b9f0",
+   "s-how-the-tiers-are-defined": "24e9f6889a7e",
+   "s-inclusion-check-built-into-the-estimate": "a29c70f87ca1",
+   "s-q-fair-rate-one-asset-in-two-minutes": "7d5a681704e3",
+   "s-sources": "cc356ab8fc9c",
+   "s-what-each-cda-s-quality-entry-should-contain": "240b0d0e4fd7",
+   "s-where-the-earlier-ai-mode-answers-differ-from-gov-uk": "50880cf2992d",
+   "s-your-assumptions": "590f49e53711"
+  },
+  "build": {
+   "s-backlog": "6f524f8b7bf8",
+   "s-charter-rules-and-safeguards": "508eed0b372d",
+   "s-co-design": "88310895a6b7",
+   "s-contact-us": "737eb546ad77",
+   "s-contributors": "c6678f03dc09",
+   "s-github-resources": "da39a3ee5e6b",
+   "s-how-we-keep-content-trustworthy": "4cc8ba9952bf",
+   "s-releases-and-change-log": "e1802f30354a",
+   "s-roadmap": "da39a3ee5e6b",
+   "s-solution-build-and-development-bundle": "5c616abf1b46",
+   "s-ways-to-help": "da39a3ee5e6b",
+   "s-wishlist-and-votes": "041c43eb009b"
+  },
+  "check": {
+   "s-results": "51221ed6963d"
+  },
+  "commercial": {
+   "s-clause-builder": "470fe954db54",
+   "s-commercial-barriers-to-good-data": "ac4eb36db335",
+   "s-data-quality-through-the-life-of-a-contract": "da39a3ee5e6b",
+   "s-principles-for-every-contract-that-touches-public-data": "da39a3ee5e6b",
+   "s-sources": "da39a3ee5e6b",
+   "s-tender-questions-with-what-good-looks-like": "18f4d7e1d7b8",
+   "s-who-does-what": "2f945b02bb22",
+   "s-why-it-matters": "da39a3ee5e6b"
+  },
+  "community": {
+   "s-contribute": "11bfc979330d",
+   "s-contributions-library": "bddf53d6977c",
+   "s-moderation-queue": "3c6ca6da376e",
+   "s-networks-communities-and-working-groups": "6ce53f1bef39",
+   "s-wishlist-roadmap-and-backlog": "1a9470049f68"
+  },
+  "events": {
+   "s-add-an-event": "c55f5928f1d1",
+   "s-every-year": "ef89c0b1731e",
+   "s-upcoming-events": "75c679a0f7a3"
+  },
+  "frameworks": {
+   "s-benchmarking-across-nations-sectors-and-countries": "f0b3d349af9d",
+   "s-clause-by-clause-what-each-policy-asks-and-how-others-compar": "7a655f4ded3b",
+   "s-convert-results-between-frameworks": "6df414779cf1",
+   "s-crosswalk-how-each-framework-names-the-same-thing": "caadf327d5eb",
+   "s-framework-and-scenario-packs": "f1758edfe52d",
+   "s-registry": "28e282451635"
+  },
+  "github": {
+   "s-how-the-portal-and-the-repository-connect": "7449adb7e5af",
+   "s-key-words": "d6f7ae3c9913",
+   "s-staying-safe-in-a-public-space": "a200e1c70eca",
+   "s-step-by-step": "865d6c1d5c17",
+   "s-what-github-is": "82c5e222fd8b",
+   "s-what-you-can-do-by-level": "65b1f3c1cb3e",
+   "s-why-the-commons-uses-it": "a9f685af1e24"
+  },
+  "global": {
+   "s-crown-dependencies": "6fd6630d9f0a",
+   "s-how-to-take-part": "329468b82c2f",
+   "s-how-we-work-across-jurisdictions": "da39a3ee5e6b",
+   "s-national-international-and-supranational-partners": "d7721e6918b2",
+   "s-the-commonwealth": "da39a3ee5e6b",
+   "s-uk-overseas-territories": "da39a3ee5e6b"
+  },
+  "guidance": {
+   "s-published-sources": "da39a3ee5e6b",
+   "s-try-the-issues-framework": "c6db9b2bb104"
+  },
+  "guide": {
+   "s-accessibility": "e672c5df41f3",
+   "s-common-tasks": "577fcdba3d33",
+   "s-guided-tours": "9cde529f4006",
+   "s-privacy": "12a00aba0b34",
+   "s-questions": "a14a5a370945",
+   "s-quick-start-in-5-minutes": "f7829bd9abef",
+   "s-the-menu": "1d352d8f52af"
+  },
+  "index": {
+   "s-example-portfolio-latest-pipeline-run": "46c5680b6007",
+   "s-latest-from-the-library-knowledge-base-and-media-centre": "4d36c25c948c",
+   "s-news-insights-and-spotlight": "502e1338e4a9",
+   "s-scenarios": "a0c2861e5ef3",
+   "s-start-from-your-role": "da39a3ee5e6b",
+   "s-the-data-quality-cycle-step-by-step": "4c83548e3eb8",
+   "s-what-do-you-need-to-do": "da39a3ee5e6b",
+   "s-what-is-a-commons": "30da43e6a9e2",
+   "s-where-to-start-your-journey": "7ca738de9258"
+  },
+  "interop": {
+   "s-capabilities-next-door-to-data-quality": "2d0fb7bd560e",
+   "s-guardrails-and-safeguards": "0ef2b204643f",
+   "s-how-to-measure-interoperability-and-data-quality-together": "e0ef31ba2254",
+   "s-metadata-rosetta-one-concept-eight-standards": "743fc09e06b0",
+   "s-requirements-checklist-for-a-system-or-supplier": "197463a8344c",
+   "s-six-layers-of-interoperability-and-the-standards-for-each": "2316aeada9ef",
+   "s-sources": "da39a3ee5e6b"
+  },
+  "knowledge": {
+   "s-data-dictionary": "d7bf7a9a0f31",
+   "s-downloads-and-reuse": "cf429034f048",
+   "s-explore-the-graph": "260c8ccb38c5",
+   "s-glossary": "403b402f6c68",
+   "s-lineage-and-traceability": "806177a039dc",
+   "s-ontology": "4964595acbdc",
+   "s-taxonomies": "f414a81e044a",
+   "s-thesaurus": "111cfe80bff6"
+  },
+  "learn": {
+   "s-glossary": "403b402f6c68",
+   "s-levels": "fe9179682c2b",
+   "s-modules": "606360563fb4",
+   "s-tutorials": "da39a3ee5e6b",
+   "s-your-pathway": "66789cd2acfb"
+  },
+  "legacy": {
+   "s-data-debt-patterns-and-how-to-find-them": "8c8e91e04192",
+   "s-data-debt-self-assessment": "d13311c579a9",
+   "s-data-quality-gates-for-a-migration": "da39a3ee5e6b",
+   "s-moscow-data-quality-in-a-modernisation-programme": "5d236faca574",
+   "s-reconcile-two-versions-of-a-dataset": "c69f8f0035cd",
+   "s-sources": "da39a3ee5e6b",
+   "s-why-it-matters": "da39a3ee5e6b"
+  },
+  "library": {
+   "s-curated-library": "eea8dbe1685f",
+   "s-knowledge-base-articles": "65624042d217",
+   "s-publish-a-resource": "ae066fa839f8",
+   "s-shared-by-members": "07c9b73b2075"
+  },
+  "maturity": {
+   "s-how-organisations-compare": "cd5f910d5a07",
+   "s-your-results": "c119c78e6ffd"
+  },
+  "media": {
+   "s-blog-posts": "da39a3ee5e6b",
+   "s-from-gov-uk-blogs": "74440e072254",
+   "s-podcast-episodes": "da39a3ee5e6b",
+   "s-share-yours": "b2fb4500fadb",
+   "s-videos": "da39a3ee5e6b"
+  },
+  "ndl-assurance": {
+   "s-critical-data-asset-metadata-coverage": "3a5dab45337c",
+   "s-every-page-every-check": "f59aa0516f55",
+   "s-fix-once-in-the-page-template": "1ee4d8c3a68f",
+   "s-how-this-was-done-and-how-sure-we-are": "b28677d0005f",
+   "s-the-ndl-s-own-chart-data": "2ed553ee612f",
+   "s-what-to-change": "72924d037288",
+   "s-who-could-be-left-out": "06b6b1f2599b"
+  },
+  "operate": {
+   "s-from-request-to-release": "8e2584ac1401",
+   "s-getting-help-four-tiers": "9fe79fa00753",
+   "s-github-jira-and-confluence": "1eb6cb676811",
+   "s-how-we-ll-know-it-s-working": "1f01effe00c7",
+   "s-moderation-and-contributions": "ed1f9bd3547f",
+   "s-roles": "f9ef676c2657"
+  },
+  "pipeline": {
+   "s-assets": "b2a4c0c77179",
+   "s-catalogue-records": "49fb2e6e7912",
+   "s-downloads-from-this-run": "da39a3ee5e6b",
+   "s-how-far-each-asset-can-be-trusted": "6fc45d9ecc26",
+   "s-how-the-pipeline-runs": "552bce29b1a6",
+   "s-open-issues-most-urgent-first": "d561cf3bfb92"
+  },
+  "playbook": {
+   "s-eight-stages-one-cycle": "943a5a8f64d4",
+   "s-inclusion-checks": "a6db21bba465",
+   "s-measures-of-a-healthy-routine": "931ba1a5b004",
+   "s-principles": "da39a3ee5e6b",
+   "s-rhythm-and-escalation": "92b1c1616ba1",
+   "s-sources": "da39a3ee5e6b",
+   "s-templates": "c0aaccaaa536",
+   "s-use-it-anywhere": "92c599673659",
+   "s-where-it-applies": "0dc4a08a8b7c",
+   "s-who-does-what": "fc71c4db99d0"
+  },
+  "professions": {
+   "s-levels-compared": "7f39cec64149",
+   "s-profession-by-profession": "7836f7ad33e2",
+   "s-the-data-quality-capability-set": "7bacd5e8cc56",
+   "s-what-to-do-next": "5596dd352e3c",
+   "s-what-we-found": "30be3c920319"
+  },
+  "roles": {
+   "s-choose-your-role": "da39a3ee5e6b",
+   "s-gap-register": "8ce3c7b4736b",
+   "s-key-dates": "3cf4b400cb92",
+   "s-sources": "da39a3ee5e6b"
+  },
+  "scenarios": {
+   "s-scenario-not-here": "c3efcc86c4e1",
+   "s-scenarios": "da39a3ee5e6b"
+  },
+  "share": {
+   "s-draft-case-studies": "cd4a5be78566"
+  },
+  "surveys": {
+   "s-ask-the-commons-for-help": "74aa80d480d2",
+   "s-results-so-far": "1de8368e4cb5",
+   "s-run-your-own-survey-through-the-commons": "cb37ce8b5248",
+   "s-surveys": "da39a3ee5e6b"
+  },
+  "tooling": {
+   "s-connections-to-your-work": "2302914505a4",
+   "s-coverage-across-the-21-data-quality-repos": "0759c0df1f6f",
+   "s-evidence-table": "57fc4f6bd134",
+   "s-sources": "e1bf0a71c9e1",
+   "s-standards-used-partly-used-missing": "5a32f295382a",
+   "s-the-wider-landscape": "13c06ba4bb78",
+   "s-what-the-evidence-shows": "b0c4f353e8ae",
+   "s-what-to-do-next-for-cdas-and-the-ndl": "f5d0d5259694"
+  },
+  "training": {
+   "s-1-skills-check": "7f7e798353d7",
+   "s-2-your-plan": "8255b85fe42b",
+   "s-3-training-catalogue": "87696be70bb9",
+   "s-developing-a-team": "da39a3ee5e6b"
+  },
+  "weaver": {
+   "s-1-your-record": "b3433ad0346f",
+   "s-2-gaps": "1c359b5a3a3b",
+   "s-3-fill-the-gaps": "d2fbcf13aa1b",
+   "s-4-outputs": "39e5e82b7640",
+   "s-contract-change-check": "cf144fa14ec1",
+   "s-run-it-yourself": "ea7fbce58267",
+   "s-why-a-weaver-not-just-a-crosswalk": "55440bd5da58"
+  }
+ },
+ "since": "2.0.0"
+}

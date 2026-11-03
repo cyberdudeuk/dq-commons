@@ -117,6 +117,67 @@ input[type=checkbox],input[type=radio]{width:24px;height:24px;margin:0;flex:none
 li>a:only-child,.card>a,.step>a,.toc a{display:inline-flex;align-items:center;min-height:24px}
 input[type=range],input[type=date]{min-height:24px}
 h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
+/* On this page: a retractable drawer listing the page's sections, with collapsible sections and change flags. */
+.dqp-otpbtn{position:fixed;z-index:70;left:max(14px, env(safe-area-inset-left, 0px));bottom:max(14px, env(safe-area-inset-bottom, 0px));display:inline-flex;align-items:center;gap:8px;
+  font:600 14px/1 "Public Sans",system-ui,sans-serif;padding:11px 14px;border-radius:999px;border:1px solid var(--dqp-panel-line);background:var(--dqp-panel);color:var(--dqp-panel-fg);
+  box-shadow:0 6px 18px rgba(0,0,0,.18);cursor:pointer;min-height:44px}
+.dqp-otpbtn .dqi{color:var(--dqp-icon)}
+.dqp-otpbtn .dqp-cnt{font:700 11px/1 "Public Sans",system-ui,sans-serif;background:#ffbf47;color:#0b0c0c;border-radius:999px;padding:3px 6px}
+.dqp-otp{position:fixed;z-index:80;top:0;left:0;bottom:0;width:min(360px,92vw);background:var(--dqp-panel);color:var(--dqp-panel-fg);border-right:1px solid var(--dqp-panel-line);
+  box-shadow:16px 0 40px rgba(0,0,0,.22);overflow-y:auto;padding:max(16px, env(safe-area-inset-top, 0px)) 16px 24px max(16px, env(safe-area-inset-left, 0px));
+  font:15px/1.45 "Public Sans",system-ui,sans-serif;transform:translateX(-100%);transition:transform .25s ease}
+.dqp-otp.open{transform:none}
+.dqp-otp a{color:var(--dqp-panel-fg);text-decoration:none}
+.dqp-otp a:hover{text-decoration:underline}
+.dqp-otp .dqp-otpctl{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.dqp-otp .dqp-otpctl button{font:600 13px/1 "Public Sans",system-ui,sans-serif;display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:6px;border:1px solid var(--dqp-panel-line);background:transparent;color:var(--dqp-panel-fg);cursor:pointer;min-height:36px}
+.dqp-otp ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.dqp-otp li a{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:6px;border-left:3px solid transparent;min-height:24px}
+.dqp-otp li a .dqi{color:var(--dqp-icon);margin-top:2px}
+.dqp-otp li.sub a{padding-left:34px;font-size:14px}
+.dqp-otp li a[aria-current="true"]{border-left-color:var(--dqp-focus);background:rgba(127,127,127,.12);font-weight:600}
+.dqp-otp :focus-visible,.dqp-otpbtn:focus-visible,.dqp-sectog:focus-visible,.dqp-searchbtn:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
+.dqp-otp .dqp-legend{font-size:12.5px;color:var(--dqp-panel-muted);margin:12px 0 0}
+.dqp-secflag{display:inline-block;font:700 10.5px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:3px 6px;border-radius:4px;margin-left:8px;vertical-align:4px;background:#ffbf47;color:#0b0c0c}
+.dqp-secflag.upd{background:#d9e6f7;color:#1d3a6b}
+.dqp-sectog{margin-left:10px;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:6px;border:1px solid var(--line, #d6dddf);background:transparent;color:inherit;cursor:pointer;vertical-align:middle;font:inherit}
+.dqp-sectog .dqi{transition:transform .2s ease}
+.dqp-sectog[aria-expanded="false"] .dqi{transform:rotate(-90deg)}
+.dqp-collapsed > :not(h2):not(.dqp-keep){display:none !important}
+.dqp-collapsed{padding-bottom:4px}
+/* Search across the portal */
+.dqp-searchbtn{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 "Public Sans",system-ui,sans-serif;color:var(--dqp-bar-fg);background:transparent;border:1px solid var(--dqp-bar-line, rgba(255,255,255,.35));border-radius:999px;padding:8px 12px;cursor:pointer;min-height:36px}
+.dqp-searchbtn kbd{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;border:1px solid currentColor;border-radius:4px;padding:2px 5px;opacity:.8}
+@media (max-width:760px){.dqp-searchbtn kbd,.dqp-searchbtn .dqp-long{display:none}}
+.dqp-search{border:0;padding:0;margin:8vh auto auto;width:min(680px,94vw);max-height:80vh;border-radius:12px;background:var(--dqp-panel);color:var(--dqp-panel-fg);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.dqp-search::backdrop{background:rgba(5,15,20,.55)}
+.dqp-search form{display:flex;gap:8px;align-items:center;padding:14px;border-bottom:1px solid var(--dqp-panel-line)}
+.dqp-search input{flex:1;font:16px/1.4 "Public Sans",system-ui,sans-serif;padding:10px 12px;border-radius:8px;border:2px solid var(--dqp-panel-line);background:transparent;color:inherit;min-height:44px}
+.dqp-search input:focus{outline:3px solid var(--dqp-focus);outline-offset:1px}
+.dqp-search .dqp-sres{list-style:none;margin:0;padding:8px;overflow-y:auto;max-height:calc(80vh - 120px)}
+.dqp-search .dqp-sres a{display:block;padding:10px 12px;border-radius:8px;color:inherit;text-decoration:none}
+.dqp-search .dqp-sres a:hover,.dqp-search .dqp-sres a:focus{background:rgba(127,127,127,.14);outline:none}
+.dqp-search .dqp-sres a:focus-visible{outline:3px solid var(--dqp-focus)}
+.dqp-search .dqp-sres b{display:block}
+.dqp-search .dqp-sres small{color:var(--dqp-panel-muted);display:block}
+.dqp-search mark{background:#ffbf47;color:#0b0c0c;border-radius:2px}
+.dqp-search .dqp-shelp{font-size:12.5px;color:var(--dqp-panel-muted);padding:0 14px 12px}
+/* Motion: gentle, and only for people who haven't asked for less */
+@media (prefers-reduced-motion: no-preference){
+  .dqp-motion .dqp-reveal{opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+  .dqp-motion .dqp-reveal.dqp-shown{opacity:1;transform:none}
+  .card{transition:transform .15s ease,box-shadow .15s ease}
+  a.card:hover,.card:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.08)}
+  .dqp-secflag{animation:dqp-pop .6s ease 1}
+  @keyframes dqp-pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+}
+@media (prefers-reduced-motion: reduce){.dqp-otp{transition:none}.dqp-sectog .dqi{transition:none}}
+@media print{.dqp-otpbtn,.dqp-otp,.dqp-sectog,.dqp-searchbtn{display:none !important}.dqp-collapsed > *{display:revert !important}.dqp-reveal{opacity:1 !important;transform:none !important}.dqp-easy{display:block}}
+
+.dqp-easy{margin:14px 0 18px;max-width:760px;border:1px solid var(--line,#d6dde3);border-left:4px solid var(--accent,#0d6b6e);border-radius:10px;background:var(--card,#fff);font-size:1.02rem}
+.dqp-easy summary{cursor:pointer;padding:10px 14px;font-weight:600;display:flex;align-items:center;gap:8px;min-height:24px}
+.dqp-easy summary .dqi{width:18px;height:18px;color:var(--accent,#0d6b6e)}
+.dqp-easy ul{margin:0;padding:0 18px 12px 38px;line-height:1.7}
 </style>
 <a class="dqp-skip" href="#dqp-main">Skip to main content</a>
 {{ICONS}}
@@ -128,6 +189,7 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
     </a>
     <nav class="dqp-nav" aria-label="Commons">{{NAV}}</nav>
     <details class="dqp-menu"><summary aria-label="Open the menu">Menu</summary><nav class="dqp-drop" aria-label="Commons (menu)">{{NAV_LONG}}</nav></details>
+    <button class="dqp-searchbtn" type="button" id="dqp-search-open" aria-haspopup="dialog" aria-keyshortcuts="/"><svg class="dqi" aria-hidden="true"><use href="#i-search"/></svg><span class="dqp-long">Search</span><span class="dqp-sr"> the Commons</span><kbd aria-hidden="true">/</kbd></button>
     <button class="dqp-newbtn" type="button" id="dqp-new-open" aria-controls="dqp-news" aria-expanded="false"><svg class="dqi" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="dqp-long">What's new</span><span class="dqp-short">New</span><span class="dqp-dot" id="dqp-new-dot" aria-hidden="true" hidden></span><span class="dqp-sr" id="dqp-new-sr" hidden> (updates you haven't seen)</span></button>
     <button class="dqp-tourbtn" type="button" id="dqp-tour-start" hidden><span class="dqp-long">Take the tour</span><span class="dqp-short">Tour</span></button>
   </div>
@@ -137,6 +199,20 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
   <p class="dqp-dsub">Version {{VERSION}}. We use semantic versioning: a new major number for big changes, minor for new features, patch for fixes. <a href="build.html#releases">All releases and change logs</a>.</p>
   <div id="dqp-news-body"></div>
 </aside>
+<button class="dqp-otpbtn" type="button" id="dqp-otp-open" aria-controls="dqp-otp" aria-expanded="false" hidden><svg class="dqi" aria-hidden="true"><use href="#i-list"/></svg>On this page<span class="dqp-cnt" id="dqp-otp-cnt" hidden></span></button>
+<aside class="dqp-otp" id="dqp-otp" role="dialog" aria-modal="false" aria-labelledby="dqp-otp-h" hidden>
+  <div class="dqp-dhead"><h2 id="dqp-otp-h">On this page</h2><button type="button" class="dqp-dclose" id="dqp-otp-close" aria-label="Close the page contents">×</button></div>
+  <div class="dqp-otpctl"><button type="button" id="dqp-otp-exp"><svg class="dqi" aria-hidden="true"><use href="#i-expand"/></svg>Expand all</button><button type="button" id="dqp-otp-col"><svg class="dqi" aria-hidden="true"><use href="#i-collapse"/></svg>Collapse all</button></div>
+  <nav aria-label="Sections on this page"><ol id="dqp-otp-list"></ol></nav>
+  <p class="dqp-legend" id="dqp-otp-legend"></p>
+</aside>
+<dialog class="dqp-search" id="dqp-search" aria-labelledby="dqp-search-h">
+  <h2 id="dqp-search-h" class="dqp-sr">Search the Commons</h2>
+  <form role="search" onsubmit="return false"><svg class="dqi" aria-hidden="true"><use href="#i-search"/></svg><label for="dqp-q" class="dqp-sr">Search pages, sections, frameworks, professions and terms</label><input id="dqp-q" type="search" autocomplete="off" placeholder="Search pages, frameworks, professions, terms…" aria-describedby="dqp-scount"><button type="button" class="dqp-dclose" id="dqp-search-close" aria-label="Close search">×</button></form>
+  <p class="dqp-shelp" id="dqp-scount" role="status" aria-live="polite">Type at least 2 letters. Use the arrow keys to move through results, Enter to open, Escape to close.</p>
+  <ul class="dqp-sres" id="dqp-sres"></ul>
+</dialog>
+<script type="application/json" id="dqp-secflags">{{SECTION_FLAGS}}</script>
 <script type="application/json" id="dqp-releases">{{RELEASES}}</script>
 <span id="dqp-main" tabindex="-1"></span>
 <script>
@@ -257,5 +333,160 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready); else setTimeout(ready, 0);
   window.DQP_startTour = start;
   if (/[?&]tour=1\b/.test(location.search)) document.addEventListener("DOMContentLoaded", function () { setTimeout(start, 400); });
+})();
+</script>
+<script>
+/* On this page drawer, collapsible sections, change flags, contextual heading icons, motion and portal search.
+   Built from each page's own headings once the page has rendered, so every page gets it with no extra markup. */
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
+  var slug = function (s) { return String(s).toLowerCase().replace(/&[a-z]+;/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 60) || "section"; };
+  var ICONS = [[/source|reference|further reading/, "source"], [/step|how to|stage|journey|route|flow|from request/, "steps"], [/question|faq/, "question"],
+    [/who |who$|people|role|persona|profession|contributor/, "users"], [/why|problem|purpose|aim|goal|outcome|background|principle/, "bulb"],
+    [/level|maturity|score|band|priorit/, "gauge"], [/contact|help|support|ask/, "lifebuoy"], [/risk|safe|privacy|security|limit|not$|isn't|honest/, "shield"],
+    [/accessib|inclusion|equalit/, "access"], [/framework|standard|crosswalk|pack/, "layers"], [/download|template|export|bundle/, "filecheck"],
+    [/learn|training|skill|module|tutorial|course|glossar/, "grad"], [/result|finding|insight|found|evidence|dashboard|status/, "chart"],
+    [/date|time|event|calendar|roadmap|timeline/, "calendar"], [/communit|share|case stud|network|co-design/, "handshake"], [/\bai\b|model|assistant/, "cpu"],
+    [/new|latest|release|what's/, "spark"], [/data|asset|dataset|catalogue|metadata/, "database"], [/check|test|rule|validat/, "check"],
+    [/tool|code|github|repositor/, "code"], [/word|term|definition|dictionar/, "book"], [/next|start|begin/, "arrow"], [/world|nation|international|global/, "globe"]];
+  var iconFor = function (t) { t = t.toLowerCase(); for (var i = 0; i < ICONS.length; i++) if (ICONS[i][0].test(t)) return ICONS[i][1]; return "list"; };
+  var svg = function (n) { return '<svg class="dqi" aria-hidden="true" focusable="false"><use href="#i-' + n + '"/></svg>'; };
+  var FLAGS = {};
+  try { FLAGS = JSON.parse(($("dqp-secflags") || {}).textContent || "{}") || {}; } catch (e) { FLAGS = {}; }
+
+  function build() {
+    var wrap = document.querySelector("body > .wrap, .wrap");
+    if (!wrap) return;
+    var heads = Array.prototype.slice.call(wrap.querySelectorAll("h2")).filter(function (h) {
+      return h.textContent.trim() && !h.closest(".sr-only, .dqp-sr, [hidden], dialog, .dqp-otp, .dqp-drawer, .dqp-tour") && h.offsetParent !== null;
+    });
+    if (heads.length < 2) return;
+    var used = {}, items = [], flagged = 0;
+    heads.forEach(function (h) {
+      var text = h.textContent.replace(/\s+/g, " ").trim();
+      if (!h.id) { var id = "s-" + slug(text), n = 2; while (document.getElementById(id) || used[id]) id = "s-" + slug(text) + "-" + n++; h.id = id; }
+      used[h.id] = 1;
+      var flag = FLAGS[h.id] || FLAGS["s-" + slug(text)] || FLAGS[slug(text)];
+      var ic = iconFor(text);
+      if (!h.querySelector("svg")) h.insertAdjacentHTML("afterbegin", '<svg class="dqi dqp-hicon" aria-hidden="true" focusable="false" style="color:var(--accent,#0d6b6e);margin-right:8px"><use href="#i-' + ic + '"/></svg>');
+      if (flag) { flagged++; h.insertAdjacentHTML("beforeend", ' <span class="dqp-secflag' + (flag === "upd" ? " upd" : "") + '">' + (flag === "upd" ? "Updated" : "New") + '</span>'); }
+      var sec = h.parentElement;
+      if (sec && sec.tagName === "SECTION" && sec.children.length > 1 && !sec.classList.contains("two")) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "dqp-sectog"; b.setAttribute("aria-expanded", "true");
+        b.innerHTML = svg("chevron") + '<span class="dqp-sr">Hide or show the section: ' + esc(text) + "</span>";
+        b.addEventListener("click", function () { toggle(sec, b); });
+        h.appendChild(b); sec._dqpTog = b;
+      }
+      items.push({id: h.id, text: text, flag: flag, icon: ic, sub: h.closest(".card") ? true : false});
+    });
+    $("dqp-otp-list").innerHTML = items.map(function (it) {
+      return '<li' + (it.sub ? ' class="sub"' : "") + '><a href="#' + esc(it.id) + '">' + svg(it.icon) + "<span>" + esc(it.text) +
+        (it.flag ? ' <span class="dqp-secflag' + (it.flag === "upd" ? " upd" : "") + '">' + (it.flag === "upd" ? "Updated" : "New") + "</span>" : "") + "</span></a></li>";
+    }).join("");
+    var since = FLAGS._since ? " since version " + esc(FLAGS._since) : "";
+    $("dqp-otp-legend").innerHTML = flagged ? "<b>New</b> and <b>Updated</b> mark sections added or changed" + since + "." : "Nothing on this page has changed" + since + ".";
+    var cnt = $("dqp-otp-cnt"); if (flagged) { cnt.hidden = false; cnt.textContent = flagged; cnt.setAttribute("aria-label", flagged + " sections new or updated"); }
+    var btn = $("dqp-otp-open"); btn.hidden = false;
+    wire(heads);
+  }
+  function toggle(sec, b, force) {
+    var open = force == null ? sec.classList.contains("dqp-collapsed") : force;
+    sec.classList.toggle("dqp-collapsed", !open); b.setAttribute("aria-expanded", String(open));
+  }
+  function wire(heads) {
+    var dr = $("dqp-otp"), openBtn = $("dqp-otp-open"), closeBtn = $("dqp-otp-close");
+    function open() { var news = $("dqp-news"); if (news && !news.hidden) { var c = $("dqp-new-close"); if (c) c.click(); }
+      dr.hidden = false; openBtn.setAttribute("aria-expanded", "true"); requestAnimationFrame(function () { dr.classList.add("open"); var cur = dr.querySelector('[aria-current="true"]') || closeBtn; cur.focus(); }); }
+    function close(focusBtn) { dr.classList.remove("open"); openBtn.setAttribute("aria-expanded", "false"); setTimeout(function () { dr.hidden = true; }, reduce ? 0 : 250); if (focusBtn !== false) openBtn.focus(); }
+    openBtn.addEventListener("click", function () { if (dr.hidden) open(); else close(); });
+    closeBtn.addEventListener("click", function () { close(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !dr.hidden) { e.preventDefault(); close(); } });
+    document.addEventListener("click", function (e) { if (!dr.hidden && !dr.contains(e.target) && !openBtn.contains(e.target)) close(false); });
+    $("dqp-otp-list").addEventListener("click", function (e) {
+      var a = e.target.closest("a"); if (!a) return;
+      var h = document.getElementById(a.getAttribute("href").slice(1)); if (!h) return;
+      var sec = h.closest(".dqp-collapsed"); if (sec && sec._dqpTog) toggle(sec, sec._dqpTog, true);
+      e.preventDefault(); close(false);
+      h.setAttribute("tabindex", "-1"); h.scrollIntoView({behavior: reduce ? "auto" : "smooth", block: "start"}); h.focus({preventScroll: true});
+      history.replaceState(null, "", "#" + h.id);
+    });
+    $("dqp-otp-exp").addEventListener("click", function () { document.querySelectorAll("section").forEach(function (s) { if (s._dqpTog) toggle(s, s._dqpTog, true); }); });
+    $("dqp-otp-col").addEventListener("click", function () { document.querySelectorAll("section").forEach(function (s) { if (s._dqpTog) toggle(s, s._dqpTog, false); }); });
+    if ("IntersectionObserver" in window) {
+      var links = {}; dr.querySelectorAll("a").forEach(function (a) { links[a.getAttribute("href").slice(1)] = a; });
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (en) { if (en.isIntersecting) { Object.keys(links).forEach(function (k) { links[k].removeAttribute("aria-current"); }); var l = links[en.target.id]; if (l) l.setAttribute("aria-current", "true"); } });
+      }, {rootMargin: "-15% 0px -70% 0px"});
+      heads.forEach(function (h) { io.observe(h); });
+    }
+  }
+  function motion() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    document.documentElement.classList.add("dqp-motion");
+    var els = document.querySelectorAll(".wrap > section, .wrap .grid > .card, .wrap .cols > .card, .wrap .caps > .card, .wrap .prof > .card");
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("dqp-shown"); io.unobserve(en.target); } }); }, {rootMargin: "0px 0px -5% 0px"});
+    var vh = window.innerHeight || 800;
+    els.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (el.offsetParent === null || r.top < vh) return;  // already on screen, or hidden for now: never animate, never hide
+      el.classList.add("dqp-reveal"); io.observe(el);
+    });
+    // Safety net: anything still waiting (for example after jumping to a link or printing) is shown.
+    window.addEventListener("hashchange", function () { document.querySelectorAll(".dqp-reveal").forEach(function (el) { el.classList.add("dqp-shown"); }); });
+    window.addEventListener("beforeprint", function () { document.querySelectorAll(".dqp-reveal").forEach(function (el) { el.classList.add("dqp-shown"); }); });
+  }
+
+  /* Search: the index (search-index.js, written by the build) loads only when search first opens. */
+  var dlg = $("dqp-search"), q = $("dqp-q"), list = $("dqp-sres"), count = $("dqp-scount"), loading = false;
+  function loadIndex(cb) {
+    if (window.DQP_INDEX) return cb();
+    if (loading) return; loading = true;
+    var s = document.createElement("script"); s.src = "search-index.js"; s.async = true;
+    s.onload = function () { loading = false; cb(); };
+    s.onerror = function () { loading = false; count.textContent = "Search isn't available in this copy of the portal. Use the menu, or the published site."; };
+    document.head.appendChild(s);
+  }
+  function mark(text, toks) { var h = esc(text); toks.forEach(function (t) { if (t.length > 1) h = h.replace(new RegExp("(" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>"); }); return h; }
+  function run() {
+    var v = q.value.trim().toLowerCase(), toks = v.split(/\s+/).filter(Boolean);
+    if (v.length < 2) { list.innerHTML = ""; count.textContent = "Type at least 2 letters. Use the arrow keys to move through results, Enter to open, Escape to close."; return; }
+    if (!window.DQP_INDEX) { loadIndex(run); count.textContent = "Loading the search index…"; return; }
+    var res = [];
+    window.DQP_INDEX.forEach(function (d) {
+      var t = d.t.toLowerCase(), x = d.x, score = 0;
+      for (var i = 0; i < toks.length; i++) { var k = toks[i]; if (t.indexOf(k) > -1) score += t.indexOf(k) === 0 ? 12 : 8; else if (x.indexOf(k) > -1) score += 2; else return; }
+      if (t === v) score += 20; if (d.k === "Page") score += 3;
+      res.push([score, d]);
+    });
+    res.sort(function (a, b) { return b[0] - a[0]; });
+    var top = res.slice(0, 40);
+    list.innerHTML = top.map(function (r) { var d = r[1]; return '<li><a href="' + esc(d.u) + '"><b>' + mark(d.t, toks) + "</b><small>" + esc(d.k) + (d.p ? " · " + esc(d.p) : "") + "</small></a></li>"; }).join("");
+    count.textContent = res.length ? res.length + (res.length === 1 ? " result" : " results") + (res.length > 40 ? ", showing the best 40" : "") + "." : "No results. Try another word, or fewer words.";
+  }
+  function openSearch() { if (!dlg.showModal) { location.href = "guide.html"; return; } dlg.showModal(); q.focus(); q.select(); loadIndex(function () { if (q.value) run(); }); }
+  $("dqp-search-open").addEventListener("click", openSearch);
+  $("dqp-search-close").addEventListener("click", function () { dlg.close(); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener("close", function () { $("dqp-search-open").focus(); });
+  dlg.addEventListener("keydown", function (e) { if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); dlg.close(); } });
+  q.addEventListener("input", run);
+  q.addEventListener("keydown", function (e) { if (e.key === "ArrowDown") { var f = list.querySelector("a"); if (f) { e.preventDefault(); f.focus(); } } else if (e.key === "Enter") { var a = list.querySelector("a"); if (a) location.href = a.href; } });
+  list.addEventListener("keydown", function (e) {
+    var as = Array.prototype.slice.call(list.querySelectorAll("a")), i = as.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" && i < as.length - 1) { e.preventDefault(); as[i + 1].focus(); }
+    if (e.key === "ArrowUp") { e.preventDefault(); if (i > 0) as[i - 1].focus(); else q.focus(); }
+  });
+  list.addEventListener("click", function () { dlg.close(); });
+  document.addEventListener("keydown", function (e) {
+    var tag = (e.target.tagName || "").toLowerCase(), typing = tag === "input" || tag === "textarea" || tag === "select" || e.target.isContentEditable;
+    if ((e.key === "/" && !typing) || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k")) { e.preventDefault(); if (!dlg.open) openSearch(); }
+  });
+
+  function ready() { setTimeout(function () { build(); motion(); }, 300); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready); else ready();
 })();
 </script>

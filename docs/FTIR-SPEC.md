@@ -5,7 +5,7 @@
 | ID | Requirement | Status | Evidence |
 |---|---|---|---|
 | F-01 | Score any rule result with the GOV.UK issues framework | Done | `tests/` FrameworkMatchesGovUk (8 tests) |
-| F-02 | 15 check types covering the six DAMA UK dimensions | Done | `dqkit/rules.py` |
+| F-02 | 17 check types covering the six DAMA UK dimensions, including identifiers and outliers | Done | `dqkit/rules.py` |
 | F-03 | Inclusion checks: unknown or defaulted characteristics, quality gaps between groups | Done | `not_unknown`, `group_disparity` |
 | F-04 | DQAP template rows (Rules section and Data Issues Log) | Done | `to_dqap_csv` |
 | F-05 | W3C DQV JSON-LD output | Done | `dqv.py` |

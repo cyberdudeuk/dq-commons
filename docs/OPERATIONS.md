@@ -249,4 +249,4 @@ fill in the Causes and Actions tabs, and close the loop at the next measurement.
 5. **Secrets for Jira and Confluence sync** (Settings → Secrets and variables → Actions): `JIRA_BASE_URL`, `JIRA_EMAIL`, `JIRA_API_TOKEN`, `CONFLUENCE_BASE_URL`. Without them those workflows skip safely.
 
 ### Known follow-up
-- pandas is capped below 3.1 (DECISIONS.md D-CI-01). Re-align the browser engine's number parsing with pandas 3.1, test both versions, then lift the cap and remove the Dependabot ignore.
+- Numbers are read by the toolkit's own rule (`dqkit/numbers.py`, mirrored in `engine.js`), so pandas upgrades no longer change results (D-TK-02). If a pandas upgrade breaks the parity test, the cause is elsewhere: read the failing case first.

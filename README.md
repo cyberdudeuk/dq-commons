@@ -122,7 +122,8 @@ Optional rule fields:
 
 Checks available: `not_null`, `required_columns`, `unique`, `type`, `regex`, `in_set`, `range`,
 `not_future`, `compare`, `sum_max`, `freshness`, `no_gaps`, `header_has_unit`, `not_unknown`,
-`group_disparity`. Each maps to an issue type in `vocab/issue-types.csv`. You can override a rule's
+`group_disparity`, `identifier` and `outlier` (valid but implausible numbers: `method: iqr` with `k`, default
+1.5, or `method: zscore` with `threshold`, default 3). Each maps to an issue type in `vocab/issue-types.csv`. You can override a rule's
 `impact` (1 to 4), `target` (%), `dimension` or `issue_type`.
 
 ### How scoring works
@@ -193,10 +194,15 @@ published frameworks and standards onto the same dimensions.
 - Public Sector DQ Tooling Atlas (research behind this kit)
 - CDA Quality Baseline Effort model (first baseline return)
 - Unified Data Asset Portal (GDS/OCDO DAM portal prototype)
+- [GitHub Repos Asset Catalogue](https://github.com/cyberdudeuk/github-repos-asset-catalogue): every UK public sector code project on GitHub, findable by topic,
+  organisation, question or capability, in plain English. Use it to find data quality code to reuse before
+  building your own. The Commons borrows its contact-form-only policy, three-level README and checks against
+  personal data and credentials in the repository.
 
 ## What's new
 
-The latest release adds a plain-English introduction to GitHub, background and outcomes on the
-About page, data quality across the professions, a journey-ordered menu with levels, and
-privacy and accessibility fixes. Every release is in [`CHANGELOG.md`](CHANGELOG.md) and the
+The latest release (2.1.0) adds search across the portal (press `/`), an "On this page" drawer that
+flags new and changed sections, a plain English summary at the top of every page, an offline copy,
+outlier and record linkage checks, and Metadata Weaver support for CSVW, Frictionless, GeoDCAT-AP and
+StatDCAT-AP. Contact is by form only. Every release is in [`CHANGELOG.md`](CHANGELOG.md) and the
 portal's What's new panel.
