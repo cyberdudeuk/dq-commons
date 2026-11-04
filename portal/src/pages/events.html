@@ -1,5 +1,4 @@
 <title>Data Quality Events</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .views{display:flex;gap:6px;flex-wrap:wrap}
@@ -78,7 +77,7 @@ __BASE_CSS__
     <div class="field"><label for="eC">Cost</label><input type="text" id="eC" maxlength="80" placeholder="Free, or the price"></div>
     <div class="field full"><label for="eU">Link to the organiser's page</label><input type="text" id="eU" inputmode="url" placeholder="https://"></div>
     <div class="field full"><label for="eA">Accessibility</label><input type="text" id="eA" maxlength="300" placeholder="What the organiser offers, or Not stated"></div>
-    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="eMsg" role="status" aria-live="polite"></span></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Continue on GitHub</button><span id="eMsg" role="status" aria-live="polite"></span></div>
   </form>
 </section>
 </div>
@@ -92,7 +91,13 @@ const gh = t => `${B.repo}/issues/new?template=${t}`;
 const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/];
 $("vList").innerHTML = DQI("news") + "List"; $("vCal").innerHTML = DQI("calendar") + "Calendar"; $("icsAll").innerHTML = DQI("calendar") + "Add all to my calendar (.ics)";
 const KI = {Conference: "users", Workshop: "wrench", Course: "grad", Webinar: "video", Forum: "globe", Meetup: "chat"};
-let events = EV.events.map(e => ({...e, source: "curated"}));
+// Community events: event contributions a moderator has published on GitHub (read when the portal is built).
+const CMY = __K_COMMUNITY__;
+const shared = CMY.contributions.filter(i => i.type === "Event" && /^\d{4}-\d{2}-\d{2}/.test(i.start)).map(i => { const m = /^([^,]+), ([^,]+), organised by (.+?)\.?$/.exec(i.summary) || [];
+  return {id: "c-" + i.n, title: i.title, start: i.start, end: i.end || i.start, kind: m[1] || "Event", format: m[2] || "", organiser: m[3] || i.org || "Not stated",
+    location: i.where || "", region: i.nation || "Not stated", cost: i.cost || "Not stated", url: i.link, accessibility: i.accessibility || "Not stated. Ask the organiser about access needs.",
+    source: "community", free: /^free$/i.test(i.cost || "")}; });
+let events = [...EV.events.map(e => ({...e, source: "curated"})), ...shared];
 const today = new Date().toISOString().slice(0, 10);
 const opt = (id, vals) => { $(id).innerHTML = `<option value="">Any</option>` + vals.map(v => `<option>${esc(v)}</option>`).join(""); };
 function fillFilters() { opt("fk", EV.kinds); opt("ff", EV.formats); opt("fr", [...new Set(events.map(e => e.region))].sort()); }
@@ -159,7 +164,6 @@ function vevent(e) {
 }
 async function save(name, list) {
   const text = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Public Sector Data Quality Commons//Events//EN", "CALSCALE:GREGORIAN", ...list.map(vevent), "END:VCALENDAR"].join("\r\n") + "\r\n";
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("state").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/calendar"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("state").textContent = "Downloaded. Open the file to add it to your calendar."; }
   catch (e) { $("state").textContent = "Downloading isn't allowed here. Use the organiser's page instead."; }
 }
@@ -168,9 +172,7 @@ $("icsAll").onclick = () => { const L = visible(); if (L.length) save("dq-common
 $("rec").innerHTML = EV.recurring.map(r => `<li>${DQI("refresh")} <a href="${esc(r.url)}" rel="noopener">${esc(r.title)}</a>: ${esc(r.when)}. ${esc(r.organiser)}.${r.checked === "yes" ? "" : ' <span class="chip warn">Not yet reviewed</span>'}</li>`).join("");
 $("note").textContent = EV.commons_note;
 
-// Shared store: published community events (events/{id}); submissions go to the member's moderation queue.
-let db = null, uid = null, writable = true;
-$("eForm").addEventListener("submit", async e => {
+$("eForm").addEventListener("submit", e => {
   e.preventDefault();
   const v = {title: $("eT").value.trim(), start: $("eS").value, end: $("eE").value || $("eS").value, kind: $("eK").value, format: $("eF").value,
     location: $("eL").value.trim(), region: $("eR").value.trim() || "Not stated", organiser: $("eO").value.trim(), cost: $("eC").value.trim() || "Not stated",
@@ -179,28 +181,11 @@ $("eForm").addEventListener("submit", async e => {
     : !safeUrl(v.url) ? ["eU", "Add a link starting with https:// to the organiser's page."] : null;
   if (err) { $("eMsg").innerHTML = `<span class="msg err">${err[1]}</span>`; $(err[0]).focus(); return; }
   if (PII.some(r => r.test(Object.values(v).join(" ")))) { $("eMsg").innerHTML = `<span class="msg err">Please remove email addresses and phone numbers. Link to the organiser's page instead.</span>`; return; }
-  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Event] " + v.title, {kind: "Event", summary: `${v.kind}, ${v.format}, organised by ${v.organiser || "not stated"}.`, link: v.url,
+  DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Event] " + v.title, {kind: "Event", summary: `${v.kind}, ${v.format}, organised by ${v.organiser || "not stated"}.`, link: v.url,
     details: `Starts: ${v.start}\nEnds: ${v.end}\nWhere: ${v.location || "not stated"}\nNation or region: ${v.region}\nCost: ${v.cost}\nAccessibility: ${v.accessibility}`}));
-    $("eMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
-  try {
-    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
-    if (items.filter(i => i.status === "pending").length >= 20) throw {message: "You have 20 items waiting for moderation already."};
-    items.push({...v, kind: "event", kindName: v.kind, summary: `${v.kind}, ${v.format}, ${v.location}. ${v.cost}.`, link: v.url, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
-    await ref.set({items, updated: new Date().toISOString()});
-    $("eForm").reset(); $("eMsg").innerHTML = `<span class="msg ok">Thanks. Moderators will check it and add it to the calendar.</span>`;
-  } catch (er) { $("eMsg").innerHTML = `<span class="msg err">It couldn't be sent: ${esc(er.message || er.code)}.</span>`; }
+    $("eMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`;
 });
 fillFilters(); draw();
-(async () => {
-  if (!window.claude || typeof claude.use !== "function") { $("state").textContent = "This copy shows curated events. To share an event, use the GitHub form."; return; }
-  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
-  if (!db) { $("state").textContent = "Showing curated events. Sign in to see and share community events."; return; }
-  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
-  db.collection("events").onSnapshot(s => {
-    const shared = s.docs.map(x => ({id: "c-" + x.id, ...x.data(), source: "community", free: /^free$/i.test(x.data().cost || "")}));
-    events = [...EV.events.map(e => ({...e, source: "curated"})), ...shared]; fillFilters(); draw();
-  }, () => {});
-})();
 window.DQP_TOUR = [
   {sel: "#upcoming .filters", title: "Filter events", text: "By type, format and where, or only free events."},
   {sel: ".views", title: "List or calendar", text: "See events as a list or as a month calendar."},

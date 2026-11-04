@@ -105,8 +105,8 @@ Exit codes: **0** all OK, **1** a problem (the message names the asset and what 
 Running the same date twice is safe: the history keeps one set of rows per date.
 
 To see the results in the portal, build it: `python scripts/build_dq_portal.py`, then open
-`portal/dist/index.html`. To refresh the claude.ai copy, add `--artifact some-folder` and publish
-that folder's `index.html` with the other pages as its files.
+`portal/dist/index.html`. Set `GITHUB_TOKEN` (read-only) first if you want the local build to include
+live issue data (votes, published contributions, survey totals); without it the build still works.
 
 ## 4. How to add an asset to the portfolio
 

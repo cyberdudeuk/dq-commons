@@ -136,7 +136,7 @@ flowchart LR
 ## 4. v1.0.0 additions (15 October 2026)
 - **Knowledge layer:** `knowledge/*.yaml|csv` is the single source for frameworks, clauses, communities, learning, maturity, surveys and AI guidance. The portal build injects it as `__K_NAME__` placeholders; the MCP server and assistant read the same data.
 - **Portal:** 19 static pages from `portal/src/pages`, shared shell (grouped navigation, guided-tour engine), parity-checked browser engine.
-- **Runtime services (claude.ai artifact):** `db` with 9 access rules (library, wishlist, results readable by all, written by editors; per-member `queue/{self}`, `responses/{self}`, `votes/{self}`); `user` (opaque id only, no names); `sample` for the assistant. On GitHub Pages these resolve to null and the pages fall back to GitHub issue forms.
+- **Runtime services (until v2.3.0):** pages used claude.ai's shared store and model when opened there. Removed in v2.3.0 (D-GH-02): every interaction now runs on GitHub (issue forms, reactions, labels, Actions) and the portal's own code. See section 6.
 - **Integration:** GitHub (source of truth) to Jira (`backlog-sync.yml`, `scripts/sync_backlog.py`) and Confluence (`docs-to-confluence.yml`, `scripts/publish_confluence.py`); configuration in `integrations/config.yaml`; secrets only in repository secrets.
 - **Agent interface:** `dqkit/mcp_server.py` (stdio JSON-RPC, read-only, root-restricted).
 
@@ -169,7 +169,7 @@ flowchart LR
   end
   B --> P[Portal: 28 static pages]
   P --> GHP[GitHub Pages]
-  P --> ART[claude.ai artifact: shared store for votes, queue, contact]
+  GHI --> B
   T --> CLI[CLI: weave, contract-check, run, check]
   T --> MCP[MCP server: weave_metadata, check_contract and 9 more]
   I --> GHI[GitHub issues]
@@ -229,3 +229,16 @@ flowchart LR
 **Q-FAIR.** `dqkit/qfair.py` rates five areas from the run result and the asset record; `cdareturn.row()` adds the record fields, ratings and baseline confidence. New optional asset fields in rules files: `description`, `access_route`, `classification`, `conforms_to`, `identifiers`, `licence`, `provenance`, `baseline_confidence`.
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
+
+## 6. v2.3.0: GitHub only, no claude.ai dependency (4 November 2026)
+The portal must work for every audience, most of whom have no claude.ai licence (D-GH-02).
+- **Send:** every form opens a pre-filled GitHub issue form through `window.DQP_GITHUB` (shell). Forms: contact, wish, bug,
+  rule or pack, commission, contribution (resources, case studies, events, blogs, videos, podcasts), maturity share, and one per
+  survey. Survey and maturity forms are generated from the knowledge base by `scripts/gen_issue_forms.py`.
+- **Moderate:** moderators add the `published` label (or `withdrawn`). Triage flags waiting items.
+- **Show:** the portal build reads issue data once with a read-only token (`github_live()`, `community()` in
+  `scripts/build_dq_portal.py`): backlog states and 👍 votes, the wishlist, published contributions, survey totals and the maturity
+  benchmark (counts under 5 hidden; free text never read). The publish workflow runs on every push, on issue events and daily.
+- **Draft rules:** the rules assistant turns plain English into rules with fixed patterns, entirely in the browser; an optional
+  button copies a prompt for an AI tool the person's organisation has approved. No AI service is called by the Commons.
+- **Unchanged:** visitors' browsers never call GitHub or anyone else (D-POL-01); the offline zip still works, showing the data as of its build.

@@ -1,5 +1,4 @@
 <title>Skills and Training</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .roles{display:flex;flex-wrap:wrap;gap:8px}
@@ -104,7 +103,6 @@ $("dl").onclick = async () => {
     courseFor(s).slice(0, 3).forEach(c => lines.push(`  - ${c.title} (${c.provider}, ${c.cost}): ${c.url.startsWith("http") ? c.url : "Commons portal: " + c.url}`)); lines.push(""); });
   lines.push("From the Public Sector Data Quality Commons. Skills follow the GDaD capability framework.");
   const text = lines.join("\n"), name = "dq-development-plan.txt";
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("dlMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("dlMsg").textContent = "Downloaded."; }
   catch (e) { $("dlMsg").textContent = "Downloading isn't allowed here."; }
 };

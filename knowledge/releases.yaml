@@ -11,6 +11,20 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.3.0"
+  date: "2026-11-04"
+  title: "No claude.ai needed: the Commons runs on GitHub alone"
+  pages_new: []
+  pages_changed: [assistant, surveys, maturity, community, library, media, events, build, accessibility, github, guide, index]
+  items:
+  - {type: changed, text: "Every feature works without a claude.ai account or licence: contributions, events, media, wishes, votes, surveys, maturity sharing, help requests and contact all run on GitHub"}
+  - {type: changed, text: "Rules assistant: turns plain English into a tested rules file with fixed, published patterns, entirely in your browser; no AI service", link: "assistant.html"}
+  - {type: new, text: "Surveys and maturity sharing have their own GitHub forms, filled in from the portal; totals and the benchmark are counted daily, with counts under 5 hidden", link: "surveys.html"}
+  - {type: new, text: "Published contributions, events and media appear on the portal when a moderator adds the published label", link: "community.html"}
+  - {type: new, text: "Copy your request as a prompt for an AI tool your organisation has approved (optional)", link: "assistant.html"}
+  - {type: changed, text: "The portal republishes daily and when a moderator publishes or withdraws something"}
+  - {type: changed, text: "Privacy notice and transparency record updated: nothing you type in the portal is sent anywhere; what you submit on GitHub is public", link: "accessibility.html#privacy"}
+  - {type: removed, text: "claude.ai shared store, sign-in, in-portal moderation queue and the AI model behind the assistant"}
 - version: "2.2.0"
   date: "2026-11-03"
   title: "Every portal feature connected to GitHub; every routine running"

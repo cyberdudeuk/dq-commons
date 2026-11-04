@@ -1,5 +1,4 @@
 <title>Surveys and Commissions</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .svs{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr))}
@@ -30,7 +29,7 @@ __BASE_CSS__
   <h1>Take a survey, run your own, or ask the Commons for help</h1>
   <p class="lede">Open to any organisation: central and local government, devolved administrations, the wider public sector, and voluntary and private bodies delivering public services. Surveys take 3 to 8 minutes. Results are shared openly as totals.</p>
   <nav class="toc" aria-label="On this page"><a href="#surveys">Surveys</a><a href="#results">Results</a><a href="#commission">Ask for help</a><a href="#run">Run your own survey</a></nav>
-  <p class="small" id="state" role="status" aria-live="polite">Checking whether saving is available here…</p>
+  <p class="small">Surveys run on GitHub. Answer here, then press <b>Continue on GitHub</b>: a GitHub form opens with your answers already in it. GitHub issues are public and show your GitHub username, so answer for your organisation only if you're happy for that to be seen, or ask a colleague to submit for the team. Free-text answers stay with you and are never published. You can also download your answers for your own team.</p>
 </header>
 
 <section id="surveys" aria-labelledby="sv-h">
@@ -42,12 +41,8 @@ __BASE_CSS__
 <section id="results" aria-labelledby="rs-h">
   <h2 id="rs-h">Results so far</h2>
   <p class="small muted">Totals only. Any count under 5 is hidden, and free-text answers are never published without moderation.</p>
-  <div id="res"><p class="muted">No results have been published yet.</p></div>
-  <div class="admin" id="admin" hidden>
-    <h3>Editors: count and publish results</h3>
-    <div class="filters"><div class="field"><label for="aSv">Survey</label><select id="aSv"></select></div><button class="btn ghost" type="button" id="aCount">Count responses</button><button class="btn" type="button" id="aPub" disabled>Publish these totals</button></div>
-    <div id="aOut"></div>
-  </div>
+  <div id="res"><p class="muted">No results yet.</p></div>
+  <p class="small muted" id="resRead"></p>
 </section>
 
 <section id="commission" aria-labelledby="cm-h">
@@ -56,7 +51,7 @@ __BASE_CSS__
   <form id="cmForm" novalidate style="display:flex;flex-direction:column;gap:14px">
     <fieldset><legend class="small" style="font-weight:700;margin-bottom:8px">What do you need?</legend><div class="types" id="cmTypes"></div></fieldset>
     <div class="form" id="cmFields"></div>
-    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send request</button><span id="cmMsg" role="status" aria-live="polite"></span></div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Continue on GitHub</button><span id="cmMsg" role="status" aria-live="polite"></span></div>
   </form>
 </section>
 
@@ -66,7 +61,7 @@ __BASE_CSS__
     <li>Write your questions in the same simple format the Commons uses (<code>knowledge/surveys.yaml</code>): single or multiple choice, ratings from 1 to 5, bands and free text.</li>
     <li>Check them against the rules: no names, emails or dates of birth; a privacy notice first; every question can be skipped; totals under 5 hidden.</li>
     <li>Send them as a pull request, or ask for help with the <a href="#commission">"Run a survey through the Commons" request</a>.</li>
-    <li>When it's approved, the survey appears here, and results are published as totals for everyone to use.</li>
+    <li>When it's approved, the survey appears here with its own GitHub form (made from the same file by <code>scripts/gen_issue_forms.py</code>), and its totals are counted every day for everyone to use.</li>
   </ol>
 </section>
 </div>
@@ -76,7 +71,7 @@ const S = __K_SURVEYS__, B = __BUILD__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const SUPPRESS = 5;
-let db = null, uid = null, admin = false, writable = true, myAnswers = {};
+const CMY = __K_COMMUNITY__;
 const gh = tpl => `${B.repo}/issues/new?template=${tpl}`;
 const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
 const hasPII = t => PII.some(re => re.test(t || ""));
@@ -109,32 +104,34 @@ function qValue(q, prefix, root) {
 $("svs").innerHTML = S.surveys.map(s => `<article class="card"><span class="chip acc" style="align-self:flex-start">About ${s.minutes} minutes</span><h3>${esc(s.title)}</h3>
   <p class="small">${esc(s.purpose)}</p>${s.note ? `<p class="small muted">${esc(s.note)}</p>` : ""}<p class="small" data-done="${esc(s.id)}"></p>
   <button class="btn" type="button" data-start="${esc(s.id)}" style="align-self:flex-start;margin-top:auto">Start</button></article>`).join("");
-$("svs").addEventListener("click", e => { const b = e.target.closest("[data-start]"); if (b) open(b.dataset.start); });
-function open(id) {
+$("svs").addEventListener("click", e => { const b = e.target.closest("[data-start]"); if (b) openSurvey(b.dataset.start); });
+function openSurvey(id) {
   const s = S.surveys.find(x => x.id === id), W = $("runnerWrap");
   W.hidden = false;
   W.innerHTML = `<form class="runner" id="run_${esc(id)}" novalidate aria-labelledby="rh"><h3 id="rh" tabindex="-1">${esc(s.title)}</h3>
     <div class="callout info"><b>Before you start</b><p class="small">${esc(S.privacy_notice)}</p></div>
-    ${s.questions.map(q => qHtml(q, "s", (myAnswers[id] || {})[q.id])).join("")}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn" type="submit">${myAnswers[id] ? "Update my answers" : "Send my answers"}</button><button class="btn ghost" type="button" id="cancel">Close</button><span id="sMsg" role="status" aria-live="polite"></span></div></form>`;
+    ${s.questions.map(q => qHtml(q, "s")).join("")}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="btn" type="submit">Continue on GitHub</button><button class="btn ghost" type="button" id="cancel">Close</button><span id="sMsg" role="status" aria-live="polite"></span></div></form>`;
   $("cancel").onclick = () => { W.hidden = true; document.querySelector(`[data-start="${id}"]`).focus(); };
-  W.querySelector("form").addEventListener("submit", async e => {
+  W.querySelector("form").addEventListener("submit", e => {
     e.preventDefault();
     const answers = {};
     s.questions.forEach(q => { const v = qValue(q, "s", W); if (v !== null && v !== "" && !(Array.isArray(v) && !v.length)) answers[q.id] = v; });
     if (!Object.keys(answers).length) { $("sMsg").innerHTML = `<span class="msg err">Answer at least one question.</span>`; return; }
     if (Object.values(answers).some(v => typeof v === "string" && hasPII(v))) { $("sMsg").innerHTML = `<span class="msg err">One answer looks like it includes personal data (an email, phone or NI number). Please remove it.</span>`; return; }
-    if (!db || !uid || !writable) { $("sMsg").innerHTML = `<span class="msg err">Answers can't be saved on this copy of the portal. Please use the Commons on claude.ai, or <a href="${esc(gh("4-commission.yml"))}">contact the Commons</a>.</span>`; return; }
-    try {
-      const ref = db.doc(`responses/${uid}`), snap = await ref.get();
-      await ref.set({...(snap.exists ? snap.data() : {}), ["s_" + id]: {...answers, at: new Date().toISOString().slice(0, 10)}});
-      myAnswers[id] = answers; marks();
-      $("sMsg").innerHTML = `<span class="msg ok">Thank you. Your answers are saved. You can change them any time.</span>`;
-    } catch (er) { $("sMsg").innerHTML = `<span class="msg err">Your answers couldn't be saved (${esc(er.code || er.message)}).</span>`; }
+    const fields = {};
+    s.questions.forEach(q => { const v = answers[q.id]; if (v === undefined || ["text", "long"].includes(q.type)) return;
+      const map = x => x === "None" ? "None of these" : x === "skip" ? "Don't know" : String(x);
+      fields[q.id] = Array.isArray(v) ? v.map(map).join(",") : map(v); });
+    DQP_GITHUB.open(DQP_GITHUB.issue(`7${S.surveys.indexOf(s)}-survey-${s.id}.yml`, "[Survey] " + s.title, fields));
+    lastAnswers = {survey: s.id, title: s.title, date: new Date().toISOString().slice(0, 10), answers};
+    $("sMsg").innerHTML = `<span class="msg ok">A GitHub form opened in a new tab with your answers. Check them and press Submit new issue. Free-text answers aren't sent.</span> <button class="btn ghost" type="button" id="dlAns">Download my answers</button>`;
+    $("dlAns").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(lastAnswers, null, 2)], {type: "application/json"}));
+      a.download = `survey-${s.id}-${lastAnswers.date}.json`; document.body.appendChild(a); a.click(); a.remove(); };
   });
   W.scrollIntoView({block: "start"}); $("rh").focus();
 }
-function marks() { S.surveys.forEach(s => { const el = document.querySelector(`[data-done="${s.id}"]`); if (el) el.innerHTML = myAnswers[s.id] ? `<span class="chip good">You've answered this</span>` : ""; }); }
+let lastAnswers = null;
 
 // totals with suppression
 function aggregate(survey, rows) {
@@ -156,63 +153,31 @@ function drawTotals(survey, agg) {
         return `<div class="bar-h"><span style="min-width:180px">${esc(o)}</span><span class="track" aria-hidden="true"><i style="width:${Number.isFinite(v) ? 100 * v / max : 0}%"></i></span><b>${v === null ? "<5" : v ?? 0}</b></div>`; }).join("") + `</div></details>`; }).join("")) + `</div>`;
 }
 
+// results: counted from GitHub survey issues when the portal is built
+const withData = S.surveys.filter(sv => (CMY.surveys[sv.id] || {}).n);
+$("res").innerHTML = withData.length ? `<div class="grid">${withData.map(sv => drawTotals(sv, CMY.surveys[sv.id])).join("")}</div>` : `<p class="muted">No responses yet. Results appear here as totals once people answer.</p>`;
+$("resRead").innerHTML = `Counted from <a href="${esc(B.repo)}/issues?q=label%3Asurvey-response" rel="noopener">survey answers on GitHub</a>${CMY.read ? ` on ${esc(CMY.read)}` : ""}; updated daily.`;
+
 // commissions
 const CM = S.commissions;
 $("cmPurpose").textContent = CM.purpose;
 $("cmTypes").innerHTML = CM.types.map((t, i) => `<label><input type="radio" name="cmType" value="${esc(t.id)}"${i ? "" : " checked"}><span><b>${esc(t.name)}</b><small>${esc(t.what)}</small></span></label>`).join("");
 const cmFields = CM.fields.filter(f => f.id !== "type");
 $("cmFields").innerHTML = cmFields.map(q => qHtml(q, "c")).join("") + `<p class="small muted full">${esc(S.privacy_notice)}</p>`;
-$("cmForm").addEventListener("submit", async e => {
+$("cmForm").addEventListener("submit", e => {
   e.preventDefault();
   const v = {type: $("cmForm").querySelector("input[name=cmType]:checked").value};
   cmFields.forEach(q => { v[q.id] = qValue(q, "c", $("cmForm")); });
   if (!v.detail) { $("cmMsg").innerHTML = `<span class="msg err">Tell us what you need.</span>`; $("c_detail").focus(); return; }
   if (hasPII(v.detail) || hasPII(v.sector)) { $("cmMsg").innerHTML = `<span class="msg err">Please remove personal data from the description. We reply on the request itself, so no contact details are needed.</span>`; return; }
-  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("4-commission.yml", "[Commission] " + String(v.detail).slice(0, 70), {detail: Object.entries(v).filter(([k, x]) => x && k !== "detail").map(([k, x]) => `${k}: ${x}`).join("\n") + "\n\n" + v.detail}));
-    $("cmMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
-  try {
-    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), items = (snap.exists && snap.data().items) || [];
-    const name = (CM.types.find(t => t.id === v.type) || {}).name;
-    items.push({kind: "commission", title: name, ...v, id: Date.now().toString(36), status: "pending", at: new Date().toISOString()});
-    await ref.set({items, updated: new Date().toISOString()});
-    $("cmForm").reset(); $("cmMsg").innerHTML = `<span class="msg ok">Thanks. Your request is in the queue; it's triaged every week.</span>`;
-  } catch (er) { $("cmMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(gh("4-commission.yml"))}">Use the GitHub form</a> instead.</span>`; }
+  DQP_GITHUB.open(DQP_GITHUB.issue("4-commission.yml", "[Commission] " + String(v.detail).slice(0, 70), {detail: Object.entries(v).filter(([k, x]) => x && k !== "detail").map(([k, x]) => `${k}: ${x}`).join("\n") + "\n\n" + v.detail}));
+    $("cmMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`;
 });
 
-// editors: count and publish
-$("aSv").innerHTML = S.surveys.map(s => `<option value="${esc(s.id)}">${esc(s.title)}</option>`).join("");
-let pending = null;
-$("aCount").addEventListener("click", async () => {
-  const s = S.surveys.find(x => x.id === $("aSv").value), snap = await db.collection("responses").get();
-  const rows = snap.docs.map(d => (d.data() || {})["s_" + s.id]).filter(Boolean);
-  pending = {survey: s, agg: aggregate(s, rows), free: s.questions.filter(q => ["text", "long"].includes(q.type)).flatMap(q => rows.map(r => r[q.id]).filter(Boolean).map(t => [q.q, t]))};
-  $("aOut").innerHTML = drawTotals(s, pending.agg) + (pending.free.length ? `<details class="disc"><summary>Free-text answers (${pending.free.length}) - for editors only, never published</summary><div class="body"><ul class="plain small">${pending.free.map(([q, t]) => `<li><b>${esc(q)}</b> ${esc(t)}</li>`).join("")}</ul></div></details>` : "");
-  $("aPub").disabled = pending.agg.n < SUPPRESS;
-});
-$("aPub").addEventListener("click", async () => {
-  if (!pending) return;
-  await db.doc(`results/${pending.survey.id}`).set({...pending.agg, published: new Date().toISOString()});
-  $("aOut").insertAdjacentHTML("afterbegin", `<p class="msg ok">Published.</p>`); $("aPub").disabled = true;
-});
-
-(async () => {
-  const state = h => { $("state").innerHTML = h; };
-  if (!window.claude || typeof claude.use !== "function") { state(`Answers can't be saved on this copy. Requests go through <a href="${esc(gh("4-commission.yml"))}">GitHub</a>.`); return; }
-  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
-  if (!db) { state(`Saving isn't available here, or you aren't signed in. Requests go through <a href="${esc(gh("4-commission.yml"))}">GitHub</a>.`); return; }
-  if (user) { uid = await user.id(); admin = await user.canEdit(); if (await user.can("data.write") === false) writable = false; }
-  state(uid && writable ? "Signed in. We don't record your name with your answers." : "You can see results. To answer, ask the owner for Contributor access.");
-  if (uid) { try { const m = await db.doc(`responses/${uid}`).get(); if (m.exists) Object.entries(m.data()).forEach(([k, v]) => { if (k.startsWith("s_")) { const { at, ...a } = v; myAnswers[k.slice(2)] = a; } }); marks(); } catch (e) {} }
-  db.collection("results").onSnapshot(s => {
-    const rs = s.docs.map(d => [S.surveys.find(x => x.id === d.id), d.data()]).filter(([sv]) => sv);
-    $("res").innerHTML = rs.length ? `<div class="grid">${rs.map(([sv, a]) => drawTotals(sv, a)).join("")}</div>` : `<p class="muted">No results have been published yet.</p>`;
-  });
-  if (admin) $("admin").hidden = false;
-})();
 if (location.hash && document.querySelector(location.hash)) setTimeout(() => document.querySelector(location.hash).scrollIntoView(), 50);
 window.DQP_TOUR = [
   {sel: "#svs .card", title: "Surveys", text: "Each survey says how long it takes and what it's for. The privacy notice comes first; you can skip any question."},
-  {sel: "#results", title: "Results", text: "Published as totals only. Counts under 5 are hidden so no organisation can be identified."},
+  {sel: "#results", title: "Results", text: "Counted from GitHub answers as totals only. Counts under 5 are hidden."},
   {sel: "#cmTypes", title: "Ask for help", text: "Choose what you need: an assessment, rules, a pack, a peer review, training, tooling advice or incident help."},
 ];
 </script>

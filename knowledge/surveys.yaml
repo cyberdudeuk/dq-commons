@@ -9,7 +9,7 @@
 review: {last_reviewed: "2026-11-03", owner_role: Service owner}
 privacy_notice: >-
   We collect only what each question asks. We never ask for your name, email or any other contact detail:
-  we reply on your request itself (in your Commons inbox on claude.ai, or on the GitHub issue).
+  we reply on your request itself, on the GitHub issue.
   Answers are shown only as totals, and any total under 5 is hidden so no organisation can be
   identified. You can skip any question. This is a prototype service, not an official government survey.
 

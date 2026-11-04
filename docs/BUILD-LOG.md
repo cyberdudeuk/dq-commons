@@ -1,5 +1,19 @@
 # Build journal
 
+## 2026-11-04 — v2.3.0: no claude.ai needed; the Commons runs on GitHub alone
+
+**Asked for:** remove the portal's dependency on claude.ai, because most target users have no licence for it; the Commons must be self-sufficient on GitHub's features combined with the portal's own.
+
+**Built**
+- Removed every claude.ai call (shared store, sign-in, downloads, model) from 16 pages, the shell and the build; removed the claude.ai build mode; a test now fails if any page calls claude.ai.
+- GitHub issue forms for each survey and for maturity sharing, generated from the knowledge base (`scripts/gen_issue_forms.py`, checked by a test); survey forms carry no free text.
+- Build-time reading of published contributions, survey answers and maturity shares (`community()`), with totals and the benchmark computed at build time and counts under 5 hidden; the publish workflow runs daily and when the `published` or `withdrawn` label changes.
+- Community, Library, Media and Events show published contributions; their forms finish on GitHub. Build page: votes are 👍 reactions; wishes and contact are GitHub forms; the in-portal inbox and moderation queue are gone.
+- Rules assistant: plain English to rules with fixed patterns (identifiers, future dates, uniqueness, ranges, allowed values, inclusion, freshness, outliers, required fields), framework and scoring look-ups, and an optional prompt to copy for an approved AI tool.
+- Privacy notice, known problems, user guide, architecture, screening and the transparency record (now version 2.0: no model) updated.
+
+**Checked:** tests, parity, browser checks of the assistant, survey hand-off (opens the right pre-filled form), benchmark, and every changed page with no script errors.
+
 ## 2026-11-03 — v2.2.0: portal connected to GitHub, outstanding portal items closed
 
 **Asked for:** deal with any remaining outstanding, open or pending items described in the portal and its roadmap, and connect them and every other portal feature to the matching GitHub features and workflows.

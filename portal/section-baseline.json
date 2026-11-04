@@ -96,6 +96,7 @@
   },
   "github": {
    "s-find-other-public-sector-code": "d5cc9c11ed6a",
+   "s-how-every-portal-feature-connects-to-github": "76dfb77192df",
    "s-how-the-portal-and-the-repository-connect": "7449adb7e5af",
    "s-key-words": "d6f7ae3c9913",
    "s-staying-safe-in-a-public-space": "eed022873d22",
@@ -198,9 +199,9 @@
    "s-who-could-be-left-out": "06b6b1f2599b"
   },
   "operate": {
-   "s-from-request-to-release": "353db8ea0b95",
+   "s-from-request-to-release": "17379f9a32b3",
    "s-getting-help-four-tiers": "18654f451a12",
-   "s-github-jira-and-confluence": "1eb6cb676811",
+   "s-github-jira-and-confluence": "ae993474ff1a",
    "s-how-we-ll-know-it-s-working": "1f01effe00c7",
    "s-moderation-and-contributions": "ed1f9bd3547f",
    "s-roles": "f9ef676c2657"
@@ -210,7 +211,7 @@
    "s-catalogue-records": "49fb2e6e7912",
    "s-downloads-from-this-run": "da39a3ee5e6b",
    "s-how-far-each-asset-can-be-trusted": "6fc45d9ecc26",
-   "s-how-the-pipeline-runs": "552bce29b1a6",
+   "s-how-the-pipeline-runs": "45877a36aabb",
    "s-open-issues-most-urgent-first": "d561cf3bfb92"
   },
   "playbook": {
@@ -243,7 +244,7 @@
    "s-scenarios": "da39a3ee5e6b"
   },
   "share": {
-   "s-draft-case-studies": "cd4a5be78566"
+   "s-draft-case-studies": "df3f9211bd42"
   },
   "surveys": {
    "s-ask-the-commons-for-help": "74aa80d480d2",
@@ -274,8 +275,8 @@
    "s-4-outputs": "39e5e82b7640",
    "s-contract-change-check": "cf144fa14ec1",
    "s-run-it-yourself": "ea7fbce58267",
-   "s-why-a-weaver-not-just-a-crosswalk": "55440bd5da58"
+   "s-why-a-weaver-not-just-a-crosswalk": "cf8d1c2169af"
   }
  },
- "since": "2.1.0"
+ "since": "2.2.0"
 }

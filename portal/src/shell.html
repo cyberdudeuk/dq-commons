@@ -213,8 +213,8 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
   <ul class="dqp-sres" id="dqp-sres"></ul>
 </dialog>
 <script>
-/* One way to reach GitHub from any page (D-GH-01). Every portal form that saves on claude.ai falls back to the
-   matching GitHub issue form or discussion, pre-filled with what the person already typed, so nothing is lost. */
+/* One way to reach GitHub from any page (D-GH-01, D-GH-02). Every portal form opens the
+   matching GitHub issue form or discussion, pre-filled with what the person typed, so nothing is lost. */
 window.DQP_GITHUB = (function () {
   var repo = "{{REPO}}";
   function q(fields) { return Object.keys(fields || {}).filter(function (k) { return fields[k]; })

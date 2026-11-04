@@ -1,5 +1,4 @@
 <title>Learn Data Quality</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .roles{display:flex;flex-wrap:wrap;gap:8px}
@@ -102,7 +101,6 @@ $("xapi").addEventListener("click", async () => {
       extensions: {"https://github.com/cyberdudeuk/dq-commons/xapi/minutes": m.minutes, "https://github.com/cyberdudeuk/dq-commons/xapi/capability": m.capability}}},
     timestamp: doneAt[m.id] || new Date().toISOString()}));
   const text = JSON.stringify(stmts, null, 2), name = "dq-commons-learning-record.json";
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("xMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("xMsg").textContent = `Downloaded ${mods.length} completed module(s).`; }
   catch (e) { $("xMsg").textContent = "Downloading isn't allowed here."; }
 });

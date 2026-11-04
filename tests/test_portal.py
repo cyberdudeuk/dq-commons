@@ -18,9 +18,9 @@ class PortalBuild(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = tempfile.TemporaryDirectory()
-        cls.out, cls.art = Path(cls.tmp.name) / "dist", Path(cls.tmp.name) / "art"
-        subprocess.run([sys.executable, str(ROOT / "scripts" / "build_dq_portal.py"), "--out", str(cls.out),
-                        "--artifact", str(cls.art)], check=True, capture_output=True, text=True)
+        cls.out = Path(cls.tmp.name) / "dist"
+        subprocess.run([sys.executable, str(ROOT / "scripts" / "build_dq_portal.py"), "--out", str(cls.out)],
+                       check=True, capture_output=True, text=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -37,12 +37,12 @@ class PortalBuild(unittest.TestCase):
             self.assertIn('class="dqp-colo"', text, p)  # the colophon is on every page
         self.assertIn('class="dqp-prov"', (self.out / "commercial.html").read_text(encoding="utf-8"))  # provenance line
 
-    def test_artifact_home_has_no_wrapper_and_links_to_repo(self):
-        home = (self.art / "index.html").read_text(encoding="utf-8")
-        self.assertFalse(home.lstrip().lower().startswith("<!doctype"))
-        self.assertTrue(home.startswith("<title>"))
-        pipe = (self.art / "pipeline.html").read_text(encoding="utf-8")
-        self.assertIn("/blob/main/assessments/portfolio/", pipe)
+    def test_no_claude_ai_dependency(self):
+        """D-GH-02: the portal must work for people without a claude.ai licence."""
+        for p in PAGES:
+            text = (self.out / f"{p}.html").read_text(encoding="utf-8")
+            self.assertNotIn("claude.use(", text, p)
+            self.assertNotIn("window.claude", text, p)
 
     def test_embedded_results_match_the_pipeline(self):
         port = json.loads((ROOT / "assessments" / "portfolio" / "portfolio.json").read_text(encoding="utf-8"))

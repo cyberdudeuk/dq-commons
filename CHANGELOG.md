@@ -2,6 +2,18 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.3.0 — 2026-11-04
+### Changed
+- The portal has no claude.ai dependency (D-GH-02). All submissions use GitHub issue forms pre-filled by the portal; results are read from GitHub when the portal is built.
+- Rules assistant uses fixed, published patterns in the browser instead of an AI model; optional "copy as a prompt" for an approved AI tool.
+- Publish workflow also runs daily and when the `published` or `withdrawn` label changes.
+### Added
+- `scripts/gen_issue_forms.py` and generated forms `6-maturity-share.yml`, `70`–`73-survey-*.yml`.
+- `community()` in the portal build: published contributions, survey totals and the maturity benchmark (counts under 5 hidden).
+- Tests: no claude.ai calls in any page; issue forms current; survey forms carry no free text.
+### Removed
+- claude.ai shared store, sign-in, downloads, in-portal moderation and inbox, the AI model behind the assistant, and the `--artifact` build options.
+
 ## 2.2.0 — 2026-11-03
 ### Added
 - `github.html#map-h`: portal-to-GitHub feature map. `window.DQP_GITHUB` helper in the shell.

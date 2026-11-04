@@ -1,5 +1,4 @@
 <title>Metadata Weaver</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .loom{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:center}
@@ -214,7 +213,6 @@ function drawOut() {
 $("copy").onclick = async () => { try { await navigator.clipboard.writeText(outText()); $("oMsg").textContent = "Copied."; } catch (e) { $("oMsg").textContent = "Copying isn't allowed here. Select the text instead."; } };
 $("dl").onclick = async () => {
   const name = `metadata.${cur}.json`, text = outText();
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("oMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("oMsg").textContent = "Downloaded."; }
   catch (e) { $("oMsg").textContent = "Downloading isn't allowed here. Use Copy."; }
 };

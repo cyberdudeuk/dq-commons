@@ -1,7 +1,7 @@
 """Build the solution build and development bundle: every mandated document in one standalone, navigable page.
 
 Usage:
-    python scripts/build_bundle.py [--out docs/bundle/index.html] [--artifact FILE] [--check]
+    python scripts/build_bundle.py [--out docs/bundle/index.html] [--check]
 
 What it does, in plain English:
 1. Reads the product, architecture and delivery documents from the repository (README, PRD, theory of change,
@@ -9,8 +9,7 @@ What it does, in plain English:
    Metadata Weaver, assurance routines, charter, change log, decisions and build log).
 2. Converts them from Markdown to HTML with a small built-in converter (no extra packages), adds a contents
    sidebar, a search box, the version and commit, and print styles.
-3. Writes a complete web page (docs/bundle/index.html). With --artifact it also writes a copy without the
-   <html> wrapper, for publishing as a claude.ai page. With --check it fails if the committed page is out of date.
+3. Writes a complete web page (docs/bundle/index.html). With --check it fails if the committed page is out of date.
 
 It makes no network calls. It only presents the documents; it never changes them.
 """
@@ -232,7 +231,6 @@ def build(sha: str) -> tuple[str, str]:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--out", default=str(ROOT / "docs" / "bundle" / "index.html"))
-    ap.add_argument("--artifact", help="also write a copy without the <html> wrapper, for a claude.ai page")
     ap.add_argument("--check", action="store_true", help="fail if the committed bundle is out of date (ignores the commit id)")
     a = ap.parse_args(argv)
     import build_dq_portal as b
@@ -246,9 +244,6 @@ def main(argv=None) -> int:
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc, encoding="utf-8")
     print("Wrote", out)
-    if a.artifact:
-        Path(a.artifact).write_text(frag, encoding="utf-8")
-        print("Wrote", a.artifact)
     return 0
 
 

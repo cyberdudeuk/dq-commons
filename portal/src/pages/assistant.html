@@ -1,5 +1,4 @@
-<title>AI Data Quality Assistant</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>Rules assistant</title>
 <style>
 __BASE_CSS__
 .layout{display:grid;gap:18px;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}
@@ -25,22 +24,22 @@ __BASE_CSS__
 
 <div class="wrap">
 <header class="page">
-  <span class="eyebrow">Do · AI assistant</span>
+  <span class="eyebrow">Do · Rules assistant</span>
   <h1>Describe your data quality rules in plain English. Get a tested rules file.</h1>
-  <p class="lede">The assistant drafts rules, explains results and finds the frameworks that apply. It uses the toolkit's own engine as tools, so every rules file it shows has already been checked. You review everything before you use it: the AI drafts, the rules decide.</p>
-  <div class="callout info"><p class="small"><b>Transparency:</b> read the <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/docs/transparency/ATRS-AI-ASSISTANT.md">algorithmic transparency record</a> for this assistant (who owns it, what it does, risks and how they are handled).</p><p class="small"><b>What is sent to the AI:</b> your messages, and the column names of a file you load. Example values are sent only if you tick the box below. Your full data never leaves your browser. Don't type personal data into messages.</p></div>
-  <p class="small" id="state" role="status" aria-live="polite">Checking whether the AI is available here…</p>
+  <p class="lede">Write what good data looks like in plain English. The assistant turns each sentence into a rule, using fixed, published patterns, and the toolkit's engine checks the rules file before you see it. It runs entirely in your browser: no AI service, no account and nothing sent anywhere. You review everything before you use it.</p>
+  <div class="callout info"><p class="small"><b>How it works:</b> each phrase it recognises (for example "valid NHS number", "not in the future", "one per person per month", "between 0 and 100", "one of A, B or C") maps to one check. Anything it doesn't recognise is listed, so you can add it by hand or ask the <a href="build.html#contact">community</a>. The patterns are in this page's source and in <code>knowledge/</code>, open for anyone to check or improve. The <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/docs/transparency/ATRS-AI-ASSISTANT.md">transparency record</a> explains the change from an AI model to fixed rules.</p>
+  <p class="small"><b>Your data stays with you:</b> a file you load is read in your browser and never uploaded. Don't type personal data into the box.</p></div>
 </header>
 
 <div class="layout">
   <section class="chat" aria-labelledby="chat-h">
-    <h2 id="chat-h" class="sr-only">Conversation</h2>
+    <h2 id="chat-h" class="sr-only">Describe your rules</h2>
     <div class="log" id="log" role="log" aria-live="polite" aria-relevant="additions"></div>
     <form class="ask" id="ask">
       <div class="quick" id="quick" role="group" aria-label="Example requests"></div>
       <label for="msg" class="sr-only">Your message</label>
       <textarea id="msg" placeholder="For example: every claim needs a valid National Insurance number, a claim date that isn't in the future, and one claim per person per month."></textarea>
-      <div class="row"><button class="btn" type="submit" id="send">Send</button><button class="btn ghost" type="button" id="stop" hidden>Stop</button><button class="btn ghost" type="button" id="clear">Start again</button></div>
+      <div class="row"><button class="btn" type="submit" id="send">Draft the rules</button><button class="btn ghost" type="button" id="clear">Start again</button><button class="btn ghost" type="button" id="prompt" title="For an AI tool your organisation has approved">Copy as a prompt for an approved AI tool</button></div>
     </form>
   </section>
 
@@ -48,9 +47,8 @@ __BASE_CSS__
     <section class="card" aria-labelledby="data-h">
       <h2 id="data-h" style="font-size:1.1rem">Your data (optional)</h2>
       <div class="field"><label for="file">Open a CSV file</label><input type="file" id="file" accept=".csv,text/csv"></div>
-      <p class="small" id="fileInfo">No file loaded. The assistant can still draft rules from your description.</p>
-      <label class="consent"><input type="checkbox" id="share"> <span>Also share up to 5 example values per column with the AI, to help it suggest formats. Leave unticked for personal data.</span></label>
-      <button class="btn ghost" type="button" id="suggest">Suggest starter rules without AI</button>
+      <p class="small" id="fileInfo">No file loaded. The assistant can still draft rules from your description; with a file it matches your words to the real column names.</p>
+      <button class="btn ghost" type="button" id="suggest">Suggest starter rules from the file</button>
     </section>
     <section class="card" aria-labelledby="draft-h">
       <h2 id="draft-h" style="font-size:1.1rem">Rules file</h2>
@@ -74,7 +72,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 DQ.setVocab(V.issue_types, V.dimensions);
 const YAML = window.jsyaml;
-let table = null, fileName = "", sample = null, history = [], ctl = null, lastResult = null;
+let table = null, fileName = "", lastResult = null;
 
 // ---------- the engine as tools ----------
 function parseRules(text) {
@@ -95,57 +93,10 @@ const CHECK_HELP = {
   sum_max: "column, max", freshness: "column (dates), expected (ISO 8601 duration e.g. P1M), lag", no_gaps: "column (years), step",
   header_has_unit: "(no column) optional columns, ignore", not_unknown: "column, optional values", group_disparity: "group (column), inner (a rule without id), tolerance (points)",
   identifier: `column, scheme: ${DQ.IDENTIFIER_SCHEMES.join("|")}`};
-const TOOLS = [
-  {name: "validate_rules", description: "Check a rules file (YAML text) with the toolkit's engine. Returns ok, or the exact error to fix. Always call this before giving the user a rules file.",
-   inputSchema: {type: "object", properties: {yaml: {type: "string"}}, required: ["yaml"]},
-   execute: ({yaml}) => { try { const s = parseRules(yaml); return {ok: true, rules: s.rules.length}; } catch (e) { return {ok: false, error: e.message}; } }},
-  {name: "run_rules", description: "Run a rules file on the CSV the user loaded, in their browser. Returns a summary per rule (pass rate, target, priority). Only works if a file is loaded.",
-   inputSchema: {type: "object", properties: {yaml: {type: "string"}}, required: ["yaml"]},
-   execute: ({yaml}) => { if (!table) return {error: "No file is loaded."}; const s = parseRules(yaml), r = DQ.run(table, s, new Date().toISOString().slice(0, 10)); lastResult = r;
-     return {rows: r.rows, rules_met: r.rules_met, rules_total: r.rules_total, results: r.results.map(x => ({id: x.id, description: x.description, dimension: x.dimension, performance: x.performance, target: x.assessment.target, priority: x.assessment.priority}))}; }},
-  {name: "list_checks", description: "The checks the toolkit supports with their parameters, identifier schemes, value sets and rule library templates.",
-   inputSchema: {type: "object", properties: {}}, execute: () => ({checks: CHECK_HELP, valuesets: Object.fromEntries(Object.entries(VS).map(([k, v]) => [k, v.slice(0, 12).map(r => r.label)])),
-     library: Object.fromEntries(Object.entries(LIB).map(([k, v]) => [k, (v.spec.rules || []).map(r => `${r.id} ${r.check} ${r.description || ""}`)]))})},
-  {name: "describe_data", description: "Column names of the loaded file, row count, share of empty values, and example values if the user allowed it.",
-   inputSchema: {type: "object", properties: {}}, execute: () => table ? describe() : {error: "No file is loaded."}},
-  {name: "find_frameworks", description: "Search the registry of data quality frameworks, standards and policies (UK, devolved, sector, international).",
-   inputSchema: {type: "object", properties: {query: {type: "string"}}, required: ["query"]},
-   execute: ({query}) => { const q = String(query).toLowerCase().split(/\s+/).filter(Boolean);
-     return F.filter(f => q.every(w => JSON.stringify(f).toLowerCase().includes(w))).slice(0, 8).map(f => ({id: f.id, name: f.name, publisher: f.publisher, jurisdiction: f.jurisdiction, sector: f.sector, dimensions: f.dimensions, pack: f.pack, url: f.url, verified: f.verified})); }},
-  {name: "crosswalk", description: "How a framework names each toolkit dimension (e.g. completeness, validity). Use to translate results.",
-   inputSchema: {type: "object", properties: {framework_id: {type: "string"}}, required: ["framework_id"]},
-   execute: ({framework_id}) => X[framework_id] || {error: "Unknown framework id. Use find_frameworks first."}},
-  {name: "score_issue", description: "Score an issue with the UK government issues framework. importance and impact are 1 to 4; performance is the pass rate (0 to 100).",
-   inputSchema: {type: "object", properties: {importance: {type: "integer"}, impact: {type: "integer"}, performance: {type: "number"}, policy: {type: "string", enum: ["low", "mid", "high"]}}, required: ["importance", "impact", "performance"]},
-   execute: ({importance, impact, performance, policy}) => DQ.assess(importance, impact, performance, null, policy || "low")},
-];
-const SYSTEM = `You are the data quality assistant in the Public Sector Data Quality Commons, a public good service for UK public sector organisations. Write in plain British English for non-specialists: short sentences, no jargon without explanation.
-Your jobs: (1) turn plain-English expectations into a rules file for the toolkit; (2) explain results; (3) say which frameworks apply, using find_frameworks; (4) score issues with score_issue.
-Rules file format (YAML):
-asset: {id: short-id, title: ..., owner: organisation (not a person), importance: 1-4, target_policy: low|mid|high}
-rules: list of {id: R1, check: <check>, ...params, description: plain English, impact: 1-4 (optional)}
-Checks and parameters: ${JSON.stringify(CHECK_HELP)}
-Always call validate_rules on your draft and fix every error before replying. Put the final rules file in one \`\`\`yaml block. Use only columns the user named or that describe_data lists. Prefer identifier checks for NHS numbers, NI numbers, postcodes, UPRNs, GSS codes and similar. For data about people, suggest an inclusion check (not_unknown or group_disparity) and say why. Never ask for or repeat personal data. If unsure, say what you assumed. Remind the user to review rules before use.`;
-
-// ---------- data ----------
-function describe() {
-  const cols = table.columns, rows = table.rows, idx = c => cols.indexOf(c);
-  return {file: fileName, rows: rows.length, columns: cols.map(c => { const vals = rows.map(r => Array.isArray(r) ? r[idx(c)] : r[c]);
-    const empty = vals.filter(v => v === null || v === undefined || String(v).trim() === "").length;
-    const out = {name: c, empty_percent: rows.length ? Math.round(1000 * empty / rows.length) / 10 : 0};
-    if ($("share").checked) out.examples = [...new Set(vals.filter(v => v !== null && String(v).trim() !== ""))].slice(0, 5);
-    return out; })};
-}
-$("file").addEventListener("change", e => {
-  const f = e.target.files && e.target.files[0]; if (!f) return;
-  if (f.size > 25 * 1024 * 1024) { $("fileInfo").textContent = "That file is over 25 MB. Use the Python toolkit for large files."; return; }
-  const r = new FileReader();
-  r.onload = () => { try { table = DQ.parseCSV(String(r.result).replace(/^﻿/, "")); fileName = f.name;
-      $("fileInfo").textContent = `${f.name}: ${table.rows.length} rows, ${table.columns.length} columns. It stays in your browser.`; }
-    catch (er) { table = null; $("fileInfo").textContent = "That file couldn't be read as CSV: " + er.message; } };
-  r.readAsText(f);
-});
-
+// Look-ups the assistant answers directly from the knowledge base.
+const findFrameworks = query => { const q = String(query).toLowerCase().split(/\s+/).filter(w => w.length > 2 && !STOP.has(w));
+  return F.map(f => [q.filter(w => JSON.stringify(f).toLowerCase().includes(w)).length, f]).filter(([n]) => n).sort((a, b) => b[0] - a[0]).slice(0, 6).map(([, f]) => f); };
+const STOP = new Set(["which", "what", "frameworks", "framework", "apply", "applies", "does", "for", "the", "and", "standards", "standard", "about", "with", "how", "would", "describe"]);
 // deterministic suggester (no AI): names, identifier formats, emptiness and uniqueness
 const ID_HINT = [[/nhs/i, "nhs_number"], [/\bni(no|_?number)?\b|nino|national.?insurance/i, "nino"], [/post.?code/i, "uk_postcode"], [/uprn/i, "uprn"],
   [/(gss|area|lad|la)_?code|geography_?code/i, "gss_code"], [/compan(y|ies).?(no|number)/i, "company_number"], [/charity/i, "charity_number"], [/\burn\b/i, "school_urn"], [/ods/i, "ods_code"], [/\blei\b/i, "lei"]];
@@ -163,7 +114,7 @@ $("suggest").addEventListener("click", () => {
     if (/date|_on$|_at$/i.test(c.name) && vals.length && vals.filter(v => /^\d{4}-\d{2}-\d{2}/.test(v)).length / vals.length > 0.8) rules.push({id: "R" + n++, check: "not_future", column: c.name, description: `${c.name} isn't in the future`});
   });
   $("draft").value = YAML.dump({asset: {id: fileName.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-"), title: fileName, importance: 3, target_policy: "low"}, rules}, {lineWidth: 110, noRefs: true});
-  validate(); add("sys", `Starter rules drafted without AI from ${fileName}: ${rules.length} rules. Review them and add your business rules.`);
+  validate(); add("sys", `Starter rules drafted from ${fileName}: ${rules.length} rules from its column names and formats. Review them and add your business rules.`);
 });
 
 // ---------- rules panel ----------
@@ -182,68 +133,138 @@ $("runIt").addEventListener("click", () => {
 $("toChecker").addEventListener("click", () => { if (!validate()) return; try { localStorage.setItem("dqc.rules.draft", $("draft").value); } catch (e) {} location.href = "check.html?from=assistant"; });
 $("copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText($("draft").value); $("valid").textContent = "Copied."; } catch (e) { $("draft").focus(); $("draft").select(); $("valid").textContent = "Copying isn't allowed here; the text is selected: press Ctrl+C (or Cmd+C)."; } });
 
-// ---------- conversation ----------
-function add(who, text, tools) {
-  const d = document.createElement("div"); d.className = "m " + who; d.textContent = text;
-  if (tools && tools.length) { const t = document.createElement("span"); t.className = "tool"; t.textContent = "Used: " + tools.join(", "); d.appendChild(t); }
+// ---------- plain English to rules (fixed, published patterns; no AI) ----------
+function add(who, html) {
+  const d = document.createElement("div"); d.className = "m " + who; d.innerHTML = html;
   $("log").appendChild(d); $("log").scrollTop = $("log").scrollHeight; return d;
 }
-const QUICK = ["Draft rules for a register of people using our services: NHS number, date of birth, postcode and ethnic group.",
-  "Which frameworks apply to official statistics in Wales?", "Explain my results in plain English and say what to fix first.",
-  "How would ISO/IEC 25012 describe completeness and validity?", "Score an issue: importance 4, impact 3, pass rate 96%."];
+const SCHEMES = [[/\bnhs\s*(number|no)\b/i, "nhs_number", "nhs_number", "a valid NHS number (check digit)"],
+  [/\b(national insurance|ni)\s*(number|no)\b|\bnino\b/i, "nino", "ni_number", "a valid National Insurance number"],
+  [/\bpost\s?codes?\b/i, "uk_postcode", "postcode", "a valid UK postcode"], [/\buprn\b/i, "uprn", "uprn", "a UPRN in the right format"],
+  [/\b(gss|area|local authority|la)\s*codes?\b/i, "gss_code", "area_code", "a GSS area code"], [/\bcompany\s*(number|no)\b/i, "company_number", "company_number", "a Companies House number"],
+  [/\bcharity\s*(number|no)\b/i, "charity_number", "charity_number", "a charity number"], [/\b(school\s*)?urn\b/i, "school_urn", "school_urn", "a school URN"],
+  [/\bods\s*codes?\b/i, "ods_code", "ods_code", "an NHS ODS code"], [/\blei\b/i, "lei", "lei", "a valid LEI (check digits)"]];
+const PEOPLE = /\b(ethnic(ity| group)?|sex|gender|disabilit(y|ies)|religion|age band)\b/i;
+const FREQ = [[/\bdaily|every day\b/i, "P1D"], [/\bweekly|every week\b/i, "P1W"], [/\bmonthly|every month\b/i, "P1M"], [/\bquarterly|every quarter\b/i, "P3M"], [/\b(yearly|annually|every year)\b/i, "P1Y"]];
+const slug = t => t.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+function column(phrase, fallback, preferFallback) {
+  // match words to a loaded file's columns; otherwise make a sensible column name from the phrase
+  const words = phrase.toLowerCase().match(/[a-z0-9]+/g) || [];
+  if (table) {
+    let best = null, score = 0;
+    table.columns.forEach(c => { const cw = c.toLowerCase().match(/[a-z0-9]+/g) || [], n = cw.filter(w => words.includes(w) || words.some(x => x.length > 3 && (x.startsWith(w) || w.startsWith(x)))).length;
+      if (n > score) { score = n; best = c; } });
+    if (best) return best;
+  }
+  const made = slug(words.filter(w => !["a", "an", "the", "every", "each", "must", "should", "be", "is", "has", "have", "needs", "valid", "and", "with", "t", "s"].includes(w)).slice(-3).join(" "));
+  return (preferFallback && fallback) || made || fallback || "column";
+}
+function draft(text) {
+  const rules = [], seen = [], missed = []; let n = 1;
+  const push = (r, why) => { const k = JSON.stringify({...r, description: ""}); if (seen.includes(k)) return; seen.push(k); rules.push({id: "R" + n++, ...r}); explain.push(why); };
+  const explain = [];
+  const clauses = text.replace(/\s+/g, " ").split(/[.;\n]|,\s*(?=(?:and\s+)?(?:a|an|the|every|each|no|one|its?|their)\b)|\band\s+(?=(?:a|an|the|every|each|no|one)\b)/i).map(c => c.trim()).filter(c => c.length > 2);
+  clauses.forEach(c => {
+    let hit = false;
+    SCHEMES.forEach(([re, scheme, col, words]) => { if (re.test(c)) { const m = c.match(re)[0]; const name = column(m, col, true);
+      push({check: "identifier", column: name, scheme, description: `${name} is ${words}`}, `<b>${esc(name)}</b> must be ${esc(words)}.`); hit = true; } });
+    let m;
+    if (/\b(in the future|future date|not.*future|isn'?t in the future)\b/i.test(c)) { const name = column(c.replace(/\b(not|isn'?t|in|the|future)\b/gi, ""), "date");
+      push({check: "not_future", column: name, description: `${name} is not in the future`}, `<b>${esc(name)}</b> can't be a future date.`); hit = true; }
+    if ((m = c.match(/\bone\s+([a-z ]+?)\s+per\s+([a-z ]+?)(?:\s+per\s+([a-z ]+))?$/i)) || /\b(unique|no duplicates?|not duplicated)\b/i.test(c)) {
+      const cols = m ? [m[2], m[3]].filter(Boolean).map(x => column(x)) : [column(c.replace(/\b(unique|no|duplicates?|not|duplicated)\b/gi, ""))];
+      push({check: "unique", columns: [...new Set(cols)], description: `One row per ${cols.join(" and ")}`}, `Only one row for each <b>${esc(cols.join(" + "))}</b>.`); hit = true; }
+    if ((m = c.match(/between\s+(-?[\d.]+)\s+and\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
+      push({check: "range", column: name, min: +m[1], max: +m[2], description: `${name} is between ${m[1]} and ${m[2]}`}, `<b>${esc(name)}</b> must be between ${m[1]} and ${m[2]}.`); hit = true; }
+    else if ((m = c.match(/\b(at least|no less than|minimum of|over)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
+      push({check: "range", column: name, min: +m[2], description: `${name} is at least ${m[2]}`}, `<b>${esc(name)}</b> must be at least ${m[2]}.`); hit = true; }
+    else if ((m = c.match(/\b(at most|no more than|up to|maximum of|under)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
+      push({check: "range", column: name, max: +m[2], description: `${name} is at most ${m[2]}`}, `<b>${esc(name)}</b> must be at most ${m[2]}.`); hit = true; }
+    else if (/\b(positive|not negative|zero or more)\b/i.test(c)) { const name = column(c.replace(/\b(positive|not|negative|zero|or|more)\b/gi, ""));
+      push({check: "range", column: name, min: 0, description: `${name} is not negative`}, `<b>${esc(name)}</b> can't be negative.`); hit = true; }
+    if ((m = c.match(/\b(?:one of|either|must be|is)\s+((?:[\w'-]+(?:\s[\w'-]+)?)(?:\s*,\s*[\w'-]+(?:\s[\w'-]+)?)*\s*,?\s*(?:or)\s+[\w'-]+(?:\s[\w'-]+)?)$/i)) && !/\bnumber|code|date\b/i.test(m[1])) {
+      const values = m[1].split(/\s*,\s*|\s+or\s+/i).map(v => v.trim()).filter(Boolean), name = column(c.replace(m[0], ""));
+      if (values.length > 1) { push({check: "in_set", column: name, values, description: `${name} is one of the allowed values`}, `<b>${esc(name)}</b> must be one of: ${values.map(esc).join(", ")}.`); hit = true; } }
+    if (PEOPLE.test(c)) { const name = column(c.match(PEOPLE)[0], slug(c.match(PEOPLE)[0]));
+      push({check: "not_unknown", column: name, description: `${name} is recorded, not defaulted to unknown`, dimension: "representativeness"}, `<b>${esc(name)}</b> is recorded rather than left as "unknown" (an inclusion check).`); hit = true; }
+    const f = FREQ.find(([re]) => re.test(c));
+    if (f && /\b(up to date|updated|published|refreshed|new data)\b/i.test(c)) { const name = column(c, "period");
+      push({check: "freshness", column: name, expected: f[1], description: `Data is updated ${c.match(f[0])[0]}`}, `The latest <b>${esc(name)}</b> is no older than ${esc(c.match(f[0])[0])} allows.`); hit = true; }
+    if (/\b(outliers?|implausible|unusual|suspicious) (values?|numbers?|amounts?)\b|\boutliers?\b/i.test(c)) { const name = column(c.replace(/\b(outliers?|implausible|unusual|suspicious|values?|numbers?|amounts?|no)\b/gi, ""));
+      push({check: "outlier", column: name, description: `${name} has no implausible values`}, `Flag <b>${esc(name)}</b> values far from the rest (an outlier check).`); hit = true; }
+    if (!hit && /\b(required|must (have|be filled|be present|be recorded)|is filled|filled in|needs? an?|every [a-z]+ (has|needs)|not (blank|empty|missing)|mandatory|always (has|recorded))\b/i.test(c)) {
+      const name = column(c.replace(/\b(required|must|have|has|be|filled|in|present|recorded|needs?|an?|every|not|blank|empty|missing|mandatory|always|is)\b/gi, ""));
+      push({check: "not_null", column: name, description: `${name} is filled in`}, `<b>${esc(name)}</b> is always filled in.`); hit = true; }
+    if (!hit) missed.push(c);
+  });
+  return {rules, explain, missed};
+}
+function answerLookup(text) {
+  const t = text.toLowerCase(), nums = (text.match(/\d+(\.\d+)?/g) || []).map(Number);
+  if (/\bscore\b/.test(t) && nums.length >= 3) {
+    const [imp, impact, perf] = nums; const a = DQ.assess(imp, impact, perf, null, "low");
+    return `Using the government issues framework, importance ${imp}, impact ${impact} and a pass rate of ${perf}% gives <b>${a.meets_target ? "no issue: it meets the target" : `priority ${esc(a.priority)}`}</b> (target ${a.target}%${a.resolution ? `, fix ${esc(a.resolution.toLowerCase())}` : ""}). Try more cases on the <a href="guidance.html">issues framework page</a>.`;
+  }
+  if (/\bframeworks?|standards?|apply|applies\b/.test(t) && !/\bmust|every|valid|unique|between\b/.test(t)) {
+    const list = findFrameworks(text);
+    return list.length ? `These look most relevant:<ul>${list.map(f => `<li><a href="frameworks.html#${esc(f.id)}">${esc(f.name)}</a> (${esc(f.publisher || "")}${f.jurisdiction ? ", " + esc(f.jurisdiction) : ""})</li>`).join("")}</ul>See all of them on the <a href="frameworks.html">frameworks page</a>.`
+      : `I couldn't match that to a framework. Search the <a href="frameworks.html">frameworks page</a> instead.`;
+  }
+  if (/\bexplain\b.*\bresults?\b|\bwhat to fix\b/.test(t)) {
+    if (!lastResult) return `Load a file and press <b>Run on my file</b> first; then I'll list what to fix, most urgent first.`;
+    const issues = lastResult.results.filter(r => !r.assessment.meets_target).sort((a, b) => b.assessment.priority_score - a.assessment.priority_score);
+    return issues.length ? `${lastResult.rules_met} of ${lastResult.rules_total} rules meet their target. Fix these first:<ol>${issues.slice(0, 5).map(r => `<li><b>${esc(r.description)}</b>: ${r.performance}% pass, target ${r.assessment.target}%, priority ${esc(r.assessment.priority || "")}.</li>`).join("")}</ol>`
+      : `Every rule meets its target on ${lastResult.rows} rows.`;
+  }
+  return null;
+}
+const QUICK = ["Every claim needs a valid National Insurance number, the claim date isn't in the future, and one claim per person per month.",
+  "A register of people: valid NHS number, postcode, date of birth not in the future, and ethnic group recorded.",
+  "Satisfaction is between 0 and 100, and status is one of Open, Closed or Pending.",
+  "Which frameworks apply to official statistics in Wales?", "Score an issue: importance 4, impact 3, pass rate 96%."];
 $("quick").innerHTML = QUICK.map(q => `<button type="button">${esc(q)}</button>`).join("");
 $("quick").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { $("msg").value = b.textContent; $("msg").focus(); } });
-$("clear").addEventListener("click", () => { history = []; $("log").innerHTML = ""; hello(); });
-function hello() { add("sys", "Tell me what good data looks like for you, or load a file and ask for starter rules. I'll draft and test a rules file; you decide what to keep."); }
+$("clear").addEventListener("click", () => { $("log").innerHTML = ""; hello(); });
+function hello() { add("sys", "Write what good data looks like, one idea per sentence, or load a file and press <b>Suggest starter rules from the file</b>. I'll draft a rules file and check it; you decide what to keep."); }
 hello();
-
-let sampleFn = null;
-async function ask(text) {
+function ask(text) {
   const PII = /[\w.+-]+@[\w-]+\.[\w.]+|\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b|\b\d{3}\s?\d{3}\s?\d{4}\b/i;
-  if (PII.test(text)) { add("sys", "That message looks like it includes personal data (an email, NI number or NHS number). Please describe the data instead of pasting values."); return; }
-  add("u", text);
-  const ctx = (table ? `\n\n[Loaded file: ${fileName}, ${table.rows.length} rows. Columns: ${table.columns.join(", ")}]` : "") +
-    ($("draft").value.trim() ? `\n\n[Current rules file in the side panel:]\n${$("draft").value.slice(0, 6000)}` : "") +
-    (lastResult ? `\n\n[Last run: ${lastResult.rules_met} of ${lastResult.rules_total} rules met on ${lastResult.rows} rows]` : "");
-  history.push({role: "user", content: text + ctx});
-  const msgs = [{role: "user", content: SYSTEM + "\n\nAcknowledge briefly."}, {role: "assistant", content: "Understood."}, ...history.slice(-12)];
-  const bubble = add("a", "Thinking…"), used = [];
-  ctl = new AbortController(); $("send").disabled = true; $("stop").hidden = false;
-  const tools = TOOLS.map(t => ({...t, execute: (input) => { used.push(t.name); try { return t.execute(input || {}); } catch (e) { return {error: e.message}; } }}));
-  try {
-    let res = await sampleFn(msgs, {tools, signal: ctl.signal, cache: false, onText: u => { bubble.textContent = u.text; }});
-    let reply = res.text;
-    // validation loop: a yaml block that doesn't pass goes back with the error, up to twice
-    for (let i = 0; i < 2; i++) {
-      const m = reply.match(/```ya?ml\s*([\s\S]*?)```/); if (!m) break;
-      try { parseRules(m[1]); $("draft").value = m[1].trim() + "\n"; validate(); break; }
-      catch (e) { bubble.textContent = reply + "\n\n(Checking the rules file found a problem; fixing it…)";
-        res = await sampleFn([...msgs, {role: "assistant", content: reply}, {role: "user", content: `The rules file failed validation: ${e.message}. Fix it and reply with the corrected rules file.`}], {tools, signal: ctl.signal, cache: false, onText: u => { bubble.textContent = u.text; }});
-        reply = res.text; if (i === 1) { const m2 = reply.match(/```ya?ml\s*([\s\S]*?)```/); if (m2) { $("draft").value = m2[1].trim() + "\n"; validate(); } } }
-    }
-    bubble.textContent = reply.replace(/```ya?ml[\s\S]*?```/g, "[Rules file placed in the side panel]");
-    if (used.length) { const t = document.createElement("span"); t.className = "tool"; t.textContent = "Used: " + [...new Set(used)].join(", "); bubble.appendChild(t); }
-    history.push({role: "assistant", content: reply});
-  } catch (e) {
-    bubble.textContent = e.code === "cancelled" ? "Stopped." : e.code === "rate_limited" ? "The assistant is busy. Please wait a minute and try again." :
-      e.code === "not_granted" ? "The AI wasn't allowed on this page. You can still use 'Suggest starter rules without AI'." : "Something went wrong: " + (e.message || e.code);
-    history.pop();
-  } finally { $("send").disabled = false; $("stop").hidden = true; ctl = null; }
+  if (PII.test(text)) { add("sys", "That looks like it includes personal data (an email, NI number or NHS number). Please describe the data instead of pasting values."); return; }
+  add("u", esc(text));
+  const look = answerLookup(text); if (look) { add("a", look); return; }
+  const d = draft(text);
+  if (!d.rules.length) { add("a", `I couldn't turn that into rules. Try one idea per sentence, for example "every record needs a valid postcode" or "the amount is between 0 and 1000". You can also start from a <a href="check.html#library">rule library template</a>.`); return; }
+  let current = null; try { current = YAML.load($("draft").value); } catch (e) {}
+  const base = current && current.asset && Array.isArray(current.rules) ? current : {asset: {id: table ? slug(fileName.replace(/\.[^.]+$/, "")) : "my-dataset", title: table ? fileName : "My dataset", importance: 3, target_policy: "low"}, rules: []};
+  const start = base.rules.length;
+  d.rules.forEach((r, i) => base.rules.push({...r, id: "R" + (start + i + 1)}));
+  $("draft").value = YAML.dump(base, {lineWidth: 110, noRefs: true});
+  const ok = validate();
+  add("a", `I added ${d.rules.length} rule${d.rules.length === 1 ? "" : "s"} to the rules file:<ul>${d.explain.map(x => `<li>${x}</li>`).join("")}</ul>` +
+    (d.missed.length ? `<p>I didn't recognise: ${d.missed.map(x => `"${esc(x)}"`).join("; ")}. Add those by hand in the rules file, or rephrase.</p>` : "") +
+    (ok ? "" : `<p>The rules file needs a fix before it can run: see the message under it.</p>`) +
+    (table ? "" : `<p class="small">Column names were made up from your words. Load your file to match them to the real columns.</p>`));
 }
-$("ask").addEventListener("submit", e => { e.preventDefault(); const t = $("msg").value.trim(); if (!t || !sampleFn) return; $("msg").value = ""; ask(t); });
+$("ask").addEventListener("submit", e => { e.preventDefault(); const t = $("msg").value.trim(); if (!t) return; $("msg").value = ""; ask(t); });
 $("msg").addEventListener("keydown", e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) $("ask").requestSubmit(); });
-$("stop").addEventListener("click", () => ctl && ctl.abort());
-(async () => {
-  const off = why => { $("state").innerHTML = why + " You can still load a file, use <b>Suggest starter rules without AI</b>, edit and check the rules file, and open it in the checker."; $("send").disabled = true; $("msg").disabled = true; };
-  if (!window.claude || typeof claude.use !== "function") { off("The AI isn't available on this copy of the portal."); return; }
-  sampleFn = await claude.use("sample");
-  if (!sampleFn) { off("The AI isn't available here."); return; }
-  $("state").textContent = "The AI assistant is ready. The first message asks your permission.";
-})();
+// Optional: hand the request to an AI tool the person's organisation has approved. Nothing is sent by the Commons.
+$("prompt").addEventListener("click", async () => {
+  const text = `You are helping me write data quality rules for the open Public Sector Data Quality Commons toolkit (https://github.com/cyberdudeuk/dq-commons).
+Write a YAML rules file in this format:
+asset: {id: short-id, title: ..., owner: organisation (not a person), importance: 1-4, target_policy: low|mid|high}
+rules: list of {id: R1, check: <check>, ...parameters, description: plain English}
+Checks and parameters: ${JSON.stringify(CHECK_HELP)}
+${table ? `Use only these columns: ${table.columns.join(", ")}.` : "Use sensible snake_case column names."}
+Do not include any real data values. My requirements:
+${$("msg").value.trim() || "(write them here)"}
+${$("draft").value.trim() ? "\nCurrent draft to improve:\n" + $("draft").value.slice(0, 6000) : ""}`;
+  try { await navigator.clipboard.writeText(text); add("sys", "Prompt copied. Paste it into an AI tool your organisation has approved, then paste the YAML it returns into the rules file here and press <b>Check the rules file</b>. Never paste real records into an AI tool."); }
+  catch (e) { $("draft").value = text; add("sys", "Copying isn't allowed here, so the prompt is in the rules box: select it and copy it."); }
+});
 window.DQP_TOUR = [
-  {sel: "#msg", title: "Describe your rules", text: "Write what good data looks like in plain English, or pick an example above."},
-  {sel: "#file", title: "Load a file (optional)", text: "Only column names go to the AI, unless you tick the box. The data stays in your browser."},
-  {sel: "#suggest", title: "No AI needed", text: "Get starter rules from the file's columns and formats, without AI."},
+  {sel: "#msg", title: "Describe your rules", text: "Write what good data looks like in plain English, one idea per sentence, or pick an example above."},
+  {sel: "#file", title: "Load a file (optional)", text: "Matches your words to the real columns. The file stays in your browser."},
+  {sel: "#suggest", title: "Starter rules", text: "Get starter rules from the file's columns and formats."},
   {sel: "#draft", title: "The rules file", text: "Every draft is checked by the toolkit's engine. Edit it, run it, or open it in the checker."},
 ];
 </script>

@@ -15,7 +15,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Group | Pages | Use it to |
 |---|---|---|
 | Start | Home (news, spotlight, latest), About, User guide, Accessibility and privacy | Find your way, see what the Commons is for |
-| Do | Check your data, Maturity, AI assistant, Metadata Weaver, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, publish metadata in every standard, automate |
+| Do | Check your data, Maturity, Rules assistant, Metadata Weaver, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, publish metadata in every standard, automate |
 | Know | Frameworks and standards, Learn, Skills and training, Knowledge map, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, check your skills and find training, explore every concept and how it connects, use AI safely, prioritise, choose tools, read and publish resources |
 | Govern | Buying and suppliers, Legacy and modernisation, Interoperability and standards | Put data quality into contracts, migrate without data debt, join data up |
 | Scenarios | All scenarios, UK and the world, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation, jurisdiction or platform |
@@ -57,7 +57,7 @@ Go to **Knowledge map**. Search for any concept: it appears in the middle, with 
 Press **What's new** in the top bar. Each release lists what's new, changed and fixed. New and updated pages are flagged in the menus.
 
 ### Contact the team
-Go to **Help us build this** and use the contact form. We never show an email address and you don't need to give yours. Replies appear on the same page when you return signed in.
+Go to **Help us build this** and use the contact form. We never show an email address and you don't need to give yours. The form opens a pre-filled GitHub contact issue; we reply there, and GitHub notifies you.
 
 ### Learn
 Go to **Learn**. Pick your role to see a pathway. Tutorials take 10 to 30 minutes each. The glossary explains every term used in the Commons.
@@ -69,10 +69,10 @@ Open **1 Start > For your role** and choose your role. You'll see what you need,
 Open **4 Improve > Data quality management playbook**. Work through the eight stages in order; tick the checklist as you go (ticks stay in your browser). Download the CSV templates for your register, rules, issue log, action plan, quality statement and annual review. You can download a progress report, or run the same playbook from the toolkit with `python -m dqkit playbook init`. Outside UK central government, use the "Use it anywhere" table to swap in your own terms, and "Where it applies" to see your framework.
 
 ### Use AI to improve data quality
-Read the **AI for data quality** section on the Learn page: principles, use cases, questions to ask vendors, worked examples and how AI tools become part of the shared toolkit. The **AI assistant** drafts rules from plain English; always check what it drafts.
+Read the **AI for data quality** section on the Learn page: principles, use cases, questions to ask vendors, worked examples and how AI tools become part of the shared toolkit. The **Rules assistant** drafts rules from plain English with fixed patterns, in your browser, with no AI service or licence needed; always check what it drafts. It can also copy your request as a prompt for an AI tool your organisation has approved.
 
 ### Contribute or ask for help
-Go to **Community**. Add a case study or insight, take or run a survey, or request help (a commission). To vote on the wishlist or see the roadmap, go to **Help us build this**. If a page can't save in your browser, use the linked GitHub forms instead.
+Go to **Community**. Add a case study or insight, take or run a survey, or request help (a commission). To vote on the wishlist or see the roadmap, go to **Help us build this**. Every form finishes on GitHub: it opens a GitHub issue form already filled in, you check it and submit. You need a free GitHub account (or ask a colleague to submit for you). Moderators publish contributions by labelling them, and the portal shows them, with survey totals and votes, after its daily update.
 
 ## Accessibility
 
@@ -82,7 +82,7 @@ The portal aims to meet WCAG 2.2 AA. It works with keyboard only, screen readers
 
 - Data you check stays in your browser.
 - Surveys never ask for your name or email. Results are shown as totals only, and totals under 5 are hidden.
-- Contributions are moderated before they are public.
+- Contributions appear on the portal only after a moderator publishes them. GitHub issues themselves are public as soon as they are submitted, and show the GitHub username of whoever submits.
 
 ## Getting help
 

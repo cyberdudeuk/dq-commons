@@ -1,5 +1,4 @@
 <title>Buying and Suppliers</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .facts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
@@ -114,7 +113,6 @@ $("bars").addEventListener("click", e => { const b = e.target.closest("[data-add
 $("copy").onclick = async () => { try { await navigator.clipboard.writeText($("sched").value); $("msg").textContent = "Copied."; } catch (e) { $("sched").focus(); $("sched").select(); $("msg").textContent = "Copying isn't allowed here; the text is selected: press Ctrl+C (or Cmd+C)."; } };
 $("save").onclick = async () => {
   const text = $("sched").value, name = "data-quality-schedule.txt";
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("msg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("msg").textContent = "Downloaded."; }
   catch (e) { $("msg").textContent = "Downloading isn't allowed here; use Copy."; }
 };

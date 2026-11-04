@@ -67,7 +67,7 @@
 - AI assistant: only messages and column names reach the model; example values only with explicit consent; messages with personal data patterns are blocked. DPIA screening: no high-risk processing identified; a full DPIA is required before the assistant is used with live personal data (XDMH-214).
 **Equality**
 - Positive: free, no install, no coding; works with keyboard, screen readers and 400% zoom; devolved nations and the voluntary sector have their own scenarios; inclusion checks and an inclusion survey.
-- Risks: English only (Welsh version XDMH-216); claude.ai sign-in needed to contribute (GitHub forms as an alternative, though GitHub is itself a barrier for some); AI output may be less accurate for under-represented contexts (evaluation set to include them).
+- Risks: English only (Welsh version XDMH-216); a free GitHub account is needed to contribute, vote or answer surveys, and GitHub shows who submitted (mitigations: a colleague can submit for a team; free text is never sent to GitHub; totals hide counts under 5; everything else needs no account). The rules assistant uses fixed patterns, not AI, so it treats every context the same way, but it only recognises the phrasings it knows; unrecognised sentences are listed, never guessed.
 - Not yet done: independent WCAG 2.2 AA audit (XDMH-213).
 
 ## Update for v1.1.0 (15 October 2026)

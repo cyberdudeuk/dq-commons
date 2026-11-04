@@ -1,5 +1,4 @@
 <title>Check Your Data</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 /* Checker: inputs on the left (data, rules, rule builder), results on the right; stacks on phones. */
@@ -242,7 +241,6 @@ $("ctCopy").addEventListener("click", async () => { const t = ctShow(); if (t ==
 $("ctSave").addEventListener("click", async () => {
   let x; try { x = exportText(); } catch (er) { ctShow(); return; }
   const [text, , name] = x, base = ((spec(true).asset || {}).id || "rules") + "." + name;
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: base, data: text}); $("ctMsg").textContent = "Saved."; return; } } } catch (er) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/plain"})); a.download = base; document.body.appendChild(a); a.click(); a.remove(); $("ctMsg").textContent = "Downloaded " + base + "."; }
   catch (er) { ctShow(); $("ctMsg").textContent = "Downloading isn't allowed here; use Copy."; }
 });
@@ -293,7 +291,7 @@ $("libLoad").addEventListener("click", () => { $("rules").value = LIB[$("libPick
   $("runMsg").innerHTML = `<span class="small muted">Template loaded. Rename the columns to match your file, then run.</span>`; $("rules").focus(); });
 if (/[?&]from=assistant\b/.test(location.search)) {
   let d = null; try { d = localStorage.getItem("dqc.rules.draft"); } catch (e) {}
-  if (d) setTimeout(() => { $("rules").value = d; $("runMsg").innerHTML = `<span class="small muted">Rules file from the AI assistant loaded. Review it, open your file, then run.</span>`; }, 0);
+  if (d) setTimeout(() => { $("rules").value = d; $("runMsg").innerHTML = `<span class="small muted">Rules file from the rules assistant loaded. Review it, open your file, then run.</span>`; }, 0);
 }
 
 // rule builder

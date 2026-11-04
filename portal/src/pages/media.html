@@ -1,5 +1,4 @@
 <title>Media Centre</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .posts{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
@@ -52,7 +51,7 @@ __BASE_CSS__
     <div class="field"><label for="mLink">Link (required for videos and podcasts)</label><input type="text" id="mLink" inputmode="url" placeholder="https://"></div>
     <div class="field"><label for="mCap">Captions or transcript</label><select id="mCap"><option value="">Choose</option><option>Captions available</option><option>Transcript available</option><option>Both</option><option>Not needed (blog post)</option></select></div>
     <div class="field"><label for="mOrg">Credit as</label><input type="text" id="mOrg" maxlength="120" placeholder="Organisation, or leave blank"></div>
-    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="mMsg" role="status" aria-live="polite"></span></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Continue on GitHub</button><span id="mMsg" role="status" aria-live="polite"></span></div>
   </form>
 </section>
 </div>
@@ -79,7 +78,11 @@ $("gov").innerHTML = (M.govuk_blogs || []).slice().sort((a, b) => String(b.date)
   <p class="small muted">${esc(g.date)} · ${esc(g.blog)}${g.checked === "yes" ? "" : ' · <span class="chip warn">Not yet reviewed</span>'}</p>
   <h3><a href="${esc(safeUrl(g.url))}" rel="noopener">${esc(g.title)}</a></h3></div></div><p class="small">${esc(g.summary)}</p>
   <p class="small">Topics: ${g.topics.map(esc).join(", ")} · <a href="${esc(g.try)}">Act on it in the Commons ›</a></p></div>`).join("");
-let posts = M.blog.map(p => ({...p, own: true})), videos = [...M.videos], pods = [...M.podcasts];
+// Members' posts, videos and podcasts: contributions a moderator has published on GitHub (read when the portal is built).
+const CM = __K_COMMUNITY__, mem = t => CM.contributions.filter(i => i.type === t);
+let posts = [...M.blog.map(p => ({...p, own: true})), ...mem("Blog post").map(r => ({id: "m-" + r.n, title: r.title, summary: r.summary.split("\n")[0].slice(0, 280), body: r.summary, link: r.link, org: r.org || "Member", date: r.published}))];
+let videos = [...M.videos, ...mem("Video").map(r => ({title: r.title, url: r.link, summary: r.summary, publisher: r.org, date: r.published, access: r.access, moderated: true}))];
+let pods = [...M.podcasts, ...mem("Podcast episode").map(r => ({title: r.title, url: r.link, summary: r.summary, publisher: r.org, date: r.published, access: r.access, moderated: true}))];
 function drawBlog() {
   posts.sort((a, b) => String(b.date).localeCompare(String(a.date)));
   $("blog").innerHTML = posts.map(p => `<div class="post"><a class="card" href="#${esc(p.id)}"><div class="item">${icon("blog")}<div><p class="small muted">${esc(p.date || "")} · ${esc(p.author || p.org || "Member")}</p>
@@ -109,37 +112,17 @@ drawBlog(); drawExt(); window.addEventListener("hashchange", route); route();
 
 // submissions
 const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
-let db = null, uid = null, writable = true;
-$("mForm").addEventListener("submit", async e => {
+$("mForm").addEventListener("submit", e => {
   e.preventDefault();
   const v = {media: $("mKind").value, title: $("mTitle").value.trim(), summary: $("mBody").value.trim(), link: $("mLink").value.trim(), access: $("mCap").value, org: $("mOrg").value.trim(), sector: $("mTopic").value.trim()};
   const err = !v.title ? "Add a title." : !v.summary ? "Add a summary or the post." : v.media !== "blog" && !safeUrl(v.link) ? "Videos and podcasts need a link starting with https://" :
     v.link && !safeUrl(v.link) ? "Links must start with https://" : v.media !== "blog" && (!v.access || v.access.startsWith("Not needed")) ? "Videos and podcasts need captions or a transcript." : null;
   if (err) { $("mMsg").innerHTML = `<span class="msg err">${err}</span>`; return; }
   if (PII.some(re => re.test(v.title + " " + v.summary))) { $("mMsg").innerHTML = `<span class="msg err">It looks like this includes personal data. Please remove it.</span>`; return; }
-  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Media] " + v.title, {kind: {blog: "Blog post", video: "Video", podcast: "Podcast episode"}[v.media], summary: v.summary, link: v.link,
+  DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Media] " + v.title, {kind: {blog: "Blog post", video: "Video", podcast: "Podcast episode"}[v.media], summary: v.summary, link: v.link,
     details: `Topics: ${v.sector || "not stated"}\nCaptions or transcript: ${v.access || "not stated"}\nCredit as: ${v.org || "not stated"}`}));
-    $("mMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
-  try {
-    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), list = (snap.exists && snap.data().items) || [];
-    list.push({kind: "media", ...v, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
-    await ref.set({items: list, updated: new Date().toISOString()});
-    $("mForm").reset(); $("mMsg").innerHTML = `<span class="msg ok">Thanks. It's in the moderation queue.</span>`;
-  } catch (er) { $("mMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">Use the GitHub form</a> instead.</span>`; }
+    $("mMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`;
 });
-(async () => {
-  if (!window.claude || typeof claude.use !== "function") return;
-  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
-  if (!db) { $("state").textContent = "Sharing isn't available here, or you aren't signed in."; return; }
-  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
-  db.collection("media").onSnapshot(s => {
-    const rows = s.docs.map(x => ({id: "m-" + x.id, ...x.data(), moderated: true}));
-    posts = [...M.blog.map(p => ({...p, own: true})), ...rows.filter(r => r.media === "blog").map(r => ({...r, date: String(r.published || "").slice(0, 10)}))];
-    videos = [...M.videos, ...rows.filter(r => r.media === "video").map(r => ({...r, url: r.link, publisher: r.org}))];
-    pods = [...M.podcasts, ...rows.filter(r => r.media === "podcast").map(r => ({...r, url: r.link, publisher: r.org}))];
-    drawBlog(); drawExt(); route();
-  });
-})();
 window.DQP_TOUR = [
   {sel: "#tab-blog", title: "Blog", text: "Posts from the Commons team and members. Select one to read it."},
   {sel: "#tab-vlog", title: "Vlog", text: "Videos about data quality, always with captions or a transcript."},

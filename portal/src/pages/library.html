@@ -1,5 +1,4 @@
 <title>Library and Knowledge Base</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .tabs{margin-bottom:4px}
@@ -48,12 +47,12 @@ __BASE_CSS__
 </section>
 
 <section id="p-mem" role="tabpanel" aria-labelledby="tab-mem" hidden><h2 class="sr-only">Shared by members</h2>
-  <p class="small">Resources members have published through the Commons. Each one has been checked by a moderator.</p>
+  <p class="small">Resources members have shared through GitHub. Each one has been checked and published by a moderator, and shows here after the portal's next update (within a day).</p>
   <div class="lib" id="mem"><p class="muted">Loading…</p></div>
 </section>
 
 <section id="p-pub" role="tabpanel" aria-labelledby="tab-pub" hidden><h2 class="sr-only">Publish a resource</h2>
-  <p>Share a resource, a knowledge base article, a case study or training material. A moderator checks it before it's public, usually within 10 working days. Credit goes to your organisation, or you can stay anonymous. Please don't include personal data.</p>
+  <p>Share a resource, a knowledge base article, a case study or training material. When you press the button, a GitHub form opens already filled in: check it and submit. A moderator checks it and publishes it, usually within 10 working days. You need a free GitHub account, or ask a colleague to submit it. Credit goes to your organisation, or you can stay anonymous. Please don't include personal data.</p>
   <form class="form" id="pForm" novalidate>
     <div class="field"><label for="pType">Type</label><select id="pType">
       <option>Resource or link</option><option>Knowledge base article</option><option>Case study</option><option>Guidance or method</option><option>Training material</option><option>Rule or pack</option><option>Dataset quality assessment</option></select></div>
@@ -64,7 +63,7 @@ __BASE_CSS__
     <div class="field"><label for="pOrg">Credit as</label><input type="text" id="pOrg" maxlength="120" placeholder="Organisation, or leave blank"></div>
     <div class="field"><label for="pNation">Nation</label><select id="pNation"><option>UK-wide</option><option>England</option><option>Scotland</option><option>Wales</option><option>Northern Ireland</option><option>Outside the UK</option></select></div>
     <div class="field"><label for="pLic">Licence</label><select id="pLic"><option>Open Government Licence v3.0</option><option>Creative Commons BY 4.0</option><option>MIT (code)</option></select></div>
-    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Send for moderation</button><span id="pMsg" role="status" aria-live="polite"></span></div>
+    <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Continue on GitHub</button><span id="pMsg" role="status" aria-live="polite"></span></div>
   </form>
 </section>
 </div>
@@ -141,39 +140,25 @@ function openArticle(id) {
 function route() { const h = location.hash.slice(1); if (h && !openArticle(h)) { const el = document.getElementById(h); if (el && el.getAttribute("role") === "tab") show(el); } }
 window.addEventListener("hashchange", route); route();
 
-// members' items and publishing (shared store on claude.ai, GitHub forms elsewhere)
+// Members' items: contributions a moderator has published on GitHub (read when the portal is built).
+const CM = __K_COMMUNITY__;
 const PII = [/[\w.+-]+@[\w-]+\.[\w.]+/, /\b(?:\+44\s?|0)(?:\d\s?){9,10}\b/, /\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b/i];
-let db = null, uid = null, writable = true;
-$("pForm").addEventListener("submit", async e => {
+const MEDIA_TYPES = ["Event", "Blog post", "Video", "Podcast episode"];
+$("mem").innerHTML = CM.contributions.filter(i => !MEDIA_TYPES.includes(i.type)).map(i => `<article class="card"><div class="chips"><span class="chip acc">${esc(i.type)}</span>${i.sector ? `<span class="chip">${esc(i.sector)}</span>` : ""}</div>
+  <h3>${safeUrl(i.link) ? `<a href="${esc(i.link)}" rel="noopener nofollow">${esc(i.title)}</a>` : esc(i.title)}</h3>${i.type === "Knowledge base article" ? md(i.summary) : `<p class="small">${esc(i.summary)}</p>`}
+  <p class="small muted">${esc(i.org || "Anonymous contributor")} · ${esc(i.licence || "OGL v3.0")}${i.published ? " · " + esc(i.published) : ""} · <a href="${esc(B.repo)}/issues/${i.n}" rel="noopener">Discuss on GitHub</a></p></article>`).join("")
+  || `<p class="muted">Nothing published by members yet. Be the first: use the Publish tab.</p>`;
+$("pForm").addEventListener("submit", e => {
   e.preventDefault();
   const v = {type: $("pType").value, title: $("pTitle").value.trim(), summary: $("pSum").value.trim(), link: $("pLink").value.trim(), org: $("pOrg").value.trim(),
     sector: $("pTopic").value.trim(), nation: $("pNation").value, licence: $("pLic").value};
   if (!v.title || !v.summary) { $("pMsg").innerHTML = `<span class="msg err">Add a title and a summary.</span>`; (v.title ? $("pSum") : $("pTitle")).focus(); return; }
   if (v.link && !safeUrl(v.link)) { $("pMsg").innerHTML = `<span class="msg err">Links must start with https://</span>`; $("pLink").focus(); return; }
   if (PII.some(re => re.test(v.title + " " + v.summary + " " + v.org))) { $("pMsg").innerHTML = `<span class="msg err">It looks like this includes personal data (an email, phone or NI number). Please remove it.</span>`; return; }
-  if (!db || !uid || !writable) { DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Contribution] " + v.title, {kind: v.type, summary: v.summary, link: v.link,
+  DQP_GITHUB.open(DQP_GITHUB.issue("5-contribution.yml", "[Contribution] " + v.title, {kind: v.type, summary: v.summary, link: v.link,
     details: `Topics: ${v.sector || "not stated"}\nNation or region: ${v.nation || "not stated"}\nLicence: ${v.licence || "not stated"}\nCredit as: ${v.org || "not stated"}`}));
-    $("pMsg").innerHTML = `<span class="msg ok">Opened a pre-filled GitHub form in a new tab. Check it and press Submit new issue.</span>`; return; }
-  try {
-    const ref = db.doc(`queue/${uid}`), snap = await ref.get(), list = (snap.exists && snap.data().items) || [];
-    list.push({kind: "contribution", ...v, id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), status: "pending", at: new Date().toISOString()});
-    await ref.set({items: list, updated: new Date().toISOString()});
-    $("pForm").reset(); $("pMsg").innerHTML = `<span class="msg ok">Thanks. It's in the moderation queue.</span>`;
-  } catch (er) { $("pMsg").innerHTML = `<span class="msg err">It couldn't be saved. <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">Use the GitHub form</a> instead.</span>`; }
+  $("pMsg").innerHTML = `<span class="msg ok">A pre-filled GitHub form opened in a new tab. Check it and press Submit new issue.</span>`;
 });
-(async () => {
-  const off = why => { $("state").innerHTML = why; $("mem").innerHTML = `<p class="muted">Members' resources appear here on the Commons site on claude.ai. You can still <a href="${esc(B.repo)}/issues/new?template=5-contribution.yml">contribute through GitHub</a>.</p>`; };
-  if (!window.claude || typeof claude.use !== "function") { off(""); return; }
-  const [d, user] = await Promise.all([claude.use("db"), claude.use("user")]); db = d;
-  if (!db) { off("Publishing isn't available here, or you aren't signed in."); return; }
-  if (user) { uid = await user.id(); if (await user.can("data.write") === false) writable = false; }
-  db.collection("library").onSnapshot(s => {
-    const rows = s.docs.map(x => x.data()).sort((a, b) => String(b.published).localeCompare(String(a.published)));
-    $("mem").innerHTML = rows.map(i => `<article class="card"><div class="chips"><span class="chip acc">${esc(i.type)}</span>${i.sector ? `<span class="chip">${esc(i.sector)}</span>` : ""}</div>
-      <h3>${safeUrl(i.link) ? `<a href="${esc(i.link)}" rel="noopener nofollow">${esc(i.title)}</a>` : esc(i.title)}</h3>${i.type === "Knowledge base article" ? md(i.summary) : `<p class="small">${esc(i.summary)}</p>`}
-      <p class="small muted">${esc(i.org || "Anonymous contributor")} · ${esc(i.licence || "OGL v3.0")}</p></article>`).join("") || `<p class="muted">Nothing published by members yet. Be the first: use the Publish tab.</p>`;
-  });
-})();
 window.DQP_TOUR = [
   {sel: "#tab-lib", title: "Curated library", text: "Guidance, standards, reports, frameworks and networks, with filters. Items not yet read in full are marked."},
   {sel: "#tab-kb", title: "Knowledge base", text: "Short, practical articles: how-tos, explainers and checklists."},

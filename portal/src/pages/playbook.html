@@ -1,5 +1,4 @@
 <title>Data Quality Playbook</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 .cycle{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin:8px 0 14px;list-style:none;padding:0}
@@ -152,7 +151,6 @@ $("report").onclick = async () => {
   L.push(next ? `Next: stage ${next.n}, ${next.name}. ${next.steps[0]}` : "All checks ticked. Book the next annual review.", "",
     "Made with the Public Sector Data Quality Commons playbook. Content: Open Government Licence v3.0.");
   const text = L.join("\n"), file = `playbook-progress-${today}.md`;
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: file, data: text}); $("rMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/markdown"})); a.download = file; document.body.appendChild(a); a.click(); a.remove(); $("rMsg").textContent = "Downloaded."; }
   catch (e) { $("rMsg").textContent = "Downloading isn't allowed here."; }
 };
@@ -172,7 +170,6 @@ $("meas").innerHTML = PB.measures.map(m => `<tr><td>${esc(m.name)}</td><td>${esc
 $("tpls").innerHTML = PB.templates.map(t => `<div class="card tpl"><h3>${esc(t.name)}</h3><ul>${t.fields.map(f => `<li>${esc(f)}</li>`).join("")}</ul><button class="btn ghost" type="button" data-t="${esc(t.id)}">Download CSV</button></div>`).join("");
 const csvCell = v => /[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
 async function save(name, text) {
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("tMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/csv"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("tMsg").textContent = "Downloaded."; }
   catch (e) { $("tMsg").textContent = "Downloading isn't allowed here. Copy the headings from the card instead."; }
 }

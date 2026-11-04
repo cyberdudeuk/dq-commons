@@ -162,3 +162,19 @@ class Playbook(unittest.TestCase):
             self.assertTrue(all(isinstance(x, str) and x for x in t["fields"]), t["id"])
         r = subprocess.run([_sys.executable, str(ROOT / "scripts" / "build_playbook_doc.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout)
+
+
+class GitHubForms(unittest.TestCase):
+    """D-GH-02: survey and maturity forms on GitHub are generated from the knowledge base and kept current."""
+
+    def test_issue_forms_are_current(self):
+        import subprocess
+        import sys
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "gen_issue_forms.py"), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_survey_forms_never_carry_free_text(self):
+        for f in (ROOT / ".github" / "ISSUE_TEMPLATE").glob("7*-survey-*.yml"):
+            form = yaml.safe_load(f.read_text(encoding="utf-8"))
+            self.assertFalse([b for b in form["body"] if b["type"] in ("textarea", "input")], f.name)
+            self.assertFalse([o for b in form["body"] for o in b.get("attributes", {}).get("options", []) if o == "None"], f.name)

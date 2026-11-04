@@ -1,5 +1,4 @@
 <title>Knowledge Map</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <style>
 __BASE_CSS__
 :root{--k0:#0d6b6e;--k1:#3b5b9a;--k2:#9a5b00;--k3:#7a3e9d;--k4:#1f7a3d;--k5:#b3261e;--k6:#5a6b7a;--k7:#a23b72;--k8:#2f6f9f;--k9:#6b5b00}
@@ -363,7 +362,6 @@ $("dls").innerHTML = [["Knowledge graph and ontology (Turtle, SKOS and OWL)", re
   .map(([t, u]) => `<li>${DQI("repo")} <a href="${esc(u)}" rel="noopener">${esc(t)}</a></li>`).join("") + `<li>${DQI("database")} <button class="lnk" type="button" id="dlJson">Download the graph as JSON from this page</button> <span id="dlMsg" class="small" role="status" aria-live="polite"></span></li>`;
 $("dlJson").onclick = async () => {
   const text = JSON.stringify({nodes: G.nodes, edges: G.edges}, null, 1), name = "dq-commons-knowledge-graph.json";
-  try { if (window.claude && claude.use) { const d = await claude.use("downloads"); if (d) { await d.save({filename: name, data: text}); $("dlMsg").textContent = "Saved."; return; } } } catch (e) {}
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "application/json"})); a.download = name; document.body.appendChild(a); a.click(); a.remove(); $("dlMsg").textContent = "Downloaded."; }
   catch (e) { $("dlMsg").textContent = "Downloading isn't allowed here. Use the repository files."; }
 };

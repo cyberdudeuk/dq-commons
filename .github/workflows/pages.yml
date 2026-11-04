@@ -1,13 +1,18 @@
 name: publish portal
-# Builds the portal and publishes it to GitHub Pages on every push to main.
+# Builds the portal and publishes it to GitHub Pages: on every push to main, when a moderator publishes or
+# withdraws something (issue labels), and every morning so votes, survey totals and the benchmark stay current.
 # One-off setting: Settings > Pages > Build and deployment > Source: "GitHub Actions".
 on:
   push: {branches: [main]}
+  issues: {types: [labeled, unlabeled]}
+  schedule: [{cron: "37 5 * * *"}]
   workflow_dispatch:
 permissions: {contents: read, issues: read, pages: write, id-token: write}
 concurrency: {group: pages, cancel-in-progress: true}
 jobs:
   build:
+    # On issue events, only when a moderator publishes or withdraws something
+    if: github.event_name != 'issues' || github.event.label.name == 'published' || github.event.label.name == 'withdrawn'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

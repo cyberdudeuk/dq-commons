@@ -2,7 +2,7 @@
 
 Usage:
     python scripts/build_dq_portal.py [--results assessments/portfolio] [--out portal/dist]
-                                      [--repo https://github.com/OWNER/REPO] [--artifact DIR]
+                                      [--repo https://github.com/OWNER/REPO]
 
 What it does, in plain English:
 1. Reads the latest pipeline results (portfolio.json, metadata-assessment.json, each asset's
@@ -12,10 +12,10 @@ What it does, in plain English:
 3. Adds the shared top bar, skip link and footer to every page.
 4. Writes a complete static website to portal/dist (GitHub Pages publishes this), with the
    result files under downloads/.
-5. Optionally (--artifact DIR) writes a copy for a claude.ai artifact: the home page without its
-   own <html>/<head> wrapper, and download links pointing to the GitHub repository instead.
+5. Reads public GitHub issue data once (issue numbers, states, votes, published contributions, survey and
+   maturity totals) so the portal works on GitHub alone, with no other service (D-GH-01, D-GH-02).
 
-It makes no network calls. Nothing here changes the results; it only presents them.
+Apart from that one read of GitHub, it makes no network calls; offline it falls back to links. Nothing here changes the results; it only presents them.
 """
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ GROUPS = [
         ("check", "Check your data", "Run the toolkit in your browser on a CSV file. Nothing is uploaded"),
         ("maturity", "Maturity self-assessment", "Where you are on 8 themes, from Beginning to Mastering, and next steps"),
         ("guidance", "Issues framework", "Prioritise issues with the government method: a live calculator"),
-        ("assistant", "AI assistant", "Plain English to tested rules, explanations and framework look-ups"),
+        ("assistant", "Rules assistant", "Plain English to tested rules in your browser, plus framework and scoring look-ups"),
         ("baseline", "Critical data asset baseline", "Effort to report data quality for every critical data asset, to your own deadline"),
     ]),
     ("4 Improve", [
@@ -261,6 +261,7 @@ def knowledge() -> dict:
         "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
         "GLOBAL": lambda: y("global"),
+        "COMMUNITY": lambda: {**github_live()["community"], "read": github_live()["read"]},
         "BUILD": lambda: (lambda b: {**b, "roadmap": roadmap(b["backlog"]), "github_live": github_live()})(y("build")),
         "HEALTH": lambda: health_summary(),
         "EVENTS": lambda: y("events"),
@@ -295,8 +296,16 @@ def github_live() -> dict:
             "Accept": "application/vnd.github+json", "User-Agent": "dq-commons-portal-build", **({"Authorization": f"Bearer {token}"} if token else {})})
         with urllib.request.urlopen(req, timeout=15) as r:
             return json.loads(r.read())
-    out = {"backlog": {}, "wishes": [], "read": ""}
+    out = {"backlog": {}, "wishes": [], "read": "", "community": community([])}
     try:
+        extra = []
+        for label in ("published", "survey-response", "maturity-share"):
+            for page in range(1, 11):
+                rows = get(f"issues?labels={label}&state=all&per_page=100&page={page}")
+                extra += rows
+                if len(rows) < 100:
+                    break
+        out["community"] = community(extra)
         for label in ("backlog", "wishlist"):
             for i in get(f"issues?labels={label}&state=all&per_page=100"):
                 if i.get("pull_request"):
@@ -313,6 +322,110 @@ def github_live() -> dict:
         print(f"GitHub data not read ({type(e).__name__}); the portal will link to GitHub instead.")
     _GH_CACHE["v"] = out
     return out
+
+
+# ---------- community data from GitHub issue forms (D-GH-02) ----------
+# Everything people send through the portal arrives as a GitHub issue form. At build time the portal reads:
+#  - contributions, events and media a moderator has labelled "published" (and not "withdrawn");
+#  - survey answers ("survey-response") and maturity levels ("maturity-share"), counted into totals with any
+#    count under 5 hidden. Only structured answers are counted; nothing personal is read or kept.
+SUPPRESS = 5
+NO_RESPONSE = ("_No response_", "None of these")
+
+
+def parse_form(body: str) -> dict:
+    """GitHub renders an issue form as '### Label' then the answer. Returns {label: answer}."""
+    out, cur = {}, None
+    for line in (body or "").splitlines():
+        if line.startswith("### "):
+            cur = line[4:].strip()
+            out[cur] = []
+        elif cur is not None:
+            out[cur].append(line)
+    return {k: "\n".join(v).strip() for k, v in out.items()}
+
+
+def form_labels(template: str) -> dict:
+    """label -> field id for one issue form."""
+    f = ROOT / ".github" / "ISSUE_TEMPLATE" / template
+    if not f.exists():
+        return {}
+    return {b["attributes"]["label"]: b["id"] for b in yaml.safe_load(f.read_text(encoding="utf-8"))["body"] if b.get("id")}
+
+
+def details(text: str) -> dict:
+    d = {}
+    for line in (text or "").splitlines():
+        k, sep, v = line.partition(":")
+        if sep and v.strip() and v.strip().lower() != "not stated":
+            d[k.strip().lower()] = v.strip()
+    return d
+
+
+def community(issues: list) -> dict:
+    """Published contributions, survey totals and the maturity benchmark, from issue data."""
+    contrib_ids = form_labels("5-contribution.yml")
+    items, surveys, shares = [], {}, []
+    S = yaml.safe_load((ROOT / "knowledge" / "surveys.yaml").read_text(encoding="utf-8"))
+    M = yaml.safe_load((ROOT / "knowledge" / "maturity.yaml").read_text(encoding="utf-8"))
+    for i in issues:
+        labels = {l["name"] for l in i.get("labels", [])}
+        if "withdrawn" in labels or i.get("pull_request"):
+            continue
+        f = parse_form(i.get("body"))
+        if "published" in labels and "contribution" in labels:
+            v = {contrib_ids.get(k, k): ("" if a in NO_RESPONSE else a) for k, a in f.items()}
+            d = details(v.get("details", ""))
+            link = v.get("link", "")
+            items.append({"n": i["number"], "type": v.get("kind", "Resource or link"), "title": re.sub(r"^\[[^\]]+\]\s*", "", i["title"]),
+                          "summary": v.get("summary", "")[:2000], "link": link if link.startswith("https://") else "",
+                          "org": d.get("credit as", ""), "sector": d.get("sector") or d.get("topics", ""), "nation": d.get("nation or region", ""),
+                          "licence": d.get("licence", ""), "published": (i.get("closed_at") or i.get("updated_at") or "")[:10],
+                          "start": d.get("starts", ""), "end": d.get("ends", ""), "where": d.get("where", ""), "cost": d.get("cost", ""),
+                          "accessibility": d.get("accessibility", ""), "access": d.get("captions or transcript", "")})
+        if "survey-response" in labels:
+            sid = next((l.split(":", 1)[1] for l in labels if l.startswith("survey:")), None)
+            sv = next((x for x in S["surveys"] if x["id"] == sid), None)
+            if sv:
+                ids = {q["q"]: q for q in sv["questions"]}
+                surveys.setdefault(sid, []).append({ids[k]["id"]: a for k, a in f.items() if k in ids and a not in NO_RESPONSE[:1]})
+        if "maturity-share" in labels:
+            names = {t["name"]: t["id"] for t in M["themes"]}
+            row = {"org_type": f.get(S["shared"]["org_type"]["q"], ""), "nation": f.get(S["shared"]["nation"]["q"], ""), "levels": {}}
+            for k, a in f.items():
+                if k in names and a[:1].isdigit():
+                    row["levels"][names[k]] = int(a[:1])
+            if len(row["levels"]) == len(M["themes"]):
+                shares.append(row)
+    out_s = {}
+    for sv in S["surveys"]:
+        rows = surveys.get(sv["id"], [])
+        agg = {"n": len(rows), "q": {}}
+        for q in sv["questions"]:
+            if q["type"] in ("text", "long"):
+                continue
+            c: dict = {}
+            for r in rows:
+                for val in ([x.strip() for x in r.get(q["id"], "").split(",")] if q["type"] == "multi" else [r.get(q["id"], "")]):
+                    val = "None" if val == "None of these" else val
+                    if val and val != "Don't know":
+                        c[val] = c.get(val, 0) + 1
+            agg["q"][q["id"]] = {k: (None if v < SUPPRESS else v) for k, v in c.items()}
+        out_s[sv["id"]] = agg
+    def avg(rs):
+        return {t["id"]: round(sum(r["levels"][t["id"]] for r in rs) / len(rs), 1) for t in M["themes"]}
+    bench = {"n": len(shares), "groups": {}}
+    if len(shares) >= SUPPRESS:
+        bench["groups"]["all"] = {"label": "All organisations", "n": len(shares), "themes": avg(shares)}
+    for key, prefix in (("org_type", "org:"), ("nation", "nation:")):
+        g: dict = {}
+        for r in shares:
+            g.setdefault(r[key], []).append(r)
+        for k, rs in g.items():
+            if k and len(rs) >= SUPPRESS:
+                bench["groups"][prefix + k] = {"label": k, "n": len(rs), "themes": avg(rs)}
+    items.sort(key=lambda x: x["published"], reverse=True)
+    return {"contributions": items, "surveys": out_s, "maturity": bench}
 
 
 def roadmap(backlog: list) -> list:
@@ -598,7 +711,7 @@ def page_footer(repo: str, as_of: str, sha: str) -> str:
 <!--PROVENANCE-->
 <p class="dqp-colo"><b>Colophon.</b> {BRAND} v{VERSION}. Built {built} from commit <code>{html.escape(sha)}</code>; pipeline results as of {html.escape(as_of)}.
 Static HTML, CSS and JavaScript with no frameworks, generated by <code>scripts/build_dq_portal.py</code> from the open knowledge base and the dqkit toolkit (Python),
-whose browser engine is checked case by case against Python. Set in Public Sans and Source Serif 4. Designed for GitHub Pages; also published on claude.ai. Maintained by the Commons community.</p>
+whose browser engine is checked case by case against Python. Set in Public Sans and Source Serif 4. Runs on GitHub alone: GitHub Pages, issue forms, discussions and Actions. Maintained by the Commons community.</p>
 </footer>"""
 
 
@@ -608,8 +721,7 @@ def main(argv=None) -> int:
     ap.add_argument("--portfolio", default=str(ROOT / "portfolio.ndl.yaml"))
     ap.add_argument("--out", default=str(ROOT / "portal" / "dist"))
     ap.add_argument("--repo", default="https://github.com/cyberdudeuk/dq-commons",
-                    help="repository web address (proposed name; not yet pushed), used for source links and (in --artifact mode) downloads")
-    ap.add_argument("--artifact", help="also write a claude.ai artifact copy to this folder")
+                    help="repository web address, used for source links and to read issue data")
     a = ap.parse_args(argv)
 
     results_dir, out = Path(a.results), Path(a.out)
@@ -637,7 +749,7 @@ def main(argv=None) -> int:
     REPO[0] = a.repo.rstrip("/")
     SECTION_FLAGS.update(section_flags())
 
-    def render(target: Path, download_base: str, artifact: bool):
+    def render(target: Path, download_base: str):
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
@@ -654,33 +766,28 @@ def main(argv=None) -> int:
                 text = text.replace(f"__K_{name}__", kcache[name])
             text = text.replace("__DOWNLOADS__", download_base)
             doc, frag = assemble(stem, text, build_label, footer.replace("<!--PROVENANCE-->", prov + page_history(stem, a.repo)))
-            (target / f"{stem}.html").write_text(frag if (artifact and stem == "index") else doc, encoding="utf-8")
-        if not artifact:
-            dl = target / "downloads"
-            (dl / "assets").mkdir(parents=True)
-            for f in DOWNLOAD_FILES:
-                if (results_dir / f).exists():
-                    shutil.copy2(results_dir / f, dl / f)
-            for f in (results_dir / "assets").iterdir():
-                if f.suffix in (".xlsx", ".docx", ".md", ".csv", ".jsonld", ".json"):
-                    shutil.copy2(f, dl / "assets" / f.name)
-            (target / ".nojekyll").write_text("", encoding="utf-8")
+            (target / f"{stem}.html").write_text(doc, encoding="utf-8")
+        dl = target / "downloads"
+        (dl / "assets").mkdir(parents=True)
+        for f in DOWNLOAD_FILES:
+            if (results_dir / f).exists():
+                shutil.copy2(results_dir / f, dl / f)
+        for f in (results_dir / "assets").iterdir():
+            if f.suffix in (".xlsx", ".docx", ".md", ".csv", ".jsonld", ".json"):
+                shutil.copy2(f, dl / "assets" / f.name)
+        (target / ".nojekyll").write_text("", encoding="utf-8")
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
         # Offline copy (issue #24): the whole portal in one zip. Open index.html from the unzipped folder;
         # every page works without a connection because nothing loads from other sites.
-        if not artifact:
-            import zipfile
-            with zipfile.ZipFile(dl / "dq-commons-offline.zip", "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-                for f in sorted(target.rglob("*")):
-                    if f.is_file() and f.name != "dq-commons-offline.zip":
-                        z.write(f, f"dq-commons/{f.relative_to(target).as_posix()}")
+        import zipfile
+        with zipfile.ZipFile(dl / "dq-commons-offline.zip", "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+            for f in sorted(target.rglob("*")):
+                if f.is_file() and f.name != "dq-commons-offline.zip":
+                    z.write(f, f"dq-commons/{f.relative_to(target).as_posix()}")
         print(f"Built {len(PAGES)} pages in {target}")
 
-    render(out, "downloads/", artifact=False)
-    if a.artifact:
-        rel = results_dir.resolve().relative_to(ROOT).as_posix()
-        render(Path(a.artifact), f"{a.repo.rstrip('/')}/blob/main/{rel}/", artifact=True)
+    render(out, "downloads/")
     return 0
 
 
