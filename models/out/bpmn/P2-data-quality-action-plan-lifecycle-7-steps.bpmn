@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-  id="Defs_P2" targetNamespace="https://cyberdudeuk.github.io/dq-commons/model#" exporter="dq-commons build_models.py" exporterVersion="1.0.0">
+  id="Defs_P2" targetNamespace="https://cyberdudeuk.github.io/dq-commons/model#" exporter="dq-commons build_models.py" exporterVersion="1.1.0">
   <bpmn:collaboration id="Collab_P2">
     <bpmn:participant id="Part_P2" name="P2 Data quality action plan lifecycle (7 steps)" processRef="Process_P2"/>
   </bpmn:collaboration>
@@ -32,14 +32,14 @@
       <bpmn:outgoing>Flow_P2_s_s1</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:userTask id="P2_s1" name="1. Identify critical data and known issues">
-      <bpmn:documentation>Guidance: DQAP1</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP1. In the Commons: playbook.html. Playbook stage: identify.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s_s1</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s1_s2</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s1_DataItem"><bpmn:targetRef>DOR_P2_s1_DataItem</bpmn:targetRef></bpmn:dataOutputAssociation>
       <bpmn:dataOutputAssociation id="DataOut_P2_s1_Issue"><bpmn:targetRef>DOR_P2_s1_Issue</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:userTask id="P2_s2" name="2. Identify users, needs and quality rules">
-      <bpmn:documentation>Guidance: DQAP2, GDQF-P2</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP2, GDQF-P2. In the Commons: assistant.html. Playbook stage: define.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s1_s2</bpmn:incoming>
       <bpmn:incoming>Flow_P2_g_s2</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s2_s3</bpmn:outgoing>
@@ -47,7 +47,7 @@
       <bpmn:dataOutputAssociation id="DataOut_P2_s2_QualityRule"><bpmn:targetRef>DOR_P2_s2_QualityRule</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:serviceTask id="P2_s3" name="3. Assess current quality (baseline)">
-      <bpmn:documentation>Guidance: DQAP3, GDQF-P3</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP3, GDQF-P3. In the Commons: check.html. Playbook stage: baseline.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s2_s3</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s3_s4</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s3_MeasurementRun"><bpmn:targetRef>DOR_P2_s3_MeasurementRun</bpmn:targetRef></bpmn:dataOutputAssociation>
@@ -55,32 +55,32 @@
       <bpmn:dataOutputAssociation id="DataOut_P2_s3_Issue"><bpmn:targetRef>DOR_P2_s3_Issue</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:userTask id="P2_s4" name="4. Prioritise improvements and set goals">
-      <bpmn:documentation>Guidance: DQAP4, IF</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP4, IF. In the Commons: guidance.html. Playbook stage: prioritise.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s3_s4</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s4_s5</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s4_RemediationAction"><bpmn:targetRef>DOR_P2_s4_RemediationAction</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:userTask id="P2_s5" name="5. Find root causes and take action">
-      <bpmn:documentation>Guidance: DQAP5, GDQF-P5</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP5, GDQF-P5. In the Commons: playbook.html. Playbook stage: improve.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s4_s5</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s5_s6</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s5_RootCause"><bpmn:targetRef>DOR_P2_s5_RootCause</bpmn:targetRef></bpmn:dataOutputAssociation>
       <bpmn:dataOutputAssociation id="DataOut_P2_s5_RemediationAction"><bpmn:targetRef>DOR_P2_s5_RemediationAction</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:userTask id="P2_s6" name="6. Report on data quality">
-      <bpmn:documentation>Guidance: DQAP6, GDQF-P4</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP6, GDQF-P4. In the Commons: share.html. Playbook stage: report.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s5_s6</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s6_u</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s6_CommunicationPlanEntry"><bpmn:targetRef>DOR_P2_s6_CommunicationPlanEntry</bpmn:targetRef></bpmn:dataOutputAssociation>
       <bpmn:dataOutputAssociation id="DataOut_P2_s6_QualityStatement"><bpmn:targetRef>DOR_P2_s6_QualityStatement</bpmn:targetRef></bpmn:dataOutputAssociation>
     </bpmn:userTask>
     <bpmn:userTask id="P2_u" name="Use the data with its caveats; report problems">
-      <bpmn:documentation>Guidance: DQAP6</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP6.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_s6_u</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_u_s7</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:serviceTask id="P2_s7" name="7. Repeat measurement over time">
-      <bpmn:documentation>Guidance: DQAP7</bpmn:documentation>
+      <bpmn:documentation>Guidance: DQAP7. In the Commons: pipeline.html. Playbook stage: sustain.</bpmn:documentation>
       <bpmn:incoming>Flow_P2_u_s7</bpmn:incoming>
       <bpmn:outgoing>Flow_P2_s7_g</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOut_P2_s7_MeasurementRun"><bpmn:targetRef>DOR_P2_s7_MeasurementRun</bpmn:targetRef></bpmn:dataOutputAssociation>

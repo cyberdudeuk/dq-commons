@@ -1,5 +1,21 @@
 # Build journal
 
+## 2026-11-04 — v2.6.0: menu fixed, visual inspection, models made interactive and joined up across the Commons
+
+**Asked for:** fix the first menu running off screen; run a general visual inspection; update the Commons with the new capability, data model and workflow content, as intuitive, dynamic and interactive as possible, with visual navigation.
+
+**Fixed**
+- The "1 Start" panel was anchored to the right of its tab and ran off the left edge. Panels now open under their tab and shift to stay on screen (a name clash with the tour's own `place` function first stopped this working; renamed `placePanel`).
+- The top bar was wider than the window between 1001 and 1140px, and the brand name shrank to nothing on desktop (a lone "D" on phones). The bar row is now 1360px wide, the full menu shows from 1300px, the brand doesn't shrink, and phones show the logo only (still named for screen readers).
+- Visual inspection of all 36 pages at 4 sizes (1366, 1100, 768 dark, 375): sideways scrolling at 320px from an unwrappable chip; controls under 24px. Fixed with shared rules in `base.css`.
+
+**Built**
+- Models page: clickable capability map with principle filter and detail panel; workflow player (Play, Previous, Next, role highlight, fit to width, list view, keyboard); record explorer with link lines and fields; deep links for capabilities, workflows, steps and records.
+- Home "Find your way by capability"; roles "Your steps in the data quality workflows"; playbook stages link to workflow steps; search and the knowledge graph include capabilities, records and steps.
+- Model 1.1.0: navigation fields, validated; Visio shape data and BPMN documentation carry the Commons page and playbook stage.
+
+**Checked:** full test suite, model tests (20), page probe on every page, visual inspection rerun, browser tests of every new link. Axe runs in CI (npm was unreachable locally).
+
 ## 2026-11-04 — v2.5.0: capability and data models, Visio process map, BPMN workflows; open actions closed
 
 **Asked for:** act on all recommendations and close open actions; create the data models behind the end-to-end data quality capability, importable into enterprise architecture tools; describe the capability overlaid with the Government Data Quality Framework and other guidance as a downloadable Visio process map; and the underlying workflows.

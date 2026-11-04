@@ -12,7 +12,7 @@
 #   ISO8000  ISO 8000 data quality   DCAT  W3C DCAT 3   DQV  W3C Data Quality Vocabulary   ODCS  Open Data Contract Standard
 review: {last_reviewed: "2026-11-04", owner_role: Commons architecture lead}
 name: Enterprise data quality management capability
-version: "1.0.0"
+version: "1.1.0"
 namespace: https://cyberdudeuk.github.io/dq-commons/model#
 
 guidance:
@@ -33,6 +33,22 @@ principles:   # GDQF principles, used as an overlay on the capability map and pr
   - {id: GDQF-P3, name: Assess quality throughout the data lifecycle, colour: "#1d5fa8"}
   - {id: GDQF-P4, name: Communicate data quality clearly and effectively, colour: "#a14d00"}
   - {id: GDQF-P5, name: Anticipate changes affecting data quality, colour: "#7a2e3a"}
+
+# ---------------------------------------------------------------------------------------------------------
+# Navigation: how the model connects to the rest of the Commons. "pages" on a capability and "page" on a step name
+# portal pages (file stems) where the work is done; "stage" names the playbook stage (knowledge/playbook.yaml).
+# lanes maps each swimlane to a role on the "For your role" page (knowledge/stakeholders.yaml) and a learning pathway
+# role (knowledge/learning.yaml); null where there is no matching role.
+lanes:
+  Chief data officer: {stakeholder: cdo, learning: cdo}
+  Data owner: {stakeholder: owner, learning: owner}
+  Data steward: {stakeholder: steward, learning: steward}
+  Data custodian: {stakeholder: technical, learning: analyst}
+  Governance board: {stakeholder: dqlead, learning: governance}
+  Catalogue and GDS: {stakeholder: gds, learning: null}
+  Data users: {stakeholder: null, learning: null}
+  Scheduler: {stakeholder: technical, learning: analyst}
+  Data quality toolkit: {stakeholder: technical, learning: analyst}
 
 # ---------------------------------------------------------------------------------------------------------
 # Reference lists (enumerations)
@@ -377,72 +393,84 @@ capabilities:
     guidance: [DAM, DOM, GDQF-P1]
     entities: [Organisation, RoleAssignment]
     children: [Accountability and roles, Policies and standards, Governance boards and escalation]
+    pages: [roles, operate, playbook]
   - id: C2
     name: Critical data asset identification
     principle: GDQF-P1
     guidance: [DAM, IDC]
     entities: [DataAsset, DataSharingAgreement]
     children: [Identify and designate by purpose, Register in the catalogue, Return to GDS]
+    pages: [baseline, playbook]
   - id: C3
     name: Metadata and discoverability
     principle: GDQF-P4
     guidance: [MD, DCAT, GDQF-P4]
     entities: [MetadataRecord, Distribution]
     children: [Record the 13 properties, Publish in open standards, Profile checks]
+    pages: [weaver, interop, knowledge]
   - id: C4
     name: User needs and requirements
     principle: GDQF-P2
     guidance: [GDQF-P2, DQAP2]
     entities: [UserNeed, DataItem]
     children: [User research, Critical data items, Trade-offs]
+    pages: [surveys, roles]
   - id: C5
     name: Rules and standards
     principle: GDQF-P3
     guidance: [DQAP2, IF, GDQF-D]
     entities: [QualityRule, DataQualityActionPlan]
     children: [Rules by dimension, Targets from the issues framework, Data contracts]
+    pages: [assistant, guidance, frameworks]
   - id: C6
     name: Measurement and monitoring
     principle: GDQF-P3
     guidance: [DQAP3, DQAP7, GDQF-P3]
     entities: [MeasurementRun, RuleResult]
     children: [Baseline, Scheduled measurement, Trends and controls]
+    pages: [check, pipeline]
   - id: C7
     name: Issue management and prioritisation
     principle: GDQF-P3
     guidance: [IF, DQAP3, DQAP4]
     entities: [Issue, Escalation]
     children: [Log issues, Prioritise with the issues framework, Escalate overdue issues]
+    pages: [guidance, pipeline]
   - id: C8
     name: Root cause and remediation
     principle: GDQF-P5
     guidance: [DQAP5, GDQF-P5]
     entities: [RootCause, RemediationAction]
     children: [Root cause analysis, Options and cost-benefit, Fix at source]
+    pages: [playbook, legacy]
   - id: C9
     name: Reporting and communication
     principle: GDQF-P4
     guidance: [DQAP6, GDQF-P4, COP]
     entities: [CommunicationPlanEntry, QualityStatement]
     children: [Communication plan, Quality statements, Caveats and limitations]
+    pages: [share, pipeline]
   - id: C10
     name: Assurance and review
     principle: GDQF-P1
     guidance: [DAM, IDC, COP, QAAD]
     entities: [AnnualReview, AssetReturn, Requirement]
     children: [Annual review, Conformance with requirements, Independent assurance]
+    pages: [ndl-assurance, frameworks, baseline]
   - id: C11
     name: Capability, skills and culture
     principle: GDQF-P1
     guidance: [GDQF-P1]
     entities: [MaturityAssessment]
     children: [Skills and training, Maturity assessment, Community of practice]
+    pages: [training, learn, maturity, professions]
   - id: C12
     name: Change and lifecycle management
     principle: GDQF-P5
     guidance: [GDQF-P5, GDQF-LC, DQAP7]
     entities: [DataSharingAgreement, DataItem]
     children: [Assess before and after change, Supplier quality, Archive with quality information]
+    pages: [legacy, commercial, interop]
 
 # ---------------------------------------------------------------------------------------------------------
 # Processes (workflows). Steps run in order unless "next" says otherwise; a gateway step lists its branches.
@@ -458,11 +486,11 @@ processes:
       - {id: b, kind: user, name: List data provided to or acquired from other organisations, lane: Data steward, guidance: [IDC], outputs: [DataSharingAgreement]}
       - {id: g, kind: gateway, name: "Serves one of the 7 purposes?", lane: Data owner, branches: {"Yes": c, "No": x}}
       - {id: x, kind: end, name: Not designated; record the reason, lane: Data owner}
-      - {id: c, kind: user, name: Designate the asset and name the data owner, lane: Data owner, guidance: [DAM, DOM, IDC], outputs: [DataAsset, RoleAssignment]}
-      - {id: d, kind: user, name: Record the metadata (13 properties), lane: Data steward, guidance: [MD], outputs: [MetadataRecord, Distribution]}
-      - {id: e, kind: service, name: Check the metadata against the UK profile, lane: Data steward, guidance: [MD], inputs: [MetadataRecord]}
-      - {id: f, kind: user, name: Start or confirm the DQAP, lane: Data owner, guidance: [DAM, DQAP1], outputs: [DataQualityActionPlan]}
-      - {id: h, kind: service, name: Register in the catalogue and report to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn]}
+      - {id: c, kind: user, name: Designate the asset and name the data owner, lane: Data owner, guidance: [DAM, DOM, IDC], outputs: [DataAsset, RoleAssignment], page: baseline}
+      - {id: d, kind: user, name: Record the metadata (13 properties), lane: Data steward, guidance: [MD], outputs: [MetadataRecord, Distribution], page: weaver}
+      - {id: e, kind: service, name: Check the metadata against the UK profile, lane: Data steward, guidance: [MD], inputs: [MetadataRecord], page: weaver}
+      - {id: f, kind: user, name: Start or confirm the DQAP, lane: Data owner, guidance: [DAM, DQAP1], outputs: [DataQualityActionPlan], page: playbook, stage: identify}
+      - {id: h, kind: service, name: Register in the catalogue and report to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn], page: baseline}
       - {id: z, kind: end, name: Asset registered, lane: Catalogue and GDS}
 
   - id: P2
@@ -471,14 +499,14 @@ processes:
     lanes: [Data owner, Data steward, Data custodian, Data users]
     steps:
       - {id: s, kind: start, name: Critical data asset designated, lane: Data owner}
-      - {id: s1, kind: user, name: "1. Identify critical data and known issues", lane: Data steward, guidance: [DQAP1], outputs: [DataItem, Issue]}
-      - {id: s2, kind: user, name: "2. Identify users, needs and quality rules", lane: Data steward, guidance: [DQAP2, GDQF-P2], outputs: [UserNeed, QualityRule]}
-      - {id: s3, kind: service, name: "3. Assess current quality (baseline)", lane: Data custodian, guidance: [DQAP3, GDQF-P3], outputs: [MeasurementRun, RuleResult, Issue]}
-      - {id: s4, kind: user, name: "4. Prioritise improvements and set goals", lane: Data owner, guidance: [DQAP4, IF], outputs: [RemediationAction]}
-      - {id: s5, kind: user, name: "5. Find root causes and take action", lane: Data steward, guidance: [DQAP5, GDQF-P5], outputs: [RootCause, RemediationAction]}
-      - {id: s6, kind: user, name: "6. Report on data quality", lane: Data owner, guidance: [DQAP6, GDQF-P4], outputs: [CommunicationPlanEntry, QualityStatement]}
+      - {id: s1, kind: user, name: "1. Identify critical data and known issues", lane: Data steward, guidance: [DQAP1], outputs: [DataItem, Issue], page: playbook, stage: identify}
+      - {id: s2, kind: user, name: "2. Identify users, needs and quality rules", lane: Data steward, guidance: [DQAP2, GDQF-P2], outputs: [UserNeed, QualityRule], page: assistant, stage: define}
+      - {id: s3, kind: service, name: "3. Assess current quality (baseline)", lane: Data custodian, guidance: [DQAP3, GDQF-P3], outputs: [MeasurementRun, RuleResult, Issue], page: check, stage: baseline}
+      - {id: s4, kind: user, name: "4. Prioritise improvements and set goals", lane: Data owner, guidance: [DQAP4, IF], outputs: [RemediationAction], page: guidance, stage: prioritise}
+      - {id: s5, kind: user, name: "5. Find root causes and take action", lane: Data steward, guidance: [DQAP5, GDQF-P5], outputs: [RootCause, RemediationAction], page: playbook, stage: improve}
+      - {id: s6, kind: user, name: "6. Report on data quality", lane: Data owner, guidance: [DQAP6, GDQF-P4], outputs: [CommunicationPlanEntry, QualityStatement], page: share, stage: report}
       - {id: u, kind: user, name: Use the data with its caveats; report problems, lane: Data users, guidance: [DQAP6]}
-      - {id: s7, kind: service, name: "7. Repeat measurement over time", lane: Data custodian, guidance: [DQAP7], outputs: [MeasurementRun]}
+      - {id: s7, kind: service, name: "7. Repeat measurement over time", lane: Data custodian, guidance: [DQAP7], outputs: [MeasurementRun], page: pipeline, stage: sustain}
       - {id: g, kind: gateway, name: "Significant change to collection or processing?", lane: Data owner, branches: {"Yes": s2, "No": z}}
       - {id: z, kind: end, name: Next measurement cycle, lane: Data custodian}
 
@@ -488,17 +516,17 @@ processes:
     lanes: [Data steward, Data owner, Data custodian, Governance board]
     steps:
       - {id: s, kind: start, name: A rule misses its target, lane: Data custodian}
-      - {id: a, kind: service, name: Log the issue in the Data Issues Log, lane: Data custodian, guidance: [IF, DQAP3], outputs: [Issue]}
-      - {id: b, kind: service, name: "Score: importance x impact x band", lane: Data custodian, guidance: [IF]}
-      - {id: c, kind: user, name: Set priority and target resolution date, lane: Data owner, guidance: [IF, DQAP4]}
-      - {id: d, kind: user, name: Find the root cause (5 whys), lane: Data steward, guidance: [DQAP5], outputs: [RootCause]}
+      - {id: a, kind: service, name: Log the issue in the Data Issues Log, lane: Data custodian, guidance: [IF, DQAP3], outputs: [Issue], page: pipeline}
+      - {id: b, kind: service, name: "Score: importance x impact x band", lane: Data custodian, guidance: [IF], page: guidance, stage: prioritise}
+      - {id: c, kind: user, name: Set priority and target resolution date, lane: Data owner, guidance: [IF, DQAP4], page: guidance, stage: prioritise}
+      - {id: d, kind: user, name: Find the root cause (5 whys), lane: Data steward, guidance: [DQAP5], outputs: [RootCause], page: playbook, stage: improve}
       - {id: g1, kind: gateway, name: "Can we fix it at source?", lane: Data steward, branches: {"Yes": e, "No": k}}
       - {id: k, kind: user, name: "Caveat, communicate and raise with the supplier", lane: Data owner, guidance: [QAAD, DQAP6], next: f}
-      - {id: e, kind: user, name: "Agree containment, corrective and preventive actions", lane: Data steward, guidance: [DQAP5], outputs: [RemediationAction]}
+      - {id: e, kind: user, name: "Agree containment, corrective and preventive actions", lane: Data steward, guidance: [DQAP5], outputs: [RemediationAction], page: playbook, stage: improve}
       - {id: f, kind: service, name: Re-measure at the next cycle, lane: Data custodian, guidance: [DQAP7]}
       - {id: g2, kind: gateway, name: "Meets target?", lane: Data custodian, branches: {"Yes": z, "No": g3}}
       - {id: g3, kind: gateway, name: "Past its resolution timescale?", lane: Data owner, branches: {"Yes": h, "No": d}}
-      - {id: h, kind: user, name: Escalate to the governance board, lane: Governance board, guidance: [IF, DAM], outputs: [Escalation], next: e}
+      - {id: h, kind: user, name: Escalate to the governance board, lane: Governance board, guidance: [IF, DAM], outputs: [Escalation], next: e, page: roles}
       - {id: z, kind: end, name: Issue resolved and closed, lane: Data custodian}
 
   - id: P4
@@ -508,12 +536,12 @@ processes:
     steps:
       - {id: s, kind: start, name: Measurement due, lane: Scheduler}
       - {id: a, kind: service, name: Test the toolkit, lane: Data quality toolkit, guidance: [DQAP7]}
-      - {id: b, kind: service, name: Run every rule and keep the history, lane: Data quality toolkit, guidance: [DQAP3, DQAP7], outputs: [MeasurementRun, RuleResult]}
-      - {id: c, kind: service, name: Score issues and age them, lane: Data quality toolkit, guidance: [IF], outputs: [Issue]}
+      - {id: b, kind: service, name: Run every rule and keep the history, lane: Data quality toolkit, guidance: [DQAP3, DQAP7], outputs: [MeasurementRun, RuleResult], page: check, stage: sustain}
+      - {id: c, kind: service, name: Score issues and age them, lane: Data quality toolkit, guidance: [IF], outputs: [Issue], page: guidance}
       - {id: g, kind: gateway, name: "Any overdue issues?", lane: Data quality toolkit, branches: {"Yes": d, "No": e}}
       - {id: d, kind: service, name: Open or update an escalation, lane: Data quality toolkit, guidance: [IF], outputs: [Escalation]}
-      - {id: e, kind: service, name: "Publish results, DQV metadata and the return", lane: Data quality toolkit, guidance: [DQV, DAM], outputs: [AssetReturn]}
-      - {id: f, kind: user, name: Review results and trends, lane: Data steward, guidance: [DQAP3, DQAP7]}
+      - {id: e, kind: service, name: "Publish results, DQV metadata and the return", lane: Data quality toolkit, guidance: [DQV, DAM], outputs: [AssetReturn], page: pipeline, stage: report}
+      - {id: f, kind: user, name: Review results and trends, lane: Data steward, guidance: [DQAP3, DQAP7], page: pipeline, stage: sustain}
       - {id: z, kind: end, name: Run complete, lane: Data steward}
 
   - id: P5
@@ -525,9 +553,9 @@ processes:
       - {id: a, kind: user, name: Confirm the asset is still critical, lane: Data owner, guidance: [IDC, DAM]}
       - {id: g1, kind: gateway, name: "Owner still in post?", lane: Data owner, branches: {"Yes": b, "No": n}}
       - {id: n, kind: user, name: Name a successor and update the metadata, lane: Chief data officer, guidance: [IDC, DOM], outputs: [RoleAssignment], next: b}
-      - {id: b, kind: user, name: Review the metadata against the 13 properties, lane: Data steward, guidance: [MD], outputs: [MetadataRecord]}
-      - {id: c, kind: user, name: Check the DQAP covers all 7 steps, lane: Data steward, guidance: [DAM, DQAP7], outputs: [DataQualityActionPlan]}
-      - {id: d, kind: user, name: Sign off the annual review, lane: Data owner, guidance: [DAM], outputs: [AnnualReview]}
+      - {id: b, kind: user, name: Review the metadata against the 13 properties, lane: Data steward, guidance: [MD], outputs: [MetadataRecord], page: weaver, stage: review}
+      - {id: c, kind: user, name: Check the DQAP covers all 7 steps, lane: Data steward, guidance: [DAM, DQAP7], outputs: [DataQualityActionPlan], page: playbook, stage: review}
+      - {id: d, kind: user, name: Sign off the annual review, lane: Data owner, guidance: [DAM], outputs: [AnnualReview], page: playbook, stage: review}
       - {id: e, kind: user, name: Assure returns across the department and its ALBs, lane: Chief data officer, guidance: [DAM]}
-      - {id: f, kind: service, name: Submit the return to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn]}
+      - {id: f, kind: service, name: Submit the return to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn], page: baseline}
       - {id: z, kind: end, name: Review complete, lane: Catalogue and GDS}

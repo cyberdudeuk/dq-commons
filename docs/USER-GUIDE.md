@@ -14,14 +14,19 @@ The Commons is a free, open place to check, improve and talk about the quality o
 
 | Group | Pages | Use it to |
 |---|---|---|
-| Start | Home (news, spotlight, latest), About, User guide, Accessibility and privacy | Find your way, see what the Commons is for |
-| Do | Check your data, Maturity, Rules assistant, Metadata Weaver, Pipeline | Measure quality, export data contracts, assess and benchmark maturity, draft rules, publish metadata in every standard, automate |
-| Know | Frameworks and standards, Learn, Skills and training, Knowledge map, AI for data quality, Issues framework, Tooling, Library and knowledge base | Compare frameworks, learn, check your skills and find training, explore every concept and how it connects, use AI safely, prioritise, choose tools, read and publish resources |
-| Govern | Buying and suppliers, Legacy and modernisation, Interoperability and standards | Put data quality into contracts, migrate without data debt, join data up |
-| Scenarios | All scenarios, UK and the world, National Data Library, Critical data asset baseline | Work through a specific policy, sector, nation, jurisdiction or platform |
-| Community | Community, Media centre, Events, Surveys and commissions, Case studies, Help us build this, Operating model | Contribute, share posts and podcasts, run surveys, ask for help, vote on the roadmap, co-design, contact us |
+| Start: Get started | Home, New to GitHub?, About the Commons, User guide, For your role, Accessibility and privacy | Find your way, see what the Commons is for and what each role needs |
+| Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
+| Check: Check and assess | Check your data, Maturity self-assessment, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, prioritise issues, draft rules, size a baseline |
+| Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
+| Apply: Apply to your context | All scenarios, UK and the world, National Data Library | Work through a policy, sector, nation or platform |
+| Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
+
+On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list.
 
 ## Common tasks
+
+### See where you fit in data quality management
+Go to **Capability and data models** (or **Find your way by capability** on the home page). Choose a capability to see what it involves and where to do it in the Commons. Under **Workflows**, press **Play** to walk through a workflow, or highlight your role to see just your steps; each step links to the page where you do it. Under **Records**, choose a record to see its fields and how it links to others. Downloads for Visio, ArchiMate, UML, BPMN and database tools are on the same page.
 
 ### Check a dataset
 Go to **Check data**. Open your file, add rules (or press **Suggest rules**), then **Run**. Identifier checks cover NHS numbers, National Insurance numbers, postcodes, UPRNs, GSS codes and more. Nothing is uploaded.

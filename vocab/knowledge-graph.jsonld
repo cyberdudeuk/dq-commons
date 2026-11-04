@@ -146,10 +146,100 @@
    "definition": "A step data passes through, from source to report."
   },
   {
+   "@id": "dqc:Capability",
+   "@type": "owl:Class",
+   "label": "Capability",
+   "definition": "A part of end-to-end data quality management, from the Commons capability model."
+  },
+  {
+   "@id": "dqc:Workflow",
+   "@type": "owl:Class",
+   "label": "Workflow",
+   "definition": "A process that carries out a capability, with steps, roles and records (BPMN in models/out/bpmn)."
+  },
+  {
+   "@id": "dqc:RecordType",
+   "@type": "owl:Class",
+   "label": "Record type",
+   "definition": "A kind of record the data quality capability keeps, from the Commons information model."
+  },
+  {
    "@id": "dqc:Thing",
    "@type": "owl:Class",
    "label": "Any thing",
    "definition": "Any node in the graph (used as a range when a relationship can point to several classes)."
+  },
+  {
+   "@id": "dqc:guidedBy",
+   "@type": "owl:ObjectProperty",
+   "label": "guided by",
+   "definition": "The policy or guidance a capability or record type puts into practice.",
+   "rdfs:domain": {
+    "@id": "dqc:Thing"
+   },
+   "rdfs:range": {
+    "@id": "dqc:Framework"
+   }
+  },
+  {
+   "@id": "dqc:keepsRecord",
+   "@type": "owl:ObjectProperty",
+   "label": "keeps record",
+   "definition": "A record type a capability manages.",
+   "rdfs:domain": {
+    "@id": "dqc:Capability"
+   },
+   "rdfs:range": {
+    "@id": "dqc:RecordType"
+   }
+  },
+  {
+   "@id": "dqc:realisedBy",
+   "@type": "owl:ObjectProperty",
+   "label": "realised by",
+   "definition": "A workflow that carries out a capability.",
+   "rdfs:domain": {
+    "@id": "dqc:Capability"
+   },
+   "rdfs:range": {
+    "@id": "dqc:Workflow"
+   }
+  },
+  {
+   "@id": "dqc:performedBy",
+   "@type": "owl:ObjectProperty",
+   "label": "performed by",
+   "definition": "A role with steps in a workflow.",
+   "rdfs:domain": {
+    "@id": "dqc:Workflow"
+   },
+   "rdfs:range": {
+    "@id": "dqc:Role"
+   }
+  },
+  {
+   "@id": "dqc:createsRecord",
+   "@type": "owl:ObjectProperty",
+   "label": "creates record",
+   "definition": "A record type a workflow creates or updates.",
+   "rdfs:domain": {
+    "@id": "dqc:Workflow"
+   },
+   "rdfs:range": {
+    "@id": "dqc:RecordType"
+   }
+  },
+  {
+   "@id": "dqc:linksTo",
+   "@type": "owl:ObjectProperty",
+   "label": "links to",
+   "definition": "One record type refers to another.",
+   "rdfs:domain": {
+    "@id": "dqc:RecordType"
+   },
+   "rdfs:range": {
+    "@id": "dqc:RecordType"
+   }
   },
   {
    "@id": "dqc:measures",
@@ -9073,6 +9163,1020 @@
    ],
    "label": "Places the Commons serves",
    "definition": "The UK and its nations, the Crown Dependencies, the Overseas Territories, the Commonwealth and international partners."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "Organisation",
+   "definition": "A department, arm's length body or other organisation that holds, provides or uses data.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "RoleAssignment",
+   "definition": "Who holds an accountability for an asset. Names are held only in the organisation's own records.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "DataAsset",
+   "definition": "A critical data asset, or any data set managed by the capability.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-cda-metadata"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/distribution",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "Distribution",
+   "definition": "A file, API or other way the asset is made available.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-cda-metadata"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/datasharingagreement",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "DataSharingAgreement",
+   "definition": "An agreement under which an asset is provided to or acquired from another organisation.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-qaad"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/metadatarecord",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "MetadataRecord",
+   "definition": "A catalogue record describing the asset in a metadata standard, with its gap assessment.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-cda-metadata"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataitem",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "DataItem",
+   "definition": "A critical data item (field, table or element) within an asset.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/userneed",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "UserNeed",
+   "definition": "A user group of the asset and what quality it needs.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "DataQualityActionPlan",
+   "definition": "The DQAP, or equivalent mechanism, for one asset; covers the 7 steps.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualityrule",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "QualityRule",
+   "definition": "A data quality rule with its dimension, method and agreed target.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataitem"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "MeasurementRun",
+   "definition": "One assessment of an asset against its rules.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/ruleresult",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "RuleResult",
+   "definition": "The result of one rule in one run.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualityrule"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "Issue",
+   "definition": "A rule that misses its target, logged in the Data Issues Log.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualityrule"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/ruleresult"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/rootcause",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "RootCause",
+   "definition": "The cause of an issue, found by root cause analysis.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/remediationaction",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "RemediationAction",
+   "definition": "An action to contain, correct or prevent an issue.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/rootcause"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/escalation",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "Escalation",
+   "definition": "An issue escalated because it is overdue.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/communicationplanentry",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "CommunicationPlanEntry",
+   "definition": "Who needs to know what about the asset's quality, how and how often.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualitystatement",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "QualityStatement",
+   "definition": "A plain English statement of an asset's quality, strengths and limitations.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/assetreturn",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "AssetReturn",
+   "definition": "One asset's row in the return to GDS.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/annualreview",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "AnnualReview",
+   "definition": "The yearly review of an asset, its owner, metadata and DQAP.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/requirement",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "Requirement",
+   "definition": "A requirement from policy, guidance or a standard (the requirements register).",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/maturityassessment",
+   "@type": [
+    "dqc:RecordType"
+   ],
+   "label": "MaturityAssessment",
+   "definition": "An organisation's self-assessed data quality maturity, by theme.",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:linksTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c1",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C1 Data governance and ownership",
+   "definition": "Accountability and roles; Policies and standards; Governance boards and escalation",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/organisation"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c2",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C2 Critical data asset identification",
+   "definition": "Identify and designate by purpose; Register in the catalogue; Return to GDS",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/datasharingagreement"
+    }
+   ],
+   "dqc:realisedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p1"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c3",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C3 Metadata and discoverability",
+   "definition": "Record the 13 properties; Publish in open standards; Profile checks",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-cda-metadata"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/metadatarecord"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/distribution"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c4",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C4 User needs and requirements",
+   "definition": "User research; Critical data items; Trade-offs",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/userneed"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataitem"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c5",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C5 Rules and standards",
+   "definition": "Rules by dimension; Targets from the issues framework; Data contracts",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualityrule"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    }
+   ],
+   "dqc:realisedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p2"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c6",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C6 Measurement and monitoring",
+   "definition": "Baseline; Scheduled measurement; Trends and controls",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/ruleresult"
+    }
+   ],
+   "dqc:realisedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p4"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c7",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C7 Issue management and prioritisation",
+   "definition": "Log issues; Prioritise with the issues framework; Escalate overdue issues",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/escalation"
+    }
+   ],
+   "dqc:realisedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p3"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c8",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C8 Root cause and remediation",
+   "definition": "Root cause analysis; Options and cost-benefit; Fix at source",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/rootcause"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/remediationaction"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c9",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C9 Reporting and communication",
+   "definition": "Communication plan; Quality statements; Caveats and limitations",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/communicationplanentry"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualitystatement"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c10",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C10 Assurance and review",
+   "definition": "Annual review; Conformance with requirements; Independent assurance",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dam-policy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-qaad"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/annualreview"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/assetreturn"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/requirement"
+    }
+   ],
+   "dqc:realisedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p5"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c11",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C11 Capability, skills and culture",
+   "definition": "Skills and training; Maturity assessment; Community of practice",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/maturityassessment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Capability/c12",
+   "@type": [
+    "dqc:Capability"
+   ],
+   "label": "C12 Change and lifecycle management",
+   "definition": "Assess before and after change; Supplier quality; Archive with quality information",
+   "dqc:guidedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-gdqf"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ],
+   "dqc:keepsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/datasharingagreement"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataitem"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p1",
+   "@type": [
+    "dqc:Workflow"
+   ],
+   "label": "P1 Identify and register critical data assets",
+   "definition": "11 steps across: Chief data officer, Data owner, Data steward, Catalogue and GDS",
+   "dqc:performedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/cdo"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/owner"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/steward"
+    }
+   ],
+   "dqc:createsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/assetreturn"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataasset"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/datasharingagreement"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/distribution"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/metadatarecord"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p2",
+   "@type": [
+    "dqc:Workflow"
+   ],
+   "label": "P2 Data quality action plan lifecycle (7 steps)",
+   "definition": "11 steps across: Data owner, Data steward, Data custodian, Data users",
+   "dqc:performedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/owner"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/steward"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/analyst"
+    }
+   ],
+   "dqc:createsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/communicationplanentry"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataitem"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualityrule"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/qualitystatement"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/remediationaction"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/rootcause"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/ruleresult"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/userneed"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p3",
+   "@type": [
+    "dqc:Workflow"
+   ],
+   "label": "P3 Data quality issue management",
+   "definition": "13 steps across: Data steward, Data owner, Data custodian, Governance board",
+   "dqc:performedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/steward"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/owner"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/analyst"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/governance"
+    }
+   ],
+   "dqc:createsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/escalation"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/remediationaction"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/rootcause"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p4",
+   "@type": [
+    "dqc:Workflow"
+   ],
+   "label": "P4 Scheduled measurement run",
+   "definition": "9 steps across: Scheduler, Data quality toolkit, Data steward",
+   "dqc:performedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/analyst"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/steward"
+    }
+   ],
+   "dqc:createsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/assetreturn"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/escalation"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/issue"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/measurementrun"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/ruleresult"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Workflow/p5",
+   "@type": [
+    "dqc:Workflow"
+   ],
+   "label": "P5 Annual review and return",
+   "definition": "10 steps across: Data owner, Data steward, Chief data officer, Catalogue and GDS",
+   "dqc:performedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/owner"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/steward"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Role/cdo"
+    }
+   ],
+   "dqc:createsRecord": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/annualreview"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/assetreturn"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/dataqualityactionplan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/metadatarecord"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/RecordType/roleassignment"
+    }
+   ]
   }
  ]
 }

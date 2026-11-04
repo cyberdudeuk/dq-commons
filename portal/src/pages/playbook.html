@@ -96,7 +96,7 @@ python -m dqkit playbook status births</code></pre>
 </div>
 
 <script>
-const PB = __K_PLAYBOOK__, REQ = __K_REQUIREMENTS__, FW = __K_FRAMEWORKS__;
+const PB = __K_PLAYBOOK__, REQ = __K_REQUIREMENTS__, FW = __K_FRAMEWORKS__, MN = __K_MODELNAV__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
@@ -128,6 +128,8 @@ function drawStage(focus) {
       <p class="small"><b>Elsewhere:</b> ${esc(s.elsewhere)}</p></div>
   </div>
   <p class="incl"><b>Inclusion check:</b> ${esc(s.inclusion)}</p>
+  ${(() => { const ws = MN.processes.flatMap(p => p.steps.filter(x => x.stage === s.id).map(x => ({p, x})));
+     return ws.length ? `<p class="small">${DQI("workflow")} <b>In the workflows:</b> ${ws.map(({p, x}) => `<a href="models.html#wf-${p.id}-${x.id}">${esc(p.id)}: ${esc(x.name)}</a> <span class="muted">(${esc(x.lane)})</span>`).join("; ")}</p>` : ""; })()}
   <p><a class="btn ghost" href="${esc(s.toolkit.link)}">${DQI("arrow")} ${esc(s.toolkit.text)}</a>
   ${cur > 0 ? `<button class="btn ghost" type="button" data-go="${cur - 1}">Previous stage</button>` : ""}
   ${cur < PB.stages.length - 1 ? `<button class="btn" type="button" data-go="${cur + 1}">Next stage</button>` : ""}</p>`;

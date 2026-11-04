@@ -32,6 +32,12 @@ Each capability, record type and workflow step carries the codes of the guidance
 | `out/visio/dq-capability-process-map.vsdx` | Microsoft Visio (8 pages); `dq-capability-process-map.pdf` for anyone without Visio |
 | `out/bpmn/P1..P5-*.bpmn` | BPMN 2.0 with diagram layout: Camunda Modeler, bpmn.io, Signavio, Bizagi, ARIS |
 
+## How it connects to the rest of the Commons
+
+- `pages` on a capability and `page` on a step name the portal pages where the work is done; `stage` names the playbook stage; `lanes` maps each swimlane to a role on the "For your role" page and a learning pathway.
+- The models page uses these for its capability map, workflow player and record explorer; the home page shows the capability map; each role sees its steps; each playbook stage links to its steps; search and the knowledge map include them.
+- The generator refuses a link to a page, stage or role that doesn't exist.
+
 ## How to change the model
 
 1. Edit `dq-capability.yaml`. Put quotes round any text that contains a comma or ends in a question mark.

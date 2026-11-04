@@ -2,6 +2,16 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.6.0 — 2026-11-04
+### Fixed
+- Menu panels: positioned to stay on screen (`placePanel` in the shell); groups with more than 6 pages show in two columns; full menu from 1300px, compact Menu button below; brand no longer shrinks or overlaps the menu; no sideways scrolling from 320px up.
+- Target size: buttons, selects, summaries, chips and file pickers at least 24px (WCAG 2.2, 2.5.8); chips wrap under 480px.
+### Added
+- Interactive models page: capability map with detail panel, workflow player (play, step, role highlight, list view, deep links `#wf-P2-s3`), record explorer (`#ent-Issue`), capability deep links (`#cap-C7`).
+- Model navigation fields: `pages` on capabilities, `page` and `stage` on steps, `lanes` role mapping; validated against portal pages, playbook stages and roles (model version 1.1.0).
+- Home: "Find your way by capability". Roles: "Your steps in the data quality workflows". Playbook: workflow steps per stage.
+- Search entries for capabilities, records and workflow steps; knowledge graph classes `Capability`, `Workflow`, `RecordType` and properties `guidedBy`, `keepsRecord`, `realisedBy`, `performedBy`, `createsRecord`, `linksTo`.
+
 ## 2.5.0 — 2026-11-04
 ### Added
 - `models/dq-capability.yaml` and `scripts/build_models.py` (D-MOD-01): ArchiMate 3.1 exchange XML and Archi CSV, UML 2.5.1 XMI, PostgreSQL DDL, JSON Schema 2020-12, OWL Turtle, data dictionary, capability-guidance matrix, Mermaid ERD and SVG, Visio `.vsdx` process map and PDF, BPMN 2.0 workflows P1 to P5.

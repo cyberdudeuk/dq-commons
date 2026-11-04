@@ -11,6 +11,20 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.6.0"
+  date: "2026-11-04"
+  title: "Interactive capability models, joined up across the Commons; menu fixes"
+  pages_new: []
+  pages_changed: [models, index, roles, playbook, knowledge]
+  items:
+  - {type: fixed, text: "Menus open fully on screen: the first menu no longer runs off the left edge, long menus show in two columns, and the top bar no longer overlaps or scrolls sideways at any screen width"}
+  - {type: new, text: "Play through each workflow step by step, highlight your role, and jump to the page where you do each step", link: "models.html#workflows"}
+  - {type: new, text: "Clickable capability map and a record explorer that shows how records link and which steps create them", link: "models.html#capabilities"}
+  - {type: new, text: "Find your way by capability on the home page: twelve capabilities, each leading to the parts of the Commons that help", link: "index.html#capnav-h"}
+  - {type: new, text: "Your steps in the data quality workflows, for each role", link: "roles.html"}
+  - {type: changed, text: "Each playbook stage links to the workflow steps that carry it out", link: "playbook.html"}
+  - {type: changed, text: "Search finds capabilities, records and workflow steps; the knowledge map includes them"}
+  - {type: fixed, text: "Buttons, chips, summaries and file pickers meet the 24-pixel minimum target size; long chips wrap on small screens"}
 - version: "2.5.0"
   date: "2026-11-04"
   title: "The data quality capability as models: data models, a Visio process map and BPMN workflows"

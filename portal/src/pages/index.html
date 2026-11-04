@@ -95,6 +95,16 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 .journey .card{border-top:4px solid var(--accent)}
 .journey .card ol{margin:6px 0 0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
 .journey .card h3 small{display:block;font-weight:500;font-size:.8rem;color:var(--muted)}
+.capkey{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.82rem;color:var(--muted);margin:4px 0 10px}
+.capkey span{display:inline-flex;align-items:center;gap:6px}.capkey i{width:12px;height:12px;border-radius:3px;background:var(--c)}
+.capnav{list-style:none;margin:0;padding:0;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr))}
+.capnav li{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.capnav a.t{font-weight:700;color:var(--fg);text-decoration:none;padding:2px 0;min-height:24px}
+.capnav a.t:hover{text-decoration:underline}
+.capnav a.t span{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);margin-right:6px}
+.capnav .go{display:flex;flex-wrap:wrap;gap:4px}
+.capnav .go a{font-size:.8rem;padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);text-decoration:none;min-height:24px;display:inline-flex;align-items:center}
+.capnav .go a:hover{text-decoration:underline}
 </style>
 
 <div class="wrap">
@@ -184,6 +194,7 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
       <li><a href="pipeline.html">Automate checks with the pipeline</a></li>
       <li><a href="weaver.html">Add quality to your metadata</a></li>
       <li><a href="interop.html">Data contracts and interoperability</a></li>
+      <li><a href="models.html">The capability as data models, Visio and BPMN</a></li>
       <li><a href="build.html">Help build the Commons</a></li>
     </ol></div>
   </div>
@@ -193,6 +204,13 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
   <h2 id="role-h">Start from your role</h2>
   <div class="roles" role="group" aria-label="Choose your role" id="roles"></div>
   <div class="route" id="route" aria-live="polite"></div>
+</section>
+
+<section aria-labelledby="capnav-h">
+  <h2 id="capnav-h">Find your way by capability</h2>
+  <p>Everything data quality management involves, in twelve capabilities, coloured by the Government Data Quality Framework principle each serves. Each one takes you to the parts of the Commons that help. <a href="models.html">See the full capability model, workflows and records</a>.</p>
+  <div class="capkey" id="capkey" aria-hidden="true"></div>
+  <ul class="capnav" id="capnav"></ul>
 </section>
 
 <section aria-labelledby="cyc-h">
@@ -231,8 +249,19 @@ a.chip{text-decoration:none;font-size:.82rem;padding:5px 12px}
 
 <script>
 const P = __PORTFOLIO__, B = __BUILD__, FW = __K_FRAMEWORKS__, PK = __K_PACKS__, MEDIA = __K_MEDIA__, KBA = __K_ARTICLES__;
+
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// Find your way by capability (models/dq-capability.yaml)
+(() => {
+  const MN = __K_MODELNAV__, col = Object.fromEntries(MN.principles.map(p => [p.id, p.colour]));
+  const LBL = {roles: "Your role", operate: "Operating model", playbook: "Playbook", baseline: "CDA baseline", weaver: "Metadata Weaver", interop: "Interoperability",
+    knowledge: "Knowledge map", surveys: "Surveys", assistant: "Rules assistant", guidance: "Issues framework", frameworks: "Frameworks", check: "Check your data",
+    pipeline: "Pipeline", legacy: "Legacy", share: "Case studies", "ndl-assurance": "NDL assurance", training: "Skills", learn: "Learn", maturity: "Maturity", professions: "Professions", commercial: "Suppliers"};
+  document.getElementById("capkey").innerHTML = MN.principles.map(p => `<span style="--c:${p.colour}"><i></i>${esc(p.name)}</span>`).join("");
+  document.getElementById("capnav").innerHTML = MN.capabilities.map(c => `<li style="--c:${col[c.principle]}"><a class="t" href="models.html#cap-${c.id}"><span>${esc(c.id)}</span>${esc(c.name)}</a>
+    <div class="go">${(c.pages || []).map(p => `<a href="${esc(p)}.html">${esc(LBL[p] || p)}</a>`).join("")}</div></li>`).join("");
+})();
 
 // ---- Hero carousel (WAI-ARIA carousel pattern: pause control, stops on hover and focus, no autoplay with reduced motion) ----
 (function () {

@@ -1,5 +1,16 @@
 # Decision log (this repository)
 
+## 2026-11-04 · D-NAV-02 · The capability model is the Commons' map: every capability, step and role links to where the work is done
+- **Decision:** the model gains navigation fields (`pages`, `page`, `stage`, `lanes`). The models page becomes interactive (capability map, workflow player, record explorer, deep links), and the home, roles, playbook, search and knowledge map pages link into it. The generator refuses links to pages, stages or roles that don't exist.
+- **Why:** people arrive with a job to do ("I'm a data owner", "we need to prioritise issues"). The model already says who does what and with which records; using it as the map turns 36 pages into one joined-up route, and keeps the links honest because they are tested.
+- **Accessibility:** every diagram has a text equivalent (workflow list view, record list, keyboard operation with Tab, Enter and arrow keys); nothing is dimmed or animated on load; Play respects reduced motion.
+- **Alternatives considered:** a separate navigation file (rejected: would drift from the model); embedding a BPMN viewer library (rejected: a third-party script, larger pages and weaker keyboard support than drawing the SVG ourselves).
+
+## 2026-11-04 · D-NAV-01 · Menus stay on screen; full menu from 1300px
+- **Decision:** dropdown panels open under their tab and shift to stay inside the window, with height capped to the space below the bar; groups with more than six pages use two columns; the full menu shows from 1300px wide (it needs about 1,260px), the Menu button below that.
+- **Why:** the first menu was anchored to its right edge and ran off the left of the screen; between 1001 and 1140px the bar was wider than the window, and the brand overlapped the menu.
+- **Alternatives considered:** shorten menu labels (rejected: the group names carry meaning); a mega-menu across the full width (rejected: a bigger change to a pattern people already know).
+
 ## 2026-11-04 · D-MOD-01 · One YAML source for the capability, data model and workflows; generated exports for each tool family
 - **Decision:** `models/dq-capability.yaml` describes the enterprise data quality capability (12 capabilities, 22 record types, 5 workflows) with the guidance each part implements. `scripts/build_models.py` generates ArchiMate 3.1 Open Exchange XML and an Archi CSV set, UML 2.5.1 XMI, PostgreSQL DDL, JSON Schema 2020-12, OWL in Turtle, a data dictionary and capability-guidance matrix, a Mermaid ERD, a Visio `.vsdx` process map and BPMN 2.0 files with diagram layout. Outputs are deterministic and CI fails if they drift from the YAML. The Visio file is written directly as an Open Packaging file (no Visio licence or template needed) and checked by rendering it in LibreOffice.
 - **Why:** architects use different tools (Archi, Sparx EA, BiZZdesign, Visio, Camunda, erwin, Protégé); one source keeps every view consistent and reviewable as text, and open formats avoid locking anyone into one product.

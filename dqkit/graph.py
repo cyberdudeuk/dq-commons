@@ -229,6 +229,42 @@ def build() -> dict:
         if f"Jurisdiction:{slug(j)}" in g.nodes:
             g.edge(f"Jurisdiction:{slug(j)}", "inScope", scope)
 
+    # the capability model (models/dq-capability.yaml): capabilities, workflows and record types
+    mf = ROOT / "models" / "dq-capability.yaml"
+    if mf.exists():
+        import re as _re
+        mm = yaml.safe_load(mf.read_text(encoding="utf-8"))
+        fw = {"DAM": "uk-dam-policy", "IDC": "uk-identify-cda", "MD": "uk-cda-metadata", "DOM": "uk-data-ownership-model", "DQAP": "uk-dqap",
+              "IF": "uk-dqap", "GDQF": "uk-gdqf", "COP": "uk-code-of-practice-3", "QAAD": "uk-qaad", "ICO": "uk-ico-accuracy"}
+        def guide(code):
+            base = _re.sub(r"\d+$", "", code).split("-")[0]
+            return f"Framework:{slug(fw[base])}" if base in fw else None
+        for e in mm["entities"]:
+            rid = g.node("RecordType", e["name"], e["name"], definition=e["description"], detail=e["group"], source="models/dq-capability.yaml")
+            for gcode in e.get("guidance", []):
+                if guide(gcode):
+                    g.edge(rid, "guidedBy", guide(gcode))
+        for e in mm["entities"]:
+            for a in e["attributes"]:
+                if a["type"].startswith("ref:") and a["type"][4:] != e["name"]:
+                    g.edge(f"RecordType:{slug(e['name'])}", "linksTo", f"RecordType:{slug(a['type'][4:])}", note=a["name"])
+        for c in mm["capabilities"]:
+            cid = g.node("Capability", c["id"], f"{c['id']} {c['name']}", definition="; ".join(c["children"]), source="models/dq-capability.yaml")
+            for gcode in c["guidance"]:
+                if guide(gcode):
+                    g.edge(cid, "guidedBy", guide(gcode))
+            for en in c["entities"]:
+                g.edge(cid, "keepsRecord", f"RecordType:{slug(en)}")
+        for pr in mm["processes"]:
+            wid = g.node("Workflow", pr["id"], f"{pr['id']} {pr['name']}", definition=f"{len(pr['steps'])} steps across: " + ", ".join(pr["lanes"]), source="models/dq-capability.yaml")
+            g.edge(f"Capability:{slug(pr['capability'])}", "realisedBy", wid)
+            for lane in pr["lanes"]:
+                lr = (mm.get("lanes", {}).get(lane) or {}).get("learning")
+                if lr:
+                    g.edge(wid, "performedBy", f"Role:{slug(lr)}")
+            for en in sorted({en for s in pr["steps"] for en in s.get("outputs", [])}):
+                g.edge(wid, "createsRecord", f"RecordType:{slug(en)}")
+
     # keep only edges whose ends exist
     d = g.to_dict()
     ids = set(g.nodes)

@@ -2,7 +2,7 @@
 # dqkit/graph.py combines this with the rest of the knowledge base (frameworks, packs, vocab, Rosetta, learning,
 # training, events, international partners) into one knowledge graph, exported as SKOS/OWL Turtle and JSON-LD.
 # Namespace: https://cyberdudeuk.github.io/ndl-dq-assurance/vocab# (persistent identifiers, prefix dqc:).
-review: {last_reviewed: "2026-10-15", owner_role: Content steward (vocabulary)}
+review: {last_reviewed: "2026-11-04", owner_role: Content steward (vocabulary)}
 
 # ---------- Ontology: classes and relationships ----------
 classes:
@@ -28,9 +28,18 @@ classes:
 - {id: Organisation, label: "Organisation or network", definition: "A body, network or partner.", equivalent: "org:Organization"}
 - {id: Term, label: "Glossary term", definition: "A term defined in the Commons glossary.", equivalent: "skos:Concept"}
 - {id: Stage, label: "Lineage stage", definition: "A step data passes through, from source to report.", equivalent: "prov:Activity"}
+- {id: Capability, label: "Capability", definition: "A part of end-to-end data quality management, from the Commons capability model.", equivalent: "archimate:Capability"}
+- {id: Workflow, label: "Workflow", definition: "A process that carries out a capability, with steps, roles and records (BPMN in models/out/bpmn).", equivalent: "archimate:BusinessProcess"}
+- {id: RecordType, label: "Record type", definition: "A kind of record the data quality capability keeps, from the Commons information model.", equivalent: "archimate:DataObject"}
 - {id: Thing, label: "Any thing", definition: "Any node in the graph (used as a range when a relationship can point to several classes).", equivalent: "owl:Thing"}
 
 properties:
+- {id: guidedBy, label: "guided by", domain: Thing, range: Framework, definition: "The policy or guidance a capability or record type puts into practice."}
+- {id: keepsRecord, label: "keeps record", domain: Capability, range: RecordType, definition: "A record type a capability manages."}
+- {id: realisedBy, label: "realised by", domain: Capability, range: Workflow, definition: "A workflow that carries out a capability."}
+- {id: performedBy, label: "performed by", domain: Workflow, range: Role, definition: "A role with steps in a workflow."}
+- {id: createsRecord, label: "creates record", domain: Workflow, range: RecordType, definition: "A record type a workflow creates or updates."}
+- {id: linksTo, label: "links to", domain: RecordType, range: RecordType, definition: "One record type refers to another."}
 - {id: measures, label: "measures", domain: Rule, range: Dimension, definition: "The dimension a rule measures."}
 - {id: uses, label: "uses check", domain: Rule, range: Check, definition: "The check type a rule runs."}
 - {id: checksDimension, label: "checks dimension", domain: Check, range: Dimension, definition: "The dimension a check type usually measures."}

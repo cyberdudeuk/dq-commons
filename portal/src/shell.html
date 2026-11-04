@@ -21,11 +21,11 @@
 .dqp-skip:focus{left:max(16px, env(safe-area-inset-left, 0px));top:calc(8px + env(safe-area-inset-top, 0px))}
 .dqp-bar{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:var(--dqp-bar);color:var(--dqp-bar-fg);
   font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;border-bottom:1px solid var(--dqp-bar-line)}
-.dqp-in{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
+.dqp-in{max-width:1360px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:0;display:flex;align-items:center;gap:14px;min-height:54px;position:relative}
-.dqp-brand{display:flex;align-items:center;gap:10px;color:var(--dqp-bar-fg);text-decoration:none;font-weight:700;font-size:15px;min-width:0}
+.dqp-brand{flex:none;display:flex;align-items:center;gap:10px;color:var(--dqp-bar-fg);text-decoration:none;font-weight:700;font-size:15px;min-width:0}
 .dqp-brand svg{flex:none}
-.dqp-brand span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dqp-brand span{white-space:nowrap;flex:none}
 .dqp-brand small{display:block;font-weight:500;font-size:11px;color:var(--dqp-bar-muted);letter-spacing:.02em}
 .dqp-nav{display:flex;gap:2px;margin-left:auto;align-items:stretch}
 .dqp-g{position:relative}
@@ -35,7 +35,7 @@
 .dqp-g[open]>summary::after{transform:rotate(-135deg);margin-bottom:-1px}
 .dqp-g>summary:hover,.dqp-g[open]>summary{color:var(--dqp-bar-active)}
 .dqp-g[data-current]>summary{color:var(--dqp-bar-active);border-bottom-color:var(--dqp-focus)}
-.dqp-panel{position:absolute;right:0;top:100%;min-width:320px;max-width:min(400px,calc(100vw - 32px));background:var(--dqp-panel);color:var(--dqp-panel-fg);
+.dqp-panel{position:absolute;left:0;top:100%;min-width:320px;max-width:min(400px,calc(100vw - 32px));max-height:calc(100vh - 72px);overflow-y:auto;overscroll-behavior:contain;background:var(--dqp-panel);color:var(--dqp-panel-fg);
   border:1px solid var(--dqp-panel-line);border-radius:0 0 8px 8px;box-shadow:0 12px 28px rgba(0,0,0,.18);padding:6px;display:flex;flex-direction:column}
 .dqp-panel a,.dqp-grp a{display:block;color:var(--dqp-panel-fg);text-decoration:none;padding:10px 12px;border-radius:6px;font-size:14.5px;font-weight:600}
 .dqp-panel a:hover{background:rgba(13,107,110,.08)}
@@ -51,9 +51,12 @@
   max-height:calc(100vh - 60px);overflow-y:auto;padding:6px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px));box-shadow:0 12px 28px rgba(0,0,0,.2)}
 .dqp-grp h2{font:700 11.5px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--dqp-panel-muted);margin:14px 12px 4px}
 .dqp-grp a[aria-current="page"]{box-shadow:inset 4px 0 0 var(--dqp-focus)}
-@media (max-width:1000px){.dqp-nav{display:none}.dqp-menu{display:block}.dqp-tourbtn{margin-left:0}}
+@media (max-width:1299px){.dqp-nav{display:none}.dqp-menu{display:block}.dqp-tourbtn{margin-left:0}}
 .dqp-short{display:none}
-@media (max-width:520px){.dqp-brand small{display:none}.dqp-long{display:none}.dqp-short{display:inline}}
+@media (max-width:520px){.dqp-brand span{display:none}.dqp-long{display:none}.dqp-short{display:inline}}
+@media (min-width:1300px) and (max-width:1599px){.dqp-brand small{display:none}}
+@media (max-width:900px){.dqp-brand small{display:none}}
+@media (max-width:380px){.dqp-in{gap:8px}.dqp-menu>summary,.dqp-tourbtn,.dqp-newbtn,.dqp-searchbtn{padding-left:8px;padding-right:8px}.dqp-newbtn .dqp-short{display:none}}
 .dqc-ctx{background:var(--dqp-panel);color:var(--dqp-panel-fg);border:1px solid var(--dqp-panel-line);border-left:4px solid var(--dqp-focus);border-radius:6px;padding:10px 14px;font:400 14px/1.55 "Public Sans",system-ui,sans-serif;max-width:80ch;margin-top:10px}
 .dqc-ctx a{color:inherit;text-decoration:underline;font-weight:600}
 .dqp-foot{font-family:"Public Sans",system-ui,sans-serif;font-size:13px;line-height:1.5;color:var(--muted, #56636e);border-top:3px solid var(--accent, #0d6b6e);background:var(--surface, #fff);
@@ -106,11 +109,13 @@
 .dqp-navflag{font:700 10px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:2px 5px;border-radius:4px;background:#ffbf47;color:#0b0c0c;margin-left:6px;vertical-align:1px}
 .dqp-navflag.upd{background:#d9e6f7;color:#1d3a6b}
 .dqp-drawer :focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
-@media (max-width:1000px){.dqp-newbtn{margin-left:0}}
+@media (max-width:1299px){.dqp-newbtn{margin-left:0}}
 /* Journey menu: level badges (text carries the meaning; the border style is a second cue) and group titles */
 .dqp-lvl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-right:4px;line-height:16px;vertical-align:1px}
 .dqp-lvl-intermediate{border-style:dashed}
 .dqp-lvl-advanced{border-width:2px}
+@media (min-width:1300px){.dqp-panel.dqp-wide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:4px;width:min(720px,calc(100vw - 24px));max-width:none}
+  .dqp-panel.dqp-wide .dqp-gt{grid-column:1/-1}}
 .dqp-gt{margin:0 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
 /* WCAG 2.2 SC 2.5.8 Target size (minimum): standalone links and tick boxes are at least 24 x 24 CSS px */
 input[type=checkbox],input[type=radio]{width:24px;height:24px;margin:0;flex:none;accent-color:var(--accent,#1d70b8)}
@@ -238,9 +243,26 @@ window.DQP_GITHUB = (function () {
   window.DQI = function (n, cls) { return '<svg class="dqi' + (cls ? " " + cls : "") + '" aria-hidden="true" focusable="false"><use href="#i-' + n + '"/></svg>'; };
   // Menus: one group open at a time; Escape and clicks outside close them.
   var groups = Array.prototype.slice.call(document.querySelectorAll(".dqp-g, .dqp-menu"));
+  // Keep an open panel fully on screen: start under its tab, then shift left if it would run off the right
+  // edge (or right if off the left), and cap its height to the space below the bar so long groups scroll.
+  function placePanel(d) {
+    var p = d.querySelector(".dqp-panel");
+    if (!p) return;
+    p.style.left = "0px"; p.style.right = "auto"; p.style.maxHeight = "";
+    var r = p.getBoundingClientRect(), vw = document.documentElement.clientWidth, gap = 12, shift = 0;
+    if (r.right > vw - gap) shift = (vw - gap) - r.right;
+    if (r.left + shift < gap) shift = gap - r.left;
+    p.style.left = shift + "px";
+    p.style.maxHeight = Math.max(200, window.innerHeight - r.top - gap) + "px";
+  }
   groups.forEach(function (d) {
-    d.addEventListener("toggle", function () { if (d.open) groups.forEach(function (o) { if (o !== d) o.open = false; }); });
+    d.addEventListener("toggle", function () {
+      if (!d.open) return;
+      groups.forEach(function (o) { if (o !== d) o.open = false; });
+      placePanel(d);
+    });
   });
+  window.addEventListener("resize", function () { groups.forEach(function (d) { if (d.open) placePanel(d); }); });
   document.addEventListener("click", function (e) { groups.forEach(function (d) { if (d.open && !d.contains(e.target)) d.open = false; }); });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;

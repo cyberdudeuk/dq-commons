@@ -188,6 +188,16 @@
    "s-share-yours": "e19402764bac",
    "s-videos": "da39a3ee5e6b"
   },
+  "models": {
+   "s-capability-map-overlaid-with-the-government-data-quality-fra": "0134bf751694",
+   "s-change-the-model": "f0b0470104f5",
+   "s-downloads-by-tool": "4f4d8f7cf700",
+   "s-guidance-key": "d9ceea037fac",
+   "s-how-to-import": "e41826373f52",
+   "s-information-model": "7b1adb4227dc",
+   "s-visio-process-map": "8c788ce47620",
+   "s-workflows": "2dc96cfcd6a4"
+  },
   "ndl-assurance": {
    "s-critical-data-asset-metadata-coverage": "3a5dab45337c",
    "s-every-page-every-check": "f59aa0516f55",
@@ -269,7 +279,7 @@
   },
   "weaver": {
    "s-1-your-record": "0f9d392f450a",
-   "s-2-gaps": "02fe339ee4ba",
+   "s-2-gaps": "95069a078dfc",
    "s-3-fill-the-gaps": "d2fbcf13aa1b",
    "s-4-outputs": "39e5e82b7640",
    "s-contract-change-check": "cf144fa14ec1",
@@ -277,5 +287,5 @@
    "s-why-a-weaver-not-just-a-crosswalk": "cf8d1c2169af"
   }
  },
- "since": "2.4.0"
+ "since": "2.5.0"
 }

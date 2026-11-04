@@ -232,12 +232,25 @@ def models_summary() -> dict:
     files = sorted(p.relative_to(ROOT / "models" / "out").as_posix() for p in (ROOT / "models" / "out").rglob("*") if p.is_file())
     previews = sorted(p.name for p in (ROOT / "models" / "previews").glob("map-*.png")) if (ROOT / "models" / "previews").exists() else []
     return {"name": m["name"], "version": m["version"], "review": m["review"], "guidance": m["guidance"], "principles": m["principles"],
-            "capabilities": m["capabilities"], "enums": m["enums"],
+            "capabilities": m["capabilities"], "enums": m["enums"], "lanes": m.get("lanes", {}),
+            "page_labels": {stem: label for stem, label, _ in PAGES},
+            "stages": {s["id"]: f"Stage {s['n']}: {s['name']}" for s in yaml.safe_load((ROOT / "knowledge" / "playbook.yaml").read_text(encoding="utf-8"))["stages"]},
+            "roles": {r["id"]: r["name"] for r in yaml.safe_load((ROOT / "knowledge" / "stakeholders.yaml").read_text(encoding="utf-8"))["roles"]},
             "entities": [{k: e[k] for k in ("name", "group", "description", "guidance")} | {"attributes": e["attributes"]} for e in m["entities"]],
             "processes": [{"id": p["id"], "name": p["name"], "capability": p["capability"], "lanes": p["lanes"],
-                           "steps": [{k: s.get(k) for k in ("id", "kind", "name", "lane", "guidance", "outputs", "branches", "next")} for s in p["steps"]]} for p in m["processes"]],
+                           "steps": [{k: s.get(k) for k in ("id", "kind", "name", "lane", "guidance", "outputs", "branches", "next", "page", "stage")} for s in p["steps"]]} for p in m["processes"]],
             "files": files, "previews": previews,
             "extras": [f for f in ("dq-data-model.svg", "dq-capability-process-map.pdf") if (ROOT / "models" / f).exists()]}
+
+
+def models_nav() -> dict:
+    """A light version of the capability model for pages that link into it (home, roles, playbook)."""
+    m = yaml.safe_load((ROOT / "models" / "dq-capability.yaml").read_text(encoding="utf-8"))
+    return {"principles": m["principles"], "lanes": m.get("lanes", {}),
+            "capabilities": [{k: c.get(k) for k in ("id", "name", "principle", "children", "pages")} for c in m["capabilities"]],
+            "processes": [{"id": p["id"], "name": p["name"], "capability": p["capability"],
+                           "steps": [{k: s.get(k) for k in ("id", "kind", "name", "lane", "page", "stage")} for s in p["steps"] if s["kind"] not in ("start", "end")]}
+                          for p in m["processes"]]}
 
 
 def knowledge() -> dict:
@@ -273,6 +286,7 @@ def knowledge() -> dict:
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
         "MODELS": lambda: models_summary(),
+        "MODELNAV": lambda: models_nav(),
         "MEDIA": lambda: y("media"),
         "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
@@ -577,6 +591,19 @@ def search_index() -> list:
         path = ROOT / "knowledge" / f"{f}.yaml"
         if path.exists() and page in labels:
             walk(yaml.safe_load(path.read_text(encoding="utf-8")), page)
+    # The capability model: capabilities, records and workflow steps open at the right place on the models page.
+    mf = ROOT / "models" / "dq-capability.yaml"
+    if mf.exists() and "models" in labels:
+        mm = yaml.safe_load(mf.read_text(encoding="utf-8"))
+        for c in mm["capabilities"]:
+            add(f"{c['name']} (capability {c['id']})", "Capability", f"models.html#cap-{c['id']}", "; ".join(c["children"]) + " " + " ".join(c["guidance"]), labels["models"])
+        for e in mm["entities"]:
+            add(f"{e['name']} (record)", "Record", f"models.html#ent-{e['name']}", e["description"] + " " + " ".join(a["name"] for a in e["attributes"]), labels["models"])
+        for pr in mm["processes"]:
+            add(f"{pr['id']} {pr['name']} (workflow)", "Workflow", f"models.html#wf-{pr['id']}", " ".join(pr["lanes"]), labels["models"])
+            for s in pr["steps"]:
+                if s["kind"] not in ("start", "end"):
+                    add(s["name"], f"Workflow step · {pr['id']}", f"models.html#wf-{pr['id']}-{s['id']}", f"{s['lane']} " + " ".join(s.get("guidance", [])), labels["models"])
     return idx
 
 
@@ -597,7 +624,7 @@ def nav(active: str, long: bool) -> str:
             out.append(f'<div class="dqp-grp"><h2>{g[0]}. {GROUP_TITLE[g]}</h2>{links}</div>')
         else:
             out.append(f'<details class="dqp-g"{" data-current" if cur_g else ""}><summary>{icon(GROUP_ICON[g])}{g}</summary>'
-                       f'<div class="dqp-panel"><p class="dqp-gt">{GROUP_TITLE[g]}</p>{links}</div></details>')
+                       f'<div class="dqp-panel{" dqp-wide" if len(ps) > 6 else ""}"><p class="dqp-gt">{GROUP_TITLE[g]}</p>{links}</div></details>')
     return "".join(out)
 
 

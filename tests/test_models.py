@@ -65,6 +65,19 @@ class ModelSource(unittest.TestCase):
             for a in e["attributes"]:
                 self.assertNotRegex(a["name"], r"email|phone|telephone|(^|_)address($|_)", f"{e['name']}.{a['name']}")
 
+    def test_model_is_wired_into_the_commons(self):
+        # every capability leads somewhere in the portal, every lane has a role entry, and broken links are refused
+        for c in M["capabilities"]:
+            self.assertTrue(c.get("pages"), c["id"])
+        lanes = {l for p in M["processes"] for l in p["lanes"]}
+        self.assertLessEqual(lanes, set(M["lanes"]))
+        for stage in ["identify", "define", "baseline", "prioritise", "improve", "report", "sustain", "review"]:
+            self.assertTrue(any(s.get("stage") == stage for p in M["processes"] for s in p["steps"]), f"no workflow step for playbook stage {stage}")
+        broken = json.loads(json.dumps(M))
+        broken["capabilities"][0]["pages"] = ["no-such-page"]
+        with self.assertRaises(SystemExit):
+            bm.validate(broken)
+
     def test_stray_keys_are_caught(self):
         broken = json.loads(json.dumps(M))
         broken["processes"][0]["steps"][1]["oops"] = None

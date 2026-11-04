@@ -94,3 +94,11 @@ details.disc>.body{padding:0 16px 16px;display:flex;flex-direction:column;gap:10
 .bar-h .track{flex:1;height:10px;background:var(--sunk);border-radius:5px;overflow:hidden;min-width:60px}
 .bar-h .track i{display:block;height:100%;background:var(--accent)}
 .bar-h b{font-family:var(--f-mono);font-variant-numeric:tabular-nums;min-width:3.5ch;text-align:right}
+/* Target size (WCAG 2.2, 2.5.8): controls are at least 24px in each direction; long chips wrap on small screens. */
+button,select,summary,input:not([type=checkbox]):not([type=radio]):not([type=range]){min-height:24px}
+a.chip,button.chip,label.chip,a.pill,button.pill{min-height:24px;display:inline-flex;align-items:center;gap:4px}
+input[type=checkbox],input[type=radio]{min-width:18px;min-height:18px}
+input[type=file]{min-height:44px;padding:6px 0}
+input[type=file]::file-selector-button{min-height:32px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;margin-right:8px}
+.chip{max-width:100%}
+@media (max-width:480px){.chip{white-space:normal;text-align:left}}

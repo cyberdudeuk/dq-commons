@@ -208,9 +208,9 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.5.0) publishes the data quality capability as models: a capability map overlaid
-with the Government Data Quality Framework, 22 record types and 5 workflows, downloadable for ArchiMate,
-UML, Visio, BPMN, SQL, JSON Schema and OWL tools (see [`models/`](models/README.md)). The Metadata Weaver
-now checks access rights and classification values and adds a UK GEMINI profile. The portal needs no
-claude.ai account: everything runs on GitHub. Contact is by form only. Every release is in
+The latest release (2.6.0) makes the capability model interactive and uses it to join up the Commons:
+play through each workflow step by step, highlight your role, explore how records link, and find your way
+from the home page by capability. Menus now stay on screen at every size. Release 2.5.0 published the
+capability as data models, a Visio process map and BPMN workflows (see [`models/`](models/README.md)).
+The portal needs no claude.ai account. Contact is by form only. Every release is in
 [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

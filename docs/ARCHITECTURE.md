@@ -230,6 +230,13 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 8. v2.6.0: the model as navigation (4 November 2026)
+- **Navigation fields** in `models/dq-capability.yaml`: `pages` (capability), `page` and `stage` (step), `lanes` (swimlane to stakeholder and learning role). Validated by `build_models.py` against `portal/src/pages`, `knowledge/playbook.yaml`, `stakeholders.yaml` and `learning.yaml` (D-NAV-02).
+- **Feeds:** `__K_MODELS__` (full, models page) and `__K_MODELNAV__` (light: capabilities, lanes, steps; home, roles, playbook).
+- **Models page:** SVG drawn in the browser with the same layout and routing rules as the Visio and BPMN exports; deep links `#cap-`, `#wf-`, `#ent-`.
+- **Search and graph:** `search_index()` adds capability, record, workflow and step entries; `dqkit/graph.py` adds `Capability`, `Workflow`, `RecordType` nodes linked to frameworks, roles and each other.
+- **Shell:** `placePanel()` keeps menu panels on screen; two-column panels for long groups; full menu from 1300px (D-NAV-01).
+
 ## 7. v2.5.0: capability and data models (4 November 2026)
 - **Source:** `models/dq-capability.yaml` (capabilities, entities, reference lists, workflows, guidance codes). **Generator:** `scripts/build_models.py`, deterministic, `--check` in CI (D-MOD-01).
 - **Information architecture:** 22 record types in 7 groups: Governance (Organisation, RoleAssignment); Asset and metadata (DataAsset, Distribution, DataSharingAgreement, MetadataRecord); Requirements (DataItem, UserNeed, DataQualityActionPlan); Measurement (QualityRule, MeasurementRun, RuleResult); Issue management (Issue, RootCause, RemediationAction, Escalation); Reporting (CommunicationPlanEntry, QualityStatement); Assurance (AssetReturn, AnnualReview, Requirement, MaturityAssessment). They match the DQAP workbook tabs, CDA return columns and DQV output the toolkit already produces.

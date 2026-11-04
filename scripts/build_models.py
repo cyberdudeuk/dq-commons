@@ -70,9 +70,9 @@ def validate(m: dict) -> None:
     problems = []
     allowed = {"entity": {"name", "group", "description", "guidance", "attributes"},
                "attribute": {"name", "type", "key", "required", "many", "description"},
-               "capability": {"id", "name", "principle", "guidance", "entities", "children"},
+               "capability": {"id", "name", "principle", "guidance", "entities", "children", "pages"},
                "process": {"id", "name", "capability", "lanes", "steps"},
-               "step": {"id", "kind", "name", "lane", "guidance", "outputs", "inputs", "branches", "next"}}
+               "step": {"id", "kind", "name", "lane", "guidance", "outputs", "inputs", "branches", "next", "page", "stage"}}
 
     def keys_ok(kind: str, obj: dict, where: str) -> None:
         # A comma inside an unquoted value in {...} splits it into a stray key; catch that here.
@@ -128,6 +128,30 @@ def validate(m: dict) -> None:
             for g in s.get("guidance", []):
                 if not code_ok(g):
                     problems.append(f"{p['id']}.{s['id']} cites unknown guidance {g}")
+    # Navigation links into the rest of the Commons must point at things that exist.
+    portal = {f.stem for f in (ROOT / "portal" / "src" / "pages").glob("*.html")}
+    stages = {s["id"] for s in yaml.safe_load((ROOT / "knowledge" / "playbook.yaml").read_text(encoding="utf-8"))["stages"]}
+    stake = {r["id"] for r in yaml.safe_load((ROOT / "knowledge" / "stakeholders.yaml").read_text(encoding="utf-8"))["roles"]}
+    learn = {r["id"] for r in yaml.safe_load((ROOT / "knowledge" / "learning.yaml").read_text(encoding="utf-8"))["roles"]}
+    for c in m["capabilities"]:
+        for pg in c.get("pages", []):
+            if pg not in portal:
+                problems.append(f"capability {c['id']} links to missing portal page {pg}")
+    lane_map = m.get("lanes", {})
+    for p in m["processes"]:
+        for lane in p["lanes"]:
+            if lane not in lane_map:
+                problems.append(f"lane {lane} in {p['id']} has no entry under lanes:")
+        for s in p["steps"]:
+            if s.get("page") and s["page"] not in portal:
+                problems.append(f"{p['id']}.{s['id']} links to missing portal page {s['page']}")
+            if s.get("stage") and s["stage"] not in stages:
+                problems.append(f"{p['id']}.{s['id']} names unknown playbook stage {s['stage']}")
+    for lane, v in lane_map.items():
+        if v.get("stakeholder") and v["stakeholder"] not in stake:
+            problems.append(f"lane {lane}: unknown role {v['stakeholder']} (knowledge/stakeholders.yaml)")
+        if v.get("learning") and v["learning"] not in learn:
+            problems.append(f"lane {lane}: unknown learning role {v['learning']} (knowledge/learning.yaml)")
     if problems:
         sys.exit("The model has problems:\n  " + "\n  ".join(problems))
 
@@ -201,10 +225,10 @@ def data_dictionary(m: dict) -> dict[str, str]:
             base = "reference" if ref else ("enum" if allowed else t)
             rows.append([e["name"], e["group"], a["name"], base, "yes" if a.get("key") else "", "yes" if a.get("required") or a.get("key") else "",
                          "yes" if a.get("many") else "", ref, allowed, a.get("description", ""), " ".join(e.get("guidance", []))])
-    mat = [["capability_id", "capability", "gdqf_principle", "guidance", "entities", "sub_capabilities", "processes"]]
+    mat = [["capability_id", "capability", "gdqf_principle", "guidance", "entities", "sub_capabilities", "processes", "commons_pages"]]
     for c in m["capabilities"]:
         procs = " ".join(p["id"] for p in m["processes"] if p["capability"] == c["id"])
-        mat.append([c["id"], c["name"], c["principle"], " ".join(c["guidance"]), " ".join(c["entities"]), "; ".join(c["children"]), procs])
+        mat.append([c["id"], c["name"], c["principle"], " ".join(c["guidance"]), " ".join(c["entities"]), "; ".join(c["children"]), procs, " ".join(f"{x}.html" for x in c.get("pages", []))])
     return {"dictionary/data-dictionary.csv": csv_text(rows), "dictionary/capability-guidance-matrix.csv": csv_text(mat)}
 
 
@@ -648,8 +672,9 @@ def bpmn(m: dict) -> dict[str, str]:
         for s in p["steps"]:
             nid = f'{p["id"]}_{s["id"]}'
             X.append(f'    <bpmn:{tag[s["kind"]]} id="{nid}" name="{xa(s["name"])}">')
-            if s.get("guidance"):
-                X.append(f'      <bpmn:documentation>{xa("Guidance: " + ", ".join(s["guidance"]))}</bpmn:documentation>')
+            doc = ("Guidance: " + ", ".join(s["guidance"]) + ". " if s.get("guidance") else "") + (f"In the Commons: {s['page']}.html. " if s.get("page") else "") + (f"Playbook stage: {s['stage']}." if s.get("stage") else "")
+            if doc:
+                X.append(f'      <bpmn:documentation>{xa(doc.strip())}</bpmn:documentation>')
             X += [f"      <bpmn:incoming>{f}</bpmn:incoming>" for f in incoming[s["id"]]]
             X += [f"      <bpmn:outgoing>{f}</bpmn:outgoing>" for f in outgoing[s["id"]]]
             for en in s.get("inputs", []):
@@ -850,7 +875,8 @@ def visio_process_page(m: dict, p: dict, W: float) -> Page:
         cx, cy, w, h, _ = lay["pos"][s["id"]]
         x, y = V(cx, cy)
         data = {"Step": f'{p["id"]}.{s["id"]}', "Role": s["lane"], "Guidance": " ".join(s.get("guidance", [])),
-                "Records": " ".join(s.get("outputs", [])), "Automated": "yes" if s["kind"] == "service" else "no"}
+                "Records": " ".join(s.get("outputs", [])), "Automated": "yes" if s["kind"] == "service" else "no",
+                "Commons page": f"{s['page']}.html" if s.get("page") else "", "Playbook stage": s.get("stage", "")}
         if s["kind"] == "start":
             ids[s["id"]] = pg.box(x, y, w, h, fill="#cce2d8", line="#005a30", weight_pt=1.5, shape="ellipse", name="Start", data=data)
             pg.text(x, y - h / 2 - 0.22, 1.6, 0.36, s["name"], size=7.5)

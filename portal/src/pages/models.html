@@ -1,91 +1,172 @@
 <title>Capability and data models</title>
 <style>
 __BASE_CSS__
-.caps{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
-.cap{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--c);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
-.cap h3{margin:0;font-size:1rem}
-.cap h3 span{font-family:var(--f-mono);color:var(--muted);margin-right:6px;font-size:.85rem}
-.cap ul{margin:0;padding-left:18px;font-size:.86rem}
+.explore{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));margin:6px 0 4px}
+.explore a{display:flex;gap:10px;align-items:flex-start;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.explore a:hover,.explore a:focus-visible{border-color:var(--accent)}
+.explore .dqi{width:26px;height:26px;color:var(--accent);flex:none}
+.explore b{display:block}
+.explore span{font-size:.84rem;color:var(--muted)}
+.studio{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) minmax(280px,360px);align-items:start}
+@media (max-width:960px){.studio{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;position:sticky;top:70px;max-height:calc(100vh - 90px);overflow:auto}
+@media (max-width:960px){.panel{position:static;max-height:none}}
+.panel h3{margin:.1rem 0 .4rem}
+.panel h4{margin:.9rem 0 .3rem;font-size:.86rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.panel ul{margin:0;padding-left:18px;font-size:.9rem}
+.panel .go{display:flex;flex-wrap:wrap;gap:6px}
+.panel .hint{color:var(--muted);font-size:.9rem}
+.key{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.key button{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:.84rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.key button[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c)}
+.key i{width:12px;height:12px;border-radius:3px;background:var(--c);display:inline-block}
+.caps{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr))}
+.cap{text-align:left;font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--c);border-radius:8px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-height:96px;transition:transform .12s, box-shadow .12s}
+.cap:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+.cap[aria-pressed="true"]{box-shadow:0 0 0 3px var(--c)}
+.cap.dim{opacity:.35}
+.cap b{font-size:.98rem}
+.cap .id{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
 .cap .meta{font-size:.78rem;color:var(--muted)}
-.key{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
-.key span{display:inline-flex;align-items:center;gap:6px;font-size:.84rem}
-.key i{width:14px;height:14px;border-radius:3px;background:var(--c);display:inline-block}
-.dl td:first-child{white-space:nowrap}
-.flow{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
-.flow li{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c, var(--line));border-radius:6px;padding:8px 12px;font-size:.9rem}
-.flow li .lane{font-size:.78rem;color:var(--muted);display:block}
-.flow li.gw{border-left-color:#594d00;background:var(--warn-soft)}
-.flow li.ev{border-left-color:var(--muted)}
-.prev{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))}
+.lifecycle{display:flex;gap:4px;margin-top:12px;flex-wrap:wrap}
+.lifecycle span{flex:1 1 120px;background:#1d5fa8;color:#fff;font-size:.78rem;font-weight:600;padding:8px 10px;border-radius:6px;text-align:center}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.tabs button{font:inherit;font-size:.88rem;padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;text-align:left}
+.tabs button[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tabs button span{font-family:var(--f-mono);margin-right:6px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+.ctl .btn{min-height:36px}
+.ctl label{font-size:.88rem}
+.ctl select{min-height:36px}
+.canvas{overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);-webkit-overflow-scrolling:touch}
+.canvas svg{display:block}
+.canvas.fit svg{width:100%;height:auto}
+svg .lane-bg{fill:var(--surface)} svg .lane-bg.alt{fill:var(--sunk)}
+svg .lane-lb{fill:var(--sunk);stroke:var(--line)} svg .lane-tx{fill:var(--fg);font:700 12px var(--f-sans, system-ui)}
+svg .flow{fill:none;stroke:var(--muted);stroke-width:1.6}
+svg .flow.on{stroke:var(--accent);stroke-width:3}
+svg .flow-tx{fill:var(--fg);font:700 11px var(--f-sans, system-ui)}
+svg .st{cursor:pointer;outline:none}
+svg .st .shape{stroke:transparent;stroke-width:3;transition:opacity .2s}
+svg .st:hover .shape,svg .st:focus-visible .shape{stroke:#ffbf47}
+svg .st.cur .shape{stroke:#ffbf47;stroke-width:5}
+svg .st.dim{opacity:.25}
+svg .st-tx{fill:#fff;font:700 11.5px var(--f-sans, system-ui);pointer-events:none}
+svg .ev-tx{fill:var(--fg);font:600 11px var(--f-sans, system-ui);pointer-events:none}
+svg .sub-tx{fill:var(--muted);font:500 10px var(--f-sans, system-ui);pointer-events:none}
+svg .ent rect{fill:var(--surface);stroke:#1d70b8;stroke-width:1.5;transition:opacity .2s}
+svg .ent{cursor:pointer;outline:none}
+svg .ent:hover rect,svg .ent:focus-visible rect{stroke:#ffbf47;stroke-width:3}
+svg .ent.cur rect{fill:#1d70b8;stroke:#ffbf47;stroke-width:3} svg .ent.cur text{fill:#fff}
+svg .ent.near rect{stroke-width:3;fill:var(--accent-soft)}
+svg .ent.dim{opacity:.25}
+svg .ent text{fill:var(--fg);font:700 12px var(--f-sans, system-ui);pointer-events:none}
+svg .grp{fill:var(--fg);font:800 12px var(--f-sans, system-ui);text-transform:uppercase;letter-spacing:.06em}
+svg .link{fill:none;stroke:var(--accent);stroke-width:2;opacity:.8}
+svg .link.in{stroke-dasharray:5 4}
+.legend{font-size:.82rem;color:var(--muted);margin-top:6px}
+.prev{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
 .prev figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px}
 .prev img{width:100%;height:auto;display:block;border-radius:4px}
 .prev figcaption{font-size:.82rem;margin-top:6px}
+.flow-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.flow-list li{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c, var(--line));border-radius:6px;padding:8px 12px;font-size:.9rem}
+.flow-list .lane{font-size:.78rem;color:var(--muted);display:block}
 .ents details{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin-bottom:6px}
 .ents summary{cursor:pointer;font-weight:600}
 .ents summary span{font-weight:400;color:var(--muted);font-size:.84rem;margin-left:6px}
-.ents table{font-size:.84rem}
-.steps-imp li{margin-bottom:6px}
+.fields{font-size:.84rem}
+.dl td:first-child{white-space:nowrap}
+.linkish{all:unset;cursor:pointer;text-decoration:underline;color:var(--accent);font-weight:600;display:inline-block;padding:2px 0;line-height:20px}
+.linkish:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.cap,svg .st .shape,svg .ent rect{transition:none}.cap:hover{transform:none}}
 </style>
 
 <div class="wrap">
 <header class="page">
   <span class="eyebrow">Manage and improve · Capability and data models</span>
-  <h1>The data quality capability, as models your architecture tools can open</h1>
+  <h1>See the whole data quality capability, and where you fit in it</h1>
   <p class="lede" id="sum"></p>
-  <nav class="toc" aria-label="On this page"><a href="#downloads">Downloads by tool</a><a href="#capabilities">Capability map</a><a href="#map">Process map</a><a href="#workflows">Workflows</a><a href="#model">Information model</a><a href="#import">How to import</a><a href="#change">Change the model</a><a href="#key">Guidance key</a></nav>
+  <nav class="explore" aria-label="Explore the model">
+    <a href="#capabilities"><svg class="dqi" aria-hidden="true"><use href="#i-blocks"/></svg><div><b>Capability map</b><span>12 capabilities, coloured by framework principle. Click one.</span></div></a>
+    <a href="#workflows"><svg class="dqi" aria-hidden="true"><use href="#i-workflow"/></svg><div><b>Workflows</b><span>Step through who does what, and where to do it here.</span></div></a>
+    <a href="#records"><svg class="dqi" aria-hidden="true"><use href="#i-database"/></svg><div><b>Records</b><span>What gets recorded and how the records join up.</span></div></a>
+    <a href="#downloads"><svg class="dqi" aria-hidden="true"><use href="#i-code"/></svg><div><b>Downloads</b><span>Visio, ArchiMate, UML, BPMN, SQL and more.</span></div></a>
+  </nav>
+  <nav class="toc" aria-label="On this page"><a href="#capabilities">Capability map</a><a href="#workflows">Workflows</a><a href="#records">Records</a><a href="#map">Visio map</a><a href="#downloads">Downloads by tool</a><a href="#import">How to import</a><a href="#change">Change the model</a><a href="#key">Guidance key</a></nav>
 </header>
 
-<div class="card" role="note"><p class="small"><b>What to know first.</b> One file, <code>models/dq-capability.yaml</code>, holds the whole model. Every download below is generated from it, so they always agree. The model follows GOV.UK guidance as published (see the <a href="#key">guidance key</a>); it is a starting point for your organisation to adapt, not an official government model. The Visio file was checked by opening it in LibreOffice; tell us through <a href="build.html#contact">the contact form</a> if your Visio version shows it differently.</p></div>
-
-<section id="downloads" aria-labelledby="d-h"><h2 id="d-h">Downloads by tool</h2>
-  <p><a class="btn" id="zip" href="__DOWNLOADS__models/dq-capability-models.zip">Download everything (zip)</a></p>
-  <div class="tbl"><table class="dl"><thead><tr><th scope="col">File</th><th scope="col">Opens in</th><th scope="col">What it holds</th></tr></thead><tbody id="dl"></tbody></table></div>
-</section>
+<div class="card" role="note"><p class="small"><b>What to know first.</b> One file, <code>models/dq-capability.yaml</code>, holds the whole model; every view and download here is made from it, so they always agree. It follows GOV.UK guidance as published (see the <a href="#key">guidance key</a>). It is a starting point to adapt, not an official government model.</p></div>
 
 <section id="capabilities" aria-labelledby="c-h"><h2 id="c-h">Capability map, overlaid with the Government Data Quality Framework</h2>
-  <p>Twelve capabilities make up end-to-end data quality management. Each one's colour shows the framework principle it mainly serves; the codes show the guidance it puts into practice.</p>
-  <div class="key" id="ckey"></div>
-  <div class="filters"><div class="field"><label for="cp">Show capabilities for</label><select id="cp"><option value="">All principles</option></select></div></div>
-  <div class="caps" id="caps" aria-live="polite"></div>
-</section>
-
-<section id="map" aria-labelledby="m-h"><h2 id="m-h">Visio process map</h2>
-  <p>Eight pages: the capability map, the five workflows as swimlane diagrams, the information model and the guidance key. Every shape carries its guidance and records as shape data, so you can report on them in Visio. <a href="__DOWNLOADS__models/visio/dq-capability-process-map.vsdx">Visio file (.vsdx)</a> · <a href="__DOWNLOADS__models/dq-capability-process-map.pdf">PDF for anyone without Visio</a>.</p>
-  <div class="prev" id="prev"></div>
-  <p class="small muted">The same content is written out in full under <a href="#workflows">Workflows</a> for people using screen readers or small screens.</p>
+  <p>Twelve capabilities make up end-to-end data quality management. Colour shows the framework principle each one mainly serves. Choose a capability to see what it involves, the guidance behind it, and where to do it in the Commons. Choose a principle to pick out its capabilities.</p>
+  <div class="key" id="ckey" role="group" aria-label="Filter by principle"></div>
+  <div class="studio">
+    <div><div class="caps" id="caps"></div>
+      <p class="small muted" style="margin-top:12px">Across every capability, quality is managed at each stage of the data lifecycle (framework principle 3):</p>
+      <div class="lifecycle" id="life"></div></div>
+    <aside class="panel" id="capPanel" aria-live="polite" tabindex="-1"><p class="hint">Choose a capability to see its details here.</p></aside>
+  </div>
 </section>
 
 <section id="workflows" aria-labelledby="w-h"><h2 id="w-h">Workflows</h2>
-  <p>Five workflows carry out the capability. Each is a BPMN 2.0 file with its diagram layout, so process tools draw it the same way. Steps marked "automated" run in the Commons toolkit or a scheduled job.</p>
-  <div class="filters"><div class="field"><label for="wp">Workflow</label><select id="wp"></select></div></div>
-  <div id="wf" aria-live="polite"></div>
+  <p>Five workflows carry out the capability. Press <b>Play</b> to walk through the main path, or choose any step. Highlight a role to see only that role's steps. Each step says where to do it in the Commons.</p>
+  <div class="tabs" id="wtabs" role="tablist" aria-label="Choose a workflow"></div>
+  <div class="ctl">
+    <button class="btn ghost" type="button" id="prevS">◀ Previous</button>
+    <button class="btn" type="button" id="playS" aria-pressed="false">▶ Play</button>
+    <button class="btn ghost" type="button" id="nextS">Next ▶</button>
+    <span class="small" id="stepN" role="status" aria-live="polite"></span>
+    <label>Highlight <select id="roleF"></select></label>
+    <label class="small"><input type="checkbox" id="fit"> Fit to width</label>
+    <label class="small"><input type="checkbox" id="asList"> Show as a list</label>
+  </div>
+  <div class="studio">
+    <div><div class="canvas" id="wcanvas" role="region" aria-label="Workflow diagram; scrolls sideways" tabindex="0"></div>
+      <ol class="flow-list" id="wlist" hidden></ol>
+      <p class="legend">Coloured boxes are steps (colour = framework principle; ⚙ = automated). Diamonds are decisions. Green circle: start. Red circle: end. Use Tab to move between steps, Enter to choose one, and the left and right arrow keys to step through.</p></div>
+    <aside class="panel" id="stepPanel" aria-live="polite" tabindex="-1"></aside>
+  </div>
 </section>
 
-<section id="model" aria-labelledby="e-h"><h2 id="e-h">Information model</h2>
-  <p>The records the capability keeps. Names of people are not part of the model: roles are held as role holders and contact routes are forms, in line with the <a href="accessibility.html">privacy notice</a>. <a href="__DOWNLOADS__models/dq-data-model.svg">Entity relationship diagram (SVG)</a> · <a href="__DOWNLOADS__models/dictionary/data-dictionary.csv">data dictionary (CSV)</a>.</p>
-  <div class="filters"><div class="field"><label for="eq">Search records and fields</label><input type="search" id="eq" placeholder="For example: owner, target, purpose"></div></div>
-  <p class="small muted" id="eCount" role="status" aria-live="polite"></p>
-  <div class="ents" id="ents"></div>
+<section id="records" aria-labelledby="e-h"><h2 id="e-h">Records: the information model</h2>
+  <p>The records the capability keeps, grouped by area. Choose a record to see its fields, which records it links to (solid lines) and which link to it (dashed), and the workflow steps that create it. People's names are not part of the model: roles are held as role holders, and contact routes are forms.</p>
+  <div class="ctl"><label for="eq">Find a record or field</label><input type="search" id="eq" placeholder="For example: owner, target, purpose" style="min-width:min(320px,100%)"><span class="small muted" id="eCount" role="status" aria-live="polite"></span></div>
+  <div class="studio">
+    <div class="canvas" id="ecanvas" role="region" aria-label="Records diagram; scrolls sideways" tabindex="0"></div>
+    <aside class="panel" id="entPanel" aria-live="polite" tabindex="-1"><p class="hint">Choose a record to see its fields and links.</p></aside>
+  </div>
+  <details style="margin-top:12px"><summary>All records and fields as a list</summary><div class="ents" id="ents"></div></details>
+</section>
+
+<section id="map" aria-labelledby="m-h"><h2 id="m-h">Visio process map</h2>
+  <p>Eight pages: the capability map, the five workflows as swimlane diagrams, the information model and the guidance key. Every shape carries its guidance, records and Commons page as shape data. <a href="__DOWNLOADS__models/visio/dq-capability-process-map.vsdx">Visio file (.vsdx)</a> · <a href="__DOWNLOADS__models/dq-capability-process-map.pdf">PDF for anyone without Visio</a>.</p>
+  <div class="prev" id="prev"></div>
+</section>
+
+<section id="downloads" aria-labelledby="d-h"><h2 id="d-h">Downloads by tool</h2>
+  <p><a class="btn" href="__DOWNLOADS__models/dq-capability-models.zip">Download everything (zip)</a></p>
+  <div class="tbl"><table class="dl"><thead><tr><th scope="col">File</th><th scope="col">Opens in</th><th scope="col">What it holds</th></tr></thead><tbody id="dl"></tbody></table></div>
 </section>
 
 <section id="import" aria-labelledby="i-h"><h2 id="i-h">How to import</h2>
-  <ol class="steps-imp">
-    <li><b>Archi (free):</b> File, Import, Open Exchange XML Model, then choose <code>archimate/dq-capability.xml</code>. Or File, Import, CSV Data Into Selected Model, then choose <code>dq-elements.csv</code> (the relations and properties files are read with it).</li>
+  <ol>
+    <li><b>Archi (free):</b> File, Import, Open Exchange XML Model, then choose <code>archimate/dq-capability.xml</code>. Or File, Import, CSV Data Into Selected Model, then choose <code>dq-elements.csv</code>.</li>
     <li><b>Sparx Enterprise Architect:</b> for ArchiMate, Publish, Model Exchange, ArchiMate Exchange Format, Import. For the class model, Publish, Import, XMI, then choose <code>uml/dq-data-model.xmi</code>.</li>
-    <li><b>BiZZdesign, ADOIT, ARIS and other ArchiMate tools:</b> use their Open Exchange Format import with <code>archimate/dq-capability.xml</code>.</li>
-    <li><b>Visio:</b> open <code>visio/dq-capability-process-map.vsdx</code>. To see the guidance on a shape, right-click it and choose Data, Shape Data.</li>
+    <li><b>BiZZdesign, ADOIT, ARIS and other ArchiMate tools:</b> use their Open Exchange Format import.</li>
+    <li><b>Visio:</b> open the <code>.vsdx</code> file. To see a shape's guidance, right-click it and choose Data, Shape Data.</li>
     <li><b>Camunda Modeler, bpmn.io, Signavio, Bizagi:</b> open or import any file in <code>bpmn/</code>.</li>
     <li><b>A database:</b> run <code>sql/dq-data-model.sql</code> in PostgreSQL, or reverse-engineer it in erwin, ER/Studio or DBeaver.</li>
     <li><b>Protégé or a knowledge graph:</b> open <code>rdf/dq-data-model.ttl</code>.</li>
-    <li><b>A catalogue or spreadsheet:</b> open <code>dictionary/data-dictionary.csv</code>; most catalogues (for example Purview, Collibra, DataHub) can load it as a business glossary or attribute list.</li>
+    <li><b>A catalogue or spreadsheet:</b> open <code>dictionary/data-dictionary.csv</code>.</li>
   </ol>
 </section>
 
 <section id="change" aria-labelledby="ch-h"><h2 id="ch-h">Change the model</h2>
   <ol>
     <li>Suggest a change with the <a href="build.html#contact">contact form</a>, or edit <a id="yaml" href="#">models/dq-capability.yaml on GitHub</a> and propose it.</li>
-    <li>Whoever looks after the repository runs <code>python3 scripts/build_models.py</code>, which rebuilds every file above.</li>
-    <li>The automated checks fail if any download no longer matches the YAML, so the files can't drift apart.</li>
+    <li>Whoever looks after the repository runs <code>python3 scripts/build_models.py</code>, which rebuilds every file and this page.</li>
+    <li>The automated checks fail if any download no longer matches the model, or if a link to a page, playbook stage or role is broken.</li>
   </ol>
 </section>
 
@@ -98,13 +179,320 @@ const M = __K_MODELS__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const D = "__DOWNLOADS__models/";
+const SVGNS = "http://www.w3.org/2000/svg";
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const col = Object.fromEntries(M.principles.map(p => [p.id, p.colour]));
 const pname = Object.fromEntries(M.principles.map(p => [p.id, p.name]));
-$("sum").textContent = `${M.capabilities.length} capabilities, ${M.entities.length} record types and ${M.processes.length} workflows, each traced to the DAM policy, the data quality action plan guide, the Government Data Quality Framework and related guidance. Download them for ArchiMate, UML, Visio, BPMN, database and ontology tools.`;
+const capOf = Object.fromEntries(M.capabilities.map(c => [c.id, c]));
+const ENT = Object.fromEntries(M.entities.map(e => [e.name, e]));
+$("sum").textContent = `${M.capabilities.length} capabilities, ${M.entities.length} kinds of record and ${M.processes.length} workflows, each traced to the DAM policy, the data quality action plan guide, the Government Data Quality Framework and related guidance, and linked to the parts of the Commons where you do the work.`;
 $("yaml").href = "{{REPO}}/blob/main/models/dq-capability.yaml";
 $("rev").textContent = `Model version ${M.version}, last reviewed ${M.review.last_reviewed}.`;
 
-// Downloads by tool
+// Guidance codes in plain words, for panels and the key.
+const GUIDE = {};
+Object.entries(M.guidance).forEach(([k, g]) => GUIDE[k] = {t: g.title, u: g.url});
+for (let i = 1; i <= 7; i++) GUIDE[`DQAP${i}`] = {t: `Data quality action plan guide, step ${i}`, u: M.guidance.DQAP.url};
+M.principles.forEach(p => GUIDE[p.id] = {t: `GDQF principle: ${p.name}`, u: M.guidance.GDQF.url});
+GUIDE["GDQF-LC"] = {t: "GDQF data lifecycle", u: M.guidance.GDQF.url}; GUIDE["GDQF-D"] = {t: "GDQF quality dimensions", u: M.guidance.GDQF.url};
+GUIDE.DCAT = {t: "W3C Data Catalog Vocabulary 3", u: "https://www.w3.org/TR/vocab-dcat-3/"}; GUIDE.DQV = {t: "W3C Data Quality Vocabulary", u: "https://www.w3.org/TR/vocab-dqv/"};
+const guideList = codes => `<ul>${(codes || []).map(c => GUIDE[c] ? `<li><a href="${esc(GUIDE[c].u)}" rel="noopener">${esc(GUIDE[c].t)}</a> <span class="small muted">(${esc(c)})</span></li>` : `<li>${esc(c)}</li>`).join("")}</ul>`;
+const pageBtn = (stem, text) => `<a class="btn ghost" href="${esc(stem)}.html">${DQI("arrow")} ${esc(text || M.page_labels[stem] || stem)}</a>`;
+const GP = {DAM:"GDQF-P1",IDC:"GDQF-P1",DOM:"GDQF-P1",DQAP1:"GDQF-P1","GDQF-P1":"GDQF-P1",DQAP2:"GDQF-P2","GDQF-P2":"GDQF-P2",DQAP3:"GDQF-P3",DQAP4:"GDQF-P3",DQAP7:"GDQF-P3",IF:"GDQF-P3","GDQF-P3":"GDQF-P3",DQAP6:"GDQF-P4",MD:"GDQF-P4",DQV:"GDQF-P4",COP:"GDQF-P4","GDQF-P4":"GDQF-P4",DQAP5:"GDQF-P5",QAAD:"GDQF-P5","GDQF-P5":"GDQF-P5"};
+const stepPrinciple = s => (s.guidance || []).map(g => GP[g]).find(Boolean);
+let booting = true;
+const setHash = h => { if (booting) return; try { history.replaceState(null, "", h); } catch (e) {} };
+
+// ---------------- Capability map ----------------
+let capSel = null, prinSel = null;
+$("ckey").innerHTML = M.principles.map(p => `<button type="button" data-p="${p.id}" aria-pressed="false" style="--c:${p.colour}"><i aria-hidden="true"></i>${esc(p.id.replace("GDQF-", ""))} ${esc(p.name)}</button>`).join("");
+$("life").innerHTML = M.enums.lifecycle_stage.map(s => `<span>${esc(s)}</span>`).join("");
+function drawCaps() {
+  $("caps").innerHTML = M.capabilities.map(c => {
+    const procs = M.processes.filter(p => p.capability === c.id).map(p => p.id).join(", ");
+    return `<button type="button" class="cap${prinSel && c.principle !== prinSel ? " dim" : ""}" data-c="${c.id}" aria-pressed="${capSel === c.id}" style="--c:${col[c.principle]}">
+      <span class="id">${esc(c.id)}${procs ? ` · workflow ${esc(procs)}` : ""}</span><b>${esc(c.name)}</b><span class="meta">${esc(pname[c.principle])}</span></button>`;
+  }).join("");
+  document.querySelectorAll("#ckey button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.p === prinSel)));
+}
+function showCap(id, focus) {
+  capSel = id; drawCaps();
+  const c = capOf[id], procs = M.processes.filter(p => p.capability === c.id);
+  $("capPanel").innerHTML = `<span class="small muted">${esc(c.id)} · <span style="color:${col[c.principle]}">■</span> ${esc(pname[c.principle])}</span>
+    <h3>${esc(c.name)}</h3>
+    <h4>What it involves</h4><ul>${c.children.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    ${(c.pages || []).length ? `<h4>Do it in the Commons</h4><div class="go">${c.pages.map(p => pageBtn(p)).join("")}</div>` : ""}
+    ${procs.length ? `<h4>Workflow</h4><div class="go">${procs.map(p => `<button class="btn ghost" type="button" data-wf="${p.id}">${DQI("workflow")} ${esc(p.id)} ${esc(p.name)}</button>`).join("")}</div>` : ""}
+    <h4>Records it keeps</h4><div class="go">${c.entities.map(e => `<button class="btn ghost" type="button" data-ent="${esc(e)}">${esc(e)}</button>`).join("")}</div>
+    <h4>Guidance it puts into practice</h4>${guideList(c.guidance)}`;
+  setHash("#cap-" + id);
+  if (focus) { $("capPanel").focus({preventScroll: true}); if (innerWidth <= 960) $("capPanel").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "start"}); }
+}
+$("caps").addEventListener("click", e => { const b = e.target.closest("[data-c]"); if (b) showCap(b.dataset.c, true); });
+$("ckey").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (!b) return; prinSel = prinSel === b.dataset.p ? null : b.dataset.p; drawCaps(); });
+drawCaps();
+
+// ---------------- Workflow studio ----------------
+const COL = 180, LANE = 165, LABEL = 104, TW = 146, TH = 76, EV = 40, GD = 58, TOP = 6;
+let wf = M.processes[0], sel = null, playing = null, roleSel = "";
+function flows(p) {
+  const out = [], st = p.steps;
+  st.forEach((s, i) => {
+    if (s.kind === "end") return;
+    if (s.kind === "gateway") Object.entries(s.branches).forEach(([l, t]) => out.push([s.id, t, l]));
+    else if (s.next) out.push([s.id, s.next, ""]);
+    else if (st[i + 1]) out.push([s.id, st[i + 1].id, ""]);
+  });
+  return out;
+}
+function layout(p) {
+  const lanes = Object.fromEntries(p.lanes.map((l, i) => [l, i])), pos = {};
+  p.steps.forEach((s, c) => {
+    const w = s.kind === "start" || s.kind === "end" ? EV : s.kind === "gateway" ? GD : TW;
+    const h = s.kind === "start" || s.kind === "end" ? EV : s.kind === "gateway" ? GD : TH;
+    pos[s.id] = {x: LABEL + 26 + c * COL + COL / 2, y: TOP + lanes[s.lane] * LANE + LANE / 2 - 10, w, h, c};
+  });
+  return {pos, lanes, W: LABEL + 52 + p.steps.length * COL, H: TOP + p.lanes.length * LANE + 4};
+}
+function route(L, a, b) {
+  const s = L.pos[a], t = L.pos[b];
+  if (t.c > s.c) {
+    const x1 = s.x + s.w / 2, x2 = t.x - t.w / 2;
+    if (Math.abs(s.y - t.y) < 1) return [[x1, s.y], [x2, t.y]];
+    const xm = x2 - 18; return [[x1, s.y], [xm, s.y], [xm, t.y], [x2, t.y]];
+  }
+  const low = Math.max(s.y, t.y), bottom = (Math.floor((low - TOP) / LANE) + 1) * LANE + TOP - 12;
+  return [[s.x, s.y + s.h / 2], [s.x, bottom], [t.x, bottom], [t.x, t.y + t.h / 2]];
+}
+function wrap(text, n) {
+  const words = String(text).split(/\s+/), lines = [""];
+  words.forEach(w => { const l = lines[lines.length - 1]; if ((l + " " + w).trim().length > n && l) lines.push(w); else lines[lines.length - 1] = (l + " " + w).trim(); });
+  return lines.length > 4 ? lines.slice(0, 3).concat([lines.slice(3).join(" ").slice(0, n - 1) + "…"]) : lines;
+}
+function mainPath(p) {
+  const F = flows(p), seen = new Set(), path = [];
+  let cur = p.steps.find(s => s.kind === "start").id;
+  while (cur && !seen.has(cur)) {
+    seen.add(cur); path.push(cur);
+    const outs = F.filter(f => f[0] === cur);
+    const pick = outs.find(f => !seen.has(f[1]) && /^yes$/i.test(f[2])) || outs.find(f => !seen.has(f[1]));
+    cur = pick ? pick[1] : null;
+  }
+  return path;
+}
+function tspans(lines, x, y, lh) {
+  const y0 = y - (lines.length - 1) * lh / 2;
+  return lines.map((l, i) => `<tspan x="${x}" y="${y0 + i * lh}">${esc(l)}</tspan>`).join("");
+}
+function drawWorkflow() {
+  const p = wf, L = layout(p), F = flows(p), byId = Object.fromEntries(p.steps.map(s => [s.id, s]));
+  let g = `<svg xmlns="${SVGNS}" width="${L.W}" height="${L.H}" viewBox="0 0 ${L.W} ${L.H}" role="group" aria-label="${esc(p.id + " " + p.name)}: swimlane diagram">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>`;
+  p.lanes.forEach((l, i) => {
+    g += `<rect class="lane-bg${i % 2 ? " alt" : ""}" x="0" y="${TOP + i * LANE}" width="${L.W}" height="${LANE}"/><rect class="lane-lb" x="0" y="${TOP + i * LANE}" width="${LABEL}" height="${LANE}"/>
+      <text class="lane-tx" text-anchor="middle">${tspans(wrap(l, 12), LABEL / 2, TOP + i * LANE + LANE / 2, 15)}</text>`;
+  });
+  F.forEach(([a, b, lab]) => {
+    const pts = route(L, a, b), d = "M" + pts.map(q => q.join(" ")).join("L");
+    g += `<path class="flow" data-f="${a}>${b}" d="${d}" marker-end="url(#ar)" style="color:var(--muted)"/>`;
+    if (lab) { const [x, y] = pts.length > 2 ? pts[1] : pts[0]; g += `<text class="flow-tx" x="${x + 6}" y="${y - 6}">${esc(lab)}</text>`; }
+  });
+  p.steps.forEach((s, i) => {
+    const q = L.pos[s.id], pr = stepPrinciple(s);
+    const lab = `${s.kind === "gateway" ? "Decision" : s.kind === "start" ? "Start" : s.kind === "end" ? "End" : s.kind === "service" ? "Automated step" : "Step"}: ${s.name}. ${s.lane}`;
+    let shape, text;
+    if (s.kind === "start" || s.kind === "end") {
+      shape = `<circle class="shape" cx="${q.x}" cy="${q.y}" r="${EV / 2}" fill="${s.kind === "start" ? "#cce2d8" : "#f4cdc6"}" style="stroke:${s.kind === "start" ? "#005a30" : "#942514"};stroke-width:${s.kind === "end" ? 4 : 2}"/>`;
+      text = `<text class="ev-tx" text-anchor="middle">${tspans(wrap(s.name, 22), q.x, q.y + EV / 2 + 26, 13)}</text>`;
+    } else if (s.kind === "gateway") {
+      shape = `<path class="shape" d="M${q.x} ${q.y - GD / 2}L${q.x + GD / 2} ${q.y}L${q.x} ${q.y + GD / 2}L${q.x - GD / 2} ${q.y}Z" fill="#fff7bf" style="stroke:#594d00;stroke-width:2"/><text x="${q.x}" y="${q.y + 5}" text-anchor="middle" style="font:800 15px system-ui;fill:#594d00;pointer-events:none">?</text>`;
+      text = `<text class="ev-tx" text-anchor="middle">${tspans(wrap(s.name, 24), q.x, q.y - GD / 2 - 22, 13)}</text>`;
+    } else {
+      shape = `<rect class="shape" x="${q.x - TW / 2}" y="${q.y - TH / 2}" width="${TW}" height="${TH}" rx="9" fill="${col[pr] || "#1d70b8"}"/>`;
+      text = `<text class="st-tx" text-anchor="middle">${tspans(wrap((s.kind === "service" ? "⚙ " : "") + s.name, 21), q.x, q.y, 14)}</text>` +
+        (s.page ? `<text class="sub-tx" text-anchor="middle" x="${q.x}" y="${q.y + TH / 2 + 15}">↗ ${esc(M.page_labels[s.page] || s.page)}</text>` : "");
+    }
+    g += `<g class="st" data-s="${s.id}" tabindex="0" role="button" aria-label="${esc(lab)}">${shape}${text}</g>`;
+  });
+  $("wcanvas").innerHTML = g + "</svg>";
+  // list version
+  $("wlist").innerHTML = p.steps.map(s => {
+    const pr = stepPrinciple(s), kind = {start: "Start", end: "End", gateway: "Decision", service: "Automated step", user: "Step", manual: "Manual step"}[s.kind];
+    return `<li style="${pr ? `--c:${col[pr]}` : ""}"><span class="lane">${esc(kind)} · ${esc(s.lane)}</span><button type="button" class="linkish" data-s="${s.id}">${esc(s.name)}</button>
+      ${s.branches ? `<br><span class="small">${Object.entries(s.branches).map(([k, v]) => `${esc(k)}: go to "${esc(byId[v].name)}"`).join(". ")}.</span>` : ""}
+      ${s.next ? `<br><span class="small">Then go to "${esc(byId[s.next].name)}".</span>` : ""}</li>`;
+  }).join("");
+  // role filter
+  $("roleF").innerHTML = `<option value="">Every role</option>` + p.lanes.map(l => `<option${l === roleSel ? " selected" : ""}>${esc(l)}</option>`).join("");
+  if (!p.lanes.includes(roleSel)) roleSel = "";
+  document.querySelectorAll("#wtabs button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.wf === p.id)));
+  applyRole(); paintSel();
+}
+function applyRole() { document.querySelectorAll("#wcanvas .st").forEach(n => { const s = wf.steps.find(x => x.id === n.dataset.s); n.classList.toggle("dim", !!roleSel && s.lane !== roleSel); }); }
+function paintSel() {
+  document.querySelectorAll("#wcanvas .st").forEach(n => n.classList.toggle("cur", n.dataset.s === sel));
+  document.querySelectorAll("#wcanvas .flow").forEach(f => { const [a, b] = f.dataset.f.split(">"); f.classList.toggle("on", a === sel || b === sel); });
+  const path = mainPath(wf), i = path.indexOf(sel);
+  $("stepN").textContent = sel ? (i >= 0 ? `Main path: step ${i + 1} of ${path.length}` : "A step off the main path") : `${wf.steps.length} steps. Press Play or choose a step.`;
+}
+function showStep(id, opts = {}) {
+  sel = id; paintSel();
+  const s = wf.steps.find(x => x.id === id), byId = Object.fromEntries(wf.steps.map(x => [x.id, x]));
+  const F = flows(wf), outs = F.filter(f => f[0] === id), ins = F.filter(f => f[1] === id);
+  const lane = M.lanes[s.lane] || {}, kind = {start: "Start", end: "End", gateway: "Decision", service: "Automated step", user: "Step", manual: "Manual step"}[s.kind];
+  const pr = stepPrinciple(s);
+  $("stepPanel").innerHTML = `<span class="small muted">${esc(wf.id)} · ${esc(kind)}${pr ? ` · <span style="color:${col[pr]}">■</span> ${esc(pname[pr])}` : ""}</span>
+    <h3>${esc(s.name)}</h3>
+    <p><b>Who:</b> ${esc(s.lane)}${lane.stakeholder ? ` · <a href="roles.html#${esc(lane.stakeholder)}">what this role needs</a>` : ""}</p>
+    ${s.page ? `<h4>Do it in the Commons</h4><div class="go">${pageBtn(s.page)}</div>` : ""}
+    ${s.stage ? `<h4>Playbook</h4><div class="go">${pageBtn("playbook#" + s.stage, M.stages[s.stage])}</div>` : ""}
+    ${(s.outputs || []).length ? `<h4>Records it creates or updates</h4><div class="go">${s.outputs.map(e => `<button class="btn ghost" type="button" data-ent="${esc(e)}">${esc(e)}</button>`).join("")}</div>` : ""}
+    ${s.branches ? `<h4>Decision</h4><div class="go">${Object.entries(s.branches).map(([k, v]) => `<button class="btn ghost" type="button" data-go="${v}">${esc(k)}: ${esc(byId[v].name)}</button>`).join("")}</div>`
+      : outs.length ? `<h4>Next</h4><div class="go">${outs.map(f => `<button class="btn ghost" type="button" data-go="${f[1]}">${esc(byId[f[1]].name)}</button>`).join("")}</div>` : ""}
+    ${ins.length ? `<h4>Comes after</h4><div class="go">${ins.map(f => `<button class="btn ghost" type="button" data-go="${f[0]}">${esc(byId[f[0]].name)}</button>`).join("")}</div>` : ""}
+    ${(s.guidance || []).length ? `<h4>Guidance</h4>${guideList(s.guidance)}` : ""}`;
+  setHash(`#wf-${wf.id}-${id}`);
+  const node = document.querySelector(`#wcanvas .st[data-s="${id}"]`);
+  if (node && !$("asList").checked) {
+    const c = $("wcanvas"), bb = node.getBBox(), sc = c.querySelector("svg").getBoundingClientRect().width / layout(wf).W;
+    const target = bb.x * sc - c.clientWidth / 2 + bb.width * sc / 2;
+    c.scrollTo({left: Math.max(0, target), behavior: reduced ? "auto" : "smooth"});
+    if (opts.focusNode) node.focus({preventScroll: true});
+  }
+  if (opts.focusPanel) $("stepPanel").focus({preventScroll: true});
+}
+function openWorkflow(id, step) {
+  stop(); wf = M.processes.find(p => p.id === id) || M.processes[0]; sel = null; drawWorkflow();
+  showStep(step && wf.steps.some(s => s.id === step) ? step : wf.steps[0].id);
+}
+function stepBy(d) {
+  const path = mainPath(wf); let i = path.indexOf(sel);
+  if (i < 0) i = d > 0 ? -1 : path.length;
+  const n = Math.min(path.length - 1, Math.max(0, i + d));
+  showStep(path[n]); return n;
+}
+function stop() { if (playing) { clearInterval(playing); playing = null; } $("playS").textContent = "▶ Play"; $("playS").setAttribute("aria-pressed", "false"); }
+$("playS").onclick = () => {
+  if (playing) return stop();
+  const path = mainPath(wf); if (path.indexOf(sel) === path.length - 1) showStep(path[0]);
+  $("playS").textContent = "❚❚ Pause"; $("playS").setAttribute("aria-pressed", "true");
+  playing = setInterval(() => { const n = stepBy(1); if (n >= mainPath(wf).length - 1) stop(); }, 1700);
+};
+$("prevS").onclick = () => { stop(); stepBy(-1); };
+$("nextS").onclick = () => { stop(); stepBy(1); };
+$("wtabs").innerHTML = M.processes.map(p => `<button type="button" role="tab" data-wf="${p.id}" aria-selected="false"><span>${esc(p.id)}</span>${esc(p.name)}</button>`).join("");
+$("wtabs").addEventListener("click", e => { const b = e.target.closest("[data-wf]"); if (b) openWorkflow(b.dataset.wf); });
+$("roleF").addEventListener("change", e => { roleSel = e.target.value; applyRole(); });
+$("fit").addEventListener("change", e => $("wcanvas").classList.toggle("fit", e.target.checked));
+$("asList").addEventListener("change", e => { $("wcanvas").hidden = e.target.checked; $("wlist").hidden = !e.target.checked; });
+$("wcanvas").addEventListener("click", e => { const n = e.target.closest(".st"); if (n) { stop(); showStep(n.dataset.s, {focusPanel: innerWidth <= 960}); } });
+$("wlist").addEventListener("click", e => { const n = e.target.closest("[data-s]"); if (n) { stop(); showStep(n.dataset.s, {focusPanel: true}); } });
+$("wcanvas").addEventListener("keydown", e => {
+  const n = e.target.closest(".st");
+  if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); stop(); showStep(n.dataset.s); }
+  else if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); stop(); stepBy(e.key === "ArrowRight" ? 1 : -1); const c = document.querySelector(`#wcanvas .st[data-s="${sel}"]`); if (c) c.focus({preventScroll: true}); }
+});
+$("stepPanel").addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) { stop(); showStep(b.dataset.go, {focusNode: true}); } });
+
+// ---------------- Records explorer ----------------
+const groups = [...new Set(M.entities.map(e => e.group))];
+const EW = 170, EH = 42, EGX = 190, EGY = 54, ETOP = 34;
+const epos = {};
+groups.forEach((g, gi) => M.entities.filter(e => e.group === g).forEach((e, j) => epos[e.name] = {x: 10 + gi * EGX, y: ETOP + j * EGY}));
+const EWID = 10 + groups.length * EGX, EHGT = ETOP + Math.max(...groups.map(g => M.entities.filter(e => e.group === g).length)) * EGY + 6;
+const refs = e => e.attributes.filter(a => a.type.startsWith("ref:")).map(a => ({to: a.type.slice(4), via: a.name, many: !!a.many}));
+const incoming = name => M.entities.flatMap(e => refs(e).filter(r => r.to === name && e.name !== name).map(r => ({from: e.name, via: r.via})));
+const createdBy = name => M.processes.flatMap(p => p.steps.filter(s => (s.outputs || []).includes(name)).map(s => ({p, s})));
+let entSel = null;
+function drawEnts() {
+  const q = $("eq").value.trim().toLowerCase();
+  const hit = e => !q || JSON.stringify(e).toLowerCase().includes(q);
+  let g = `<svg xmlns="${SVGNS}" width="${EWID}" height="${EHGT}" viewBox="0 0 ${EWID} ${EHGT}" role="group" aria-label="Records grouped by area">`;
+  groups.forEach((gr, gi) => g += `<text class="grp" x="${10 + gi * EGX}" y="20">${esc(gr)}</text>`);
+  const lines = [];
+  if (entSel) {
+    const a = epos[entSel];
+    refs(ENT[entSel]).filter(r => r.to !== entSel).forEach(r => lines.push([a, epos[r.to], ""]));
+    incoming(entSel).forEach(r => lines.push([epos[r.from], a, " in"]));
+  }
+  lines.forEach(([s, t, cls]) => {
+    if (s.x === t.x) {  // same column: loop out to the right so the line isn't hidden behind the boxes
+      const x = s.x + EW, y1 = s.y + EH / 2, y2 = t.y + EH / 2, bend = 14 + Math.abs(y2 - y1) / 5;
+      g += `<path class="link${cls}" d="M${x} ${y1} C${x + bend} ${y1} ${x + bend} ${y2} ${x} ${y2}"/>`;
+      return;
+    }
+    const left = s.x < t.x, x1 = left ? s.x + EW : s.x, x2 = left ? t.x : t.x + EW, y1 = s.y + EH / 2, y2 = t.y + EH / 2, mx = (x1 + x2) / 2;
+    g += `<path class="link${cls}" d="M${x1} ${y1} C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}"/>`;
+  });
+  const near = entSel ? new Set([...refs(ENT[entSel]).map(r => r.to), ...incoming(entSel).map(r => r.from)]) : new Set();
+  M.entities.forEach(e => {
+    const p = epos[e.name], cls = e.name === entSel ? " cur" : near.has(e.name) ? " near" : (entSel || q) && !hit(e) ? " dim" : (entSel && !near.has(e.name) ? " dim" : "");
+    g += `<g class="ent${cls}" data-e="${esc(e.name)}" tabindex="0" role="button" aria-label="${esc(e.name)}: ${esc(e.description)}" aria-pressed="${e.name === entSel}">
+      <rect x="${p.x}" y="${p.y}" width="${EW}" height="${EH}" rx="7"/><text x="${p.x + EW / 2}" y="${p.y + EH / 2 + 4}" text-anchor="middle">${esc(e.name)}</text></g>`;
+  });
+  $("ecanvas").innerHTML = g + "</svg>";
+  $("eCount").textContent = q ? `${M.entities.filter(hit).length} of ${M.entities.length} records match.` : "";
+}
+function typeText(a) {
+  if (a.type.startsWith("ref:")) return `link to <button type="button" class="linkish" data-ent="${esc(a.type.slice(4))}">${esc(a.type.slice(4))}</button>` + (a.many ? " (many)" : "");
+  if (a.type.startsWith("enum:")) return `one of: ${M.enums[a.type.slice(5)].map(esc).join("; ")}` + (a.many ? " (one or more)" : "");
+  return esc(a.type);
+}
+function showEnt(name, focus) {
+  if (!ENT[name]) return;
+  entSel = name; drawEnts();
+  const e = ENT[name], out = refs(e).filter(r => r.to !== name), inc = incoming(name), made = createdBy(name);
+  const caps = M.capabilities.filter(c => c.entities.includes(name));
+  $("entPanel").innerHTML = `<span class="small muted">${esc(e.group)}</span><h3>${esc(e.name)}</h3><p>${esc(e.description)}</p>
+    ${caps.length ? `<h4>Kept by</h4><div class="go">${caps.map(c => `<button class="btn ghost" type="button" data-cap="${c.id}">${esc(c.id)} ${esc(c.name)}</button>`).join("")}</div>` : ""}
+    ${made.length ? `<h4>Created or updated in</h4><div class="go">${made.map(({p, s}) => `<button class="btn ghost" type="button" data-wfstep="${p.id}:${s.id}">${esc(p.id)}: ${esc(s.name)}</button>`).join("")}</div>` : ""}
+    ${out.length ? `<h4>Links to</h4><div class="go">${out.map(r => `<button class="btn ghost" type="button" data-ent="${esc(r.to)}">${esc(r.to)} <span class="small muted">(${esc(r.via)})</span></button>`).join("")}</div>` : ""}
+    ${inc.length ? `<h4>Linked from</h4><div class="go">${inc.map(r => `<button class="btn ghost" type="button" data-ent="${esc(r.from)}">${esc(r.from)} <span class="small muted">(${esc(r.via)})</span></button>`).join("")}</div>` : ""}
+    <h4>Fields</h4><div class="tbl"><table class="fields"><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Needed?</th></tr></thead><tbody>
+    ${e.attributes.map(a => `<tr><td><code>${esc(a.name)}</code>${a.description ? `<br><span class="small muted">${esc(a.description)}</span>` : ""}</td><td>${typeText(a)}</td><td>${a.key ? "Key" : a.required ? "Yes" : "No"}</td></tr>`).join("")}</tbody></table></div>
+    <h4>Guidance</h4>${guideList(e.guidance)}`;
+  setHash("#ent-" + name);
+  const c = $("ecanvas"), sc = c.querySelector("svg").getBoundingClientRect().width / EWID, ex = epos[name].x * sc;
+  if (ex < c.scrollLeft || ex + EW * sc > c.scrollLeft + c.clientWidth) c.scrollTo({left: Math.max(0, ex - c.clientWidth / 2 + EW * sc / 2), behavior: reduced ? "auto" : "smooth"});
+  if (focus) { $("entPanel").focus({preventScroll: true}); if (innerWidth <= 960) $("entPanel").scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "start"}); }
+}
+$("ecanvas").addEventListener("click", e => { const n = e.target.closest(".ent"); if (n) showEnt(n.dataset.e, innerWidth <= 960); });
+$("ecanvas").addEventListener("keydown", e => { const n = e.target.closest(".ent"); if (n && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); showEnt(n.dataset.e); } });
+$("eq").addEventListener("input", () => { drawEnts(); drawEntList(); });
+function drawEntList() {
+  const q = $("eq").value.trim().toLowerCase(), list = M.entities.filter(e => !q || JSON.stringify(e).toLowerCase().includes(q));
+  $("ents").innerHTML = groups.map(g => { const es = list.filter(e => e.group === g); return es.length ? `<h3>${esc(g)}</h3>` + es.map(e => `<details><summary>${esc(e.name)}<span>${esc(e.description)}</span></summary>
+    <div class="tbl"><table class="fields"><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Needed?</th><th scope="col">Meaning</th></tr></thead><tbody>
+    ${e.attributes.map(a => `<tr><td><code>${esc(a.name)}</code></td><td>${typeText(a)}</td><td>${a.key ? "Key" : a.required ? "Yes" : "No"}</td><td>${esc(a.description || "")}</td></tr>`).join("")}</tbody></table></div></details>`).join("") : ""; }).join("");
+}
+drawEnts(); drawEntList();
+
+// Cross-links between the three views
+function goSection(id) { const el = $(id); el.scrollIntoView({behavior: reduced ? "auto" : "smooth", block: "start"}); }
+document.addEventListener("click", e => {
+  const ent = e.target.closest("[data-ent]"), cap = e.target.closest("[data-cap]"), w = e.target.closest("[data-wf]:not(#wtabs [data-wf])"), ws = e.target.closest("[data-wfstep]");
+  if (ent) { showEnt(ent.dataset.ent, true); if (!e.target.closest("#records")) goSection("records"); }
+  else if (cap) { showCap(cap.dataset.cap, true); goSection("capabilities"); }
+  else if (ws) { const [p, s] = ws.dataset.wfstep.split(":"); openWorkflow(p, s); goSection("workflows"); }
+  else if (w && w.closest(".panel")) { openWorkflow(w.dataset.wf); goSection("workflows"); }
+});
+
+// Deep links: #cap-C3, #wf-P2, #wf-P2-s3, #ent-DataAsset
+function fromHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  let m;
+  if ((m = h.match(/^cap-(C\d+)$/)) && capOf[m[1]]) { showCap(m[1]); goSection("capabilities"); }
+  else if ((m = h.match(/^wf-(P\d+)(?:-(\w+))?$/))) { openWorkflow(m[1], m[2]); goSection("workflows"); }
+  else if ((m = h.match(/^ent-(\w+)$/)) && ENT[m[1]]) { showEnt(m[1]); goSection("records"); }
+}
+openWorkflow(M.processes[0].id);
+booting = false;
+if (/^#(cap|wf|ent)-/.test(location.hash)) fromHash();
+addEventListener("hashchange", fromHash);
+
+// Previews, downloads, key
+const pageNames = ["Capability map", ...M.processes.map(p => `${p.id} ${p.name}`), "Information model", "Guidance key"];
+$("prev").innerHTML = M.previews.length ? M.previews.map((f, i) => `<figure><a href="${D}previews/${esc(f)}" aria-label="Open page ${i + 1} full size: ${esc(pageNames[i] || "")}"><img src="${D}previews/${esc(f)}" loading="lazy" alt="Page ${i + 1} of the Visio process map: ${esc(pageNames[i] || "")}. The same content is interactive above."></a><figcaption>Page ${i + 1}: ${esc(pageNames[i] || "")}</figcaption></figure>`).join("") : `<p class="small">Previews appear here after the next build.</p>`;
 const TOOLS = [
   [/^archimate\/dq-capability\.xml$/, "Archi, Sparx EA, BiZZdesign, ADOIT, ARIS", "ArchiMate 3.1 Open Exchange Format: capabilities, workflows, roles, records, principles and guidance, with views"],
   [/^archimate\/csv\/dq-elements\.csv$/, "Archi (CSV import)", "ArchiMate elements; read with the relations and properties files beside it"],
@@ -113,7 +501,7 @@ const TOOLS = [
   [/^json\//, "APIs, data contracts, validators", "JSON Schema 2020-12 for every record type"],
   [/^rdf\//, "Protégé, TopBraid, knowledge graphs", "OWL ontology in Turtle"],
   [/^dictionary\/data-dictionary\.csv$/, "Excel, catalogues (Purview, Collibra, DataHub)", "Every field: type, required, allowed values, description, guidance"],
-  [/^dictionary\/capability-guidance-matrix\.csv$/, "Excel, assurance packs", "Capabilities against principles, guidance, records and workflows"],
+  [/^dictionary\/capability-guidance-matrix\.csv$/, "Excel, assurance packs", "Capabilities against principles, guidance, records, workflows and Commons pages"],
   [/^erd\//, "Mermaid (GitHub, Confluence, Notion)", "Entity relationship diagram source"],
   [/^visio\//, "Microsoft Visio, LibreOffice Draw", "Process map: capability map with the GDQF overlay, 5 swimlane workflows, information model, key"],
   [/^bpmn\//, "Camunda Modeler, bpmn.io, Signavio, Bizagi, ARIS", "BPMN 2.0 workflow with lanes, records and diagram layout"],
@@ -122,81 +510,13 @@ const rows = M.files.filter(f => TOOLS.some(t => t[0].test(f))).map(f => { const
 rows.push(...M.extras.map(f => f.endsWith(".pdf") ? [f, "Any PDF reader", "The Visio process map as a PDF"] : [f, "Any browser or drawing tool", "Entity relationship diagram image"]));
 rows.push(["dq-capability.yaml", "Any text editor", "The single source every file is made from"]);
 $("dl").innerHTML = rows.map(([f, tool, what]) => `<tr><td><a href="${D}${esc(f)}" download>${esc(f.split("/").pop())}</a></td><td>${esc(tool)}</td><td>${esc(what)}</td></tr>`).join("");
-
-// Capability map
-$("ckey").innerHTML = M.principles.map(p => `<span style="--c:${p.colour}"><i aria-hidden="true"></i>${esc(p.id.replace("GDQF-", ""))} ${esc(p.name)}</span>`).join("");
-$("cp").innerHTML += M.principles.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("");
-function drawCaps() {
-  const f = $("cp").value;
-  $("caps").innerHTML = M.capabilities.filter(c => !f || c.principle === f).map(c => {
-    const procs = M.processes.filter(p => p.capability === c.id);
-    return `<article class="cap" style="--c:${col[c.principle]}"><h3><span>${esc(c.id)}</span>${esc(c.name)}</h3>
-      <div class="meta">Principle: ${esc(pname[c.principle])}</div>
-      <ul>${c.children.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-      <div class="meta">Guidance: ${c.guidance.map(esc).join(", ")}</div>
-      <div class="meta">Records: ${c.entities.map(e => `<a href="#ent-${esc(e)}">${esc(e)}</a>`).join(", ")}</div>
-      ${procs.length ? `<div class="meta">Workflow: ${procs.map(p => `<a href="#workflows" data-p="${p.id}">${esc(p.id)} ${esc(p.name)}</a>`).join(", ")}</div>` : ""}</article>`;
-  }).join("");
-}
-$("cp").addEventListener("change", drawCaps); drawCaps();
-
-// Previews
-const pageNames = ["Capability map", ...M.processes.map(p => `${p.id} ${p.name}`), "Information model", "Guidance key"];
-$("prev").innerHTML = M.previews.length ? M.previews.map((f, i) => `<figure><a href="${D}previews/${esc(f)}" aria-label="Open page ${i + 1} full size: ${esc(pageNames[i] || "")}"><img src="${D}previews/${esc(f)}" loading="lazy" alt="Page ${i + 1} of the Visio process map: ${esc(pageNames[i] || "")}. The same content is listed in text on this page."></a><figcaption>Page ${i + 1}: ${esc(pageNames[i] || "")}</figcaption></figure>`).join("")
-  : `<p class="small">Previews appear here after the next build.</p>`;
-
-// Workflows
-$("wp").innerHTML = M.processes.map(p => `<option value="${p.id}">${esc(p.id)} ${esc(p.name)}</option>`).join("");
-const GP = {DAM:"GDQF-P1",IDC:"GDQF-P1",DOM:"GDQF-P1",DQAP1:"GDQF-P1",DQAP2:"GDQF-P2","GDQF-P2":"GDQF-P2",DQAP3:"GDQF-P3",DQAP4:"GDQF-P3",DQAP7:"GDQF-P3",IF:"GDQF-P3",DQAP6:"GDQF-P4",MD:"GDQF-P4",DQV:"GDQF-P4",COP:"GDQF-P4",DQAP5:"GDQF-P5",QAAD:"GDQF-P5","GDQF-P5":"GDQF-P5"};
-function drawWf() {
-  const p = M.processes.find(x => x.id === $("wp").value), cap = M.capabilities.find(c => c.id === p.capability);
-  const file = M.files.find(f => f.startsWith(`bpmn/${p.id}-`));
-  const byId = Object.fromEntries(p.steps.map(s => [s.id, s]));
-  $("wf").innerHTML = `<p class="small">Realises <b>${esc(cap.id)} ${esc(cap.name)}</b>. Roles: ${p.lanes.map(esc).join(", ")}. <a href="${D}${esc(file)}" download>BPMN file</a>.</p>
-    <ol class="flow">${p.steps.map(s => {
-      const pr = (s.guidance || []).map(g => GP[g]).find(Boolean);
-      const cls = s.kind === "gateway" ? "gw" : (s.kind === "start" || s.kind === "end") ? "ev" : "";
-      const kind = {start: "Start", end: "End", gateway: "Decision", service: "Automated step", user: "Step", manual: "Manual step"}[s.kind];
-      return `<li class="${cls}" style="${pr ? `--c:${col[pr]}` : ""}"><span class="lane">${esc(kind)} · ${esc(s.lane)}</span><b>${esc(s.name)}</b>
-        ${(s.guidance || []).length ? `<span class="small muted"> · Guidance: ${s.guidance.map(esc).join(", ")}</span>` : ""}
-        ${(s.outputs || []).length ? `<br><span class="small">Records: ${s.outputs.map(e => `<a href="#ent-${esc(e)}">${esc(e)}</a>`).join(", ")}</span>` : ""}
-        ${s.branches ? `<br><span class="small">${Object.entries(s.branches).map(([k, v]) => `${esc(k)}: go to "${esc(byId[v].name)}"`).join(". ")}.</span>` : ""}
-        ${s.next ? `<br><span class="small">Then go to "${esc(byId[s.next].name)}".</span>` : ""}</li>`;
-    }).join("")}</ol>`;
-}
-$("wp").addEventListener("change", drawWf); drawWf();
-document.addEventListener("click", e => { const a = e.target.closest("a[data-p]"); if (a) { $("wp").value = a.dataset.p; drawWf(); } });
-
-// Information model
-function typeText(a) {
-  if (a.type.startsWith("ref:")) return `link to <a href="#ent-${esc(a.type.slice(4))}">${esc(a.type.slice(4))}</a>` + (a.many ? " (many)" : "");
-  if (a.type.startsWith("enum:")) return `one of: ${M.enums[a.type.slice(5)].map(esc).join("; ")}` + (a.many ? " (one or more)" : "");
-  return esc(a.type);
-}
-function drawEnts() {
-  const q = $("eq").value.trim().toLowerCase();
-  const list = M.entities.filter(e => !q || JSON.stringify(e).toLowerCase().includes(q));
-  $("eCount").textContent = `${list.length} of ${M.entities.length} record types.`;
-  const groups = [...new Set(list.map(e => e.group))];
-  $("ents").innerHTML = groups.map(g => `<h3>${esc(g)}</h3>` + list.filter(e => e.group === g).map(e => `<details id="ent-${esc(e.name)}"${q ? " open" : ""}><summary>${esc(e.name)}<span>${esc(e.description)}</span></summary>
-    <p class="small muted">Guidance: ${(e.guidance || []).map(esc).join(", ")}</p>
-    <div class="tbl"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Needed?</th><th scope="col">Meaning</th></tr></thead><tbody>
-    ${e.attributes.map(a => `<tr><td><code>${esc(a.name)}</code></td><td>${typeText(a)}</td><td>${a.key ? "Key" : a.required ? "Yes" : "No"}</td><td>${esc(a.description || "")}</td></tr>`).join("")}</tbody></table></div></details>`).join("")).join("");
-}
-$("eq").addEventListener("input", drawEnts); drawEnts();
-addEventListener("hashchange", () => { const d = document.getElementById(location.hash.slice(1)); if (d && d.tagName === "DETAILS") d.open = true; });
-
-// Guidance key
-const gk = Object.entries(M.guidance).map(([k, g]) => [k, `<a href="${esc(g.url)}" rel="noopener">${esc(g.title)}</a>`]);
-for (let i = 1; i <= 7; i++) gk.push([`DQAP${i}`, `Data quality action plan implementation guide, step ${i}`]);
-M.principles.forEach(p => gk.push([p.id, `Government Data Quality Framework principle: ${esc(p.name)}`]));
-gk.push(["GDQF-LC", "Government Data Quality Framework: data lifecycle"], ["GDQF-D", "Government Data Quality Framework: quality dimensions"]);
-$("gk").innerHTML = gk.map(([k, v]) => `<tr><td><code>${esc(k)}</code></td><td>${v}</td></tr>`).join("");
+$("gk").innerHTML = Object.entries(GUIDE).map(([k, g]) => `<tr><td><code>${esc(k)}</code></td><td><a href="${esc(g.u)}" rel="noopener">${esc(g.t)}</a></td></tr>`).join("");
 
 window.DQP_TOUR = [
-  {sel: "#dl", title: "Downloads by tool", text: "Pick the file for the tool you use: ArchiMate, UML, Visio, BPMN, database, ontology or spreadsheet."},
-  {sel: "#caps", title: "Capability map", text: "Twelve capabilities, coloured by the Government Data Quality Framework principle each serves, with the guidance they put into practice."},
-  {sel: "#wf", title: "Workflows", text: "Each workflow step by step: who does it, the guidance behind it and the records it creates."},
-  {sel: "#ents", title: "Information model", text: "Every record type and field, with allowed values. Search to find a field."},
+  {sel: "#caps", title: "Capability map", text: "Twelve capabilities, coloured by the framework principle each serves. Choose one to see what it involves and where to do it in the Commons."},
+  {sel: "#playS", title: "Play a workflow", text: "Walk through the main path step by step, or choose any step. Each says who does it, the records it creates and the page to use."},
+  {sel: "#roleF", title: "Highlight your role", text: "Fade out everyone else's steps to see just yours."},
+  {sel: "#ecanvas", title: "Records", text: "Choose a record to see its fields and how it links to other records."},
+  {sel: "#dl", title: "Downloads by tool", text: "The same model for ArchiMate, UML, Visio, BPMN, database, ontology and spreadsheet tools."},
 ];
 </script>
