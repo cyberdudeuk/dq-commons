@@ -141,6 +141,7 @@ The tests check the kit against the framework's own worked example.
 |---|---|---|
 | `dqkit/` | Python kit: runs quality rules on data, scores them with the GOV.UK issues framework, checks catalogue records against GOV.UK requirements, suggests a trust level, picks the DQAP route, and writes a filled-in DQAP workbook | Data stewards, analysts, engineers |
 | `vocab/` | 8 quality dimensions and 43 cross-government issue types (CSV, SKOS Turtle, JSON-LD) | Anyone logging data quality issues |
+| `models/` | The end-to-end data quality capability as models: capability map, 22 record types and 5 workflows, exported for ArchiMate, UML, Visio, BPMN, SQL, JSON Schema and OWL tools (`scripts/build_models.py`) | Enterprise and data architects, process owners |
 | `model/` | Proposed quality extension to the cross-government metadata exchange model (LinkML, JSON Schema, SHACL) | GDS metadata standards owners |
 | `rules/ndl/` | Example rule files for 8 NDL chart datasets | People writing their own rules |
 | `assessments/ndl/` | A full test of the NDL's 84 curated data pages against GOV.UK requirements | NDL team, data leaders |
@@ -207,8 +208,9 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.1.0) adds search across the portal (press `/`), an "On this page" drawer that
-flags new and changed sections, a plain English summary at the top of every page, an offline copy,
-outlier and record linkage checks, and Metadata Weaver support for CSVW, Frictionless, GeoDCAT-AP and
-StatDCAT-AP. Contact is by form only. Every release is in [`CHANGELOG.md`](CHANGELOG.md) and the
-portal's What's new panel.
+The latest release (2.5.0) publishes the data quality capability as models: a capability map overlaid
+with the Government Data Quality Framework, 22 record types and 5 workflows, downloadable for ArchiMate,
+UML, Visio, BPMN, SQL, JSON Schema and OWL tools (see [`models/`](models/README.md)). The Metadata Weaver
+now checks access rights and classification values and adds a UK GEMINI profile. The portal needs no
+claude.ai account: everything runs on GitHub. Contact is by form only. Every release is in
+[`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

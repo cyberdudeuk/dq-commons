@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Defs_P4" targetNamespace="https://cyberdudeuk.github.io/dq-commons/model#" exporter="dq-commons build_models.py" exporterVersion="1.0.0">
+  <bpmn:collaboration id="Collab_P4">
+    <bpmn:participant id="Part_P4" name="P4 Scheduled measurement run" processRef="Process_P4"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P4" name="Scheduled measurement run" isExecutable="false">
+    <bpmn:documentation>Realises capability C6. Generated from models/dq-capability.yaml; guidance codes are explained in models/README.md.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_P4">
+      <bpmn:lane id="Lane_P4_0" name="Scheduler">
+        <bpmn:flowNodeRef>P4_s</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P4_1" name="Data quality toolkit">
+        <bpmn:flowNodeRef>P4_a</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_c</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_g</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_d</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_e</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P4_2" name="Data steward">
+        <bpmn:flowNodeRef>P4_f</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P4_z</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P4_s" name="Measurement due">
+      <bpmn:outgoing>Flow_P4_s_a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="P4_a" name="Test the toolkit">
+      <bpmn:documentation>Guidance: DQAP7</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_s_a</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_a_b</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="P4_b" name="Run every rule and keep the history">
+      <bpmn:documentation>Guidance: DQAP3, DQAP7</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_a_b</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_b_c</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P4_b_MeasurementRun"><bpmn:targetRef>DOR_P4_b_MeasurementRun</bpmn:targetRef></bpmn:dataOutputAssociation>
+      <bpmn:dataOutputAssociation id="DataOut_P4_b_RuleResult"><bpmn:targetRef>DOR_P4_b_RuleResult</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="P4_c" name="Score issues and age them">
+      <bpmn:documentation>Guidance: IF</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_b_c</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_c_g</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P4_c_Issue"><bpmn:targetRef>DOR_P4_c_Issue</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="P4_g" name="Any overdue issues?">
+      <bpmn:incoming>Flow_P4_c_g</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_g_d</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P4_g_e</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="P4_d" name="Open or update an escalation">
+      <bpmn:documentation>Guidance: IF</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_g_d</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_d_e</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P4_d_Escalation"><bpmn:targetRef>DOR_P4_d_Escalation</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="P4_e" name="Publish results, DQV metadata and the return">
+      <bpmn:documentation>Guidance: DQV, DAM</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_g_e</bpmn:incoming>
+      <bpmn:incoming>Flow_P4_d_e</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_e_f</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P4_e_AssetReturn"><bpmn:targetRef>DOR_P4_e_AssetReturn</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="P4_f" name="Review results and trends">
+      <bpmn:documentation>Guidance: DQAP3, DQAP7</bpmn:documentation>
+      <bpmn:incoming>Flow_P4_e_f</bpmn:incoming>
+      <bpmn:outgoing>Flow_P4_f_z</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="P4_z" name="Run complete">
+      <bpmn:incoming>Flow_P4_f_z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_P4_s_a" sourceRef="P4_s" targetRef="P4_a"/>
+    <bpmn:sequenceFlow id="Flow_P4_a_b" sourceRef="P4_a" targetRef="P4_b"/>
+    <bpmn:sequenceFlow id="Flow_P4_b_c" sourceRef="P4_b" targetRef="P4_c"/>
+    <bpmn:sequenceFlow id="Flow_P4_c_g" sourceRef="P4_c" targetRef="P4_g"/>
+    <bpmn:sequenceFlow id="Flow_P4_g_d" sourceRef="P4_g" targetRef="P4_d" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_P4_g_e" sourceRef="P4_g" targetRef="P4_e" name="No"/>
+    <bpmn:sequenceFlow id="Flow_P4_d_e" sourceRef="P4_d" targetRef="P4_e"/>
+    <bpmn:sequenceFlow id="Flow_P4_e_f" sourceRef="P4_e" targetRef="P4_f"/>
+    <bpmn:sequenceFlow id="Flow_P4_f_z" sourceRef="P4_f" targetRef="P4_z"/>
+    <bpmn:dataObject id="DO_P4_AssetReturn" name="AssetReturn"/>
+    <bpmn:dataObject id="DO_P4_Escalation" name="Escalation"/>
+    <bpmn:dataObject id="DO_P4_Issue" name="Issue"/>
+    <bpmn:dataObject id="DO_P4_MeasurementRun" name="MeasurementRun"/>
+    <bpmn:dataObject id="DO_P4_RuleResult" name="RuleResult"/>
+    <bpmn:dataObjectReference id="DOR_P4_b_MeasurementRun" name="MeasurementRun" dataObjectRef="DO_P4_MeasurementRun"/>
+    <bpmn:dataObjectReference id="DOR_P4_b_RuleResult" name="RuleResult" dataObjectRef="DO_P4_RuleResult"/>
+    <bpmn:dataObjectReference id="DOR_P4_c_Issue" name="Issue" dataObjectRef="DO_P4_Issue"/>
+    <bpmn:dataObjectReference id="DOR_P4_d_Escalation" name="Escalation" dataObjectRef="DO_P4_Escalation"/>
+    <bpmn:dataObjectReference id="DOR_P4_e_AssetReturn" name="AssetReturn" dataObjectRef="DO_P4_AssetReturn"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_P4"><bpmndi:BPMNPlane id="Plane_P4" bpmnElement="Collab_P4">
+    <bpmndi:BPMNShape id="Part_P4_di" bpmnElement="Part_P4" isHorizontal="true"><dc:Bounds x="0" y="0" width="1780" height="525"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P4_0_di" bpmnElement="Lane_P4_0" isHorizontal="true"><dc:Bounds x="30" y="0" width="1750" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P4_1_di" bpmnElement="Lane_P4_1" isHorizontal="true"><dc:Bounds x="30" y="175" width="1750" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P4_2_di" bpmnElement="Lane_P4_2" isHorizontal="true"><dc:Bounds x="30" y="350" width="1750" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_s_di" bpmnElement="P4_s"><dc:Bounds x="199" y="54" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_a_di" bpmnElement="P4_a"><dc:Bounds x="328" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_b_di" bpmnElement="P4_b"><dc:Bounds x="508" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_c_di" bpmnElement="P4_c"><dc:Bounds x="688" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_g_di" bpmnElement="P4_g" isMarkerVisible="true"><dc:Bounds x="909" y="219" width="62" height="62"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_d_di" bpmnElement="P4_d"><dc:Bounds x="1048" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_e_di" bpmnElement="P4_e"><dc:Bounds x="1228" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_f_di" bpmnElement="P4_f"><dc:Bounds x="1408" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P4_z_di" bpmnElement="P4_z"><dc:Bounds x="1639" y="404" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="DOR_P4_b_MeasurementRun_di" bpmnElement="DOR_P4_b_MeasurementRun"><dc:Bounds x="508" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P4_b_MeasurementRun_di" bpmnElement="DataOut_P4_b_MeasurementRun"><di:waypoint x="522" y="291"/><di:waypoint x="522" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P4_b_RuleResult_di" bpmnElement="DOR_P4_b_RuleResult"><dc:Bounds x="542" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P4_b_RuleResult_di" bpmnElement="DataOut_P4_b_RuleResult"><di:waypoint x="556" y="291"/><di:waypoint x="556" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P4_c_Issue_di" bpmnElement="DOR_P4_c_Issue"><dc:Bounds x="688" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P4_c_Issue_di" bpmnElement="DataOut_P4_c_Issue"><di:waypoint x="702" y="291"/><di:waypoint x="702" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P4_d_Escalation_di" bpmnElement="DOR_P4_d_Escalation"><dc:Bounds x="1048" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P4_d_Escalation_di" bpmnElement="DataOut_P4_d_Escalation"><di:waypoint x="1062" y="291"/><di:waypoint x="1062" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P4_e_AssetReturn_di" bpmnElement="DOR_P4_e_AssetReturn"><dc:Bounds x="1228" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P4_e_AssetReturn_di" bpmnElement="DataOut_P4_e_AssetReturn"><di:waypoint x="1242" y="291"/><di:waypoint x="1242" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_s_a_di" bpmnElement="Flow_P4_s_a"><di:waypoint x="241" y="75"/><di:waypoint x="308" y="75"/><di:waypoint x="308" y="250"/><di:waypoint x="328" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_a_b_di" bpmnElement="Flow_P4_a_b"><di:waypoint x="472" y="250"/><di:waypoint x="508" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_b_c_di" bpmnElement="Flow_P4_b_c"><di:waypoint x="652" y="250"/><di:waypoint x="688" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_c_g_di" bpmnElement="Flow_P4_c_g"><di:waypoint x="833" y="250"/><di:waypoint x="909" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_g_d_di" bpmnElement="Flow_P4_g_d"><di:waypoint x="971" y="250"/><di:waypoint x="1048" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_g_e_di" bpmnElement="Flow_P4_g_e"><di:waypoint x="971" y="250"/><di:waypoint x="1228" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_d_e_di" bpmnElement="Flow_P4_d_e"><di:waypoint x="1192" y="250"/><di:waypoint x="1228" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_e_f_di" bpmnElement="Flow_P4_e_f"><di:waypoint x="1373" y="250"/><di:waypoint x="1388" y="250"/><di:waypoint x="1388" y="425"/><di:waypoint x="1408" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P4_f_z_di" bpmnElement="Flow_P4_f_z"><di:waypoint x="1552" y="425"/><di:waypoint x="1639" y="425"/></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -339,7 +339,7 @@ class Workflows(unittest.TestCase):
                        "actions/upload-artifact", "actions/upload-pages-artifact", "actions/deploy-pages"):
             self.assertIn(action, names)
         for u in uses:
-            self.assertRegex(u, r"@v\d+$")  # pinned to a major version
+            self.assertRegex(u, r"@[0-9a-f]{40}$")  # pinned to an exact commit (Scorecard); the version is in a comment
         script = next(s["with"]["script"] for s in assess["steps"] if s.get("uses", "").startswith("actions/github-script"))
         for needle in ("dq-escalation", "escalations.json", "createLabel", "issues.create", "createComment", "state: 'closed'", "\\[DQ\\]"):
             self.assertIn(needle, script)

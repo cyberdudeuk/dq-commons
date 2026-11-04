@@ -114,9 +114,14 @@ Each has an entry in `knowledge/frameworks.yaml` and, where measurable, a pack i
 4. UK CDA profile in the Weaver: must and should lists match the metadata guidance.
 5. Registers: two GOV.UK sources added (identifying critical data assets; data ownership model) and five requirements.
 
-## 10. Still open
+## 10. Closed in v2.5.0
 
-- Validate `accessRights` and `creator` against their vocabularies (planned).
-- GEMINI metadata output for geospatial assets (backlog candidate).
+- `accessRights` must start Open, Commercial or Internal; `securityClassification` must start OFFICIAL (the DAM policy's scope); a publisher that looks like an email address is flagged. Both engines, parity tested.
+- UK GEMINI profile for geospatial assets in the Metadata Weaver (the critical data asset guidance asks for GEMINI for geospatial data).
+- The capability, data model and workflows that carry out these requirements are published as models (`models/`, D-MOD-01); each step cites the clause it implements.
+
+## 11. Still open
+
+- `creator` is checked for the obvious mistakes (an email address or a person) but not yet matched against the GOV.UK organisations register, which changes often and isn't available offline; planned as a build-time list.
 - A published GDS return schema, when there is one, to replace the proposed CDA return columns.
-- Raise the issues framework table discrepancy (section 6) with the GDS data quality team.
+- The issues framework table discrepancy (section 6): a note for the GDS data quality team is drafted; the project lead sends it through GDS's own channel.

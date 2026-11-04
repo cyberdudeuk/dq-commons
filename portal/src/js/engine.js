@@ -1903,6 +1903,10 @@
         ['dct:conformsTo', 'dct:temporal', 'dct:license', 'dct:accessRights', 'dcat:distribution', 'dcat:keyword', 'dct:modified']],
       ['statdcat-ap', 'StatDCAT-AP (statistical catalogues)', 'statdcat', ['dct:title', 'dct:description'],
         ['dct:accrualPeriodicity', 'dct:temporal', 'dct:spatial', 'dcat:distribution', 'stat:dimension', 'stat:statMeasure', 'dqv:hasQualityAnnotation']],
+      ['uk-gemini', 'UK GEMINI (geospatial metadata, as the critical data asset guidance asks for geospatial data)', 'geodcat',
+        ['dct:title', 'dct:description', 'dcat:keyword', 'dct:temporal', 'dct:issued', 'dct:publisher', 'dcat:contactPoint',
+          'dct:spatial', 'dct:identifier', 'dct:accessRights', 'dct:license', 'dct:conformsTo', 'dct:provenance', 'dcat:distribution'],
+        ['dct:modified', 'dct:accrualPeriodicity', 'dcat:theme']],
       ['uk-cda', 'UK critical data asset properties (GOV.UK data asset management guidance)', 'dcat',
         ['dct:title', 'dct:description', 'dct:publisher', 'dct:issued', 'dqc:expires', 'dct:isReplacedBy', 'dct:temporal',
           'dct:conformsTo', 'dct:accessRights', 'dqc:securityClassification', 'dct:license'],
@@ -1935,10 +1939,24 @@
         should_met: props.filter(function (p) { return p.level === 'should' && ok(p); }).length, should_total: props.length - musts.length,
         properties: props, date_issues: dates };
     };
+    // Values the critical data asset metadata guidance constrains (weaver.py uk_values).
+    W.ukValues = function (out) {
+      var issues = [], ar = out['dct:accessRights'], sc = out['dqc:securityClassification'], pub = out['dct:publisher'];
+      if (typeof ar === 'string' && ar && !/^(open|commercial|internal)/.test(pyStrip(ar).toLowerCase()))
+        issues.push({ property: 'dct:accessRights', value: ar, message: 'Start with Open, Commercial or Internal, then any handling caveat' });
+      if (typeof sc === 'string' && sc && pyStrip(sc).toUpperCase().indexOf('OFFICIAL') !== 0)
+        issues.push({ property: 'dqc:securityClassification', value: sc, message: 'Only OFFICIAL assets, including those with a handling caveat, are in scope of the DAM policy' });
+      var name = isObj(pub) ? (pub['foaf:name'] || '') : (typeof pub === 'string' ? pub : '');
+      if (name.indexOf('@') >= 0) issues.push({ property: 'dct:publisher', value: name, message: "Use the organisation's name, not a person or an email address" });
+      return issues;
+    };
     W.profiles = function (c) {
       var outs = { dcat: Wr.dcat(c), geodcat: W.toGeodcat(c), statdcat: W.toStatdcat(c) }, res = {};
       PROFILES.forEach(function (p) {
-        res[p[0]] = { label: p[1], check: W.checkProfile(outs[p[2]], p[3], p[4]) };
+        var chk = W.checkProfile(outs[p[2]], p[3], p[4]);
+        chk.value_issues = p[0] === 'uk-cda' ? W.ukValues(outs[p[2]]) : [];
+        chk.conforms = chk.conforms && !chk.value_issues.length;
+        res[p[0]] = { label: p[1], check: chk };
         if (p[2] !== 'dcat') res[p[0]].output = outs[p[2]];
       });
       return res;

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Defs_P3" targetNamespace="https://cyberdudeuk.github.io/dq-commons/model#" exporter="dq-commons build_models.py" exporterVersion="1.0.0">
+  <bpmn:collaboration id="Collab_P3">
+    <bpmn:participant id="Part_P3" name="P3 Data quality issue management" processRef="Process_P3"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P3" name="Data quality issue management" isExecutable="false">
+    <bpmn:documentation>Realises capability C7. Generated from models/dq-capability.yaml; guidance codes are explained in models/README.md.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_P3">
+      <bpmn:lane id="Lane_P3_0" name="Data steward">
+        <bpmn:flowNodeRef>P3_d</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_e</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P3_1" name="Data owner">
+        <bpmn:flowNodeRef>P3_c</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_k</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_g3</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P3_2" name="Data custodian">
+        <bpmn:flowNodeRef>P3_s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_a</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_f</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P3_z</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P3_3" name="Governance board">
+        <bpmn:flowNodeRef>P3_h</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P3_s" name="A rule misses its target">
+      <bpmn:outgoing>Flow_P3_s_a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="P3_a" name="Log the issue in the Data Issues Log">
+      <bpmn:documentation>Guidance: IF, DQAP3</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_s_a</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_a_b</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P3_a_Issue"><bpmn:targetRef>DOR_P3_a_Issue</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="P3_b" name="Score: importance x impact x band">
+      <bpmn:documentation>Guidance: IF</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_a_b</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_b_c</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="P3_c" name="Set priority and target resolution date">
+      <bpmn:documentation>Guidance: IF, DQAP4</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_b_c</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_c_d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="P3_d" name="Find the root cause (5 whys)">
+      <bpmn:documentation>Guidance: DQAP5</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_c_d</bpmn:incoming>
+      <bpmn:incoming>Flow_P3_g3_d</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_d_g1</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P3_d_RootCause"><bpmn:targetRef>DOR_P3_d_RootCause</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="P3_g1" name="Can we fix it at source?">
+      <bpmn:incoming>Flow_P3_d_g1</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_g1_e</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P3_g1_k</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="P3_k" name="Caveat, communicate and raise with the supplier">
+      <bpmn:documentation>Guidance: QAAD, DQAP6</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_g1_k</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_k_f</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="P3_e" name="Agree containment, corrective and preventive actions">
+      <bpmn:documentation>Guidance: DQAP5</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_g1_e</bpmn:incoming>
+      <bpmn:incoming>Flow_P3_h_e</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_e_f</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P3_e_RemediationAction"><bpmn:targetRef>DOR_P3_e_RemediationAction</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="P3_f" name="Re-measure at the next cycle">
+      <bpmn:documentation>Guidance: DQAP7</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_k_f</bpmn:incoming>
+      <bpmn:incoming>Flow_P3_e_f</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_f_g2</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="P3_g2" name="Meets target?">
+      <bpmn:incoming>Flow_P3_f_g2</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_g2_z</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P3_g2_g3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="P3_g3" name="Past its resolution timescale?">
+      <bpmn:incoming>Flow_P3_g2_g3</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_g3_h</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P3_g3_d</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="P3_h" name="Escalate to the governance board">
+      <bpmn:documentation>Guidance: IF, DAM</bpmn:documentation>
+      <bpmn:incoming>Flow_P3_g3_h</bpmn:incoming>
+      <bpmn:outgoing>Flow_P3_h_e</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P3_h_Escalation"><bpmn:targetRef>DOR_P3_h_Escalation</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:endEvent id="P3_z" name="Issue resolved and closed">
+      <bpmn:incoming>Flow_P3_g2_z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_P3_s_a" sourceRef="P3_s" targetRef="P3_a"/>
+    <bpmn:sequenceFlow id="Flow_P3_a_b" sourceRef="P3_a" targetRef="P3_b"/>
+    <bpmn:sequenceFlow id="Flow_P3_b_c" sourceRef="P3_b" targetRef="P3_c"/>
+    <bpmn:sequenceFlow id="Flow_P3_c_d" sourceRef="P3_c" targetRef="P3_d"/>
+    <bpmn:sequenceFlow id="Flow_P3_d_g1" sourceRef="P3_d" targetRef="P3_g1"/>
+    <bpmn:sequenceFlow id="Flow_P3_g1_e" sourceRef="P3_g1" targetRef="P3_e" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_P3_g1_k" sourceRef="P3_g1" targetRef="P3_k" name="No"/>
+    <bpmn:sequenceFlow id="Flow_P3_k_f" sourceRef="P3_k" targetRef="P3_f"/>
+    <bpmn:sequenceFlow id="Flow_P3_e_f" sourceRef="P3_e" targetRef="P3_f"/>
+    <bpmn:sequenceFlow id="Flow_P3_f_g2" sourceRef="P3_f" targetRef="P3_g2"/>
+    <bpmn:sequenceFlow id="Flow_P3_g2_z" sourceRef="P3_g2" targetRef="P3_z" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_P3_g2_g3" sourceRef="P3_g2" targetRef="P3_g3" name="No"/>
+    <bpmn:sequenceFlow id="Flow_P3_g3_h" sourceRef="P3_g3" targetRef="P3_h" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_P3_g3_d" sourceRef="P3_g3" targetRef="P3_d" name="No"/>
+    <bpmn:sequenceFlow id="Flow_P3_h_e" sourceRef="P3_h" targetRef="P3_e"/>
+    <bpmn:dataObject id="DO_P3_Escalation" name="Escalation"/>
+    <bpmn:dataObject id="DO_P3_Issue" name="Issue"/>
+    <bpmn:dataObject id="DO_P3_RemediationAction" name="RemediationAction"/>
+    <bpmn:dataObject id="DO_P3_RootCause" name="RootCause"/>
+    <bpmn:dataObjectReference id="DOR_P3_a_Issue" name="Issue" dataObjectRef="DO_P3_Issue"/>
+    <bpmn:dataObjectReference id="DOR_P3_d_RootCause" name="RootCause" dataObjectRef="DO_P3_RootCause"/>
+    <bpmn:dataObjectReference id="DOR_P3_e_RemediationAction" name="RemediationAction" dataObjectRef="DO_P3_RemediationAction"/>
+    <bpmn:dataObjectReference id="DOR_P3_h_Escalation" name="Escalation" dataObjectRef="DO_P3_Escalation"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_P3"><bpmndi:BPMNPlane id="Plane_P3" bpmnElement="Collab_P3">
+    <bpmndi:BPMNShape id="Part_P3_di" bpmnElement="Part_P3" isHorizontal="true"><dc:Bounds x="0" y="0" width="2500" height="700"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P3_0_di" bpmnElement="Lane_P3_0" isHorizontal="true"><dc:Bounds x="30" y="0" width="2470" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P3_1_di" bpmnElement="Lane_P3_1" isHorizontal="true"><dc:Bounds x="30" y="175" width="2470" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P3_2_di" bpmnElement="Lane_P3_2" isHorizontal="true"><dc:Bounds x="30" y="350" width="2470" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P3_3_di" bpmnElement="Lane_P3_3" isHorizontal="true"><dc:Bounds x="30" y="525" width="2470" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_s_di" bpmnElement="P3_s"><dc:Bounds x="199" y="404" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_a_di" bpmnElement="P3_a"><dc:Bounds x="328" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_b_di" bpmnElement="P3_b"><dc:Bounds x="508" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_c_di" bpmnElement="P3_c"><dc:Bounds x="688" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_d_di" bpmnElement="P3_d"><dc:Bounds x="868" y="34" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_g1_di" bpmnElement="P3_g1" isMarkerVisible="true"><dc:Bounds x="1089" y="44" width="62" height="62"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_k_di" bpmnElement="P3_k"><dc:Bounds x="1228" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_e_di" bpmnElement="P3_e"><dc:Bounds x="1408" y="34" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_f_di" bpmnElement="P3_f"><dc:Bounds x="1588" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_g2_di" bpmnElement="P3_g2" isMarkerVisible="true"><dc:Bounds x="1809" y="394" width="62" height="62"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_g3_di" bpmnElement="P3_g3" isMarkerVisible="true"><dc:Bounds x="1989" y="219" width="62" height="62"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_h_di" bpmnElement="P3_h"><dc:Bounds x="2128" y="559" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P3_z_di" bpmnElement="P3_z"><dc:Bounds x="2359" y="404" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="DOR_P3_a_Issue_di" bpmnElement="DOR_P3_a_Issue"><dc:Bounds x="328" y="484" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P3_a_Issue_di" bpmnElement="DataOut_P3_a_Issue"><di:waypoint x="342" y="466"/><di:waypoint x="342" y="484"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P3_d_RootCause_di" bpmnElement="DOR_P3_d_RootCause"><dc:Bounds x="868" y="134" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P3_d_RootCause_di" bpmnElement="DataOut_P3_d_RootCause"><di:waypoint x="882" y="116"/><di:waypoint x="882" y="134"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P3_e_RemediationAction_di" bpmnElement="DOR_P3_e_RemediationAction"><dc:Bounds x="1408" y="134" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P3_e_RemediationAction_di" bpmnElement="DataOut_P3_e_RemediationAction"><di:waypoint x="1422" y="116"/><di:waypoint x="1422" y="134"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P3_h_Escalation_di" bpmnElement="DOR_P3_h_Escalation"><dc:Bounds x="2128" y="659" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P3_h_Escalation_di" bpmnElement="DataOut_P3_h_Escalation"><di:waypoint x="2142" y="641"/><di:waypoint x="2142" y="659"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_s_a_di" bpmnElement="Flow_P3_s_a"><di:waypoint x="241" y="425"/><di:waypoint x="328" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_a_b_di" bpmnElement="Flow_P3_a_b"><di:waypoint x="472" y="425"/><di:waypoint x="508" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_b_c_di" bpmnElement="Flow_P3_b_c"><di:waypoint x="652" y="425"/><di:waypoint x="668" y="425"/><di:waypoint x="668" y="250"/><di:waypoint x="688" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_c_d_di" bpmnElement="Flow_P3_c_d"><di:waypoint x="833" y="250"/><di:waypoint x="848" y="250"/><di:waypoint x="848" y="75"/><di:waypoint x="868" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_d_g1_di" bpmnElement="Flow_P3_d_g1"><di:waypoint x="1012" y="75"/><di:waypoint x="1089" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g1_e_di" bpmnElement="Flow_P3_g1_e"><di:waypoint x="1151" y="75"/><di:waypoint x="1408" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g1_k_di" bpmnElement="Flow_P3_g1_k"><di:waypoint x="1151" y="75"/><di:waypoint x="1208" y="75"/><di:waypoint x="1208" y="250"/><di:waypoint x="1228" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_k_f_di" bpmnElement="Flow_P3_k_f"><di:waypoint x="1373" y="250"/><di:waypoint x="1568" y="250"/><di:waypoint x="1568" y="425"/><di:waypoint x="1588" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_e_f_di" bpmnElement="Flow_P3_e_f"><di:waypoint x="1552" y="75"/><di:waypoint x="1568" y="75"/><di:waypoint x="1568" y="425"/><di:waypoint x="1588" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_f_g2_di" bpmnElement="Flow_P3_f_g2"><di:waypoint x="1733" y="425"/><di:waypoint x="1809" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g2_z_di" bpmnElement="Flow_P3_g2_z"><di:waypoint x="1871" y="425"/><di:waypoint x="2359" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g2_g3_di" bpmnElement="Flow_P3_g2_g3"><di:waypoint x="1871" y="425"/><di:waypoint x="1969" y="425"/><di:waypoint x="1969" y="250"/><di:waypoint x="1989" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g3_h_di" bpmnElement="Flow_P3_g3_h"><di:waypoint x="2051" y="250"/><di:waypoint x="2108" y="250"/><di:waypoint x="2108" y="600"/><di:waypoint x="2128" y="600"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_g3_d_di" bpmnElement="Flow_P3_g3_d"><di:waypoint x="2020" y="281"/><di:waypoint x="2020" y="338"/><di:waypoint x="940" y="338"/><di:waypoint x="940" y="116"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P3_h_e_di" bpmnElement="Flow_P3_h_e"><di:waypoint x="2200" y="641"/><di:waypoint x="2200" y="688"/><di:waypoint x="1480" y="688"/><di:waypoint x="1480" y="116"/></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

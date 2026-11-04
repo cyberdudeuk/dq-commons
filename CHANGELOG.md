@@ -2,6 +2,16 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.5.0 — 2026-11-04
+### Added
+- `models/dq-capability.yaml` and `scripts/build_models.py` (D-MOD-01): ArchiMate 3.1 exchange XML and Archi CSV, UML 2.5.1 XMI, PostgreSQL DDL, JSON Schema 2020-12, OWL Turtle, data dictionary, capability-guidance matrix, Mermaid ERD and SVG, Visio `.vsdx` process map and PDF, BPMN 2.0 workflows P1 to P5.
+- Portal page `models.html`; downloads in `downloads/models/` and `dq-capability-models.zip`.
+- `tests/test_models.py`; CI runs `build_models.py --check`.
+- Metadata Weaver profile `uk-gemini`; value checks for `accessRights`, `securityClassification` and `publisher` (`value_issues`).
+- `scripts/apply_settings.sh` for owner-only repository settings and release tags.
+### Changed
+- Every `uses:` in `.github/workflows` pinned to a full commit SHA with the version in a comment.
+
 ## 2.4.0 — 2026-11-04
 ### Added
 - `docs/CONFORMANCE.md`; frameworks `uk-identify-cda`, `uk-data-ownership-model`; requirements IDC-1, IDC-2, DO-1, DQAP-8, IF-5.

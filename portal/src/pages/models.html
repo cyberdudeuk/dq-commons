@@ -1,0 +1,202 @@
+<title>Capability and data models</title>
+<style>
+__BASE_CSS__
+.caps{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
+.cap{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--c);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.cap h3{margin:0;font-size:1rem}
+.cap h3 span{font-family:var(--f-mono);color:var(--muted);margin-right:6px;font-size:.85rem}
+.cap ul{margin:0;padding-left:18px;font-size:.86rem}
+.cap .meta{font-size:.78rem;color:var(--muted)}
+.key{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 14px}
+.key span{display:inline-flex;align-items:center;gap:6px;font-size:.84rem}
+.key i{width:14px;height:14px;border-radius:3px;background:var(--c);display:inline-block}
+.dl td:first-child{white-space:nowrap}
+.flow{counter-reset:s;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.flow li{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c, var(--line));border-radius:6px;padding:8px 12px;font-size:.9rem}
+.flow li .lane{font-size:.78rem;color:var(--muted);display:block}
+.flow li.gw{border-left-color:#594d00;background:var(--warn-soft)}
+.flow li.ev{border-left-color:var(--muted)}
+.prev{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr))}
+.prev figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px}
+.prev img{width:100%;height:auto;display:block;border-radius:4px}
+.prev figcaption{font-size:.82rem;margin-top:6px}
+.ents details{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 12px;margin-bottom:6px}
+.ents summary{cursor:pointer;font-weight:600}
+.ents summary span{font-weight:400;color:var(--muted);font-size:.84rem;margin-left:6px}
+.ents table{font-size:.84rem}
+.steps-imp li{margin-bottom:6px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Manage and improve · Capability and data models</span>
+  <h1>The data quality capability, as models your architecture tools can open</h1>
+  <p class="lede" id="sum"></p>
+  <nav class="toc" aria-label="On this page"><a href="#downloads">Downloads by tool</a><a href="#capabilities">Capability map</a><a href="#map">Process map</a><a href="#workflows">Workflows</a><a href="#model">Information model</a><a href="#import">How to import</a><a href="#change">Change the model</a><a href="#key">Guidance key</a></nav>
+</header>
+
+<div class="card" role="note"><p class="small"><b>What to know first.</b> One file, <code>models/dq-capability.yaml</code>, holds the whole model. Every download below is generated from it, so they always agree. The model follows GOV.UK guidance as published (see the <a href="#key">guidance key</a>); it is a starting point for your organisation to adapt, not an official government model. The Visio file was checked by opening it in LibreOffice; tell us through <a href="build.html#contact">the contact form</a> if your Visio version shows it differently.</p></div>
+
+<section id="downloads" aria-labelledby="d-h"><h2 id="d-h">Downloads by tool</h2>
+  <p><a class="btn" id="zip" href="__DOWNLOADS__models/dq-capability-models.zip">Download everything (zip)</a></p>
+  <div class="tbl"><table class="dl"><thead><tr><th scope="col">File</th><th scope="col">Opens in</th><th scope="col">What it holds</th></tr></thead><tbody id="dl"></tbody></table></div>
+</section>
+
+<section id="capabilities" aria-labelledby="c-h"><h2 id="c-h">Capability map, overlaid with the Government Data Quality Framework</h2>
+  <p>Twelve capabilities make up end-to-end data quality management. Each one's colour shows the framework principle it mainly serves; the codes show the guidance it puts into practice.</p>
+  <div class="key" id="ckey"></div>
+  <div class="filters"><div class="field"><label for="cp">Show capabilities for</label><select id="cp"><option value="">All principles</option></select></div></div>
+  <div class="caps" id="caps" aria-live="polite"></div>
+</section>
+
+<section id="map" aria-labelledby="m-h"><h2 id="m-h">Visio process map</h2>
+  <p>Eight pages: the capability map, the five workflows as swimlane diagrams, the information model and the guidance key. Every shape carries its guidance and records as shape data, so you can report on them in Visio. <a href="__DOWNLOADS__models/visio/dq-capability-process-map.vsdx">Visio file (.vsdx)</a> · <a href="__DOWNLOADS__models/dq-capability-process-map.pdf">PDF for anyone without Visio</a>.</p>
+  <div class="prev" id="prev"></div>
+  <p class="small muted">The same content is written out in full under <a href="#workflows">Workflows</a> for people using screen readers or small screens.</p>
+</section>
+
+<section id="workflows" aria-labelledby="w-h"><h2 id="w-h">Workflows</h2>
+  <p>Five workflows carry out the capability. Each is a BPMN 2.0 file with its diagram layout, so process tools draw it the same way. Steps marked "automated" run in the Commons toolkit or a scheduled job.</p>
+  <div class="filters"><div class="field"><label for="wp">Workflow</label><select id="wp"></select></div></div>
+  <div id="wf" aria-live="polite"></div>
+</section>
+
+<section id="model" aria-labelledby="e-h"><h2 id="e-h">Information model</h2>
+  <p>The records the capability keeps. Names of people are not part of the model: roles are held as role holders and contact routes are forms, in line with the <a href="accessibility.html">privacy notice</a>. <a href="__DOWNLOADS__models/dq-data-model.svg">Entity relationship diagram (SVG)</a> · <a href="__DOWNLOADS__models/dictionary/data-dictionary.csv">data dictionary (CSV)</a>.</p>
+  <div class="filters"><div class="field"><label for="eq">Search records and fields</label><input type="search" id="eq" placeholder="For example: owner, target, purpose"></div></div>
+  <p class="small muted" id="eCount" role="status" aria-live="polite"></p>
+  <div class="ents" id="ents"></div>
+</section>
+
+<section id="import" aria-labelledby="i-h"><h2 id="i-h">How to import</h2>
+  <ol class="steps-imp">
+    <li><b>Archi (free):</b> File, Import, Open Exchange XML Model, then choose <code>archimate/dq-capability.xml</code>. Or File, Import, CSV Data Into Selected Model, then choose <code>dq-elements.csv</code> (the relations and properties files are read with it).</li>
+    <li><b>Sparx Enterprise Architect:</b> for ArchiMate, Publish, Model Exchange, ArchiMate Exchange Format, Import. For the class model, Publish, Import, XMI, then choose <code>uml/dq-data-model.xmi</code>.</li>
+    <li><b>BiZZdesign, ADOIT, ARIS and other ArchiMate tools:</b> use their Open Exchange Format import with <code>archimate/dq-capability.xml</code>.</li>
+    <li><b>Visio:</b> open <code>visio/dq-capability-process-map.vsdx</code>. To see the guidance on a shape, right-click it and choose Data, Shape Data.</li>
+    <li><b>Camunda Modeler, bpmn.io, Signavio, Bizagi:</b> open or import any file in <code>bpmn/</code>.</li>
+    <li><b>A database:</b> run <code>sql/dq-data-model.sql</code> in PostgreSQL, or reverse-engineer it in erwin, ER/Studio or DBeaver.</li>
+    <li><b>Protégé or a knowledge graph:</b> open <code>rdf/dq-data-model.ttl</code>.</li>
+    <li><b>A catalogue or spreadsheet:</b> open <code>dictionary/data-dictionary.csv</code>; most catalogues (for example Purview, Collibra, DataHub) can load it as a business glossary or attribute list.</li>
+  </ol>
+</section>
+
+<section id="change" aria-labelledby="ch-h"><h2 id="ch-h">Change the model</h2>
+  <ol>
+    <li>Suggest a change with the <a href="build.html#contact">contact form</a>, or edit <a id="yaml" href="#">models/dq-capability.yaml on GitHub</a> and propose it.</li>
+    <li>Whoever looks after the repository runs <code>python3 scripts/build_models.py</code>, which rebuilds every file above.</li>
+    <li>The automated checks fail if any download no longer matches the YAML, so the files can't drift apart.</li>
+  </ol>
+</section>
+
+<section id="key" aria-labelledby="k-h"><h2 id="k-h">Guidance key</h2><div class="tbl"><table><thead><tr><th scope="col">Code</th><th scope="col">Guidance</th></tr></thead><tbody id="gk"></tbody></table></div>
+  <p class="small muted" id="rev"></p></section>
+</div>
+
+<script>
+const M = __K_MODELS__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const D = "__DOWNLOADS__models/";
+const col = Object.fromEntries(M.principles.map(p => [p.id, p.colour]));
+const pname = Object.fromEntries(M.principles.map(p => [p.id, p.name]));
+$("sum").textContent = `${M.capabilities.length} capabilities, ${M.entities.length} record types and ${M.processes.length} workflows, each traced to the DAM policy, the data quality action plan guide, the Government Data Quality Framework and related guidance. Download them for ArchiMate, UML, Visio, BPMN, database and ontology tools.`;
+$("yaml").href = "{{REPO}}/blob/main/models/dq-capability.yaml";
+$("rev").textContent = `Model version ${M.version}, last reviewed ${M.review.last_reviewed}.`;
+
+// Downloads by tool
+const TOOLS = [
+  [/^archimate\/dq-capability\.xml$/, "Archi, Sparx EA, BiZZdesign, ADOIT, ARIS", "ArchiMate 3.1 Open Exchange Format: capabilities, workflows, roles, records, principles and guidance, with views"],
+  [/^archimate\/csv\/dq-elements\.csv$/, "Archi (CSV import)", "ArchiMate elements; read with the relations and properties files beside it"],
+  [/^uml\/.*\.xmi$/, "Sparx EA, MagicDraw or Cameo, Visual Paradigm, Papyrus", "UML 2.5.1 class model with reference lists and associations"],
+  [/^sql\//, "PostgreSQL, erwin, ER/Studio, DBeaver", "Tables, keys, allowed values and comments"],
+  [/^json\//, "APIs, data contracts, validators", "JSON Schema 2020-12 for every record type"],
+  [/^rdf\//, "Protégé, TopBraid, knowledge graphs", "OWL ontology in Turtle"],
+  [/^dictionary\/data-dictionary\.csv$/, "Excel, catalogues (Purview, Collibra, DataHub)", "Every field: type, required, allowed values, description, guidance"],
+  [/^dictionary\/capability-guidance-matrix\.csv$/, "Excel, assurance packs", "Capabilities against principles, guidance, records and workflows"],
+  [/^erd\//, "Mermaid (GitHub, Confluence, Notion)", "Entity relationship diagram source"],
+  [/^visio\//, "Microsoft Visio, LibreOffice Draw", "Process map: capability map with the GDQF overlay, 5 swimlane workflows, information model, key"],
+  [/^bpmn\//, "Camunda Modeler, bpmn.io, Signavio, Bizagi, ARIS", "BPMN 2.0 workflow with lanes, records and diagram layout"],
+];
+const rows = M.files.filter(f => TOOLS.some(t => t[0].test(f))).map(f => { const t = TOOLS.find(t => t[0].test(f)); return [f, t[1], t[2]]; });
+rows.push(...M.extras.map(f => f.endsWith(".pdf") ? [f, "Any PDF reader", "The Visio process map as a PDF"] : [f, "Any browser or drawing tool", "Entity relationship diagram image"]));
+rows.push(["dq-capability.yaml", "Any text editor", "The single source every file is made from"]);
+$("dl").innerHTML = rows.map(([f, tool, what]) => `<tr><td><a href="${D}${esc(f)}" download>${esc(f.split("/").pop())}</a></td><td>${esc(tool)}</td><td>${esc(what)}</td></tr>`).join("");
+
+// Capability map
+$("ckey").innerHTML = M.principles.map(p => `<span style="--c:${p.colour}"><i aria-hidden="true"></i>${esc(p.id.replace("GDQF-", ""))} ${esc(p.name)}</span>`).join("");
+$("cp").innerHTML += M.principles.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("");
+function drawCaps() {
+  const f = $("cp").value;
+  $("caps").innerHTML = M.capabilities.filter(c => !f || c.principle === f).map(c => {
+    const procs = M.processes.filter(p => p.capability === c.id);
+    return `<article class="cap" style="--c:${col[c.principle]}"><h3><span>${esc(c.id)}</span>${esc(c.name)}</h3>
+      <div class="meta">Principle: ${esc(pname[c.principle])}</div>
+      <ul>${c.children.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+      <div class="meta">Guidance: ${c.guidance.map(esc).join(", ")}</div>
+      <div class="meta">Records: ${c.entities.map(e => `<a href="#ent-${esc(e)}">${esc(e)}</a>`).join(", ")}</div>
+      ${procs.length ? `<div class="meta">Workflow: ${procs.map(p => `<a href="#workflows" data-p="${p.id}">${esc(p.id)} ${esc(p.name)}</a>`).join(", ")}</div>` : ""}</article>`;
+  }).join("");
+}
+$("cp").addEventListener("change", drawCaps); drawCaps();
+
+// Previews
+const pageNames = ["Capability map", ...M.processes.map(p => `${p.id} ${p.name}`), "Information model", "Guidance key"];
+$("prev").innerHTML = M.previews.length ? M.previews.map((f, i) => `<figure><a href="${D}previews/${esc(f)}" aria-label="Open page ${i + 1} full size: ${esc(pageNames[i] || "")}"><img src="${D}previews/${esc(f)}" loading="lazy" alt="Page ${i + 1} of the Visio process map: ${esc(pageNames[i] || "")}. The same content is listed in text on this page."></a><figcaption>Page ${i + 1}: ${esc(pageNames[i] || "")}</figcaption></figure>`).join("")
+  : `<p class="small">Previews appear here after the next build.</p>`;
+
+// Workflows
+$("wp").innerHTML = M.processes.map(p => `<option value="${p.id}">${esc(p.id)} ${esc(p.name)}</option>`).join("");
+const GP = {DAM:"GDQF-P1",IDC:"GDQF-P1",DOM:"GDQF-P1",DQAP1:"GDQF-P1",DQAP2:"GDQF-P2","GDQF-P2":"GDQF-P2",DQAP3:"GDQF-P3",DQAP4:"GDQF-P3",DQAP7:"GDQF-P3",IF:"GDQF-P3",DQAP6:"GDQF-P4",MD:"GDQF-P4",DQV:"GDQF-P4",COP:"GDQF-P4",DQAP5:"GDQF-P5",QAAD:"GDQF-P5","GDQF-P5":"GDQF-P5"};
+function drawWf() {
+  const p = M.processes.find(x => x.id === $("wp").value), cap = M.capabilities.find(c => c.id === p.capability);
+  const file = M.files.find(f => f.startsWith(`bpmn/${p.id}-`));
+  const byId = Object.fromEntries(p.steps.map(s => [s.id, s]));
+  $("wf").innerHTML = `<p class="small">Realises <b>${esc(cap.id)} ${esc(cap.name)}</b>. Roles: ${p.lanes.map(esc).join(", ")}. <a href="${D}${esc(file)}" download>BPMN file</a>.</p>
+    <ol class="flow">${p.steps.map(s => {
+      const pr = (s.guidance || []).map(g => GP[g]).find(Boolean);
+      const cls = s.kind === "gateway" ? "gw" : (s.kind === "start" || s.kind === "end") ? "ev" : "";
+      const kind = {start: "Start", end: "End", gateway: "Decision", service: "Automated step", user: "Step", manual: "Manual step"}[s.kind];
+      return `<li class="${cls}" style="${pr ? `--c:${col[pr]}` : ""}"><span class="lane">${esc(kind)} · ${esc(s.lane)}</span><b>${esc(s.name)}</b>
+        ${(s.guidance || []).length ? `<span class="small muted"> · Guidance: ${s.guidance.map(esc).join(", ")}</span>` : ""}
+        ${(s.outputs || []).length ? `<br><span class="small">Records: ${s.outputs.map(e => `<a href="#ent-${esc(e)}">${esc(e)}</a>`).join(", ")}</span>` : ""}
+        ${s.branches ? `<br><span class="small">${Object.entries(s.branches).map(([k, v]) => `${esc(k)}: go to "${esc(byId[v].name)}"`).join(". ")}.</span>` : ""}
+        ${s.next ? `<br><span class="small">Then go to "${esc(byId[s.next].name)}".</span>` : ""}</li>`;
+    }).join("")}</ol>`;
+}
+$("wp").addEventListener("change", drawWf); drawWf();
+document.addEventListener("click", e => { const a = e.target.closest("a[data-p]"); if (a) { $("wp").value = a.dataset.p; drawWf(); } });
+
+// Information model
+function typeText(a) {
+  if (a.type.startsWith("ref:")) return `link to <a href="#ent-${esc(a.type.slice(4))}">${esc(a.type.slice(4))}</a>` + (a.many ? " (many)" : "");
+  if (a.type.startsWith("enum:")) return `one of: ${M.enums[a.type.slice(5)].map(esc).join("; ")}` + (a.many ? " (one or more)" : "");
+  return esc(a.type);
+}
+function drawEnts() {
+  const q = $("eq").value.trim().toLowerCase();
+  const list = M.entities.filter(e => !q || JSON.stringify(e).toLowerCase().includes(q));
+  $("eCount").textContent = `${list.length} of ${M.entities.length} record types.`;
+  const groups = [...new Set(list.map(e => e.group))];
+  $("ents").innerHTML = groups.map(g => `<h3>${esc(g)}</h3>` + list.filter(e => e.group === g).map(e => `<details id="ent-${esc(e.name)}"${q ? " open" : ""}><summary>${esc(e.name)}<span>${esc(e.description)}</span></summary>
+    <p class="small muted">Guidance: ${(e.guidance || []).map(esc).join(", ")}</p>
+    <div class="tbl"><table><thead><tr><th scope="col">Field</th><th scope="col">Type</th><th scope="col">Needed?</th><th scope="col">Meaning</th></tr></thead><tbody>
+    ${e.attributes.map(a => `<tr><td><code>${esc(a.name)}</code></td><td>${typeText(a)}</td><td>${a.key ? "Key" : a.required ? "Yes" : "No"}</td><td>${esc(a.description || "")}</td></tr>`).join("")}</tbody></table></div></details>`).join("")).join("");
+}
+$("eq").addEventListener("input", drawEnts); drawEnts();
+addEventListener("hashchange", () => { const d = document.getElementById(location.hash.slice(1)); if (d && d.tagName === "DETAILS") d.open = true; });
+
+// Guidance key
+const gk = Object.entries(M.guidance).map(([k, g]) => [k, `<a href="${esc(g.url)}" rel="noopener">${esc(g.title)}</a>`]);
+for (let i = 1; i <= 7; i++) gk.push([`DQAP${i}`, `Data quality action plan implementation guide, step ${i}`]);
+M.principles.forEach(p => gk.push([p.id, `Government Data Quality Framework principle: ${esc(p.name)}`]));
+gk.push(["GDQF-LC", "Government Data Quality Framework: data lifecycle"], ["GDQF-D", "Government Data Quality Framework: quality dimensions"]);
+$("gk").innerHTML = gk.map(([k, v]) => `<tr><td><code>${esc(k)}</code></td><td>${v}</td></tr>`).join("");
+
+window.DQP_TOUR = [
+  {sel: "#dl", title: "Downloads by tool", text: "Pick the file for the tool you use: ArchiMate, UML, Visio, BPMN, database, ontology or spreadsheet."},
+  {sel: "#caps", title: "Capability map", text: "Twelve capabilities, coloured by the Government Data Quality Framework principle each serves, with the guidance they put into practice."},
+  {sel: "#wf", title: "Workflows", text: "Each workflow step by step: who does it, the guidance behind it and the records it creates."},
+  {sel: "#ents", title: "Information model", text: "Every record type and field, with allowed values. Search to find a field."},
+];
+</script>

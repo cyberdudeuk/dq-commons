@@ -537,6 +537,10 @@ WEAVE_CASES = [
     {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Rivers", "dct:description": "River centre lines for Wales.",
      "dct:spatial": "https://example.org/geo/W92000004", "dcat:contactPoint": {"vcard:fn": "Geo team"}, "dct:publisher": "NRW", "dct:issued": "2026-13-45x"},
     {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Areas", "dct:spatial": "Wales", "dct:modified": "2026-04-01T10:00:00Z"},
+    {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Claims", "dct:accessRights": "Restricted to staff",
+     "dqc:securityClassification": "SECRET", "dct:publisher": {"foaf:name": "someone@example.org"}},
+    {"@context": {"dcat": "http://www.w3.org/ns/dcat#"}, "@type": "dcat:Dataset", "dct:title": "Rates", "dct:accessRights": " Internal: HR only",
+     "dqc:securityClassification": "official-sensitive", "dct:publisher": "Valuation Office Agency"},
 ]
 _C1 = {"apiVersion": "v3.1.0", "kind": "DataContract", "id": "x", "version": "1.2.0", "status": "active", "team": {"name": "T"},
        "slaProperties": [{"property": "frequency", "value": 1}],

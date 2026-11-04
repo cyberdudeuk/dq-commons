@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Defs_P5" targetNamespace="https://cyberdudeuk.github.io/dq-commons/model#" exporter="dq-commons build_models.py" exporterVersion="1.0.0">
+  <bpmn:collaboration id="Collab_P5">
+    <bpmn:participant id="Part_P5" name="P5 Annual review and return" processRef="Process_P5"/>
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P5" name="Annual review and return" isExecutable="false">
+    <bpmn:documentation>Realises capability C10. Generated from models/dq-capability.yaml; guidance codes are explained in models/README.md.</bpmn:documentation>
+    <bpmn:laneSet id="LaneSet_P5">
+      <bpmn:lane id="Lane_P5_0" name="Data owner">
+        <bpmn:flowNodeRef>P5_a</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_g1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_d</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P5_1" name="Data steward">
+        <bpmn:flowNodeRef>P5_s</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_c</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P5_2" name="Chief data officer">
+        <bpmn:flowNodeRef>P5_n</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_e</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_P5_3" name="Catalogue and GDS">
+        <bpmn:flowNodeRef>P5_f</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>P5_z</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="P5_s" name="12 months since the last review">
+      <bpmn:outgoing>Flow_P5_s_a</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="P5_a" name="Confirm the asset is still critical">
+      <bpmn:documentation>Guidance: IDC, DAM</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_s_a</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_a_g1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="P5_g1" name="Owner still in post?">
+      <bpmn:incoming>Flow_P5_a_g1</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_g1_b</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P5_g1_n</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="P5_n" name="Name a successor and update the metadata">
+      <bpmn:documentation>Guidance: IDC, DOM</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_g1_n</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_n_b</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P5_n_RoleAssignment"><bpmn:targetRef>DOR_P5_n_RoleAssignment</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="P5_b" name="Review the metadata against the 13 properties">
+      <bpmn:documentation>Guidance: MD</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_g1_b</bpmn:incoming>
+      <bpmn:incoming>Flow_P5_n_b</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_b_c</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P5_b_MetadataRecord"><bpmn:targetRef>DOR_P5_b_MetadataRecord</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="P5_c" name="Check the DQAP covers all 7 steps">
+      <bpmn:documentation>Guidance: DAM, DQAP7</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_b_c</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_c_d</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P5_c_DataQualityActionPlan"><bpmn:targetRef>DOR_P5_c_DataQualityActionPlan</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="P5_d" name="Sign off the annual review">
+      <bpmn:documentation>Guidance: DAM</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_c_d</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_d_e</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P5_d_AnnualReview"><bpmn:targetRef>DOR_P5_d_AnnualReview</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:userTask id="P5_e" name="Assure returns across the department and its ALBs">
+      <bpmn:documentation>Guidance: DAM</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_d_e</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_e_f</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="P5_f" name="Submit the return to GDS">
+      <bpmn:documentation>Guidance: DAM, IDC</bpmn:documentation>
+      <bpmn:incoming>Flow_P5_e_f</bpmn:incoming>
+      <bpmn:outgoing>Flow_P5_f_z</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOut_P5_f_AssetReturn"><bpmn:targetRef>DOR_P5_f_AssetReturn</bpmn:targetRef></bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="P5_z" name="Review complete">
+      <bpmn:incoming>Flow_P5_f_z</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_P5_s_a" sourceRef="P5_s" targetRef="P5_a"/>
+    <bpmn:sequenceFlow id="Flow_P5_a_g1" sourceRef="P5_a" targetRef="P5_g1"/>
+    <bpmn:sequenceFlow id="Flow_P5_g1_b" sourceRef="P5_g1" targetRef="P5_b" name="Yes"/>
+    <bpmn:sequenceFlow id="Flow_P5_g1_n" sourceRef="P5_g1" targetRef="P5_n" name="No"/>
+    <bpmn:sequenceFlow id="Flow_P5_n_b" sourceRef="P5_n" targetRef="P5_b"/>
+    <bpmn:sequenceFlow id="Flow_P5_b_c" sourceRef="P5_b" targetRef="P5_c"/>
+    <bpmn:sequenceFlow id="Flow_P5_c_d" sourceRef="P5_c" targetRef="P5_d"/>
+    <bpmn:sequenceFlow id="Flow_P5_d_e" sourceRef="P5_d" targetRef="P5_e"/>
+    <bpmn:sequenceFlow id="Flow_P5_e_f" sourceRef="P5_e" targetRef="P5_f"/>
+    <bpmn:sequenceFlow id="Flow_P5_f_z" sourceRef="P5_f" targetRef="P5_z"/>
+    <bpmn:dataObject id="DO_P5_AnnualReview" name="AnnualReview"/>
+    <bpmn:dataObject id="DO_P5_AssetReturn" name="AssetReturn"/>
+    <bpmn:dataObject id="DO_P5_DataQualityActionPlan" name="DataQualityActionPlan"/>
+    <bpmn:dataObject id="DO_P5_MetadataRecord" name="MetadataRecord"/>
+    <bpmn:dataObject id="DO_P5_RoleAssignment" name="RoleAssignment"/>
+    <bpmn:dataObjectReference id="DOR_P5_n_RoleAssignment" name="RoleAssignment" dataObjectRef="DO_P5_RoleAssignment"/>
+    <bpmn:dataObjectReference id="DOR_P5_b_MetadataRecord" name="MetadataRecord" dataObjectRef="DO_P5_MetadataRecord"/>
+    <bpmn:dataObjectReference id="DOR_P5_c_DataQualityActionPlan" name="DataQualityActionPlan" dataObjectRef="DO_P5_DataQualityActionPlan"/>
+    <bpmn:dataObjectReference id="DOR_P5_d_AnnualReview" name="AnnualReview" dataObjectRef="DO_P5_AnnualReview"/>
+    <bpmn:dataObjectReference id="DOR_P5_f_AssetReturn" name="AssetReturn" dataObjectRef="DO_P5_AssetReturn"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_P5"><bpmndi:BPMNPlane id="Plane_P5" bpmnElement="Collab_P5">
+    <bpmndi:BPMNShape id="Part_P5_di" bpmnElement="Part_P5" isHorizontal="true"><dc:Bounds x="0" y="0" width="1960" height="700"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P5_0_di" bpmnElement="Lane_P5_0" isHorizontal="true"><dc:Bounds x="30" y="0" width="1930" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P5_1_di" bpmnElement="Lane_P5_1" isHorizontal="true"><dc:Bounds x="30" y="175" width="1930" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P5_2_di" bpmnElement="Lane_P5_2" isHorizontal="true"><dc:Bounds x="30" y="350" width="1930" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_P5_3_di" bpmnElement="Lane_P5_3" isHorizontal="true"><dc:Bounds x="30" y="525" width="1930" height="175"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_s_di" bpmnElement="P5_s"><dc:Bounds x="199" y="229" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_a_di" bpmnElement="P5_a"><dc:Bounds x="328" y="34" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_g1_di" bpmnElement="P5_g1" isMarkerVisible="true"><dc:Bounds x="549" y="44" width="62" height="62"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_n_di" bpmnElement="P5_n"><dc:Bounds x="688" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_b_di" bpmnElement="P5_b"><dc:Bounds x="868" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_c_di" bpmnElement="P5_c"><dc:Bounds x="1048" y="209" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_d_di" bpmnElement="P5_d"><dc:Bounds x="1228" y="34" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_e_di" bpmnElement="P5_e"><dc:Bounds x="1408" y="384" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_f_di" bpmnElement="P5_f"><dc:Bounds x="1588" y="559" width="145" height="82"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="P5_z_di" bpmnElement="P5_z"><dc:Bounds x="1819" y="579" width="42" height="42"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="DOR_P5_n_RoleAssignment_di" bpmnElement="DOR_P5_n_RoleAssignment"><dc:Bounds x="688" y="484" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P5_n_RoleAssignment_di" bpmnElement="DataOut_P5_n_RoleAssignment"><di:waypoint x="702" y="466"/><di:waypoint x="702" y="484"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P5_b_MetadataRecord_di" bpmnElement="DOR_P5_b_MetadataRecord"><dc:Bounds x="868" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P5_b_MetadataRecord_di" bpmnElement="DataOut_P5_b_MetadataRecord"><di:waypoint x="882" y="291"/><di:waypoint x="882" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P5_c_DataQualityActionPlan_di" bpmnElement="DOR_P5_c_DataQualityActionPlan"><dc:Bounds x="1048" y="309" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P5_c_DataQualityActionPlan_di" bpmnElement="DataOut_P5_c_DataQualityActionPlan"><di:waypoint x="1062" y="291"/><di:waypoint x="1062" y="309"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P5_d_AnnualReview_di" bpmnElement="DOR_P5_d_AnnualReview"><dc:Bounds x="1228" y="134" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P5_d_AnnualReview_di" bpmnElement="DataOut_P5_d_AnnualReview"><di:waypoint x="1242" y="116"/><di:waypoint x="1242" y="134"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNShape id="DOR_P5_f_AssetReturn_di" bpmnElement="DOR_P5_f_AssetReturn"><dc:Bounds x="1588" y="659" width="28" height="36"/></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="DataOut_P5_f_AssetReturn_di" bpmnElement="DataOut_P5_f_AssetReturn"><di:waypoint x="1602" y="641"/><di:waypoint x="1602" y="659"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_s_a_di" bpmnElement="Flow_P5_s_a"><di:waypoint x="241" y="250"/><di:waypoint x="308" y="250"/><di:waypoint x="308" y="75"/><di:waypoint x="328" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_a_g1_di" bpmnElement="Flow_P5_a_g1"><di:waypoint x="472" y="75"/><di:waypoint x="549" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_g1_b_di" bpmnElement="Flow_P5_g1_b"><di:waypoint x="611" y="75"/><di:waypoint x="848" y="75"/><di:waypoint x="848" y="250"/><di:waypoint x="868" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_g1_n_di" bpmnElement="Flow_P5_g1_n"><di:waypoint x="611" y="75"/><di:waypoint x="668" y="75"/><di:waypoint x="668" y="425"/><di:waypoint x="688" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_n_b_di" bpmnElement="Flow_P5_n_b"><di:waypoint x="833" y="425"/><di:waypoint x="848" y="425"/><di:waypoint x="848" y="250"/><di:waypoint x="868" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_b_c_di" bpmnElement="Flow_P5_b_c"><di:waypoint x="1012" y="250"/><di:waypoint x="1048" y="250"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_c_d_di" bpmnElement="Flow_P5_c_d"><di:waypoint x="1192" y="250"/><di:waypoint x="1208" y="250"/><di:waypoint x="1208" y="75"/><di:waypoint x="1228" y="75"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_d_e_di" bpmnElement="Flow_P5_d_e"><di:waypoint x="1373" y="75"/><di:waypoint x="1388" y="75"/><di:waypoint x="1388" y="425"/><di:waypoint x="1408" y="425"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_e_f_di" bpmnElement="Flow_P5_e_f"><di:waypoint x="1552" y="425"/><di:waypoint x="1568" y="425"/><di:waypoint x="1568" y="600"/><di:waypoint x="1588" y="600"/></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="Flow_P5_f_z_di" bpmnElement="Flow_P5_f_z"><di:waypoint x="1733" y="600"/><di:waypoint x="1819" y="600"/></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -3,7 +3,7 @@
   "about": {
    "s-background": "ff6a96d5ffae",
    "s-goals-and-desired-outcomes": "c8553cbe60bb",
-   "s-objectives-for-the-first-year": "6dd73e130ef4",
+   "s-objectives-for-the-first-year": "4c1e4933d082",
    "s-priorities": "d48f56dff37b",
    "s-purpose-and-aims": "a2954e9cf259",
    "s-roadmap": "0b399789f58a",
@@ -95,7 +95,7 @@
   },
   "github": {
    "s-find-other-public-sector-code": "d5cc9c11ed6a",
-   "s-how-every-portal-feature-connects-to-github": "868e44cca179",
+   "s-how-every-portal-feature-connects-to-github": "fe45dc1acc67",
    "s-how-the-portal-and-the-repository-connect": "7449adb7e5af",
    "s-key-words": "d6f7ae3c9913",
    "s-staying-safe-in-a-public-space": "eed022873d22",
@@ -277,5 +277,5 @@
    "s-why-a-weaver-not-just-a-crosswalk": "cf8d1c2169af"
   }
  },
- "since": "2.3.0"
+ "since": "2.4.0"
 }

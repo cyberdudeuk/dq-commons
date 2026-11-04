@@ -2,7 +2,7 @@
 # Versioning: semantic versioning (major.minor.patch). Major: changes that break files or links people rely on.
 # Minor: new features or pages. Patch: fixes and content updates. Types: new, changed, fixed, removed.
 # pages_new / pages_changed flag menu entries as "New" or "Updated" while that release is the latest or the one before.
-review: {last_reviewed: "2026-11-03", owner_role: Product owner (Commons)}
+review: {last_reviewed: "2026-11-04", owner_role: Product owner (Commons)}
 
 policy:
 - "Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content."
@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.5.0"
+  date: "2026-11-04"
+  title: "The data quality capability as models: data models, a Visio process map and BPMN workflows"
+  pages_new: [models]
+  pages_changed: [weaver, github]
+  items:
+  - {type: new, text: "Capability and data models: 12 capabilities, 22 record types and 5 workflows, each traced to the DAM policy, the DQAP guide, the Government Data Quality Framework and related guidance", link: "models.html"}
+  - {type: new, text: "Downloads for enterprise architecture tools: ArchiMate exchange and Archi CSV, UML XMI, SQL, JSON Schema, OWL, a data dictionary and an entity relationship diagram", link: "models.html#downloads"}
+  - {type: new, text: "Visio process map: the capability map overlaid with the framework's principles, five swimlane workflows, the information model and a guidance key, with a PDF copy", link: "models.html#map"}
+  - {type: new, text: "BPMN 2.0 workflows for identifying critical data assets, the action plan's 7 steps, issue management, scheduled measurement and the annual review", link: "models.html#workflows"}
+  - {type: changed, text: "Metadata Weaver checks access rights, security classification and publisher values, and adds a UK GEMINI profile for geospatial data", link: "weaver.html"}
+  - {type: changed, text: "Every automated workflow uses an exact, reviewed version of each GitHub Action"}
 - version: "2.4.0"
   date: "2026-11-04"
   title: "Templates checked against government policy and guidance; safer releases and pull requests"

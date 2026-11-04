@@ -56,7 +56,7 @@ pre.out{margin:0;max-height:440px;overflow:auto;background:var(--sunk);border:1p
   <div class="bar-h" id="cdaBar"></div>
   <div class="tbl"><table><thead><tr><th scope="col">Property</th><th scope="col">Status</th><th scope="col">Why</th></tr></thead><tbody id="cda"></tbody></table></div>
   <h3>Application profiles</h3>
-  <p class="small">Does the DCAT output meet each profile? <b>Must</b> properties are required; <b>should</b> properties are recommended. These are simplified shapes that catch the common gaps: check against the official SHACL shapes (from SEMIC for the European profiles) before you publish. The UK profile uses the critical data asset properties from the GOV.UK data asset management guidance, and will follow the cross-government metadata model as it settles.</p>
+  <p class="small">Does the DCAT output meet each profile? <b>Must</b> properties are required; <b>should</b> properties are recommended. These are simplified shapes that catch the common gaps: check against the official SHACL shapes (from SEMIC for the European profiles) before you publish. The UK profile uses the critical data asset properties from the GOV.UK metadata guidance, including its allowed values for access rights and classification. The UK GEMINI check lists what a geospatial record still needs (for example lineage, recorded as dct:provenance): for full GEMINI XML use your GIS catalogue.</p>
   <div class="cov" id="prof"></div>
 </section>
 
@@ -192,7 +192,7 @@ function redraw() {
     return `<div class="card"><h4 style="margin:0 0 6px;font-size:1rem">${esc(p.label)}</h4>
       <p class="small"><span class="pill st-${k.conforms ? "pass" : "missing"}">${k.conforms ? "Meets the must properties" : "Gaps to fill"}</span> Must: <b>${k.must_met}/${k.must_total}</b> · Should: <b>${k.should_met}/${k.should_total}</b></p>
       ${miss.length ? `<p class="small">Missing: ${miss.map(x => `<code>${esc(x.property)}</code>${x.level === "must" ? " (must)" : ""}`).join(", ")}</p>` : ""}
-      ${k.date_issues.map(d => `<p class="small err"><code>${esc(d.property)}</code> "${esc(d.value)}": ${esc(d.message)}</p>`).join("")}</div>`; }).join("");
+      ${[...k.date_issues, ...(k.value_issues || [])].map(d => `<p class="small err"><code>${esc(d.property)}</code> "${esc(d.value)}": ${esc(d.message)}</p>`).join("")}</div>`; }).join("");
   drawOut();
 }
 const tabs = $("otabs");

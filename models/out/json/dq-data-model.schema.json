@@ -1,0 +1,1265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cyberdudeuk.github.io/dq-commons/model/dq-data-model.schema.json",
+  "title": "Enterprise data quality management capability",
+  "description": "A data set of records for the enterprise data quality capability. Each property holds a list of one kind of record. Generated from models/dq-capability.yaml.",
+  "type": "object",
+  "properties": {
+    "organisation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Organisation"
+      }
+    },
+    "role_assignment": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RoleAssignment"
+      }
+    },
+    "data_asset": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DataAsset"
+      }
+    },
+    "distribution": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Distribution"
+      }
+    },
+    "data_sharing_agreement": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DataSharingAgreement"
+      }
+    },
+    "metadata_record": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MetadataRecord"
+      }
+    },
+    "data_item": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DataItem"
+      }
+    },
+    "user_need": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/UserNeed"
+      }
+    },
+    "data_quality_action_plan": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/DataQualityActionPlan"
+      }
+    },
+    "quality_rule": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QualityRule"
+      }
+    },
+    "measurement_run": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MeasurementRun"
+      }
+    },
+    "rule_result": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RuleResult"
+      }
+    },
+    "issue": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Issue"
+      }
+    },
+    "root_cause": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RootCause"
+      }
+    },
+    "remediation_action": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RemediationAction"
+      }
+    },
+    "escalation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Escalation"
+      }
+    },
+    "communication_plan_entry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/CommunicationPlanEntry"
+      }
+    },
+    "quality_statement": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QualityStatement"
+      }
+    },
+    "asset_return": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AssetReturn"
+      }
+    },
+    "annual_review": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AnnualReview"
+      }
+    },
+    "requirement": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Requirement"
+      }
+    },
+    "maturity_assessment": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MaturityAssessment"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Organisation": {
+      "type": "object",
+      "title": "Organisation",
+      "description": "A department, arm's length body or other organisation that holds, provides or uses data.",
+      "properties": {
+        "organisation_id": {
+          "type": "string",
+          "description": "Identifier, ideally the GOV.UK organisation slug"
+        },
+        "name": {
+          "type": "string",
+          "description": "Organisation name as listed on GOV.UK"
+        },
+        "organisation_type": {
+          "type": "string",
+          "description": "Department, ALB, local authority, devolved body and so on"
+        },
+        "nation": {
+          "type": "string",
+          "description": "Nation or jurisdiction"
+        },
+        "parent_organisation": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation",
+          "description": "Sponsoring department for an ALB"
+        }
+      },
+      "required": [
+        "organisation_id",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "RoleAssignment": {
+      "type": "object",
+      "title": "RoleAssignment",
+      "description": "Who holds an accountability for an asset. Names are held only in the organisation's own records.",
+      "properties": {
+        "assignment_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "role_type": {
+          "enum": [
+            "Chief data officer",
+            "Lead data owner",
+            "Data owner",
+            "Data steward",
+            "Data custodian",
+            "Information asset owner",
+            "Process owner",
+            "Data analyst",
+            "Business analyst",
+            "Data user",
+            "Supplier"
+          ]
+        },
+        "holder": {
+          "type": "string",
+          "description": "Named person, team or role; a named data owner is required by the DAM policy"
+        },
+        "organisation": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "When an owner leaves, a successor must be named"
+        },
+        "successor": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "assignment_id",
+        "asset",
+        "role_type",
+        "holder"
+      ],
+      "additionalProperties": false
+    },
+    "DataAsset": {
+      "type": "object",
+      "title": "DataAsset",
+      "description": "A critical data asset, or any data set managed by the capability.",
+      "properties": {
+        "asset_id": {
+          "type": "string",
+          "description": "Unique identifier (MD identifier)"
+        },
+        "title": {
+          "type": "string",
+          "description": "Plain English name (MD title)"
+        },
+        "alternative_title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation",
+          "description": "Creating organisation (MD creator)"
+        },
+        "is_critical": {
+          "type": "boolean",
+          "description": "Designated as a critical data asset"
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "Public service delivery",
+              "Legislative, legal or contractual requirement",
+              "Defence, national security and resilience",
+              "Policy development and evaluation",
+              "Official statistics",
+              "Public interest",
+              "Fraud and error"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "One or more of the 7 purposes (IDC)"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO 8601 (MD dateCreated)"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date",
+          "description": "MD expires"
+        },
+        "superseded_by": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset",
+          "description": "MD supersededBy"
+        },
+        "temporal_coverage": {
+          "type": "string",
+          "description": "ISO 8601 interval (MD temporalCoverage)"
+        },
+        "conforms_to": {
+          "type": "string",
+          "format": "uri",
+          "description": "Standard or schema (MD conformsTo)"
+        },
+        "access_rights": {
+          "enum": [
+            "Open",
+            "Commercial",
+            "Internal"
+          ],
+          "description": "Plus any handling caveat (MD accessRights)"
+        },
+        "security_classification": {
+          "enum": [
+            "OFFICIAL"
+          ]
+        },
+        "licence": {
+          "type": "string",
+          "format": "uri",
+          "description": "Usually OGL v3.0 for open data (MD licence)"
+        },
+        "source_dataset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset",
+          "description": "The source data set when a distribution is designated (IDC)"
+        },
+        "catalogue_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "last_metadata_review": {
+          "type": "string",
+          "format": "date"
+        },
+        "next_review": {
+          "type": "string",
+          "format": "date",
+          "description": "Within 12 months (DAM, IDC)"
+        }
+      },
+      "required": [
+        "asset_id",
+        "title",
+        "description",
+        "creator",
+        "is_critical",
+        "date_created",
+        "access_rights",
+        "security_classification",
+        "licence"
+      ],
+      "additionalProperties": false
+    },
+    "Distribution": {
+      "type": "object",
+      "title": "Distribution",
+      "description": "A file, API or other way the asset is made available.",
+      "properties": {
+        "distribution_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "title": {
+          "type": "string"
+        },
+        "access_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "media_type": {
+          "type": "string",
+          "description": "IANA media type (MD mediaType)"
+        }
+      },
+      "required": [
+        "distribution_id",
+        "asset",
+        "access_url"
+      ],
+      "additionalProperties": false
+    },
+    "DataSharingAgreement": {
+      "type": "object",
+      "title": "DataSharingAgreement",
+      "description": "An agreement under which an asset is provided to or acquired from another organisation.",
+      "properties": {
+        "agreement_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "provider": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation"
+        },
+        "recipient": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Agreement, MOU or legal gateway reference"
+        },
+        "quality_obligations": {
+          "type": "string",
+          "description": "Quality responsibilities agreed with the supplier"
+        }
+      },
+      "required": [
+        "agreement_id",
+        "asset",
+        "provider",
+        "recipient"
+      ],
+      "additionalProperties": false
+    },
+    "MetadataRecord": {
+      "type": "object",
+      "title": "MetadataRecord",
+      "description": "A catalogue record describing the asset in a metadata standard, with its gap assessment.",
+      "properties": {
+        "record_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "standard": {
+          "type": "string",
+          "description": "DCAT, schema.org, CKAN, GEMINI and so on"
+        },
+        "cda_coverage_pct": {
+          "type": "number",
+          "description": "Share of the 13 critical data asset properties present"
+        },
+        "profile": {
+          "type": "string",
+          "description": "Application profile checked, for example uk-cda"
+        },
+        "conforms": {
+          "type": "boolean"
+        },
+        "assessed_on": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "record_id",
+        "asset",
+        "standard"
+      ],
+      "additionalProperties": false
+    },
+    "DataItem": {
+      "type": "object",
+      "title": "DataItem",
+      "description": "A critical data item (field, table or element) within an asset.",
+      "properties": {
+        "item_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "personal_data": {
+          "type": "boolean",
+          "description": "Personal data: accuracy is a legal duty (ICO)"
+        },
+        "lifecycle_stage": {
+          "enum": [
+            "Plan",
+            "Collect or acquire and ingest",
+            "Prepare, store and maintain",
+            "Use and process",
+            "Share and publish",
+            "Archive or destroy"
+          ],
+          "description": "Where the item is captured or changed (GDQF-LC)"
+        }
+      },
+      "required": [
+        "item_id",
+        "asset",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "UserNeed": {
+      "type": "object",
+      "title": "UserNeed",
+      "description": "A user group of the asset and what quality it needs.",
+      "properties": {
+        "need_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "user_group": {
+          "type": "string"
+        },
+        "need": {
+          "type": "string"
+        },
+        "dimension": {
+          "enum": [
+            "completeness",
+            "uniqueness",
+            "consistency",
+            "timeliness",
+            "validity",
+            "accuracy",
+            "representativeness"
+          ]
+        }
+      },
+      "required": [
+        "need_id",
+        "asset",
+        "user_group",
+        "need"
+      ],
+      "additionalProperties": false
+    },
+    "DataQualityActionPlan": {
+      "type": "object",
+      "title": "DataQualityActionPlan",
+      "description": "The DQAP, or equivalent mechanism, for one asset; covers the 7 steps.",
+      "properties": {
+        "dqap_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "status": {
+          "enum": [
+            "in_place",
+            "in_development",
+            "not_started",
+            "equivalent_mechanism"
+          ]
+        },
+        "link": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where the plan is kept"
+        },
+        "measurement_frequency": {
+          "type": "string",
+          "description": "ISO 8601 duration such as P1M"
+        },
+        "covers_all_seven_steps": {
+          "type": "boolean"
+        },
+        "last_reviewed": {
+          "type": "string",
+          "format": "date"
+        },
+        "next_review": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "dqap_id",
+        "asset",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "QualityRule": {
+      "type": "object",
+      "title": "QualityRule",
+      "description": "A data quality rule with its dimension, method and agreed target.",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "dqap": {
+          "type": "string",
+          "$comment": "Identifier of a DataQualityActionPlan"
+        },
+        "data_items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "$comment": "Identifier of a DataItem"
+          },
+          "uniqueItems": true
+        },
+        "description": {
+          "type": "string",
+          "description": "Plain English"
+        },
+        "dimension": {
+          "enum": [
+            "completeness",
+            "uniqueness",
+            "consistency",
+            "timeliness",
+            "validity",
+            "accuracy",
+            "representativeness"
+          ]
+        },
+        "check_type": {
+          "enum": [
+            "not_null",
+            "required_columns",
+            "unique",
+            "type",
+            "regex",
+            "in_set",
+            "range",
+            "not_future",
+            "compare",
+            "sum_max",
+            "freshness",
+            "no_gaps",
+            "header_has_unit",
+            "not_unknown",
+            "group_disparity",
+            "identifier",
+            "outlier"
+          ]
+        },
+        "parameters": {
+          "type": "string",
+          "description": "Check parameters (YAML or JSON)"
+        },
+        "method": {
+          "type": "string"
+        },
+        "importance": {
+          "enum": [
+            "1 Low",
+            "2 Medium",
+            "3 High",
+            "4 Critical"
+          ],
+          "description": "Importance of purpose 1 to 4 (IF)"
+        },
+        "impact": {
+          "enum": [
+            "1 Low",
+            "2 Medium",
+            "3 High",
+            "4 Critical"
+          ],
+          "description": "Impact of an issue 1 to 4 (IF)"
+        },
+        "target_pct": {
+          "type": "number",
+          "description": "Within the issues framework range for importance x impact"
+        },
+        "control_point": {
+          "enum": [
+            "source",
+            "pipeline",
+            "reporting"
+          ],
+          "description": "Where the control belongs (GDQF-P3)"
+        },
+        "agreed_on": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "rule_id",
+        "dqap",
+        "description",
+        "dimension",
+        "check_type",
+        "importance",
+        "impact",
+        "target_pct"
+      ],
+      "additionalProperties": false
+    },
+    "MeasurementRun": {
+      "type": "object",
+      "title": "MeasurementRun",
+      "description": "One assessment of an asset against its rules.",
+      "properties": {
+        "run_id": {
+          "type": "string"
+        },
+        "dqap": {
+          "type": "string",
+          "$comment": "Identifier of a DataQualityActionPlan"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date"
+        },
+        "rows_checked": {
+          "type": "integer"
+        },
+        "rules_met": {
+          "type": "integer"
+        },
+        "rules_total": {
+          "type": "integer"
+        },
+        "trust_level": {
+          "enum": [
+            "Trustworthy",
+            "Usable with caveats",
+            "Use with care",
+            "Not fit for purpose"
+          ]
+        },
+        "is_baseline": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "run_id",
+        "dqap",
+        "as_of"
+      ],
+      "additionalProperties": false
+    },
+    "RuleResult": {
+      "type": "object",
+      "title": "RuleResult",
+      "description": "The result of one rule in one run.",
+      "properties": {
+        "result_id": {
+          "type": "string"
+        },
+        "run": {
+          "type": "string",
+          "$comment": "Identifier of a MeasurementRun"
+        },
+        "rule": {
+          "type": "string",
+          "$comment": "Identifier of a QualityRule"
+        },
+        "checked": {
+          "type": "integer"
+        },
+        "passed": {
+          "type": "integer"
+        },
+        "performance_pct": {
+          "type": "number"
+        },
+        "meets_target": {
+          "type": "boolean"
+        },
+        "band": {
+          "enum": [
+            "high",
+            "middle",
+            "low",
+            "critical"
+          ]
+        },
+        "priority_score": {
+          "type": "integer",
+          "description": "Importance x impact x band score (IF)"
+        }
+      },
+      "required": [
+        "result_id",
+        "run",
+        "rule",
+        "checked",
+        "passed",
+        "performance_pct",
+        "meets_target"
+      ],
+      "additionalProperties": false
+    },
+    "Issue": {
+      "type": "object",
+      "title": "Issue",
+      "description": "A rule that misses its target, logged in the Data Issues Log.",
+      "properties": {
+        "issue_id": {
+          "type": "string"
+        },
+        "rule": {
+          "type": "string",
+          "$comment": "Identifier of a QualityRule"
+        },
+        "raised_by_result": {
+          "type": "string",
+          "$comment": "Identifier of a RuleResult"
+        },
+        "issue_type": {
+          "type": "string",
+          "description": "From the Commons issue type vocabulary"
+        },
+        "raised_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "priority": {
+          "enum": [
+            "Low",
+            "Medium",
+            "High",
+            "Critical"
+          ]
+        },
+        "resolution_timescale": {
+          "type": "string",
+          "description": "Immediately, or within 1, 3 or 6 measurements (IF)"
+        },
+        "target_resolution_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "actual_resolution_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "review_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "status": {
+          "enum": [
+            "Open",
+            "In progress",
+            "Resolved",
+            "Accepted risk"
+          ]
+        },
+        "cycles_open": {
+          "type": "integer"
+        },
+        "recurring": {
+          "type": "boolean"
+        },
+        "owner": {
+          "type": "string",
+          "$comment": "Identifier of a RoleAssignment"
+        }
+      },
+      "required": [
+        "issue_id",
+        "rule",
+        "raised_on",
+        "priority",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "RootCause": {
+      "type": "object",
+      "title": "RootCause",
+      "description": "The cause of an issue, found by root cause analysis.",
+      "properties": {
+        "cause_id": {
+          "type": "string"
+        },
+        "issue": {
+          "type": "string",
+          "$comment": "Identifier of a Issue"
+        },
+        "description": {
+          "type": "string",
+          "description": "For example from 5 whys"
+        },
+        "systemic": {
+          "enum": [
+            "Systemic",
+            "One-off",
+            "Not known yet"
+          ]
+        },
+        "addressable": {
+          "type": "boolean",
+          "description": "Can the organisation fix it itself"
+        },
+        "options_considered": {
+          "type": "string"
+        },
+        "cost_benefit": {
+          "type": "string"
+        },
+        "lifecycle_stage": {
+          "enum": [
+            "Plan",
+            "Collect or acquire and ingest",
+            "Prepare, store and maintain",
+            "Use and process",
+            "Share and publish",
+            "Archive or destroy"
+          ]
+        }
+      },
+      "required": [
+        "cause_id",
+        "issue",
+        "description",
+        "systemic"
+      ],
+      "additionalProperties": false
+    },
+    "RemediationAction": {
+      "type": "object",
+      "title": "RemediationAction",
+      "description": "An action to contain, correct or prevent an issue.",
+      "properties": {
+        "action_id": {
+          "type": "string"
+        },
+        "issue": {
+          "type": "string",
+          "$comment": "Identifier of a Issue"
+        },
+        "cause": {
+          "type": "string",
+          "$comment": "Identifier of a RootCause"
+        },
+        "action_type": {
+          "enum": [
+            "Containment",
+            "Corrective",
+            "Preventive"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "$comment": "Identifier of a RoleAssignment"
+        },
+        "target_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "review_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "goal_pct": {
+          "type": "number"
+        },
+        "success_measure": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "Not started",
+            "In progress",
+            "Done",
+            "Blocked"
+          ]
+        }
+      },
+      "required": [
+        "action_id",
+        "issue",
+        "action_type",
+        "description",
+        "owner",
+        "target_date",
+        "review_date",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "Escalation": {
+      "type": "object",
+      "title": "Escalation",
+      "description": "An issue escalated because it is overdue.",
+      "properties": {
+        "escalation_id": {
+          "type": "string"
+        },
+        "issue": {
+          "type": "string",
+          "$comment": "Identifier of a Issue"
+        },
+        "escalated_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "escalated_to": {
+          "enum": [
+            "Chief data officer",
+            "Lead data owner",
+            "Data owner",
+            "Data steward",
+            "Data custodian",
+            "Information asset owner",
+            "Process owner",
+            "Data analyst",
+            "Business analyst",
+            "Data user",
+            "Supplier"
+          ]
+        },
+        "outcome": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "escalation_id",
+        "issue",
+        "escalated_on",
+        "escalated_to"
+      ],
+      "additionalProperties": false
+    },
+    "CommunicationPlanEntry": {
+      "type": "object",
+      "title": "CommunicationPlanEntry",
+      "description": "Who needs to know what about the asset's quality, how and how often.",
+      "properties": {
+        "entry_id": {
+          "type": "string"
+        },
+        "dqap": {
+          "type": "string",
+          "$comment": "Identifier of a DataQualityActionPlan"
+        },
+        "stakeholder_group": {
+          "type": "string"
+        },
+        "what_they_need": {
+          "type": "string"
+        },
+        "route": {
+          "type": "string",
+          "description": "Metadata, documentation, data sharing agreement, meeting"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "$comment": "Identifier of a RoleAssignment"
+        },
+        "last_sent": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "entry_id",
+        "dqap",
+        "stakeholder_group"
+      ],
+      "additionalProperties": false
+    },
+    "QualityStatement": {
+      "type": "object",
+      "title": "QualityStatement",
+      "description": "A plain English statement of an asset's quality, strengths and limitations.",
+      "properties": {
+        "statement_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "run": {
+          "type": "string",
+          "$comment": "Identifier of a MeasurementRun"
+        },
+        "issued_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "fit_for": {
+          "type": "string"
+        },
+        "not_fit_for": {
+          "type": "string"
+        },
+        "contact_route": {
+          "type": "string",
+          "description": "A role or form, never a personal email"
+        }
+      },
+      "required": [
+        "statement_id",
+        "asset",
+        "issued_on",
+        "summary"
+      ],
+      "additionalProperties": false
+    },
+    "AssetReturn": {
+      "type": "object",
+      "title": "AssetReturn",
+      "description": "One asset's row in the return to GDS.",
+      "properties": {
+        "return_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "period": {
+          "type": "string"
+        },
+        "dqap_status": {
+          "enum": [
+            "in_place",
+            "in_development",
+            "not_started",
+            "equivalent_mechanism"
+          ]
+        },
+        "baseline_run": {
+          "type": "string",
+          "$comment": "Identifier of a MeasurementRun"
+        },
+        "submitted_on": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "required": [
+        "return_id",
+        "asset",
+        "period"
+      ],
+      "additionalProperties": false
+    },
+    "AnnualReview": {
+      "type": "object",
+      "title": "AnnualReview",
+      "description": "The yearly review of an asset, its owner, metadata and DQAP.",
+      "properties": {
+        "review_id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string",
+          "$comment": "Identifier of a DataAsset"
+        },
+        "reviewed_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "still_critical": {
+          "type": "boolean"
+        },
+        "owner_confirmed": {
+          "type": "boolean"
+        },
+        "metadata_reviewed": {
+          "type": "boolean"
+        },
+        "dqap_covers_seven_steps": {
+          "type": "boolean"
+        },
+        "signed_off_by": {
+          "enum": [
+            "Chief data officer",
+            "Lead data owner",
+            "Data owner",
+            "Data steward",
+            "Data custodian",
+            "Information asset owner",
+            "Process owner",
+            "Data analyst",
+            "Business analyst",
+            "Data user",
+            "Supplier"
+          ]
+        }
+      },
+      "required": [
+        "review_id",
+        "asset",
+        "reviewed_on",
+        "still_critical",
+        "owner_confirmed",
+        "metadata_reviewed"
+      ],
+      "additionalProperties": false
+    },
+    "Requirement": {
+      "type": "object",
+      "title": "Requirement",
+      "description": "A requirement from policy, guidance or a standard (the requirements register).",
+      "properties": {
+        "requirement_id": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "clause": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "strength": {
+          "type": "string",
+          "description": "must, should, method, principle"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "source",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "MaturityAssessment": {
+      "type": "object",
+      "title": "MaturityAssessment",
+      "description": "An organisation's self-assessed data quality maturity, by theme.",
+      "properties": {
+        "assessment_id": {
+          "type": "string"
+        },
+        "organisation": {
+          "type": "string",
+          "$comment": "Identifier of a Organisation"
+        },
+        "assessed_on": {
+          "type": "string",
+          "format": "date"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer",
+          "description": "1 Beginning to 5 Mastering"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "organisation",
+        "assessed_on",
+        "theme",
+        "level"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

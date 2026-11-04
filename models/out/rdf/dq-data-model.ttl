@@ -1,0 +1,802 @@
+@prefix dqm: <https://cyberdudeuk.github.io/dq-commons/model#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+<https://cyberdudeuk.github.io/dq-commons/model> a owl:Ontology ;
+  rdfs:label "Enterprise data quality management capability"@en ;
+  owl:versionInfo "1.0.0" ;
+  dct:license <https://opensource.org/licenses/MIT> ;
+  rdfs:comment "Logical data model of the enterprise data quality capability, generated from models/dq-capability.yaml."@en .
+
+dqm:PurposeValue a owl:Class ; rdfs:label "purpose"@en ;
+  owl:oneOf ( dqm:PurposeValue_public_service_delivery dqm:PurposeValue_legislative_legal_or_contractual_requirement dqm:PurposeValue_defence_national_security_and_resilience dqm:PurposeValue_policy_development_and_evaluation dqm:PurposeValue_official_statistics dqm:PurposeValue_public_interest dqm:PurposeValue_fraud_and_error ) .
+dqm:PurposeValue_public_service_delivery a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Public service delivery"@en .
+dqm:PurposeValue_legislative_legal_or_contractual_requirement a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Legislative, legal or contractual requirement"@en .
+dqm:PurposeValue_defence_national_security_and_resilience a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Defence, national security and resilience"@en .
+dqm:PurposeValue_policy_development_and_evaluation a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Policy development and evaluation"@en .
+dqm:PurposeValue_official_statistics a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Official statistics"@en .
+dqm:PurposeValue_public_interest a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Public interest"@en .
+dqm:PurposeValue_fraud_and_error a dqm:PurposeValue, owl:NamedIndividual ; rdfs:label "Fraud and error"@en .
+
+dqm:RoleTypeValue a owl:Class ; rdfs:label "role type"@en ;
+  owl:oneOf ( dqm:RoleTypeValue_chief_data_officer dqm:RoleTypeValue_lead_data_owner dqm:RoleTypeValue_data_owner dqm:RoleTypeValue_data_steward dqm:RoleTypeValue_data_custodian dqm:RoleTypeValue_information_asset_owner dqm:RoleTypeValue_process_owner dqm:RoleTypeValue_data_analyst dqm:RoleTypeValue_business_analyst dqm:RoleTypeValue_data_user dqm:RoleTypeValue_supplier ) .
+dqm:RoleTypeValue_chief_data_officer a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Chief data officer"@en .
+dqm:RoleTypeValue_lead_data_owner a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Lead data owner"@en .
+dqm:RoleTypeValue_data_owner a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Data owner"@en .
+dqm:RoleTypeValue_data_steward a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Data steward"@en .
+dqm:RoleTypeValue_data_custodian a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Data custodian"@en .
+dqm:RoleTypeValue_information_asset_owner a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Information asset owner"@en .
+dqm:RoleTypeValue_process_owner a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Process owner"@en .
+dqm:RoleTypeValue_data_analyst a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Data analyst"@en .
+dqm:RoleTypeValue_business_analyst a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Business analyst"@en .
+dqm:RoleTypeValue_data_user a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Data user"@en .
+dqm:RoleTypeValue_supplier a dqm:RoleTypeValue, owl:NamedIndividual ; rdfs:label "Supplier"@en .
+
+dqm:SecurityClassificationValue a owl:Class ; rdfs:label "security classification"@en ;
+  owl:oneOf ( dqm:SecurityClassificationValue_official ) .
+dqm:SecurityClassificationValue_official a dqm:SecurityClassificationValue, owl:NamedIndividual ; rdfs:label "OFFICIAL"@en .
+
+dqm:AccessRightsValue a owl:Class ; rdfs:label "access rights"@en ;
+  owl:oneOf ( dqm:AccessRightsValue_open dqm:AccessRightsValue_commercial dqm:AccessRightsValue_internal ) .
+dqm:AccessRightsValue_open a dqm:AccessRightsValue, owl:NamedIndividual ; rdfs:label "Open"@en .
+dqm:AccessRightsValue_commercial a dqm:AccessRightsValue, owl:NamedIndividual ; rdfs:label "Commercial"@en .
+dqm:AccessRightsValue_internal a dqm:AccessRightsValue, owl:NamedIndividual ; rdfs:label "Internal"@en .
+
+dqm:DimensionValue a owl:Class ; rdfs:label "dimension"@en ;
+  owl:oneOf ( dqm:DimensionValue_completeness dqm:DimensionValue_uniqueness dqm:DimensionValue_consistency dqm:DimensionValue_timeliness dqm:DimensionValue_validity dqm:DimensionValue_accuracy dqm:DimensionValue_representativeness ) .
+dqm:DimensionValue_completeness a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "completeness"@en .
+dqm:DimensionValue_uniqueness a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "uniqueness"@en .
+dqm:DimensionValue_consistency a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "consistency"@en .
+dqm:DimensionValue_timeliness a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "timeliness"@en .
+dqm:DimensionValue_validity a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "validity"@en .
+dqm:DimensionValue_accuracy a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "accuracy"@en .
+dqm:DimensionValue_representativeness a dqm:DimensionValue, owl:NamedIndividual ; rdfs:label "representativeness"@en .
+
+dqm:ControlPointValue a owl:Class ; rdfs:label "control point"@en ;
+  owl:oneOf ( dqm:ControlPointValue_source dqm:ControlPointValue_pipeline dqm:ControlPointValue_reporting ) .
+dqm:ControlPointValue_source a dqm:ControlPointValue, owl:NamedIndividual ; rdfs:label "source"@en .
+dqm:ControlPointValue_pipeline a dqm:ControlPointValue, owl:NamedIndividual ; rdfs:label "pipeline"@en .
+dqm:ControlPointValue_reporting a dqm:ControlPointValue, owl:NamedIndividual ; rdfs:label "reporting"@en .
+
+dqm:ImportanceValue a owl:Class ; rdfs:label "importance"@en ;
+  owl:oneOf ( dqm:ImportanceValue_1_low dqm:ImportanceValue_2_medium dqm:ImportanceValue_3_high dqm:ImportanceValue_4_critical ) .
+dqm:ImportanceValue_1_low a dqm:ImportanceValue, owl:NamedIndividual ; rdfs:label "1 Low"@en .
+dqm:ImportanceValue_2_medium a dqm:ImportanceValue, owl:NamedIndividual ; rdfs:label "2 Medium"@en .
+dqm:ImportanceValue_3_high a dqm:ImportanceValue, owl:NamedIndividual ; rdfs:label "3 High"@en .
+dqm:ImportanceValue_4_critical a dqm:ImportanceValue, owl:NamedIndividual ; rdfs:label "4 Critical"@en .
+
+dqm:BandValue a owl:Class ; rdfs:label "band"@en ;
+  owl:oneOf ( dqm:BandValue_high dqm:BandValue_middle dqm:BandValue_low dqm:BandValue_critical ) .
+dqm:BandValue_high a dqm:BandValue, owl:NamedIndividual ; rdfs:label "high"@en .
+dqm:BandValue_middle a dqm:BandValue, owl:NamedIndividual ; rdfs:label "middle"@en .
+dqm:BandValue_low a dqm:BandValue, owl:NamedIndividual ; rdfs:label "low"@en .
+dqm:BandValue_critical a dqm:BandValue, owl:NamedIndividual ; rdfs:label "critical"@en .
+
+dqm:PriorityValue a owl:Class ; rdfs:label "priority"@en ;
+  owl:oneOf ( dqm:PriorityValue_low dqm:PriorityValue_medium dqm:PriorityValue_high dqm:PriorityValue_critical ) .
+dqm:PriorityValue_low a dqm:PriorityValue, owl:NamedIndividual ; rdfs:label "Low"@en .
+dqm:PriorityValue_medium a dqm:PriorityValue, owl:NamedIndividual ; rdfs:label "Medium"@en .
+dqm:PriorityValue_high a dqm:PriorityValue, owl:NamedIndividual ; rdfs:label "High"@en .
+dqm:PriorityValue_critical a dqm:PriorityValue, owl:NamedIndividual ; rdfs:label "Critical"@en .
+
+dqm:IssueStatusValue a owl:Class ; rdfs:label "issue status"@en ;
+  owl:oneOf ( dqm:IssueStatusValue_open dqm:IssueStatusValue_in_progress dqm:IssueStatusValue_resolved dqm:IssueStatusValue_accepted_risk ) .
+dqm:IssueStatusValue_open a dqm:IssueStatusValue, owl:NamedIndividual ; rdfs:label "Open"@en .
+dqm:IssueStatusValue_in_progress a dqm:IssueStatusValue, owl:NamedIndividual ; rdfs:label "In progress"@en .
+dqm:IssueStatusValue_resolved a dqm:IssueStatusValue, owl:NamedIndividual ; rdfs:label "Resolved"@en .
+dqm:IssueStatusValue_accepted_risk a dqm:IssueStatusValue, owl:NamedIndividual ; rdfs:label "Accepted risk"@en .
+
+dqm:ActionTypeValue a owl:Class ; rdfs:label "action type"@en ;
+  owl:oneOf ( dqm:ActionTypeValue_containment dqm:ActionTypeValue_corrective dqm:ActionTypeValue_preventive ) .
+dqm:ActionTypeValue_containment a dqm:ActionTypeValue, owl:NamedIndividual ; rdfs:label "Containment"@en .
+dqm:ActionTypeValue_corrective a dqm:ActionTypeValue, owl:NamedIndividual ; rdfs:label "Corrective"@en .
+dqm:ActionTypeValue_preventive a dqm:ActionTypeValue, owl:NamedIndividual ; rdfs:label "Preventive"@en .
+
+dqm:ActionStatusValue a owl:Class ; rdfs:label "action status"@en ;
+  owl:oneOf ( dqm:ActionStatusValue_not_started dqm:ActionStatusValue_in_progress dqm:ActionStatusValue_done dqm:ActionStatusValue_blocked ) .
+dqm:ActionStatusValue_not_started a dqm:ActionStatusValue, owl:NamedIndividual ; rdfs:label "Not started"@en .
+dqm:ActionStatusValue_in_progress a dqm:ActionStatusValue, owl:NamedIndividual ; rdfs:label "In progress"@en .
+dqm:ActionStatusValue_done a dqm:ActionStatusValue, owl:NamedIndividual ; rdfs:label "Done"@en .
+dqm:ActionStatusValue_blocked a dqm:ActionStatusValue, owl:NamedIndividual ; rdfs:label "Blocked"@en .
+
+dqm:DqapStatusValue a owl:Class ; rdfs:label "dqap status"@en ;
+  owl:oneOf ( dqm:DqapStatusValue_in_place dqm:DqapStatusValue_in_development dqm:DqapStatusValue_not_started dqm:DqapStatusValue_equivalent_mechanism ) .
+dqm:DqapStatusValue_in_place a dqm:DqapStatusValue, owl:NamedIndividual ; rdfs:label "in_place"@en .
+dqm:DqapStatusValue_in_development a dqm:DqapStatusValue, owl:NamedIndividual ; rdfs:label "in_development"@en .
+dqm:DqapStatusValue_not_started a dqm:DqapStatusValue, owl:NamedIndividual ; rdfs:label "not_started"@en .
+dqm:DqapStatusValue_equivalent_mechanism a dqm:DqapStatusValue, owl:NamedIndividual ; rdfs:label "equivalent_mechanism"@en .
+
+dqm:TrustLevelValue a owl:Class ; rdfs:label "trust level"@en ;
+  owl:oneOf ( dqm:TrustLevelValue_trustworthy dqm:TrustLevelValue_usable_with_caveats dqm:TrustLevelValue_use_with_care dqm:TrustLevelValue_not_fit_for_purpose ) .
+dqm:TrustLevelValue_trustworthy a dqm:TrustLevelValue, owl:NamedIndividual ; rdfs:label "Trustworthy"@en .
+dqm:TrustLevelValue_usable_with_caveats a dqm:TrustLevelValue, owl:NamedIndividual ; rdfs:label "Usable with caveats"@en .
+dqm:TrustLevelValue_use_with_care a dqm:TrustLevelValue, owl:NamedIndividual ; rdfs:label "Use with care"@en .
+dqm:TrustLevelValue_not_fit_for_purpose a dqm:TrustLevelValue, owl:NamedIndividual ; rdfs:label "Not fit for purpose"@en .
+
+dqm:LifecycleStageValue a owl:Class ; rdfs:label "lifecycle stage"@en ;
+  owl:oneOf ( dqm:LifecycleStageValue_plan dqm:LifecycleStageValue_collect_or_acquire_and_ingest dqm:LifecycleStageValue_prepare_store_and_maintain dqm:LifecycleStageValue_use_and_process dqm:LifecycleStageValue_share_and_publish dqm:LifecycleStageValue_archive_or_destroy ) .
+dqm:LifecycleStageValue_plan a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Plan"@en .
+dqm:LifecycleStageValue_collect_or_acquire_and_ingest a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Collect or acquire and ingest"@en .
+dqm:LifecycleStageValue_prepare_store_and_maintain a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Prepare, store and maintain"@en .
+dqm:LifecycleStageValue_use_and_process a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Use and process"@en .
+dqm:LifecycleStageValue_share_and_publish a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Share and publish"@en .
+dqm:LifecycleStageValue_archive_or_destroy a dqm:LifecycleStageValue, owl:NamedIndividual ; rdfs:label "Archive or destroy"@en .
+
+dqm:CheckTypeValue a owl:Class ; rdfs:label "check type"@en ;
+  owl:oneOf ( dqm:CheckTypeValue_not_null dqm:CheckTypeValue_required_columns dqm:CheckTypeValue_unique dqm:CheckTypeValue_type dqm:CheckTypeValue_regex dqm:CheckTypeValue_in_set dqm:CheckTypeValue_range dqm:CheckTypeValue_not_future dqm:CheckTypeValue_compare dqm:CheckTypeValue_sum_max dqm:CheckTypeValue_freshness dqm:CheckTypeValue_no_gaps dqm:CheckTypeValue_header_has_unit dqm:CheckTypeValue_not_unknown dqm:CheckTypeValue_group_disparity dqm:CheckTypeValue_identifier dqm:CheckTypeValue_outlier ) .
+dqm:CheckTypeValue_not_null a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "not_null"@en .
+dqm:CheckTypeValue_required_columns a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "required_columns"@en .
+dqm:CheckTypeValue_unique a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "unique"@en .
+dqm:CheckTypeValue_type a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "type"@en .
+dqm:CheckTypeValue_regex a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "regex"@en .
+dqm:CheckTypeValue_in_set a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "in_set"@en .
+dqm:CheckTypeValue_range a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "range"@en .
+dqm:CheckTypeValue_not_future a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "not_future"@en .
+dqm:CheckTypeValue_compare a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "compare"@en .
+dqm:CheckTypeValue_sum_max a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "sum_max"@en .
+dqm:CheckTypeValue_freshness a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "freshness"@en .
+dqm:CheckTypeValue_no_gaps a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "no_gaps"@en .
+dqm:CheckTypeValue_header_has_unit a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "header_has_unit"@en .
+dqm:CheckTypeValue_not_unknown a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "not_unknown"@en .
+dqm:CheckTypeValue_group_disparity a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "group_disparity"@en .
+dqm:CheckTypeValue_identifier a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "identifier"@en .
+dqm:CheckTypeValue_outlier a dqm:CheckTypeValue, owl:NamedIndividual ; rdfs:label "outlier"@en .
+
+dqm:SystemicValue a owl:Class ; rdfs:label "systemic"@en ;
+  owl:oneOf ( dqm:SystemicValue_systemic dqm:SystemicValue_one_off dqm:SystemicValue_not_known_yet ) .
+dqm:SystemicValue_systemic a dqm:SystemicValue, owl:NamedIndividual ; rdfs:label "Systemic"@en .
+dqm:SystemicValue_one_off a dqm:SystemicValue, owl:NamedIndividual ; rdfs:label "One-off"@en .
+dqm:SystemicValue_not_known_yet a dqm:SystemicValue, owl:NamedIndividual ; rdfs:label "Not known yet"@en .
+
+dqm:Organisation a owl:Class ;
+  rdfs:label "Organisation"@en ;
+  rdfs:comment "A department, arm's length body or other organisation that holds, provides or uses data."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  skos:note "Group: Governance"@en .
+dqm:Organisation_organisation_id a owl:DatatypeProperty ; rdfs:domain dqm:Organisation ; rdfs:range xsd:string ;
+  rdfs:label "organisation id"@en ;
+  rdfs:comment "Identifier, ideally the GOV.UK organisation slug"@en .
+dqm:Organisation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Organisation_organisation_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Organisation_name a owl:DatatypeProperty ; rdfs:domain dqm:Organisation ; rdfs:range xsd:string ;
+  rdfs:label "name"@en ;
+  rdfs:comment "Organisation name as listed on GOV.UK"@en .
+dqm:Organisation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Organisation_name ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Organisation_organisation_type a owl:DatatypeProperty ; rdfs:domain dqm:Organisation ; rdfs:range xsd:string ;
+  rdfs:label "organisation type"@en ;
+  rdfs:comment "Department, ALB, local authority, devolved body and so on"@en .
+dqm:Organisation_nation a owl:DatatypeProperty ; rdfs:domain dqm:Organisation ; rdfs:range xsd:string ;
+  rdfs:label "nation"@en ;
+  rdfs:comment "Nation or jurisdiction"@en .
+dqm:Organisation_parent_organisation a owl:ObjectProperty ; rdfs:domain dqm:Organisation ; rdfs:range dqm:Organisation ;
+  rdfs:label "parent organisation"@en ;
+  rdfs:comment "Sponsoring department for an ALB"@en .
+
+dqm:RoleAssignment a owl:Class ;
+  rdfs:label "RoleAssignment"@en ;
+  rdfs:comment "Who holds an accountability for an asset. Names are held only in the organisation's own records."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  skos:note "Group: Governance"@en .
+dqm:RoleAssignment_assignment_id a owl:DatatypeProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range xsd:string ;
+  rdfs:label "assignment id"@en .
+dqm:RoleAssignment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RoleAssignment_assignment_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RoleAssignment_asset a owl:ObjectProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:RoleAssignment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RoleAssignment_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RoleAssignment_role_type a owl:ObjectProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range dqm:RoleTypeValue ;
+  rdfs:label "role type"@en .
+dqm:RoleAssignment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RoleAssignment_role_type ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RoleAssignment_holder a owl:DatatypeProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range xsd:string ;
+  rdfs:label "holder"@en ;
+  rdfs:comment "Named person, team or role; a named data owner is required by the DAM policy"@en .
+dqm:RoleAssignment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RoleAssignment_holder ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RoleAssignment_organisation a owl:ObjectProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range dqm:Organisation ;
+  rdfs:label "organisation"@en .
+dqm:RoleAssignment_start_date a owl:DatatypeProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range xsd:date ;
+  rdfs:label "start date"@en .
+dqm:RoleAssignment_end_date a owl:DatatypeProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range xsd:date ;
+  rdfs:label "end date"@en ;
+  rdfs:comment "When an owner leaves, a successor must be named"@en .
+dqm:RoleAssignment_successor a owl:DatatypeProperty ; rdfs:domain dqm:RoleAssignment ; rdfs:range xsd:string ;
+  rdfs:label "successor"@en .
+
+dqm:DataAsset a owl:Class ;
+  rdfs:label "DataAsset"@en ;
+  rdfs:comment "A critical data asset, or any data set managed by the capability."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets> ;
+  skos:note "Group: Asset and metadata"@en .
+dqm:DataAsset_asset_id a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:string ;
+  rdfs:label "asset id"@en ;
+  rdfs:comment "Unique identifier (MD identifier)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_asset_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_title a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:string ;
+  rdfs:label "title"@en ;
+  rdfs:comment "Plain English name (MD title)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_title ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_alternative_title a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:string ;
+  rdfs:label "alternative title"@en .
+dqm:DataAsset_description a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:string ;
+  rdfs:label "description"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_creator a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:Organisation ;
+  rdfs:label "creator"@en ;
+  rdfs:comment "Creating organisation (MD creator)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_creator ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_is_critical a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:boolean ;
+  rdfs:label "is critical"@en ;
+  rdfs:comment "Designated as a critical data asset"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_is_critical ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_purposes a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:PurposeValue ;
+  rdfs:label "purposes"@en ;
+  rdfs:comment "One or more of the 7 purposes (IDC)"@en .
+dqm:DataAsset_date_created a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:date ;
+  rdfs:label "date created"@en ;
+  rdfs:comment "ISO 8601 (MD dateCreated)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_date_created ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_expires a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:date ;
+  rdfs:label "expires"@en ;
+  rdfs:comment "MD expires"@en .
+dqm:DataAsset_superseded_by a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:DataAsset ;
+  rdfs:label "superseded by"@en ;
+  rdfs:comment "MD supersededBy"@en .
+dqm:DataAsset_temporal_coverage a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:string ;
+  rdfs:label "temporal coverage"@en ;
+  rdfs:comment "ISO 8601 interval (MD temporalCoverage)"@en .
+dqm:DataAsset_conforms_to a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:anyURI ;
+  rdfs:label "conforms to"@en ;
+  rdfs:comment "Standard or schema (MD conformsTo)"@en .
+dqm:DataAsset_access_rights a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:AccessRightsValue ;
+  rdfs:label "access rights"@en ;
+  rdfs:comment "Plus any handling caveat (MD accessRights)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_access_rights ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_security_classification a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:SecurityClassificationValue ;
+  rdfs:label "security classification"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_security_classification ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_licence a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:anyURI ;
+  rdfs:label "licence"@en ;
+  rdfs:comment "Usually OGL v3.0 for open data (MD licence)"@en .
+dqm:DataAsset rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataAsset_licence ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataAsset_source_dataset a owl:ObjectProperty ; rdfs:domain dqm:DataAsset ; rdfs:range dqm:DataAsset ;
+  rdfs:label "source dataset"@en ;
+  rdfs:comment "The source data set when a distribution is designated (IDC)"@en .
+dqm:DataAsset_catalogue_url a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:anyURI ;
+  rdfs:label "catalogue url"@en .
+dqm:DataAsset_last_metadata_review a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:date ;
+  rdfs:label "last metadata review"@en .
+dqm:DataAsset_next_review a owl:DatatypeProperty ; rdfs:domain dqm:DataAsset ; rdfs:range xsd:date ;
+  rdfs:label "next review"@en ;
+  rdfs:comment "Within 12 months (DAM, IDC)"@en .
+
+dqm:Distribution a owl:Class ;
+  rdfs:label "Distribution"@en ;
+  rdfs:comment "A file, API or other way the asset is made available."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets> ;
+  skos:note "Group: Asset and metadata"@en .
+dqm:Distribution_distribution_id a owl:DatatypeProperty ; rdfs:domain dqm:Distribution ; rdfs:range xsd:string ;
+  rdfs:label "distribution id"@en .
+dqm:Distribution rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Distribution_distribution_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Distribution_asset a owl:ObjectProperty ; rdfs:domain dqm:Distribution ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:Distribution rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Distribution_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Distribution_title a owl:DatatypeProperty ; rdfs:domain dqm:Distribution ; rdfs:range xsd:string ;
+  rdfs:label "title"@en .
+dqm:Distribution_access_url a owl:DatatypeProperty ; rdfs:domain dqm:Distribution ; rdfs:range xsd:anyURI ;
+  rdfs:label "access url"@en .
+dqm:Distribution rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Distribution_access_url ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Distribution_media_type a owl:DatatypeProperty ; rdfs:domain dqm:Distribution ; rdfs:range xsd:string ;
+  rdfs:label "media type"@en ;
+  rdfs:comment "IANA media type (MD mediaType)"@en .
+
+dqm:DataSharingAgreement a owl:Class ;
+  rdfs:label "DataSharingAgreement"@en ;
+  rdfs:comment "An agreement under which an asset is provided to or acquired from another organisation."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  rdfs:seeAlso <https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/> ;
+  skos:note "Group: Asset and metadata"@en .
+dqm:DataSharingAgreement_agreement_id a owl:DatatypeProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range xsd:string ;
+  rdfs:label "agreement id"@en .
+dqm:DataSharingAgreement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataSharingAgreement_agreement_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataSharingAgreement_asset a owl:ObjectProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:DataSharingAgreement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataSharingAgreement_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataSharingAgreement_provider a owl:ObjectProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range dqm:Organisation ;
+  rdfs:label "provider"@en .
+dqm:DataSharingAgreement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataSharingAgreement_provider ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataSharingAgreement_recipient a owl:ObjectProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range dqm:Organisation ;
+  rdfs:label "recipient"@en .
+dqm:DataSharingAgreement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataSharingAgreement_recipient ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataSharingAgreement_reference a owl:DatatypeProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range xsd:string ;
+  rdfs:label "reference"@en ;
+  rdfs:comment "Agreement, MOU or legal gateway reference"@en .
+dqm:DataSharingAgreement_quality_obligations a owl:DatatypeProperty ; rdfs:domain dqm:DataSharingAgreement ; rdfs:range xsd:string ;
+  rdfs:label "quality obligations"@en ;
+  rdfs:comment "Quality responsibilities agreed with the supplier"@en .
+
+dqm:MetadataRecord a owl:Class ;
+  rdfs:label "MetadataRecord"@en ;
+  rdfs:comment "A catalogue record describing the asset in a metadata standard, with its gap assessment."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets> ;
+  skos:note "Group: Asset and metadata"@en .
+dqm:MetadataRecord_record_id a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:string ;
+  rdfs:label "record id"@en .
+dqm:MetadataRecord rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MetadataRecord_record_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MetadataRecord_asset a owl:ObjectProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:MetadataRecord rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MetadataRecord_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MetadataRecord_standard a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:string ;
+  rdfs:label "standard"@en ;
+  rdfs:comment "DCAT, schema.org, CKAN, GEMINI and so on"@en .
+dqm:MetadataRecord rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MetadataRecord_standard ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MetadataRecord_cda_coverage_pct a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:decimal ;
+  rdfs:label "cda coverage pct"@en ;
+  rdfs:comment "Share of the 13 critical data asset properties present"@en .
+dqm:MetadataRecord_profile a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:string ;
+  rdfs:label "profile"@en ;
+  rdfs:comment "Application profile checked, for example uk-cda"@en .
+dqm:MetadataRecord_conforms a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:boolean ;
+  rdfs:label "conforms"@en .
+dqm:MetadataRecord_assessed_on a owl:DatatypeProperty ; rdfs:domain dqm:MetadataRecord ; rdfs:range xsd:date ;
+  rdfs:label "assessed on"@en .
+
+dqm:DataItem a owl:Class ;
+  rdfs:label "DataItem"@en ;
+  rdfs:comment "A critical data item (field, table or element) within an asset."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Requirements"@en .
+dqm:DataItem_item_id a owl:DatatypeProperty ; rdfs:domain dqm:DataItem ; rdfs:range xsd:string ;
+  rdfs:label "item id"@en .
+dqm:DataItem rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataItem_item_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataItem_asset a owl:ObjectProperty ; rdfs:domain dqm:DataItem ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:DataItem rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataItem_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataItem_name a owl:DatatypeProperty ; rdfs:domain dqm:DataItem ; rdfs:range xsd:string ;
+  rdfs:label "name"@en .
+dqm:DataItem rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataItem_name ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataItem_description a owl:DatatypeProperty ; rdfs:domain dqm:DataItem ; rdfs:range xsd:string ;
+  rdfs:label "description"@en .
+dqm:DataItem_personal_data a owl:DatatypeProperty ; rdfs:domain dqm:DataItem ; rdfs:range xsd:boolean ;
+  rdfs:label "personal data"@en ;
+  rdfs:comment "Personal data: accuracy is a legal duty (ICO)"@en .
+dqm:DataItem_lifecycle_stage a owl:ObjectProperty ; rdfs:domain dqm:DataItem ; rdfs:range dqm:LifecycleStageValue ;
+  rdfs:label "lifecycle stage"@en ;
+  rdfs:comment "Where the item is captured or changed (GDQF-LC)"@en .
+
+dqm:UserNeed a owl:Class ;
+  rdfs:label "UserNeed"@en ;
+  rdfs:comment "A user group of the asset and what quality it needs."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Requirements"@en .
+dqm:UserNeed_need_id a owl:DatatypeProperty ; rdfs:domain dqm:UserNeed ; rdfs:range xsd:string ;
+  rdfs:label "need id"@en .
+dqm:UserNeed rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:UserNeed_need_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:UserNeed_asset a owl:ObjectProperty ; rdfs:domain dqm:UserNeed ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:UserNeed rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:UserNeed_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:UserNeed_user_group a owl:DatatypeProperty ; rdfs:domain dqm:UserNeed ; rdfs:range xsd:string ;
+  rdfs:label "user group"@en .
+dqm:UserNeed rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:UserNeed_user_group ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:UserNeed_need a owl:DatatypeProperty ; rdfs:domain dqm:UserNeed ; rdfs:range xsd:string ;
+  rdfs:label "need"@en .
+dqm:UserNeed rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:UserNeed_need ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:UserNeed_dimension a owl:ObjectProperty ; rdfs:domain dqm:UserNeed ; rdfs:range dqm:DimensionValue ;
+  rdfs:label "dimension"@en .
+
+dqm:DataQualityActionPlan a owl:Class ;
+  rdfs:label "DataQualityActionPlan"@en ;
+  rdfs:comment "The DQAP, or equivalent mechanism, for one asset; covers the 7 steps."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Requirements"@en .
+dqm:DataQualityActionPlan_dqap_id a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:string ;
+  rdfs:label "dqap id"@en .
+dqm:DataQualityActionPlan rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataQualityActionPlan_dqap_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataQualityActionPlan_asset a owl:ObjectProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:DataQualityActionPlan rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataQualityActionPlan_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataQualityActionPlan_status a owl:ObjectProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range dqm:DqapStatusValue ;
+  rdfs:label "status"@en .
+dqm:DataQualityActionPlan rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:DataQualityActionPlan_status ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:DataQualityActionPlan_link a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:anyURI ;
+  rdfs:label "link"@en ;
+  rdfs:comment "Where the plan is kept"@en .
+dqm:DataQualityActionPlan_measurement_frequency a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:string ;
+  rdfs:label "measurement frequency"@en ;
+  rdfs:comment "ISO 8601 duration such as P1M"@en .
+dqm:DataQualityActionPlan_covers_all_seven_steps a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:boolean ;
+  rdfs:label "covers all seven steps"@en .
+dqm:DataQualityActionPlan_last_reviewed a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:date ;
+  rdfs:label "last reviewed"@en .
+dqm:DataQualityActionPlan_next_review a owl:DatatypeProperty ; rdfs:domain dqm:DataQualityActionPlan ; rdfs:range xsd:date ;
+  rdfs:label "next review"@en .
+
+dqm:QualityRule a owl:Class ;
+  rdfs:label "QualityRule"@en ;
+  rdfs:comment "A data quality rule with its dimension, method and agreed target."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework> ;
+  skos:note "Group: Measurement"@en .
+dqm:QualityRule_rule_id a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:string ;
+  rdfs:label "rule id"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_rule_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_dqap a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:DataQualityActionPlan ;
+  rdfs:label "dqap"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_dqap ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_data_items a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:DataItem ;
+  rdfs:label "data items"@en .
+dqm:QualityRule_description a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:string ;
+  rdfs:label "description"@en ;
+  rdfs:comment "Plain English"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_dimension a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:DimensionValue ;
+  rdfs:label "dimension"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_dimension ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_check_type a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:CheckTypeValue ;
+  rdfs:label "check type"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_check_type ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_parameters a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:string ;
+  rdfs:label "parameters"@en ;
+  rdfs:comment "Check parameters (YAML or JSON)"@en .
+dqm:QualityRule_method a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:string ;
+  rdfs:label "method"@en .
+dqm:QualityRule_importance a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:ImportanceValue ;
+  rdfs:label "importance"@en ;
+  rdfs:comment "Importance of purpose 1 to 4 (IF)"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_importance ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_impact a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:ImportanceValue ;
+  rdfs:label "impact"@en ;
+  rdfs:comment "Impact of an issue 1 to 4 (IF)"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_impact ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_target_pct a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:decimal ;
+  rdfs:label "target pct"@en ;
+  rdfs:comment "Within the issues framework range for importance x impact"@en .
+dqm:QualityRule rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityRule_target_pct ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityRule_control_point a owl:ObjectProperty ; rdfs:domain dqm:QualityRule ; rdfs:range dqm:ControlPointValue ;
+  rdfs:label "control point"@en ;
+  rdfs:comment "Where the control belongs (GDQF-P3)"@en .
+dqm:QualityRule_agreed_on a owl:DatatypeProperty ; rdfs:domain dqm:QualityRule ; rdfs:range xsd:date ;
+  rdfs:label "agreed on"@en .
+
+dqm:MeasurementRun a owl:Class ;
+  rdfs:label "MeasurementRun"@en ;
+  rdfs:comment "One assessment of an asset against its rules."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Measurement"@en .
+dqm:MeasurementRun_run_id a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:string ;
+  rdfs:label "run id"@en .
+dqm:MeasurementRun rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MeasurementRun_run_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MeasurementRun_dqap a owl:ObjectProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range dqm:DataQualityActionPlan ;
+  rdfs:label "dqap"@en .
+dqm:MeasurementRun rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MeasurementRun_dqap ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MeasurementRun_as_of a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:date ;
+  rdfs:label "as of"@en .
+dqm:MeasurementRun rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MeasurementRun_as_of ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MeasurementRun_rows_checked a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:integer ;
+  rdfs:label "rows checked"@en .
+dqm:MeasurementRun_rules_met a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:integer ;
+  rdfs:label "rules met"@en .
+dqm:MeasurementRun_rules_total a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:integer ;
+  rdfs:label "rules total"@en .
+dqm:MeasurementRun_trust_level a owl:ObjectProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range dqm:TrustLevelValue ;
+  rdfs:label "trust level"@en .
+dqm:MeasurementRun_is_baseline a owl:DatatypeProperty ; rdfs:domain dqm:MeasurementRun ; rdfs:range xsd:boolean ;
+  rdfs:label "is baseline"@en .
+
+dqm:RuleResult a owl:Class ;
+  rdfs:label "RuleResult"@en ;
+  rdfs:comment "The result of one rule in one run."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework> ;
+  skos:note "Group: Measurement"@en .
+dqm:RuleResult_result_id a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:string ;
+  rdfs:label "result id"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_result_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_run a owl:ObjectProperty ; rdfs:domain dqm:RuleResult ; rdfs:range dqm:MeasurementRun ;
+  rdfs:label "run"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_run ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_rule a owl:ObjectProperty ; rdfs:domain dqm:RuleResult ; rdfs:range dqm:QualityRule ;
+  rdfs:label "rule"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_rule ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_checked a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:integer ;
+  rdfs:label "checked"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_checked ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_passed a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:integer ;
+  rdfs:label "passed"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_passed ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_performance_pct a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:decimal ;
+  rdfs:label "performance pct"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_performance_pct ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_meets_target a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:boolean ;
+  rdfs:label "meets target"@en .
+dqm:RuleResult rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RuleResult_meets_target ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RuleResult_band a owl:ObjectProperty ; rdfs:domain dqm:RuleResult ; rdfs:range dqm:BandValue ;
+  rdfs:label "band"@en .
+dqm:RuleResult_priority_score a owl:DatatypeProperty ; rdfs:domain dqm:RuleResult ; rdfs:range xsd:integer ;
+  rdfs:label "priority score"@en ;
+  rdfs:comment "Importance x impact x band score (IF)"@en .
+
+dqm:Issue a owl:Class ;
+  rdfs:label "Issue"@en ;
+  rdfs:comment "A rule that misses its target, logged in the Data Issues Log."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework> ;
+  skos:note "Group: Issue management"@en .
+dqm:Issue_issue_id a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:string ;
+  rdfs:label "issue id"@en .
+dqm:Issue rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Issue_issue_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Issue_rule a owl:ObjectProperty ; rdfs:domain dqm:Issue ; rdfs:range dqm:QualityRule ;
+  rdfs:label "rule"@en .
+dqm:Issue rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Issue_rule ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Issue_raised_by_result a owl:ObjectProperty ; rdfs:domain dqm:Issue ; rdfs:range dqm:RuleResult ;
+  rdfs:label "raised by result"@en .
+dqm:Issue_issue_type a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:string ;
+  rdfs:label "issue type"@en ;
+  rdfs:comment "From the Commons issue type vocabulary"@en .
+dqm:Issue_raised_on a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:date ;
+  rdfs:label "raised on"@en .
+dqm:Issue rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Issue_raised_on ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Issue_priority a owl:ObjectProperty ; rdfs:domain dqm:Issue ; rdfs:range dqm:PriorityValue ;
+  rdfs:label "priority"@en .
+dqm:Issue rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Issue_priority ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Issue_resolution_timescale a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:string ;
+  rdfs:label "resolution timescale"@en ;
+  rdfs:comment "Immediately, or within 1, 3 or 6 measurements (IF)"@en .
+dqm:Issue_target_resolution_date a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:date ;
+  rdfs:label "target resolution date"@en .
+dqm:Issue_actual_resolution_date a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:date ;
+  rdfs:label "actual resolution date"@en .
+dqm:Issue_review_date a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:date ;
+  rdfs:label "review date"@en .
+dqm:Issue_status a owl:ObjectProperty ; rdfs:domain dqm:Issue ; rdfs:range dqm:IssueStatusValue ;
+  rdfs:label "status"@en .
+dqm:Issue rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Issue_status ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Issue_cycles_open a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:integer ;
+  rdfs:label "cycles open"@en .
+dqm:Issue_recurring a owl:DatatypeProperty ; rdfs:domain dqm:Issue ; rdfs:range xsd:boolean ;
+  rdfs:label "recurring"@en .
+dqm:Issue_owner a owl:ObjectProperty ; rdfs:domain dqm:Issue ; rdfs:range dqm:RoleAssignment ;
+  rdfs:label "owner"@en .
+
+dqm:RootCause a owl:Class ;
+  rdfs:label "RootCause"@en ;
+  rdfs:comment "The cause of an issue, found by root cause analysis."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Issue management"@en .
+dqm:RootCause_cause_id a owl:DatatypeProperty ; rdfs:domain dqm:RootCause ; rdfs:range xsd:string ;
+  rdfs:label "cause id"@en .
+dqm:RootCause rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RootCause_cause_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RootCause_issue a owl:ObjectProperty ; rdfs:domain dqm:RootCause ; rdfs:range dqm:Issue ;
+  rdfs:label "issue"@en .
+dqm:RootCause rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RootCause_issue ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RootCause_description a owl:DatatypeProperty ; rdfs:domain dqm:RootCause ; rdfs:range xsd:string ;
+  rdfs:label "description"@en ;
+  rdfs:comment "For example from 5 whys"@en .
+dqm:RootCause rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RootCause_description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RootCause_systemic a owl:ObjectProperty ; rdfs:domain dqm:RootCause ; rdfs:range dqm:SystemicValue ;
+  rdfs:label "systemic"@en .
+dqm:RootCause rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RootCause_systemic ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RootCause_addressable a owl:DatatypeProperty ; rdfs:domain dqm:RootCause ; rdfs:range xsd:boolean ;
+  rdfs:label "addressable"@en ;
+  rdfs:comment "Can the organisation fix it itself"@en .
+dqm:RootCause_options_considered a owl:DatatypeProperty ; rdfs:domain dqm:RootCause ; rdfs:range xsd:string ;
+  rdfs:label "options considered"@en .
+dqm:RootCause_cost_benefit a owl:DatatypeProperty ; rdfs:domain dqm:RootCause ; rdfs:range xsd:string ;
+  rdfs:label "cost benefit"@en .
+dqm:RootCause_lifecycle_stage a owl:ObjectProperty ; rdfs:domain dqm:RootCause ; rdfs:range dqm:LifecycleStageValue ;
+  rdfs:label "lifecycle stage"@en .
+
+dqm:RemediationAction a owl:Class ;
+  rdfs:label "RemediationAction"@en ;
+  rdfs:comment "An action to contain, correct or prevent an issue."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Issue management"@en .
+dqm:RemediationAction_action_id a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:string ;
+  rdfs:label "action id"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_action_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_issue a owl:ObjectProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range dqm:Issue ;
+  rdfs:label "issue"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_issue ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_cause a owl:ObjectProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range dqm:RootCause ;
+  rdfs:label "cause"@en .
+dqm:RemediationAction_action_type a owl:ObjectProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range dqm:ActionTypeValue ;
+  rdfs:label "action type"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_action_type ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_description a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:string ;
+  rdfs:label "description"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_description ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_owner a owl:ObjectProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range dqm:RoleAssignment ;
+  rdfs:label "owner"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_owner ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_target_date a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:date ;
+  rdfs:label "target date"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_target_date ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_review_date a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:date ;
+  rdfs:label "review date"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_review_date ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:RemediationAction_goal_pct a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:decimal ;
+  rdfs:label "goal pct"@en .
+dqm:RemediationAction_success_measure a owl:DatatypeProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range xsd:string ;
+  rdfs:label "success measure"@en .
+dqm:RemediationAction_status a owl:ObjectProperty ; rdfs:domain dqm:RemediationAction ; rdfs:range dqm:ActionStatusValue ;
+  rdfs:label "status"@en .
+dqm:RemediationAction rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:RemediationAction_status ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+
+dqm:Escalation a owl:Class ;
+  rdfs:label "Escalation"@en ;
+  rdfs:comment "An issue escalated because it is overdue."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework> ;
+  skos:note "Group: Issue management"@en .
+dqm:Escalation_escalation_id a owl:DatatypeProperty ; rdfs:domain dqm:Escalation ; rdfs:range xsd:string ;
+  rdfs:label "escalation id"@en .
+dqm:Escalation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Escalation_escalation_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Escalation_issue a owl:ObjectProperty ; rdfs:domain dqm:Escalation ; rdfs:range dqm:Issue ;
+  rdfs:label "issue"@en .
+dqm:Escalation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Escalation_issue ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Escalation_escalated_on a owl:DatatypeProperty ; rdfs:domain dqm:Escalation ; rdfs:range xsd:date ;
+  rdfs:label "escalated on"@en .
+dqm:Escalation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Escalation_escalated_on ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Escalation_escalated_to a owl:ObjectProperty ; rdfs:domain dqm:Escalation ; rdfs:range dqm:RoleTypeValue ;
+  rdfs:label "escalated to"@en .
+dqm:Escalation rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Escalation_escalated_to ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Escalation_outcome a owl:DatatypeProperty ; rdfs:domain dqm:Escalation ; rdfs:range xsd:string ;
+  rdfs:label "outcome"@en .
+
+dqm:CommunicationPlanEntry a owl:Class ;
+  rdfs:label "CommunicationPlanEntry"@en ;
+  rdfs:comment "Who needs to know what about the asset's quality, how and how often."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Reporting"@en .
+dqm:CommunicationPlanEntry_entry_id a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:string ;
+  rdfs:label "entry id"@en .
+dqm:CommunicationPlanEntry rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:CommunicationPlanEntry_entry_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:CommunicationPlanEntry_dqap a owl:ObjectProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range dqm:DataQualityActionPlan ;
+  rdfs:label "dqap"@en .
+dqm:CommunicationPlanEntry rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:CommunicationPlanEntry_dqap ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:CommunicationPlanEntry_stakeholder_group a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:string ;
+  rdfs:label "stakeholder group"@en .
+dqm:CommunicationPlanEntry rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:CommunicationPlanEntry_stakeholder_group ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:CommunicationPlanEntry_what_they_need a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:string ;
+  rdfs:label "what they need"@en .
+dqm:CommunicationPlanEntry_route a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:string ;
+  rdfs:label "route"@en ;
+  rdfs:comment "Metadata, documentation, data sharing agreement, meeting"@en .
+dqm:CommunicationPlanEntry_frequency a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:string ;
+  rdfs:label "frequency"@en .
+dqm:CommunicationPlanEntry_owner a owl:ObjectProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range dqm:RoleAssignment ;
+  rdfs:label "owner"@en .
+dqm:CommunicationPlanEntry_last_sent a owl:DatatypeProperty ; rdfs:domain dqm:CommunicationPlanEntry ; rdfs:range xsd:date ;
+  rdfs:label "last sent"@en .
+
+dqm:QualityStatement a owl:Class ;
+  rdfs:label "QualityStatement"@en ;
+  rdfs:comment "A plain English statement of an asset's quality, strengths and limitations."@en ;
+  rdfs:seeAlso <https://osr.statisticsauthority.gov.uk/publications/the-code-of-practice-for-statistics/> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  skos:note "Group: Reporting"@en .
+dqm:QualityStatement_statement_id a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:string ;
+  rdfs:label "statement id"@en .
+dqm:QualityStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityStatement_statement_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityStatement_asset a owl:ObjectProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:QualityStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityStatement_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityStatement_run a owl:ObjectProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range dqm:MeasurementRun ;
+  rdfs:label "run"@en .
+dqm:QualityStatement_issued_on a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:date ;
+  rdfs:label "issued on"@en .
+dqm:QualityStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityStatement_issued_on ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityStatement_summary a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:string ;
+  rdfs:label "summary"@en .
+dqm:QualityStatement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:QualityStatement_summary ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:QualityStatement_fit_for a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:string ;
+  rdfs:label "fit for"@en .
+dqm:QualityStatement_not_fit_for a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:string ;
+  rdfs:label "not fit for"@en .
+dqm:QualityStatement_contact_route a owl:DatatypeProperty ; rdfs:domain dqm:QualityStatement ; rdfs:range xsd:string ;
+  rdfs:label "contact route"@en ;
+  rdfs:comment "A role or form, never a personal email"@en .
+
+dqm:AssetReturn a owl:Class ;
+  rdfs:label "AssetReturn"@en ;
+  rdfs:comment "One asset's row in the return to GDS."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  skos:note "Group: Assurance"@en .
+dqm:AssetReturn_return_id a owl:DatatypeProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range xsd:string ;
+  rdfs:label "return id"@en .
+dqm:AssetReturn rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AssetReturn_return_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AssetReturn_asset a owl:ObjectProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:AssetReturn rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AssetReturn_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AssetReturn_period a owl:DatatypeProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range xsd:string ;
+  rdfs:label "period"@en .
+dqm:AssetReturn rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AssetReturn_period ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AssetReturn_dqap_status a owl:ObjectProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range dqm:DqapStatusValue ;
+  rdfs:label "dqap status"@en .
+dqm:AssetReturn_baseline_run a owl:ObjectProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range dqm:MeasurementRun ;
+  rdfs:label "baseline run"@en .
+dqm:AssetReturn_submitted_on a owl:DatatypeProperty ; rdfs:domain dqm:AssetReturn ; rdfs:range xsd:date ;
+  rdfs:label "submitted on"@en .
+
+dqm:AnnualReview a owl:Class ;
+  rdfs:label "AnnualReview"@en ;
+  rdfs:comment "The yearly review of an asset, its owner, metadata and DQAP."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets> ;
+  skos:note "Group: Assurance"@en .
+dqm:AnnualReview_review_id a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:string ;
+  rdfs:label "review id"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_review_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_asset a owl:ObjectProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range dqm:DataAsset ;
+  rdfs:label "asset"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_asset ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_reviewed_on a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:date ;
+  rdfs:label "reviewed on"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_reviewed_on ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_still_critical a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:boolean ;
+  rdfs:label "still critical"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_still_critical ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_owner_confirmed a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:boolean ;
+  rdfs:label "owner confirmed"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_owner_confirmed ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_metadata_reviewed a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:boolean ;
+  rdfs:label "metadata reviewed"@en .
+dqm:AnnualReview rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:AnnualReview_metadata_reviewed ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:AnnualReview_dqap_covers_seven_steps a owl:DatatypeProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range xsd:boolean ;
+  rdfs:label "dqap covers seven steps"@en .
+dqm:AnnualReview_signed_off_by a owl:ObjectProperty ; rdfs:domain dqm:AnnualReview ; rdfs:range dqm:RoleTypeValue ;
+  rdfs:label "signed off by"@en .
+
+dqm:Requirement a owl:Class ;
+  rdfs:label "Requirement"@en ;
+  rdfs:comment "A requirement from policy, guidance or a standard (the requirements register)."@en ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide> ;
+  rdfs:seeAlso <https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework> ;
+  skos:note "Group: Assurance"@en .
+dqm:Requirement_requirement_id a owl:DatatypeProperty ; rdfs:domain dqm:Requirement ; rdfs:range xsd:string ;
+  rdfs:label "requirement id"@en .
+dqm:Requirement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Requirement_requirement_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Requirement_source a owl:DatatypeProperty ; rdfs:domain dqm:Requirement ; rdfs:range xsd:string ;
+  rdfs:label "source"@en .
+dqm:Requirement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Requirement_source ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Requirement_clause a owl:DatatypeProperty ; rdfs:domain dqm:Requirement ; rdfs:range xsd:string ;
+  rdfs:label "clause"@en .
+dqm:Requirement_text a owl:DatatypeProperty ; rdfs:domain dqm:Requirement ; rdfs:range xsd:string ;
+  rdfs:label "text"@en .
+dqm:Requirement rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:Requirement_text ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:Requirement_strength a owl:DatatypeProperty ; rdfs:domain dqm:Requirement ; rdfs:range xsd:string ;
+  rdfs:label "strength"@en ;
+  rdfs:comment "must, should, method, principle"@en .
+
+dqm:MaturityAssessment a owl:Class ;
+  rdfs:label "MaturityAssessment"@en ;
+  rdfs:comment "An organisation's self-assessed data quality maturity, by theme."@en ;
+  skos:note "Group: Assurance"@en .
+dqm:MaturityAssessment_assessment_id a owl:DatatypeProperty ; rdfs:domain dqm:MaturityAssessment ; rdfs:range xsd:string ;
+  rdfs:label "assessment id"@en .
+dqm:MaturityAssessment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MaturityAssessment_assessment_id ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MaturityAssessment_organisation a owl:ObjectProperty ; rdfs:domain dqm:MaturityAssessment ; rdfs:range dqm:Organisation ;
+  rdfs:label "organisation"@en .
+dqm:MaturityAssessment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MaturityAssessment_organisation ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MaturityAssessment_assessed_on a owl:DatatypeProperty ; rdfs:domain dqm:MaturityAssessment ; rdfs:range xsd:date ;
+  rdfs:label "assessed on"@en .
+dqm:MaturityAssessment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MaturityAssessment_assessed_on ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MaturityAssessment_theme a owl:DatatypeProperty ; rdfs:domain dqm:MaturityAssessment ; rdfs:range xsd:string ;
+  rdfs:label "theme"@en .
+dqm:MaturityAssessment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MaturityAssessment_theme ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .
+dqm:MaturityAssessment_level a owl:DatatypeProperty ; rdfs:domain dqm:MaturityAssessment ; rdfs:range xsd:integer ;
+  rdfs:label "level"@en ;
+  rdfs:comment "1 Beginning to 5 Mastering"@en .
+dqm:MaturityAssessment rdfs:subClassOf [ a owl:Restriction ; owl:onProperty dqm:MaturityAssessment_level ; owl:minCardinality "1"^^xsd:nonNegativeInteger ] .

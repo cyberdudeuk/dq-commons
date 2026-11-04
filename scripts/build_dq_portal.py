@@ -73,6 +73,7 @@ GROUPS = [
         ("legacy", "Legacy and modernisation", "Data debt, migration gates, MoSCoW, self-assessment and a reconciliation tool"),
         ("interop", "Interoperability and standards", "Identifiers, formats, data contracts, guardrails, measures and related capabilities"),
         ("weaver", "Metadata Weaver", "Turn one metadata record into DCAT, schema.org, CKAN, ODCS and CDA, and see the gaps"),
+        ("models", "Capability and data models", "The data quality capability as data models, a Visio process map and BPMN workflows, for enterprise architecture tools"),
         ("pipeline", "Pipeline status", "The latest automated run: trust levels, issues and escalations"),
     ]),
     ("5 Apply", [
@@ -95,7 +96,7 @@ LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles"
                                     "check", "maturity", "scenarios", "community", "surveys", "operate"]},
          **{s: "Intermediate" for s in ["professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
                                         "frameworks", "tooling", "ai", "commercial", "global", "share", "build"]},
-         **{s: "Advanced" for s in ["legacy", "interop", "weaver", "pipeline", "ndl-assurance"]}}
+         **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
 GROUP_ICON = {"1 Start": "compass", "2 Learn": "grad", "3 Check": "check", "4 Improve": "shield", "5 Apply": "map", "6 Contribute": "heart"}
@@ -103,7 +104,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps"}
 
 
 def icon(name: str) -> str:
@@ -225,6 +226,20 @@ def health_summary() -> dict:
             "checks": h["checks"], "open": [i for i in h["items"] if i["level"] != "note"][:20]}
 
 
+def models_summary() -> dict:
+    """The capability model (models/dq-capability.yaml) for the Capability and data models page."""
+    m = yaml.safe_load((ROOT / "models" / "dq-capability.yaml").read_text(encoding="utf-8"))
+    files = sorted(p.relative_to(ROOT / "models" / "out").as_posix() for p in (ROOT / "models" / "out").rglob("*") if p.is_file())
+    previews = sorted(p.name for p in (ROOT / "models" / "previews").glob("map-*.png")) if (ROOT / "models" / "previews").exists() else []
+    return {"name": m["name"], "version": m["version"], "review": m["review"], "guidance": m["guidance"], "principles": m["principles"],
+            "capabilities": m["capabilities"], "enums": m["enums"],
+            "entities": [{k: e[k] for k in ("name", "group", "description", "guidance")} | {"attributes": e["attributes"]} for e in m["entities"]],
+            "processes": [{"id": p["id"], "name": p["name"], "capability": p["capability"], "lanes": p["lanes"],
+                           "steps": [{k: s.get(k) for k in ("id", "kind", "name", "lane", "guidance", "outputs", "branches", "next")} for s in p["steps"]]} for p in m["processes"]],
+            "files": files, "previews": previews,
+            "extras": [f for f in ("dq-data-model.svg", "dq-capability-process-map.pdf") if (ROOT / "models" / f).exists()]}
+
+
 def knowledge() -> dict:
     """Every knowledge-base file as a page placeholder (__K_NAME__). Built lazily, only if a page uses it."""
     import sys
@@ -257,6 +272,7 @@ def knowledge() -> dict:
         "COMMERCIAL": lambda: y("commercial"),
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
+        "MODELS": lambda: models_summary(),
         "MEDIA": lambda: y("media"),
         "ROSETTA": lambda: y("rosetta"),
         "ARTICLES": lambda: y("articles"),
@@ -775,6 +791,20 @@ def main(argv=None) -> int:
         for f in (results_dir / "assets").iterdir():
             if f.suffix in (".xlsx", ".docx", ".md", ".csv", ".jsonld", ".json"):
                 shutil.copy2(f, dl / "assets" / f.name)
+        # Capability and data models: every export, the source YAML, the ERD image, the PDF map and one zip of the lot.
+        md = ROOT / "models"
+        if (md / "out").exists():
+            import zipfile as _zf
+            shutil.copytree(md / "out", dl / "models", dirs_exist_ok=True)
+            for f in ["dq-capability.yaml", "README.md", "dq-data-model.svg", "dq-capability-process-map.pdf"]:
+                if (md / f).exists():
+                    shutil.copy2(md / f, dl / "models" / f)
+            if (md / "previews").exists():
+                shutil.copytree(md / "previews", dl / "models" / "previews", dirs_exist_ok=True)
+            with _zf.ZipFile(dl / "models" / "dq-capability-models.zip", "w", _zf.ZIP_DEFLATED) as z:
+                for f in sorted((dl / "models").rglob("*")):
+                    if f.is_file() and f.suffix != ".zip" and "previews" not in f.parts:
+                        z.write(f, f"dq-capability-models/{f.relative_to(dl / 'models').as_posix()}")
         (target / ".nojekyll").write_text("", encoding="utf-8")
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")

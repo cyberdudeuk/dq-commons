@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 7. v2.5.0: capability and data models (4 November 2026)
+- **Source:** `models/dq-capability.yaml` (capabilities, entities, reference lists, workflows, guidance codes). **Generator:** `scripts/build_models.py`, deterministic, `--check` in CI (D-MOD-01).
+- **Information architecture:** 22 record types in 7 groups: Governance (Organisation, RoleAssignment); Asset and metadata (DataAsset, Distribution, DataSharingAgreement, MetadataRecord); Requirements (DataItem, UserNeed, DataQualityActionPlan); Measurement (QualityRule, MeasurementRun, RuleResult); Issue management (Issue, RootCause, RemediationAction, Escalation); Reporting (CommunicationPlanEntry, QualityStatement); Assurance (AssetReturn, AnnualReview, Requirement, MaturityAssessment). They match the DQAP workbook tabs, CDA return columns and DQV output the toolkit already produces.
+- **Exports:** ArchiMate exchange and Archi CSV (`models/out/archimate`), UML XMI, SQL, JSON Schema, OWL, CSV dictionary and matrix, ERD, Visio (`.vsdx` written as Open Packaging XML, rendered to PDF and previews by LibreOffice with `--render`), BPMN 2.0 with diagram interchange. The workflow layout is computed once and shared by the Visio, BPMN and ArchiMate views.
+- **Portal:** `models.html` reads the YAML at build time (`models_summary()`); the build copies the exports to `downloads/models/` and zips them.
+
 ## 6. v2.3.0: GitHub only, no claude.ai dependency (4 November 2026)
 The portal must work for every audience, most of whom have no claude.ai licence (D-GH-02).
 - **Send:** every form opens a pre-filled GitHub issue form through `window.DQP_GITHUB` (shell). Forms: contact, wish, bug,

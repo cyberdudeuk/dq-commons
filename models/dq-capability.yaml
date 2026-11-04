@@ -1,0 +1,533 @@
+# Enterprise data quality management capability: the single source for the data model, capability map,
+# processes and workflows. scripts/build_models.py turns this file into every export in models/out/:
+# ArchiMate Open Exchange, Archi CSV, UML XMI, PostgreSQL DDL, JSON Schema, OWL (Turtle), a data dictionary,
+# an entity relationship diagram, a Visio process map and BPMN 2.0 workflows. Edit this file, never the exports.
+#
+# Guidance codes (used in "guidance" lists; full titles and links in models/README.md and the guidance block below):
+#   DAM   Data asset management policy in government (2026)       IDC  Identifying and recording critical data assets (2026)
+#   MD    Recording metadata to describe critical data assets      DOM  Data ownership model (2026)
+#   DQAP1-7 DQAP implementation guide, steps 1 to 7 (2025, updated 2026)   IF  Data quality issues framework (2025)
+#   GDQF-P1-P5 Government Data Quality Framework principles 1 to 5; GDQF-LC its data lifecycle; GDQF-D its dimensions (2020)
+#   COP  Code of Practice for Statistics 3.0   QAAD  Quality assurance of administrative data   ICO  UK GDPR accuracy principle
+#   ISO8000  ISO 8000 data quality   DCAT  W3C DCAT 3   DQV  W3C Data Quality Vocabulary   ODCS  Open Data Contract Standard
+review: {last_reviewed: "2026-11-04", owner_role: Commons architecture lead}
+name: Enterprise data quality management capability
+version: "1.0.0"
+namespace: https://cyberdudeuk.github.io/dq-commons/model#
+
+guidance:
+  DAM: {title: Data asset management policy in government, url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government"}
+  IDC: {title: Identifying and recording critical data assets, url: "https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets"}
+  MD: {title: Recording metadata to describe critical data assets, url: "https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets"}
+  DOM: {title: Data ownership model, url: "https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model"}
+  DQAP: {title: "Data quality action plan: implementation guide", url: "https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide"}
+  IF: {title: Data quality issues framework, url: "https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-issues-framework"}
+  GDQF: {title: The Government Data Quality Framework, url: "https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework"}
+  COP: {title: Code of Practice for Statistics, url: "https://osr.statisticsauthority.gov.uk/publications/the-code-of-practice-for-statistics/"}
+  QAAD: {title: Quality assurance of administrative data, url: "https://osr.statisticsauthority.gov.uk/guidance/administrative-data-and-official-statistics/"}
+  ICO: {title: UK GDPR accuracy principle (ICO guidance), url: "https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/data-protection-principles/a-guide-to-the-data-protection-principles/accuracy/"}
+
+principles:   # GDQF principles, used as an overlay on the capability map and processes
+  - {id: GDQF-P1, name: Commit to data quality, colour: "#0d6b6e"}
+  - {id: GDQF-P2, name: Know your users and their needs, colour: "#5b3f8c"}
+  - {id: GDQF-P3, name: Assess quality throughout the data lifecycle, colour: "#1d5fa8"}
+  - {id: GDQF-P4, name: Communicate data quality clearly and effectively, colour: "#a14d00"}
+  - {id: GDQF-P5, name: Anticipate changes affecting data quality, colour: "#7a2e3a"}
+
+# ---------------------------------------------------------------------------------------------------------
+# Reference lists (enumerations)
+enums:
+  purpose: [Public service delivery, "Legislative, legal or contractual requirement", "Defence, national security and resilience", Policy development and evaluation, Official statistics, Public interest, Fraud and error]
+  role_type: [Chief data officer, Lead data owner, Data owner, Data steward, Data custodian, Information asset owner, Process owner, Data analyst, Business analyst, Data user, Supplier]
+  security_classification: [OFFICIAL]
+  access_rights: [Open, Commercial, Internal]
+  dimension: [completeness, uniqueness, consistency, timeliness, validity, accuracy, representativeness]
+  control_point: [source, pipeline, reporting]
+  importance: ["1 Low", "2 Medium", "3 High", "4 Critical"]
+  band: [high, middle, low, critical]
+  priority: [Low, Medium, High, Critical]
+  issue_status: [Open, In progress, Resolved, Accepted risk]
+  action_type: [Containment, Corrective, Preventive]
+  action_status: [Not started, In progress, Done, Blocked]
+  dqap_status: [in_place, in_development, not_started, equivalent_mechanism]
+  trust_level: [Trustworthy, Usable with caveats, Use with care, Not fit for purpose]
+  lifecycle_stage: [Plan, Collect or acquire and ingest, "Prepare, store and maintain", Use and process, Share and publish, Archive or destroy]
+  check_type: [not_null, required_columns, unique, type, regex, in_set, range, not_future, compare, sum_max, freshness, no_gaps, header_has_unit, not_unknown, group_disparity, identifier, outlier]
+  systemic: [Systemic, One-off, Not known yet]
+
+# ---------------------------------------------------------------------------------------------------------
+# Logical data model. Types: string, text, integer, decimal, boolean, date, datetime, url, enum:<list>, ref:<Entity>.
+# key: true marks the primary key. many: true on a ref means a list (a link table in SQL).
+entities:
+  - name: Organisation
+    group: Governance
+    description: A department, arm's length body or other organisation that holds, provides or uses data.
+    guidance: [DAM, IDC]
+    attributes:
+      - {name: organisation_id, type: string, key: true, description: "Identifier, ideally the GOV.UK organisation slug"}
+      - {name: name, type: string, required: true, description: Organisation name as listed on GOV.UK}
+      - {name: organisation_type, type: string, description: "Department, ALB, local authority, devolved body and so on"}
+      - {name: nation, type: string, description: Nation or jurisdiction}
+      - {name: parent_organisation, type: "ref:Organisation", description: Sponsoring department for an ALB}
+
+  - name: RoleAssignment
+    group: Governance
+    description: Who holds an accountability for an asset. Names are held only in the organisation's own records.
+    guidance: [DOM, DAM, IDC, DQAP1]
+    attributes:
+      - {name: assignment_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: role_type, type: "enum:role_type", required: true}
+      - {name: holder, type: string, required: true, description: "Named person, team or role; a named data owner is required by the DAM policy"}
+      - {name: organisation, type: "ref:Organisation"}
+      - {name: start_date, type: date}
+      - {name: end_date, type: date, description: "When an owner leaves, a successor must be named"}
+      - {name: successor, type: string}
+
+  - name: DataAsset
+    group: Asset and metadata
+    description: A critical data asset, or any data set managed by the capability.
+    guidance: [DAM, IDC, MD, DOM]
+    attributes:
+      - {name: asset_id, type: string, key: true, description: Unique identifier (MD identifier)}
+      - {name: title, type: string, required: true, description: Plain English name (MD title)}
+      - {name: alternative_title, type: string}
+      - {name: description, type: text, required: true}
+      - {name: creator, type: "ref:Organisation", required: true, description: Creating organisation (MD creator)}
+      - {name: is_critical, type: boolean, required: true, description: Designated as a critical data asset}
+      - {name: purposes, type: "enum:purpose", many: true, description: One or more of the 7 purposes (IDC)}
+      - {name: date_created, type: date, required: true, description: ISO 8601 (MD dateCreated)}
+      - {name: expires, type: date, description: MD expires}
+      - {name: superseded_by, type: "ref:DataAsset", description: MD supersededBy}
+      - {name: temporal_coverage, type: string, description: ISO 8601 interval (MD temporalCoverage)}
+      - {name: conforms_to, type: url, description: Standard or schema (MD conformsTo)}
+      - {name: access_rights, type: "enum:access_rights", required: true, description: Plus any handling caveat (MD accessRights)}
+      - {name: security_classification, type: "enum:security_classification", required: true}
+      - {name: licence, type: url, required: true, description: "Usually OGL v3.0 for open data (MD licence)"}
+      - {name: source_dataset, type: "ref:DataAsset", description: The source data set when a distribution is designated (IDC)}
+      - {name: catalogue_url, type: url}
+      - {name: last_metadata_review, type: date}
+      - {name: next_review, type: date, description: "Within 12 months (DAM, IDC)"}
+
+  - name: Distribution
+    group: Asset and metadata
+    description: A file, API or other way the asset is made available.
+    guidance: [MD, DCAT]
+    attributes:
+      - {name: distribution_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: title, type: string}
+      - {name: access_url, type: url, required: true}
+      - {name: media_type, type: string, description: IANA media type (MD mediaType)}
+
+  - name: DataSharingAgreement
+    group: Asset and metadata
+    description: An agreement under which an asset is provided to or acquired from another organisation.
+    guidance: [IDC, DOM, QAAD]
+    attributes:
+      - {name: agreement_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: provider, type: "ref:Organisation", required: true}
+      - {name: recipient, type: "ref:Organisation", required: true}
+      - {name: reference, type: string, description: "Agreement, MOU or legal gateway reference"}
+      - {name: quality_obligations, type: text, description: Quality responsibilities agreed with the supplier}
+
+  - name: MetadataRecord
+    group: Asset and metadata
+    description: A catalogue record describing the asset in a metadata standard, with its gap assessment.
+    guidance: [MD, GDQF-P4, DCAT]
+    attributes:
+      - {name: record_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: standard, type: string, required: true, description: "DCAT, schema.org, CKAN, GEMINI and so on"}
+      - {name: cda_coverage_pct, type: decimal, description: Share of the 13 critical data asset properties present}
+      - {name: profile, type: string, description: "Application profile checked, for example uk-cda"}
+      - {name: conforms, type: boolean}
+      - {name: assessed_on, type: date}
+
+  - name: DataItem
+    group: Requirements
+    description: A critical data item (field, table or element) within an asset.
+    guidance: [DQAP1]
+    attributes:
+      - {name: item_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: name, type: string, required: true}
+      - {name: description, type: text}
+      - {name: personal_data, type: boolean, description: "Personal data: accuracy is a legal duty (ICO)"}
+      - {name: lifecycle_stage, type: "enum:lifecycle_stage", description: Where the item is captured or changed (GDQF-LC)}
+
+  - name: UserNeed
+    group: Requirements
+    description: A user group of the asset and what quality it needs.
+    guidance: [GDQF-P2, DQAP2]
+    attributes:
+      - {name: need_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: user_group, type: string, required: true}
+      - {name: need, type: text, required: true}
+      - {name: dimension, type: "enum:dimension"}
+
+  - name: DataQualityActionPlan
+    group: Requirements
+    description: The DQAP, or equivalent mechanism, for one asset; covers the 7 steps.
+    guidance: [DAM, DQAP1, DQAP7, GDQF-P1]
+    attributes:
+      - {name: dqap_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: status, type: "enum:dqap_status", required: true}
+      - {name: link, type: url, description: Where the plan is kept}
+      - {name: measurement_frequency, type: string, description: ISO 8601 duration such as P1M}
+      - {name: covers_all_seven_steps, type: boolean}
+      - {name: last_reviewed, type: date}
+      - {name: next_review, type: date}
+
+  - name: QualityRule
+    group: Measurement
+    description: A data quality rule with its dimension, method and agreed target.
+    guidance: [DQAP2, IF, GDQF-D]
+    attributes:
+      - {name: rule_id, type: string, key: true}
+      - {name: dqap, type: "ref:DataQualityActionPlan", required: true}
+      - {name: data_items, type: "ref:DataItem", many: true}
+      - {name: description, type: text, required: true, description: Plain English}
+      - {name: dimension, type: "enum:dimension", required: true}
+      - {name: check_type, type: "enum:check_type", required: true}
+      - {name: parameters, type: text, description: Check parameters (YAML or JSON)}
+      - {name: method, type: text}
+      - {name: importance, type: "enum:importance", required: true, description: Importance of purpose 1 to 4 (IF)}
+      - {name: impact, type: "enum:importance", required: true, description: Impact of an issue 1 to 4 (IF)}
+      - {name: target_pct, type: decimal, required: true, description: Within the issues framework range for importance x impact}
+      - {name: control_point, type: "enum:control_point", description: Where the control belongs (GDQF-P3)}
+      - {name: agreed_on, type: date}
+
+  - name: MeasurementRun
+    group: Measurement
+    description: One assessment of an asset against its rules.
+    guidance: [DQAP3, DQAP7, GDQF-P3]
+    attributes:
+      - {name: run_id, type: string, key: true}
+      - {name: dqap, type: "ref:DataQualityActionPlan", required: true}
+      - {name: as_of, type: date, required: true}
+      - {name: rows_checked, type: integer}
+      - {name: rules_met, type: integer}
+      - {name: rules_total, type: integer}
+      - {name: trust_level, type: "enum:trust_level"}
+      - {name: is_baseline, type: boolean}
+
+  - name: RuleResult
+    group: Measurement
+    description: The result of one rule in one run.
+    guidance: [DQAP3, IF, DQV]
+    attributes:
+      - {name: result_id, type: string, key: true}
+      - {name: run, type: "ref:MeasurementRun", required: true}
+      - {name: rule, type: "ref:QualityRule", required: true}
+      - {name: checked, type: integer, required: true}
+      - {name: passed, type: integer, required: true}
+      - {name: performance_pct, type: decimal, required: true}
+      - {name: meets_target, type: boolean, required: true}
+      - {name: band, type: "enum:band"}
+      - {name: priority_score, type: integer, description: Importance x impact x band score (IF)}
+
+  - name: Issue
+    group: Issue management
+    description: A rule that misses its target, logged in the Data Issues Log.
+    guidance: [IF, DQAP3, DQAP4]
+    attributes:
+      - {name: issue_id, type: string, key: true}
+      - {name: rule, type: "ref:QualityRule", required: true}
+      - {name: raised_by_result, type: "ref:RuleResult"}
+      - {name: issue_type, type: string, description: From the Commons issue type vocabulary}
+      - {name: raised_on, type: date, required: true}
+      - {name: priority, type: "enum:priority", required: true}
+      - {name: resolution_timescale, type: string, description: "Immediately, or within 1, 3 or 6 measurements (IF)"}
+      - {name: target_resolution_date, type: date}
+      - {name: actual_resolution_date, type: date}
+      - {name: review_date, type: date}
+      - {name: status, type: "enum:issue_status", required: true}
+      - {name: cycles_open, type: integer}
+      - {name: recurring, type: boolean}
+      - {name: owner, type: "ref:RoleAssignment"}
+
+  - name: RootCause
+    group: Issue management
+    description: The cause of an issue, found by root cause analysis.
+    guidance: [DQAP5, GDQF-P5]
+    attributes:
+      - {name: cause_id, type: string, key: true}
+      - {name: issue, type: "ref:Issue", required: true}
+      - {name: description, type: text, required: true, description: "For example from 5 whys"}
+      - {name: systemic, type: "enum:systemic", required: true}
+      - {name: addressable, type: boolean, description: Can the organisation fix it itself}
+      - {name: options_considered, type: text}
+      - {name: cost_benefit, type: text}
+      - {name: lifecycle_stage, type: "enum:lifecycle_stage"}
+
+  - name: RemediationAction
+    group: Issue management
+    description: An action to contain, correct or prevent an issue.
+    guidance: [DQAP4, DQAP5]
+    attributes:
+      - {name: action_id, type: string, key: true}
+      - {name: issue, type: "ref:Issue", required: true}
+      - {name: cause, type: "ref:RootCause"}
+      - {name: action_type, type: "enum:action_type", required: true}
+      - {name: description, type: text, required: true}
+      - {name: owner, type: "ref:RoleAssignment", required: true}
+      - {name: target_date, type: date, required: true}
+      - {name: review_date, type: date, required: true}
+      - {name: goal_pct, type: decimal}
+      - {name: success_measure, type: text}
+      - {name: status, type: "enum:action_status", required: true}
+
+  - name: Escalation
+    group: Issue management
+    description: An issue escalated because it is overdue.
+    guidance: [IF, DAM]
+    attributes:
+      - {name: escalation_id, type: string, key: true}
+      - {name: issue, type: "ref:Issue", required: true}
+      - {name: escalated_on, type: date, required: true}
+      - {name: escalated_to, type: "enum:role_type", required: true}
+      - {name: outcome, type: text}
+
+  - name: CommunicationPlanEntry
+    group: Reporting
+    description: Who needs to know what about the asset's quality, how and how often.
+    guidance: [DQAP6, GDQF-P4]
+    attributes:
+      - {name: entry_id, type: string, key: true}
+      - {name: dqap, type: "ref:DataQualityActionPlan", required: true}
+      - {name: stakeholder_group, type: string, required: true}
+      - {name: what_they_need, type: text}
+      - {name: route, type: string, description: "Metadata, documentation, data sharing agreement, meeting"}
+      - {name: frequency, type: string}
+      - {name: owner, type: "ref:RoleAssignment"}
+      - {name: last_sent, type: date}
+
+  - name: QualityStatement
+    group: Reporting
+    description: A plain English statement of an asset's quality, strengths and limitations.
+    guidance: [DQAP6, GDQF-P4, COP]
+    attributes:
+      - {name: statement_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: run, type: "ref:MeasurementRun"}
+      - {name: issued_on, type: date, required: true}
+      - {name: summary, type: text, required: true}
+      - {name: fit_for, type: text}
+      - {name: not_fit_for, type: text}
+      - {name: contact_route, type: string, description: "A role or form, never a personal email"}
+
+  - name: AssetReturn
+    group: Assurance
+    description: One asset's row in the return to GDS.
+    guidance: [DAM, IDC]
+    attributes:
+      - {name: return_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: period, type: string, required: true}
+      - {name: dqap_status, type: "enum:dqap_status"}
+      - {name: baseline_run, type: "ref:MeasurementRun"}
+      - {name: submitted_on, type: date}
+
+  - name: AnnualReview
+    group: Assurance
+    description: The yearly review of an asset, its owner, metadata and DQAP.
+    guidance: [DAM, IDC, DOM, DQAP7]
+    attributes:
+      - {name: review_id, type: string, key: true}
+      - {name: asset, type: "ref:DataAsset", required: true}
+      - {name: reviewed_on, type: date, required: true}
+      - {name: still_critical, type: boolean, required: true}
+      - {name: owner_confirmed, type: boolean, required: true}
+      - {name: metadata_reviewed, type: boolean, required: true}
+      - {name: dqap_covers_seven_steps, type: boolean}
+      - {name: signed_off_by, type: "enum:role_type"}
+
+  - name: Requirement
+    group: Assurance
+    description: A requirement from policy, guidance or a standard (the requirements register).
+    guidance: [DAM, DQAP, GDQF]
+    attributes:
+      - {name: requirement_id, type: string, key: true}
+      - {name: source, type: string, required: true}
+      - {name: clause, type: string}
+      - {name: text, type: text, required: true}
+      - {name: strength, type: string, description: "must, should, method, principle"}
+
+  - name: MaturityAssessment
+    group: Assurance
+    description: An organisation's self-assessed data quality maturity, by theme.
+    guidance: [GDQF-P1]
+    attributes:
+      - {name: assessment_id, type: string, key: true}
+      - {name: organisation, type: "ref:Organisation", required: true}
+      - {name: assessed_on, type: date, required: true}
+      - {name: theme, type: string, required: true}
+      - {name: level, type: integer, required: true, description: 1 Beginning to 5 Mastering}
+
+# ---------------------------------------------------------------------------------------------------------
+# Business capability map, with the guidance each capability realises.
+capabilities:
+  - id: C1
+    name: Data governance and ownership
+    principle: GDQF-P1
+    guidance: [DAM, DOM, GDQF-P1]
+    entities: [Organisation, RoleAssignment]
+    children: [Accountability and roles, Policies and standards, Governance boards and escalation]
+  - id: C2
+    name: Critical data asset identification
+    principle: GDQF-P1
+    guidance: [DAM, IDC]
+    entities: [DataAsset, DataSharingAgreement]
+    children: [Identify and designate by purpose, Register in the catalogue, Return to GDS]
+  - id: C3
+    name: Metadata and discoverability
+    principle: GDQF-P4
+    guidance: [MD, DCAT, GDQF-P4]
+    entities: [MetadataRecord, Distribution]
+    children: [Record the 13 properties, Publish in open standards, Profile checks]
+  - id: C4
+    name: User needs and requirements
+    principle: GDQF-P2
+    guidance: [GDQF-P2, DQAP2]
+    entities: [UserNeed, DataItem]
+    children: [User research, Critical data items, Trade-offs]
+  - id: C5
+    name: Rules and standards
+    principle: GDQF-P3
+    guidance: [DQAP2, IF, GDQF-D]
+    entities: [QualityRule, DataQualityActionPlan]
+    children: [Rules by dimension, Targets from the issues framework, Data contracts]
+  - id: C6
+    name: Measurement and monitoring
+    principle: GDQF-P3
+    guidance: [DQAP3, DQAP7, GDQF-P3]
+    entities: [MeasurementRun, RuleResult]
+    children: [Baseline, Scheduled measurement, Trends and controls]
+  - id: C7
+    name: Issue management and prioritisation
+    principle: GDQF-P3
+    guidance: [IF, DQAP3, DQAP4]
+    entities: [Issue, Escalation]
+    children: [Log issues, Prioritise with the issues framework, Escalate overdue issues]
+  - id: C8
+    name: Root cause and remediation
+    principle: GDQF-P5
+    guidance: [DQAP5, GDQF-P5]
+    entities: [RootCause, RemediationAction]
+    children: [Root cause analysis, Options and cost-benefit, Fix at source]
+  - id: C9
+    name: Reporting and communication
+    principle: GDQF-P4
+    guidance: [DQAP6, GDQF-P4, COP]
+    entities: [CommunicationPlanEntry, QualityStatement]
+    children: [Communication plan, Quality statements, Caveats and limitations]
+  - id: C10
+    name: Assurance and review
+    principle: GDQF-P1
+    guidance: [DAM, IDC, COP, QAAD]
+    entities: [AnnualReview, AssetReturn, Requirement]
+    children: [Annual review, Conformance with requirements, Independent assurance]
+  - id: C11
+    name: Capability, skills and culture
+    principle: GDQF-P1
+    guidance: [GDQF-P1]
+    entities: [MaturityAssessment]
+    children: [Skills and training, Maturity assessment, Community of practice]
+  - id: C12
+    name: Change and lifecycle management
+    principle: GDQF-P5
+    guidance: [GDQF-P5, GDQF-LC, DQAP7]
+    entities: [DataSharingAgreement, DataItem]
+    children: [Assess before and after change, Supplier quality, Archive with quality information]
+
+# ---------------------------------------------------------------------------------------------------------
+# Processes (workflows). Steps run in order unless "next" says otherwise; a gateway step lists its branches.
+# kind: user (a person), service (automated), manual, gateway, start, end.
+processes:
+  - id: P1
+    name: Identify and register critical data assets
+    capability: C2
+    lanes: [Chief data officer, Data owner, Data steward, Catalogue and GDS]
+    steps:
+      - {id: s, kind: start, name: Annual exercise or new data shared, lane: Chief data officer}
+      - {id: a, kind: user, name: Lead the exercise and nominate a coordinator, lane: Chief data officer, guidance: [IDC]}
+      - {id: b, kind: user, name: List data provided to or acquired from other organisations, lane: Data steward, guidance: [IDC], outputs: [DataSharingAgreement]}
+      - {id: g, kind: gateway, name: "Serves one of the 7 purposes?", lane: Data owner, branches: {"Yes": c, "No": x}}
+      - {id: x, kind: end, name: Not designated; record the reason, lane: Data owner}
+      - {id: c, kind: user, name: Designate the asset and name the data owner, lane: Data owner, guidance: [DAM, DOM, IDC], outputs: [DataAsset, RoleAssignment]}
+      - {id: d, kind: user, name: Record the metadata (13 properties), lane: Data steward, guidance: [MD], outputs: [MetadataRecord, Distribution]}
+      - {id: e, kind: service, name: Check the metadata against the UK profile, lane: Data steward, guidance: [MD], inputs: [MetadataRecord]}
+      - {id: f, kind: user, name: Start or confirm the DQAP, lane: Data owner, guidance: [DAM, DQAP1], outputs: [DataQualityActionPlan]}
+      - {id: h, kind: service, name: Register in the catalogue and report to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn]}
+      - {id: z, kind: end, name: Asset registered, lane: Catalogue and GDS}
+
+  - id: P2
+    name: Data quality action plan lifecycle (7 steps)
+    capability: C5
+    lanes: [Data owner, Data steward, Data custodian, Data users]
+    steps:
+      - {id: s, kind: start, name: Critical data asset designated, lane: Data owner}
+      - {id: s1, kind: user, name: "1. Identify critical data and known issues", lane: Data steward, guidance: [DQAP1], outputs: [DataItem, Issue]}
+      - {id: s2, kind: user, name: "2. Identify users, needs and quality rules", lane: Data steward, guidance: [DQAP2, GDQF-P2], outputs: [UserNeed, QualityRule]}
+      - {id: s3, kind: service, name: "3. Assess current quality (baseline)", lane: Data custodian, guidance: [DQAP3, GDQF-P3], outputs: [MeasurementRun, RuleResult, Issue]}
+      - {id: s4, kind: user, name: "4. Prioritise improvements and set goals", lane: Data owner, guidance: [DQAP4, IF], outputs: [RemediationAction]}
+      - {id: s5, kind: user, name: "5. Find root causes and take action", lane: Data steward, guidance: [DQAP5, GDQF-P5], outputs: [RootCause, RemediationAction]}
+      - {id: s6, kind: user, name: "6. Report on data quality", lane: Data owner, guidance: [DQAP6, GDQF-P4], outputs: [CommunicationPlanEntry, QualityStatement]}
+      - {id: u, kind: user, name: Use the data with its caveats; report problems, lane: Data users, guidance: [DQAP6]}
+      - {id: s7, kind: service, name: "7. Repeat measurement over time", lane: Data custodian, guidance: [DQAP7], outputs: [MeasurementRun]}
+      - {id: g, kind: gateway, name: "Significant change to collection or processing?", lane: Data owner, branches: {"Yes": s2, "No": z}}
+      - {id: z, kind: end, name: Next measurement cycle, lane: Data custodian}
+
+  - id: P3
+    name: Data quality issue management
+    capability: C7
+    lanes: [Data steward, Data owner, Data custodian, Governance board]
+    steps:
+      - {id: s, kind: start, name: A rule misses its target, lane: Data custodian}
+      - {id: a, kind: service, name: Log the issue in the Data Issues Log, lane: Data custodian, guidance: [IF, DQAP3], outputs: [Issue]}
+      - {id: b, kind: service, name: "Score: importance x impact x band", lane: Data custodian, guidance: [IF]}
+      - {id: c, kind: user, name: Set priority and target resolution date, lane: Data owner, guidance: [IF, DQAP4]}
+      - {id: d, kind: user, name: Find the root cause (5 whys), lane: Data steward, guidance: [DQAP5], outputs: [RootCause]}
+      - {id: g1, kind: gateway, name: "Can we fix it at source?", lane: Data steward, branches: {"Yes": e, "No": k}}
+      - {id: k, kind: user, name: "Caveat, communicate and raise with the supplier", lane: Data owner, guidance: [QAAD, DQAP6], next: f}
+      - {id: e, kind: user, name: "Agree containment, corrective and preventive actions", lane: Data steward, guidance: [DQAP5], outputs: [RemediationAction]}
+      - {id: f, kind: service, name: Re-measure at the next cycle, lane: Data custodian, guidance: [DQAP7]}
+      - {id: g2, kind: gateway, name: "Meets target?", lane: Data custodian, branches: {"Yes": z, "No": g3}}
+      - {id: g3, kind: gateway, name: "Past its resolution timescale?", lane: Data owner, branches: {"Yes": h, "No": d}}
+      - {id: h, kind: user, name: Escalate to the governance board, lane: Governance board, guidance: [IF, DAM], outputs: [Escalation], next: e}
+      - {id: z, kind: end, name: Issue resolved and closed, lane: Data custodian}
+
+  - id: P4
+    name: Scheduled measurement run
+    capability: C6
+    lanes: [Scheduler, Data quality toolkit, Data steward]
+    steps:
+      - {id: s, kind: start, name: Measurement due, lane: Scheduler}
+      - {id: a, kind: service, name: Test the toolkit, lane: Data quality toolkit, guidance: [DQAP7]}
+      - {id: b, kind: service, name: Run every rule and keep the history, lane: Data quality toolkit, guidance: [DQAP3, DQAP7], outputs: [MeasurementRun, RuleResult]}
+      - {id: c, kind: service, name: Score issues and age them, lane: Data quality toolkit, guidance: [IF], outputs: [Issue]}
+      - {id: g, kind: gateway, name: "Any overdue issues?", lane: Data quality toolkit, branches: {"Yes": d, "No": e}}
+      - {id: d, kind: service, name: Open or update an escalation, lane: Data quality toolkit, guidance: [IF], outputs: [Escalation]}
+      - {id: e, kind: service, name: "Publish results, DQV metadata and the return", lane: Data quality toolkit, guidance: [DQV, DAM], outputs: [AssetReturn]}
+      - {id: f, kind: user, name: Review results and trends, lane: Data steward, guidance: [DQAP3, DQAP7]}
+      - {id: z, kind: end, name: Run complete, lane: Data steward}
+
+  - id: P5
+    name: Annual review and return
+    capability: C10
+    lanes: [Data owner, Data steward, Chief data officer, Catalogue and GDS]
+    steps:
+      - {id: s, kind: start, name: 12 months since the last review, lane: Data steward}
+      - {id: a, kind: user, name: Confirm the asset is still critical, lane: Data owner, guidance: [IDC, DAM]}
+      - {id: g1, kind: gateway, name: "Owner still in post?", lane: Data owner, branches: {"Yes": b, "No": n}}
+      - {id: n, kind: user, name: Name a successor and update the metadata, lane: Chief data officer, guidance: [IDC, DOM], outputs: [RoleAssignment], next: b}
+      - {id: b, kind: user, name: Review the metadata against the 13 properties, lane: Data steward, guidance: [MD], outputs: [MetadataRecord]}
+      - {id: c, kind: user, name: Check the DQAP covers all 7 steps, lane: Data steward, guidance: [DAM, DQAP7], outputs: [DataQualityActionPlan]}
+      - {id: d, kind: user, name: Sign off the annual review, lane: Data owner, guidance: [DAM], outputs: [AnnualReview]}
+      - {id: e, kind: user, name: Assure returns across the department and its ALBs, lane: Chief data officer, guidance: [DAM]}
+      - {id: f, kind: service, name: Submit the return to GDS, lane: Catalogue and GDS, guidance: [DAM, IDC], outputs: [AssetReturn]}
+      - {id: z, kind: end, name: Review complete, lane: Catalogue and GDS}

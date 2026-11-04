@@ -42,11 +42,11 @@ jobs:
     steps:
       # Get a copy of this repository onto the runner.
       - name: Get the repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       # Install Python, the language the kit is written in.
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: "3.12"
 
@@ -95,7 +95,7 @@ jobs:
 
       # Keep a downloadable copy of this run's results on the workflow run page (kept for 90 days).
       - name: Keep a copy of the results
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: dq-portfolio-results
           path: assessments/portfolio
@@ -103,7 +103,7 @@ jobs:
       # Turn each escalation into a GitHub issue. One issue per asset and rule, titled "[DQ] <asset> <rule>: ...".
       # If the issue is already open, add a comment (once per measurement). Close issues that are now fixed.
       - name: Open, update or close escalation issues
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           script: |
             const fs = require('fs');
@@ -176,7 +176,7 @@ jobs:
       # Package the built portal for GitHub Pages.
       - name: Package the portal for GitHub Pages
         if: steps.portal.outputs.built == 'true'
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: portal/dist
 
@@ -199,4 +199,4 @@ jobs:
       # Publish the packaged portal to GitHub Pages.
       - name: Publish to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v5
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

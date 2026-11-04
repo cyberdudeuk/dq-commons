@@ -474,6 +474,10 @@ PROFILES = [
      ["dct:title", "dct:description"],
      ["dct:accrualPeriodicity", "dct:temporal", "dct:spatial", "dcat:distribution", "stat:dimension", "stat:statMeasure",
       "dqv:hasQualityAnnotation"]),
+    ("uk-gemini", "UK GEMINI (geospatial metadata, as the critical data asset guidance asks for geospatial data)", "geodcat",
+     ["dct:title", "dct:description", "dcat:keyword", "dct:temporal", "dct:issued", "dct:publisher", "dcat:contactPoint",
+      "dct:spatial", "dct:identifier", "dct:accessRights", "dct:license", "dct:conformsTo", "dct:provenance", "dcat:distribution"],
+     ["dct:modified", "dct:accrualPeriodicity", "dcat:theme"]),
     ("uk-cda", "UK critical data asset properties (GOV.UK data asset management guidance)", "dcat",
      # GOV.UK "Recording metadata to describe critical data assets": mandatory, then recommended (identifier, mediaType)
      ["dct:title", "dct:description", "dct:publisher", "dct:issued", "dqc:expires", "dct:isReplacedBy", "dct:temporal",
@@ -513,11 +517,34 @@ def check_profile(out: dict, must: list, should: list) -> dict:
             "should_total": len(props) - len(musts), "properties": props, "date_issues": dates}
 
 
+ACCESS_VALUES = ("open", "commercial", "internal")
+
+
+def uk_values(out: dict) -> list:
+    """Values the critical data asset metadata guidance constrains (D-CONF-01)."""
+    issues = []
+    ar = out.get("dct:accessRights")
+    if isinstance(ar, str) and ar and not ar.strip().lower().startswith(ACCESS_VALUES):
+        issues.append({"property": "dct:accessRights", "value": ar, "message": "Start with Open, Commercial or Internal, then any handling caveat"})
+    sc = out.get("dqc:securityClassification")
+    if isinstance(sc, str) and sc and not sc.strip().upper().startswith("OFFICIAL"):
+        issues.append({"property": "dqc:securityClassification", "value": sc,
+                       "message": "Only OFFICIAL assets, including those with a handling caveat, are in scope of the DAM policy"})
+    pub = out.get("dct:publisher")
+    name = pub.get("foaf:name", "") if isinstance(pub, dict) else (pub if isinstance(pub, str) else "")
+    if "@" in name:
+        issues.append({"property": "dct:publisher", "value": name, "message": "Use the organisation's name, not a person or an email address"})
+    return issues
+
+
 def profiles(c: dict) -> dict:
     outs = {"dcat": to_dcat(c), "geodcat": to_geodcat(c), "statdcat": to_statdcat(c)}
     res = {}
     for pid, label, base, must, should in PROFILES:
-        res[pid] = {"label": label, "check": check_profile(outs[base], must, should)}
+        chk = check_profile(outs[base], must, should)
+        chk["value_issues"] = uk_values(outs[base]) if pid == "uk-cda" else []
+        chk["conforms"] = chk["conforms"] and not chk["value_issues"]
+        res[pid] = {"label": label, "check": chk}
         if base != "dcat":
             res[pid]["output"] = outs[base]
     return res

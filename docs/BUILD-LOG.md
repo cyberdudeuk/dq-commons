@@ -1,5 +1,20 @@
 # Build journal
 
+## 2026-11-04 — v2.5.0: capability and data models, Visio process map, BPMN workflows; open actions closed
+
+**Asked for:** act on all recommendations and close open actions; create the data models behind the end-to-end data quality capability, importable into enterprise architecture tools; describe the capability overlaid with the Government Data Quality Framework and other guidance as a downloadable Visio process map; and the underlying workflows.
+
+**Built**
+- `models/dq-capability.yaml`: 12 capabilities (36 sub-capabilities), 22 record types with 177 fields and 17 reference lists, 5 workflows (54 steps), all traced to the DAM policy, critical data asset and metadata guidance, ownership model, DQAP steps 1 to 7, issues framework, GDQF principles, Code of Practice, QAAD and ICO.
+- `scripts/build_models.py`: ArchiMate exchange XML and Archi CSV, UML XMI, PostgreSQL DDL, JSON Schema, OWL Turtle, data dictionary, capability-guidance matrix, Mermaid ERD (and SVG), an 8-page Visio map (capability map with GDQF overlay and lifecycle band, 5 swimlane workflows, information model, guidance key; shape data on every shape; glued connectors), 5 BPMN 2.0 files with lanes, data objects and diagram layout, plus a PDF of the map.
+- Portal page *Capability and data models* (Manage and improve): downloads by tool, capability map with principle filter, map previews, text version of every workflow, searchable information model, import steps, guidance key; one zip of everything.
+- `tests/test_models.py` (19 tests) and `build_models.py --check` in CI.
+- Recommendations closed: every GitHub Action pinned to a commit SHA (Scorecard); Metadata Weaver checks access rights, security classification and publisher values; new UK GEMINI profile for geospatial assets; `scripts/apply_settings.sh` for the settings only the owner can change (ruleset, secret scanning options, private vulnerability reporting, immutable releases, release tags).
+
+**Found and fixed while building:** unquoted commas in the YAML silently split step names; the generator now refuses unexpected fields. Mermaid HTML labels didn't show outside browsers; the SVG now uses plain text.
+
+**Checked:** model tests, the full test suite, two-engine parity, content health, the portal build and a browser check of the new page; the Visio file rendered page by page in LibreOffice.
+
 ## 2026-11-04 — v2.4.0: conformance with government guidance; GitHub supply-chain features
 
 **Asked for:** which other GitHub features and workflows should be enabled; whether the portal's templates conform fully to the Government Data Quality Framework, the DQAP implementation guide, the DAM policy and other relevant guidance.

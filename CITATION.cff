@@ -8,6 +8,6 @@ authors:
 repository-code: "https://github.com/cyberdudeuk/dq-commons"
 url: "https://cyberdudeuk.github.io/dq-commons/"
 license: MIT
-version: "2.4.0"
+version: "2.5.0"
 date-released: "2026-11-04"
 keywords: [data quality, public sector, data governance, critical data assets, open standards, DQAP]
