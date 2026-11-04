@@ -18,4 +18,4 @@ Model version 1.0.0, from models/dq-capability.yaml. sha256 of each file:
 - `rdf/dq-data-model.ttl` 5b3cde9bac0ae7f0
 - `sql/dq-data-model.sql` 8f46c0a8d8d48836
 - `uml/dq-data-model.xmi` 8c4f58c1560a659b
-- `visio/dq-capability-process-map.vsdx` 334ca4f4f678d5b7
+- `visio/dq-capability-process-map.vsdx` 2f7980ee44ac8f5e

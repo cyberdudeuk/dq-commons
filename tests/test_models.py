@@ -31,11 +31,14 @@ V = "{http://schemas.microsoft.com/office/visio/2012/main}"
 
 class ModelSource(unittest.TestCase):
     def test_committed_exports_match_the_yaml(self):
-        stale = [k for k, v in FILES.items() if not (bm.OUT / k).exists() or (bm.OUT / k).read_bytes() != v]
+        stale = [k for k, v in FILES.items() if not (bm.OUT / k).exists() or not bm.same(k, (bm.OUT / k).read_bytes(), v)]
         self.assertEqual(stale, [], "run python3 scripts/build_models.py")
 
     def test_build_is_deterministic(self):
-        self.assertEqual(bm.build(M), FILES)
+        again = bm.build(M)
+        self.assertEqual(sorted(again), sorted(FILES))
+        for k in FILES:
+            self.assertTrue(bm.same(k, again[k], FILES[k]), k)
 
     def test_every_capability_and_entity_cites_guidance(self):
         for c in M["capabilities"]:

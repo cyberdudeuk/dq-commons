@@ -1000,6 +1000,21 @@ def vsdx(m: dict) -> dict[str, bytes]:
 
 
 # ----------------------------------------------------------------------------------------------- main
+def fingerprint(name: str, data: bytes) -> str:
+    """Content hash. For zip packages (.vsdx) it hashes what is inside, because zlib versions compress differently."""
+    if name.endswith(".vsdx"):
+        z = zipfile.ZipFile(io.BytesIO(data))
+        h = hashlib.sha256()
+        for n in sorted(z.namelist()):
+            h.update(n.encode() + b"\0" + z.read(n) + b"\0")
+        return h.hexdigest()
+    return hashlib.sha256(data).hexdigest()
+
+
+def same(name: str, a: bytes, b: bytes) -> bool:
+    return a == b or (name.endswith(".vsdx") and fingerprint(name, a) == fingerprint(name, b))
+
+
 def build(m: dict) -> dict[str, bytes]:
     out: dict[str, bytes] = {}
     for fn in (data_dictionary, sql, json_schema, turtle, mermaid, archimate_xml, archi_csv, xmi, bpmn):
@@ -1007,7 +1022,7 @@ def build(m: dict) -> dict[str, bytes]:
             out[k] = v.encode("utf-8")
     out.update(vsdx(m))
     manifest = ["# Generated model exports", "", f"Model version {m['version']}, from models/dq-capability.yaml. sha256 of each file:", ""]
-    manifest += [f"- `{k}` {hashlib.sha256(v).hexdigest()[:16]}" for k, v in sorted(out.items())]
+    manifest += [f"- `{k}` {fingerprint(k, v)[:16]}" for k, v in sorted(out.items())]
     out["MANIFEST.md"] = ("\n".join(manifest) + "\n").encode()
     return out
 
@@ -1021,7 +1036,7 @@ def main() -> int:
     m = load()
     files = build(m)
     if a.check:
-        stale = [k for k, v in files.items() if not (OUT / k).exists() or (OUT / k).read_bytes() != v]
+        stale = [k for k, v in files.items() if not (OUT / k).exists() or not same(k, (OUT / k).read_bytes(), v)]
         if stale:
             print("These model exports are out of date. Run: python3 scripts/build_models.py\n  " + "\n  ".join(stale))
             return 1
@@ -1030,7 +1045,8 @@ def main() -> int:
     for k, v in files.items():
         p = OUT / k
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_bytes(v)
+        if not (p.exists() and same(k, p.read_bytes(), v)):  # leave identical files alone
+            p.write_bytes(v)
     print(f"Wrote {len(files)} files to {OUT.relative_to(ROOT)}")
     if a.svg:
         mmdc = shutil.which("mmdc")
