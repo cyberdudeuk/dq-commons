@@ -48,8 +48,8 @@ Frameworks page.
 | identifier, mediaType | Recommended | Checked as "should" | ✅ |
 | alternativeTitle | Optional | Not carried | 🟡 low priority |
 | Dates in ISO 8601 | Required | Date check in every profile | ✅ |
-| accessRights values (open, commercial, internal); creator from a list of organisations | Required vocabularies | Not yet validated | 🟡 planned check |
-| DCAT as the main standard; GEMINI or INSPIRE for geospatial; IANA media types | Required | DCAT and GeoDCAT-AP outputs; media types carried | ✅ (GEMINI output not provided; GeoDCAT-AP is the European equivalent) |
+| accessRights values (open, commercial, internal); creator from a list of organisations | Required vocabularies | accessRights and securityClassification values checked (v2.5.0); creator flagged if it looks like an email address | 🟡 creator not yet matched to the organisations list |
+| DCAT as the main standard; GEMINI or INSPIRE for geospatial; IANA media types | Required | DCAT and GeoDCAT-AP outputs; media types carried | ✅ (UK GEMINI profile added in v2.5.0, alongside GeoDCAT-AP) |
 
 ## 5. DQAP implementation guide: what each step must record
 
@@ -98,7 +98,7 @@ Each has an entry in `knowledge/frameworks.yaml` and, where measurable, a pack i
 | Analysis | AQuA Book; Analysis Function quality questions | Frameworks, crosswalk, Learn | ✅ guidance only: the Commons measures input data, not models |
 | Personal data | UK GDPR accuracy principle, ICO guidance | uk-personal-data-accuracy pack; identifier checks; inclusion checks | ✅ |
 | Health | NHS Data Quality Maturity Index | nhs-dqmi-style pack (indicative) | 🟡 approximates the official DQMI |
-| Geospatial | ISO 19157-1; Q-FAIR; GEMINI and INSPIRE | iso-19157 pack; Q-FAIR ratings; GeoDCAT-AP | 🟡 no GEMINI output; positional accuracy needs reference data |
+| Geospatial | ISO 19157-1; Q-FAIR; GEMINI and INSPIRE | iso-19157 pack; Q-FAIR ratings; GeoDCAT-AP; UK GEMINI profile | 🟡 positional accuracy needs reference data |
 | AI and analytics | ISO/IEC 5259 | ai-ml-readiness pack; AI for data quality guidance | 🟡 label quality and drift need model-side evidence |
 | International | ESS QAF, UN NQAF, IMF DQAF, FCSM, Canada, ABS, NAA | Packs or crosswalks | ✅ |
 | Devolved nations | Scotland data standards; Welsh quality strategy | Frameworks, scenarios | ✅ (the DAM policy is not mandatory there) |
@@ -122,6 +122,6 @@ Each has an entry in `knowledge/frameworks.yaml` and, where measurable, a pack i
 
 ## 11. Still open
 
-- `creator` is checked for the obvious mistakes (an email address or a person) but not yet matched against the GOV.UK organisations register, which changes often and isn't available offline; planned as a build-time list.
+- `creator` (the publisher) is flagged if it looks like an email address, but not yet matched against the GOV.UK organisations register, which changes often and isn't available offline; planned as a build-time list.
 - A published GDS return schema, when there is one, to replace the proposed CDA return columns.
 - The issues framework table discrepancy (section 6): a note for the GDS data quality team is drafted; the project lead sends it through GDS's own channel.
