@@ -11,6 +11,20 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.4.0"
+  date: "2026-11-04"
+  title: "Templates checked against government policy and guidance; safer releases and pull requests"
+  pages_new: []
+  pages_changed: [playbook, weaver, github, about, frameworks]
+  items:
+  - {type: changed, text: "DQAP workbook covers everything the implementation guide's 7 steps ask to be recorded: a communication plan, a checklist, review and resolution dates, options and costs, users and their needs"}
+  - {type: fixed, text: "Playbook rule template used 1 to 5 scales; the issues framework uses 1 to 4", link: "playbook.html"}
+  - {type: changed, text: "Register entry, issue log, action plan and annual review templates match the critical data asset guidance and the data ownership model", link: "playbook.html"}
+  - {type: changed, text: "CDA return adds purposes, data owner, steward, information asset owner, source data set and review dates"}
+  - {type: changed, text: "UK critical data asset profile in the Metadata Weaver follows the metadata guidance's mandatory and recommended properties", link: "weaver.html"}
+  - {type: new, text: "Conformance assessment against the DAM policy, critical data asset guidance, data ownership model, DQAP guide, issues framework, Government Data Quality Framework and domain guidance"}
+  - {type: new, text: "Two GOV.UK sources added to the frameworks register: identifying critical data assets, and the data ownership model", link: "frameworks.html"}
+  - {type: new, text: "Releases carry signed build provenance and a software bill of materials; pull requests get dependency review and area labels; first-time contributors get a welcome", link: "github.html#map-h"}
 - version: "2.3.0"
   date: "2026-11-04"
   title: "No claude.ai needed: the Commons runs on GitHub alone"

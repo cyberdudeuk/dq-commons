@@ -189,6 +189,12 @@ framework](https://www.gov.uk/government/publications/implement-a-data-quality-a
 The portal's [frameworks page](https://cyberdudeuk.github.io/dq-commons/frameworks.html) maps 28 other
 published frameworks and standards onto the same dimensions.
 
+### Conformance
+
+How the templates meet the DAM policy, the critical data asset guidance, the data ownership model, the DQAP
+implementation guide, the issues framework, the Government Data Quality Framework and domain guidance:
+[`docs/CONFORMANCE.md`](docs/CONFORMANCE.md).
+
 ### Related work
 
 - Public Sector DQ Tooling Atlas (research behind this kit)

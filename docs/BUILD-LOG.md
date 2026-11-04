@@ -1,5 +1,17 @@
 # Build journal
 
+## 2026-11-04 — v2.4.0: conformance with government guidance; GitHub supply-chain features
+
+**Asked for:** which other GitHub features and workflows should be enabled; whether the portal's templates conform fully to the Government Data Quality Framework, the DQAP implementation guide, the DAM policy and other relevant guidance.
+
+**Found and fixed**
+- DQAP workbook missed parts of steps 1, 2, 4, 5 and 6 (DQAP link, users and needs, review dates, goals, resolution options, costs, communication plan, target and actual resolution dates). All added, with a 7-step checklist tab.
+- Playbook rule template used 1 to 5 scales (the issues framework uses 1 to 4); register, issue log, plan and annual review templates lacked purposes, IAO, source data set, successor and review fields. Fixed.
+- CDA return lacked purposes, ownership and review fields; UK CDA profile had expires and supersededBy as recommended rather than mandatory. Fixed in both engines (parity 37 of 37).
+- GOV.UK issues framework table 4 contradicts its own band rule for a 97.5% target: recorded (IF-5) for the GDS data quality team.
+- Added dependency review, PR labels, first-time welcome, release SBOM and signed provenance, CITATION.cff, SUPPORT.md, Q&A link; settings baseline extended.
+- `docs/CONFORMANCE.md` written; two GOV.UK sources and five requirements added to the registers.
+
 ## 2026-11-04 — v2.3.0: no claude.ai needed; the Commons runs on GitHub alone
 
 **Asked for:** remove the portal's dependency on claude.ai, because most target users have no licence for it; the Commons must be self-sufficient on GitHub's features combined with the portal's own.

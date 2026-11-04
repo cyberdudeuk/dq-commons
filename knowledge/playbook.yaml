@@ -255,22 +255,22 @@ measures:
 templates:
 - id: t-register
   name: Critical data asset register entry
-  fields: [Asset name, Identifier, Description, Data owner (role), Data steward (role), Classification, Policy purposes served, Users and uses, Critical data elements, "Coverage (people, places, period)", Known gaps in coverage, Update frequency, Licence, Catalogue link, Last reviewed]
+  fields: [Asset name, Identifier, Description, Data owner (named, accountable), Data steward (role), Information asset owner, "Security classification (OFFICIAL, with any handling caveat)", "Purpose (one or more of the 7 GOV.UK purposes: public service delivery; legislative, legal or contractual requirement; defence, national security and resilience; policy development and evaluation; official statistics; public interest; fraud and error)", "Provided to or acquired from (organisations)", Source data set (if a distribution is designated), Users and uses, Critical data elements, "Coverage (people, places, period)", Known gaps in coverage, Update frequency, Licence, Catalogue link, DQAP (or equivalent) and where it is kept, Last reviewed, Next review (within 12 months)]
 - id: t-rule
   name: Data quality rule
-  fields: [Rule ID, Data element, Plain-English rule, Dimension, Test (data contract or toolkit rule), Target, Importance of purpose (1-5), Impact of failure (1-5), Owner, Date agreed]
+  fields: [Rule ID, Data element, Plain-English rule, Dimension, Measure and method, Test (data contract or toolkit rule), "Importance of purpose (1-4: low, medium, high, critical)", "Impact of the issue (1-4: low, medium, high, critical)", "Combined score (importance x impact)", "Target (%) within the issues framework range for that score", Owner, Date agreed]
 - id: t-issue
   name: Issue log entry
-  fields: [Issue ID, Date found, Rule ID, Description, Records affected, Users or groups affected, Combined score, Band below target, Priority, Resolution timescale, Root cause, Action and owner, Status, Date closed]
+  fields: [Issue ID, Date found, Rule ID, Description, Records affected, Users or groups affected, Performance (%) and target (%), Combined score, Band below target, Priority, Resolution timescale, Target resolution date, Root cause, Systemic or one-off, Action and owner, Review date, Status, Actual resolution date]
 - id: t-plan
   name: Data quality action plan
-  fields: [Asset, Goals for this period, Issues in scope by priority, Actions, Owners, Dates, Risks accepted and by whom, Resources needed, Review date]
+  fields: ["1. Critical data items and known issues (criticality matrix)", "2. Users and their quality needs; rules, measures and targets", "3. Baseline results and issues logged with priorities", "4. Goals, prioritised actions, owners, target dates and review dates", "5. Root causes, options, costs and benefits", "6. Stakeholder list and communication plan", "7. Measurement frequency and trends", Risks accepted and by whom, Resources needed, Review date]
 - id: t-statement
   name: Data quality statement
   fields: [Asset and version, Date, Overall summary in plain English, Scores by dimension and trend, Known issues and their effect, Quality by group where lawful, What the data is fit for, What it should not be used for, How to report a problem, "Contact (role or form, not a personal email)"]
 - id: t-review
   name: Annual review note
-  fields: [Asset, Date, "Still critical? (yes, no and why)", Owner and steward confirmed, Rules added or retired, Targets changed, New uses assessed (including AI), Maturity level, Goals for next year, Sign-off (role)]
+  fields: [Asset, Date, "Still critical? (yes, no and why)", Owner and steward confirmed (successor named if the owner has left), Metadata reviewed against the 13 critical data asset properties, DQAP still covers all 7 steps, Rules added or retired, Targets changed, New uses assessed (including AI), Maturity level, Goals for next year, Sign-off (role)]
 
 jurisdictions:
 - {where: UK government (departments and ALBs), basis: "DAM policy (mandatory for CDAs), DQAP and issues framework guidance, CDA metadata guidance, Government Data Quality Framework", frameworks: [uk-dam-policy, uk-dqap, uk-cda-metadata, uk-gdqf]}

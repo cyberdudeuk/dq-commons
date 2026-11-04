@@ -104,6 +104,23 @@ def _sheet(wb, title, headers, rows, widths=None, input_cols=()):
     return ws
 
 
+CYCLES = {"Critical": 0, "High": 1, "Medium": 3, "Low": 6}  # issues framework: resolve within n measurements
+
+
+def target_resolution(as_of: str, priority: str | None, asset: dict) -> str:
+    """Target resolution date from the issues framework timescale and the measurement cycle, if both are known."""
+    from .rules import iso_duration_days
+    from datetime import timedelta
+    cycle = asset.get("measurement_cycle") or asset.get("measurement_frequency")
+    if priority not in CYCLES or not isinstance(cycle, str) or not cycle.startswith("P"):
+        return ""
+    try:
+        days = iso_duration_days(cycle) * CYCLES[priority]
+    except Exception:  # noqa: BLE001 - an unusual cycle: leave the date for a person to set
+        return ""
+    return (date.fromisoformat(as_of) + timedelta(days=round(days))).isoformat()
+
+
 def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Path | None = None) -> Path:
     asset = spec["asset"]
     route = pathway.route(asset)
@@ -121,8 +138,8 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
         ("Action plan required", "Yes" if tr["action_plan_required"] else "No"),
         ("Rules meeting target", f"{result['rules_met']} of {result['rules_total']}"),
         ("Open issues", f"{len(result['issues'])} ({ops['overdue_issues']} overdue: escalate)"),
-        ("Tabs", "Details · Criticality matrix · Metrics · Results · Issues log · Causes · Actions · Operations · RACI · Steps"),
-        ("Guidance", "GOV.UK DQAP guide and data quality issues framework (2026); Government Data Quality Framework (2020)"),
+        ("Tabs", "Details · Criticality matrix · Metrics · Results · Issues log · Causes · Actions · Communication plan · Operations · RACI · Steps · Checklist"),
+        ("Guidance", "GOV.UK Data quality action plan: implementation guide and Data quality issues framework (published 11 November 2025, updated 16 April 2026); Government Data Quality Framework (2020); Data asset management policy in government (every critical data asset needs a DQAP, or equivalent, covering all 7 steps)"),
     ]
     for k, v in lines:
         ws.append([k, v])
@@ -140,6 +157,12 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
         ["Importance of purpose (1-4)", asset.get("importance", 3)], ["Target policy", asset.get("target_policy", "low")],
         ["Measurement frequency", asset.get("measurement_cycle", asset.get("measurement_frequency", ""))],
         ["Date of this assessment", result["as_of"]], ["DQAP status", asset.get("dqap_status", "in_place")],
+        ["Where this DQAP is kept (link)", asset.get("dqap_link", "")],
+        ["Users and their quality needs (step 2)", asset.get("user_needs", "")],
+        ["Business subject matter experts", asset.get("smes", "")],
+        ["Data custodian / technical SME", asset.get("custodian", "")],
+        ["Information asset owner", asset.get("iao", "")],
+        ["Next review of this plan", asset.get("next_review", "")],
     ], widths={"Field": 34, "Value": 90})
 
     items = {}
@@ -180,23 +203,36 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
                        a["band"], a["priority_score"], a["priority"], a["resolution"], it["responsibility"],
                        r.get("meta", {}).get("control_point", ""), o["cycles_open"],
                        f"Overdue: escalate to {o['escalate_to'].lower()}" if o["overdue"] else "Within timescale",
-                       "Yes" if o["recurrences"] else "No", asset.get("steward", ""), "", "", result["as_of"], "Open"])
-    wsI = _sheet(wb, "Issues log", ["Issue ID", "Rule ID", "Issue type", "Description", "Dimension", "Performance (%)", "Target (%)",
-                                     "Band", "Priority score", "Priority", "Resolution timescale", "Responsibility",
-                                     "Control point", "Cycles open", "Escalation", "Recurring", "Owner", "Source system",
-                                     "Immediate risk", "Date raised", "Status"], issues, widths={"Description": 44, "Escalation": 34},
-                 input_cols=("Owner", "Source system", "Immediate risk", "Status"))
+                       "Yes" if o["recurrences"] else "No", asset.get("steward", ""), "", "", result["as_of"],
+                       target_resolution(result["as_of"], a["priority"], asset), "", "", "Open"])
+    ISSUE_COLS = ["Issue ID", "Rule ID", "Issue type", "Description", "Dimension", "Performance (%)", "Target (%)",
+                  "Band", "Priority score", "Priority", "Resolution timescale", "Responsibility",
+                  "Control point", "Cycles open", "Escalation", "Recurring", "Owner", "Source system",
+                  "Immediate risk", "Date raised", "Target resolution date", "Actual resolution date", "Review date", "Status"]
+    wsI = _sheet(wb, "Issues log", ISSUE_COLS, issues, widths={"Description": 44, "Escalation": 34},
+                 input_cols=("Owner", "Source system", "Immediate risk", "Target resolution date", "Actual resolution date", "Review date", "Status"))
     fixer = "Supplier" if route["source"] == "external" and not route["influence"] else ""
     _sheet(wb, "Causes", ["Issue ID", "Priority", "Description of issue", "Contributing causes (5 whys)", "Systemic or one-off",
-                          "Can we fix it ourselves? (addressability)", "Issue to address"],
-           [[i[0], i[9], i[3], "", "", "No: supplier must fix; record and communicate the limitation" if fixer else "", ""] for i in issues],
-           widths={"Description of issue": 44, "Contributing causes (5 whys)": 44, "Can we fix it ourselves? (addressability)": 30},
-           input_cols=("Contributing causes (5 whys)", "Systemic or one-off", "Can we fix it ourselves? (addressability)", "Issue to address"))
-    wsA = _sheet(wb, "Actions", ["Issue ID", "Action type", "Action to fix the issue", "Action owner", "Target date",
-                                  "How we will know it worked", "Status"],
-                 [[i[0], "", "", "", "", f"Rule {i[1]} meets {i[6]}% at the next measurement", "Not started"] for i in issues],
+                          "Can we fix it ourselves? (addressability)", "Resolution options considered", "Cost and benefit", "Issue to address"],
+           [[i[0], i[9], i[3], "", "", "No: supplier must fix; record and communicate the limitation" if fixer else "", "", "", ""] for i in issues],
+           widths={"Description of issue": 44, "Contributing causes (5 whys)": 44, "Can we fix it ourselves? (addressability)": 30,
+                   "Resolution options considered": 36, "Cost and benefit": 30},
+           input_cols=("Contributing causes (5 whys)", "Systemic or one-off", "Can we fix it ourselves? (addressability)",
+                       "Resolution options considered", "Cost and benefit", "Issue to address"))
+    ACTION_COLS = ["Issue ID", "Action type", "Action to fix the issue", "Action owner", "Target date", "Review date",
+                   "Goal (target %)", "How we will know it worked", "Status"]
+    wsA = _sheet(wb, "Actions", ACTION_COLS,
+                 [[i[0], "", "", "", "", "", i[6], f"Rule {i[1]} meets {i[6]}% at the next measurement", "Not started"] for i in issues],
                  widths={"Action to fix the issue": 50, "How we will know it worked": 34},
-                 input_cols=("Action type", "Action to fix the issue", "Action owner", "Target date", "Status"))
+                 input_cols=("Action type", "Action to fix the issue", "Action owner", "Target date", "Review date", "Goal (target %)", "Status"))
+    # Step 6: report on data quality. The guide asks for a stakeholder list and a communication plan.
+    _sheet(wb, "Communication plan", ["Stakeholder group", "What they need to know", "Format or route", "How often", "Owner", "Last sent"], [
+        ["Data owner", "Results against targets, overdue issues, decisions needed", "This DQAP and the run summary", "Each measurement cycle", "", ""],
+        ["Data users (internal and other organisations)", "Strengths and limitations, caveats, known issues, changes to processing", "Metadata, asset documentation, data sharing agreements", "Each release, and when quality changes", "", ""],
+        ["Data providers and suppliers", "Issues found at source, rule targets, what they need to change", "Supplier meetings or contract reviews", "When issues are found", "", ""],
+        ["Data governance board", "Priorities, overdue issues, resources needed", "Dashboard or summary report", "Quarterly", "", ""],
+        ["The public (if the data is published)", "Quality statement and caveats in plain English", "Published metadata and quality statement", "Each publication", "", ""],
+    ], widths={"Stakeholder group": 34, "What they need to know": 50, "Format or route": 40}, input_cols=("Owner", "Last sent", "How often"))
     _sheet(wb, "Operations", ["Measure", "Value", "What it tells you"], [
         ["Measurement cycles recorded", ops["cycles_measured"], "Keep a history (--history) so trends and ageing can be tracked"],
         ["Defect volume", ops["defect_volume"], "Records (or dataset checks) failing a rule now"],
@@ -209,11 +245,22 @@ def build(spec: dict, result: dict, out_path: str | Path, history_dir: str | Pat
     _sheet(wb, "RACI", ["DQAP step", "Activity"] + RACI_ROLES, [[s, a] + roles for s, a, roles in RACI],
            widths={"Activity": 50, "DQAP step": 26})
     _sheet(wb, "Steps", ["#", "Step (decision tree route)"], [[i, s] for i, s in enumerate(route["steps"], 1)], widths={"Step (decision tree route)": 90})
+    # The DAM policy asks that a DQAP, or an existing mechanism, covers all 7 steps of the implementation guide.
+    _sheet(wb, "Checklist", ["DQAP step (implementation guide)", "What must be recorded", "Where in this workbook", "Done?"], [
+        ["1. Identify critical data", "Critical data items, known issues, whether a DQAP exists and where", "Criticality matrix; Issues log; Details (DQAP status and link)", ""],
+        ["2. Identify data quality rules", "Users and needs; rules, measures, methods, targets and percentage thresholds", "Details (users and needs); Metrics", ""],
+        ["3. Assess current data quality", "Baseline results, issues with priorities, targets for each measure", "Results; Issues log", "Yes (measured)"],
+        ["4. Prioritise improvements and set goals", "Priorities, actions, timeframes, owners, review dates, goals", "Issues log; Actions", ""],
+        ["5. Identify root cause and take action", "Root causes, systemic or one-off, options, costs and benefits, owners, target dates", "Causes; Actions", ""],
+        ["6. Report on data quality", "Stakeholder list, communication plan, target and actual resolution dates", "Communication plan; Issues log", ""],
+        ["7. Repeat measure over time", "Measurement frequency, results over time, trends, issue progress", "Details; Results; Operations; Issues log", "Yes (measured)" if len(dates) > 1 else ""],
+    ], widths={"DQAP step (implementation guide)": 36, "What must be recorded": 60, "Where in this workbook": 44}, input_cols=("Done?",))
 
+    col = lambda cols, name: get_column_letter(cols.index(name) + 1)
     status = DataValidation(type="list", formula1='"Open,In progress,Resolved,Accepted risk"', allow_blank=True)
-    wsI.add_data_validation(status); status.add(f"U2:U{max(2, len(issues) + 50)}")
+    wsI.add_data_validation(status); status.add(f"{col(ISSUE_COLS, 'Status')}2:{col(ISSUE_COLS, 'Status')}{max(2, len(issues) + 50)}")
     astatus = DataValidation(type="list", formula1='"Not started,In progress,Done,Blocked"', allow_blank=True)
-    wsA.add_data_validation(astatus); astatus.add(f"G2:G{max(2, len(issues) + 50)}")
+    wsA.add_data_validation(astatus); astatus.add(f"{col(ACTION_COLS, 'Status')}2:{col(ACTION_COLS, 'Status')}{max(2, len(issues) + 50)}")
     atype = DataValidation(type="list", formula1='"Containment,Corrective,Preventive"', allow_blank=True)
     wsA.add_data_validation(atype); atype.add(f"B2:B{max(2, len(issues) + 50)}")
     wb["Causes"].add_data_validation(sys_ := DataValidation(type="list", formula1='"Systemic,One-off,Not known yet"', allow_blank=True))

@@ -15,10 +15,10 @@
   "accessibility": {
    "s-accessibility-statement-for-the-public-sector-data-quality-c": "6cde387a9b4e",
    "s-enforcement-procedure": "a823adc14123",
-   "s-how-accessible-this-website-is-known-problems": "ca67570c6fce",
+   "s-how-accessible-this-website-is-known-problems": "1a6c15b9582d",
    "s-how-we-tested": "114ea623d443",
    "s-offline-low-bandwidth-and-simpler-versions": "acdc60fab005",
-   "s-privacy-notice": "b4513225f81f",
+   "s-privacy-notice": "e8b93cd6a2ea",
    "s-tell-us-about-a-problem-or-ask-for-another-format": "2415ccca4d5d"
   },
   "ai": {
@@ -31,9 +31,9 @@
    "s-worked-examples": "5e63a10304e2"
   },
   "assistant": {
-   "s-conversation": "a8cfe66fbf40",
+   "s-describe-your-rules": "bba3acc2b946",
    "s-rules-file": "de02729e6afb",
-   "s-your-data-optional": "041ed3a4a65d"
+   "s-your-data-optional": "8cb09468e3c6"
   },
   "baseline": {
    "s-assumptions-and-open-questions": "b60a8678dda4",
@@ -51,7 +51,7 @@
    "s-backlog": "6f524f8b7bf8",
    "s-charter-rules-and-safeguards": "508eed0b372d",
    "s-co-design": "b4bae567db76",
-   "s-contact-us": "cba79ff370f1",
+   "s-contact-us": "c57b86846913",
    "s-contributors": "c6678f03dc09",
    "s-github-resources": "da39a3ee5e6b",
    "s-how-we-keep-content-trustworthy": "4cc8ba9952bf",
@@ -59,7 +59,7 @@
    "s-roadmap": "da39a3ee5e6b",
    "s-solution-build-and-development-bundle": "5c616abf1b46",
    "s-ways-to-help": "da39a3ee5e6b",
-   "s-wishlist-and-votes": "041c43eb009b"
+   "s-wishlist-and-votes": "0721cbbf7a23"
   },
   "check": {
    "s-results": "51221ed6963d"
@@ -75,14 +75,13 @@
    "s-why-it-matters": "da39a3ee5e6b"
   },
   "community": {
-   "s-contribute": "11bfc979330d",
+   "s-contribute": "bedb59e763ed",
    "s-contributions-library": "bddf53d6977c",
-   "s-moderation-queue": "3c6ca6da376e",
    "s-networks-communities-and-working-groups": "6ce53f1bef39",
    "s-wishlist-roadmap-and-backlog": "1a9470049f68"
   },
   "events": {
-   "s-add-an-event": "c55f5928f1d1",
+   "s-add-an-event": "6d0201860cf3",
    "s-every-year": "ef89c0b1731e",
    "s-upcoming-events": "75c679a0f7a3"
   },
@@ -96,7 +95,7 @@
   },
   "github": {
    "s-find-other-public-sector-code": "d5cc9c11ed6a",
-   "s-how-every-portal-feature-connects-to-github": "76dfb77192df",
+   "s-how-every-portal-feature-connects-to-github": "868e44cca179",
    "s-how-the-portal-and-the-repository-connect": "7449adb7e5af",
    "s-key-words": "d6f7ae3c9913",
    "s-staying-safe-in-a-public-space": "eed022873d22",
@@ -119,7 +118,7 @@
   },
   "guide": {
    "s-accessibility": "e672c5df41f3",
-   "s-common-tasks": "577fcdba3d33",
+   "s-common-tasks": "1763259f1fa5",
    "s-guided-tours": "9cde529f4006",
    "s-privacy": "12a00aba0b34",
    "s-questions": "a14a5a370945",
@@ -175,18 +174,18 @@
   "library": {
    "s-curated-library": "eea8dbe1685f",
    "s-knowledge-base-articles": "65624042d217",
-   "s-publish-a-resource": "ae066fa839f8",
-   "s-shared-by-members": "07c9b73b2075"
+   "s-publish-a-resource": "5c8ae8243623",
+   "s-shared-by-members": "6ab99c8cc293"
   },
   "maturity": {
-   "s-how-organisations-compare": "cd5f910d5a07",
-   "s-your-results": "c119c78e6ffd"
+   "s-how-organisations-compare": "64b4f03ffe2c",
+   "s-your-results": "1e4d6ddec1be"
   },
   "media": {
    "s-blog-posts": "da39a3ee5e6b",
    "s-from-gov-uk-blogs": "74440e072254",
    "s-podcast-episodes": "da39a3ee5e6b",
-   "s-share-yours": "b2fb4500fadb",
+   "s-share-yours": "e19402764bac",
    "s-videos": "da39a3ee5e6b"
   },
   "ndl-assurance": {
@@ -247,9 +246,9 @@
    "s-draft-case-studies": "df3f9211bd42"
   },
   "surveys": {
-   "s-ask-the-commons-for-help": "74aa80d480d2",
-   "s-results-so-far": "1de8368e4cb5",
-   "s-run-your-own-survey-through-the-commons": "cb37ce8b5248",
+   "s-ask-the-commons-for-help": "606785655722",
+   "s-results-so-far": "67ebe6a59736",
+   "s-run-your-own-survey-through-the-commons": "733bf442db63",
    "s-surveys": "da39a3ee5e6b"
   },
   "tooling": {
@@ -278,5 +277,5 @@
    "s-why-a-weaver-not-just-a-crosswalk": "cf8d1c2169af"
   }
  },
- "since": "2.2.0"
+ "since": "2.3.0"
 }

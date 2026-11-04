@@ -30,6 +30,7 @@ DOCS = [  # (group, file, short title)
     ("Product", "docs/THEORY-OF-CHANGE.md", "Theory of change"),
     ("Product", "docs/USER-RESEARCH-BUNDLE.md", "User research bundle"),
     ("Product", "docs/EQUALITY-AND-DATA-PROTECTION-SCREENING.md", "Equality and data protection screening"),
+    ("Product", "docs/CONFORMANCE.md", "Conformance with government data quality policy and guidance"),
     ("Architecture", "docs/ARCHITECTURE.md", "Architecture: SAD, HLD and LLD"),
     ("Architecture", "docs/FTIR-SPEC.md", "Functional, technical and integration requirements"),
     ("Architecture", "docs/METADATA-WEAVER.md", "Metadata Weaver: assessment and design"),

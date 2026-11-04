@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Ask a question (Discussions)
+    url: https://github.com/cyberdudeuk/dq-commons/discussions/new?category=q-a
+    about: Questions about data quality or using the Commons, answered in the open.
   - name: Ask the community
     url: https://www.gov.uk/government/news/introducing-the-government-data-quality-community
     about: For questions about data quality practice, the cross-government community is the best place.

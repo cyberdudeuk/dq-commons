@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use the Public Sector Data Quality Commons in research or a publication, please cite it as below."
+title: "Public Sector Data Quality Commons"
+abstract: "An open toolkit, portal and playbook to measure, report and improve data quality in the public sector with open standards, aligned to the Government Data Quality Framework, the data quality action plan guidance and the data asset management policy."
+type: software
+authors:
+  - name: "Public Sector Data Quality Commons contributors"
+repository-code: "https://github.com/cyberdudeuk/dq-commons"
+url: "https://cyberdudeuk.github.io/dq-commons/"
+license: MIT
+version: "2.4.0"
+date-released: "2026-11-04"
+keywords: [data quality, public sector, data governance, critical data assets, open standards, DQAP]

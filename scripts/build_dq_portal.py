@@ -66,7 +66,7 @@ GROUPS = [
     ]),
     ("4 Improve", [
         ("playbook", "Data quality management playbook", "Eight stages to manage the quality of critical data assets: steps, checklists, roles, templates and the DAM policy, usable anywhere"),
-        ("frameworks", "Frameworks and standards", "28 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
+        ("frameworks", "Frameworks and standards", "30 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
         ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
         ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),

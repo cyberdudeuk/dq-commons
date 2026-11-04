@@ -150,6 +150,37 @@ frameworks:
     Metadata completeness:
     - metadata
   pack: uk-dam-cda
+- id: uk-identify-cda
+  name: Identifying and recording critical data assets
+  publisher: Government Digital Service (DSIT)
+  jurisdiction: UK
+  sector: Cross-government
+  type: guidance
+  status: Mandatory for central government departments and arm's length bodies (supports the DAM policy)
+  year: '2026'
+  url: https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets
+  verified: 'yes'
+  dimensions: [Ownership, Purpose, Review]
+  map:
+    Ownership: [metadata]
+    Purpose: [metadata]
+    Review: [timeliness]
+  pack: uk-dam-cda
+- id: uk-data-ownership-model
+  name: Data ownership model (data ownership in government)
+  publisher: Government Digital Service (DSIT)
+  jurisdiction: UK
+  sector: Cross-government
+  type: guidance
+  status: Supports the DAM policy; organisations must have an enterprise data ownership model
+  year: '2026'
+  url: https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model
+  verified: 'yes'
+  dimensions: [Accountability, Stewardship, Custodianship]
+  map:
+    Accountability: [metadata]
+    Stewardship: [metadata]
+    Custodianship: [metadata]
 - id: uk-code-of-practice-3
   name: Code of Practice for Statistics, Edition 3.0
   publisher: Office for Statistics Regulation (UK Statistics Authority)

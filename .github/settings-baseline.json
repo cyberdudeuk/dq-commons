@@ -46,6 +46,14 @@
     "private_vulnerability_reporting": [
       true,
       "SECURITY.md promises a private way to report security problems"
+    ],
+    "secret_scanning_non_provider_patterns": [
+      "enabled",
+      "Catches passwords and keys that aren't tied to a known provider"
+    ],
+    "secret_scanning_validity_checks": [
+      "enabled",
+      "Tells you whether a leaked credential still works"
     ]
   },
   "rulesets": {

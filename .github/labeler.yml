@@ -1,0 +1,7 @@
+# Labels pull requests by the parts of the Commons they change (actions/labeler).
+area:toolkit: [{changed-files: [{any-glob-to-any-file: ["dqkit/**", "rules/**", "packs/**"]}]}]
+area:portal: [{changed-files: [{any-glob-to-any-file: ["portal/src/**", "scripts/build_dq_portal.py"]}]}]
+area:content: [{changed-files: [{any-glob-to-any-file: ["knowledge/**", "vocab/**"]}]}]
+area:docs: [{changed-files: [{any-glob-to-any-file: ["docs/**", "*.md"]}]}]
+area:automation: [{changed-files: [{any-glob-to-any-file: [".github/**"]}]}]
+area:accessibility: [{changed-files: [{any-glob-to-any-file: ["scripts/a11y_check.mjs", "portal/src/pages/accessibility.html"]}]}]

@@ -1,6 +1,6 @@
 {
   "as_of": "2026-11-04",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "counts": {
     "error": 0,
     "warning": 0,
@@ -24,7 +24,7 @@
         "ratio": 100.0
       },
       "frameworks.yaml": {
-        "read_in_full": 28,
+        "read_in_full": 30,
         "not_yet": 0,
         "ratio": 100.0
       },
@@ -54,8 +54,8 @@
         "ratio": 100.0
       }
     },
-    "read_in_full": 152,
-    "total": 152,
+    "read_in_full": 154,
+    "total": 154,
     "ratio": 100.0
   },
   "checks": [

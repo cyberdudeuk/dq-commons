@@ -475,9 +475,10 @@ PROFILES = [
      ["dct:accrualPeriodicity", "dct:temporal", "dct:spatial", "dcat:distribution", "stat:dimension", "stat:statMeasure",
       "dqv:hasQualityAnnotation"]),
     ("uk-cda", "UK critical data asset properties (GOV.UK data asset management guidance)", "dcat",
-     ["dct:title", "dct:description", "dct:identifier", "dct:publisher", "dct:license", "dct:accessRights",
-      "dqc:securityClassification", "dct:issued", "dct:temporal", "dct:conformsTo", "dcat:distribution"],
-     ["dqc:expires", "dct:isReplacedBy", "dcat:contactPoint", "dct:accrualPeriodicity", "dcat:keyword"]),
+     # GOV.UK "Recording metadata to describe critical data assets": mandatory, then recommended (identifier, mediaType)
+     ["dct:title", "dct:description", "dct:publisher", "dct:issued", "dqc:expires", "dct:isReplacedBy", "dct:temporal",
+      "dct:conformsTo", "dct:accessRights", "dqc:securityClassification", "dct:license"],
+     ["dct:identifier", "dcat:distribution", "dcat:contactPoint", "dct:accrualPeriodicity", "dcat:keyword"]),
 ]
 DATE_PROPS = ("dct:issued", "dct:modified", "dqc:expires")
 ISO_DATE = __import__("re").compile(r"[0-9]{4}(-[0-9]{2}(-[0-9]{2}([T ][0-9]{2}:[0-9]{2}(:[0-9]{2}(\.[0-9]+)?)?(Z|[+-][0-9]{2}:?[0-9]{2})?)?)?)?")

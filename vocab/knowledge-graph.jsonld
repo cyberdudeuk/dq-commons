@@ -1930,6 +1930,47 @@
    ]
   },
   {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda",
+   "@type": [
+    "dqc:Framework"
+   ],
+   "label": "Identifying and recording critical data assets",
+   "definition": "Mandatory for central government departments and arm's length bodies (supports the DAM policy)",
+   "seeAlso": "https://www.gov.uk/government/publications/identify-and-record-critical-data-assets/identifying-and-recording-critical-data-assets",
+   "dqc:appliesIn": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk"
+    }
+   ],
+   "dqc:mapsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/timeliness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model",
+   "@type": [
+    "dqc:Framework"
+   ],
+   "label": "Data ownership model (data ownership in government)",
+   "definition": "Supports the DAM policy; organisations must have an enterprise data ownership model",
+   "seeAlso": "https://www.gov.uk/government/publications/data-ownership-in-government/data-ownership-model",
+   "dqc:appliesIn": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Jurisdiction/uk"
+    }
+   ],
+   "dqc:mapsTo": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/metadata"
+    }
+   ]
+  },
+  {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3",
    "@type": [
     "dqc:Framework"
@@ -3194,6 +3235,71 @@
    "dqc:clauseOf": [
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/fair"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-identify-cda-idc-1",
+   "@type": [
+    "dqc:PolicyClause"
+   ],
+   "label": "IDC-1: Designate assets that serve one or more of 7 purposes (public service delivery; legislative, legal or contractual; defence, security and resilience; policy development and evaluation; official statistics; public interest; fraud and error)",
+   "definition": "Area: Scope. Strength: must. Toolkit: Register entry template and CDA return gds_purposes",
+   "dqc:clauseOf": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-identify-cda-idc-2",
+   "@type": [
+    "dqc:PolicyClause"
+   ],
+   "label": "IDC-2: Every designated asset has a named data owner or IAO; name a successor when an owner leaves; review metadata every 12 months",
+   "definition": "Area: Ownership. Strength: must. Toolkit: DQAP Details (owner, steward, custodian, IAO, next review); annual review note template; CDA return gds_dataowner and review dates",
+   "dqc:clauseOf": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-identify-cda"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-data-ownership-model-do-1",
+   "@type": [
+    "dqc:PolicyClause"
+   ],
+   "label": "DO-1: Data owner, data steward and data custodian roles; owner and steward names and roles kept in metadata; ownership reviewed annually",
+   "definition": "Area: Ownership. Strength: must. Toolkit: RACI tab; DQAP Details; Weaver contact point (team or role)",
+   "dqc:clauseOf": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-data-ownership-model"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-dqap-dqap-8",
+   "@type": [
+    "dqc:PolicyClause"
+   ],
+   "label": "DQAP-8: Stakeholder list and communication plan, with target and actual resolution dates",
+   "definition": "Area: Reporting. Strength: should. Toolkit: Communication plan tab; Issues log target and actual resolution dates",
+   "dqc:clauseOf": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/PolicyClause/uk-dqap-if-5",
+   "@type": [
+    "dqc:PolicyClause"
+   ],
+   "label": "IF-5: High band starts halfway between the Middle band start and the target",
+   "definition": "Area: Method. Strength: method. Toolkit: framework.py follows the stated rule (97.5% target: High band from 96.25%)",
+   "dqc:clauseOf": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-dqap"
     }
    ]
   },

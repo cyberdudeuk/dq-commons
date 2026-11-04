@@ -265,4 +265,7 @@ fill in the Causes and Actions tabs, and close the loop at the next measurement.
 | Triage | Working days | Flags contact and contribution issues waiting past their service level |
 | Repository health | Weekly | Settings drift against `.github/settings-baseline.json`; creates missing labels |
 | Data quality pipeline | Mondays | Measures the portfolio; one issue per escalation (`dq-escalation`) |
+| Dependency review, Label pull requests | Every pull request | Refuse vulnerable or closed-licence dependencies; label by area |
+| Welcome | First issue or pull request from someone | A plain-English reply on what happens next |
+| release (v2.4.0 additions) | On a version tag | Also attaches an SBOM and signs build provenance for the downloads |
 | Docs to Confluence, Backlog sync to Jira | On change | Dry runs until an owner adds the Atlassian secrets |

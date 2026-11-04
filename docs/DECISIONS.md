@@ -1,5 +1,15 @@
 # Decision log (this repository)
 
+## 2026-11-04 · D-CONF-01 · Templates follow the GOV.UK guidance's "must record" lists; the stated rule wins over a table
+- **Decision:** the DQAP workbook, playbook templates, CDA return and Weaver profile record every item the DQAP implementation guide, the critical data asset guidance, the data ownership model and the metadata guidance ask for (assessment in `docs/CONFORMANCE.md`). Where the issues framework's table 4 (96.75% for a 97.5% target) contradicts its stated rule (halfway, giving 96.25%), the Commons follows the rule and records the discrepancy for the GDS data quality team. Personal names asked for by the ownership guidance are recorded only in an organisation's own workbook or return, never in the Commons.
+- **Why:** the DAM policy says a DQAP, or an existing mechanism, must cover all 7 steps; a template that misses a step makes users non-compliant without knowing.
+- **Alternatives considered:** follow the table (rejected: it breaks the method for other targets and disagrees with the worked examples); leave name fields out (rejected: the ownership model requires names; they belong in the organisation's records).
+
+## 2026-11-04 · D-GH-03 · Adopt GitHub's supply-chain and contribution features
+- **Decision:** add dependency review on pull requests, area labels, a first-time welcome, signed build provenance and an SBOM on releases, a citation file, a support file and a Q&A link in the issue chooser. Recommend to the owner: a main-branch ruleset, secret scanning validity checks and generic patterns, immutable releases, a GitHub Project for the roadmap, and pinning actions to commit SHAs.
+- **Why:** these are free on public repositories, raise the OpenSSF Scorecard and make downloads verifiable, which public bodies increasingly ask for.
+- **Alternatives considered:** third-party bots (rejected: more permissions, more suppliers); a stale-issue bot (rejected: closing people's issues automatically conflicts with the moderation service levels).
+
 ## 2026-11-04 · D-GH-02 · No claude.ai dependency: the Commons runs on GitHub and its own code
 - **Decision:** remove every use of claude.ai from the portal: the shared store, sign-in, in-portal moderation, claude.ai downloads, the AI model behind the assistant, and the claude.ai build mode. Submissions go through GitHub issue forms pre-filled by the portal (surveys and maturity sharing get generated forms, `scripts/gen_issue_forms.py`); moderators publish with the `published` label; the portal build counts and shows results (published items, survey totals, the maturity benchmark, votes) with counts under 5 hidden, and republishes daily and on publish or withdraw. The assistant drafts rules with fixed, published patterns in the browser, with an optional "copy as a prompt" for an AI tool the person's organisation has approved.
 - **Why:** the project lead's instruction: most target users have no government or corporate claude.ai licence, so anything that needs it excludes them. GitHub is free, already used across government, and offers forms, reactions, labels, Actions and Pages.

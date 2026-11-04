@@ -1,10 +1,11 @@
 name: release
 # When a version tag (v1.2.3) is pushed, check it matches knowledge/releases.yaml,
-# then create a GitHub release with the notes from that file, the source zip and the offline portal,
+# then create a GitHub release with the notes from that file, the source zip, the offline portal and an SBOM,
+# sign build provenance for the downloads,
 # and open an inclusion review checklist for that version (the "Inclusion review" routine).
 on:
   push: {tags: ["v*.*.*"]}
-permissions: {contents: write, issues: write}
+permissions: {contents: write, issues: write, id-token: write, attestations: write}
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -21,7 +22,14 @@ jobs:
         run: |
           python scripts/build_dq_portal.py --repo "https://github.com/${GITHUB_REPOSITORY}" > /dev/null
           cp portal/dist/downloads/dq-commons-offline.zip "dq-commons-${GITHUB_REF_NAME}-offline-portal.zip"
-          gh release create "${GITHUB_REF_NAME}" "dq-commons-${GITHUB_REF_NAME}.zip" "dq-commons-${GITHUB_REF_NAME}-offline-portal.zip" --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
+          # Software bill of materials (SPDX), from GitHub's dependency graph
+          gh api "repos/${GITHUB_REPOSITORY}/dependency-graph/sbom" -q .sbom > "dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json"
+          gh release create "${GITHUB_REF_NAME}" "dq-commons-${GITHUB_REF_NAME}.zip" "dq-commons-${GITHUB_REF_NAME}-offline-portal.zip" "dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json" --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
+      # Signed build provenance: anyone can check a download came from this repository's workflow
+      # (gh attestation verify FILE -R cyberdudeuk/dq-commons)
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: "dq-commons-*.zip"
       - name: Open the inclusion review for this release
         env: {GH_TOKEN: "${{ github.token }}"}
         run: |

@@ -2,6 +2,15 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.4.0 — 2026-11-04
+### Added
+- `docs/CONFORMANCE.md`; frameworks `uk-identify-cda`, `uk-data-ownership-model`; requirements IDC-1, IDC-2, DO-1, DQAP-8, IF-5.
+- DQAP workbook tabs `Communication plan` and `Checklist`; new columns in Issues log, Causes and Actions; new Details rows.
+- CDA return columns `gds_purposes`, `gds_dataowner`, `gds_datasteward`, `gds_iao`, `gds_providedto`, `gds_sourcedataset`, `gds_dqmeasurementfrequency`, `gds_metadatalastreview`, `gds_metadatanextreview` (appended).
+- Workflows: Dependency review, Label pull requests, Welcome; release SBOM and build provenance. `CITATION.cff`, `.github/SUPPORT.md`.
+### Fixed
+- Playbook rule template scales (1 to 4, as the issues framework); UK CDA profile must and should lists.
+
 ## 2.3.0 — 2026-11-04
 ### Changed
 - The portal has no claude.ai dependency (D-GH-02). All submissions use GitHub issue forms pre-filled by the portal; results are read from GitHub when the portal is built.

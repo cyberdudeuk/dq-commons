@@ -248,7 +248,15 @@ class TrustPathwayWorkbook(unittest.TestCase):
             p = workbook.build(SPEC, res, f"{d}/t.xlsx", d)
             wb = openpyxl.load_workbook(p)
             self.assertEqual(wb.sheetnames, ["Start here", "Details", "Criticality matrix", "Metrics", "Results",
-                                             "Issues log", "Causes", "Actions", "Operations", "RACI", "Steps"])
+                                             "Issues log", "Causes", "Actions", "Communication plan", "Operations", "RACI", "Steps", "Checklist"])
+            # DQAP implementation guide, steps 4 to 6: review dates, resolution dates, options and a communication plan
+            heads = lambda n: [c.value for c in wb[n][1]]
+            for col in ("Target resolution date", "Actual resolution date", "Review date"):
+                self.assertIn(col, heads("Issues log"))
+            for col in ("Review date", "Goal (target %)"):
+                self.assertIn(col, heads("Actions"))
+            self.assertIn("Resolution options considered", heads("Causes"))
+            self.assertEqual(wb["Checklist"].max_row, 8)
             self.assertEqual(wb["Issues log"].max_row - 1, len(res["issues"]))
 
 

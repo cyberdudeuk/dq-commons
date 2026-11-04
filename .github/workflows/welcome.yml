@@ -1,0 +1,24 @@
+# Welcome people the first time they open an issue or pull request, in plain English, with what happens next.
+name: Welcome
+on:
+  issues: {types: [opened]}
+  pull_request_target: {types: [opened]}
+permissions: {issues: write, pull-requests: write}
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const item = context.payload.issue || context.payload.pull_request;
+            const login = item.user.login;
+            if (item.user.type === 'Bot') return;
+            const { data } = await github.rest.search.issuesAndPullRequests({ q: `repo:${context.repo.owner}/${context.repo.repo} author:${login}` });
+            if (data.total_count > 1) return;
+            const labels = (item.labels || []).map(l => l.name);
+            const counted = labels.includes('survey-response') || labels.includes('maturity-share');
+            const body = counted
+              ? 'Thank you for answering. Your answer is counted in the totals on the portal at its next daily update. Only totals are shown, and any count under 5 is hidden. To withdraw, use the contact form and choose "Withdraw my contribution".'
+              : 'Thank you, and welcome to the Public Sector Data Quality Commons. A moderator will reply here, usually within 5 working days (accessibility problems within 1). Please keep personal data out of this thread. What happens next: [moderation and service levels](https://github.com/cyberdudeuk/dq-commons/blob/main/docs/MODERATION.md).';
+            await github.rest.issues.createComment({ ...context.repo, issue_number: item.number, body });
