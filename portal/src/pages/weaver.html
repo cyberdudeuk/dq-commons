@@ -121,8 +121,9 @@ __ENGINE__
 const B = __BUILD__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS", geodcat: "GeoDCAT-AP", statdcat: "StatDCAT-AP"};
-const OUT_TABS = [...W.TARGETS, "geodcat", "statdcat"], WRITE = {...W.write, geodcat: W.toGeodcat, statdcat: W.toStatdcat};
+const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS", geodcat: "GeoDCAT-AP", statdcat: "StatDCAT-AP", dqv: "DQV (metadata quality)"};
+const OUT_TABS = [...W.TARGETS, "geodcat", "statdcat", "dqv"], WRITE = {...W.write, geodcat: W.toGeodcat, statdcat: W.toStatdcat,
+  dqv: c => W.toDqv(c, W.coverage(c), W.cdaCheck(c), W.profiles(c))};
 const EXAMPLES = {
   "CKAN (data.gov.uk style)": {result: {id: "example-0001", name: "road-noise", title: "Road noise", notes: "Strategic noise mapping of English road sources from 2022, for planning and health.",
     organization: {title: "Department for Environment, Food and Rural Affairs"}, license_id: "uk-ogl", tags: [{name: "noise"}, {name: "roads"}],
@@ -208,6 +209,7 @@ function drawOut() {
   $("oNote").textContent = cur === "odcs" ? "A contract skeleton. Add the columns and quality rules from Check your data (Share the rules as a data contract). If the record had no identifier or version, the skeleton uses placeholders: change them." :
     cur === "dcat" ? "Security classification and expiry use the Commons vocabulary (dqc:), because DCAT has no property for them." :
     cur === "geodcat" ? "DCAT with the area as a dct:Location (a link if you gave one, otherwise a place name). Add a dct:conformsTo for the coordinate reference system if the profile check asks for it." :
+    cur === "dqv" ? "The Weaver's findings as W3C Data Quality Vocabulary: how complete and conformant this metadata is, in the Commons 'metadata' quality dimension. Publish it next to the DCAT record (link it with dqv:hasQualityMetadata) so catalogues can show metadata quality. It describes the metadata, not the data; add data quality measurements from Check your data." :
     cur === "statdcat" ? "DCAT ready for statistical catalogues. Add the dimensions, measures and quality annotations the profile check lists: they can't be worked out from catalogue metadata." : "";
 }
 $("copy").onclick = async () => { try { await navigator.clipboard.writeText(outText()); $("oMsg").textContent = "Copied."; } catch (e) { $("oMsg").textContent = "Copying isn't allowed here. Select the text instead."; } };

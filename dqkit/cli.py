@@ -9,7 +9,7 @@
   contract-check CONTRACT [--against OLD_CONTRACT]   check an ODCS contract; with --against, list changes and breaking ones
   graph   [--format json|jsonld|ttl] [--find TEXT] [--from A --to B]
           the knowledge graph: export it, find concepts, or trace the relationships between two concepts
-  weave   RECORD.json [--from dcat|schema|ckan|odcs] [--to dcat|schema|ckan|odcs|all] [--report]
+  weave   RECORD.json [--from dcat|schema|ckan|odcs] [--to dcat|schema|ckan|odcs|dqv|all] [--report]
           read one metadata record and write it as DCAT v3, schema.org, CKAN and ODCS, with gaps and CDA coverage
   assess-metadata RECORDS.jsonl [--as-of YYYY-MM-DD] [--out FILE] assess catalogue records against GOV.UK requirements
   run     PORTFOLIO.yaml [--as-of YYYY-MM-DD] [--out DIR] [--no-history] [--ignore-schedule] [--fail-on-escalation]
@@ -84,7 +84,7 @@ def main(argv=None) -> int:
     gr.add_argument("--find"); gr.add_argument("--from", dest="frm"); gr.add_argument("--to")
     wv = sub.add_parser("weave", help="Metadata Weaver: one record in, every catalogue standard out, with gaps")
     wv.add_argument("file"); wv.add_argument("--from", dest="src", choices=list(weaver.READERS))
-    wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["all"])
+    wv.add_argument("--to", default="all", choices=list(weaver.TARGETS) + ["dqv", "all"])
     wv.add_argument("--report", action="store_true", help="print the gap and CDA report instead of the records")
     ef = sub.add_parser("effort", help="effort to baseline data quality for every critical data asset (same model as the portal)")
     ef.add_argument("--days", type=int, help="effective working days (default: to the January return)")
@@ -223,7 +223,8 @@ def main(argv=None) -> int:
         if a.report:
             print(json.dumps({"source_format": w["source_format"], "coverage": w["coverage"], "cda": w["cda"]}, indent=2, ensure_ascii=False))
         else:
-            print(json.dumps(w["outputs"] if a.to == "all" else w["outputs"][a.to], indent=2, ensure_ascii=False))
+            out = {**w["outputs"], "dqv": w["quality"]} if a.to == "all" else (w["quality"] if a.to == "dqv" else w["outputs"][a.to])
+            print(json.dumps(out, indent=2, ensure_ascii=False))
         return 0
     if a.cmd == "effort":
         from . import effort

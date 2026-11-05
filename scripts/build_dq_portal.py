@@ -85,6 +85,7 @@ GROUPS = [
         ("scenarios", "All scenarios", "Pick your policy, sector or platform: what applies and where to start"),
         ("global", "UK and the world", "Crown Dependencies, Overseas Territories, the Commonwealth and international partners"),
         ("ndl-assurance", "National Data Library", "84 NDL data pages tested against GOV.UK requirements"),
+        ("ecosystem", "Three portals, one journey", "How the Commons, the DAM capability playbooks and the GitHub Repos Asset Catalogue compare, connect and continue each other's journeys"),
         ("reuse", "Use the Commons your way", "Link, embed, white-label, open data API, intranets, enterprise content and collaboration tools, AI assistants, MCP, connectors and plugins"),
     ]),
     ("6 Contribute", [
@@ -101,7 +102,7 @@ GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
                                     "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask"]},
          **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
-                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel"]},
+                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
@@ -110,7 +111,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network"}
 
 
 def icon(name: str) -> str:
@@ -300,6 +301,8 @@ def knowledge() -> dict:
         "WHEEL": lambda: y("dama-wheel"),
         "CHANGE": lambda: y("change-delivery"),
         "FEEDBACK": lambda: y("feedback"),
+        "STANDARDS": lambda: y("standards-catalogue"),
+        "ECO": lambda: y("ecosystem"),
         "SITEMAP": lambda: site_map(),
         "MCPTOOLS": lambda: mcp_tools(),
         "MODELS": lambda: models_summary(),
@@ -516,7 +519,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -613,12 +616,29 @@ def feedback_docx(path: Path) -> None:
     d.save(str(path))
 
 
+def xref_manifest(base: str) -> dict:
+    """Shared keys and their addresses, in the same shape as the DAM playbooks' data/xref.json (v2.10.0). Ids only, no copied text."""
+    st = yaml.safe_load((ROOT / "knowledge" / "stakeholders.yaml").read_text(encoding="utf-8"))
+    sc = yaml.safe_load((ROOT / "knowledge" / "standards-catalogue.yaml").read_text(encoding="utf-8"))
+    dm = {x["dqc"]: x for x in ECO["xref"]["dama"]}
+    rc = {x["dqc"]: x["dam"] for x in ECO["xref"]["roles"]}
+    return {"portal": BRAND, "id": "dqc", "version": VERSION, "as_of": date.today().isoformat(), "url": base,
+            "status": "Community project", "licence": "Code MIT; content Open Government Licence v3.0",
+            "keys": {
+                "dama_areas": [{"id": v["dam"], "commons_id": k, "name": v["name"], "url": f"{base}wheel.html#area-{k}"} for k, v in dm.items()],
+                "roles": [{"id": r["id"], "code": rc.get(r["id"], ""), "name": r["name"], "group": r.get("group", "everyday"), "url": f"{base}roles.html#{r['id']}"} for r in st["roles"]],
+                "standards": [{"id": x["id"], "name": x["name"], "status": x["status"], "domain": x["domain"], "url": f"{base}interop.html#std-{x['id']}"} for x in sc["standards"]],
+                "pages": [{"id": stem, "name": label, "url": f"{base}{stem}.html"} for stem, label, _ in PAGES]},
+            "related": [{k: p[k] for k in ("id", "name", "url", "status", "licence")} for p in ECO["portals"] if p["id"] != "dqc"]}
+
+
 def write_api(target: Path, repo: str, base: str) -> None:
     """Read-only open data API (v2.8.0): fixed JSON addresses, a releases feed and a sitemap. No keys, no tracking."""
     api = target / "api"
     (api / "knowledge").mkdir(parents=True, exist_ok=True)
     dump = lambda p, o: p.write_text(json.dumps(o, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
-    eps = [("api/pages.json", "Every page by menu group, with level, description and address", site_map()),
+    eps = [("api/xref.json", "Cross-reference manifest: the Commons' shared keys (DAMA areas, roles, standards, pages) and where each lives, for sister portals", xref_manifest(base)),
+           ("api/pages.json", "Every page by menu group, with level, description and address", site_map()),
            ("api/search.json", "The search index: pages, sections and named knowledge items", search_index()),
            ("api/passages.json", "Every section and knowledge item with readable text and a link, for assistants and reuse", PASSAGES),
            ("api/releases.json", "Every release with what is new, changed and fixed", releases()),
@@ -759,6 +779,24 @@ def split_fragment(text: str) -> tuple[str, str]:
 FEEDBACK = yaml.safe_load((ROOT / "knowledge" / "feedback.yaml").read_text(encoding="utf-8"))
 
 
+ECO = yaml.safe_load((ROOT / "knowledge" / "ecosystem.yaml").read_text(encoding="utf-8"))
+
+
+def related_elsewhere(stem: str) -> str:
+    """'Related elsewhere': the right page of a sister portal at the point of need, naming the portal and its status (v2.10.0)."""
+    items = (ECO.get("placements") or {}).get(stem) or []
+    if not items:
+        return ""
+    P = {p["id"]: p for p in ECO["portals"]}
+    lis = "".join(
+        f'<li data-p="{it["portal"]}"><a href="{html.escape(P[it["portal"]]["url"] + it["path"])}" rel="noopener">{html.escape(it["title"])}</a> '
+        f'<span class="dqp-relp">in {html.escape(P[it["portal"]]["name"])} · {html.escape(P[it["portal"]]["status"])}</span>'
+        f'<br><span class="dqp-relw">{html.escape(it["why"])}</span></li>' for it in items)
+    return (f'<aside class="dqp-rel" aria-labelledby="dqp-rel-h">{icon("network")}<div><h2 id="dqp-rel-h">Related elsewhere</h2>'
+            f'<p>Sister open projects, each with its own owner and status. <a href="ecosystem.html">How the three portals fit together</a>.</p>'
+            f'<ul>{lis}</ul></div></aside>')
+
+
 def feedback_strip(stem: str, label: str) -> str:
     """'Tell us about this page' at the end of every page: the Microsoft Form (when set up) and the GitHub form (v2.9.0)."""
     mf = FEEDBACK["microsoft_form"]
@@ -820,7 +858,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     # group colour key for signposting (v2.8.0)
     fragment = fragment.replace('<div class="wrap"', f'<div class="wrap" data-group="{GROUP_KEY.get(GROUP_OF.get(stem, ""), "start")}"', 1)
     head, body = split_fragment(fragment)
-    body += "\n" + feedback_strip(stem, dict((p[0], p[1]) for p in PAGES).get(stem, stem)) + "\n" + prev_next(stem)
+    body += "\n" + related_elsewhere(stem) + "\n" + feedback_strip(stem, dict((p[0], p[1]) for p in PAGES).get(stem, stem)) + "\n" + prev_next(stem)
     head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
@@ -835,7 +873,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem"}
 
 
 def provenance(names: set) -> str:

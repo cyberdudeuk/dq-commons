@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.10.0"
+  date: "2026-11-05"
+  title: "Standards catalogue, data quality metadata as DQV, and three portals joined into one journey"
+  pages_new: [ecosystem]
+  pages_changed: [interop, weaver, wheel, roles]
+  items:
+  - {type: new, text: "Standards catalogue: 57 open standards used across UK government and the wider public sector for data, digital, cyber and technology, with their GOV.UK status, the Rosetta concepts each expresses, Weaver support and where to see them in public code", link: "interop.html#catalogue"}
+  - {type: new, text: "The Metadata Weaver writes metadata quality as W3C DQV: coverage per format, critical data asset coverage and profile conformance as measurements", link: "weaver.html"}
+  - {type: new, text: "Three portals, one journey: a like-for-like comparison of DQ Commons, the DAM capability playbooks and the GitHub repos asset catalogue, an interactive lineage map, trace one thing through all three, journeys and a join-up plan", link: "ecosystem.html"}
+  - {type: new, text: "Cross-reference manifest (api/xref.json): shared keys for the 11 DAMA areas, roles, standards and pages so the portals can link to each other", link: "reuse.html#api"}
+  - {type: changed, text: "Rosetta Stone grows from eight to eleven metadata standards: schema.org, CKAN and the Open Data Contract Standard", link: "interop.html#rosetta"}
+  - {type: changed, text: "Wheel areas and roles link to the same area or role in the DAM capability playbooks; key pages end with where to continue in a sister portal", link: "wheel.html"}
 - version: "2.9.0"
   date: "2026-11-05"
   title: "Data management wheel, data quality in change programmes, and a Microsoft Form for feedback"

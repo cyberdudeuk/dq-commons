@@ -132,3 +132,13 @@
 | F-293 | Feedback routes on every page, including a Microsoft Form when its link is configured; no names or emails | Functional | shell feedback strip, `build.html#feedback`, `knowledge/feedback.yaml` |
 | I-290 | Microsoft Form question set as a Word document for Quick import | Integration | `downloads/dq-commons-feedback-form-questions.docx` |
 | T-290 | Mappings, RACI, blueprint and feedback checked by tests | Technical | `tests/test_wheel_change_feedback.py` |
+
+## v2.10 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-300 | Standards catalogue of open standards for data, digital, cyber and technology, with GOV.UK status, Rosetta concepts, Weaver support and links to sister portals; filterable | Functional | `interop.html#catalogue`, `knowledge/standards-catalogue.yaml` |
+| F-301 | Metadata Weaver writes metadata quality as W3C DQV; identical in Python and JavaScript | Functional | `dqkit/weaver.py`, `engine.js`, `weaver.html`, `dqkit weave --to dqv` |
+| F-302 | Comparison of the three portals, lineage map operable by keyboard, trace one thing, journeys and join-up plan | Functional | `ecosystem.html`, `knowledge/ecosystem.yaml` |
+| I-300 | Cross-reference manifest with shared keys (DAMA areas, roles, standards, pages) for sister portals | Integration | `api/xref.json`; reads the playbooks' `data/xref.json` |
+| I-301 | "Continue in a sister portal" links on pages where a journey moves on | Integration | `related_elsewhere()` in the build |
+| T-300 | Catalogue fields, Rosetta completeness, DQV output and cross-portal ids checked by tests; no internal workbook names published | Technical | `tests/test_ecosystem_standards.py` |

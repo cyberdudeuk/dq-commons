@@ -1,7 +1,7 @@
-# Metadata Rosetta: 61 cataloguing concepts mapped to 8 metadata standards.
+# Metadata Rosetta: 61 cataloguing concepts mapped to 11 metadata standards (schema.org, CKAN and ODCS added in v2.10.0 from the Metadata Weaver's mappings).
 # Imported from the OCDO Standards Rosetta in the DAM project; edit there or here and keep them in step.
 review:
-  last_reviewed: '2026-10-15'
+  last_reviewed: '2026-11-05'
   owner_role: Content steward (standards)
 source: OCDO Standards Rosetta (DAM data cataloguing playbook implementation bridge), imported into the Commons
 standards:
@@ -13,6 +13,9 @@ standards:
 - DCAT-US
 - PROV-O
 - DQV
+- schema.org
+- CKAN
+- ODCS
 concepts:
 - id: C001
   name: Catalogue
@@ -29,6 +32,9 @@ concepts:
     DCAT-US: Catalog
     PROV-O: prov:Bundle for provenance graph
     DQV: dqv:QualityMetadata may describe catalogue quality
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C002
   name: Catalogue record
   definition: Metadata record for one resource
@@ -44,6 +50,9 @@ concepts:
     DCAT-US: data.json dataset object
     PROV-O: prov:Entity for record
     DQV: dqv:QualityAnnotation on record
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C003
   name: Dataset / data asset
   definition: Logical collection of data
@@ -59,6 +68,9 @@ concepts:
     DCAT-US: Dataset
     PROV-O: prov:Entity
     DQV: Resource measured by DQV
+    schema.org: 'Dataset'
+    CKAN: 'package (dataset)'
+    ODCS: 'DataContract (one per dataset)'
 - id: C004
   name: Dataset series
   definition: Related datasets over time/theme
@@ -74,6 +86,9 @@ concepts:
     DCAT-US: Collection/series pattern
     PROV-O: prov:Collection
     DQV: Quality over series
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C005
   name: Distribution
   definition: Specific accessible representation
@@ -89,6 +104,9 @@ concepts:
     DCAT-US: Distribution
     PROV-O: prov:Entity generated/used
     DQV: Measurement target
+    schema.org: 'distribution (DataDownload)'
+    CKAN: 'resources'
+    ODCS: 'servers'
 - id: C006
   name: Data service / API
   definition: Service providing data access
@@ -104,6 +122,9 @@ concepts:
     DCAT-US: API object / accessURL
     PROV-O: prov:Activity or Entity depending use
     DQV: Service quality annotations
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C007
   name: Title / name
   definition: Human-readable name
@@ -119,6 +140,9 @@ concepts:
     DCAT-US: title
     PROV-O: rdfs:label
     DQV: n/a
+    schema.org: 'name'
+    CKAN: 'title'
+    ODCS: 'name'
 - id: C008
   name: Description
   definition: Plain-language explanation
@@ -134,6 +158,9 @@ concepts:
     DCAT-US: description
     PROV-O: rdfs:comment
     DQV: quality annotation body where issue text
+    schema.org: 'description'
+    CKAN: 'notes'
+    ODCS: 'description.purpose'
 - id: C009
   name: Identifier
   definition: Stable unique reference
@@ -149,6 +176,9 @@ concepts:
     DCAT-US: identifier
     PROV-O: prov:id
     DQV: n/a
+    schema.org: 'identifier'
+    CKAN: 'extras: identifier'
+    ODCS: 'id'
 - id: C010
   name: Publisher / owner
   definition: Publishing/accountable organisation
@@ -164,6 +194,9 @@ concepts:
     DCAT-US: publisher
     PROV-O: prov:wasAttributedTo
     DQV: n/a
+    schema.org: 'creator (Organization)'
+    CKAN: 'organization.title'
+    ODCS: 'customProperties: publisher'
 - id: C011
   name: Contact / steward
   definition: Operational support contact
@@ -179,6 +212,9 @@ concepts:
     DCAT-US: contactPoint
     PROV-O: prov:Agent + role
     DQV: quality feedback contact
+    schema.org: 'creator.contactPoint'
+    CKAN: 'maintainer'
+    ODCS: 'team.name'
 - id: C012
   name: Classification / handling
   definition: Sensitivity and constraints
@@ -194,6 +230,9 @@ concepts:
     DCAT-US: accessLevel / rights
     PROV-O: prov:Policy pattern
     DQV: dqv:QualityPolicy where relevant
+    schema.org: '–'
+    CKAN: 'extras: security_classification'
+    ODCS: 'customProperties: securityClassification'
 - id: C013
   name: Access/request route
   definition: How users request/access data
@@ -209,6 +248,9 @@ concepts:
     DCAT-US: accessURL / downloadURL
     PROV-O: prov:Activity for request workflow
     DQV: n/a
+    schema.org: 'conditionsOfAccess'
+    CKAN: 'extras: access_rights'
+    ODCS: 'description.limitations'
 - id: C014
   name: Licence / rights
   definition: Legal reuse conditions
@@ -224,6 +266,9 @@ concepts:
     DCAT-US: license / rights
     PROV-O: prov:Plan or policy association
     DQV: dqv:QualityPolicy if quality policy
+    schema.org: 'license'
+    CKAN: 'license_id'
+    ODCS: 'customProperties: licence'
 - id: C015
   name: Theme / keywords
   definition: Discovery topics and tags
@@ -239,6 +284,9 @@ concepts:
     DCAT-US: theme / keyword
     PROV-O: skos:Concept optional
     DQV: dqv:Dimension is not a theme
+    schema.org: 'keywords'
+    CKAN: 'tags; extras: theme'
+    ODCS: 'tags; domain'
 - id: C016
   name: Dates
   definition: Created, issued and modified dates
@@ -254,6 +302,9 @@ concepts:
     DCAT-US: issued / modified
     PROV-O: prov:generatedAtTime, startedAtTime, endedAtTime
     DQV: measurement date via provenance
+    schema.org: 'dateCreated; dateModified'
+    CKAN: 'extras: issued, modified'
+    ODCS: 'contractCreatedTs'
 - id: C017
   name: Update frequency
   definition: Refresh cadence
@@ -269,6 +320,9 @@ concepts:
     DCAT-US: accrualPeriodicity
     PROV-O: prov:Plan schedule
     DQV: timeliness metric
+    schema.org: '–'
+    CKAN: 'extras: frequency'
+    ODCS: 'slaProperties: frequency'
 - id: C018
   name: Version / status
   definition: Lifecycle and change state
@@ -284,6 +338,9 @@ concepts:
     DCAT-US: version / status
     PROV-O: prov:wasRevisionOf / invalidatedAtTime
     DQV: quality metadata version
+    schema.org: 'version'
+    CKAN: 'version'
+    ODCS: 'version; status'
 - id: C019
   name: Format / media type
   definition: Technical representation
@@ -299,6 +356,9 @@ concepts:
     DCAT-US: format / mediaType
     PROV-O: prov:Entity type
     DQV: format validity metric
+    schema.org: 'distribution.encodingFormat'
+    CKAN: 'resources.format; mimetype'
+    ODCS: 'servers.format'
 - id: C020
   name: Spatial coverage
   definition: Geographic scope
@@ -314,6 +374,9 @@ concepts:
     DCAT-US: spatial
     PROV-O: prov:Location
     DQV: spatial accuracy dimension
+    schema.org: 'spatialCoverage'
+    CKAN: 'extras: spatial_text'
+    ODCS: '–'
 - id: C021
   name: Temporal coverage
   definition: Time period covered by data
@@ -329,6 +392,9 @@ concepts:
     DCAT-US: temporal
     PROV-O: prov:atTime / PeriodOfTime
     DQV: timeliness/completeness metrics
+    schema.org: 'temporalCoverage'
+    CKAN: 'extras: temporal_coverage'
+    ODCS: 'customProperties: temporalCoverage'
 - id: C022
   name: Lineage / provenance
   definition: Sources, transforms and outputs
@@ -344,6 +410,9 @@ concepts:
     DCAT-US: describedBy / derivedFrom where used
     PROV-O: prov:Entity→Activity→Entity
     DQV: quality metadata provenance
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C023
   name: Source / input
   definition: Upstream input resource
@@ -359,6 +428,9 @@ concepts:
     DCAT-US: source
     PROV-O: prov:used
     DQV: measurement provenance
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C024
   name: Transformation / activity
   definition: Processing or pipeline step
@@ -374,6 +446,9 @@ concepts:
     DCAT-US: process note
     PROV-O: prov:Activity
     DQV: measurement activity
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C025
   name: Generated output
   definition: Downstream product/output
@@ -389,6 +464,9 @@ concepts:
     DCAT-US: distribution
     PROV-O: prov:generated
     DQV: quality measurement output
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C026
   name: Quality dimension
   definition: Quality category such as completeness
@@ -404,6 +482,9 @@ concepts:
     DCAT-US: quality fields if extended
     PROV-O: n/a
     DQV: dqv:Dimension
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C027
   name: Quality metric
   definition: Measurable quality rule
@@ -419,6 +500,9 @@ concepts:
     DCAT-US: quality metric if extended
     PROV-O: prov:Plan for calculation
     DQV: dqv:Metric
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: 'schema[].quality[] (rule)'
 - id: C028
   name: Quality measurement
   definition: Observed quality value
@@ -434,6 +518,9 @@ concepts:
     DCAT-US: quality value if extended
     PROV-O: prov:wasGeneratedBy
     DQV: dqv:QualityMeasurement
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: 'quality results (outside the contract)'
 - id: C029
   name: Quality annotation / issue
   definition: Known limit, certificate or feedback
@@ -449,6 +536,9 @@ concepts:
     DCAT-US: issue note
     PROV-O: prov:wasAttributedTo
     DQV: dqv:QualityAnnotation
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C030
   name: Conformance / profile
   definition: Standard or profile followed
@@ -464,6 +554,9 @@ concepts:
     DCAT-US: conformsTo
     PROV-O: prov:Plan
     DQV: dqv:conformsTo
+    schema.org: 'schemaVersion'
+    CKAN: 'extras: conforms_to'
+    ODCS: 'apiVersion (ODCS version)'
 - id: C031
   name: Policy / access control
   definition: Rules applied to use/access
@@ -479,6 +572,9 @@ concepts:
     DCAT-US: rights / accessLevel
     PROV-O: prov:Plan / Policy pattern
     DQV: dqv:QualityPolicy
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C032
   name: Critical Data Asset (CDA)
   definition: 'Data asset in scope of the DAM Policy: cross-government value, open or restricted (not SECRET/TOP SECRET), serving one or more of six policy purposes'
@@ -494,6 +590,9 @@ concepts:
     DCAT-US: Dataset flagged critical
     PROV-O: prov:Entity (governed asset)
     DQV: dqv:QualityMetadata expected for critical assets
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C033
   name: Foundational National Data Asset (FNDA)
   definition: Small set of strategically important public-sector reference datasets, authoritative within their domain, federated by design and linkable across government
@@ -509,6 +608,9 @@ concepts:
     DCAT-US: Dataset (reference)
     PROV-O: prov:Entity used widely as trusted reference
     DQV: dqv:QualityMetadata — authoritative quality level
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C034
   name: National Data Library feed
   definition: Federated harvest/exchange that surfaces departmental and ALB catalogue records to the NDL gateway via secure APIs, keeping data with the originating owner
@@ -524,6 +626,9 @@ concepts:
     DCAT-US: data.json / DCAT-US style harvest
     PROV-O: prov:Activity (harvest) + prov:wasGeneratedBy
     DQV: dqv:QualityMetadata carried with harvested records
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C035
   name: Curated collection
   definition: A trusted, themed grouping of high-value datasets published through the NDL gateway for a defined audience or mission
@@ -539,6 +644,9 @@ concepts:
     DCAT-US: curated data.json collection
     PROV-O: prov:Collection
     DQV: dqv:QualityMetadata describes collection quality
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C036
   name: Discoverability scan schema
   definition: The minimum metadata schema the discoverability service must scan and read from departmental/ALB catalogues to index assets, keeping discovery metadata separate from access decisions
@@ -554,6 +662,9 @@ concepts:
     DCAT-US: DCAT-US / data.json scan profile
     PROV-O: prov:Plan (scan/harvest definition)
     DQV: dqv:Dimension/Metric quality signals scanned
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C037
   name: vCard contact exchange
   definition: Mandated standard for exchanging contact information across systems and devices
@@ -569,6 +680,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C038
   name: iCalendar event exchange
   definition: Mandated standard for exchanging calendar events, meeting requests and tasks
@@ -584,6 +698,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C039
   name: Location point CRS
   definition: Mandated coordinate reference systems for exchanging accurate location points
@@ -599,6 +716,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C040
   name: Cyber threat intelligence exchange
   definition: Mandated standards for structured exchange and transport of cyber threat intelligence
@@ -614,6 +734,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C041
   name: Emergency services incident transfer
   definition: Mandated standard for sharing incident information between emergency services
@@ -629,6 +752,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C042
   name: Open document collaboration
   definition: Mandated open document format for sharing and collaborating on editable documents
@@ -644,6 +770,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C043
   name: Beneficial ownership data
   definition: Mandated Beneficial Ownership Data Standard for collecting, using and exchanging ownership data
@@ -659,6 +788,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C044
   name: Local public service information
   definition: Mandated standard for recording and sharing local authority public service information
@@ -674,6 +806,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C045
   name: Character encoding
   definition: Mandated character encoding standard for all text
@@ -689,6 +824,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C046
   name: Date and time format
   definition: Mandated standard for formatting dates and times in data
@@ -704,6 +842,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C047
   name: Persistent resolvable identifier
   definition: Mandated approach to persistent, resolvable identifiers for resources
@@ -719,6 +860,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C048
   name: Language code
   definition: Mandated standard for tagging content with international language codes
@@ -734,6 +878,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C049
   name: Country code
   definition: Mandated standard for consistent country codes (alpha-2; GB-ENG/NIR/SCT/WLS)
@@ -749,6 +896,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C050
   name: Property and street identifier
   definition: Mandated unique identifiers for property and street information
@@ -764,6 +914,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C051
   name: Contract data publishing
   definition: Mandated standard for publishing structured procurement and contract data
@@ -779,6 +932,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C052
   name: Government document publishing
   definition: Mandated open formats for publishing accessible government documents
@@ -794,6 +950,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C053
   name: Grant data publishing
   definition: Mandated standard for publishing structured grant funding data
@@ -809,6 +968,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C054
   name: International development data publishing
   definition: Mandated standard for publishing international development / aid data
@@ -824,6 +986,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C055
   name: Job vacancy publishing
   definition: Mandated standard for publishing structured job vacancy data
@@ -839,6 +1004,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C056
   name: RESTful API description
   definition: Recommended standard for describing RESTful APIs in machine-readable form
@@ -854,6 +1022,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C057
   name: Tabular data standard
   definition: Recommended standard for describing and validating tabular data
@@ -869,6 +1040,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C058
   name: Metadata for shared government data
   definition: Recommended minimum metadata profile to describe data shared within government
@@ -884,6 +1058,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C059
   name: Metadata for published tabular data
   definition: Recommended metadata profile for published tabular datasets
@@ -899,6 +1076,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C060
   name: Metadata for CSV data
   definition: Recommended metadata profile for describing CSV data
@@ -914,6 +1094,9 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'
 - id: C061
   name: CDA identification & metadata (public guidance)
   definition: Recommended guidance to identify critical data assets and record their metadata
@@ -929,3 +1112,6 @@ concepts:
     DCAT-US: ''
     PROV-O: ''
     DQV: ''
+    schema.org: '–'
+    CKAN: '–'
+    ODCS: '–'

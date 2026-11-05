@@ -2,6 +2,17 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.10.0 — 2026-11-05
+### Added
+- `knowledge/standards-catalogue.yaml` and a Standards catalogue section on `interop.html`: 57 standards across data, digital, cyber and technology with GOV.UK status (19 mandated, 4 recommended, 9 UK guidance, 25 widely used), publisher, specification link, Rosetta concepts, Weaver support and links to the repos asset catalogue and the DAM playbooks. Public facts only (D-STD-01).
+- Metadata Weaver writes W3C DQV (`to_dqv` in `dqkit/weaver.py`, `W.toDqv` in `engine.js`, `dqkit weave --to dqv`, DQV tab on `weaver.html`); `weave()` returns `quality` (D-DQV-02). Two-engine parity covers it.
+- Page `ecosystem.html` (Apply) and `knowledge/ecosystem.yaml`: comparison of the three portals, what each could gain, lineage map (keyboard operable; scrolls sideways on phones), trace one thing, five journeys, seven join-up actions, live check of the playbooks' cross-reference manifest (D-ECO-01).
+- `api/xref.json` cross-reference manifest; "Continue in a sister portal" asides on 13 pages; wheel and role panels link to the same area or role in the DAM playbooks.
+- `tests/test_ecosystem_standards.py`. Icon `network`.
+### Changed
+- Rosetta Stone: eleven standards (adds schema.org, CKAN, ODCS); vocabulary and knowledge graph exports regenerated.
+- The knowledge link test skips pages that belong to a sister portal.
+
 ## 2.9.0 — 2026-11-05
 ### Added
 - Page `wheel.html` (Check and assess) and `knowledge/dama-wheel.yaml`: an original wheel of the 11 DAMA-DMBOK knowledge areas, seven audience views, DAM policy actions, mappings to the Commons maturity themes and the DMA for Government's 10 topics, maturity overlay from the visitor's own answers, data and records lifecycle, records frameworks, ten join-up actions with CSV plan download, communities (D-WHEEL-01).

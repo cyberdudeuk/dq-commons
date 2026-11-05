@@ -1,0 +1,232 @@
+<title>Three portals, one journey</title>
+<style>
+__BASE_CSS__
+.ptl{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.ptl .card{border-top:6px solid var(--sec)}
+.ptl .card h3{font-size:1.05rem}
+.ptl .st{font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--sec-s);color:var(--sec);align-self:flex-start}
+.cmp td{text-align:left}
+.cmp .v{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.82rem;white-space:nowrap}
+.cmp .v i{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;display:inline-block}
+.v-full{color:var(--good)}.v-full i{background:currentColor}
+.v-partial{color:var(--warn)}.v-partial i{background:linear-gradient(90deg,currentColor 50%,transparent 50%)}
+.v-none{color:var(--muted)}
+.v-notseen{color:var(--muted)}.v-notseen i{border-style:dashed}
+.cmp .note{display:block;font-size:.8rem;color:var(--muted);font-weight:400;white-space:normal}
+.cmp th.ph{text-transform:none;letter-spacing:0;font-size:.86rem}
+.cmp tr.grp th{background:var(--sunk);font-size:.78rem}
+.gains{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.lin{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;gap:14px;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+@media (max-width:980px){.lin{grid-template-columns:minmax(0,1fr)}}
+.lin-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:700px){.lin-scroll svg{min-width:680px}.lin-hint{display:block}}
+.lin-hint{display:none;font-size:.85rem;color:var(--muted);margin:0 0 4px}
+#lsvg{width:100%;height:auto;display:block}
+#lsvg .node{cursor:pointer}
+#lsvg .node rect{stroke-width:2}
+#lsvg .node:focus{outline:none}
+#lsvg .node:focus-visible rect,#lsvg .node.on rect{stroke:#ffbf47;stroke-width:4}
+#lsvg text{font:600 12px "Public Sans",system-ui,sans-serif;pointer-events:none}
+#lsvg .lane{font:700 12px "Public Sans",system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+#lsvg .edge{fill:none;stroke:var(--muted);stroke-width:1.6;opacity:.55}
+#lsvg .edge.on{stroke:var(--fg);opacity:1;stroke-width:2.6}
+#lsvg .elab{font:500 10.5px "Public Sans",system-ui,sans-serif;fill:var(--muted)}
+#lpanel{border-left:5px solid var(--sec);padding:6px 14px;display:flex;flex-direction:column;gap:8px}
+.trace{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.trace a{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:var(--fg);border:1px solid var(--line);border-top:5px solid var(--sec);border-radius:10px;padding:10px 12px;background:var(--surface);min-width:12rem;flex:1}
+.trace a small{color:var(--muted);font-weight:700;font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+.trace a:hover{border-color:var(--sec)}
+.jsteps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:s}
+.jsteps li{counter-increment:s;flex:1 1 180px;display:flex}
+.jsteps a{flex:1;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--sec-s);border:1px solid transparent;border-radius:10px;padding:10px 12px}
+.jsteps a:hover{border-color:var(--sec)}
+.jsteps a::before{content:counter(s);display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--sec);color:var(--surface);font-weight:800;font-size:.8rem}
+.jsteps small{font-size:.74rem;font-weight:700;color:var(--sec);text-transform:uppercase;letter-spacing:.04em}
+.jpick{display:flex;flex-wrap:wrap;gap:6px}
+.jpick button{font:inherit;font-size:.86rem;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer;min-height:36px;text-align:left}
+.jpick button[aria-pressed="true"]{background:var(--fg);color:var(--surface);border-color:var(--fg)}
+.livebox{border:1px dashed var(--line);border-radius:10px;padding:12px 14px;background:var(--surface)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Apply · Three portals, one journey</span>
+  <h1>Three open portals, one journey</h1>
+  <p class="lede">The Data Quality Commons, the DAM capability playbooks and the GitHub Repos Asset Catalogue each do a different job. Here is how they compare like for like, what each could learn from the others, and how to move from one to the next without losing your place: by DAMA area, standard, role or task.</p>
+  <nav class="toc" aria-label="On this page"><a href="#portals">The three portals</a><a href="#compare">Like-for-like comparison</a><a href="#gains">What each could gain</a><a href="#lineage">Lineage and traceability</a><a href="#journeys">Journeys across portals</a><a href="#joinup">How they join up</a><a href="#keys">Shared keys and live check</a></nav>
+</header>
+
+<section id="portals" aria-labelledby="pt-h">
+  <h2 id="pt-h">The three portals</h2>
+  <div class="ptl" id="ptl"></div>
+  <p class="small muted">Each project has its own owner, purpose, audience and status. They link to each other; they do not merge.</p>
+</section>
+
+<section id="compare" aria-labelledby="cp-h">
+  <h2 id="cp-h">Like-for-like comparison</h2>
+  <div class="filters">
+    <div class="field"><label for="cpG">Show</label><select id="cpG"><option value="">Everything</option></select></div>
+    <div class="field"><label for="cpD"><input type="checkbox" id="cpD"> Only where the portals differ</label></div>
+  </div>
+  <p class="small"><span class="v v-full"><i></i>Full</span> · <span class="v v-partial"><i></i>Partial</span> · <span class="v v-none"><i></i>None</span> · <span class="v v-notseen"><i></i>Not seen in our review</span></p>
+  <div class="tbl"><table class="cmp"><thead id="cpH"></thead><tbody id="cpB"></tbody></table></div>
+</section>
+
+<section id="gains" aria-labelledby="gn-h">
+  <h2 id="gn-h">What each could gain from the others</h2>
+  <div class="gains" id="gnB"></div>
+</section>
+
+<section id="lineage" aria-labelledby="ln-h">
+  <h2 id="ln-h">Lineage and traceability across the portals</h2>
+  <p>How one thing leads to another across the three portals. Choose a box to see what it is and open it. Arrow keys move between boxes.</p>
+  <div class="lin">
+    <div><p class="lin-hint">Swipe sideways to see all three portals.</p><div class="lin-scroll" tabindex="0" role="region" aria-label="Lineage map, scrolls sideways on small screens"><svg id="lsvg" viewBox="0 0 900 560" role="group" aria-label="Lineage map across the three portals"></svg></div></div>
+    <div id="lpanel" aria-live="polite"></div>
+  </div>
+  <h3>Trace one thing through all three</h3>
+  <div class="filters">
+    <div class="field"><label for="trK">Trace a</label><select id="trK"><option value="dama">DAMA knowledge area</option><option value="role">Role</option><option value="std">Standard</option></select></div>
+    <div class="field"><label for="trV">Which one</label><select id="trV"></select></div>
+  </div>
+  <div class="trace" id="trB" aria-live="polite"></div>
+</section>
+
+<section id="journeys" aria-labelledby="jn-h">
+  <h2 id="jn-h">Journeys that start in one portal and continue in another</h2>
+  <div class="jpick" id="jP" role="group" aria-label="Choose a journey"></div>
+  <p class="small muted" id="jW"></p>
+  <ol class="jsteps" id="jS"></ol>
+</section>
+
+<section id="joinup" aria-labelledby="ju-h">
+  <h2 id="ju-h">How they join up</h2>
+  <div class="tbl"><table><thead><tr><th scope="col">Action</th><th scope="col">What it means</th><th scope="col">Status</th></tr></thead><tbody id="juB"></tbody></table></div>
+</section>
+
+<section id="keys" aria-labelledby="ky-h">
+  <h2 id="ky-h">Shared keys and a live link check</h2>
+  <p>The portals point at each other through shared keys: the 11 DAMA areas (DM-GOV to DM-DQ), role codes, standards and tool categories. The Commons publishes its keys at <a href="api/xref.json">api/xref.json</a>, in the same shape as the playbooks' manifest.</p>
+  <div class="livebox"><p id="live" role="status" aria-live="polite">Checking the playbooks' manifest…</p></div>
+</section>
+</div>
+
+<script>
+(function () {
+  const E = __K_ECO__, ST = __K_STANDARDS__, SH = __K_STAKEHOLDERS__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const P = Object.fromEntries(E.portals.map(p => [p.id, p]));
+  const IDS = E.portals.map(p => p.id);
+  const href = (pid, path) => pid === "dqc" ? path : P[pid].url + path;
+  const ext = pid => pid === "dqc" ? "" : ' rel="noopener"';
+
+  // portals
+  $("ptl").innerHTML = E.portals.map(p => `<div class="card" data-hue="${p.hue}"><span class="st">${esc(p.status)}</span><h3>${esc(p.name)}</h3><p class="small">${esc(p.role)}</p><p class="small muted"><b>For:</b> ${esc(p.audience)}</p>
+    <p class="small muted">${esc(p.licence)}</p><p><a class="btn ${p.id === "dqc" ? "ghost" : ""}" style="align-self:flex-start" href="${p.id === "dqc" ? "index.html" : esc(p.url)}"${ext(p.id)}>${p.id === "dqc" ? "You are here" : "Open " + esc(p.short)}</a></p></div>`).join("");
+
+  // comparison
+  const LAB = {full: "Full", partial: "Partial", none: "None", notseen: "Not seen"};
+  $("cpG").innerHTML += E.comparison.map(g => `<option>${esc(g.group)}</option>`).join("");
+  $("cpH").innerHTML = `<tr><th scope="col">What</th>${E.portals.map(p => `<th scope="col" class="ph" data-hue="${p.hue}" style="border-top:4px solid var(--sec)">${esc(p.short)}</th>`).join("")}</tr>`;
+  function drawCmp() {
+    const g = $("cpG").value, diff = $("cpD").checked;
+    $("cpB").innerHTML = E.comparison.filter(x => !g || x.group === g).map(x => {
+      const rows = x.rows.filter(r => !diff || new Set(IDS.map(i => r[i][0])).size > 1);
+      return rows.length ? `<tr class="grp"><th colspan="4" scope="colgroup">${esc(x.group)}</th></tr>` + rows.map(r => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal">${esc(r.item)}</th>${IDS.map(i => `<td><span class="v v-${r[i][0]}"><i aria-hidden="true"></i>${LAB[r[i][0]]}</span>${r[i][1] ? `<span class="note">${esc(r[i][1])}</span>` : ""}</td>`).join("")}</tr>`).join("") : "";
+    }).join("") || '<tr><td colspan="4">No rows.</td></tr>';
+  }
+  ["cpG", "cpD"].forEach(id => $(id).addEventListener("input", drawCmp)); drawCmp();
+
+  // gains
+  $("gnB").innerHTML = E.gains.map(g => { const p = P[g.portal]; const others = Object.keys(g).filter(k => k.startsWith("from_"));
+    return `<div class="card" data-hue="${p.hue}" style="border-top:6px solid var(--sec)"><h3>${esc(p.short)} could gain</h3>${others.map(k => { const o = P[k.slice(5)];
+      return `<h4 class="small" style="margin:6px 0 2px">From ${esc(o.short)}</h4><ul class="plain small">${g[k].map(x => `<li>${esc(x)}</li>`).join("")}</ul>`; }).join("")}</div>`; }).join("");
+
+  // lineage map: three lanes, nodes in order of appearance per lane
+  const LX = {dam: 20, dqc: 320, cat: 620}, W = 260, H = 46, GAP = 22, TOP = 50;
+  const lanes = {dam: [], dqc: [], cat: []}; E.lineage.nodes.forEach(n => lanes[n.portal].push(n));
+  const POS = {}; Object.entries(lanes).forEach(([pid, ns]) => ns.forEach((n, i) => POS[n.id] = {x: LX[pid], y: TOP + i * (H + GAP)}));
+  const maxY = Math.max(...Object.values(POS).map(p => p.y)) + H + 20;
+  let cur = "area_dqc";
+  function drawLin() {
+    const svg = $("lsvg"); svg.setAttribute("viewBox", `0 0 900 ${maxY}`);
+    let s = Object.keys(LX).map(pid => `<text class="lane" x="${LX[pid] + W / 2}" y="26" text-anchor="middle" fill="var(--c-${["teal", "purple", "blue"][P[pid].hue]})">${esc(P[pid].short)}</text>`).join("");
+    s += E.lineage.edges.map((e, i) => { const a = POS[e.from], b = POS[e.to], on = e.from === cur || e.to === cur;
+      let x1, y1, x2, y2;
+      if (a.x === b.x) { x1 = a.x + W; y1 = a.y + H / 2; x2 = b.x + W; y2 = b.y + H / 2; return `<path class="edge${on ? " on" : ""}" d="M${x1} ${y1} C${x1 + 40} ${y1} ${x2 + 40} ${y2} ${x2} ${y2}" marker-end="url(#ar)"/>`; }
+      const ltr = a.x < b.x; x1 = ltr ? a.x + W : a.x; x2 = ltr ? b.x : b.x + W; y1 = a.y + H / 2; y2 = b.y + H / 2; const mx = (x1 + x2) / 2;
+      return `<path class="edge${on ? " on" : ""}" d="M${x1} ${y1} C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}" marker-end="url(#ar)"/>${on ? `<text class="elab" x="${mx}" y="${(y1 + y2) / 2 - 4}" text-anchor="middle">${esc(e.label)}</text>` : ""}`; }).join("");
+    s += E.lineage.nodes.map(n => { const p = POS[n.id], hv = ["teal", "purple", "blue"][P[n.portal].hue];
+      return `<g class="node${n.id === cur ? " on" : ""}" role="button" tabindex="0" aria-pressed="${n.id === cur}" data-n="${n.id}" aria-label="${esc(n.name)}, in ${esc(P[n.portal].short)}">
+        <rect x="${p.x}" y="${p.y}" width="${W}" height="${H}" rx="9" style="fill:var(--c-${hv}-s);stroke:var(--c-${hv})"/>
+        <text x="${p.x + 12}" y="${p.y + 20}" style="fill:var(--fg)">${esc(n.name)}</text><text x="${p.x + 12}" y="${p.y + 36}" style="fill:var(--muted);font-weight:500;font-size:10.5px">key: ${esc(n.key)}</text></g>`; }).join("");
+    svg.innerHTML = `<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker></defs>` + s;
+    const n = E.lineage.nodes.find(x => x.id === cur), ins = E.lineage.edges.filter(e => e.to === cur), outs = E.lineage.edges.filter(e => e.from === cur);
+    const nm = id => E.lineage.nodes.find(x => x.id === id).name;
+    $("lpanel").dataset.hue = P[n.portal].hue;
+    $("lpanel").innerHTML = `<p class="eyebrow" style="margin:0">${esc(P[n.portal].short)}</p><h3>${esc(n.name)}</h3><p class="small">Shared key: <code>${esc(n.key)}</code></p>
+      ${ins.length ? `<p class="small"><b>Comes from:</b> ${ins.map(e => `${esc(nm(e.from))} (${esc(e.label)})`).join("; ")}</p>` : ""}
+      ${outs.length ? `<p class="small"><b>Leads to:</b> ${outs.map(e => `${esc(nm(e.to))} (${esc(e.label)})`).join("; ")}</p>` : ""}
+      <p><a class="btn" style="align-self:flex-start" href="${esc(href(n.portal, n.path))}"${ext(n.portal)}>Open in ${esc(P[n.portal].short)}</a></p>`;
+  }
+  function pickNode(id, focus) { cur = id; drawLin(); if (focus) { const el = $("lsvg").querySelector(`[data-n="${id}"]`); if (el) el.focus(); } }
+  $("lsvg").addEventListener("click", e => { const g = e.target.closest(".node"); if (g) pickNode(g.dataset.n); });
+  $("lsvg").addEventListener("keydown", e => { const g = e.target.closest(".node"); if (!g) return;
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pickNode(g.dataset.n, true); }
+    const ids = E.lineage.nodes.map(n => n.id), i = ids.indexOf(g.dataset.n);
+    if (["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft"].includes(e.key)) { e.preventDefault(); pickNode(ids[(i + (e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : ids.length - 1)) % ids.length], true); } });
+  drawLin();
+
+  // trace one thing through all three
+  const RN = Object.fromEntries(SH.roles.map(r => [r.id, r.name]));
+  const TR = {
+    dama: E.xref.dama.map(a => ({v: a.dqc, label: a.name, steps: [
+      {p: "dam", path: `capability-model.html#${a.dam.toLowerCase()}`, t: `${a.dam}: capabilities and role guidance`},
+      {p: "dqc", path: `wheel.html#area-${a.dqc}`, t: "Wheel: DAM action, maturity, records overlap"},
+      {p: "cat", path: "#dama", t: "Code projects with evidence of this area"}]})),
+    role: E.xref.roles.map(r => ({v: r.dqc, label: RN[r.dqc] || r.dqc, steps: [
+      {p: "dam", path: `together.html#role-${r.dam}`, t: `Role ${r.dam} in the DAM playbooks`},
+      {p: "dqc", path: `roles.html#${r.dqc}`, t: "Needs, decisions, measures and RACI in the Commons"},
+      {p: "cat", path: "#guide", t: "Guided tours by persona"}]})),
+    std: ST.standards.map(x => ({v: x.id, label: x.name, steps: [
+      {p: "dqc", path: `interop.html#std-${x.id}`, t: `Status: ${x.status}; Rosetta concepts and Weaver support`},
+      ...(x.catalogue ? [{p: "cat", path: "#standards", t: `“${x.catalogue}” in public code`}] : []),
+      ...(x.domain === "data" || x.domain === "tech" ? [{p: "dam", path: "tooling.html", t: "Tools and interoperability: how tools connect through open standards"}] : []),
+      {p: "ext", url: x.url, t: "The specification itself"}]}))};
+  function fillTr() { const k = $("trK").value; $("trV").innerHTML = TR[k].map(o => `<option value="${esc(o.v)}">${esc(o.label)}</option>`).join(""); if (k === "std") $("trV").value = "dqv"; drawTr(); }
+  function drawTr() { const o = TR[$("trK").value].find(x => x.v === $("trV").value) || TR[$("trK").value][0];
+    $("trB").innerHTML = o.steps.map(s => s.p === "ext" ? `<a href="${esc(s.url)}" rel="noopener" data-hue="6"><small>Specification</small>${esc(o.label)}<span class="small muted">${esc(s.t)}</span></a>`
+      : `<a href="${esc(href(s.p, s.path))}"${ext(s.p)} data-hue="${P[s.p].hue}"><small>${esc(P[s.p].short)}</small>${esc(o.label)}<span class="small muted">${esc(s.t)}</span></a>`).join(""); }
+  $("trK").addEventListener("change", fillTr); $("trV").addEventListener("change", drawTr); fillTr();
+
+  // journeys
+  let jc = E.journeys[0].id;
+  function drawJ() { const j = E.journeys.find(x => x.id === jc);
+    $("jP").innerHTML = E.journeys.map(x => `<button type="button" aria-pressed="${x.id === jc}" data-j="${x.id}">${esc(x.name)}</button>`).join("");
+    $("jW").textContent = "For: " + j.who + ". Each step opens the exact page; the colour shows which portal it is in.";
+    $("jS").innerHTML = j.steps.map(s => `<li><a href="${esc(href(s.portal, s.path))}"${ext(s.portal)} data-hue="${P[s.portal].hue}"><small>${esc(P[s.portal].short)}</small>${esc(s.text)}</a></li>`).join(""); }
+  $("jP").addEventListener("click", e => { const b = e.target.closest("[data-j]"); if (b) { jc = b.dataset.j; drawJ(); } }); drawJ();
+
+  // join-up
+  $("juB").innerHTML = E.joinup.map(x => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal">${esc(x.id)}. ${esc(x.action)}</th><td>${esc(x.detail)}</td><td>${esc(x.status)}</td></tr>`).join("");
+
+  // live check of the playbooks' manifest (same address family when published; skipped offline)
+  const url = location.hostname.endsWith("github.io") ? "/dam-capability-playbooks/data/xref.json" : P.dam.xref;
+  fetch(url, {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(m => {
+    const have = new Set((m.keys.dama_areas || []).map(a => a.id)), codes = new Set((m.keys.roles || []).map(r => r.code));
+    const miss = E.xref.dama.filter(a => !have.has(a.dam)).map(a => a.dam).concat(E.xref.roles.filter(r => !codes.has(r.dam)).map(r => r.dam));
+    $("live").innerHTML = `<b>Live check:</b> the DAM playbooks' manifest (version ${esc(m.version)}, as of ${esc(m.as_of)}) lists ${have.size} DAMA areas and ${codes.size} roles. ` +
+      (miss.length ? `<span class="msg err">Keys the Commons points to that are missing: ${miss.map(esc).join(", ")}.</span>` : `<span class="msg ok">Every DAMA area and role the Commons links to is there.</span>`);
+  }).catch(() => { $("live").textContent = "The live check could not reach the playbooks' manifest from here (for example offline, or opened from files). The links above still work when you are online."; });
+
+  window.DQP_TOUR = [
+    {sel: "#ptl", title: "Three portals", text: "Each does a different job: do the data quality work, implement the DAM Policy, or see the evidence in public code."},
+    {sel: "#cpB", title: "Like for like", text: "What each portal offers, side by side. Tick 'Only where the portals differ' to see the gaps quickly."},
+    {sel: "#lsvg", title: "Lineage map", text: "How a DAM requirement leads to a capability, a DAMA area, a Commons tool and evidence in code. Choose a box to open it."},
+    {sel: "#trB", title: "Trace one thing", text: "Pick a DAMA area, role or standard and jump to it in each portal."},
+    {sel: "#jS", title: "Journeys", text: "Five tasks that start in one portal and continue in another, step by step."},
+    {sel: "#live", title: "Live link check", text: "The page reads the playbooks' cross-reference manifest and tells you if a shared key has moved."},
+  ];
+})();
+</script>

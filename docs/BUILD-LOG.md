@@ -1,5 +1,11 @@
 # Build journal
 
+## 2026-11-05 — v2.10.0: standards catalogue, DQV from the Weaver, three portals as one journey
+- **Built:** a catalogue of 57 open standards on the interoperability page (filters, status, Rosetta concepts, Weaver support, links into the repos asset catalogue and the DAM playbooks); DQV output from the Metadata Weaver in Python, JavaScript and the command line; the Rosetta grows to 11 standards; a new page, Three portals, one journey, with a comparison, an interactive lineage map, trace one thing, journeys and a join-up plan; `api/xref.json`; sister-portal links on 13 pages and in the wheel and role panels.
+- **Sister repositories:** the DAM capability playbooks and the GitHub repos asset catalogue gain matching links back (see their changelogs).
+- **Checked:** full test suite; two-engine parity (37 cases); four-size visual inspection (no new findings; the lineage map scrolls sideways on phones by design); accessibility names and roles; screenshots at 1366 and 390 pixels in light and dark.
+- **Inputs:** two internal workbooks guided the coverage; only public facts are used (D-STD-01).
+
 ## 2026-11-05 — v2.9.0: data management wheel, data quality in change, Microsoft Form feedback
 
 **Built**

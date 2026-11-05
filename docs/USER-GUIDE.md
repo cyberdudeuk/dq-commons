@@ -18,7 +18,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
 | Check: Check and assess | Check your data, Maturity self-assessment, Data management wheel, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, see your whole data capability, prioritise issues, draft rules, size a baseline |
 | Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
-| Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
+| Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Three portals one journey, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
 | Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
 On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list. The **Site map** shows every page on one screen, by group and level, with suggested routes.
@@ -82,6 +82,15 @@ Try **Ask the Commons** first. To use your organisation's own approved assistant
 
 ### See your whole data capability on the data management wheel
 Go to **Data management wheel**. Choose your role, then an area of the wheel (data governance sits at the centre, ten knowledge areas around it). You see what it means for you, what to do for the DAM policy, where it surfaces in the maturity themes and the government's Data Maturity Assessment, its lifecycle stages, and how records and information management overlaps. Tick **Colour by my maturity results** to shade the wheel with your answers. Further down: one lifecycle for data and records, records frameworks side by side, ten join-up actions you can tick and download as a plan, and the communities where the professions meet.
+
+### Find a standard and its status in government
+Open the [standards catalogue](https://cyberdudeuk.github.io/dq-commons/interop.html#catalogue) on the interoperability page. Type a name (for example DQV) or filter by domain (data, digital, cyber, technology) and status. Each row links to the specification, the GOV.UK list, the Rosetta concepts it expresses, whether the Metadata Weaver reads or writes it, and where it appears in public code.
+
+### Publish how complete your metadata is (DQV)
+In the [Metadata Weaver](https://cyberdudeuk.github.io/dq-commons/weaver.html), paste a record and open the **DQV (metadata quality)** tab. It gives coverage, critical data asset properties and profile conformance as W3C DQV you can publish next to your DCAT record. From the command line: `dqkit weave record.json --to dqv`.
+
+### Continue in a sister portal
+Open [Three portals, one journey](https://cyberdudeuk.github.io/dq-commons/ecosystem.html). Compare what DQ Commons, the DAM capability playbooks and the GitHub repos asset catalogue each offer; choose a box on the lineage map to see where it leads; or use **Trace one thing** to follow a DAMA area, a role or a standard through all three. Many pages also end with **Continue in a sister portal**.
 
 ### Run data quality through a programme or project
 On **For your role**, choose a change and delivery role (SRO, programme or delivery manager, PMO, business change lead, business analyst, product or service owner, architect, data migration lead, test lead, or records and information manager). Under **Data quality in change programmes and projects** you'll find why each role was added, the lifecycle with gate questions, a RACI you can filter by phase or role, a service blueprint and example journeys.

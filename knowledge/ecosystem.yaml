@@ -1,0 +1,262 @@
+# Three open projects, one journey: the DQ Commons, the DAM capability playbooks and the GitHub Repos Asset Catalogue.
+# A like-for-like comparison, what each could gain from the others, how they link up, the shared keys that let them
+# point at each other, and journeys that start in one and continue in another. Shown on ecosystem.html; the shared
+# keys are also published as api/xref.json, in the same shape as the playbooks' data/xref.json.
+# The three stay separate projects with their own owners, purposes, audiences and status: they link, they don't merge.
+# Reviewed against the playbooks v1.8.1 and the catalogue's open edition as published on 5 November 2026.
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Commons product owner
+  next_step: Re-run the comparison at each release of any of the three, and test the cross-portal journeys with five users from each audience.
+
+portals:
+  - id: dqc
+    name: Public Sector Data Quality Commons
+    short: DQ Commons
+    url: https://cyberdudeuk.github.io/dq-commons/
+    repo: https://github.com/cyberdudeuk/dq-commons
+    xref: https://cyberdudeuk.github.io/dq-commons/api/xref.json
+    status: Community project
+    hue: 0
+    role: "Do the data quality work: check data in the browser, run the playbook, prioritise issues, describe data in every standard, buy tools well, learn and contribute."
+    audience: "Data quality practitioners, stewards, owners and leaders across the UK public sector and beyond."
+    licence: Code MIT; content Open Government Licence v3.0
+  - id: dam
+    name: DAM capability playbooks
+    short: DAM playbooks
+    url: https://cyberdudeuk.github.io/dam-capability-playbooks/
+    repo: https://github.com/cyberdudeuk/dam-capability-playbooks
+    xref: https://cyberdudeuk.github.io/dam-capability-playbooks/data/xref.json
+    status: Prototype guidance for the DAM Policy
+    hue: 1
+    role: "Implement the Data Asset Management Policy: every requirement, step-by-step governance, cataloguing and quality methods, sector supplements, capabilities and delivery practices."
+    audience: "Lead policy coordinators, chief data officers, data owners, stewards and catalogue managers in UK government."
+    licence: Code MIT; content Open Government Licence v3.0
+  - id: cat
+    name: GitHub Repos Asset Catalogue
+    short: Repos catalogue
+    url: https://cyberdudeuk.github.io/github-repos-asset-catalogue/
+    repo: https://github.com/cyberdudeuk/github-repos-asset-catalogue
+    xref: ""
+    status: Specialist evidence tool
+    hue: 2
+    role: "See what public bodies publish as code: find what already exists, the data management and standards evidence in code, legacy and debt, organisations and APIs."
+    audience: "Policy leads, service owners, data leaders, engineering and security leads, and architects."
+    licence: Code MIT; content and data Open Government Licence v3.0
+
+# full | partial | none | notseen (not found in our review; may exist)
+comparison:
+  - group: Content
+    rows:
+      - {item: "DAM Policy requirements, step by step", dqc: [partial, "Playbook stage guidance, CDA baseline, gap register"], dam: [full, "Every requirement with its strength, source and the step that meets it"], cat: [partial, "Data and metadata management lens over public code"]}
+      - {item: "Data quality method and tools", dqc: [full, "Eight-stage playbook, browser checker, issues framework, rules assistant, pipeline"], dam: [full, "Quality playbook; sector rules the Commons kit can run"], cat: [partial, "Data quality evidence and tools found in code"]}
+      - {item: "Cataloguing and metadata", dqc: [full, "Metadata Weaver (DCAT, schema.org, CKAN, ODCS, DQV), 61-concept Rosetta, standards catalogue"], dam: [full, "Cataloguing playbook; proposed crosswalk to DCAT and Dublin Core (not yet agreed)"], cat: [full, "Catalogue platforms and standards graded per repository; records as DCAT JSON-LD"]}
+      - {item: "Governance method", dqc: [partial, "Roles, RACI, operating model"], dam: [full, "Governance playbook with escalation and one yearly cycle"], cat: [none, ""]}
+      - {item: "DAMA wheel", dqc: [full, "Seven audience views, DAM actions, maturity overlay, records lifecycle, join-up plan"], dam: [full, "Wheel shaded by DAM capabilities, role guidance, records life cycle"], cat: [full, "Wheel of code projects with evidence of each knowledge area"]}
+      - {item: "Maturity", dqc: [full, "Eight-theme self-assessment with benchmarks; links to the DMA"], dam: [full, "Capability model, 32 capabilities, self-assessment, links to the DMA"], cat: [none, ""]}
+      - {item: "Roles, personas and change", dqc: [full, "23 roles incl. 10 change roles, RACI, blueprint, gate questions"], dam: [full, "19 roles incl. programme roles, six routes, programme blueprint"], cat: [full, "Persona tours: policy, service, data, engineering, architecture"]}
+      - {item: "Sector supplements", dqc: [partial, "Scenarios by policy, sector and platform"], dam: [full, "14 sector supplements with a finder"], cat: [partial, "Topics, public services and devolution lenses"]}
+      - {item: "Standards and crosswalks", dqc: [full, "57-standard catalogue across data, digital, cyber and technology; Rosetta; 30 frameworks"], dam: [partial, "Open standards in tools and interoperability; proposed crosswalk"], cat: [full, "24 standards tracked in public code; crosswalks and mappings view"]}
+      - {item: "Tools, suppliers and buying", dqc: [full, "20 products, lock-in checker, RFI and RFP builder, clauses"], dam: [full, "Nine tool kinds, pairings, barriers, 23 RFI questions"], cat: [full, "Data tools and suppliers seen in code"]}
+      - {item: "Professions, skills and learning", dqc: [full, "Professions, skills check, courses, modules, events"], dam: [full, "DDaT pathways, learning modules"], cat: [partial, "Plain-English guide to GitHub"]}
+      - {item: "Records and information management", dqc: [full, "Lifecycle, frameworks and join-up on the wheel; records manager role"], dam: [full, "Records life cycle; working together page"], cat: [none, ""]}
+      - {item: "Evidence from public code", dqc: [none, ""], dam: [none, ""], cat: [full, "Every UK public sector code project, with status labels and accuracy sampling"]}
+      - {item: "Organisations, APIs and legacy", dqc: [partial, "Legacy and modernisation guidance"], dam: [partial, "Legacy exits in delivery and change"], cat: [full, "Organisation profiles, family tree, API catalogue, legacy and debt signals"]}
+  - group: Features
+    rows:
+      - {item: "Run checks on your own data in the browser", dqc: [full, "Nothing uploaded"], dam: [none, ""], cat: [none, ""]}
+      - {item: "Search", dqc: [full, "Site-wide, keyboard shortcut"], dam: [full, "Ranked search, keyboard shortcut"], cat: [full, "Search everything"]}
+      - {item: "Ask in plain English (no AI)", dqc: [full, "Ask the Commons"], dam: [notseen, ""], cat: [full, "Ask a question, answered from its data"]}
+      - {item: "Guided tours, user guide, tutorials", dqc: [full, ""], dam: [full, ""], cat: [full, "Tours by persona"]}
+      - {item: "Site map", dqc: [full, ""], dam: [full, ""], cat: [partial, "Hubs and views"]}
+      - {item: "Share on every page", dqc: [full, "Device, link, section link, email, Teams, LinkedIn, embed, print"], dam: [full, "Link, device, email, Teams"], cat: [notseen, ""]}
+      - {item: "Tooltips and display options", dqc: [partial, "Tooltips; light and dark"], dam: [full, "Tooltips; text size, spacing, colours"], cat: [full, "Tooltips on terms"]}
+      - {item: "Progress tracking", dqc: [partial, "Playbook checklist ticks"], dam: [full, "Steps and modules"], cat: [none, ""]}
+      - {item: "Microsoft Forms feedback", dqc: [partial, "Ready; switched on when the form link is added"], dam: [full, "Live"], cat: [notseen, ""]}
+      - {item: "Open data API and downloads", dqc: [full, "api/ JSON, feed, sitemap, downloads"], dam: [full, "data/*.json with a DCAT catalogue; llms.txt"], cat: [full, "DCAT JSON-LD and CSV downloads; knowledge layer (SKOS, OWL, PROV)"]}
+      - {item: "MCP server for AI assistants", dqc: [full, "Toolkit server, 16 tools"], dam: [full, "Reference server, five tools"], cat: [notseen, ""]}
+      - {item: "Cross-reference manifest", dqc: [full, "api/xref.json (from v2.10.0)"], dam: [full, "data/xref.json"], cat: [partial, "Footer and view signposts (from this release); no manifest yet"]}
+      - {item: "Offline copy", dqc: [full, "Zip of the whole portal"], dam: [notseen, ""], cat: [full, "Single file, opens offline"]}
+      - {item: "Embed and white-label", dqc: [full, "?embed=1 with your colour; fork and rebrand"], dam: [partial, "Ten reuse routes described"], cat: [partial, "Government edition built from a companion repository"]}
+  - group: Trust and quality
+    rows:
+      - {item: "Source label on each fact", dqc: [partial, "Verified flag and checked date per source"], dam: [full, "Verified, practitioner, synthesis, search, general or unconfirmed"], cat: [full, "Evidence and measured accuracy per label"]}
+      - {item: "Automated accessibility checks", dqc: [full, "axe on every page, light and dark"], dam: [full, "axe, keyboard, 320 to 1920 px"], cat: [full, "axe, width and contrast tests"]}
+      - {item: "Scheduled health checks", dqc: [full, "Content health, link checks"], dam: [full, "Weekly status run"], cat: [full, "Self-routines, staleness"]}
+      - {item: "Two engines checked against each other", dqc: [full, "Python and browser parity"], dam: [none, ""], cat: [partial, "Checks re-run in the reader's browser"]}
+
+gains:
+  - portal: dqc
+    from_dam: ["Source labels on each fact (verified, practitioner, synthesis and so on)", "Display options for text size and spacing", "Progress tracking across modules", "Requirement-by-requirement DAM Policy view to link playbook stages to"]
+    from_cat: ["Evidence of real practice in public code for each wheel area and standard", "Measured accuracy of automatic labels", "Persona tours that span hubs"]
+  - portal: dam
+    from_dqc: ["Hands-on tools: the data checker, Weaver with DQV output, issues framework calculator, lock-in checker", "The 57-standard catalogue across data, digital, cyber and technology", "Ask in plain English, embed mode and offline copy"]
+    from_cat: ["Code evidence for each capability and sector", "Which organisations already apply DCAT, MEM or DQV in code"]
+  - portal: cat
+    from_dqc: ["Guidance on what to do next once a gap is found (playbook, checker, standards)", "A share menu, embed mode and a cross-reference manifest", "An MCP server pattern for AI assistants"]
+    from_dam: ["The DAM requirement each finding relates to", "Role guidance for leaders acting on estate findings"]
+
+joinup:
+  - {id: X1, action: "Shared keys", detail: "Use the same keys for the 11 DAMA areas (DM-GOV to DM-DQ), roles, standards and tool categories, and publish them in a cross-reference manifest (xref.json) in each portal.", status: "DQ Commons and playbooks publish manifests; the catalogue uses the same DAMA areas and standards names"}
+  - {id: X2, action: "Related elsewhere", detail: "Each portal signposts the right page of the others at the point of need, naming the portal and its status, never merging journeys.", status: "In all three from this release"}
+  - {id: X3, action: "Journeys that continue", detail: "Deep links that carry the reader to the exact next step (an area, a standard, a role) in the next portal.", status: "Five cross-portal journeys on the ecosystem page"}
+  - {id: X4, action: "Lineage you can follow", detail: "One map of how a DAM requirement leads to a capability, a DAMA area, a Commons tool and evidence in code, and back.", status: "Interactive map on the ecosystem page"}
+  - {id: X5, action: "Live link checks", detail: "Each portal reads the others' manifests (same web address family, no tracking) and reports any key that has moved.", status: "The ecosystem page checks the playbooks' manifest live"}
+  - {id: X6, action: "Consistent experience", detail: "The same accessibility standard (WCAG 2.2 AA), plain English, tooltips, share and feedback routes, and colour per part of each portal.", status: "Mostly aligned; display options and source labels to adopt in the Commons"}
+  - {id: X7, action: "One feedback picture", detail: "Feedback that is really about another portal is passed on, and themes are compared each quarter.", status: "Proposed"}
+
+xref:
+  dama:
+    - {dqc: governance, dam: DM-GOV, name: Data governance}
+    - {dqc: architecture, dam: DM-ARC, name: Data architecture}
+    - {dqc: modelling, dam: DM-MOD, name: Data modelling and design}
+    - {dqc: storage, dam: DM-OPS, name: Data storage and operations}
+    - {dqc: security, dam: DM-SEC, name: Data security}
+    - {dqc: integration, dam: DM-INT, name: Data integration and interoperability}
+    - {dqc: content, dam: DM-DOC, name: Document and content management}
+    - {dqc: masterdata, dam: DM-REF, name: Reference and master data}
+    - {dqc: dwbi, dam: DM-BI, name: Data warehousing and business intelligence}
+    - {dqc: metadata, dam: DM-META, name: Metadata management}
+    - {dqc: quality, dam: DM-DQ, name: Data quality}
+  roles:
+    - {dqc: cdo, dam: CDO}
+    - {dqc: owner, dam: OWN}
+    - {dqc: steward, dam: STW}
+    - {dqc: technical, dam: CUS}
+    - {dqc: dqlead, dam: DQL}
+    - {dqc: ig, dam: DPO}
+    - {dqc: public, dam: PUB}
+    - {dqc: sro, dam: SRO}
+    - {dqc: delivery, dam: PDM}
+    - {dqc: product, dam: SVO}
+    - {dqc: architect, dam: ARC}
+    - {dqc: migration, dam: MIG}
+    - {dqc: pmo, dam: PMO}
+  tools:
+    - {dam: TL-CAT, dqc: "catalogues.html#products", name: "Data catalogue and metadata management"}
+    - {dam: TL-DQ, dqc: "catalogues.html#products", name: "Data quality profiling, rules and monitoring"}
+    - {dam: TL-CONTRACT, dqc: "interop.html#rosetta", name: "Data contracts and data products"}
+    - {dam: TL-REC, dqc: "wheel.html#records", name: "Records and content management"}
+  catalogue_views:
+    dama: {path: "#dama", name: "Data management wheel"}
+    standards: {path: "#standards", name: "Data catalogues and standards"}
+    suppliers: {path: "#suppliers", name: "Data tools and suppliers"}
+    legacy: {path: "#legacy", name: "Legacy and technical debt"}
+    crosswalk: {path: "#crosswalk", name: "Crosswalks and mappings"}
+    apis: {path: "#apis", name: "API catalogue"}
+    discover: {path: "#discover", name: "Explore repos in plain English"}
+    knowledge: {path: "#knowledge", name: "Knowledge layer"}
+
+lineage:
+  nodes:
+    - {id: req, portal: dam, name: "DAM Policy requirement", path: "dam.html", key: "requirement id"}
+    - {id: cap, portal: dam, name: "DAM capability", path: "capability-model.html", key: "capability id (CR-)"}
+    - {id: area_dam, portal: dam, name: "DAMA area (playbooks)", path: "capability-model.html", key: "DM-GOV … DM-DQ"}
+    - {id: area_dqc, portal: dqc, name: "DAMA area (Commons wheel)", path: "wheel.html", key: "DM-GOV … DM-DQ"}
+    - {id: area_cat, portal: cat, name: "DAMA area (code evidence)", path: "#dama", key: "DM-GOV … DM-DQ"}
+    - {id: tool, portal: dqc, name: "Commons tool or guidance", path: "sitemap.html", key: "page"}
+    - {id: std_dqc, portal: dqc, name: "Standard (Commons catalogue)", path: "interop.html#catalogue", key: "standard id"}
+    - {id: std_cat, portal: cat, name: "Standard in public code", path: "#standards", key: "standard name"}
+    - {id: tooling, portal: dam, name: "Tool kind and open standards", path: "tooling.html", key: "TL-"}
+    - {id: role_dam, portal: dam, name: "Role (playbooks)", path: "together.html", key: "role code"}
+    - {id: role_dqc, portal: dqc, name: "Role (Commons)", path: "roles.html", key: "role id"}
+    - {id: persona_cat, portal: cat, name: "Persona tour (catalogue)", path: "#guide", key: "persona"}
+    - {id: sector, portal: dam, name: "Sector supplement", path: "sectors.html", key: "supplement id"}
+    - {id: rules, portal: dqc, name: "Data quality rules (toolkit)", path: "check.html", key: "rules file"}
+    - {id: repo, portal: cat, name: "Code project evidence", path: "#discover", key: "repository"}
+  edges:
+    - {from: req, to: cap, label: "is met by"}
+    - {from: cap, to: area_dam, label: "sits in"}
+    - {from: area_dam, to: area_dqc, label: "same DAMA key"}
+    - {from: area_dqc, to: area_cat, label: "same DAMA key"}
+    - {from: area_dqc, to: tool, label: "is done with"}
+    - {from: area_cat, to: repo, label: "is evidenced by"}
+    - {from: tooling, to: std_dqc, label: "uses open standards"}
+    - {from: std_dqc, to: std_cat, label: "same standard"}
+    - {from: std_cat, to: repo, label: "is applied in"}
+    - {from: role_dam, to: role_dqc, label: "same role"}
+    - {from: role_dqc, to: persona_cat, label: "matching tour"}
+    - {from: sector, to: rules, label: "rules run in"}
+    - {from: rules, to: tool, label: "part of"}
+
+journeys:
+  - id: J1
+    name: "From a DAM requirement to measured quality"
+    who: "Data owner or steward"
+    steps:
+      - {portal: dam, path: "dam.html", text: "Find the requirement and the step that meets it"}
+      - {portal: dam, path: "quality.html", text: "Follow the quality playbook steps"}
+      - {portal: dqc, path: "check.html", text: "Run the checks on your data in the browser"}
+      - {portal: dqc, path: "guidance.html", text: "Prioritise issues with the issues framework"}
+      - {portal: dqc, path: "weaver.html", text: "Publish metadata and its quality as DCAT and DQV"}
+  - id: J2
+    name: "From a standard to evidence of who uses it"
+    who: "Architect or catalogue manager"
+    steps:
+      - {portal: dqc, path: "interop.html#catalogue", text: "Look up the standard and its UK status"}
+      - {portal: dqc, path: "interop.html#rosetta", text: "See how its terms map across 11 standards"}
+      - {portal: cat, path: "#standards", text: "See which public bodies apply it in code"}
+      - {portal: dam, path: "tooling.html", text: "Check how tools connect through it, and what to ask suppliers"}
+  - id: J3
+    name: "From the DAMA wheel to an estate plan"
+    who: "Chief data officer"
+    steps:
+      - {portal: dqc, path: "maturity.html", text: "Assess maturity"}
+      - {portal: dqc, path: "wheel.html", text: "See it on the wheel and pick the weakest areas"}
+      - {portal: dam, path: "capability-model.html", text: "Find the DAM capabilities in those areas"}
+      - {portal: cat, path: "#dama", text: "See code evidence for those areas across government"}
+      - {portal: cat, path: "#legacy", text: "Check legacy and debt in your organisation"}
+  - id: J4
+    name: "Buying a catalogue or quality tool without lock-in"
+    who: "Commercial lead and data leader"
+    steps:
+      - {portal: dam, path: "tooling.html", text: "Understand tool kinds and pairings"}
+      - {portal: cat, path: "#suppliers", text: "See which tools public bodies already use"}
+      - {portal: dqc, path: "catalogues.html", text: "Run the lock-in checker and build RFI questions"}
+      - {portal: dqc, path: "commercial.html", text: "Add contract clauses for data quality and exit"}
+  - id: J5
+    name: "Running data quality through a programme"
+    who: "SRO or programme manager"
+    steps:
+      - {portal: dam, path: "change.html", text: "Embed the policy in the programme"}
+      - {portal: dqc, path: "roles.html#change", text: "Agree the RACI and the gate questions"}
+      - {portal: dqc, path: "legacy.html", text: "Check the migration and reconcile"}
+      - {portal: cat, path: "#legacy", text: "Find legacy code to plan exits from"}
+
+# "Related elsewhere" on Commons pages: the right page of a sister portal at the point of need.
+placements:
+  wheel:
+    - {portal: dam, title: "DAMA wheel with the DAM capabilities", path: "capability-model.html", why: "The capabilities the DAM Policy needs in each knowledge area, with a self-assessment."}
+    - {portal: cat, title: "Data management wheel of public code", path: "#dama", why: "Code projects across government with evidence of each knowledge area."}
+  interop:
+    - {portal: cat, title: "Data catalogues and standards in public code", path: "#standards", why: "Which organisations apply DCAT, MEM, DQV and other standards in their code, graded per repository."}
+    - {portal: dam, title: "Tools and interoperability", path: "tooling.html", why: "The open standards and integration patterns that connect data management tools."}
+  weaver:
+    - {portal: dam, title: "Data cataloguing playbook", path: "cataloguing.html", why: "Step-by-step cataloguing for critical data assets under the DAM Policy."}
+    - {portal: cat, title: "Crosswalks and mappings in public code", path: "#crosswalk", why: "Crosswalks and metadata mappings other teams already publish."}
+  roles:
+    - {portal: dam, title: "Your role in the DAM playbooks", path: "personas.html", why: "Routes for six roles through learning, preparing, doing, reporting and improving."}
+    - {portal: dam, title: "Delivery and change", path: "change.html", why: "Embedding the DAM Policy in programmes: business cases, spend control, assurance and handover."}
+    - {portal: cat, title: "Guided tours by persona", path: "#guide", why: "Tours of public code evidence for policy, service, data, engineering and architecture leads."}
+  catalogues:
+    - {portal: dam, title: "Tools and interoperability", path: "tooling.html", why: "Nine kinds of data management tool, common pairings and commercial barriers."}
+    - {portal: cat, title: "Data tools and suppliers in public code", path: "#suppliers", why: "Which data tools appear in public bodies' code, and where."}
+  playbook:
+    - {portal: dam, title: "Data quality playbook (DAM Policy)", path: "quality.html", why: "The policy's quality steps, with templates, measures and sector depth."}
+    - {portal: dam, title: "Data governance playbook", path: "governance.html", why: "Decision rights, escalation and the yearly cycle that the quality work reports into."}
+  legacy:
+    - {portal: cat, title: "Legacy and technical debt in public code", path: "#legacy", why: "Legacy and debt signals in each organisation's code, with the evidence."}
+    - {portal: dam, title: "Delivery and change", path: "change.html", why: "Legacy exits, contracts and handover in programmes."}
+  maturity:
+    - {portal: dam, title: "Capability model and self-assessment", path: "capability-model.html", why: "32 capabilities the DAM Policy needs, linked to the Data Maturity Assessment."}
+  models:
+    - {portal: dam, title: "Capability model", path: "capability-model.html", why: "The DAM capabilities, each flagged explicit, implicit or inferred, with signposts to GOV.UK."}
+  baseline:
+    - {portal: dam, title: "The DAM Policy, requirement by requirement", path: "dam.html", why: "Every requirement, its strength and source, and the step that meets it."}
+  commercial:
+    - {portal: dam, title: "Tools and interoperability: buying without lock-in", path: "tooling.html", why: "Commercial barriers, six steps to buy without lock-in, and RFI questions."}
+  community:
+    - {portal: dam, title: "Working together", path: "together.html", why: "Ten recommendations for join-up between professions, and communities to join."}
+  reuse:
+    - {portal: dam, title: "Use and reuse the DAM playbooks", path: "reuse.html", why: "Ten reuse routes, llms.txt and a reference MCP server."}
+    - {portal: cat, title: "Knowledge layer", path: "#knowledge", why: "The catalogue's SKOS vocabularies, ontology and lineage graph to reuse."}

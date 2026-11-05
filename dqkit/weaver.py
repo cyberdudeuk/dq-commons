@@ -553,6 +553,49 @@ def profiles(c: dict) -> dict:
 WRITERS = {"dcat": to_dcat, "schema": to_schema, "ckan": to_ckan, "odcs": to_odcs}
 
 
+# ---------- DQV: the Weaver's findings as W3C Data Quality Vocabulary (v2.10.0) ----------
+# DQV can describe the quality of metadata as well as data. The Weaver publishes what it measured about the
+# record (critical data asset coverage, coverage per standard, profile conformance) as dqv:QualityMeasurement
+# statements in the Commons "metadata" dimension, so catalogues can harvest the result next to the DCAT record.
+DQV_CONTEXT = {"dqv": "http://www.w3.org/ns/dqv#", "dcat": "http://www.w3.org/ns/dcat#", "dct": "http://purl.org/dc/terms/",
+               "skos": "http://www.w3.org/2004/02/skos/core#", "xsd": "http://www.w3.org/2001/XMLSchema#", "dqc": DQC}
+TARGET_NAMES = {"dcat": "DCAT v3", "schema": "schema.org", "ckan": "CKAN", "odcs": "ODCS"}
+
+
+def _pct(a: int, b: int) -> float:
+    return round(100 * a / b, 1) if b else 0.0  # noqa: same in JS (pyRound)
+
+
+def to_dqv(c: dict, cov: dict, cda: dict, prof: dict) -> dict:
+    """Metadata quality for the record, in DQV. Deterministic: no timestamps, so the same record gives the same output."""
+    dim = {"@id": "dqc:metadata"}
+
+    def m(mid, label, value, dtype):
+        return {"@type": "dqv:QualityMeasurement", "dqv:value": value,
+                "dqv:isMeasurementOf": {"@id": f"dqc:metric-{mid}", "@type": "dqv:Metric", "skos:prefLabel": label,
+                                        "dqv:expectedDataType": {"@id": dtype}, "dqv:inDimension": dim}}
+    ms = [m("cda-coverage", "Critical data asset metadata properties present (percent)", cda["coverage"], "xsd:decimal")]
+    for t in TARGETS:
+        ms.append(m(f"coverage-{t}", f"Fields {TARGET_NAMES[t]} can carry that are filled (percent)",
+                    _pct(cov[t]["filled"], cov[t]["total"]), "xsd:decimal"))
+    for pid, p in prof.items():
+        ms.append(m(f"conforms-{pid}", f"Meets the must-have properties of {p['label']}", bool(p["check"]["conforms"]), "xsd:boolean"))
+    missing = [prop for prop, v in cda["properties"].items() if v["status"] != "pass"]
+    notes = []
+    if missing:
+        notes.append({"@type": "dqv:QualityAnnotation", "dqv:inDimension": dim,
+                      "dct:description": "Critical data asset properties missing or partial: " + ", ".join(missing)})
+    out = {"@context": DQV_CONTEXT, "@type": "dqv:QualityMetadata",
+           "dct:title": "Metadata quality: " + (c["title"] or c["identifier"] or "dataset"),
+           "dct:subject": c["identifier"] or c["title"] or "dataset",
+           "dqv:hasQualityMeasurement": ms}
+    if notes:
+        out["dqv:hasQualityAnnotation"] = notes
+    if c["conforms_to"]:
+        out["dct:conformsTo"] = c["conforms_to"]
+    return out
+
+
 # ---------- gaps ----------
 
 def _filled(c, k):
@@ -595,8 +638,9 @@ def coverage(c: dict) -> dict:
 def weave(rec: dict, fmt: str | None = None) -> dict:
     """Read a record and write every format. Returns source format, canonical record, outputs and gaps."""
     src, c = read(rec, fmt)
+    cov, cda, prof = coverage(c), cda_check(c), profiles(c)
     return {"source_format": src, "canonical": c, "outputs": {t: WRITERS[t](c) for t in TARGETS},
-            "coverage": coverage(c), "cda": cda_check(c), "profiles": profiles(c)}
+            "coverage": cov, "cda": cda, "profiles": prof, "quality": to_dqv(c, cov, cda, prof)}
 
 
 def fields() -> list:

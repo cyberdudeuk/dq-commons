@@ -1961,10 +1961,34 @@
       });
       return res;
     };
+    // DQV: the Weaver's findings as W3C Data Quality Vocabulary (weaver.py to_dqv).
+    var DQV_CTX = { dqv: 'http://www.w3.org/ns/dqv#', dcat: 'http://www.w3.org/ns/dcat#', dct: 'http://purl.org/dc/terms/',
+      skos: 'http://www.w3.org/2004/02/skos/core#', xsd: 'http://www.w3.org/2001/XMLSchema#', dqc: CTX.dqc };
+    var TNAMES = { dcat: 'DCAT v3', schema: 'schema.org', ckan: 'CKAN', odcs: 'ODCS' };
+    W.toDqv = function (c, cov, cda, prof) {
+      var dim = { '@id': 'dqc:metadata' };
+      function m(mid, label, value, dtype) {
+        return { '@type': 'dqv:QualityMeasurement', 'dqv:value': value,
+          'dqv:isMeasurementOf': { '@id': 'dqc:metric-' + mid, '@type': 'dqv:Metric', 'skos:prefLabel': label,
+            'dqv:expectedDataType': { '@id': dtype }, 'dqv:inDimension': dim } };
+      }
+      var ms = [m('cda-coverage', 'Critical data asset metadata properties present (percent)', cda.coverage, 'xsd:decimal')];
+      TARGETS.forEach(function (t) { var x = cov[t]; ms.push(m('coverage-' + t, 'Fields ' + TNAMES[t] + ' can carry that are filled (percent)',
+        x.total ? pyRound(100 * x.filled / x.total, 1) : 0, 'xsd:decimal')); });
+      Object.keys(prof).forEach(function (pid) { ms.push(m('conforms-' + pid, 'Meets the must-have properties of ' + prof[pid].label, !!prof[pid].check.conforms, 'xsd:boolean')); });
+      var missing = Object.keys(cda.properties).filter(function (k) { return cda.properties[k].status !== 'pass'; });
+      var out = { '@context': DQV_CTX, '@type': 'dqv:QualityMetadata', 'dct:title': 'Metadata quality: ' + (c.title || c.identifier || 'dataset'),
+        'dct:subject': c.identifier || c.title || 'dataset', 'dqv:hasQualityMeasurement': ms };
+      if (missing.length) out['dqv:hasQualityAnnotation'] = [{ '@type': 'dqv:QualityAnnotation', 'dqv:inDimension': dim,
+        'dct:description': 'Critical data asset properties missing or partial: ' + missing.join(', ') }];
+      if (c.conforms_to) out['dct:conformsTo'] = c.conforms_to;
+      return out;
+    };
     W.weave = function (rec, fmt) {
       var r = W.read(rec, fmt), c = r[1], outputs = {};
       TARGETS.forEach(function (t) { outputs[t] = Wr[t](c); });
-      return { source_format: r[0], canonical: c, outputs: outputs, coverage: W.coverage(c), cda: W.cdaCheck(c), profiles: W.profiles(c) };
+      var cov = W.coverage(c), cda = W.cdaCheck(c), prof = W.profiles(c);
+      return { source_format: r[0], canonical: c, outputs: outputs, coverage: cov, cda: cda, profiles: prof, quality: W.toDqv(c, cov, cda, prof) };
     };
     DQ.weaver = W;
   })();

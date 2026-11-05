@@ -86,6 +86,8 @@ class Knowledge(unittest.TestCase):
 
         def walk(o):
             if isinstance(o, dict):
+                if o.get("portal") not in (None, "dqc"):
+                    return  # a page in a sister portal (ecosystem.yaml); checked by test_ecosystem_standards
                 for v in o.values():
                     walk(v)
             elif isinstance(o, list):

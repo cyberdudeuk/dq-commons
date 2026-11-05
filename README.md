@@ -208,10 +208,12 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.9.0) adds a **data management wheel** of the 11 DAMA-DMBOK knowledge areas, mapped to the
-maturity models, the DAM policy, one lifecycle for data and records, and practical actions to join up data and
-records professionals; **data quality in change programmes** (10 change and delivery roles, gate questions, a RACI and
-a service blueprint); and a **Microsoft Form** feedback route alongside the GitHub contact form. Release 2.8.0 made the
-portal easier to read and navigate, and added a site map, Ask the Commons, Share on every page and an open data API.
+The latest release (2.10.0) adds a **standards catalogue** of 57 open standards used across UK government and the
+wider public sector (data, digital, cyber and technology) linked to the GOV.UK open standards; makes the **Metadata
+Weaver write data quality metadata as W3C DQV**; grows the Rosetta Stone to eleven standards; and joins the Commons,
+the [DAM capability playbooks](https://cyberdudeuk.github.io/dam-capability-playbooks/) and the
+[GitHub repos asset catalogue](https://github.com/cyberdudeuk/github-repos-asset-catalogue) into one journey, with a
+comparison, an interactive lineage map and a shared cross-reference manifest (`api/xref.json`). Release 2.9.0 added the
+data management wheel, data quality in change programmes and a Microsoft Form feedback route.
 The portal needs no claude.ai account. Contact is by form only. Every release
 is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

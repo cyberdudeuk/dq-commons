@@ -32,6 +32,7 @@ specialists, but people still retype the same record into each catalogue, and th
 ```
 python -m dqkit weave record.json --report       # gaps and CDA coverage
 python -m dqkit weave record.json --to dcat      # one output
+python -m dqkit weave record.json --to dqv       # metadata quality as W3C DQV (coverage, CDA, profiles)
 python -m dqkit contract-check new.yaml --against old.yaml   # exits 1 if the version bump is too small
 ```
 

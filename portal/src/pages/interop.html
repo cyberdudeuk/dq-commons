@@ -28,20 +28,35 @@ __BASE_CSS__
   <span class="eyebrow">Govern · Interoperability and standards</span>
   <h1>Data joins up when systems agree</h1>
   <p class="lede" id="sum"></p>
-  <nav class="toc" aria-label="On this page"><a href="#layers">Six layers</a><a href="#rosetta">Metadata Rosetta</a><a href="#guardrails">Guardrails</a><a href="#requirements">Requirements checklist</a><a href="#measures">Measures</a><a href="#adjacent">Related capabilities</a><a href="#sources">Sources</a></nav>
+  <nav class="toc" aria-label="On this page"><a href="#catalogue">Standards catalogue</a><a href="#layers">Six layers</a><a href="#rosetta">Metadata Rosetta</a><a href="#guardrails">Guardrails</a><a href="#requirements">Requirements checklist</a><a href="#measures">Measures</a><a href="#adjacent">Related capabilities</a><a href="#sources">Sources</a></nav>
 </header>
 
 <section id="layers" aria-labelledby="l-h"><h2 id="l-h">Six layers of interoperability, and the standards for each</h2>
   <p class="small muted">"In the toolkit" says where the Commons already supports a standard.</p><div class="stack" id="stack"></div></section>
 
 <section id="rosetta" aria-labelledby="ro-h">
-  <h2 id="ro-h">Metadata Rosetta: one concept, eight standards</h2>
-  <p>61 cataloguing concepts mapped across DCAT v3, the UK metadata standard, DCAT-AP and its geospatial and statistical profiles, DCAT-US, PROV-O and the Data Quality Vocabulary. Use it to describe data the same way whichever catalogue it lands in. The four quality concepts are marked.</p>
+  <h2 id="ro-h">Metadata Rosetta: one concept, eleven standards</h2>
+  <p>61 cataloguing concepts mapped across DCAT v3, the UK Metadata Exchange Model, DCAT-AP and its geospatial and statistical profiles, DCAT-US, PROV-O, the Data Quality Vocabulary (DQV), and the three formats the <a href="weaver.html">Metadata Weaver</a> also writes: schema.org, CKAN and ODCS. Use it to describe data the same way whichever catalogue it lands in. Quality concepts are marked, and each concept links to the standards in the <a href="#catalogue">standards catalogue</a> that express it.</p>
   <div class="filters"><div class="field"><label for="rq">Search concepts or terms</label><input type="search" id="rq" placeholder="For example: licence, dqv, publisher"></div>
     <div class="field"><label for="rOnly"><input type="checkbox" id="rOnly"> Only quality concepts</label></div></div>
   <fieldset><legend class="small" style="font-weight:600;margin-bottom:6px">Standards to show</legend><div class="chips" id="rCols"></div></fieldset>
   <p class="small muted" id="rCount" role="status" aria-live="polite"></p>
   <div class="tbl"><table id="rTable"></table></div>
+</section>
+
+<section id="catalogue" aria-labelledby="sc-h">
+  <h2 id="sc-h">Standards catalogue: data, digital, cyber and technology</h2>
+  <p>The standards used across UK government and the wider public sector, with their status: <b>Mandated</b> and <b>Recommended</b> are the GOV.UK open standards; <b>UK guidance</b> is required or expected by government guidance; <b>Widely used</b> are open or international standards in common use. Each links to its specification, the Rosetta concepts it expresses, whether the Weaver reads or writes it, and where to see it in public code.</p>
+  <div class="filters">
+    <div class="field"><label for="scq">Search standards</label><input type="search" id="scq" placeholder="For example: DQV, quantum, API, health"></div>
+    <div class="field"><label for="scD">Domain</label><select id="scD"><option value="">All domains</option></select></div>
+    <div class="field"><label for="scS">Status</label><select id="scS"><option value="">Any status</option><option>Mandated</option><option>Recommended</option><option>UK guidance</option><option>Widely used</option></select></div>
+    <div class="field"><label for="scW"><input type="checkbox" id="scW"> Only standards the Weaver reads or writes</label></div>
+  </div>
+  <div class="kpis" id="scK"></div>
+  <p class="small muted" id="scN" role="status" aria-live="polite"></p>
+  <div class="tbl"><table><thead><tr><th scope="col">Standard</th><th scope="col">Domain and topic</th><th scope="col">Status in UK government</th><th scope="col">Rosetta concepts</th><th scope="col">Weaver</th><th scope="col">Elsewhere</th></tr></thead><tbody id="scB"></tbody></table></div>
+  <details class="disc"><summary>Where these lists come from</summary><div class="body"><ul class="plain small" id="scSrc"></ul></div></details>
 </section>
 
 <section id="guardrails" aria-labelledby="g-h"><h2 id="g-h">Guardrails and safeguards</h2><p>True whatever the tool, platform or supplier.</p><div class="gr" id="gr"></div></section>
@@ -63,7 +78,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_INTEROP__, RO = __K_ROSETTA__;
+const K = __K_INTEROP__, RO = __K_ROSETTA__, SC = __K_STANDARDS__, ECO = __K_ECO__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("sum").textContent = K.summary;
@@ -86,6 +101,7 @@ $("adj").innerHTML = K.adjacent.map(a => `<a href="${esc(a.where)}"><b>${esc(a.n
 $("src").innerHTML = K.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a>${s.verified === "yes" ? "" : ` <span class="chip warn">Partly verified</span>`}</li>`).join("");
 // Rosetta
 let rShow = new Set(["DCAT v3", "UK MEM / x-gov", "DQV"]);
+const byConcept = {}; SC.standards.forEach(x => x.concepts.forEach(c => (byConcept[c] = byConcept[c] || []).push(x)));
 $("rCols").innerHTML = RO.standards.map(s => `<label class="chip" style="cursor:pointer;display:inline-flex;gap:6px;align-items:center"><input type="checkbox" value="${esc(s)}"${rShow.has(s) ? " checked" : ""}> ${esc(s)}</label>`).join("");
 $("rCols").addEventListener("change", e => { e.target.checked ? rShow.add(e.target.value) : rShow.delete(e.target.value); drawRosetta(); });
 const isQ = c => /quality/i.test(c.name);
@@ -95,12 +111,44 @@ function drawRosetta() {
   $("rCount").textContent = `${list.length} of ${RO.concepts.length} concepts.`;
   $("rTable").innerHTML = `<thead><tr><th scope="col">Concept</th><th scope="col">DAM or catalogue term</th>${cols.map(s => `<th scope="col">${esc(s)}</th>`).join("")}</tr></thead><tbody>` +
     list.map(c => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal"><span class="mono small">${esc(c.id)}</span> ${esc(c.name)}${isQ(c) ? ' <span class="chip acc">quality</span>' : ""}<br><span class="small muted" style="font-weight:400">${esc(c.definition)}</span></th>
-      <td>${esc(c.dam)}</td>${cols.map(s => `<td><code>${esc(c.standards[s] || "–")}</code></td>`).join("")}</tr>`).join("") + "</tbody>";
+      <td>${esc(c.dam)}${(byConcept[c.id] || []).length ? `<br><span class="chips" style="margin-top:4px">${byConcept[c.id].map(x => `<a class="chip" href="#std-${x.id}" data-std="${x.id}">${esc(x.name.split(" (")[0])}</a>`).join("")}</span>` : ""}</td>${cols.map(s => `<td><code>${esc(c.standards[s] || "–")}</code></td>`).join("")}</tr>`).join("") + "</tbody>";
 }
 ["rq", "rOnly"].forEach(id => $(id).addEventListener("input", drawRosetta)); drawRosetta();
+// Standards catalogue (v2.10.0)
+const P = Object.fromEntries(ECO.portals.map(p => [p.id, p]));
+const DOM = Object.fromEntries(SC.domains.map(d => [d.id, d])), TOP = {};
+SC.domains.forEach(d => d.topics.forEach(t => TOP[d.id + "/" + t.id] = t.name));
+const SRC = Object.fromEntries(SC.sources.map(x => [x.id, x]));
+const CN = Object.fromEntries(RO.concepts.map(c => [c.id, c.name]));
+const WV = {both: "Reads and writes", out: "Writes", in: "Reads", check: "Checks", none: ""};
+const STC = {"Mandated": "p-ok", "Recommended": "p-Low", "UK guidance": "p-Medium", "Widely used": ""};
+$("scD").innerHTML += SC.domains.map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join("");
+$("scSrc").innerHTML = SC.sources.map(x => `<li><a href="${esc(x.url)}" rel="noopener">${esc(x.title)}</a></li>`).join("");
+function drawSC() {
+  const q = $("scq").value.trim().toLowerCase(), d = $("scD").value, st = $("scS").value, w = $("scW").checked;
+  const L = SC.standards.filter(x => (!d || x.domain === d) && (!st || x.status === st) && (!w || (x.weaver && x.weaver !== "none")) && (!q || JSON.stringify(x).toLowerCase().includes(q)));
+  $("scK").innerHTML = SC.domains.map(dm => `<div class="kpi"><b>${SC.standards.filter(x => x.domain === dm.id).length}</b><span>${esc(dm.name)} standards</span></div>`).join("") +
+    `<div class="kpi"><b>${SC.standards.filter(x => x.status === "Mandated" || x.status === "Recommended").length}</b><span>GOV.UK open standards</span></div>`;
+  $("scN").textContent = `${L.length} of ${SC.standards.length} standards.`;
+  $("scB").innerHTML = L.map(x => `<tr id="std-${x.id}"><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal"><a href="${esc(x.url)}" rel="noopener">${esc(x.name)}</a><br><span class="small muted" style="font-weight:400">${esc(x.publisher)}${x.note ? ". " + esc(x.note) : ""}</span></th>
+    <td>${esc(DOM[x.domain].name)}<br><span class="small muted">${esc(TOP[x.domain + "/" + x.topic])}</span></td>
+    <td><span class="pill ${STC[x.status]}">${esc(x.status)}</span>${x.source && SRC[x.source] ? `<br><a class="small" href="${esc(SRC[x.source].url)}" rel="noopener">GOV.UK list</a>` : ""}</td>
+    <td>${x.concepts.length ? `<span class="chips">${x.concepts.map(c => `<a class="chip" href="#rosetta" data-c="${c}">${esc(CN[c] || c)}</a>`).join("")}</span>` : '<span class="muted small">Not a metadata concept</span>'}</td>
+    <td>${WV[x.weaver] ? `<a href="weaver.html">${WV[x.weaver]}</a>` : ""}</td>
+    <td class="small">${x.catalogue ? `<a href="${P.cat.url}#standards" rel="noopener">In public code</a><br>` : ""}${x.domain === "data" || x.domain === "tech" ? `<a href="${P.dam.url}tooling.html" rel="noopener">DAM playbooks</a>` : ""}</td></tr>`).join("") || '<tr><td colspan="6">No standards match.</td></tr>';
+}
+["scq", "scD", "scS", "scW"].forEach(id => $(id).addEventListener("input", drawSC)); drawSC();
+document.addEventListener("click", e => {
+  const c = e.target.closest("[data-c]"); if (c) { e.preventDefault(); $("rq").value = c.dataset.c; drawRosetta(); $("rosetta").scrollIntoView({behavior: "smooth"}); return; }
+  const s2 = e.target.closest("[data-std]"); if (s2) { e.preventDefault(); $("scq").value = ""; $("scD").value = ""; $("scS").value = ""; $("scW").checked = false; drawSC();
+    const row = document.getElementById("std-" + s2.dataset.std); if (row) { row.scrollIntoView({behavior: "smooth", block: "center"}); row.style.outline = "3px solid var(--c-gold)"; setTimeout(() => row.style.outline = "", 2500); } }
+});
+if (/^#std-/.test(location.hash)) setTimeout(() => { const r = document.querySelector(location.hash); if (r) r.scrollIntoView({block: "center"}); }, 300);
+
 window.DQP_TOUR = [
   {sel: "#stack", title: "Six layers", text: "Identify, describe, mean, format, promise and report: the standards for each, and where the toolkit supports them."},
-  {sel: "#rosetta", title: "Metadata Rosetta", text: "61 cataloguing concepts across eight metadata standards. Search, and choose which standards to compare."},
+  {sel: "#rosetta", title: "Metadata Rosetta", text: "61 cataloguing concepts across eleven metadata standards, including DQV. Search, choose which standards to compare, and follow a concept to the standards that express it."},
+  {sel: "#scB", title: "Standards catalogue", text: "57 data, digital, cyber and technology standards with their status in UK government, the Rosetta concepts they express, Weaver support, and links to public code evidence and the DAM playbooks."},
   {sel: "#gr", title: "Guardrails", text: "Safeguards that hold whatever the tool or supplier."},
   {sel: "#req", title: "Requirements checklist", text: "Tick what a system already does to see its gaps."},
   {sel: "#adj", title: "Related capabilities", text: "Governance, metadata, master data, security, AI, commercial and more: how each connects to data quality."},

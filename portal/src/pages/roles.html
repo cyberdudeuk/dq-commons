@@ -93,7 +93,8 @@ __BASE_CSS__
 </div>
 
 <script>
-const S = __K_STAKEHOLDERS__, MN = __K_MODELNAV__, CH = __K_CHANGE__;
+const S = __K_STAKEHOLDERS__, MN = __K_MODELNAV__, CH = __K_CHANGE__, ECO = __K_ECO__;
+const DAMROLE = Object.fromEntries(ECO.xref.roles.map(x => [x.dqc, x.dam])), DAMURL = ECO.portals.find(p => p.id === "dam").url;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
@@ -113,6 +114,7 @@ function drawRole(focus) {
   $("role").innerHTML = `<h3>${esc(r.name)}</h3><p class="small muted">${esc(r.who)}. <b>Accountable for:</b> ${esc(r.accountable)}.</p>
   <div class="cols">${list("What you need", "target", r.needs)}${list("Decisions coming up", "flag", r.decide)}${list("Be aware", "alert", r.watch)}${list("Measures to ask for", "chart", r.measures)}</div>
   ${r.routes && r.routes.length ? `<h4>Go to</h4><p>${r.routes.map(x => `<a class="btn ghost" href="${esc(x.link)}">${DQI("arrow")} ${esc(x.text)}</a>`).join(" ")}</p>` : ""}
+  ${DAMROLE[r.id] ? `<p class="small">${DQI("network")} The same role in the <a href="${DAMURL}together.html#role-${DAMROLE[r.id]}" rel="noopener">DAM capability playbooks (${DAMROLE[r.id]})</a>, with its DAM Policy duties. <a href="ecosystem.html#lineage">How the portals connect</a>.</p>` : ""}
   ${(() => { const lanes = Object.entries(MN.lanes).filter(([, v]) => v.stakeholder === cur).map(([k]) => k);
      const steps = MN.processes.map(p => ({p, s: p.steps.filter(s => lanes.includes(s.lane))})).filter(x => x.s.length);
      return steps.length ? `<h4>${DQI("workflow")} Your steps in the data quality workflows</h4><ul class="small">${steps.map(({p, s}) => `<li><b>${esc(p.id)} ${esc(p.name)}:</b> ${s.map(x => `<a href="models.html#wf-${p.id}-${x.id}">${esc(x.name)}</a>`).join("; ")}</li>`).join("")}</ul>

@@ -113,7 +113,8 @@ __BASE_CSS__
 
 <script>
 (function () {
-  const W = __K_WHEEL__, MAT = __K_MATURITY__, COM = __K_COMMUNITIES__;
+  const W = __K_WHEEL__, MAT = __K_MATURITY__, COM = __K_COMMUNITIES__, ECO = __K_ECO__;
+  const EP = Object.fromEntries(ECO.portals.map(p => [p.id, p])), DAMK = Object.fromEntries(ECO.xref.dama.map(x => [x.dqc, x.dam]));
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const I = n => (window.DQI ? window.DQI(n) : "");
@@ -183,7 +184,11 @@ __BASE_CSS__
         <li>DMA topics: ${a.dma.map(t => esc(W.dma.topics[t])).join(", ")}</li></ul></div>
       <div><h4>${I("refresh")} Lifecycle stages</h4><p class="chipline">${a.lifecycle.map(l => `<a class="chip" href="#lc-${l}">${esc((W.lifecycle.find(x => x.id === l) || {}).name)}</a>`).join("")}</p></div>
       <div><h4>${I("library")} Records and information management</h4><p>${esc(a.irm)}</p>${a.standards.length ? `<ul class="small">${a.standards.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div>
-      <div><h4>${I("arrow")} In the Commons</h4><p class="chipline">${a.pages.map(p => `<a class="chip acc" href="${p}.html">${esc(PAGE[p] || p)}</a>`).join("")}</p></div>`;
+      <div><h4>${I("arrow")} In the Commons</h4><p class="chipline">${a.pages.map(p => `<a class="chip acc" href="${p}.html">${esc(PAGE[p] || p)}</a>`).join("")}</p></div>
+      <div><h4>${I("network")} Continue in a sister portal (key ${esc(DAMK[a.id] || "")})</h4><p class="chipline">
+        <a class="chip" href="${EP.dam.url}capability-model.html#${(DAMK[a.id] || "").toLowerCase()}" rel="noopener">DAM playbooks: capabilities in this area</a>
+        <a class="chip" href="${EP.cat.url}#dama" rel="noopener">Repos catalogue: code evidence</a>
+        <a class="chip" href="ecosystem.html#lineage">How they connect</a></p></div>`;
     if (focus) $("panel").focus();
     document.querySelectorAll("#audcards .card").forEach(c => c.classList.toggle("sel", c.dataset.au === aud));
   }

@@ -4859,6 +4859,27 @@
    "label": "DQV"
   },
   {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org",
+   "@type": [
+    "dqc:MetadataStandard"
+   ],
+   "label": "schema.org"
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan",
+   "@type": [
+    "dqc:MetadataStandard"
+   ],
+   "label": "CKAN"
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs",
+   "@type": [
+    "dqc:MetadataStandard"
+   ],
+   "label": "ODCS"
+  },
+  {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataConcept/c001",
    "@type": [
     "dqc:MetadataConcept",
@@ -4960,6 +4981,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5030,6 +5060,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5100,6 +5139,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5135,6 +5183,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5170,6 +5227,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5205,6 +5271,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5240,6 +5315,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5275,6 +5359,12 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5310,6 +5400,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5345,6 +5444,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5380,6 +5488,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5415,6 +5532,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5450,6 +5576,12 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5485,6 +5617,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5520,6 +5661,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5555,6 +5705,12 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
     }
    ]
   },
@@ -5590,6 +5746,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5800,6 +5965,9 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5835,6 +6003,9 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },
@@ -5905,6 +6076,15 @@
     },
     {
      "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/dqv"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/schema-org"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/ckan"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/MetadataStandard/odcs"
     }
    ]
   },

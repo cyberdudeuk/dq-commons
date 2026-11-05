@@ -230,6 +230,13 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 13. v2.10.0: standards catalogue, DQV and the three-portal ecosystem (5 November 2026)
+- **Knowledge:** `knowledge/standards-catalogue.yaml` (sources, domains, 57 standards) feeds `__K_STANDARDS__` on `interop.html`; `knowledge/ecosystem.yaml` (portals, comparison, gains, join-up, xref maps, lineage nodes and edges, journeys, placements) feeds `__K_ECO__` on `ecosystem.html`, `wheel.html` and `roles.html`. Both are searchable (D-STD-01, D-ECO-01).
+- **Weaver:** `to_dqv()` / `W.toDqv` produce a `dqv:QualityMetadata` graph from coverage, CDA check and profile results; `weave()` returns `quality`; CLI `weave --to dqv` (D-DQV-02).
+- **Build:** `related_elsewhere(stem)` adds a "Continue in a sister portal" aside to pages listed in `placements`; `xref_manifest()` writes `api/xref.json` (keys: dama_areas, roles, standards, pages; related portals and their manifests).
+- **Interfaces with sister portals:** links only, by shared key and stable anchor (`capability-model.html#dm-xx`, `together.html#role-CODE` in the playbooks; `#dama`, `#standards`, `#guide` in the catalogue). The live check on `ecosystem.html` reads the playbooks' `data/xref.json` from the same github.io origin; failure shows a message and the links still work.
+- **Pages:** `ecosystem.html` (42 pages in total).
+
 ## 12. v2.9.0: wheel, change roles and feedback (5 November 2026)
 - **Knowledge:** `dama-wheel.yaml` (`__K_WHEEL__`), `change-delivery.yaml` (`__K_CHANGE__`), `feedback.yaml` (`__K_FEEDBACK__`); all three feed search and Ask the Commons through `SEARCH_SOURCES`.
 - **Pages:** `wheel.html` reads `__K_WHEEL__`, `__K_MATURITY__` and `__K_COMMUNITIES__`; the overlay reads the visitor's `dqc.maturity` answers from their browser, and join-up ticks are kept in `dqc.joinup`. `roles.html` reads `__K_CHANGE__` and groups roles by `group`.
