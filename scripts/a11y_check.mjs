@@ -23,7 +23,7 @@ for (const m of modes) {
     await page.waitForTimeout(300);
     const r = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();
     const serious = r.violations.filter((v) => ['serious', 'critical'].includes(v.impact));
-    for (const v of serious) console.log(`${m.name} ${f}: [${v.impact}] ${v.id} - ${v.help} (${v.nodes.length} element(s))`);
+    for (const v of serious) console.log(`${m.name} ${f}: [${v.impact}] ${v.id} - ${v.help} (${v.nodes.length} element(s)): ${v.nodes.slice(0, 5).map((n) => n.target.join(' ')).join(' | ')}`);
     bad += serious.length;
     await page.close();
   }
