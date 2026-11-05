@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 14. v2.11.0: research and open roadmap (5 November 2026)
+- **Knowledge:** `knowledge/research.yaml` feeds `__K_RESEARCH__` (plus `email_text` from `research_email()`); `knowledge/roadmap.yaml` feeds `__K_ROADMAP__` with the backlog from `build.yaml` and live GitHub votes (`github_live()`). Both are searchable and published under `api/knowledge/` (D-UR-02, D-RM-01).
+- **Scoring:** weighted mean of four 0 to 3 criteria times an effort factor; the band sets MoSCoW in `build.yaml` (tested), so `roadmap()` and `scripts/backlog_to_issues.py` keep using MoSCoW and status unchanged. The page recomputes scores in the browser only for the what-if view.
+- **Bundle:** `research_bundle()` writes five documents and a zip to `downloads/research/` with python-docx and the standard library `email` package; no sender, recipients or tracking.
+- **Pages:** `research.html`, `roadmap.html` (44 pages in total).
+
 ## 13. v2.10.0: standards catalogue, DQV and the three-portal ecosystem (5 November 2026)
 - **Knowledge:** `knowledge/standards-catalogue.yaml` (sources, domains, 57 standards) feeds `__K_STANDARDS__` on `interop.html`; `knowledge/ecosystem.yaml` (portals, comparison, gains, join-up, xref maps, lineage nodes and edges, journeys, placements) feeds `__K_ECO__` on `ecosystem.html`, `wheel.html` and `roles.html`. Both are searchable (D-STD-01, D-ECO-01).
 - **Weaver:** `to_dqv()` / `W.toDqv` produce a `dqv:QualityMetadata` graph from coverage, CDA check and profile results; `weave()` returns `quality`; CLI `weave --to dqv` (D-DQV-02).

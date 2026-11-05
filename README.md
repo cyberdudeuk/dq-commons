@@ -208,12 +208,11 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.10.0) adds a **standards catalogue** of 57 open standards used across UK government and the
-wider public sector (data, digital, cyber and technology) linked to the GOV.UK open standards; makes the **Metadata
-Weaver write data quality metadata as W3C DQV**; grows the Rosetta Stone to eleven standards; and joins the Commons,
-the [DAM capability playbooks](https://cyberdudeuk.github.io/dam-capability-playbooks/) and the
-[GitHub repos asset catalogue](https://github.com/cyberdudeuk/github-repos-asset-catalogue) into one journey, with a
-comparison, an interactive lineage map and a shared cross-reference manifest (`api/xref.json`). Release 2.9.0 added the
-data management wheel, data quality in change programmes and a Microsoft Form feedback route.
+The latest release (2.11.0) adds **user research with your team**: an introduction to the Commons, a research panel,
+the questions we want answered, and a research bundle (invitation, email, consent, sign-up questions and session
+guides) to email to colleagues; and an **open roadmap** that shows every priority score and its reasons, delivery
+objectives, alignment with government strategy (including the Roadmap for modern digital government), capacity, and
+lets anyone try their own weights. Release 2.10.0 added the standards catalogue, DQV output from the Metadata Weaver
+and Three portals, one journey.
 The portal needs no claude.ai account. Contact is by form only. Every release
 is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

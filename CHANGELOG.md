@@ -2,6 +2,17 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.11.0 — 2026-11-05
+### Added
+- Page `research.html` (Contribute) and `knowledge/research.yaml`: introduction for prospective consumers and their teams, research panel sign-up (Microsoft Form when configured; otherwise the contact form with no contact details), 10 research questions (6 tactical, 4 strategic) linked to backlog items, 10 methods, 3 planned rounds, inclusion quotas, findings ("You said, we did"), synthesis steps, participant information and consent (D-UR-02).
+- Research bundle built into `downloads/research/`: invitation pack (.docx), invitation email (.eml with no sender or recipients), participant information and consent (.docx), sign-up questions for Microsoft Forms Quick import (.docx), session guides (.docx), README and one zip (`research_bundle()`, `research_email()`).
+- Page `roadmap.html` (Contribute) and `knowledge/roadmap.yaml`: idea-to-release pipeline, 6 delivery objectives (3 tactical, 3 strategic), Now/Next/Later with capacity, transparent scoring (user need, inclusion, strategic alignment, feasibility, effort factor) with your-own-weights what-if and CSV download, item tracing, wishes awaiting assessment, 8 government strategy anchors with coverage counts, capacity and governance (D-RM-01).
+- Backlog items BL-25 to BL-34; contact topics "Take part in user research" and "Suggest an idea for the roadmap" (the contact form pre-selects a topic from `?topic=`).
+- `tests/test_research_roadmap.py`.
+### Changed
+- Triage: BL-22 could → should, BL-27 should → must, BL-29 should → could, to match their scores (tested rule).
+- Help us build this links to the open roadmap and research; Three portals, one journey adds join-up actions X8 (estate compass) and X9 (research and roadmap in the open).
+
 ## 2.10.0 — 2026-11-05
 ### Added
 - `knowledge/standards-catalogue.yaml` and a Standards catalogue section on `interop.html`: 57 standards across data, digital, cyber and technology with GOV.UK status (19 mandated, 4 recommended, 9 UK guidance, 25 widely used), publisher, specification link, Rosetta concepts, Weaver support and links to the repos asset catalogue and the DAM playbooks. Public facts only (D-STD-01).

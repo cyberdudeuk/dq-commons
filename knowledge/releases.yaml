@@ -11,6 +11,19 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.11.0"
+  date: "2026-11-05"
+  title: "User research with your team, and an open roadmap you can follow and shape"
+  pages_new: [research, roadmap]
+  pages_changed: [build, ecosystem]
+  items:
+  - {type: new, text: "Take part in user research: an introduction to the Commons for you and your team, a research panel, ten tactical and strategic research questions, ways to take part, three planned rounds, who we need to hear from, and 'You said, we did'", link: "research.html"}
+  - {type: new, text: "Research bundle to email to your team: an introduction and invitation, an email file, participant information and consent, sign-up questions for Microsoft Forms and session guides, in one zip", link: "research.html#bundle"}
+  - {type: new, text: "Open roadmap and priorities: from idea to release in eight public stages, tactical and strategic delivery objectives, Now, Next and Later with capacity, every score and its reasons, and trace any item to its evidence, strategy and objective", link: "roadmap.html"}
+  - {type: new, text: "Try your own weights: move the sliders to see how priorities would change, and download the scores", link: "roadmap.html#scores"}
+  - {type: new, text: "Alignment with government strategy: the Roadmap for modern digital government, the strategic roadmap for public sector data, the DAM policy, the National Data Library and more, with how many items support each", link: "roadmap.html#anchors"}
+  - {type: changed, text: "Ten new backlog items from the portal comparison and research plan; three priorities changed at triage to match their scores", link: "build.html#backlog"}
+  - {type: changed, text: "Three portals, one journey adds the DAM playbooks' estate compass and open roadmaps as join-up actions", link: "ecosystem.html#joinup"}
 - version: "2.10.0"
   date: "2026-11-05"
   title: "Standards catalogue, data quality metadata as DQV, and three portals joined into one journey"

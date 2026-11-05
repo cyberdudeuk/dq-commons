@@ -1,0 +1,225 @@
+<title>Open roadmap and priorities</title>
+<style>
+__BASE_CSS__
+.pipe{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:p}
+.pipe li{counter-increment:p;flex:1 1 160px;display:flex}
+.pipe a{flex:1;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--sec);border-radius:10px;padding:10px 12px;position:relative}
+.pipe a::before{content:counter(p);font:700 .8rem var(--f-mono);color:var(--sec)}
+.pipe a b{font-size:.98rem}
+.pipe a span{font-size:.82rem;color:var(--muted)}
+.pipe a:hover{border-color:var(--sec)}
+.objs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.objs .card{border-left:6px solid var(--sec)}
+.objs h3{font-size:1rem}
+.lanes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.lane{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--sec);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.lane h3{font-size:1.05rem;display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0}
+.lane .k{font-size:.76rem;color:var(--muted);font-weight:600}
+.lane ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lane li button{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.lane li button:hover,.lane li button:focus-visible{border-color:var(--accent);outline:3px solid transparent}
+.lane li button:focus-visible{box-shadow:0 0 0 3px #ffbf47}
+.lane li .sc{font:700 .9rem var(--f-mono);color:var(--accent)}
+.lane li .mt{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:4px}
+.lane li.over button{border-style:dashed}
+.weights{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.weights label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem}
+.weights output{font:700 .9rem var(--f-mono);color:var(--accent)}
+.weights input[type=range]{width:100%;accent-color:var(--accent);min-height:32px}
+.sc-t td.n,.sc-t th.n{text-align:right;font-variant-numeric:tabular-nums}
+.mv{font:700 .8rem var(--f-mono)}
+.mv.up{color:var(--good)}.mv.dn{color:var(--warn)}
+.sc-t tr[data-id]{cursor:pointer}
+.sc-t tr.sel td,.sc-t tr.sel th{background:var(--accent-soft)}
+#trace{border-left:6px solid var(--accent);background:var(--surface);border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chain .arrow{color:var(--muted)}
+.bar{height:12px;border-radius:6px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.bar i.over{background:var(--warn)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Contribute · Open roadmap and priorities</span>
+  <h1>Open roadmap: what we build next, and why</h1>
+  <p class="lede">How ideas, votes and user research become the backlog and the roadmap, in the open. See every score and the reason behind it, try your own weights, and follow any item back to the people and the government strategy it serves.</p>
+  <nav class="toc" aria-label="On this page"><a href="#pipeline">From idea to release</a><a href="#objectives">Delivery objectives</a><a href="#roadmap">Roadmap</a><a href="#scores">How we prioritise</a><a href="#triage">Waiting for assessment</a><a href="#anchors">Government strategy</a><a href="#capacity">Capacity</a><a href="#governance">How decisions are made</a></nav>
+</header>
+
+<section id="pipeline" aria-labelledby="pp-h">
+  <h2 id="pp-h">From idea to release</h2>
+  <p>Every stage is public. Choose a stage to see where it happens.</p>
+  <ol class="pipe" id="pipe"></ol>
+  <p class="small"><a class="btn" href="build.html#wishlist">Suggest an idea or vote</a> <a href="research.html#join" style="margin-left:10px">Take part in research</a></p>
+</section>
+
+<section id="objectives" aria-labelledby="ob-h">
+  <h2 id="ob-h">Delivery objectives</h2>
+  <p><b>Tactical</b> objectives cover the next two quarters. <b>Strategic</b> objectives set the direction of travel for the next few years. Each names the government strategy it supports and the backlog items that deliver it.</p>
+  <div class="objs" id="obB"></div>
+</section>
+
+<section id="roadmap" aria-labelledby="rd-h">
+  <h2 id="rd-h">Roadmap</h2>
+  <p>Now and Next are tactical; Later is strategic. Next fills in score order until our capacity for the quarter runs out; items with a dashed border wait for capacity. Choose an item to trace it.</p>
+  <div class="lanes" id="lanes"></div>
+  <div id="trace" tabindex="-1" aria-live="polite" style="margin-top:12px"></div>
+</section>
+
+<section id="scores" aria-labelledby="sc-h">
+  <h2 id="sc-h">How we prioritise</h2>
+  <p>We score each item from 0 to 3 on four criteria, weight them, and adjust for effort (small items keep their full score; medium items 90%; large 80%). The score sets the priority: <span id="bandsTxt"></span>. Move the sliders to try your own weights: the <b>Your order</b> column shows how the order would change. Our published order uses our weights.</p>
+  <div class="weights" id="wts"></div>
+  <p style="margin-top:8px"><button class="btn" type="button" id="wReset">Use our weights</button> <button class="btn" type="button" id="dlCsv" style="margin-left:6px">Download scores (CSV)</button> <span id="wOut" class="small muted" role="status" aria-live="polite"></span></p>
+  <div class="filters"><div class="field"><label for="fA">Area</label><select id="fA"><option value="">All</option></select></div>
+    <div class="field"><label for="fH">Horizon</label><select id="fH"><option value="">All open items</option><option value="now">Now</option><option value="next">Next</option><option value="later">Later</option></select></div></div>
+  <div class="tbl"><table class="sc-t"><thead><tr><th scope="col">Item</th><th scope="col" class="n">Our score</th><th scope="col">Priority</th><th scope="col">Horizon</th><th scope="col" id="crH">Scores</th><th scope="col">Effort</th><th scope="col" class="n">Votes</th><th scope="col">Your order</th></tr></thead><tbody id="scB"></tbody></table></div>
+</section>
+
+<section id="triage" aria-labelledby="tr-h">
+  <h2 id="tr-h">Waiting for assessment</h2>
+  <p>Wishes people have suggested on GitHub that we haven't scored yet, most votes first. They are scored at the next monthly triage and either join the backlog or are closed with the reason.</p>
+  <ul id="trB"></ul>
+</section>
+
+<section id="anchors" aria-labelledby="an-h">
+  <h2 id="an-h">Government strategy we align to</h2>
+  <p>Each item names the strategies it supports. The count shows how many open items support each one, so gaps are visible.</p>
+  <div class="tbl"><table><thead><tr><th scope="col">Strategy</th><th scope="col">Status</th><th scope="col">What it means for the Commons</th><th scope="col" class="n">Open items</th></tr></thead><tbody id="anB"></tbody></table></div>
+</section>
+
+<section id="capacity" aria-labelledby="cp-h">
+  <h2 id="cp-h">Capacity and bandwidth</h2>
+  <div class="kpis" id="cpK"></div>
+  <div style="margin-top:10px"><p class="small" id="cpTxt"></p><div class="bar" aria-hidden="true"><i id="cpBar"></i></div></div>
+  <p class="small muted" id="cpNote"></p>
+</section>
+
+<section id="governance" aria-labelledby="gv-h">
+  <h2 id="gv-h">How decisions are made</h2>
+  <h3>Our principles</h3><ul id="prB"></ul>
+  <h3>Triage, review and challenge</h3><ul id="gvB"></ul>
+  <p><a class="btn" href="build.html?topic=Suggest%20an%20idea%20for%20the%20roadmap#contact">Challenge a decision or suggest an idea</a></p>
+</section>
+</div>
+
+<script>
+(function () {
+  const RM = __K_ROADMAP__, R = __K_RESEARCH__, B = __BUILD__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const GL = RM.github_live || {backlog: {}, wishes: []};
+  const A = Object.fromEntries(RM.anchors.map(a => [a.id, a]));
+  const AS = Object.fromEntries(RM.assessments.map(a => [a.id, a]));
+  const RQ = Object.fromEntries(R.questions.map(q => [q.id, q])), FD = Object.fromEntries(R.findings.map(f => [f.id, f]));
+  const CR = RM.criteria, OURS = Object.fromEntries(CR.map(c => [c.id, c.weight]));
+  let W = {...OURS};
+  const issue = id => GL.backlog[id] ? `${B.repo}/issues/${GL.backlog[id].n}` : `${B.repo}/issues?q=${encodeURIComponent(`is:issue label:backlog "${id}"`)}`;
+  const votes = id => (GL.backlog[id] || {}).votes || 0;
+  const score = (a, w) => { const t = CR.reduce((s, c) => s + w[c.id], 0) || 1; return CR.reduce((s, c) => s + w[c.id] * a[c.id], 0) / t * RM.effort_factor[a.effort]; };
+  const band = s => RM.bands.find(b => s >= b.min).moscow;
+  const stage = b => b.status === "done" ? "done" : b.status === "in-progress" ? "now" : (b.moscow === "must" || b.moscow === "should") ? "next" : "later";
+  const OPEN = RM.backlog.filter(b => b.status !== "done");
+  const ITEMS = OPEN.map(b => ({...b, a: AS[b.id], h: stage(b), ours: AS[b.id] ? score(AS[b.id], OURS) : 0}));
+  // Next fills in score order while capacity lasts (effort days), the rest waits.
+  let used = 0; ITEMS.filter(i => i.h === "next").sort((x, y) => y.ours - x.ours).forEach(i => { const d = RM.effort_days[(i.a || {}).effort || "M"]; i.over = used + d > RM.capacity.days; if (!i.over) used += d; });
+  const evLink = e => RQ[e] ? `<a class="chip acc" href="research.html#rq-${esc(e)}" title="${esc(RQ[e].text)}">${esc(e)}</a>` : FD[e] ? `<a class="chip good" href="research.html#findings" title="${esc(FD[e].theme)}">${esc(e)}</a>` : esc(e);
+  const anLink = id => `<a class="chip" href="#anchor-${esc(id)}" title="${esc(A[id].title)}">${esc(id)}</a>`;
+
+  $("pipe").innerHTML = RM.pipeline.map((p, i) => `<li data-hue="${i % 8}"><a href="${esc(p.link)}"><b>${esc(p.name)}</b><span>${esc(p.text)}</span></a></li>`).join("");
+
+  const T = Object.fromEntries(RM.backlog.map(b => [b.id, b.title]));
+  $("obB").innerHTML = RM.objectives.map(o => `<div class="card" data-hue="${o.horizon === "tactical" ? 0 : 4}" id="obj-${esc(o.id)}"><span class="chip ${o.horizon === "tactical" ? "acc" : "good"}" style="align-self:flex-start">${esc(o.horizon)} · ${esc(o.id)}</span>
+    <h3>${esc(o.title)}</h3><p class="small">${esc(o.text)}</p><p class="small"><b>Supports:</b> ${o.anchors.map(anLink).join(" ")}</p>
+    <p class="small"><b>Delivered by:</b> ${o.items.map(i => `<a href="#item-${esc(i)}" data-go="${esc(i)}" title="${esc(T[i] || "")}">${esc(i)}</a>`).join(", ")}</p><p class="small muted"><b>We'll know when:</b> ${esc(o.measure)}</p></div>`).join("");
+
+  const H = Object.fromEntries(RM.horizons.map(h => [h.id, h]));
+  function lanes() {
+    const done = RM.backlog.filter(b => b.status === "done");
+    $("lanes").innerHTML = ["now", "next", "later", "done"].map((h, k) => {
+      const list = h === "done" ? done : ITEMS.filter(i => i.h === h).sort((x, y) => y.ours - x.ours);
+      return `<div class="lane" data-hue="${[1, 0, 4, 6][k]}"><h3>${esc(H[h].name)} <span class="chip">${list.length}</span></h3><span class="k">${esc(H[h].kind ? H[h].kind + ". " : "")}${esc(H[h].label)}</span>
+        <ol>${list.map(i => h === "done" ? `<li><a href="${esc(issue(i.id))}" rel="noopener">${esc(i.id)} ${esc(i.title)}</a></li>` :
+          `<li id="item-${esc(i.id)}"${i.over ? ' class="over"' : ""}><button type="button" data-go="${esc(i.id)}" aria-describedby="trace"><span><b>${esc(i.id)}</b> ${esc(i.title)}</span><span class="sc">${i.ours.toFixed(2)}</span>
+          <span class="mt"><span class="chip">${esc(i.moscow)}</span>${i.over ? '<span class="chip warn">Waiting for capacity</span>' : ""}${votes(i.id) ? `<span class="chip">${votes(i.id)} votes</span>` : ""}</span></button></li>`).join("") || "<li class=\"small muted\">Nothing here yet.</li>"}</ol></div>`; }).join("");
+  }
+  function trace(id, focus) {
+    const i = ITEMS.find(x => x.id === id); if (!i) return;
+    const a = i.a || {anchors: [], evidence: []};
+    const objs = RM.objectives.filter(o => o.items.includes(id));
+    $("trace").innerHTML = `<h3 style="margin:0">${esc(i.id)}: ${esc(i.title)}</h3><p class="small" style="margin:0">${esc(i.why)}</p>
+      <div class="chain"><span class="small"><b>Evidence</b></span>${(a.evidence || []).map(evLink).join("") || '<span class="chip warn">No evidence yet: needs research</span>'}<span class="arrow" aria-hidden="true">→</span>
+      <span class="small"><b>Score</b></span><span class="chip acc">${i.ours.toFixed(2)} (${esc(band(i.ours))})</span><span class="arrow" aria-hidden="true">→</span>
+      <span class="small"><b>Strategy</b></span>${(a.anchors || []).map(anLink).join("")}<span class="arrow" aria-hidden="true">→</span>
+      <span class="small"><b>Objective</b></span>${objs.map(o => `<a class="chip good" href="#obj-${esc(o.id)}">${esc(o.id)} ${esc(o.title)}</a>`).join("") || "–"}<span class="arrow" aria-hidden="true">→</span>
+      <span class="small"><b>Horizon</b></span><span class="chip">${esc(H[i.h].name)}${i.over ? ", waiting for capacity" : ""}</span></div>
+      <p class="small" style="margin:0">Scores: ${CR.map(c => `${esc(c.name)} ${a[c.id] ?? "–"}`).join(" · ")} · effort ${esc(a.effort || "–")} · decided ${esc(a.decided || "–")}. <a href="${esc(issue(id))}" rel="noopener">Comment or follow on GitHub</a>${votes(id) ? ` (${votes(id)} votes)` : ""}.</p>`;
+    document.querySelectorAll(".sc-t tr[data-id]").forEach(r => r.classList.toggle("sel", r.dataset.id === id));
+    if (focus) $("trace").focus();
+  }
+  document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if (g) { e.preventDefault(); trace(g.dataset.go, true); history.replaceState(null, "", "#item-" + g.dataset.go); } });
+
+  // Scores table with your own weights
+  $("bandsTxt").textContent = RM.bands.filter(b => b.min > 0).map(b => `${b.min.toFixed(1)} or more is ${b.moscow}`).join("; ") + `; below ${Math.min(...RM.bands.filter(b => b.min > 0).map(b => b.min)).toFixed(1)} is won't (this time)`;
+  $("crH").textContent = "Scores: " + CR.map(c => c.name).join(", ");
+  $("wts").innerHTML = CR.map(c => `<label for="w-${c.id}"><span>${esc(c.name)} <output id="o-${c.id}" for="w-${c.id}">${W[c.id]}</output></span><input type="range" id="w-${c.id}" min="0" max="5" step="1" value="${W[c.id]}" aria-describedby="wd-${c.id}"><span class="small muted" id="wd-${c.id}">${esc(c.why)}</span></label>`).join("");
+  const areas = [...new Set(ITEMS.map(i => i.area))].sort();
+  $("fA").innerHTML += areas.map(a => `<option>${esc(a)}</option>`).join("");
+  function table() {
+    const fa = $("fA").value, fh = $("fH").value;
+    const ourRank = [...ITEMS].sort((x, y) => y.ours - x.ours).map(i => i.id);
+    const mine = ITEMS.map(i => ({id: i.id, s: i.a ? score(i.a, W) : 0})).sort((x, y) => y.s - x.s).map(x => x.id);
+    $("scB").innerHTML = [...ITEMS].sort((x, y) => y.ours - x.ours).filter(i => (!fa || i.area === fa) && (!fh || i.h === fh)).map(i => {
+      const d = ourRank.indexOf(i.id) - mine.indexOf(i.id);
+      return `<tr data-id="${esc(i.id)}" tabindex="0"><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal"><a href="#item-${esc(i.id)}" data-go="${esc(i.id)}">${esc(i.id)}</a> ${esc(i.title)}</th>
+        <td class="n"><b>${i.ours.toFixed(2)}</b></td><td><span class="chip">${esc(i.moscow)}</span></td><td>${esc(H[i.h].name)}</td>
+        <td>${i.a ? CR.map(c => `<span title="${esc(c.name)}">${i.a[c.id]}</span>`).join(" · ") : "Not yet scored"}</td><td>${esc((i.a || {}).effort || "–")}</td><td class="n">${votes(i.id)}</td>
+        <td>${mine.indexOf(i.id) + 1}${d ? ` <span class="mv ${d > 0 ? "up" : "dn"}">${d > 0 ? "▲" : "▼"}${Math.abs(d)}<span class="sr-only">${d > 0 ? " places higher" : " places lower"} than ours</span></span>` : ""}</td></tr>`; }).join("");
+    const same = CR.every(c => W[c.id] === OURS[c.id]);
+    $("wOut").textContent = same ? "Showing our weights." : "Showing your weights. Our published order is unchanged.";
+  }
+  $("wts").addEventListener("input", e => { const id = e.target.id.replace("w-", ""); if (id in W) { W[id] = +e.target.value; $("o-" + id).textContent = W[id]; table(); } });
+  $("wReset").addEventListener("click", () => { W = {...OURS}; CR.forEach(c => { $("w-" + c.id).value = W[c.id]; $("o-" + c.id).textContent = W[c.id]; }); table(); });
+  $("fA").addEventListener("change", table); $("fH").addEventListener("change", table);
+  $("scB").addEventListener("keydown", e => { const r = e.target.closest("tr[data-id]"); if (r && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); trace(r.dataset.id, true); } });
+  $("scB").addEventListener("click", e => { const r = e.target.closest("tr[data-id]"); if (r && !e.target.closest("a")) trace(r.dataset.id); });
+  $("dlCsv").addEventListener("click", () => {
+    const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const rows = [["id", "title", "area", "status", "moscow", "horizon", "our_score", "your_score", ...CR.map(c => c.id), "effort", "votes", "anchors", "evidence"]]
+      .concat(ITEMS.map(i => [i.id, i.title, i.area, i.status, i.moscow, i.h, i.ours.toFixed(3), i.a ? score(i.a, W).toFixed(3) : "", ...CR.map(c => (i.a || {})[c.id] ?? ""), (i.a || {}).effort || "", votes(i.id), ((i.a || {}).anchors || []).join(" "), ((i.a || {}).evidence || []).join(" ")]));
+    const blob = new Blob([rows.map(r => r.map(q).join(",")).join("\r\n")], {type: "text/csv"});
+    const u = URL.createObjectURL(blob), l = document.createElement("a"); l.href = u; l.download = "dq-commons-roadmap-scores.csv"; document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 1000);
+  });
+
+  // Wishes waiting for assessment
+  const assessed = new Set(RM.assessments.map(a => a.id));
+  const waiting = (GL.wishes || []).filter(w => !assessed.has("W-" + w.n));
+  $("trB").innerHTML = waiting.length ? waiting.map(w => `<li><a href="${esc(B.repo)}/issues/${w.n}" rel="noopener">${esc(w.title)}</a> <span class="chip">${w.votes} votes</span></li>`).join("")
+    : `<li>Nothing waiting${GL.read ? ` (checked ${esc(GL.read)})` : ""}. <a href="build.html#wishlist">Suggest something</a>, or see <a href="${esc(B.repo)}/issues?q=is%3Aopen+label%3Awishlist" rel="noopener">all wishes on GitHub</a>.</li>`;
+
+  $("anB").innerHTML = RM.anchors.map(a => `<tr id="anchor-${esc(a.id)}"><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal">${esc(a.id)}. <a href="${esc(a.url)}" rel="noopener">${esc(a.title)}</a><br><span class="small muted">${esc(a.publisher)}, ${esc(a.date)}</span></th>
+    <td><span class="chip ${a.status === "published" ? "good" : a.status === "committed" ? "warn" : ""}">${esc(a.status)}</span></td><td>${esc(a.means)}</td><td class="n">${RM.assessments.filter(x => x.anchors.includes(a.id) && ITEMS.some(i => i.id === x.id)).length}</td></tr>`).join("");
+
+  const wip = ITEMS.filter(i => i.h === "now").length, nextDays = ITEMS.filter(i => i.h === "next").reduce((s, i) => s + RM.effort_days[(i.a || {}).effort || "M"], 0);
+  $("cpK").innerHTML = `<div class="kpi"><b>${RM.capacity.days}</b><span>volunteer days expected, ${esc(RM.capacity.quarter)}</span></div><div class="kpi"><b>${nextDays}</b><span>days of work in Next</span></div>
+    <div class="kpi"><b>${wip} of ${RM.capacity.wip_limit}</b><span>items in progress (limit)</span></div><div class="kpi"><b>${ITEMS.filter(i => i.over).length}</b><span>items waiting for capacity</span></div>`;
+  $("cpTxt").textContent = `Next needs about ${nextDays} days; we expect ${RM.capacity.days}. ${nextDays > RM.capacity.days ? "The lowest-scored Next items wait until capacity frees up." : "Everything in Next fits."}${wip > RM.capacity.wip_limit ? ` There are more items in progress than our limit of ${RM.capacity.wip_limit}, so we finish work before starting more.` : ""}`;
+  const pc = Math.min(100, Math.round(nextDays / RM.capacity.days * 100)); $("cpBar").style.width = pc + "%"; if (nextDays > RM.capacity.days) $("cpBar").classList.add("over");
+  $("cpNote").textContent = RM.capacity.note;
+  $("prB").innerHTML = RM.principles.map(p => `<li>${esc(p)}</li>`).join("");
+  $("gvB").innerHTML = RM.governance.map(p => `<li>${esc(p)}</li>`).join("");
+
+  lanes(); table();
+  const h = location.hash.match(/^#item-(BL-\d+)$/); if (h) trace(h[1]);
+
+  window.DQP_TOUR = [
+    {sel: "#pipe", title: "From idea to release", text: "Eight public stages, from your idea or vote to a release and 'You said, we did'."},
+    {sel: "#obB", title: "Delivery objectives", text: "Tactical objectives for the next two quarters and strategic ones for the direction of travel."},
+    {sel: "#lanes", title: "The roadmap", text: "Now, Next and Later. Choose an item to trace its evidence, score, strategy and objective."},
+    {sel: "#wts", title: "Try your own weights", text: "Move a slider and the 'Your order' column shows how priorities would change."},
+    {sel: "#anB", title: "Government strategy", text: "The strategies we align to, and how many items support each."},
+    {sel: "#cpK", title: "Capacity", text: "How much volunteer time we expect, and what waits when there isn't enough."},
+  ];
+})();
+</script>

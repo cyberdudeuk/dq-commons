@@ -1,0 +1,175 @@
+<title>Take part in user research</title>
+<style>
+__BASE_CSS__
+.who{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.who .card{border-top:5px solid var(--sec)}
+.who h3{font-size:1rem}
+.ways2{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+.ways2 a{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--sec);border-radius:10px;padding:10px 14px}
+.ways2 a b{color:var(--accent)}
+.ways2 a:hover{border-color:var(--sec)}
+.status-box{border-left:6px solid var(--warn);background:var(--warn-soft);padding:12px 16px;border-radius:8px}
+.join{display:grid;gap:16px;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)}
+@media (max-width:900px){.join{grid-template-columns:minmax(0,1fr)}}
+.join .cta{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:16px}
+.promise{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.methods{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+.methods .card h3{font-size:1rem;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.methods .t{font-size:.78rem;color:var(--muted);font-weight:600}
+.rounds{list-style:none;margin:0;padding:0;display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.rounds li{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--sec);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.rounds .when{font-weight:700;color:var(--sec)}
+.qtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
+.qtabs button{font:inherit;font-weight:600;font-size:.88rem;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:40px}
+.qtabs button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.mail{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;white-space:pre-wrap;font-size:.92rem;max-height:420px;overflow:auto}
+.dl{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.dl a{display:flex;flex-direction:column;gap:3px;text-decoration:none;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.dl a b{color:var(--accent)}
+.dl a span{font-size:.84rem;color:var(--muted)}
+.dl a.main{border:2px solid var(--accent)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Contribute · Take part in user research</span>
+  <h1>Help shape the Commons: take part in user research</h1>
+  <p class="lede">An introduction to DQ Commons for you and your team, and an invitation to help decide what it does next. Research findings set the backlog and the open roadmap, and everything we learn is published here.</p>
+  <nav class="toc" aria-label="On this page"><a href="#intro">What the Commons is</a><a href="#join">Join the research panel</a><a href="#questions">What we want to learn</a><a href="#methods">Ways to take part</a><a href="#rounds">Research rounds</a><a href="#inclusion">Who we need to hear from</a><a href="#findings">You said, we did</a><a href="#bundle">Research bundle for your team</a><a href="#privacy">Your information</a></nav>
+</header>
+
+<section id="intro" aria-labelledby="in-h">
+  <h2 id="in-h">What the Commons is, and who it is for</h2>
+  <p id="inWhat"></p>
+  <div class="who" id="inWho"></div>
+  <h3>Ways your team can use it</h3>
+  <div class="ways2" id="inWays"></div>
+</section>
+
+<section id="join" aria-labelledby="jn-h">
+  <h2 id="jn-h">Join the research panel</h2>
+  <p id="whyR"></p>
+  <p class="status-box" id="rStatus"></p>
+  <div class="join">
+    <div><h3>Our promise to you</h3><ul class="promise" id="promise"></ul></div>
+    <div class="cta" id="cta"></div>
+  </div>
+</section>
+
+<section id="questions" aria-labelledby="q-h">
+  <h2 id="q-h">What we want to learn</h2>
+  <p>Tactical questions decide what we build in the next three to six months. Strategic questions decide where the Commons goes over the next few years. Each links to the backlog items it could change.</p>
+  <div class="qtabs" id="qTabs" role="group" aria-label="Show questions by horizon"></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Question</th><th scope="col">Horizon</th><th scope="col">How we'll find out</th><th scope="col">Backlog items</th><th scope="col">Status</th></tr></thead><tbody id="qB"></tbody></table></div>
+</section>
+
+<section id="methods" aria-labelledby="m-h">
+  <h2 id="m-h">Ways to take part</h2>
+  <p>Choose what suits you when you sign up. Many take ten minutes in your own time.</p>
+  <div class="methods" id="mB"></div>
+</section>
+
+<section id="rounds" aria-labelledby="ro-h">
+  <h2 id="ro-h">Research rounds</h2>
+  <ul class="rounds" id="roB"></ul>
+</section>
+
+<section id="inclusion" aria-labelledby="ic-h">
+  <h2 id="ic-h">Who we need to hear from</h2>
+  <p>We want people the Commons may be failing today, not only people who find it easy. These are minimum numbers for each round, not targets. Age, sex, ethnicity and disability are recorded only as totals, never against a person.</p>
+  <div class="tbl"><table><thead><tr><th scope="col">Group</th><th scope="col">At least</th></tr></thead><tbody id="quB"></tbody></table></div>
+</section>
+
+<section id="findings" aria-labelledby="f-h">
+  <h2 id="f-h">You said, we did</h2>
+  <p>What we learned and what changed because of it. <b>Research</b> means our own sessions, <b>Feedback</b> means forms and issues, and <b>Secondary</b> means published evidence we used before research started.</p>
+  <div class="filters"><div class="field"><label for="fS">Source</label><select id="fS"><option value="">All</option><option value="research">Research</option><option value="feedback">Feedback</option><option value="secondary">Secondary</option></select></div></div>
+  <div class="tbl"><table><thead><tr><th scope="col">Finding</th><th scope="col">Source</th><th scope="col">Evidence</th><th scope="col">What changed</th></tr></thead><tbody id="fB"></tbody></table></div>
+  <details class="disc"><summary>How we turn sessions into findings</summary><div class="body"><ol id="synB"></ol></div></details>
+</section>
+
+<section id="bundle" aria-labelledby="bu-h">
+  <h2 id="bu-h">Research bundle for your team</h2>
+  <p>Everything you need to introduce the Commons to colleagues and invite them to take part: send the email below, or attach the bundle. Nothing in it names you or anyone else, and it has no tracking.</p>
+  <div class="dl" id="dlB"></div>
+  <h3>The invitation email</h3>
+  <p class="small">Copy it into your own email or Teams message, or download it as an email file and open it in Outlook. Add your own line at the top so colleagues know it comes from you.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 8px"><button class="btn" type="button" id="cpMail">Copy the email</button><span id="cpOut" class="small" role="status" aria-live="polite"></span></div>
+  <div class="mail" id="mail" tabindex="0" role="region" aria-label="Invitation email text"></div>
+</section>
+
+<section id="privacy" aria-labelledby="pv-h">
+  <h2 id="pv-h">Your information</h2>
+  <p>The participant information everyone sees before a session, and the statements they agree to.</p>
+  <div id="cB"></div>
+</section>
+</div>
+
+<script>
+(function () {
+  const R = __K_RESEARCH__, B = __BUILD__, RM = __K_ROADMAP__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const M = Object.fromEntries(R.methods.map(m => [m.id, m]));
+  const BL = Object.fromEntries(RM.backlog.map(b => [b.id, b]));
+  const blLink = id => BL[id] ? `<a href="roadmap.html#item-${esc(id)}" title="${esc(BL[id].title)}">${esc(id)}</a>` : esc(id);
+
+  $("inWhat").textContent = R.intro.what;
+  $("inWho").innerHTML = R.intro.for_whom.map((w, i) => `<div class="card" data-hue="${i % 8}"><h3>${esc(w.who)}</h3><p class="small">${esc(w.gets)}</p></div>`).join("");
+  $("inWays").innerHTML = R.intro.ways_to_use.map(w => `<a href="${esc(w.link)}"><b>${esc(w.how)}</b><span class="small">${esc(w.detail)}</span></a>`).join("");
+
+  $("whyR").textContent = R.why_research;
+  $("rStatus").textContent = R.status;
+  $("promise").innerHTML = R.sign_up.promise.map(p => `<li>${esc(p)}</li>`).join("");
+  const S = R.sign_up;
+  $("cta").innerHTML = (S.form_url
+      ? `<h3>Sign up</h3><p>It takes about three minutes. You can leave the panel at any time.</p><p><a class="btn" href="${esc(S.form_url)}" rel="noopener">${esc(S.form_title)}</a></p>`
+      : `<h3>Sign up</h3><p>${esc(S.status_when_empty)}</p><p><a class="btn" href="build.html?topic=${encodeURIComponent("Take part in user research")}#contact">Tell us you're interested</a></p>`) +
+    `<p class="small"><b>Signing up a team?</b> ${esc(S.team_route)}</p><p class="small"><a href="#bundle">Get the research bundle to share with your team</a></p>`;
+
+  let hz = "";
+  function drawQ() {
+    $("qTabs").innerHTML = [["", "All"], ["tactical", "Tactical (next 3 to 6 months)"], ["strategic", "Strategic (12 to 36 months)"]]
+      .map(([v, l]) => `<button type="button" data-h="${v}" aria-pressed="${hz === v}">${esc(l)}</button>`).join("");
+    $("qB").innerHTML = R.questions.filter(q => !hz || q.horizon === hz).map(q => `<tr id="rq-${esc(q.id)}"><td><b>${esc(q.id)}</b> ${esc(q.text)}</td><td><span class="chip ${q.horizon === "tactical" ? "acc" : "good"}">${esc(q.horizon)}</span></td>
+      <td>${q.methods.map(m => `<a class="chip" href="#method-${esc(m)}">${esc(M[m].name)}</a>`).join(" ")}</td><td>${q.backlog.map(blLink).join(", ") || "–"}</td><td>${esc(q.status)}</td></tr>`).join("");
+  }
+  $("qTabs").addEventListener("click", e => { const b = e.target.closest("[data-h]"); if (b) { hz = b.dataset.h; drawQ(); } });
+  drawQ();
+
+  $("mB").innerHTML = R.methods.map((m, i) => `<div class="card" id="method-${esc(m.id)}" data-hue="${i % 8}"><h3>${esc(m.name)} <span class="t">${esc(m.time)}</span></h3><p class="small">${esc(m.what)}</p><p class="small muted">Good for: ${esc(m.good_for)}</p></div>`).join("");
+  $("roB").innerHTML = R.rounds.map((r, i) => `<li data-hue="${(i * 2) % 8}"><span class="when">${esc(r.when)}</span><b>${esc(r.name)}</b><span class="small">${esc(r.participants)}</span>
+    <span class="small">Methods: ${r.methods.map(m => esc(M[m].name)).join(", ")}</span><span class="small">Questions: ${r.questions.map(q => `<a href="#rq-${esc(q)}">${esc(q)}</a>`).join(", ")}</span><span class="chip warn" style="align-self:flex-start">${esc(r.status)}</span></li>`).join("");
+  $("quB").innerHTML = R.quotas.map(q => `<tr><td>${esc(q.group)}</td><td>${q.min}</td></tr>`).join("");
+
+  function drawF() { const s = $("fS").value;
+    $("fB").innerHTML = R.findings.filter(f => !s || f.source === s).map(f => `<tr><td><b>${esc(f.id)}</b> ${esc(f.theme)}</td><td><span class="chip">${esc(f.source)}</span></td><td>${esc(f.evidence)}</td>
+      <td><a href="${esc(f.link)}">${esc(f.change)}</a>${f.backlog.length ? ` <span class="small muted">(${f.backlog.map(blLink).join(", ")})</span>` : ""}</td></tr>`).join("") || `<tr><td colspan="4">No findings from this source yet.</td></tr>`; }
+  $("fS").addEventListener("change", drawF); drawF();
+  $("synB").innerHTML = R.synthesis.steps.map(s => `<li>${esc(s)}</li>`).join("");
+
+  const D = [["dq-commons-research-bundle.zip", "The whole bundle (zip)", "Everything below in one file, with a read-me", true],
+    ["dq-commons-research-invitation.docx", "Introducing the Commons and invitation (Word)", "What the Commons is, how teams use it, and how to take part"],
+    ["dq-commons-research-invitation.eml", "Invitation email (email file)", "Opens in Outlook or Mail; add your recipients"],
+    ["dq-commons-participant-information-and-consent.docx", "Participant information and consent (Word)", "What happens, what we keep, your rights"],
+    ["dq-commons-research-screener.docx", "Sign-up questions (Word, for Microsoft Forms Quick import)", "To build the panel sign-up form in your own tenant"],
+    ["dq-commons-research-session-guides.docx", "Session guides (Word)", "Interview, usability, accessibility and co-design"]];
+  $("dlB").innerHTML = D.map(([f, t, d, m]) => `<a href="downloads/research/${f}" download${m ? ' class="main"' : ""}><b>${esc(t)}</b><span>${esc(d)}</span></a>`).join("");
+  $("mail").textContent = R.email_text || "";
+  $("cpMail").addEventListener("click", () => { const t = $("mail").textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { $("cpOut").textContent = "Copied. Paste it into your email or message."; })
+      .catch(() => { const r = document.createRange(); r.selectNodeContents($("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("cpOut").textContent = "Selected. Press Ctrl+C (or Cmd+C) to copy."; }); });
+
+  $("cB").innerHTML = R.consent.sections.map(s => `<details class="disc"><summary>${esc(s.h)}</summary><div class="body"><p>${esc(s.p)}</p></div></details>`).join("") +
+    `<h3>What people agree to</h3><ul>${R.consent.statements.map(s => `<li>${esc(s)}</li>`).join("")}</ul>`;
+
+  window.DQP_TOUR = [
+    {sel: "#inWho", title: "Who it's for", text: "What each kind of role gets from the Commons. Share this page with your team as an introduction."},
+    {sel: "#cta", title: "Join the panel", text: "Sign up in about three minutes. Your contact details never go on GitHub or the portal."},
+    {sel: "#qB", title: "What we want to learn", text: "Tactical and strategic questions, each linked to the backlog items it could change."},
+    {sel: "#mB", title: "Ways to take part", text: "From a ten-minute task in your own time to a co-design workshop."},
+    {sel: "#fB", title: "You said, we did", text: "Every finding and what changed because of it."},
+    {sel: "#dlB", title: "Research bundle", text: "The invitation, consent, sign-up questions and session guides, ready to email."},
+  ];
+})();
+</script>

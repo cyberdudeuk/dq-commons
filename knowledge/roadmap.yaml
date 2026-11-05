@@ -1,0 +1,98 @@
+# Open roadmap and how we prioritise (v2.11.0). Feeds roadmap.html and api/knowledge/roadmap.json.
+# The backlog itself stays in knowledge/build.yaml (one GitHub issue per item). This file holds what decides the order:
+# the strategy we align to, the criteria and weights, our capacity, the delivery objectives and each item's assessment.
+# Rule (tested): an open item's MoSCoW priority in build.yaml matches the band of its weighted score here, so the
+# roadmap on this page, the build page and the GitHub milestones can never disagree.
+review: {last_reviewed: "2026-11-05", owner_role: Product owner (Commons)}
+
+principles:
+- "Working in the open: the backlog, the scores, the reasons and the decisions are all public, as the GDS Service Manual asks."
+- "Evidence first: user research and votes carry the most weight; our own ideas need evidence before they move up."
+- "Include first: anything that excludes a group of people is fixed before new features."
+- "Pointing the same way as government: every item says which government strategy it supports, or that it supports none."
+- "Honest about capacity: the Commons is built by volunteers, so the roadmap shows only what fits the time people can give."
+
+# Government strategy the Commons aligns to. status: published, committed (announced with a date) or ongoing.
+anchors:
+- {id: A1, title: "A roadmap for modern digital government 2025 to 2030", publisher: "Government Digital Service (DSIT)", date: "19 January 2026", status: published, url: "https://roadmap-for-modern-digital-government.campaign.gov.uk/", means: "Six points: join up public services; harness AI for public good; strengthen and extend digital and data public infrastructure; invest in talent; funding for outcomes and procuring for growth; transparency and accountability."}
+- {id: A2, title: "Strategic roadmap for public sector data", publisher: "Government Digital Service", date: "Committed for April 2026", status: committed, url: "https://roadmap-for-modern-digital-government.campaign.gov.uk/digital-and-data-infrastructure/frameworks-for-data-use/", means: "A long-term plan for how public data should be governed, accessed and used. We could not confirm it has been published; check GOV.UK. When it is, BL-31 re-scores every item against it."}
+- {id: A3, title: "Data asset management policy in government", publisher: "Government Digital Service", date: "2026", status: published, url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government", means: "Identify, record and manage critical data assets, with owners and data quality improvement plans."}
+- {id: A4, title: "National Data Library", publisher: "DSIT", date: "Vision and kickstarter projects 2026", status: ongoing, url: "https://roadmap-for-modern-digital-government.campaign.gov.uk/digital-and-data-infrastructure/platforms-to-share-and-use-data/", means: "Share public sector data securely and effectively; trusted, well-described data assets."}
+- {id: A5, title: "The Government Data Quality Framework", publisher: "Government Data Quality Hub", date: "2020, with case studies", status: published, url: "https://www.gov.uk/government/publications/the-government-data-quality-framework", means: "Principles, dimensions and the data quality action plan the Commons builds on."}
+- {id: A6, title: "Making government datasets ready for AI", publisher: "DSIT", date: "January 2026", status: published, url: "https://www.gov.uk/government/publications/making-government-datasets-ready-for-ai/guidelines-and-best-practices-for-making-government-datasets-ready-for-ai", means: "Data fit for AI: documented, quality-assured and well described."}
+- {id: A7, title: "The Service Standard and Service Manual", publisher: "Government Digital Service", date: "Ongoing", status: ongoing, url: "https://www.gov.uk/service-manual/service-standard", means: "Understand users and their problems, make the service work for everyone, iterate, and work in the open."}
+- {id: A8, title: "Equality duties and accessibility regulations", publisher: "UK legislation", date: "Ongoing", status: ongoing, url: "https://www.gov.uk/guidance/accessibility-requirements-for-public-sector-websites-and-apps", means: "The public sector equality duty and the accessibility regulations: no one shut out by design."}
+
+# Criteria scored 0 to 3. Weights are ours; on the page anyone can try their own and see the order change.
+criteria:
+- {id: need, name: "User need", weight: 3, scale: ["0 no evidence", "1 one source", "2 research or many votes", "3 research and votes agree"], why: "Evidence that people need it: research findings, votes, feedback."}
+- {id: include, name: "Inclusion", weight: 3, scale: ["0 no effect", "1 helps some", "2 removes a barrier for a group", "3 removes a blocker for an excluded group"], why: "Does it include people who are left out today?"}
+- {id: align, name: "Strategic alignment", weight: 2, scale: ["0 none", "1 supports one anchor loosely", "2 directly supports an anchor", "3 directly supports several"], why: "Does it help deliver government strategy (anchors A1 to A8)?"}
+- {id: feasible, name: "Feasibility", weight: 2, scale: ["0 not possible now", "1 hard or uncertain", "2 known approach", "3 straightforward"], why: "Can we build it without a backend, personal data or paid services, and keep it accessible?"}
+effort_factor: {S: 1.0, M: 0.9, L: 0.8}
+effort_days: {S: 3, M: 8, L: 20}
+bands:                    # weighted score (0 to 3) after the effort factor -> MoSCoW
+- {min: 2.2, moscow: must}
+- {min: 1.6, moscow: should}
+- {min: 1.0, moscow: could}
+- {min: 0.0, moscow: wont}
+
+capacity:
+  quarter: "January to March 2027"
+  days: 30                # volunteer days we expect to have; Next fills up to this, the rest waits
+  wip_limit: 6            # at most this many items in progress at once
+  note: "An estimate from the people who contribute regularly. It is reviewed at each monthly triage and published here."
+
+horizons:
+- {id: now, name: "Now", label: "Being built, or prepared and waiting on people", kind: "Tactical (interim)"}
+- {id: next, name: "Next", label: "Must and should items, in score order, while capacity lasts", kind: "Tactical (next one or two quarters)"}
+- {id: later, name: "Later", label: "Could items, and anything waiting for capacity", kind: "Strategic (12 to 36 months)"}
+- {id: done, name: "Done", label: "Delivered", kind: ""}
+
+# Delivery objectives: tactical for the next two quarters, strategic for the direction of travel. Each names its anchors and items.
+objectives:
+- {id: OT-1, horizon: tactical, title: "Know our users", text: "Open the research panel and run Rounds 1 and 2, so the next choices rest on evidence.", anchors: [A7], items: [BL-25, BL-01, BL-32], measure: "Two rounds run with every quota met; findings published"}
+- {id: OT-2, horizon: tactical, title: "No one shut out", text: "Finish the accessibility audit, Welsh, display options and easy read.", anchors: [A8, A7], items: [BL-02, BL-06, BL-27, BL-22], measure: "Audit issues fixed; Welsh pages live; no blockers found in Round 2"}
+- {id: OT-3, horizon: tactical, title: "Join up with the sister portals", text: "Evidence from public code and requirement-level links to the DAM playbooks.", anchors: [A3, A1], items: [BL-29, BL-33], measure: "Every wheel area and standard shows code evidence; every playbook stage names its policy requirements"}
+- {id: OS-1, horizon: strategic, title: "Part of the public data infrastructure", text: "Make the Commons a dependable, reusable layer for data quality beside the National Data Library and the DAM policy.", anchors: [A1, A2, A3, A4], items: [BL-31, BL-12, BL-09], measure: "Re-scored against the strategic roadmap for public sector data; used through the API or MCP by at least five organisations"}
+- {id: OS-2, horizon: strategic, title: "Owned by its community", text: "Contributions, reviews and co-design from every nation and sector, in several time zones and languages.", anchors: [A7, A8], items: [BL-17, BL-23, BL-30, BL-15], measure: "Contributors from all four nations and two territories; at least a third of changes from outside the core team"}
+- {id: OS-3, horizon: strategic, title: "Trusted, AI-ready guidance", text: "Every fact labelled by source; content ready for AI assistants to cite.", anchors: [A6, A5], items: [BL-26, BL-34, BL-28], measure: "Every fact carries a source label; AI answers cite pages"}
+
+# Assessments of open backlog items: scores per criterion, effort, anchors and evidence (research questions RQ-, findings F-).
+assessments:
+- {id: BL-01, need: 3, include: 3, align: 2, feasible: 2, effort: M, anchors: [A7], evidence: [RQ-03], decided: "2026-11-05"}
+- {id: BL-02, need: 3, include: 3, align: 2, feasible: 2, effort: M, anchors: [A8], evidence: [RQ-04], decided: "2026-11-05"}
+- {id: BL-06, need: 2, include: 3, align: 2, feasible: 2, effort: L, anchors: [A8, A7], evidence: [RQ-10], decided: "2026-11-05"}
+- {id: BL-09, need: 1, include: 1, align: 2, feasible: 1, effort: M, anchors: [A1], evidence: [RQ-06], decided: "2026-11-05"}
+- {id: BL-12, need: 2, include: 1, align: 3, feasible: 2, effort: M, anchors: [A3, A4], evidence: [], decided: "2026-11-05"}
+- {id: BL-15, need: 2, include: 2, align: 1, feasible: 2, effort: M, anchors: [A5], evidence: [RQ-10], decided: "2026-11-05"}
+- {id: BL-17, need: 2, include: 3, align: 1, feasible: 2, effort: S, anchors: [A7], evidence: [RQ-08], decided: "2026-11-05"}
+- {id: BL-22, need: 2, include: 3, align: 1, feasible: 2, effort: M, anchors: [A8], evidence: [RQ-05], decided: "2026-11-05"}
+- {id: BL-23, need: 1, include: 3, align: 1, feasible: 1, effort: L, anchors: [A8], evidence: [RQ-10], decided: "2026-11-05"}
+- {id: BL-25, need: 3, include: 3, align: 2, feasible: 3, effort: M, anchors: [A7], evidence: [RQ-01, RQ-02, RQ-06], decided: "2026-11-05"}
+- {id: BL-26, need: 2, include: 1, align: 2, feasible: 3, effort: M, anchors: [A6, A5], evidence: [F-04], decided: "2026-11-05"}
+- {id: BL-27, need: 2, include: 3, align: 1, feasible: 3, effort: S, anchors: [A8], evidence: [RQ-10], decided: "2026-11-05"}
+- {id: BL-28, need: 1, include: 1, align: 1, feasible: 3, effort: S, anchors: [A1], evidence: [], decided: "2026-11-05"}
+- {id: BL-29, need: 2, include: 1, align: 2, feasible: 2, effort: M, anchors: [A1, A4], evidence: [F-04, RQ-07], decided: "2026-11-05"}
+- {id: BL-30, need: 1, include: 2, align: 1, feasible: 1, effort: M, anchors: [A1], evidence: [F-04], decided: "2026-11-05"}
+- {id: BL-31, need: 1, include: 1, align: 3, feasible: 2, effort: S, anchors: [A2, A1], evidence: [RQ-09], decided: "2026-11-05"}
+- {id: BL-32, need: 1, include: 1, align: 1, feasible: 3, effort: S, anchors: [A7], evidence: [], decided: "2026-11-05"}
+- {id: BL-33, need: 2, include: 1, align: 3, feasible: 2, effort: M, anchors: [A3], evidence: [RQ-07], decided: "2026-11-05"}
+- {id: BL-34, need: 1, include: 1, align: 1, feasible: 2, effort: M, anchors: [A1], evidence: [F-04], decided: "2026-11-05"}
+
+# How an idea becomes a release. Each stage links to where it happens.
+pipeline:
+- {id: idea, name: "Idea", text: "Anyone suggests a feature or change: the wishlist form, the contact form, a survey, a research session or a co-design workshop.", link: "build.html#wishlist"}
+- {id: vote, name: "Votes", text: "People give a wish a thumbs-up on GitHub. Votes are counted every day.", link: "build.html#wishlist"}
+- {id: evidence, name: "Evidence", text: "User research and feedback add evidence. Each finding has an id (F-) and links to the items it affects.", link: "research.html#findings"}
+- {id: assess, name: "Assessment", text: "At the monthly triage we score the idea on user need, inclusion, strategic alignment and feasibility, estimate effort, and publish the scores and reasons.", link: "roadmap.html#scores"}
+- {id: backlog, name: "Backlog", text: "Accepted ideas become backlog items with a GitHub issue and a MoSCoW priority taken from the score.", link: "build.html#backlog"}
+- {id: roadmap, name: "Roadmap", text: "Items move to Now, Next or Later by status, priority and the capacity we have.", link: "roadmap.html#roadmap"}
+- {id: release, name: "Release", text: "Delivered work is released with a version number, a changelog and a What's new entry.", link: "build.html#releases"}
+- {id: tell, name: "You said, we did", text: "We tell people what changed because of what they said, and link the finding to the release.", link: "research.html#findings"}
+
+governance:
+- "Monthly triage, in the open: new wishes, feedback and research findings are scored and the results published on this page and in each GitHub issue."
+- "Anyone can challenge a score or decision through the contact form ('Suggest an idea for the roadmap'); we reply within 10 working days and record the outcome."
+- "Quarterly roadmap review: capacity is re-estimated, objectives checked against their measures, and anchors re-read for changes in government strategy."
+- "Ideas that are out of scope (for example, anything needing personal data or a paid service) are closed with the reason and, where possible, a pointer to who can help."

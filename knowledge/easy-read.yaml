@@ -7,6 +7,8 @@ review:
   owner_role: Commons content lead
   next_step: Test with people with learning disabilities and their organisations; add pictures where they help.
 pages:
+  research: ["This page tells you about this website and who it is for.", "You can help make it better.", "You can talk to us, try the website, or answer questions.", "We never share your name. We tell you what we changed."]
+  roadmap: ["This page shows what we will make next.", "Anyone can suggest an idea or vote for one.", "We give each idea a score and show why.", "You can see how ideas help people and fit with government plans."]
   ecosystem: ["This page is about three websites that work together.", "Each one helps with a different part of looking after data.", "It shows what each one does well.", "It shows how to go from one website to the next."]
   wheel: ["This page shows all the parts of looking after data, as a wheel.", "Choose your job to see what each part means for you.", "It shows how data and records teams can work together.", "You can make a plan and download it."]
   catalogues: ["This page is about software that lists and checks data.", "Some companies sell both kinds together.", "Buying them together can make it hard to change later.", "It gives questions to ask before you buy."]

@@ -142,3 +142,12 @@
 | I-300 | Cross-reference manifest with shared keys (DAMA areas, roles, standards, pages) for sister portals | Integration | `api/xref.json`; reads the playbooks' `data/xref.json` |
 | I-301 | "Continue in a sister portal" links on pages where a journey moves on | Integration | `related_elsewhere()` in the build |
 | T-300 | Catalogue fields, Rosetta completeness, DQV output and cross-portal ids checked by tests; no internal workbook names published | Technical | `tests/test_ecosystem_standards.py` |
+
+## v2.11 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-310 | Introduce the Commons to prospective consumers and recruit a research panel without storing contact details in public | Functional | `research.html`, `knowledge/research.yaml` |
+| F-311 | Research bundle for email: invitation, email file, consent, sign-up questions, session guides, zip | Functional | `downloads/research/`, `research_bundle()` |
+| F-312 | Open roadmap: pipeline, objectives, Now/Next/Later with capacity, published scores, what-if weights, tracing, strategy anchors | Functional | `roadmap.html`, `knowledge/roadmap.yaml` |
+| I-310 | Wishlist votes and backlog issues from GitHub shown beside the scores | Integration | `github_live()` |
+| T-310 | Every open item scored; MoSCoW matches score band; sign-up privacy; bundle has no addresses | Technical | `tests/test_research_roadmap.py` |

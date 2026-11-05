@@ -108,3 +108,8 @@ return under the data asset management policy. The GOV.UK DAM policy also requir
 - **CDO Council brief:** withdrawn from the public product in 2.0.0 and held privately (D-POL-02).
 - **Gap register (must):** every known gap with who it affects, severity, status and response.
 - **Q-FAIR (should):** ratings in the CDA return and a self-rating, aligned to the Geospatial Commission scale.
+
+## v2.10 and v2.11 additions (2026-11-05)
+- **Standards and join-up (2.10):** a catalogue of open standards with GOV.UK status; DQV output from the Metadata Weaver; Three portals, one journey with the DAM capability playbooks and the GitHub repos asset catalogue.
+- **User research with prospective consumers (2.11):** an introduction for teams, a research panel and an emailable research bundle. Success: two research rounds by March 2027 with every quota met, findings published and linked to backlog changes.
+- **Open roadmap (2.11):** published scores, objectives, capacity and alignment with government strategy (the Roadmap for modern digital government; the strategic roadmap for public sector data once published). Success: every open item scored and traceable; challenges answered within 10 working days.

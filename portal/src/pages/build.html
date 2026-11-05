@@ -40,7 +40,7 @@ __BASE_CSS__
 
 <section id="ways" aria-labelledby="w-h"><h2 id="w-h">Ways to help</h2><div class="ways" id="wayz"></div></section>
 
-<section id="roadmap" aria-labelledby="r-h"><h2 id="r-h">Roadmap</h2><div class="road" id="road"></div></section>
+<section id="roadmap" aria-labelledby="r-h"><h2 id="r-h">Roadmap</h2><p class="small">The stages below come from the backlog. For the scores behind each priority, delivery objectives, government strategy and capacity, see the <a href="roadmap.html">open roadmap and priorities</a>. To help decide what comes next, <a href="research.html">take part in user research</a>.</p><div class="road" id="road"></div></section>
 
 <section id="backlog" aria-labelledby="b-h">
   <h2 id="b-h">Backlog</h2>
@@ -216,6 +216,7 @@ $("lChangelog").href = B.repo + "/blob/main/CHANGELOG.md";
 $("lBundle").href = B.repo + "/blob/main/docs/bundle/index.html";
 $("rlDrawer").onclick = () => { if (window.DQP_openNews) window.DQP_openNews(); };
 $("ctTopic").innerHTML = K.contact_topics.map(t => `<option>${esc(t)}</option>`).join("");
+{ const tp = new URLSearchParams(location.search).get("topic"); if (tp && K.contact_topics.includes(tp)) $("ctTopic").value = tp; }
 
 // Wishlist: the GitHub issues labelled "wishlist", read when the portal is built. A thumbs-up reaction on an issue is a vote.
 function ghWishes() {

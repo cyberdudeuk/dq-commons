@@ -19,7 +19,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Check: Check and assess | Check your data, Maturity self-assessment, Data management wheel, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, see your whole data capability, prioritise issues, draft rules, size a baseline |
 | Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
 | Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Three portals one journey, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
-| Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
+| Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Take part in user research, Help us build this, Open roadmap and priorities, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
 On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list. The **Site map** shows every page on one screen, by group and level, with suggested routes.
 
@@ -94,6 +94,12 @@ Open [Three portals, one journey](https://cyberdudeuk.github.io/dq-commons/ecosy
 
 ### Run data quality through a programme or project
 On **For your role**, choose a change and delivery role (SRO, programme or delivery manager, PMO, business change lead, business analyst, product or service owner, architect, data migration lead, test lead, or records and information manager). Under **Data quality in change programmes and projects** you'll find why each role was added, the lifecycle with gate questions, a RACI you can filter by phase or role, a service blueprint and example journeys.
+
+### Take part in user research, or invite your team
+Open **Take part in user research**. Read what the Commons offers each role, then sign up for the research panel. To introduce colleagues, use **Research bundle for your team**: copy the invitation email or download the bundle (invitation, email file, consent, sign-up questions, session guides).
+
+### See what's coming and why
+Open **Open roadmap and priorities**. Choose an item on the roadmap to see its evidence, score, the government strategy it supports and its objective. Move the sliders under **How we prioritise** to try your own weights. Suggest an idea or vote through **Help us build this**.
 
 ### Give feedback
 Every page ends with a feedback link. Use the **Microsoft Form** (no sign-in, no names or emails), the **GitHub contact form**, a survey, or the accessibility route. All of them are on **Help us build this** under Give feedback.

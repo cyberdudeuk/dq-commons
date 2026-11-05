@@ -1,5 +1,11 @@
 # Build journal
 
+## 2026-11-05 — v2.11.0: user research with your team, and an open roadmap
+- **Built:** Take part in user research (introduction for teams, research panel, questions, methods, rounds, quotas, findings, consent) and Open roadmap and priorities (pipeline, objectives, Now/Next/Later with capacity, scores with your-own-weights, tracing, strategy anchors, governance); the research bundle generated with the portal (invitation, email file, consent, sign-up questions, session guides, zip); ten backlog items; two contact topics.
+- **Sister repositories (same session):** DAM capability playbooks 1.8.3 signposts the Commons' new pages and fixes a CI break test; the GitHub repos asset catalogue links back from its wheel and standards views and footer (RM-27, first part).
+- **Checked:** new tests (research links, privacy of sign-up, every open item scored, MoSCoW matches score band, bundle has no addresses); full suite; accessibility names and roles; four-size inspection; screenshots of both pages at 1366 and 390 pixels.
+- **Research:** the Roadmap for modern digital government (19 January 2026) and its commitment to a strategic roadmap for public sector data in April 2026, the data.gov.uk now/next/later roadmap and the DAM policy informed the anchors.
+
 ## 2026-11-05 — v2.10.0: standards catalogue, DQV from the Weaver, three portals as one journey
 - **Built:** a catalogue of 57 open standards on the interoperability page (filters, status, Rosetta concepts, Weaver support, links into the repos asset catalogue and the DAM playbooks); DQV output from the Metadata Weaver in Python, JavaScript and the command line; the Rosetta grows to 11 standards; a new page, Three portals, one journey, with a comparison, an interactive lineage map, trace one thing, journeys and a join-up plan; `api/xref.json`; sister-portal links on 13 pages and in the wheel and role panels.
 - **Sister repositories:** the DAM capability playbooks and the GitHub repos asset catalogue gain matching links back (see their changelogs).

@@ -92,7 +92,9 @@ GROUPS = [
         ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
         ("share", "Case studies", "Draft case studies from measured results, to share what worked"),
         ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
+        ("research", "Take part in user research", "An introduction to the Commons for you and your team, the research panel, what we want to learn and what changed because of it"),
         ("build", "Help us build this", "Roadmap, backlog, wishlist, co-design charter, contributors and how to contact us"),
+        ("roadmap", "Open roadmap and priorities", "How ideas, votes and research become the backlog and roadmap: scores, government strategy, capacity and decisions, in the open"),
         ("operate", "Operating model and support", "Support tiers, roles, how requests become features, GitHub, Jira and Confluence"),
     ]),
 ]
@@ -100,9 +102,9 @@ GROUPS = [
 GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3 Check": "Check and assess",
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
-                                    "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask"]},
+                                    "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask", "research"]},
          **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
-                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem"]},
+                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem", "roadmap"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
@@ -111,7 +113,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target"}
 
 
 def icon(name: str) -> str:
@@ -303,6 +305,8 @@ def knowledge() -> dict:
         "FEEDBACK": lambda: y("feedback"),
         "STANDARDS": lambda: y("standards-catalogue"),
         "ECO": lambda: y("ecosystem"),
+        "RESEARCH": lambda: {**y("research"), "email_text": research_email()[1]},
+        "ROADMAP": lambda: {**y("roadmap"), "backlog": y("build")["backlog"], "github_live": github_live()},
         "SITEMAP": lambda: site_map(),
         "MCPTOOLS": lambda: mcp_tools(),
         "MODELS": lambda: models_summary(),
@@ -519,7 +523,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -614,6 +618,177 @@ def feedback_docx(path: Path) -> None:
         d.add_paragraph(x, style="List Bullet")
     path.parent.mkdir(parents=True, exist_ok=True)
     d.save(str(path))
+
+
+PORTAL_URL = "https://cyberdudeuk.github.io/dq-commons/"
+
+
+def research_email(base: str = PORTAL_URL) -> tuple:
+    """The invitation email (v2.11.0): (subject, plain text). Used on research.html, in the .eml file and the Word pack.
+    No sender, no recipients, no tracking: the person sending it adds those."""
+    R = yaml.safe_load((ROOT / "knowledge" / "research.yaml").read_text(encoding="utf-8"))
+    subject = "Help shape DQ Commons: a free data quality portal for the public sector"
+    who = "\n".join(f"- {w['who']}: {w['gets'][0].lower() + w['gets'][1:]}" for w in R["intro"]["for_whom"])
+    ways = "\n".join(f"- {w['how']}: {w['detail']}" for w in R["intro"]["ways_to_use"])
+    methods = ", ".join(m["name"].lower() for m in R["methods"] if m["id"] != "benchmark")
+    body = f"""[Add a line from you here, so colleagues know why you are sending this.]
+
+DQ Commons is a free, open portal for anyone in the UK public sector who looks after, uses or relies on data. You can check a data file in your browser (nothing is uploaded), find the data quality frameworks for your nation and sector, describe a dataset once in every metadata standard, and learn from peers. It needs no account and works on a phone, with a screen reader and offline.
+
+Open it: {base}
+
+What it offers your team
+{who}
+
+Ways to use it
+{ways}
+
+Help decide what it does next
+The Commons is built in the open with the people who use it. We are opening a user research panel to find out what teams need, what gets in the way and what to build next. You can choose {methods}. Many take ten minutes in your own time.
+
+- Taking part is voluntary and you can stop at any time.
+- Your contact details stay with the Commons team and are never published.
+- Findings are published as themes and totals, never with names.
+- We arrange and pay for captions, British Sign Language, Welsh-language sessions and other support.
+
+Find out more and sign up: {base}research.html
+See the open roadmap and vote on ideas: {base}roadmap.html
+
+The Commons is a community project, not an official GOV.UK service. Questions go through the contact form on the portal ({base}build.html#contact); the team doesn't publish an email address.
+"""
+    return subject, body
+
+
+def research_bundle(folder: Path, base: str = PORTAL_URL) -> None:
+    """The user research bundle for email and download (v2.11.0): invitation pack, participant information and
+    consent, sign-up questions for Microsoft Forms, session guides, an .eml invitation and one zip with a read-me."""
+    import zipfile
+    from email.message import EmailMessage
+    from docx import Document
+    from docx.shared import Pt
+    R = yaml.safe_load((ROOT / "knowledge" / "research.yaml").read_text(encoding="utf-8"))
+    folder.mkdir(parents=True, exist_ok=True)
+    subject, body = research_email(base)
+
+    def doc(title):
+        d = Document()
+        d.core_properties.title, d.core_properties.author = title, BRAND
+        d.styles["Normal"].font.name, d.styles["Normal"].font.size = "Arial", Pt(12)
+        d.add_heading(title, 0)
+        return d
+
+    def bullets(d, xs):
+        for x in xs:
+            d.add_paragraph(x, style="List Bullet")
+
+    # 1. Introducing the Commons and invitation
+    d = doc("Introducing DQ Commons, and an invitation to help shape it")
+    d.add_paragraph(R["intro"]["what"])
+    d.add_paragraph(f"Open it: {base}")
+    d.add_heading("What it offers your team", 1)
+    t = d.add_table(rows=1, cols=2); t.style = "Table Grid"
+    t.rows[0].cells[0].text, t.rows[0].cells[1].text = "If you are", "You get"
+    for w in R["intro"]["for_whom"]:
+        r = t.add_row().cells; r[0].text, r[1].text = w["who"], w["gets"]
+    d.add_heading("Ways to use it", 1)
+    bullets(d, [f'{w["how"]}: {w["detail"]} ({base}{w["link"]})' for w in R["intro"]["ways_to_use"]])
+    d.add_heading("Why we are asking for your help", 1)
+    d.add_paragraph(R["why_research"])
+    d.add_heading("Ways to take part", 1)
+    t = d.add_table(rows=1, cols=3); t.style = "Table Grid"
+    for c, h in zip(t.rows[0].cells, ("Method", "Time", "What happens")):
+        c.text = h
+    for m in R["methods"]:
+        r = t.add_row().cells; r[0].text, r[1].text, r[2].text = m["name"], m["time"], m["what"]
+    d.add_heading("Research rounds", 1)
+    bullets(d, [f'{x["name"]} ({x["when"]}): {x["participants"]}' for x in R["rounds"]])
+    d.add_heading("Our promise", 1)
+    bullets(d, R["sign_up"]["promise"])
+    d.add_heading("How to take part", 1)
+    d.add_paragraph(f"Sign up on the research page: {base}research.html#join. {R['sign_up']['team_route']}")
+    d.add_paragraph(f"See the open roadmap, vote on ideas and suggest your own: {base}roadmap.html")
+    d.add_paragraph("The Commons is a community project, not an official GOV.UK service. It has no tracking or analytics. "
+                    f"Questions go through the contact form ({base}build.html#contact); the team doesn't publish an email address.")
+    d.save(str(folder / "dq-commons-research-invitation.docx"))
+
+    # 2. Participant information and consent
+    c = R["consent"]
+    d = doc(c["title"])
+    for sct in c["sections"]:
+        d.add_heading(sct["h"], 1); d.add_paragraph(sct["p"])
+    d.add_heading("Consent", 1)
+    d.add_paragraph("Please tick each statement you agree to. You can take part without agreeing to a recording.")
+    for x in c["statements"]:
+        d.add_paragraph("\u2610  " + x)
+    d.add_paragraph("Session code (filled in by the researcher, never your name): ____________    Date: ____________")
+    d.save(str(folder / "dq-commons-participant-information-and-consent.docx"))
+
+    # 3. Sign-up questions for Microsoft Forms Quick import
+    d = doc(R["sign_up"]["form_title"])
+    d.add_paragraph("Thank you for your interest in helping shape DQ Commons. " + " ".join(R["sign_up"]["promise"][:3]))
+    for q in R["screener"]:
+        d.add_paragraph().add_run(f'{q["n"]}. {q["text"]}' + (" (required)" if q.get("required") else "") + (" (choose any)" if q.get("multi") else "")).bold = True
+        bullets(d, q["options"])
+    d.add_heading("Settings for the form owner", 1)
+    bullets(d, ["Create the form in the Commons team's Microsoft 365 tenant, not a personal account.",
+                "Who can respond: anyone can respond. Record name: off. One response per person: off.",
+                "Only question 10 collects contact details. Restrict access to the responses to the research team.",
+                "Export responses monthly, delete people who leave the panel at once, and delete everyone after 12 months without contact.",
+                "Paste the form's share link into knowledge/research.yaml (sign_up.form_url) so the portal shows the Join button.",
+                "Record protected characteristics only as totals, never against a person."])
+    d.save(str(folder / "dq-commons-research-screener.docx"))
+
+    # 4. Session guides
+    d = doc("Research session guides")
+    d.add_paragraph("Guides for each kind of session. Check access needs and consent first, every time. We test the portal, not the person.")
+    for g in R["sessions"]:
+        d.add_heading(g["title"], 1)
+        t = d.add_table(rows=1, cols=3); t.style = "Table Grid"
+        for cell, h in zip(t.rows[0].cells, ("Minutes", "Part", "What to do")):
+            cell.text = h
+        for st in g["steps"]:
+            r = t.add_row().cells; r[0].text, r[1].text, r[2].text = str(st["min"]), st["part"], st["detail"]
+        if g.get("note"):
+            d.add_paragraph(g["note"])
+    d.add_heading("Who to recruit (minimums per round)", 1)
+    bullets(d, [f'{q["group"]}: at least {q["min"]}' for q in R["quotas"]])
+    d.add_heading("Turning sessions into findings", 1)
+    for i, x in enumerate(R["synthesis"]["steps"], 1):
+        d.add_paragraph(f"{i}. {x}")
+    d.save(str(folder / "dq-commons-research-session-guides.docx"))
+
+    # 5. Email file: no sender, no recipients; opens as a draft in Outlook or Mail
+    m = EmailMessage()
+    m["Subject"] = subject
+    m["X-Unsent"] = "1"
+    m.set_content(body)
+    html_body = "".join(f"<p>{html.escape(p).replace(chr(10), '<br>')}</p>" for p in body.strip().split("\n\n"))
+    m.add_alternative(f'<!doctype html><html lang="en"><body style="font-family:Arial,sans-serif;font-size:16px;line-height:1.5;max-width:40em">{html_body}</body></html>', subtype="html")
+    (folder / "dq-commons-research-invitation.eml").write_bytes(bytes(m))
+
+    # 6. One zip with a read-me
+    readme = f"""DQ Commons user research bundle (version {VERSION})
+
+What is in this bundle
+- dq-commons-research-invitation.docx: introduces the Commons to your team and invites them to take part
+- dq-commons-research-invitation.eml: the same invitation as an email; open it, add recipients and a line from you, send
+- dq-commons-participant-information-and-consent.docx: what happens in a session, what is kept, and people's rights
+- dq-commons-research-screener.docx: sign-up questions, ready for Microsoft Forms Quick import
+- dq-commons-research-session-guides.docx: interview, usability, accessibility and co-design guides
+
+How to use it
+1. Send the email (or attach the invitation) to colleagues who might use the Commons.
+2. People sign up on the research page: {base}research.html#join
+3. Everyone sees the participant information before a session.
+4. Findings are published on the research page and change the open roadmap: {base}roadmap.html
+
+Nothing in this bundle names anyone. It has no tracking. Licence: Open Government Licence v3.0.
+"""
+    (folder / "README.txt").write_text(readme, encoding="utf-8")
+    with zipfile.ZipFile(folder / "dq-commons-research-bundle.zip", "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(folder.iterdir()):
+            if f.suffix != ".zip":
+                z.write(f, f"dq-commons-research-bundle/{f.name}")
 
 
 def xref_manifest(base: str) -> dict:
@@ -873,7 +1048,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap"}
 
 
 def provenance(names: set) -> str:
@@ -1028,6 +1203,7 @@ def main(argv=None) -> int:
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
         feedback_docx(dl / "dq-commons-feedback-form-questions.docx")
+        research_bundle(dl / "research", f"https://{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[0]}.github.io/{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[1]}/")
         owner, name = (a.repo.rstrip("/").split("/")[-2:] + ["", ""])[:2]
         write_api(target, a.repo, f"https://{owner}.github.io/{name}/")
         # Offline copy (issue #24): the whole portal in one zip. Open index.html from the unzipped folder;

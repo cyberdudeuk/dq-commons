@@ -1,0 +1,160 @@
+# User research with prospective consumers of the Commons (v2.11.0). Feeds research.html, the email research bundle
+# in downloads/research/ and search. Plain English throughout. No names or contact details are ever stored here or
+# on GitHub: sign-ups go to the Microsoft Form in the Commons team's tenant (configured in sign_up.form_url).
+review: {last_reviewed: "2026-11-05", owner_role: User researcher (Commons)}
+
+status: "No research sessions have run yet. The panel opens with this release; the first round is planned below. Until then, findings are hypotheses from published guidance and secondary evidence, and are labelled that way."
+
+intro:
+  what: "DQ Commons is a free, open portal for anyone in the UK public sector who looks after, uses or relies on data. It brings together practical tools (check a file in your browser, score issues, describe a dataset once in every metadata standard), frameworks for every UK nation and sector, playbooks, learning and a community. Nothing you open in it is uploaded, and it needs no account."
+  for_whom:
+  - {who: "Chief data officers and data leaders", gets: "A maturity picture, the data management wheel, a baseline sized to your deadline, and evidence for boards"}
+  - {who: "Data owners and stewards", gets: "Checks you can run on a file today, priorities for what to fix first, and action plan templates"}
+  - {who: "Analysts and statisticians", gets: "Quality dimensions, identifier checks, reconciliation and the frameworks that apply to your sector"}
+  - {who: "Catalogue, metadata and records teams", gets: "The Metadata Weaver, the standards catalogue and one lifecycle for data and records"}
+  - {who: "Digital, programme and change teams", gets: "Data quality gates, a RACI and a service blueprint for delivery, and migration checks"}
+  - {who: "Commercial and supplier teams", gets: "Contract clauses for data quality and exit, a lock-in checker and RFI questions"}
+  - {who: "Local, devolved, health and voluntary sector teams", gets: "Frameworks for your nation and sector, offline and Welsh options, and a community of peers"}
+  ways_to_use:
+  - {how: "Open it in a browser", detail: "Every page works on a phone, with a screen reader and offline from a zip copy.", link: "guide.html"}
+  - {how: "Link or embed it in your intranet", detail: "Embed any page with your colour, or link straight to a section.", link: "reuse.html#embed"}
+  - {how: "Reuse the content", detail: "Open data API, white-label copy, feeds and downloads under the Open Government Licence.", link: "reuse.html#api"}
+  - {how: "Use it from an AI assistant", detail: "Model Context Protocol tools and connectors, with page links for every answer.", link: "reuse.html#ai"}
+  - {how: "Run the toolkit", detail: "The Python toolkit runs the same checks as the browser, for pipelines.", link: "pipeline.html"}
+
+why_research: "We want the Commons to be shaped by the people who use it, not by guesses. Research tells us what to build next (tactical choices for the coming months) and where the Commons should go over the next few years (strategic direction). Every finding is published, linked to the backlog item it changed, and open to challenge."
+
+# What we want to learn. horizon: tactical (next 3 to 6 months) or strategic (12 to 36 months).
+questions:
+- {id: RQ-01, horizon: tactical, text: "Can people find what they came for within two minutes, from the home page or search?", methods: [usability, tree], backlog: [BL-25], status: planned}
+- {id: RQ-02, horizon: tactical, text: "Do the menu groups (Start, Learn, Check, Improve, Apply, Contribute) match how people think about their work?", methods: [card, tree], backlog: [BL-25], status: planned}
+- {id: RQ-03, horizon: tactical, text: "Can a data steward with spreadsheet skills check a file and act on the results without help?", methods: [usability], backlog: [BL-01], status: planned}
+- {id: RQ-04, horizon: tactical, text: "Does the Commons work for people who use screen readers, magnification, voice control or switch access?", methods: [access], backlog: [BL-02], status: planned}
+- {id: RQ-05, horizon: tactical, text: "Is the plain English and easy read content clear to people with little experience of data?", methods: [content, usability], backlog: [BL-22], status: planned}
+- {id: RQ-06, horizon: tactical, text: "Which ways of consuming the content (intranet links, embeds, API, AI assistants, downloads) do teams actually want?", methods: [interview, survey], backlog: [BL-09, BL-29], status: planned}
+- {id: RQ-07, horizon: strategic, text: "What role should the Commons play beside the DAM capability playbooks, the GitHub repos asset catalogue and central guidance from GDS?", methods: [interview, codesign], backlog: [BL-30, BL-33], status: planned}
+- {id: RQ-08, horizon: strategic, text: "What would make organisations contribute content, rules and case studies back, and keep doing so?", methods: [interview, diary], backlog: [BL-17], status: planned}
+- {id: RQ-09, horizon: strategic, text: "How should the Commons support the National Data Library, the DAM policy and the strategic roadmap for public sector data?", methods: [interview, codesign], backlog: [BL-31], status: planned}
+- {id: RQ-10, horizon: strategic, text: "Who is excluded today (by nation, sector, language, disability, connectivity or confidence with data), and what would include them?", methods: [interview, access, survey], backlog: [BL-06, BL-23, BL-27], status: planned}
+
+methods:
+- {id: interview, name: "Interviews", time: "45 to 60 minutes, online or by phone", what: "A conversation about your work, the data you look after and what gets in the way.", good_for: "Understanding needs, context and strategic direction"}
+- {id: usability, name: "Usability testing", time: "45 to 60 minutes, online", what: "You try real tasks in the portal while thinking aloud. We test the portal, not you.", good_for: "Finding what is hard to do and why"}
+- {id: access, name: "Accessibility testing with your own set-up", time: "60 minutes, online or in person", what: "You use the portal with your own assistive technology and settings.", good_for: "Finding barriers automated checks miss"}
+- {id: tree, name: "Tree testing", time: "10 minutes, in your own time", what: "You say where you would look for things in a text-only menu.", good_for: "Checking the menu and labels"}
+- {id: card, name: "Card sorting", time: "15 minutes, in your own time", what: "You group topics in the way that makes sense to you.", good_for: "Shaping the menu and page groups"}
+- {id: content, name: "Content testing", time: "20 minutes, in your own time", what: "You mark words and sentences that help or confuse.", good_for: "Plain English and easy read summaries"}
+- {id: survey, name: "Surveys", time: "5 to 10 minutes", what: "Short questions you answer when it suits you.", good_for: "Reaching many people and measuring over time"}
+- {id: diary, name: "Diary study", time: "5 minutes a day for two weeks", what: "You note when you used data quality guidance and what happened.", good_for: "Seeing real use over time"}
+- {id: codesign, name: "Co-design workshops", time: "90 minutes, online, several time zones", what: "You design a feature with other users and the team.", good_for: "Shaping new features and the roadmap together"}
+- {id: benchmark, name: "Benchmark questions", time: "2 minutes, after other sessions", what: "Ten standard questions (the System Usability Scale) so we can tell if the portal gets easier to use.", good_for: "Measuring progress between rounds"}
+
+rounds:
+- {id: R1, name: "Round 1: first impressions and finding things", when: "December 2026 to January 2027", methods: [interview, usability, tree], questions: [RQ-01, RQ-02, RQ-03, RQ-06], participants: "10 to 12 people across the quotas", status: planned}
+- {id: R2, name: "Round 2: accessibility and plain English", when: "February to March 2027", methods: [access, content, benchmark], questions: [RQ-04, RQ-05, RQ-10], participants: "6 to 8 people, at least 4 using assistive technology", status: planned}
+- {id: R3, name: "Round 3: direction of travel", when: "April to June 2027", methods: [interview, codesign, diary, survey], questions: [RQ-07, RQ-08, RQ-09, RQ-10], participants: "12 to 15 people, including data leaders and the sister portals' users", status: planned}
+
+sign_up:
+  form_title: "Join the DQ Commons user research panel"
+  form_url: ""          # paste the Microsoft Form share link here; the portal shows the Join button only when it is set
+  status_when_empty: "The sign-up form is being set up. Until it opens, use the contact form and choose 'Take part in user research'. Say only your kind of organisation and role, not your name or contact details, because contact messages are public GitHub issues. We'll reply in the issue when the panel opens and GitHub will notify you."
+  promise:
+  - "Taking part is voluntary and you can stop at any time without saying why."
+  - "Your contact details stay in the Commons team's Microsoft 365 tenant. They are never put on GitHub, on the portal or in any report."
+  - "We contact you only about research you signed up for, at most once a month, and delete your details when you leave the panel or after 12 months without contact."
+  - "Findings are published as themes and totals, never with names or anything that identifies you or your organisation (unless you ask to be credited)."
+  - "We pay for interpreters, captioning and other access support, and you never have to arrange it yourself."
+  - "If you are not taking part as part of your job, we offer a thank-you voucher where the research budget allows, and cover reasonable costs."
+  team_route: "Sign up as a team: one person can sign up and tell us how many colleagues would like to take part and in which roles. We then send each person the participant information directly."
+
+screener:
+- {n: 1, text: "What kind of organisation do you work for?", options: ["Central government department", "Arm's-length body or agency", "Local authority", "Devolved government body", "Crown Dependency or Overseas Territory government", "NHS or other health and care body", "Police, fire or justice", "School, college or university", "Voluntary, community or social enterprise organisation", "Supplier to the public sector", "Other"], required: true}
+- {n: 2, text: "Which nation or territory do you mostly work in?", options: ["England", "Scotland", "Wales", "Northern Ireland", "Crown Dependency", "Overseas Territory", "UK-wide"], required: true}
+- {n: 3, text: "Which best describes your role?", options: ["Data leader (for example chief data officer)", "Data owner", "Data steward or data manager", "Analyst, statistician or data scientist", "Catalogue, metadata, records or information manager", "Digital, product, programme or change role", "Commercial or procurement", "Other"], required: true}
+- {n: 4, text: "How often do you work with data in spreadsheets, databases or dashboards?", options: ["Never", "Sometimes", "Most days"], required: true}
+- {n: 5, text: "Have you used DQ Commons before?", options: ["No, this is new to me", "Once or twice", "Regularly"], required: true}
+- {n: 6, text: "Which kinds of research would you like to take part in? Choose any.", options: ["Interviews", "Usability testing", "Accessibility testing with my own set-up", "Short tasks in my own time (tree testing, card sorting, content testing)", "Surveys", "Diary study", "Co-design workshops"], required: true, multi: true}
+- {n: 7, text: "Do you use any assistive technology or settings to use a computer or phone? This helps us include people who are often left out. You don't have to answer.", options: ["No", "Screen reader", "Screen magnification or large text", "Voice control", "Switch or other alternative input", "Other", "Prefer not to say"], multi: true}
+- {n: 8, text: "What would make taking part easier for you? Choose any.", options: ["A particular time of day", "Captions", "British Sign Language interpreter", "Welsh language session", "Breaks", "Questions in advance", "Phone instead of video", "Paper or large print materials", "Someone to support me", "Other"], multi: true}
+- {n: 9, text: "How many colleagues would also like to take part? (Leave blank if just you.)", options: []}
+- {n: 10, text: "How should we contact you about sessions? Your details stay in the Commons team's Microsoft 365 tenant and are never published.", options: [], required: true, contact: true}
+
+consent:
+  title: "Participant information and consent"
+  sections:
+  - {h: "Who is doing this research", p: "The DQ Commons team: volunteers and public servants who build the Commons in the open. The Commons is a community project, not an official GOV.UK service."}
+  - {h: "Why we're doing it", p: "To find out what people in the public sector need from the Commons, what gets in their way and what we should build next. Findings decide the backlog and the roadmap, which are public."}
+  - {h: "What happens in a session", p: "Depending on the session, we talk about your work, or you try tasks in the portal while thinking aloud. We test the portal, not you. There are no right or wrong answers."}
+  - {h: "What we record and keep", p: "We take notes. We record the session only if you agree, and delete the recording within 30 days. Notes are kept for 6 months, then deleted. Notes use a session code, never your name."}
+  - {h: "What we publish", p: "Themes and totals only, on the Commons' Research page and in its backlog. Nothing that identifies you or your organisation, unless you ask to be credited."}
+  - {h: "Your rights", p: "Taking part is voluntary. You can stop at any time, skip any question and withdraw what you said within 30 days, without giving a reason, by using the contact form and choosing 'Withdraw my contribution'. You can also ask to see or delete what we hold about you."}
+  - {h: "Access support", p: "Tell us what would help: captions, a British Sign Language interpreter, a Welsh-speaking facilitator, breaks, materials in advance or a phone call. We arrange and pay for it."}
+  - {h: "Contact", p: "Use the contact form on the Commons (Help us build this, Contact us). We don't publish an email address."}
+  statements:
+  - "I have read (or had read to me) the information about this research."
+  - "I understand that taking part is voluntary and I can stop at any time."
+  - "I agree to take part in this session."
+  - "I agree to the session being recorded (optional: you can take part without this)."
+  - "I understand that findings will be published as themes and totals, without my name or anything that identifies me."
+
+sessions:
+- id: interview
+  title: "Interview guide (45 to 60 minutes)"
+  steps:
+  - {min: 5, part: "Welcome", detail: "Introductions, check access needs, go through consent, ask permission to record."}
+  - {min: 10, part: "Your work", detail: "Your role; the data you look after or use; what good data means where you work; who you go to for help."}
+  - {min: 15, part: "Data quality today", detail: "The last time data let you down: what happened, what you did, what would have helped. Tools and guidance you use now."}
+  - {min: 15, part: "The Commons", detail: "First impressions of the home page; what you would come back for; how your team would want to get the content (intranet, embeds, API, AI assistant, downloads)."}
+  - {min: 10, part: "Direction of travel", detail: "What should the Commons do more of, less of, or stop? How should it work with central guidance, the DAM playbooks and the repos catalogue?"}
+  - {min: 5, part: "Close", detail: "Anything we didn't ask? Would you like to hear what we change? Thank you and next steps."}
+- id: usability
+  title: "Usability test script (45 to 60 minutes)"
+  steps:
+  - {min: 5, part: "Welcome", detail: "Consent, recording, think aloud: 'we are testing the portal, not you'. Check their set-up works."}
+  - {min: 5, part: "Warm-up", detail: "Your role and how you usually look for guidance."}
+  - {min: 35, part: "Tasks (pick 4 or 5)", detail: "1. Find the data quality frameworks that apply to your nation and sector. 2. Check the example CSV file and say which issue you would fix first. 3. Find out what the DAM policy asks of a data owner. 4. Describe a dataset once and get it as DCAT and DQV. 5. Find a standard and its status in government. 6. Suggest a feature and vote on one. 7. Find how to embed a page in your intranet."}
+  - {min: 10, part: "Wrap-up", detail: "Benchmark questions (System Usability Scale). What was easiest, what was hardest? Would you use it at work?"}
+  note: "For each task record: completed (yes, with help, no), time, words people used and where they hesitated. Don't help unless asked or stuck for more than 2 minutes, then note it."
+- id: access
+  title: "Accessibility session guide (60 minutes)"
+  steps:
+  - {min: 10, part: "Welcome and set-up", detail: "Consent; the person describes their set-up and settings; agree how they will share what they hear or see."}
+  - {min: 40, part: "Tasks", detail: "Three tasks from the usability script, using their own technology. Note every barrier, workaround and moment of uncertainty."}
+  - {min: 10, part: "Reflection", detail: "What would make the biggest difference? Anything that would stop you using it at work?"}
+  note: "Severity: blocks (cannot complete), slows (completes with effort), annoys (completes, but frustrating). Blockers go straight to the backlog as must items."
+- id: codesign
+  title: "Co-design workshop plan (90 minutes)"
+  steps:
+  - {min: 10, part: "Welcome", detail: "Ground rules from the charter; consent; how ideas will be used and credited."}
+  - {min: 20, part: "The problem", detail: "Share research findings; agree the user need in one sentence."}
+  - {min: 30, part: "Ideas", detail: "Everyone sketches or writes ideas; share and group them."}
+  - {min: 20, part: "Shape and score", detail: "Score the top ideas on user value, inclusion and effort using the open scoring on the Roadmap page."}
+  - {min: 10, part: "Next steps", detail: "What goes into the backlog and wishlist, who follows up, and when people will hear back."}
+
+# Quotas: minimums, not targets. Protected characteristics are recorded only as totals, never against a person.
+quotas:
+- {group: "Central department or arm's-length body", min: 2}
+- {group: "Local authority (at least one outside England)", min: 2}
+- {group: "Devolved government, Crown Dependency or Overseas Territory", min: 2}
+- {group: "NHS or other health and care body", min: 1}
+- {group: "Voluntary, community or social enterprise sector", min: 2}
+- {group: "People who use assistive technology", min: 2}
+- {group: "People with little experience of data tools", min: 3}
+- {group: "Welsh speakers", min: 1}
+- {group: "People working outside London and the South East", min: 5}
+- {group: "Data leaders (for strategic questions)", min: 2}
+
+# You said, we did: each finding links to what changed. source: research (sessions), feedback (forms and issues) or secondary (published evidence).
+findings:
+- {id: F-01, source: secondary, theme: "Teams build their own data quality checks because shared ones are hard to find", evidence: "Review of 27 public sector code repositories", change: "Check your data runs shared rules in the browser; the rule library and identifier checks", link: "check.html", backlog: []}
+- {id: F-02, source: secondary, theme: "Many people who would give feedback have no GitHub account", evidence: "Equality screening since v1.0.0", change: "A Microsoft Form feedback route and a feedback link on every page (v2.9.0)", link: "build.html#feedback", backlog: []}
+- {id: F-03, source: secondary, theme: "Small island and rural teams may have limited connectivity", evidence: "Co-design notes with Crown Dependency contacts", change: "The whole portal as an offline zip (v2.3.0)", link: "reuse.html", backlog: [BL-24]}
+- {id: F-04, source: secondary, theme: "Teams want to know how the Commons relates to central guidance and other portals", evidence: "Comparison of three portals, November 2026", change: "Three portals, one journey, and links between them (v2.10.0)", link: "ecosystem.html", backlog: [BL-30]}
+
+synthesis:
+  steps:
+  - "Write up within two weeks of the last session in a round."
+  - "Group notes into themes; count sessions per theme; rate severity (blocks, slows, annoys)."
+  - "Fix anything that excludes a group first."
+  - "Turn each theme into a backlog item or a change to an existing one, with the finding's id."
+  - "Publish the summary here, update the findings table, and tell participants what changed."

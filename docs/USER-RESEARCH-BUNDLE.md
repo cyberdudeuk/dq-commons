@@ -62,3 +62,15 @@ Journeys for each are on the For your role page (`knowledge/change-delivery.yaml
 **Recruit also:** a commercial or procurement lead, a supplier delivering a public service, a programme team mid-migration.
 **Tasks:** build a data quality schedule for a contract; score a tender answer; reconcile two extracts; export rules as a data contract and load it in another tool; publish a resource; find a knowledge base article from the front page.
 **Questions:** Is the clause wording usable as a starting point by commercial teams? Would suppliers accept the burden of proof? Does the carousel help or distract? Is "Not yet reviewed" understood?
+
+## v2.11.0: research with prospective consumers and the emailable bundle
+The research plan now lives in `knowledge/research.yaml` and is published on **Take part in user research** (`research.html`):
+10 questions (6 tactical, 4 strategic) linked to backlog items, 10 methods, three planned rounds (December 2026 to June 2027),
+quotas, findings ("You said, we did") and the participant information and consent. The build generates the bundle to
+email to teams in `downloads/research/`: an introduction and invitation, an email file, participant information and
+consent, sign-up questions for Microsoft Forms Quick import, session guides and one zip. Findings feed the scores on
+**Open roadmap and priorities** (`roadmap.html`). The detailed facilitator guide remains `docs/research/RESEARCH-KIT.md`.
+
+New hypotheses:
+8. Teams adopt the Commons faster when a colleague sends the introduction than when they find it themselves.
+9. Publishing scores and reasons makes people more willing to suggest ideas and accept decisions.

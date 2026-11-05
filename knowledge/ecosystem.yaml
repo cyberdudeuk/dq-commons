@@ -103,7 +103,9 @@ joinup:
   - {id: X4, action: "Lineage you can follow", detail: "One map of how a DAM requirement leads to a capability, a DAMA area, a Commons tool and evidence in code, and back.", status: "Interactive map on the ecosystem page"}
   - {id: X5, action: "Live link checks", detail: "Each portal reads the others' manifests (same web address family, no tracking) and reports any key that has moved.", status: "The ecosystem page checks the playbooks' manifest live"}
   - {id: X6, action: "Consistent experience", detail: "The same accessibility standard (WCAG 2.2 AA), plain English, tooltips, share and feedback routes, and colour per part of each portal.", status: "Mostly aligned; display options and source labels to adopt in the Commons"}
-  - {id: X7, action: "One feedback picture", detail: "Feedback that is really about another portal is passed on, and themes are compared each quarter.", status: "Proposed"}
+  - {id: X7, action: "One feedback picture", detail: "Feedback that is really about another portal is passed on, and themes are compared each quarter.", status: "Proposed: backlog item BL-30, scored on the open roadmap"}
+  - {id: X8, action: "A neutral starting point", detail: "The estate compass in the DAM playbooks (dam-capability-playbooks/compass/) asks four questions and gives a route across all three portals, with the order of precedence: obligation before practice, look before you build.", status: "Live in the DAM playbooks from 1.8.2"}
+  - {id: X9, action: "Research and roadmap in the open", detail: "Each portal publishes its backlog and how it prioritises, and invites users of the others to its research.", status: "DQ Commons from 2.11.0 (research.html, roadmap.html); the catalogue has a public roadmap"}
 
 xref:
   dama:
