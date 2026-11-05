@@ -102,3 +102,4 @@ input[type=file]{min-height:44px;padding:6px 0}
 input[type=file]::file-selector-button{min-height:32px;padding:4px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;cursor:pointer;margin-right:8px}
 .chip{max-width:100%}
 @media (max-width:480px){.chip{white-space:normal;text-align:left}}
+.wrap h3 a{display:inline-block;padding-block:3px}

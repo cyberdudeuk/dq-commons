@@ -7,6 +7,11 @@ review:
   owner_role: Commons content lead
   next_step: Test with people with learning disabilities and their organisations; add pictures where they help.
 pages:
+  catalogues: ["This page is about software that lists and checks data.", "Some companies sell both kinds together.", "Buying them together can make it hard to change later.", "It gives questions to ask before you buy."]
+  models: ["This page shows how data quality work fits together, as pictures.", "It shows the jobs, the records and the steps.", "Each step links to the page where you do it.", "You can download the pictures for other tools."]
+  sitemap: ["This page shows every page on one map.", "The pages are in six parts.", "Each part has its own colour.", "You can look for a page by typing a word."]
+  ask: ["You can ask a question on this page.", "Type it in your own words.", "The answer comes from this website.", "It shows where the answer came from. Nothing you type is sent anywhere."]
+  reuse: ["This page shows ways to use this website in your own place.", "You can link to it, or show it inside your own website.", "You can make your own copy with your own name and colours.", "Computer systems and helpers can read it too."]
   index: ["This website helps people who work with public data.", "Data is information, like numbers about schools or buses.", "Good quality data is correct, complete and up to date.", "You can check your data, learn, and get help here. It is free."]
   github: ["This page explains GitHub.", "GitHub is a website where people share their work in the open.", "The code and words for this website are kept there.", "You can read everything without an account."]
   about: ["This page says why the Commons was made.", "Poor data can lead to wrong decisions about people.", "The Commons helps teams find and fix problems in their data.", "It is shared, free and open to everyone."]

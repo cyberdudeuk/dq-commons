@@ -1,0 +1,52 @@
+# Acronyms and abbreviations used across the Commons, in plain English.
+# Used for the hover and tap tooltips on every page: the first use of each acronym on a page gets a dotted
+# underline and shows its meaning. Keep each meaning short (one line). The full glossary is on the Learn page.
+# Only add an acronym once you have checked how the Commons itself spells it out.
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Commons content lead
+  next_step: Check the list against the glossary and user research findings each release; add any acronym a tester asks about.
+acronyms:
+  AI: Artificial intelligence
+  API: Application programming interface, a way for one system to ask another for data
+  APIs: Application programming interfaces, ways for one system to ask another for data
+  CDA: Critical data asset, a dataset that matters most to public services
+  CDAs: Critical data assets, the datasets that matter most to public services
+  CDDO: Central Digital and Data Office
+  CDO: Chief data officer
+  CKAN: An open source data catalogue platform used by many governments
+  CSV: Comma-separated values, a plain text table format
+  CSVW: CSV on the Web, a W3C standard for describing CSV files
+  DAM: Data asset management, the UK government policy for managing critical data assets
+  DAMA: Data Management Association International, publisher of the DAMA-DMBOK body of knowledge
+  DCAT: Data Catalog Vocabulary, the W3C standard for describing datasets in catalogues
+  DPIA: Data protection impact assessment
+  DQ: Data quality
+  DQAP: Data quality action plan
+  DQV: Data Quality Vocabulary, the W3C standard for publishing quality measurements
+  FAIR: Findable, accessible, interoperable and reusable
+  GDPR: General Data Protection Regulation (UK GDPR in the UK)
+  GDS: Government Digital Service
+  GSS: Government Statistical Service
+  ICO: Information Commissioner's Office, the UK data protection regulator
+  IEC: International Electrotechnical Commission, a standards body that works with ISO
+  ISO: International Organization for Standardization
+  JSON: JavaScript Object Notation, a common text format for structured data
+  KPI: Key performance indicator
+  KPIs: Key performance indicators
+  MCP: Model Context Protocol, an open way to connect AI assistants to tools and data
+  NDL: National Data Library
+  NHS: National Health Service
+  ODCS: Open Data Contract Standard
+  ODI: Open Data Institute
+  ONS: Office for National Statistics
+  OSR: Office for Statistics Regulation
+  PROV: W3C provenance standard, which records where data came from and how it changed
+  QAAD: Quality Assurance of Administrative Data, a toolkit from the Office for Statistics Regulation
+  RFI: Request for information, an early market engagement step in procurement
+  RFP: Request for proposal, the formal invitation to bid
+  SKOS: Simple Knowledge Organization System, a W3C standard for code lists and taxonomies
+  SLA: Service level agreement
+  SQL: Structured Query Language, used to query databases
+  WCAG: Web Content Accessibility Guidelines
+  YAML: A plain text format for structured data, easy for people to read

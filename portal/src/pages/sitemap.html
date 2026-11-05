@@ -1,0 +1,123 @@
+<title>Site map</title>
+<style>
+__BASE_CSS__
+.journey{display:flex;flex-wrap:wrap;gap:6px;align-items:center;list-style:none;margin:0;padding:0}
+.journey li{display:flex;align-items:center;gap:6px}
+.journey a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:.9rem;padding:8px 14px 8px 8px;border-radius:999px;background:var(--grp-s);color:var(--grp);border:1px solid transparent}
+.journey a:hover{border-color:var(--grp)}
+.journey .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--grp);color:var(--surface);font-size:.82rem}
+.journey .arr{color:var(--muted);font-size:1.1rem}
+.mapctl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:flex-end}
+.mapctl .field{flex:1 1 220px;max-width:380px}
+.lvlpick{display:flex;flex-wrap:wrap;gap:6px}
+.lvlpick button{font:inherit;font-size:.84rem;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer;min-height:36px}
+.lvlpick button[aria-pressed="true"]{background:var(--fg);color:var(--surface);border-color:var(--fg)}
+.map{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));align-items:start}
+.grpcol{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.grpcol>header{background:var(--grp-s);border-bottom:3px solid var(--grp);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.grpcol>header .n{display:inline-grid;place-items:center;flex:none;width:30px;height:30px;border-radius:50%;background:var(--grp);color:var(--surface);font-weight:800}
+.grpcol>header h3{font-size:1rem;color:var(--fg)}
+.grpcol>header small{display:block;color:var(--muted);font-size:.78rem;font-weight:600}
+.grpcol ul{list-style:none;margin:0;padding:8px;display:flex;flex-direction:column;gap:4px}
+.map .grpcol li a{display:grid;grid-template-columns:22px minmax(0,1fr);gap:2px 10px;padding:9px 10px;border-radius:8px;text-decoration:none;color:var(--fg);border-left:3px solid transparent}
+.map .grpcol li a:hover,.map .grpcol li a:focus-visible{background:var(--grp-s);border-left-color:var(--grp)}
+.grpcol li a .dqi{color:var(--grp);margin-top:2px}
+.grpcol li a b{font-size:.92rem}
+.grpcol li a span{grid-column:2;font-size:.8rem;color:var(--muted);line-height:1.4}
+.grpcol li a i{grid-column:2;font-style:normal}
+.lv{display:inline-block;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;border:1px solid currentColor;border-radius:999px;padding:0 7px;color:var(--muted)}
+.lv.Intermediate{border-style:dashed}.lv.Advanced{border-width:2px}
+.grpcol li[hidden]{display:none}
+.routes{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))}
+.route ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.route ol li{display:flex;align-items:center;gap:6px}
+.route ol li+li::before{content:"→";color:var(--muted)}
+.route ol a{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;padding:5px 10px;border-radius:999px;text-decoration:none;background:var(--grp-s);color:var(--grp)}
+.ways{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.count{font-size:.84rem;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · Site map</span>
+  <h1>Site map: every page on one map</h1>
+  <p class="lede">The Commons has six parts, in the order most people use them: start, learn, check, improve, apply and contribute. Each part has its own colour, used on its menu, page headings and links. Every page is marked Beginner, Intermediate or Advanced.</p>
+  <nav class="toc" aria-label="On this page"><a href="#journey">The six parts</a><a href="#map">The map</a><a href="#routes">Suggested routes</a><a href="#ways">Other ways to find things</a></nav>
+</header>
+
+<section id="journey" aria-labelledby="journey-h">
+  <h2 id="journey-h">The six parts, in order</h2>
+  <ol class="journey" id="journeyList" aria-label="The six parts of the Commons"></ol>
+</section>
+
+<section id="map" aria-labelledby="map-h">
+  <h2 id="map-h">The map</h2>
+  <div class="mapctl">
+    <div class="field"><label for="mapq">Filter pages</label><input id="mapq" type="search" placeholder="For example: supplier, glossary, AI" autocomplete="off"></div>
+    <div class="field"><span id="lvl-l" style="font-weight:600;font-size:.88rem">Level</span>
+      <div class="lvlpick" role="group" aria-labelledby="lvl-l" id="lvlpick"></div></div>
+  </div>
+  <p class="count" id="mapcount" role="status" aria-live="polite"></p>
+  <div class="map" id="mapGrid"></div>
+</section>
+
+<section id="routes" aria-labelledby="routes-h">
+  <h2 id="routes-h">Suggested routes</h2>
+  <p>Not sure where to go next? Follow a route for your task. Each step is a page; the colour shows which part of the menu it is in.</p>
+  <div class="routes" id="routeList"></div>
+</section>
+
+<section id="ways" aria-labelledby="ways-h">
+  <h2 id="ways-h">Other ways to find things</h2>
+  <div class="ways">
+    <div class="card"><h3>Search</h3><p class="small">Press <kbd>/</kbd> or <kbd>Ctrl</kbd> + <kbd>K</kbd> on any page, or use Search in the top bar. It finds pages, sections, frameworks, professions and terms.</p></div>
+    <div class="card"><h3>Ask the Commons</h3><p class="small">Ask a question in plain English and get answers from across the portal, with links. <a href="ask.html">Ask a question</a>.</p></div>
+    <div class="card"><h3>On this page</h3><p class="small">The button at the bottom left of long pages lists every section. Its colours match the section headings.</p></div>
+    <div class="card"><h3>Previous and next</h3><p class="small">The end of every page links to the previous and next page in menu order, with dots showing where you are.</p></div>
+    <div class="card"><h3>For machines</h3><p class="small">The same map as data: <a href="api/pages.json">api/pages.json</a>, and <a href="sitemap.xml">sitemap.xml</a> for search engines. See <a href="reuse.html">Use the Commons your way</a>.</p></div>
+  </div>
+</section>
+</div>
+
+<script>
+(function () {
+  const MAP = __K_SITEMAP__;
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const I = n => (window.DQI ? window.DQI(n) : "");
+  const $ = id => document.getElementById(id);
+  const page = {}; MAP.forEach(g => g.pages.forEach(p => page[p.stem] = Object.assign({key: g.key, group: g.title}, p)));
+  $("journeyList").innerHTML = MAP.map((g, i) => `<li>${i ? '<span class="arr" aria-hidden="true">→</span>' : ""}<a href="#grp-${g.key}" data-g="${g.key}"><span class="n">${i + 1}</span>${I(g.icon)}${esc(g.title)}</a></li>`).join("");
+  const LV = ["All", "Beginner", "Intermediate", "Advanced"];
+  let lvl = "All";
+  $("lvlpick").innerHTML = LV.map(l => `<button type="button" aria-pressed="${l === lvl}" data-l="${l}">${l}</button>`).join("");
+  $("mapGrid").innerHTML = MAP.map((g, i) => `<div class="grpcol" data-g="${g.key}" id="grp-${g.key}"><header><span class="n" aria-hidden="true">${i + 1}</span><div><h3>${esc(g.title)}</h3><small>Part ${i + 1} · <span class="gc">${g.pages.length}</span> pages</small></div></header>
+    <ul>${g.pages.map(p => `<li data-l="${p.level}" data-s="${esc((p.label + " " + p.desc).toLowerCase())}"><a href="${p.url}">${I(p.icon)}<b>${esc(p.label)}</b><span>${esc(p.desc)}</span><i><span class="lv ${p.level}">${p.level}</span></i></a></li>`).join("")}</ul></div>`).join("");
+  function filter() {
+    const q = $("mapq").value.trim().toLowerCase(); let n = 0;
+    document.querySelectorAll("#mapGrid li").forEach(li => { const ok = (lvl === "All" || li.dataset.l === lvl) && (!q || li.dataset.s.includes(q)); li.hidden = !ok; if (ok) n++; });
+    document.querySelectorAll("#mapGrid .grpcol").forEach(c => { const k = c.querySelectorAll("li:not([hidden])").length; c.querySelector(".gc").textContent = k; c.hidden = !k; });
+    $("mapcount").textContent = n + (n === 1 ? " page" : " pages") + " shown" + (lvl !== "All" ? " at " + lvl + " level" : "") + (q ? " matching “" + $("mapq").value.trim() + "”" : "") + ".";
+  }
+  $("mapq").addEventListener("input", filter);
+  $("lvlpick").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; lvl = b.dataset.l;
+    document.querySelectorAll("#lvlpick button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); filter(); });
+  filter();
+  const ROUTES = [
+    ["New to data quality", "Learn the basics, then try a first check.", ["index", "learn", "knowledge", "check", "maturity"]],
+    ["Own or steward a critical data asset", "From your role to a baseline and a managed improvement plan.", ["roles", "baseline", "playbook", "guidance", "pipeline"]],
+    ["Choose or buy tools", "Compare tools, ask the right questions and avoid lock-in.", ["tooling", "catalogues", "commercial", "ai", "legacy"]],
+    ["Meet a framework or policy", "See what applies, compare frameworks and evidence it.", ["scenarios", "frameworks", "interop", "weaver", "models"]],
+    ["Bring the Commons into your organisation", "Share it, embed it, connect it to your tools and AI assistants.", ["reuse", "ask", "sitemap", "operate"]],
+    ["Build skills in your team", "Skills by profession, training and events.", ["professions", "training", "learn", "events", "media"]],
+    ["Contribute and get help", "Share what worked, ask for help, help build it.", ["community", "share", "surveys", "build"]],
+  ];
+  $("routeList").innerHTML = ROUTES.map(r => `<div class="card route"><h3>${esc(r[0])}</h3><p class="small muted">${esc(r[1])}</p><ol>${r[2].filter(s => page[s]).map(s => `<li><a href="${s}.html" data-g="${page[s].key}">${I(page[s].icon)}${esc(page[s].label)}</a></li>`).join("")}</ol></div>`).join("");
+  window.DQP_TOUR = [
+    {sel: "#journeyList", title: "Six parts, six colours", text: "The Commons is arranged in the order most people use it. Each part keeps its colour everywhere: in the menu, on page headings and on the previous and next links."},
+    {sel: "#mapq", title: "Filter the map", text: "Type a word to find pages, or choose a level to see only Beginner, Intermediate or Advanced pages."},
+    {sel: "#mapGrid", title: "Every page", text: "Each column is one part of the menu. Open any page from here."},
+    {sel: "#routeList", title: "Suggested routes", text: "Follow a route for your task, one page after another."},
+    {sel: "#ways", title: "Other ways in", text: "Search, Ask the Commons, the On this page list, previous and next links, and the map as data for other systems."},
+  ];
+})();
+</script>

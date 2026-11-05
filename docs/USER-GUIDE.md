@@ -14,14 +14,27 @@ The Commons is a free, open place to check, improve and talk about the quality o
 
 | Group | Pages | Use it to |
 |---|---|---|
-| Start: Get started | Home, New to GitHub?, About the Commons, User guide, For your role, Accessibility and privacy | Find your way, see what the Commons is for and what each role needs |
+| Start: Get started | Home, New to GitHub?, About the Commons, User guide, Site map, Ask the Commons, For your role, Accessibility and privacy | Find your way, ask a question, see what the Commons is for and what each role needs |
 | Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
 | Check: Check and assess | Check your data, Maturity self-assessment, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, prioritise issues, draft rules, size a baseline |
 | Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
-| Apply: Apply to your context | All scenarios, UK and the world, National Data Library | Work through a policy, sector, nation or platform |
+| Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
 | Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
-On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list.
+On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list. The **Site map** shows every page on one screen, by group and level, with suggested routes.
+
+## Finding your way
+
+- **Colours.** Each menu group has its own colour: Start teal, Learn purple, Check blue, Improve orange, Apply green, Contribute pink. It appears on the menu, the label above each page title and the previous and next links. Sections on a page take turns with other colours, matched in the **On this page** list. Colour is always backed up by words.
+- **Tables.** Columns are sized to what they hold: short codes and numbers stay narrow, long descriptions get more room. Rows are striped and highlight when you point at them. On large screens wide tables use the space beside the page. If a table is still wider than the screen, a shadow shows at its edge and a note says to scroll sideways (or hold Shift and use the mouse wheel). Long tables keep their headings in view.
+- **Tooltips.** The first time an acronym appears on a page it has a dotted underline: hover over or tap it to see what it means. Icon-only buttons explain themselves when you hover over or tab to them. Escape closes a tooltip.
+- **Progress, Top, previous and next.** A thin bar under the menu shows how far down the page you are. **Top** (bottom right) returns to the start of the page. The end of every page links to the previous and next page in menu order, with dots showing where you are in that group.
+- **Share this page.** Under every page title: copy a link to the page or to the section you are reading, share with your device, by email, to Microsoft Teams or LinkedIn, copy code to embed the page, or print. The Commons itself sends nothing.
+- **Ask the Commons.** Ask a question in plain English and get the best-matching passages from across the portal, with links. It runs in your browser and is not generative AI.
+
+## Tutorials
+
+The user guide page in the portal has six short tutorials: find anything in under a minute; share a page or section; put a Commons page on your intranet; use the Commons from an AI assistant; read a big table comfortably; make your own branded copy. Each ends with a link that opens the right page with its guided tour. Every guided tour now ends with the shared aids (tables, tooltips, previous and next) where the page has them.
 
 ## Common tasks
 
@@ -60,6 +73,12 @@ Go to **Knowledge map**. Search for any concept: it appears in the middle, with 
 
 ### Find events and training
 **Events** lists conferences, workshops and courses, as a list or a month calendar; add any to your calendar. **Skills and training** lets you rate your skills against your role and download a development plan.
+
+### Bring the Commons into your organisation
+Go to **Use the Commons your way**. Answer three questions to see which routes suit you: link, embed in your intranet (with your accent colour), feeds for channels, the open data API (`api/index.json`), a white-label copy, an offline copy, the toolkit in your pipelines, or enterprise content and records. The embed code builder writes the code for you and checks your colour's contrast.
+
+### Use the Commons with an AI assistant
+Try **Ask the Commons** first. To use your organisation's own approved assistant, follow the MCP set-up steps on **Use the Commons your way** (`python -m dqkit.mcp_server`), or give it `api/passages.json` as a knowledge source. Follow the guardrails on that page: approved tools only, no personal data, cite and check sources.
 
 ### See what's new
 Press **What's new** in the top bar. Each release lists what's new, changed and fixed. New and updated pages are flagged in the menus.

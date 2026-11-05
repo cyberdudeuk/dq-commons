@@ -1,5 +1,24 @@
 # Build journal
 
+## 2026-11-05 — v2.8.0: easier tables and signposting, site map, Ask the Commons, sharing and reuse
+
+**Built**
+- **Visual layer in the shell (D-VIS-01):** 8-hue palette for light and dark; group colours on menu panels, page labels and page navigation; section hues on heading icons, cards, disclosures, callouts and the On this page list; KPI accents.
+- **Tables:** column fitting script (tight, medium, wide, extra-wide), scaled to fit on wide screens; tinted wrapping headers; zebra and hover rows; wide tables extend beside the reading column at 1260px and up; scroll shadows and a sideways hint; sticky headings for tables over 25 rows.
+- **Navigation aids:** reading progress bar, Top button, previous and next links with group dots (D-NAV-03), site map page, `sitemap.xml`.
+- **Tooltips:** shared accessible tooltip; acronyms on first use (`knowledge/acronyms.yaml`, 43 entries); icon-only buttons; level badges and New/Updated flags; `title` attributes converted.
+- **Ask the Commons (D-AI-02):** retrieval over 1,300 passages in the browser, synonym list, answers quote the source with links; "not found" goes to the contact form.
+- **Use the Commons your way (D-REUSE-01):** `knowledge/reuse.yaml` (8 routes, 4 AI options, guardrails, customisation); route finder; comparison table; embed code builder with contrast check; API list read live from `api/index.json`; MCP set-up and tools read from `dqkit.mcp_server.TOOLS` at build time.
+- **Share this page (D-SHARE-01)** on every page; embed mode; `?search=` deep links; footer links.
+- **Docs:** user guide page (Finding your way, six tutorials, tour list), `docs/USER-GUIDE.md`, CHANGELOG, README, releases, architecture section 10.
+
+**Checked**
+- Palette contrast: every hue on its tint 4.9:1 or more (light) and 5.8:1 or more (dark); on page backgrounds 5.3:1 or more.
+- 191 tests pass (11 new in `tests/test_reuse_nav.py`); two-engine parity 37 of 37; content health 0 errors, 0 warnings.
+- Visual inspection of all 40 pages at 1366, 1100, 768 (dark) and 375px; per-page probe in light and dark: no script errors, no sideways page scroll. Fixed during inspection: site map tiles squeezed by a shared link rule; share button insertion on pages whose title is nested; links in card headings now at least 24px tall; easy read summaries missing on two pages.
+- Tours: every tour runs to the end and adds the shared steps where the page has them; tooltip shows on hover and focus, closes with Escape.
+- Remaining inspection notes (not faults): output areas that stay empty until you run a tool; a few links in lists and survey checkboxes under 24px that meet WCAG 2.5.8 by spacing; the models swimlane diagram and home carousel scroll inside their own frames.
+
 ## 2026-11-05 — v2.7.0: catalogues and quality tools, integration and buying
 
 **Asked for:** content and guidance on integrating data catalogue software with data quality software (same or different vendors), resources for finding out more, help for RFI, RFP and wider procurement, and avoiding vendor lock-in through bundles and commercial barriers.

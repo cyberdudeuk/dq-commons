@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 11. v2.8.0: reading aids, site map, Ask, share and reuse (5 November 2026)
+- **Shell:** visual layer CSS and a reading-aids script (section hues, column fitting, scroll cues, acronyms, tooltips, progress, Top) that runs after the page draws and again, debounced, when a page redraws (MutationObserver); a share and embed script. Group key comes from the build (`data-group` on `.wrap`, `data-g` on menu groups) (D-VIS-01, D-SHARE-01).
+- **Build:** `prev_next()` adds page navigation; `site_map()` and `mcp_tools()` feed `__K_SITEMAP__` and `__K_MCPTOOLS__`; `knowledge/reuse.yaml` feeds `__K_REUSE__`; `{{ACRONYMS}}` from `knowledge/acronyms.yaml`; `write_api()` writes `api/`, `feed.xml`, `sitemap.xml` and `ask-index.js` (passages collected by `search_index()`) (D-REUSE-01, D-AI-02).
+- **Pages:** `sitemap.html`, `ask.html`, `reuse.html` (40 pages in total).
+- **Embed contract:** `?embed=1` hides the bar, footer, page navigation and floating buttons; `&accent=` accepts six hex digits only; the page posts `{type: "dqp-height", height}` to its parent every second when its height changes.
+
 ## 9. v2.7.0: catalogues and quality tools (5 November 2026)
 - **Knowledge:** `knowledge/catalogue-integration.yaml` (patterns, depth, products with sources and checked dates, standards, risks, rfx, poc, exit, steps, routes, related), fed to `catalogues.html` as `__K_CATALOGUES__` and to search.
 - **Cross-page:** `commercial.html#add=<clause ids>` adds clauses to the schedule; risks and the exit checklist use it (D-COM-02).

@@ -2,6 +2,20 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.8.0 — 2026-11-05
+### Added
+- Pages `sitemap.html` (Start), `ask.html` (Start) and `reuse.html` (Apply); knowledge files `knowledge/reuse.yaml` and `knowledge/acronyms.yaml` (D-NAV-03, D-AI-02, D-REUSE-01).
+- Open data API built with the portal: `api/index.json`, `api/pages.json`, `api/search.json`, `api/passages.json`, `api/releases.json`, `api/acronyms.json`, `api/mcp-tools.json`, `api/knowledge/*.json`; `feed.xml` (Atom releases feed), `sitemap.xml`, `ask-index.js`.
+- Shell: Share this page on every page; embed mode (`?embed=1&accent=RRGGBB`) with height messages for the host page; `?search=` deep link; tooltips (data-tip, acronyms on first use, icon-only buttons, level badges); reading progress bar; Top button; previous and next page navigation with position dots (D-SHARE-01, D-NAV-03).
+- Footer links to the site map, Ask the Commons, reuse, API and feed. Icons `sitemap`, `share`, `copy`.
+### Changed
+- Visual layer (D-VIS-01): accessible 8-hue palette for light and dark; group colours on menu panels, page labels and page navigation; section hues on heading icons, cards, disclosures and the On this page list; KPI accents.
+- Tables: content-fitted columns (narrow for short codes and numbers, more room for long text, scaled to fit on wide screens), wrapping headers tinted by section, striped and highlighted rows, wide tables extend beside the reading column on large screens, scroll shadows and a sideways hint, sticky headings on long tables.
+- Guided tours end with shared steps for tables, tooltips and previous and next. User guide: Finding your way and six tutorials; tour list includes the new pages.
+- Search dialog links to Ask the Commons with the same words, and to the site map.
+### Fixed
+- Easy read summaries added for the catalogues and models pages (found by the new navigation tests in `tests/test_reuse_nav.py`).
+
 ## 2.7.0 — 2026-11-05
 ### Added
 - `knowledge/catalogue-integration.yaml` and page `catalogues.html` (Manage and improve): integration patterns, integration depth levels, 20 products with sources, open standards, 16 lock-in risks, 32 RFI and RFP questions, a 10-test proof-of-concept script, exit checklist, buying route and UK procurement resources (D-COM-02).

@@ -4,4 +4,4 @@ Implements the GOV.UK data quality issues framework, runs rule files against dat
 assesses catalogue records against GOV.UK DAM policy and CDA metadata guidance,
 and publishes results as W3C DQV, Great Expectations, R validate and DQAP outputs.
 """
-__version__ = "2.7.0"
+__version__ = "2.8.0"

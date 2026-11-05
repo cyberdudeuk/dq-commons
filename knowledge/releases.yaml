@@ -11,6 +11,22 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.8.0"
+  date: "2026-11-05"
+  title: "Easier to read and find your way; site map, Ask the Commons, sharing and reuse"
+  pages_new: [sitemap, ask, reuse]
+  pages_changed: [guide, index]
+  items:
+  - {type: new, text: "Site map: every page on one visual map by menu group and level, a filter, and suggested routes for common tasks", link: "sitemap.html"}
+  - {type: new, text: "Ask the Commons: ask a question in plain English and get the best passages from across the portal with links; runs in your browser, not generative AI", link: "ask.html"}
+  - {type: new, text: "Use the Commons your way: link, embed with your colour, feeds, open data API, white-label and offline copies, enterprise content, AI assistants through MCP, connectors and plugins, with a route finder and embed code builder", link: "reuse.html"}
+  - {type: new, text: "Share this page on every page: copy a page or section link, share with your device, email, Teams or LinkedIn, copy embed code, or print", link: "guide.html#aids"}
+  - {type: new, text: "Open data API: read-only JSON for every page, section, knowledge file, release, acronym and MCP tool, plus a releases feed and sitemap", link: "reuse.html#api"}
+  - {type: new, text: "Tooltips: acronyms explained on first use on every page, and icon-only buttons explain themselves on hover or focus", link: "guide.html#aids"}
+  - {type: new, text: "Reading progress bar, Top button, and previous and next page links with your place in each menu group", link: "guide.html#aids"}
+  - {type: changed, text: "Tables: columns sized to their content, striped rows, row highlight, wide tables use the space beside the page, scroll shadows and kept headings on long tables", link: "guide.html#aids"}
+  - {type: changed, text: "A wider accessible colour palette: each menu group and page section has its own colour, in light and dark themes, always backed up by words", link: "sitemap.html#journey"}
+  - {type: changed, text: "User guide: finding your way and six step-by-step tutorials; every guided tour ends with the shared reading aids", link: "guide.html#tutorials"}
 - version: "2.7.0"
   date: "2026-11-05"
   title: "Catalogues and quality tools: integration, buying and avoiding lock-in"

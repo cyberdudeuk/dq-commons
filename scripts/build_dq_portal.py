@@ -44,7 +44,9 @@ GROUPS = [
         ("index", "Home", "Start here: what the Commons does, with routes by role and task"),
         ("github", "New to GitHub?", "What GitHub is, how the portal and its repository connect, and what you can do there"),
         ("about", "About the Commons", "Background, why it exists, purpose, aims, goals, objectives and desired outcomes"),
-        ("guide", "User guide", "How to use the portal, guided tours and frequently asked questions"),
+        ("guide", "User guide", "How to use the portal, guided tours, tutorials and frequently asked questions"),
+        ("sitemap", "Site map", "Every page on one visual map, by menu group and level, with suggested routes to follow"),
+        ("ask", "Ask the Commons", "Ask a question in plain English and get answers drawn from across the portal, with links to the source"),
         ("roles", "For your role", "What CDO Council, CDOs, data owners, stewards, quality leads and others need, decide and should watch, and the gap register"),
         ("accessibility", "Accessibility and privacy", "Accessibility statement, known problems, and what happens to anything you share"),
     ]),
@@ -81,6 +83,7 @@ GROUPS = [
         ("scenarios", "All scenarios", "Pick your policy, sector or platform: what applies and where to start"),
         ("global", "UK and the world", "Crown Dependencies, Overseas Territories, the Commonwealth and international partners"),
         ("ndl-assurance", "National Data Library", "84 NDL data pages tested against GOV.UK requirements"),
+        ("reuse", "Use the Commons your way", "Link, embed, white-label, open data API, intranets, enterprise content and collaboration tools, AI assistants, MCP, connectors and plugins"),
     ]),
     ("6 Contribute", [
         ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
@@ -94,9 +97,9 @@ GROUPS = [
 GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3 Check": "Check and assess",
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
-                                    "check", "maturity", "scenarios", "community", "surveys", "operate"]},
+                                    "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask"]},
          **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
-                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build"]},
+                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
@@ -105,7 +108,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share"}
 
 
 def icon(name: str) -> str:
@@ -113,6 +116,10 @@ def icon(name: str) -> str:
 
 
 GROUP_OF = {p[0]: g for g, ps in GROUPS for p in ps}
+# Colour key per menu group (v2.8.0): each group has its own accessible hue, used for signposting.
+GROUP_KEY = {"1 Start": "start", "2 Learn": "learn", "3 Check": "check", "4 Improve": "improve", "5 Apply": "apply", "6 Contribute": "contribute"}
+ORDER = [(stem, label, g) for g, ps in GROUPS for stem, label, _ in ps]
+ACRONYMS = yaml.safe_load((ROOT / "knowledge" / "acronyms.yaml").read_text(encoding="utf-8"))["acronyms"]
 DOWNLOAD_FILES = ["portfolio.json", "run-summary.md", "cda-return.csv", "escalations.json", "catalogue.dqv.jsonld",
                   "metadata-assessment.json"]
 
@@ -127,7 +134,7 @@ def git_sha() -> str:
 
 def js_json(obj) -> str:
     """JSON safe to place inside a <script> element."""
-    return json.dumps(obj, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/").replace("<!--", "<\\!--")
+    return json.dumps(obj, ensure_ascii=False, separators=(",", ":"), default=str).replace("</", "<\\/").replace("<!--", "<\\!--")
 
 
 # ---------- data for each page ----------
@@ -287,6 +294,9 @@ def knowledge() -> dict:
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
         "CATALOGUES": lambda: y("catalogue-integration"),
+        "REUSE": lambda: y("reuse"),
+        "SITEMAP": lambda: site_map(),
+        "MCPTOOLS": lambda: mcp_tools(),
         "MODELS": lambda: models_summary(),
         "MODELNAV": lambda: models_nav(),
         "MEDIA": lambda: y("media"),
@@ -501,12 +511,12 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"reuse": "reuse", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
 NAME_KEYS = ("name", "title", "term", "label", "question")
-DESC_KEYS = ("summary", "description", "definition", "what", "why", "answer", "desc", "purpose", "note")
+DESC_KEYS = ("summary", "description", "definition", "what", "why", "answer", "desc", "purpose", "note", "text", "do", "how", "detail", "for", "needs", "decides", "watch", "goal")
 SECTION_FLAGS: dict = {}
 REPO = ["https://github.com/cyberdudeuk/dq-commons"]  # set from --repo in main()
 BASELINE = ROOT / "portal" / "section-baseline.json"
@@ -555,15 +565,79 @@ def section_flags() -> dict:
     return flags_by_page
 
 
+PASSAGES: list = []  # original-case text for Ask the Commons and the API, filled by search_index()
+
+
+def site_map() -> list:
+    """The menu as data: groups, pages, levels and icons (site map page and api/pages.json)."""
+    return [{"group": g, "key": GROUP_KEY[g], "title": GROUP_TITLE[g], "icon": GROUP_ICON[g],
+             "pages": [{"stem": st, "label": lb, "desc": d, "level": LEVEL.get(st, "Beginner"), "icon": PAGE_ICON.get(st, "arrow"),
+                        "url": f"{st}.html"} for st, lb, d in ps]} for g, ps in GROUPS]
+
+
+def mcp_tools() -> list:
+    """The toolkit's MCP tools, read from the server itself so the page can never drift from the code."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from dqkit import mcp_server
+    return [{"name": t["name"], "title": t.get("title", ""), "description": t.get("description", "")} for t in mcp_server.TOOLS]
+
+
+def write_api(target: Path, repo: str, base: str) -> None:
+    """Read-only open data API (v2.8.0): fixed JSON addresses, a releases feed and a sitemap. No keys, no tracking."""
+    api = target / "api"
+    (api / "knowledge").mkdir(parents=True, exist_ok=True)
+    dump = lambda p, o: p.write_text(json.dumps(o, ensure_ascii=False, indent=1, default=str), encoding="utf-8")
+    eps = [("api/pages.json", "Every page by menu group, with level, description and address", site_map()),
+           ("api/search.json", "The search index: pages, sections and named knowledge items", search_index()),
+           ("api/passages.json", "Every section and knowledge item with readable text and a link, for assistants and reuse", PASSAGES),
+           ("api/releases.json", "Every release with what is new, changed and fixed", releases()),
+           ("api/acronyms.json", "Acronyms and their meanings in plain English", ACRONYMS),
+           ("api/mcp-tools.json", "The toolkit's MCP tools for AI assistants", mcp_tools())]
+    for path, _, obj in eps:
+        dump(target / path, obj)
+    kfiles = []
+    for f in sorted((ROOT / "knowledge").glob("*.yaml")):
+        obj = yaml.safe_load(f.read_text(encoding="utf-8"))
+        dump(api / "knowledge" / f"{f.stem}.json", obj)
+        r = (obj or {}).get("review", {}) if isinstance(obj, dict) else {}
+        kfiles.append({"path": f"api/knowledge/{f.stem}.json", "source": f"knowledge/{f.name}",
+                       "last_reviewed": str(r.get("last_reviewed", "")), "owner_role": r.get("owner_role", "")})
+    dump(api / "index.json", {
+        "name": BRAND, "version": VERSION, "generated": date.today().isoformat(), "licence": "Code MIT; content Open Government Licence v3.0 except where stated", "source": repo,
+        "website": base, "how_to_use": "Read-only JSON at fixed addresses. No key or sign-in. Show the source and version next to anything you reuse.",
+        "endpoints": [{"path": p, "description": d} for p, d, _ in eps] + [{"path": "feed.xml", "description": "Atom feed of releases"},
+                                                                        {"path": "sitemap.xml", "description": "Sitemap for search engines"}],
+        "knowledge": kfiles})
+    # Ask the Commons loads this as a script, so it also works when the portal is opened from files with no web server.
+    (target / "ask-index.js").write_text("window.DQP_PASSAGES=" + json.dumps(PASSAGES, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+    from xml.sax.saxutils import escape as xe
+    entries = []
+    for r in releases()[:20]:
+        body = "".join(f"<li>{xe(i.get('type', '').capitalize())}: {xe(_plain(str(i.get('text', ''))))}</li>" for i in r.get("items", []))
+        entries.append(f"<entry><title>Version {xe(str(r['version']))}: {xe(str(r.get('title', '')))}</title><id>{xe(base)}#v{xe(str(r['version']))}</id>"
+                       f"<updated>{xe(str(r.get('date', date.today().isoformat())))}T00:00:00Z</updated><link href=\"{xe(base)}index.html\"/>"
+                       f"<content type=\"html\">{xe('<ul>' + body + '</ul>')}</content></entry>")
+    (target / "feed.xml").write_text('<?xml version="1.0" encoding="utf-8"?>\n<feed xmlns="http://www.w3.org/2005/Atom">'
+                                     f"<title>{xe(BRAND)}: releases</title><id>{xe(base)}</id><link href=\"{xe(base)}\"/>"
+                                     f"<updated>{date.today().isoformat()}T00:00:00Z</updated><author><name>{xe(BRAND)}</name></author>"
+                                     + "".join(entries) + "</feed>\n", encoding="utf-8")
+    urls = "".join(f"<url><loc>{xe(base)}{st}.html</loc></url>" for st, _, _ in PAGES)
+    (target / "sitemap.xml").write_text('<?xml version="1.0" encoding="utf-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+                                        + urls + "</urlset>\n", encoding="utf-8")
+
+
 def search_index() -> list:
     """Everything worth finding: pages, their headings, and named items from the knowledge base."""
     idx, seen = [], set()
+    PASSAGES.clear()
     def add(title, kind, url, text="", page=""):
         title = _plain(str(title))[:140]
         key = (title.lower(), url)
         if title and key not in seen:
             seen.add(key)
             idx.append({"t": title, "k": kind, "u": url, "p": page, "x": _plain(str(text)).lower()[:400]})
+            PASSAGES.append({"t": title, "k": kind, "u": url, "p": page, "x": _plain(str(text))[:700]})
     labels = {stem: label for stem, label, _ in PAGES}
     for stem, label, desc in PAGES:
         add(label, "Page", f"{stem}.html", desc + " " + GROUP_TITLE[GROUP_OF[stem]], GROUP_TITLE[GROUP_OF[stem]])
@@ -623,9 +697,9 @@ def nav(active: str, long: bool) -> str:
             f'{icon(PAGE_ICON.get(stem, "arrow"))}<span>{html.escape(label)}{flag(stem)}</span>'
             f'<small><b class="dqp-lvl dqp-lvl-{LEVEL.get(stem, "Beginner").lower()}">{LEVEL.get(stem, "Beginner")}</b> {html.escape(desc)}</small></a>' for stem, label, desc in ps)
         if long:
-            out.append(f'<div class="dqp-grp"><h2>{g[0]}. {GROUP_TITLE[g]}</h2>{links}</div>')
+            out.append(f'<div class="dqp-grp" data-g="{GROUP_KEY[g]}"><h2>{g[0]}. {GROUP_TITLE[g]}</h2>{links}</div>')
         else:
-            out.append(f'<details class="dqp-g"{" data-current" if cur_g else ""}><summary>{icon(GROUP_ICON[g])}{g}</summary>'
+            out.append(f'<details class="dqp-g" data-g="{GROUP_KEY[g]}"{" data-current" if cur_g else ""}><summary>{icon(GROUP_ICON[g])}{g}</summary>'
                        f'<div class="dqp-panel{" dqp-wide" if len(ps) > 6 else ""}"><p class="dqp-gt">{GROUP_TITLE[g]}</p>{links}</div></details>')
     return "".join(out)
 
@@ -652,6 +726,29 @@ def split_fragment(text: str) -> tuple[str, str]:
     return text[:m.start()], text[m.start():]
 
 
+def prev_next(stem: str) -> str:
+    """Previous and next page in menu order, so people can move through the Commons like a book (v2.8.0)."""
+    stems = [o[0] for o in ORDER]
+    if stem not in stems:
+        return ""
+    i = stems.index(stem)
+    g = GROUP_OF[stem]
+    in_g = [o for o in ORDER if o[2] == g]
+    pos = [o[0] for o in in_g].index(stem) + 1
+
+    def link(o, cls, arrow, word):
+        s2, label, gg = o
+        return (f'<a class="dqp-pn-{cls}" href="{s2}.html" rel="{cls}" data-g="{GROUP_KEY[gg]}">'
+                f'<small>{arrow} {word} · {html.escape(GROUP_TITLE[gg])}</small><b>{icon(PAGE_ICON.get(s2, "arrow"))}{html.escape(label)}</b></a>')
+    prev = link(ORDER[i - 1], "prev", "←", "Previous") if i > 0 else '<span class="dqp-pn-prev" aria-hidden="true"></span>'
+    nxt = link(ORDER[i + 1], "next", "→", "Next") if i < len(ORDER) - 1 else '<span class="dqp-pn-next" aria-hidden="true"></span>'
+    dots = "".join(f'<a href="{o[0]}.html" class="dqp-pn-dot"{" aria-current=\"page\"" if o[0] == stem else ""} data-tip="{html.escape(o[1])}">'
+                   f'<span class="dqp-sr">{html.escape(o[1])}</span></a>' for o in in_g)
+    return (f'<nav class="dqp-pn" aria-label="Previous and next page" data-g="{GROUP_KEY[g]}">{prev}'
+            f'<div class="dqp-pn-mid"><span>Page {pos} of {len(in_g)} in <b>{html.escape(GROUP_TITLE[g])}</b></span>'
+            f'<span class="dqp-pn-dots">{dots}</span></div>{nxt}</nav>')
+
+
 def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[str, str]:
     """Return (full document, artifact fragment) for one page."""
     shell = (SRC / "shell.html").read_text(encoding="utf-8")
@@ -660,7 +757,8 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
              .replace("{{ICONS}}", (SRC / "icons.svg").read_text(encoding="utf-8").strip())
              .replace("{{VERSION}}", VERSION).replace("{{RELEASES}}", js_json(releases()[:5]))
              .replace("{{SECTION_FLAGS}}", js_json(SECTION_FLAGS.get(stem, {})))
-             .replace("{{REPO}}", html.escape(REPO[0])))
+             .replace("{{REPO}}", html.escape(REPO[0]))
+             .replace("{{ACRONYMS}}", js_json(ACRONYMS)))
     # every page's eyebrow gets that page's icon
     fragment = re.sub(r'<span class="eyebrow">[^<·]*·', lambda m: f'<span class="eyebrow">{GROUP_TITLE.get(GROUP_OF.get(stem, ""), "Commons")} ·', fragment, count=1)
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
@@ -670,7 +768,10 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
                       '<div class="tbl" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"',
                       fragment)
     fragment = add_easy_read(stem, fragment)
+    # group colour key for signposting (v2.8.0)
+    fragment = fragment.replace('<div class="wrap"', f'<div class="wrap" data-group="{GROUP_KEY.get(GROUP_OF.get(stem, ""), "start")}"', 1)
     head, body = split_fragment(fragment)
+    body += "\n" + prev_next(stem)
     head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
@@ -685,7 +786,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse"}
 
 
 def provenance(names: set) -> str:
@@ -749,6 +850,8 @@ def page_footer(repo: str, as_of: str, sha: str) -> str:
 <li>{icon("blocks")} <a href="build.html">Help us build this</a>: roadmap, backlog and co-design</li>
 <li>{icon("shield")} <a href="{r}/blob/main/CHARTER.md">Charter</a> and <a href="{r}/blob/main/CODE_OF_CONDUCT.md">code of conduct</a></li>
 <li>{icon("lifebuoy")} <a href="operate.html">Get help</a></li>
+<li>{icon("sitemap")} <a href="sitemap.html">Site map</a> · <a href="ask.html">Ask the Commons</a></li>
+<li>{icon("share")} <a href="reuse.html">Reuse it</a>: <a href="api/index.json">open data API</a>, <a href="feed.xml">releases feed</a>, embedding and white-label</li>
 <li>{icon("repo")} <a href="{r}">Source code on GitHub</a></li>
 <li>{icon("alert")} Security problem? <a href="{r}/security/advisories/new">Report it privately</a></li>
 </ul></div>
@@ -837,6 +940,8 @@ def main(argv=None) -> int:
         (target / ".nojekyll").write_text("", encoding="utf-8")
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+        owner, name = (a.repo.rstrip("/").split("/")[-2:] + ["", ""])[:2]
+        write_api(target, a.repo, f"https://{owner}.github.io/{name}/")
         # Offline copy (issue #24): the whole portal in one zip. Open index.html from the unzipped folder;
         # every page works without a connection because nothing loads from other sites.
         import zipfile

@@ -1,0 +1,225 @@
+<title>Use the Commons your way</title>
+<style>
+__BASE_CSS__
+.helper{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.helper fieldset{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.helper legend{font-weight:700;font-size:.92rem;padding:0 4px}
+.helper label{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;padding:5px 0}
+.helper input{margin-top:3px}
+.recs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.rec{border-left:5px solid var(--sec)}
+.rec .why{font-size:.84rem;color:var(--muted)}
+.routes{display:flex;flex-direction:column;gap:10px}
+.routes summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.routes summary .chip{font-weight:600}
+.routes ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;font-size:.92rem}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:.88rem}
+.facts dt{color:var(--muted);font-weight:600}.facts dd{margin:0}
+.builder{display:grid;gap:14px;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:start}
+@media (max-width:900px){.builder{grid-template-columns:minmax(0,1fr)}}
+.builder .field{margin-bottom:10px}
+.colrow{display:flex;gap:8px;align-items:center}
+.colrow input[type=color]{width:48px;height:40px;padding:2px;border:1px solid var(--muted);border-radius:6px;background:var(--surface)}
+pre.code{margin:0;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:12px;font-family:var(--f-mono);font-size:.78rem;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.ai{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.tools{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));font-size:.86rem}
+.tools div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.tools code{font-weight:700}
+.eps li{font-size:.9rem}
+.status{font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--good-soft);color:var(--good);white-space:nowrap}
+.status.part{background:var(--warn-soft);color:var(--warn)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Apply · Use the Commons your way</span>
+  <h1>Use the Commons your way: link, embed, connect, copy or ask</h1>
+  <p class="lede">The Commons is open, so you can bring its content, data and tools to the places your people already work: your intranet, content and collaboration tools, your own branded copy, your systems through an open data API, and AI assistants through MCP and connectors.</p>
+  <nav class="toc" aria-label="On this page"><a href="#helper">Find your route</a><a href="#compare">Compare the routes</a><a href="#how">How to use each route</a><a href="#embed">Embed code builder</a><a href="#api">Open data API</a><a href="#ai">AI assistants, MCP and connectors</a><a href="#customise">Make it yours</a><a href="#collab">Comms and collaboration</a><a href="#licence">Licences</a></nav>
+</header>
+
+<section id="helper" aria-labelledby="helper-h">
+  <h2 id="helper-h">Find your route in three questions</h2>
+  <form class="helper" id="helperForm" onsubmit="return false">
+    <fieldset><legend>1. Who is it for?</legend>
+      <label><input type="radio" name="who" value="team" checked> My team or a few colleagues</label>
+      <label><input type="radio" name="who" value="org"> My whole organisation</label>
+      <label><input type="radio" name="who" value="sector"> A sector, nation or the public</label></fieldset>
+    <fieldset><legend>2. How much should look like yours?</legend>
+      <label><input type="radio" name="brand" value="none" checked> The Commons look is fine</label>
+      <label><input type="radio" name="brand" value="accent"> Our colour, inside our own pages</label>
+      <label><input type="radio" name="brand" value="full"> Our name, design, words and language</label></fieldset>
+    <fieldset><legend>3. What technical help do you have?</legend>
+      <label><input type="radio" name="tech" value="none" checked> None</label>
+      <label><input type="radio" name="tech" value="some"> An intranet editor or site owner</label>
+      <label><input type="radio" name="tech" value="dev"> Developers or a supplier</label></fieldset>
+  </form>
+  <div class="recs" id="recs" aria-live="polite"></div>
+</section>
+
+<section id="compare" aria-labelledby="compare-h">
+  <h2 id="compare-h">Compare the routes</h2>
+  <div class="tbl"><table><thead><tr><th>Route</th><th>Best for</th><th>Effort</th><th>Keeping up to date</th><th>What you control</th><th>Technical help needed</th><th>Status</th></tr></thead><tbody id="cmpRows"></tbody></table></div>
+</section>
+
+<section id="how" aria-labelledby="how-h">
+  <h2 id="how-h">How to use each route</h2>
+  <div class="routes" id="routeDetails"></div>
+</section>
+
+<section id="embed" aria-labelledby="embed-h">
+  <h2 id="embed-h">Embed code builder</h2>
+  <p>Embedded pages hide the Commons menu, footer and page links, show a small link back to the source, and can take your accent colour. Links inside the embedded page stay embedded.</p>
+  <div class="builder">
+    <form onsubmit="return false" id="embedForm">
+      <div class="field"><label for="ePage">Page to embed</label><select id="ePage"></select></div>
+      <div class="field"><label for="eAccentTxt">Your accent colour</label><span class="hint">Six-digit hex, for example 1d70b8. Leave empty to keep the Commons colours. Text in this colour must keep 4.5:1 contrast on white.</span>
+        <div class="colrow"><input type="color" id="eAccent" value="#0d6b6e" aria-label="Pick your accent colour"><input type="text" id="eAccentTxt" placeholder="0d6b6e" maxlength="7" style="max-width:140px"></div>
+        <p class="msg" id="eContrast" role="status" aria-live="polite"></p></div>
+      <div class="field"><label for="eHeight">Height in pixels</label><input type="number" id="eHeight" value="900" min="300" max="4000" step="50" style="max-width:140px"></div>
+      <div class="field"><label><input type="checkbox" id="eAuto" checked> Add a script so the frame grows to fit the page</label></div>
+    </form>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <label for="eCode" style="font-weight:600;font-size:.9rem">Code to paste into your intranet page</label>
+      <textarea id="eCode" readonly rows="9" style="font-family:var(--f-mono);font-size:.78rem"></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" type="button" id="eCopy">Copy the code</button><a class="btn ghost" id="ePreview" target="_blank" rel="noopener">Preview the embedded page<span class="sr-only"> (opens in a new tab)</span></a><span class="msg ok" id="eMsg" role="status" aria-live="polite"></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="api" aria-labelledby="api-h">
+  <h2 id="api-h">Open data API</h2>
+  <p>Read-only JSON files at fixed addresses, rebuilt with every release. No key, no sign-in and no tracking. Start with <a href="api/index.json">api/index.json</a>, which lists every file, its version and, for knowledge files, the owning role and last review date.</p>
+  <ul class="plain eps" id="eps"><li>Loading the list of files…</li></ul>
+  <details class="disc"><summary>Example: read the site map in a web page</summary><div class="body"><pre class="code" id="exJs"></pre></div></details>
+  <details class="disc"><summary>Example: read the frameworks in Python</summary><div class="body"><pre class="code" id="exPy"></pre></div></details>
+  <details class="disc"><summary>Example: post new releases to a Teams channel with Power Automate</summary><div class="body"><ol class="plain">
+    <li>Create a scheduled cloud flow (for example weekly).</li>
+    <li>Add an <b>HTTP</b> action (or a feed action) that reads <code>api/releases.json</code> or <code>feed.xml</code> from the published Commons.</li>
+    <li>Compare the first version with the one you stored last time; if it is new, post its title and items to your channel.</li>
+    <li>Store the version you posted, so you only post each release once.</li></ol>
+    <p class="small muted">Check which connectors your organisation allows before you build the flow.</p></div></details>
+</section>
+
+<section id="ai" aria-labelledby="ai-h">
+  <h2 id="ai-h">AI assistants, MCP and connectors</h2>
+  <div class="ai" id="aiCards"></div>
+  <details class="disc"><summary>Set up the MCP server for an AI assistant, step by step</summary><div class="body">
+    <ol class="plain">
+      <li>Check your organisation allows the AI assistant you want to use, and that it can use local MCP servers.</li>
+      <li>Get the toolkit: download or clone the repository, then install it with <code>pip install -r requirements.txt</code> in that folder.</li>
+      <li>Add a local (standard input and output) MCP server to your assistant with the command <code>python -m dqkit.mcp_server</code>, started in the folder that holds the data you want it to read. Many assistants take a settings block like the one below.</li>
+      <li>Ask the assistant to list its tools. You should see the tools listed below.</li>
+      <li>Try: "Suggest starter rules for this CSV" or "Score this issue with the issues framework". Check the answers: the tools are deterministic, so the same input always gives the same result.</li>
+    </ol>
+    <pre class="code" id="mcpCfg"></pre>
+    <p class="small muted">The server is read-only, only reads files inside the folder it starts in (or DQKIT_MCP_ROOT), and makes no network calls.</p></div></details>
+  <h3>The toolkit's MCP tools</h3>
+  <div class="tools" id="tools"></div>
+  <h3>Guardrails for any AI use</h3>
+  <ul class="plain" id="guards"></ul>
+</section>
+
+<section id="customise" aria-labelledby="cust-h">
+  <h2 id="cust-h">Make it yours: audience, brand, language and tone</h2>
+  <div class="tbl"><table><thead><tr><th>Aspect</th><th>How to tailor it</th></tr></thead><tbody id="custRows"></tbody></table></div>
+</section>
+
+<section id="collab" aria-labelledby="collab-h">
+  <h2 id="collab-h">Comms and collaboration</h2>
+  <div class="grid">
+    <div class="card"><h3>Share from any page</h3><p class="small">Every page has <b>Share this page</b> under its title: copy the link to the page or the section you are reading, share with your device, by email, to Microsoft Teams or LinkedIn, copy embed code, or print.</p></div>
+    <div class="card"><h3>A tab in a Teams channel</h3><ol class="plain small"><li>In the channel, select <b>+</b> to add a tab.</li><li>Choose <b>Website</b> (if your organisation allows it).</li><li>Paste the address of a Commons page, for example the playbook, and name the tab.</li></ol></div>
+    <div class="card"><h3>A search shortcut in your browser</h3><ol class="plain small"><li>In your browser's search engine settings, add a new site search.</li><li>Use the address <code id="srchUrl"></code> with <code>%s</code> where the words go.</li><li>Give it a short keyword, such as <code>dq</code>, then type <code>dq</code> and your words in the address bar.</li></ol></div>
+    <div class="card"><h3>Updates in your channels</h3><p class="small">Follow <a href="feed.xml">feed.xml</a> in a feed reader or channel, or post releases automatically with a workflow (see the API examples).</p></div>
+    <div class="card"><h3>Intranet and wiki spaces</h3><p class="small">Embed pages in SharePoint or Confluence spaces your teams already use, and link to sections from your own guidance so there is one source to maintain.</p></div>
+  </div>
+</section>
+
+<section id="licence" aria-labelledby="lic-h">
+  <h2 id="lic-h">Licences and attribution</h2>
+  <ul class="plain">
+    <li>Code is under the <a href="https://github.com/cyberdudeuk/dq-commons/blob/main/LICENSE">MIT licence</a>. Content is under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where stated.</li>
+    <li>Standards and frameworks belong to their publishers. The Commons summarises and links to them; copy their text only if their own licence allows it.</li>
+    <li>When you reuse content, say it is from the Public Sector Data Quality Commons, link to the source and give the version (from <a href="api/index.json">api/index.json</a>).</li>
+    <li>If you rebrand it, you are responsible for the accessibility of your copy: keep contrast, focus outlines, headings and alternatives for charts.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function () {
+  const R = __K_REUSE__, MAP = __K_SITEMAP__, TOOLS = __K_MCPTOOLS__;
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const I = n => (window.DQI ? window.DQI(n) : "");
+  const $ = id => document.getElementById(id);
+  const base = location.href.split(/[?#]/)[0].replace(/[^/]*$/, "");
+  const byId = {}; R.routes.forEach(r => byId[r.id] = r);
+  const st = s => `<span class="status${/partly|planned/i.test(s) ? " part" : ""}">${esc(s)}</span>`;
+  $("cmpRows").innerHTML = R.routes.map(r => `<tr><td><a href="#route-${r.id}"><b>${esc(r.name)}</b></a></td><td>${esc(r.for)}</td><td>${esc(r.effort)}</td><td>${esc(r.upkeep)}</td><td>${esc(r.control)}</td><td>${esc(r.it)}</td><td>${st(r.status)}</td></tr>`).join("");
+  $("routeDetails").innerHTML = R.routes.map(r => `<details class="disc" id="route-${r.id}"><summary>${I(r.icon)}${esc(r.name)} <span class="chip">${esc(r.effort)} effort</span></summary><div class="body">
+    <p>${esc(r.summary)}</p><dl class="facts"><dt>Best for</dt><dd>${esc(r.for)}</dd><dt>Keeping up to date</dt><dd>${esc(r.upkeep)}</dd><dt>You control</dt><dd>${esc(r.control)}</dd><dt>Help needed</dt><dd>${esc(r.it)}</dd></dl>
+    <ol>${r.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></div></details>`).join("");
+  // three-question helper
+  function recommend() {
+    const v = n => (document.querySelector(`input[name="${n}"]:checked`) || {}).value;
+    const who = v("who"), brand = v("brand"), tech = v("tech"), out = [];
+    const add = (id, why) => { if (!out.find(o => o[0] === id)) out.push([id, why]); };
+    if (brand === "full") { if (tech === "dev") add("whitelabel", "You want your own name, design, words and language, and have people who can build it."); else add("whitelabel", "A white-label copy gives you full control; a supplier or GitHub-confident colleague can set it up in a day or two."); }
+    if (brand === "accent" || who === "org") add("embed", "Pages sit inside your own intranet pages with your colour, and stay up to date on their own.");
+    if (tech === "dev") add("api", "Your developers can show exactly the content you need, in your own systems and design.");
+    if (who === "org" || who === "sector") add("feed", "Keep everyone told about new releases in the channels they already read.");
+    if (who === "org" && tech !== "none") add("ecm", "Govern Commons content alongside your own, with its version and review date.");
+    add("link", "The quickest start: link to pages and sections from anywhere. Nothing to maintain.");
+    if (tech === "dev") add("toolkit", "Run the same checks inside your own data pipelines.");
+    $("recs").innerHTML = out.slice(0, 4).map(([id, why], i) => { const r = byId[id]; return `<div class="card rec" data-hue="${i + 1}"><h3>${I(r.icon)} ${i ? "" : "Start with: "}${esc(r.name)}</h3><p class="why">${esc(why)}</p><p class="small"><a href="#route-${id}" data-open="${id}">How to do it</a></p></div>`; }).join("");
+  }
+  $("helperForm").addEventListener("change", recommend); recommend();
+  document.addEventListener("click", e => { const a = e.target.closest("[data-open]"); if (a) { const d = $("route-" + a.dataset.open); if (d) d.open = true; } });
+  if (location.hash.startsWith("#route-")) { const d = document.querySelector(location.hash); if (d) d.open = true; }
+  // embed builder
+  const pages = MAP.flatMap(g => g.pages.map(p => ({...p, group: g.title})));
+  $("ePage").innerHTML = MAP.map(g => `<optgroup label="${esc(g.title)}">${g.pages.map(p => `<option value="${p.url}"${p.stem === "playbook" ? " selected" : ""}>${esc(p.label)}</option>`).join("")}</optgroup>`).join("");
+  const L = h => { const c = [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16) / 255).map(x => x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4)); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2]; };
+  function build() {
+    let acc = $("eAccentTxt").value.trim().replace(/^#/, ""); const okHex = /^[0-9a-fA-F]{6}$/.test(acc);
+    if (acc && !okHex) { $("eContrast").className = "msg err"; $("eContrast").textContent = "Use six hex digits, for example 1d70b8."; acc = ""; }
+    else if (okHex) { const cr = 1.05 / (L(acc) + .05); $("eContrast").className = "msg " + (cr >= 4.5 ? "ok" : "err"); $("eContrast").textContent = `Contrast on white: ${cr.toFixed(1)} to 1 ${cr >= 4.5 ? "(meets WCAG AA)" : "(too low for text: choose a darker colour)"}`; }
+    else $("eContrast").textContent = "";
+    const page = $("ePage").value, h = Math.max(300, Math.min(4000, +$("eHeight").value || 900));
+    const src = base + page + "?embed=1" + (acc ? "&accent=" + acc.toLowerCase() : "");
+    const label = (pages.find(p => p.url === page) || {}).label || "Page";
+    let code = `<iframe id="dq-commons" src="${src}" title="${esc(label)} (Public Sector Data Quality Commons)" width="100%" height="${h}" style="border:0;max-width:100%" loading="lazy"></iframe>`;
+    if ($("eAuto").checked) code += `\n<script>\n// grows the frame to fit the Commons page (only accepts messages from the Commons)\nwindow.addEventListener("message", function (e) {\n  if (e.origin !== "${new URL(base).origin}" || !e.data || e.data.type !== "dqp-height") return;\n  document.getElementById("dq-commons").style.height = e.data.height + "px";\n});\n<\/script>`;
+    $("eCode").value = code; $("ePreview").href = src;
+  }
+  $("eAccent").addEventListener("input", () => { $("eAccentTxt").value = $("eAccent").value.slice(1); build(); });
+  $("eAccentTxt").addEventListener("input", () => { const v = $("eAccentTxt").value.replace(/^#/, ""); if (/^[0-9a-fA-F]{6}$/.test(v)) $("eAccent").value = "#" + v; build(); });
+  ["ePage", "eHeight", "eAuto"].forEach(id => $(id).addEventListener("input", build)); $("eAuto").addEventListener("change", build); build();
+  $("eCopy").addEventListener("click", () => { const t = $("eCode"); t.select(); let ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t.value).then(() => $("eMsg").textContent = "Copied.", () => $("eMsg").textContent = ok ? "Copied." : "Select the code and copy it.");
+    else $("eMsg").textContent = ok ? "Copied." : "Select the code and copy it."; });
+  // API list (read live from api/index.json, so it always matches the release)
+  fetch("api/index.json").then(r => r.json()).then(ix => {
+    $("eps").innerHTML = ix.endpoints.map(e => `<li><a href="${esc(e.path)}"><code>${esc(e.path)}</code></a>: ${esc(e.description)}</li>`).join("") +
+      `<li><code>api/knowledge/</code>: ${ix.knowledge.length} knowledge files as JSON, each with its owner role and review date, for example <a href="api/knowledge/frameworks.json"><code>frameworks.json</code></a>. Version ${esc(ix.version)}.</li>`;
+  }).catch(() => { $("eps").innerHTML = '<li>The file list could not be read here (for example when opened from files). Open <a href="api/index.json">api/index.json</a> directly.</li>'; });
+  $("exJs").textContent = `fetch("${base}api/pages.json")\n  .then(r => r.json())\n  .then(groups => groups.forEach(g =>\n    console.log(g.title, g.pages.map(p => p.label))));`;
+  $("exPy").textContent = `import json, urllib.request\nurl = "${base}api/knowledge/frameworks.json"\ndata = json.load(urllib.request.urlopen(url))\nfor f in data["frameworks"]:\n    print(f["name"], "-", f.get("publisher", ""))`;
+  // AI
+  $("aiCards").innerHTML = R.ai.map((a, i) => `<div class="card" data-hue="${(i + 2) % 8}"><h3>${esc(a.name)}</h3><p>${st(a.status)}</p><p class="small">${esc(a.summary)}</p>${a.link ? `<p class="small"><a href="${esc(a.link)}">Open it</a></p>` : ""}${a.command ? `<p class="small">Command: <code>${esc(a.command)}</code></p>` : ""}</div>`).join("");
+  $("mcpCfg").textContent = JSON.stringify({mcpServers: {"dq-commons": {command: "python", args: ["-m", "dqkit.mcp_server"], env: {DQKIT_MCP_ROOT: "C:/path/to/your/data"}}}}, null, 2);
+  $("tools").innerHTML = TOOLS.map(t => `<div><code>${esc(t.name)}</code><br><b>${esc(t.title)}</b><br><span class="muted">${esc(t.description)}</span></div>`).join("");
+  $("guards").innerHTML = R.guardrails.map(g => `<li>${esc(g)}</li>`).join("");
+  $("custRows").innerHTML = R.customise.map(c => `<tr><th scope="row">${esc(c.aspect)}</th><td>${esc(c.how)}</td></tr>`).join("");
+  $("srchUrl").textContent = base + "index.html?search=%s";
+  window.DQP_TOUR = [
+    {sel: "#helperForm", title: "Three questions", text: "Answer three questions to see which routes suit you best. The suggestions change as you choose."},
+    {sel: "#compare", title: "Compare the routes", text: "Effort, upkeep, control and the help you need, side by side."},
+    {sel: "#embedForm", title: "Embed a page", text: "Pick a page and your colour, then copy the code into your intranet page."},
+    {sel: "#eps", title: "Open data API", text: "Every page, section and knowledge file as JSON, rebuilt with each release. No key needed."},
+    {sel: "#aiCards", title: "AI assistants", text: "Ask the Commons in your browser, or connect your own approved AI assistant through MCP or the content files."},
+    {sel: "#guards", title: "Guardrails", text: "Rules for using any AI safely with Commons content."},
+  ];
+})();
+</script>

@@ -1,0 +1,156 @@
+# Ways to use and reuse the Commons: from a simple link to a white-label copy, AI assistants and connectors.
+# Shown on the "Use the Commons your way" page (reuse.html). Plain English; every route says what it costs you
+# to keep up to date and what you control. Only describe features that exist today; anything planned says so.
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Commons product owner
+  next_step: Test each route with two departments (one intranet embed, one white-label copy) and record what was hard.
+
+routes:
+  - id: link
+    name: Link to it
+    icon: link
+    for: Intranet pages, newsletters, emails, Teams or Slack posts, training material
+    effort: Low
+    upkeep: None. Links always open the latest version.
+    control: Words around the link only. The Commons keeps its own look.
+    it: None
+    status: Ready
+    summary: Point people to any page or any section. Every section heading has its own address, and links can start a guided tour, a search or a question.
+    steps:
+      - "Open the page, then use Share at the top of the page to copy the link to the page or to the section you are reading."
+      - "Paste it into your intranet page, email or post. Add ?tour=1 to the address to open the page with its guided tour."
+      - "To start a search, link to index.html?search= followed by your words. To ask a question, link to ask.html?q= followed by the question."
+  - id: embed
+    name: Embed pages in your intranet
+    icon: layers
+    for: SharePoint, Confluence, intranet content management systems, learning platforms
+    effort: Low to medium
+    upkeep: None. The embedded page is always the latest version.
+    control: Your accent colour; the menu, footer and page navigation are hidden so it sits inside your own page.
+    it: A site owner may need to allow the Commons web address for embedding
+    status: Ready
+    summary: Show any page inside your own intranet page with ?embed=1. The page hides the Commons menu and footer, keeps a small link back to the source, and can take your accent colour.
+    steps:
+      - "Use the embed code builder below: pick a page, your accent colour and a height."
+      - "Copy the code into an embed or iframe block on your intranet page."
+      - "If nothing shows, ask your site owner to allow the Commons address for embedding. In SharePoint Online this is the HTML Field Security setting for the site."
+      - "Check the result with a keyboard and a screen reader: the embedded page has its own title so people know where they are."
+  - id: api
+    name: Open data API
+    icon: code
+    for: Developers, data teams, intranet and content management systems, dashboards
+    effort: Medium
+    upkeep: Read the files on a schedule; the index says which version you have.
+    control: Full control of presentation. You choose what to show and how.
+    it: Someone who can call a web address and read JSON
+    status: Ready (read-only files, no key needed)
+    summary: Every page, section, knowledge file, release and acronym as plain JSON files at fixed addresses. No key, no sign-in and no tracking. Start at api/index.json.
+    steps:
+      - "Open api/index.json to see every file, what it holds and its version."
+      - "Read the file you need, for example api/pages.json for the site map or api/knowledge/frameworks.json for the frameworks."
+      - "Show the source and version next to anything you reuse, and check api/index.json for a new version when you refresh."
+  - id: feed
+    name: Feeds for comms channels
+    icon: news
+    for: Teams channels, Outlook, Slack, Viva Engage, email digests, newsletters
+    effort: Low
+    upkeep: None. New releases arrive automatically.
+    control: Which channel gets updates and how often.
+    it: None, if your channel can follow a feed
+    status: Ready
+    summary: feed.xml lists every release with what is new, changed and fixed, so a channel or newsletter can carry updates without anyone copying them by hand.
+    steps:
+      - "Add feed.xml to a feed reader, or to a channel or workflow that can follow a feed."
+      - "Or read api/releases.json in a workflow (for example Power Automate) and post a summary to your channel."
+  - id: whitelabel
+    name: White-label copy
+    icon: repo
+    for: Departments, devolved governments, arm's-length bodies and sectors that want their own branded version
+    effort: Medium to high
+    upkeep: Bring in new releases from the Commons when you are ready (a pull from the main repository).
+    control: Everything. Name, colours, typefaces, words, language, tone, which pages appear, and where it is hosted.
+    it: Someone who can use GitHub, or a supplier
+    status: Ready (code MIT, content Open Government Licence)
+    summary: Copy the whole Commons, rebrand it and tailor the content for your own audiences. The code is MIT licensed and the content is under the Open Government Licence v3.0 (except where stated). It builds with one command and runs as plain web pages on any host, including closed networks.
+    steps:
+      - "Fork the repository on GitHub (or download the offline copy for a closed network)."
+      - "Change the name in one place (BRAND in scripts/build_dq_portal.py) and the colours in portal/src/base.css and portal/src/shell.html. Keep text contrast at 4.5:1 or more."
+      - "Tailor the words in the knowledge files (knowledge/*.yaml): your policies, contacts, sector examples, language and tone. Easy read summaries are in knowledge/easy-read.yaml."
+      - "Build with python scripts/build_dq_portal.py and publish the portal/dist folder on any web host."
+      - "Keep the MIT licence notice and the Open Government Licence attribution, and say it is based on the Commons, so people can find the source and its updates."
+  - id: offline
+    name: Offline or closed network copy
+    icon: lock
+    for: Secure and closed networks, places with poor connections, archives
+    effort: Low
+    upkeep: Download a new copy for each release you want.
+    control: Where it is hosted. Content is the published version.
+    it: A place to unzip the files
+    status: Ready
+    summary: The whole portal in one zip. Unzip it and open index.html. Nothing loads from other sites, so it works without a connection.
+    steps:
+      - "Download dq-commons-offline.zip from the downloads folder."
+      - "Unzip it on a shared drive or internal web server and open index.html."
+  - id: toolkit
+    name: Toolkit in your own pipelines
+    icon: wrench
+    for: Data engineers and analysts
+    effort: Medium
+    upkeep: Update the package when there is a new release.
+    control: Full. Runs on your own machines with your own data.
+    it: Python
+    status: Ready
+    summary: The same checks the portal runs, as a Python package and command line tool, with notebooks for Microsoft Fabric, Synapse and Databricks and a small web service for workflow tools.
+    steps:
+      - "Install the toolkit from the repository and run python -m dqkit --help."
+      - "For Fabric, Synapse or Databricks, start from integrations/fabric. For Power Automate or Logic Apps, start from integrations/http-api (written and tested, not yet deployed anywhere)."
+  - id: ecm
+    name: Enterprise content and records
+    icon: library
+    for: Knowledge and information managers, intranet editors, learning teams
+    effort: Medium
+    upkeep: Refresh on each release, or reference by link and version instead of copying.
+    control: Full, inside your own content management, records and learning systems.
+    it: Content management system access
+    status: Ready
+    summary: Bring Commons content into your content management, records or learning systems with its source, version and review date attached, so it can be governed like your own content.
+    steps:
+      - "Prefer linking or embedding over copying, so there is one version to maintain."
+      - "When you copy, take it from the API so you also get the version, owner role and last review date, and store those with the content."
+      - "Set your own review date to follow the Commons release you copied from."
+
+ai:
+  - id: ask
+    name: Ask the Commons (built in)
+    status: Ready
+    summary: A question box that finds the best answers across every page, section and knowledge file and shows them with links to the source. It runs in your browser and sends nothing anywhere. It does not generate new text, so every answer can be checked against its source.
+    link: ask.html
+  - id: mcp
+    name: Your own AI assistant through MCP
+    status: Ready (toolkit tools)
+    summary: The toolkit includes a Model Context Protocol (MCP) server, so an AI assistant your organisation has approved can check data, suggest and validate rules, score issues, look up frameworks, explore the knowledge graph and estimate effort. It is read-only, runs on your machine and does not call the network.
+    command: python -m dqkit.mcp_server
+  - id: rag
+    name: Your own AI assistant with Commons content
+    status: Ready (content files)
+    summary: Give an approved enterprise assistant the Commons content as a knowledge source, either by pointing it at the published website or by loading api/passages.json, which holds every section and knowledge item with its link. Answers can then cite Commons pages.
+  - id: plugins
+    name: Connectors, add-ons and plugins
+    status: Partly ready
+    summary: "Ready now: MCP for AI assistants, a browser search shortcut, a website tab in Teams channels, embedding in intranets, feeds for channels, and the Fabric notebook. Planned: a deployed web service for workflow tools and packaged add-ons. Tell us which you need through the contact form."
+
+guardrails:
+  - Use only AI tools your organisation has approved, and follow the AI Playbook for the UK Government.
+  - Never paste personal or sensitive data into an AI tool that is not approved for it; complete a DPIA where personal data is involved.
+  - Ask the assistant to cite the Commons page for every answer, and check the answer against that page before you act on it.
+  - Record AI tools that influence decisions with public effect in the Algorithmic Transparency Recording Standard (ATRS).
+  - Make sure any chat interface meets WCAG 2.2 AA and offers another way to get the same help.
+  - Test answers for bias and gaps, especially for groups that are often missing from data, and tell us what you find.
+
+customise:
+  - {aspect: Audience, how: "Pick the pages and levels (Beginner, Intermediate, Advanced) that suit your audience; link or embed only those, or remove pages in a white-label copy."}
+  - {aspect: Brand and design, how: "Embed with your accent colour, or change the name, colours and typefaces in a white-label copy. Keep text contrast at 4.5:1 or more and keep focus outlines visible."}
+  - {aspect: Language, how: "Plain English by default, with easy read summaries on every page. A white-label copy can be translated, for example into Welsh for bodies under the Welsh Language Standards. A Welsh version of the Commons is planned."}
+  - {aspect: Tone and depth, how: "Edit the words in the knowledge files for your audience: shorter for frontline staff, more technical for specialists. The levels on every page help people choose."}
+  - {aspect: Comms and collaboration, how: "Share links into Teams, Slack, Viva Engage or email from any page; follow feed.xml in channels; embed pages in SharePoint or Confluence spaces your teams already use."}

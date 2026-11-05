@@ -1,5 +1,29 @@
 # Decision log (this repository)
 
+## 2026-11-05 · D-VIS-01 · One accessible visual layer in the shell: group and section colours, fitted tables, tooltips
+- **Decision:** the shell (not each page) carries an 8-hue palette, each with a soft tint, defined for light and dark themes. Each menu group has a fixed hue (Start teal, Learn purple, Check blue, Improve orange, Apply green, Contribute pink); top-level sections on a page take turns from the group's hue. Tables are fitted by a script that measures each column's text: short columns shrink to fit, long-text columns get a minimum width, scaled down step by step until the table fits on screens 700px and wider; phones keep readable columns and scroll sideways. Zebra and hover use zero-specificity selectors so page-specific cell colours (heatmaps, verdicts) always win. Acronyms are explained on first use from `knowledge/acronyms.yaml`; tooltips follow WCAG 1.4.13 (hoverable, persistent, dismissible with Escape).
+- **Why:** the user asked for easier tables, more colour and signposting with less cognitive load. Doing it once in the shell reaches all pages, including the four that carry their own tokens.
+- **Accessibility:** every text colour meets 4.5:1 on its tint and on the page background in both themes (checked in the build log); colour is never the only signal (labels, numbers and words carry the meaning); motion respects reduced motion; print hides the aids.
+- **Alternatives considered:** fixed column widths per table (fragile, 60+ tables, breaks when content changes); `table-layout: fixed` (truncates long text); a CSS framework (adds weight and a dependency).
+
+## 2026-11-05 · D-NAV-03 · A site map page and previous / next links in menu order
+- **Decision:** `sitemap.html` draws the menu as data (`__K_SITEMAP__`, also `api/pages.json`), with a level filter, text filter and suggested routes. The build adds previous and next links in menu order to every page, with dots for the pages in the current group. `sitemap.xml` is generated for search engines.
+- **Why:** gives a single overview and a linear path through the Commons without changing the six-group menu people already know.
+
+## 2026-11-05 · D-AI-02 · Ask the Commons is retrieval, not generative AI
+- **Decision:** the question box ranks passages (BM25-style scoring over every page section and knowledge item, with a small synonym list) and quotes the best one word for word with its source link. It loads `ask-index.js` and runs entirely in the browser.
+- **Why:** answers stay traceable and checkable, nothing is sent to a third party, there is no running cost and no claude.ai or other AI dependency (D-POL-01). Organisations that want generative answers can connect their own approved assistant through the MCP server or `api/passages.json`.
+- **Alternative considered:** a hosted language model. Rejected for now: needs a service, budget, a DPIA, and risks unsourced answers.
+
+## 2026-11-05 · D-REUSE-01 · Reuse through static, read-only files: API, feed, embed mode and white-label
+- **Decision:** the open data API is a set of JSON files written by the build (`api/`), served by GitHub Pages like the rest of the portal: no key, no tracking, versioned in `api/index.json`. Embed mode is a query string (`?embed=1&accent=RRGGBB`, hex only) that hides the shell and keeps a link to the source; the host can size the frame from a `dqp-height` message. White-label is a fork plus documented edits.
+- **Why:** nothing new to run or secure; works on closed networks from the offline zip; matches the open standards and reuse principles in the Technology Code of Practice.
+- **Alternatives considered:** a live API service (needs hosting and support); an embeddable script widget (runs Commons code inside the host page, harder to approve).
+
+## 2026-11-05 · D-SHARE-01 · Share without third-party scripts
+- **Decision:** Share this page uses the device share sheet where available, the clipboard, a `mailto:` link with no address, and plain share links for Microsoft Teams and LinkedIn opened in a new tab. No share widgets or tracking scripts are loaded.
+- **Why:** no cookies or trackers (privacy notice), no email address shown anywhere, and it works offline for copy and email.
+
 ## 2026-11-05 · D-COM-02 · Guidance on catalogue and quality tools is vendor-neutral, sourced and dated, and favours standards-first
 - **Decision:** a new page sets out how catalogues and quality tools connect, a product landscape with each claim sourced to the vendor's own documentation or official notices and dated, five integration patterns ranked by lock-in, a five-level integration depth scale, a lock-in checker, an RFI and RFP question bank, a proof-of-concept script and an exit checklist. Standards-first (ODCS, OpenLineage, DCAT and DQV, Iceberg) is the recommended target whatever is bought. Risks link to existing contract clauses (C03, C04, C12 to C20) through a deep link into the clause builder.
 - **Why:** organisations are buying catalogues and quality tools now, often bundled, while the market consolidates (Salesforce and Informatica, ServiceNow and data.world) and Parliament and the CMA have highlighted lock-in. Buyers need questions and tests, not rankings.

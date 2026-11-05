@@ -1,0 +1,128 @@
+<title>Ask the Commons</title>
+<style>
+__BASE_CSS__
+.layout{display:grid;gap:18px;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
+@media (max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}}
+.chat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--grp);border-radius:12px;display:flex;flex-direction:column;min-height:440px}
+.log{flex:1;padding:16px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;max-height:68vh}
+.m{max-width:94%;padding:12px 15px;border-radius:12px;font-size:.93rem;line-height:1.55}
+.m.u{align-self:flex-end;background:var(--grp);color:var(--surface);border-bottom-right-radius:4px}
+.m.a{align-self:flex-start;background:var(--sunk);border-bottom-left-radius:4px;display:flex;flex-direction:column;gap:10px}
+.m.a h3{font-size:.95rem}
+.m.a blockquote{margin:0;padding:8px 12px;border-left:4px solid var(--grp);background:var(--surface);border-radius:6px}
+.m.a .src{font-size:.8rem;color:var(--muted)}
+.m.a ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.m.sys{align-self:center;background:none;color:var(--muted);font-size:.84rem;text-align:center}
+.ask{border-top:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px}
+.ask .row{display:flex;gap:8px;align-items:stretch}
+.ask input{flex:1}
+.quick{display:flex;flex-wrap:wrap;gap:6px}
+.quick button{font:inherit;font-size:.82rem;padding:6px 11px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer;min-height:32px;text-align:left}
+.quick button:hover{border-color:var(--grp);color:var(--grp)}
+mark{background:var(--c-gold-s,#f8efd2);color:inherit;padding:0 2px;border-radius:3px}
+.side{display:flex;flex-direction:column;gap:14px}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Start · Ask the Commons</span>
+  <h1>Ask the Commons a question</h1>
+  <p class="lede">Ask in plain English. The answer is drawn from every page, section and knowledge file in the Commons, with a link to where it came from, so you can check it and read more.</p>
+  <div class="callout info"><p class="small"><b>How it works:</b> this is a search-based assistant, not generative AI. It finds the passages that best match your question and shows them word for word. It runs in your browser: your question is not sent anywhere or stored. Want to use your own organisation's AI assistant with the Commons? See <a href="reuse.html#ai">AI assistants, MCP and connectors</a>.</p></div>
+</header>
+
+<section id="chat" aria-labelledby="chat-h">
+  <h2 id="chat-h">Your question</h2>
+  <div class="layout">
+    <div class="chat">
+      <div class="log" id="log" role="log" aria-live="polite" aria-label="Questions and answers"></div>
+      <form class="ask" id="askForm" onsubmit="return false">
+        <label for="q" style="font-weight:600;font-size:.9rem">Ask a question</label>
+        <div class="row"><input id="q" type="text" autocomplete="off" placeholder="For example: what should I ask a catalogue supplier about lock-in?" maxlength="300"><button class="btn" type="submit" id="send">Ask</button></div>
+        <div class="quick" id="quick" aria-label="Example questions"></div>
+      </form>
+    </div>
+    <div class="side">
+      <div class="card"><h3>Tips for good answers</h3><ul class="plain small">
+        <li>Use the words you would use with a colleague, for example "how do I prioritise issues".</li>
+        <li>Name the thing you care about: a framework, a role, a tool type, a policy.</li>
+        <li>Every answer links to its source. Check the source before you act.</li></ul></div>
+      <div class="card"><h3>Didn't find it?</h3><p class="small">Try <a href="sitemap.html">the site map</a> or Search (press <kbd>/</kbd>). If the Commons doesn't cover it yet, <a href="#" id="tellus">tell us what you were looking for</a> through the contact form.</p></div>
+      <div class="card"><h3>Clear the conversation</h3><p class="small">Nothing is saved. Leaving the page clears it too.</p><button class="btn ghost" type="button" id="clear">Clear</button></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const STOP = new Set("a an and are as at be by can do does for from has have how i if in into is it its me my of on or our should so that the their them then there these this to us was we what when where which who why will with you your about any get use using want need tell".split(" "));
+  const SYN = {dq: ["quality"], cda: ["critical", "asset"], cdas: ["critical", "asset"], vendor: ["supplier"], vendors: ["supplier"], supplier: ["vendor"], buy: ["procurement", "buying"], buying: ["procurement"],
+    procurement: ["buying", "tender"], lockin: ["lock"], ai: ["artificial"], llm: ["ai"], chatbot: ["assistant", "ai"], catalog: ["catalogue"], prioritise: ["priority"], prioritize: ["priority"],
+    metric: ["measure"], metrics: ["measure"], kpi: ["measure"], train: ["training"], course: ["training"], courses: ["training"], embed: ["embedding"], intranet: ["embed"], api: ["json"]};
+  const stem = w => w.length > 4 ? w.replace(/(ings|ing|ies|ied|es|ed|s)$/, m => m === "ies" || m === "ied" ? "y" : "") : w;
+  const toks = s => String(s).toLowerCase().replace(/lock-in/g, "lockin").split(/[^a-z0-9]+/).filter(w => w && !STOP.has(w)).map(stem);
+  let DOCS = null, DF = {}, AVG = 1;
+  function index() {
+    DOCS = (window.DQP_PASSAGES || []).map(d => { const tt = toks(d.t), xt = toks(d.x + " " + (d.p || "")); const tf = {};
+      tt.forEach(w => tf[w] = (tf[w] || 0) + 3); xt.forEach(w => tf[w] = (tf[w] || 0) + 1); return {d, tf, len: tt.length * 3 + xt.length}; });
+    DOCS.forEach(o => Object.keys(o.tf).forEach(w => DF[w] = (DF[w] || 0) + 1));
+    AVG = DOCS.reduce((a, o) => a + o.len, 0) / Math.max(1, DOCS.length);
+  }
+  function search(q) {
+    let qt = toks(q); const extra = []; qt.forEach(w => (SYN[w] || []).forEach(x => extra.push(stem(x))));
+    const terms = [...new Set(qt.concat(extra))], N = DOCS.length;
+    return DOCS.map(o => { let s = 0; terms.forEach(w => { const f = o.tf[w]; if (!f) return; const idf = Math.log(1 + (N - DF[w] + .5) / (DF[w] + .5));
+        s += idf * (f * 2.2) / (f + 1.2 * (.25 + .75 * o.len / AVG)) * (qt.includes(w) ? 1 : .5); });
+      if (o.d.k === "Page") s *= 1.1;
+      s *= 0.6 + Math.min(0.6, (o.d.x || "").length / 400);
+      if (!/[.!?]/.test(o.d.x || "")) s *= 0.75;  // a list of headings answers less well than a sentence  // prefer passages with enough text to answer from
+      return [s, o.d]; }).filter(r => r[0] > 0).sort((a, b) => b[0] - a[0]);
+  }
+  function best(text, q) {
+    const qt = new Set(toks(q)); const sents = String(text).split(/(?<=[.!?])\s+/).filter(Boolean);
+    const scored = sents.map((s, i) => [toks(s).filter(w => qt.has(w)).length, i, s]).sort((a, b) => b[0] - a[0] || a[1] - b[1]);
+    const pick = scored.slice(0, 2).sort((a, b) => a[1] - b[1]).map(x => x[2]).join(" ");
+    return (pick || text).slice(0, 420);
+  }
+  function mark(text, q) { let h = esc(text); [...new Set(toks(q))].filter(w => w.length > 2).forEach(w => { h = h.replace(new RegExp("\\b(" + w.replace(/[^a-z0-9]/g, "") + "[a-z]*)", "ig"), "<mark>$1</mark>"); }); return h; }
+  function add(cls, html) { const d = document.createElement("div"); d.className = "m " + cls; d.innerHTML = html; $("log").appendChild(d); $("log").scrollTop = $("log").scrollHeight; return d; }
+  function answer(q) {
+    q = q.trim(); if (!q) return;
+    add("u", esc(q));
+    if (!DOCS) { add("sys", "Still loading the Commons content. Try again in a moment."); return; }
+    const res = search(q);
+    if (!res.length) { add("a", `<p>I couldn't find anything in the Commons that matches that. Try other words, browse the <a href="sitemap.html">site map</a>, or <a href="#" class="tell">tell us what you were looking for</a>.</p>`); return; }
+    const seen = new Set(), top = [];
+    for (const r of res) { const key = r[1].u.split("#")[0] + "|" + r[1].t; if (seen.has(key)) continue; seen.add(key); top.push(r[1]); if (top.length >= 6) break; }
+    const a = top.find(d => (d.x || "").length >= 60 && /[.!?]/.test(d.x)) || top.find(d => (d.x || "").length >= 60) || top[0];
+    top.splice(top.indexOf(a), 1); top.unshift(a);
+    const others = top.slice(1, 6).map(d => `<li><a href="${esc(d.u)}">${esc(d.t)}</a> <span class="src">· ${esc(d.p || d.k)}</span></li>`).join("");
+    add("a", `<h3>${esc(a.t)}</h3><blockquote>${mark(best(a.x || a.t, q), q)}</blockquote>
+      <p class="src">From <a href="${esc(a.u)}">${esc(a.p || a.k)}${a.u.includes("#") ? ", this section" : ""}</a>. Open it to read the full context.</p>
+      ${others ? `<p><b>Also relevant</b></p><ul>${others}</ul>` : ""}`);
+  }
+  function tell(e) { e.preventDefault(); const last = [...document.querySelectorAll(".m.u")].pop(); const t = last ? last.textContent : "";
+    if (window.DQP_GITHUB) window.DQP_GITHUB.open(window.DQP_GITHUB.issue("0-contact.yml", "[Contact] Ask the Commons: not found", {message: "I asked the Commons: " + t + "\n\nWhat I was looking for: "})); }
+  $("log").addEventListener("click", e => { if (e.target.closest(".tell")) tell(e); });
+  $("tellus").addEventListener("click", tell);
+  $("askForm").addEventListener("submit", () => { answer($("q").value); $("q").value = ""; $("q").focus(); });
+  $("clear").addEventListener("click", () => { $("log").innerHTML = ""; add("sys", "Conversation cleared."); $("q").focus(); });
+  const EX = ["How do I prioritise data quality issues?", "What should I ask a supplier to avoid lock-in?", "What does a data steward do?", "How do I embed the Commons in our intranet?", "Which frameworks apply to health data?", "How long will a baseline take?"];
+  $("quick").innerHTML = EX.map(x => `<button type="button">${esc(x)}</button>`).join("");
+  $("quick").addEventListener("click", e => { const b = e.target.closest("button"); if (b) answer(b.textContent); });
+  add("sys", "Ask anything about data quality in the public sector, or about using the Commons.");
+  const s = document.createElement("script"); s.src = "ask-index.js"; s.async = true;
+  s.onload = () => { index(); const q0 = new URLSearchParams(location.search).get("q"); if (q0) answer(q0.slice(0, 300)); };
+  s.onerror = () => add("sys", "The Commons content couldn't be loaded here. Use Search or the site map instead.");
+  document.head.appendChild(s);
+  window.DQP_TOUR = [
+    {sel: "#q", title: "Ask in plain English", text: "Type a question the way you would ask a colleague, then press Ask or Enter."},
+    {sel: "#quick", title: "Not sure what to ask?", text: "Try one of these example questions."},
+    {sel: "#log", title: "Answers with sources", text: "Each answer quotes the best passage word for word and links to its page and section. Check the source before you act."},
+    {sel: ".callout.info", title: "Private by design", text: "This assistant runs in your browser and does not use generative AI, so nothing you type leaves your device."},
+  ];
+})();
+</script>

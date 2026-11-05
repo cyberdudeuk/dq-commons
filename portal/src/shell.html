@@ -183,10 +183,141 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 .dqp-easy summary{cursor:pointer;padding:10px 14px;font-weight:600;display:flex;align-items:center;gap:8px;min-height:24px}
 .dqp-easy summary .dqi{width:18px;height:18px;color:var(--accent,#0d6b6e)}
 .dqp-easy ul{margin:0;padding:0 18px 12px 38px;line-height:1.7}
+/* v2.8.0 visual layer: a wider accessible palette, colour-keyed groups and sections, easier tables,
+   reading progress, previous and next page, back to top and tooltips. Every text colour here meets
+   WCAG AA (4.5:1) on its background in light and dark themes; colour never carries meaning on its own. */
+:root{
+  --c-teal:#0d6b6e;--c-teal-s:#e1f0ef;--c-purple:#6a3d9a;--c-purple-s:#efe8f8;--c-blue:#1c5ea6;--c-blue-s:#e3edf9;
+  --c-orange:#a04800;--c-orange-s:#fcebdd;--c-green:#2d7521;--c-green-s:#e5f2e1;--c-magenta:#a12d6c;--c-magenta-s:#f9e4ef;
+  --c-gold:#7f5f00;--c-gold-s:#f8efd2;--c-slate:#4a5a6a;--c-slate-s:#e8ecf0;--grp:var(--c-teal);--grp-s:var(--c-teal-s);--sec:var(--grp);--sec-s:var(--grp-s)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --c-teal:#4fb8b4;--c-teal-s:#16312f;--c-purple:#b79be6;--c-purple-s:#271e3a;--c-blue:#86b5ee;--c-blue-s:#16263c;
+  --c-orange:#f0a46b;--c-orange-s:#38230f;--c-green:#8fcf7e;--c-green-s:#18301a;--c-magenta:#ec93c2;--c-magenta-s:#391a2b;
+  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36}}
+:root[data-theme="dark"]{
+  --c-teal:#4fb8b4;--c-teal-s:#16312f;--c-purple:#b79be6;--c-purple-s:#271e3a;--c-blue:#86b5ee;--c-blue-s:#16263c;
+  --c-orange:#f0a46b;--c-orange-s:#38230f;--c-green:#8fcf7e;--c-green-s:#18301a;--c-magenta:#ec93c2;--c-magenta-s:#391a2b;
+  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36}
+[data-group="start"],[data-g="start"]{--grp:var(--c-teal);--grp-s:var(--c-teal-s)}
+[data-group="learn"],[data-g="learn"]{--grp:var(--c-purple);--grp-s:var(--c-purple-s)}
+[data-group="check"],[data-g="check"]{--grp:var(--c-blue);--grp-s:var(--c-blue-s)}
+[data-group="improve"],[data-g="improve"]{--grp:var(--c-orange);--grp-s:var(--c-orange-s)}
+[data-group="apply"],[data-g="apply"]{--grp:var(--c-green);--grp-s:var(--c-green-s)}
+[data-group="contribute"],[data-g="contribute"]{--grp:var(--c-magenta);--grp-s:var(--c-magenta-s)}
+[data-hue="0"]{--sec:var(--c-teal);--sec-s:var(--c-teal-s)}[data-hue="1"]{--sec:var(--c-purple);--sec-s:var(--c-purple-s)}
+[data-hue="2"]{--sec:var(--c-blue);--sec-s:var(--c-blue-s)}[data-hue="3"]{--sec:var(--c-orange);--sec-s:var(--c-orange-s)}
+[data-hue="4"]{--sec:var(--c-green);--sec-s:var(--c-green-s)}[data-hue="5"]{--sec:var(--c-magenta);--sec-s:var(--c-magenta-s)}
+[data-hue="6"]{--sec:var(--c-gold);--sec-s:var(--c-gold-s)}[data-hue="7"]{--sec:var(--c-slate);--sec-s:var(--c-slate-s)}
+/* group signposting: menu, page header and eyebrow */
+.dqp-g>summary .dqi{color:var(--dqp-bar-fg)}
+.dqp-g>summary{border-top:3px solid transparent}
+.dqp-g[data-current]>summary{border-bottom-color:var(--dqp-focus)}
+.dqp-panel .dqp-gt,.dqp-grp h2{border-left:4px solid var(--grp);padding-left:8px}
+.dqp-panel a .dqi,.dqp-grp a .dqi{color:var(--grp)}
+.wrap>header.page{position:relative;padding-bottom:16px;border-bottom:1px solid var(--line,#d6dddf)}
+.wrap>header.page::after{content:"";position:absolute;left:0;bottom:-2px;width:min(220px,40%);height:4px;border-radius:2px;background:linear-gradient(90deg,var(--grp),var(--c-gold))}
+.wrap>header.page .eyebrow{align-self:flex-start;display:inline-flex;align-items:center;color:var(--grp);background:var(--grp-s);padding:4px 10px;border-radius:999px}
+.wrap>header.page .eyebrow .dqi{color:var(--grp)}
+/* sections: each top-level section takes the next hue, shown on its heading icon, cards and disclosures */
+.dqp-hicon{color:var(--sec)!important;background:var(--sec-s);border-radius:8px;padding:5px;box-sizing:content-box;vertical-align:-.35em}
+[data-hue] .card{box-shadow:inset 0 3px 0 var(--sec)}
+[data-hue] details.disc>summary::marker{color:var(--sec)}
+[data-hue] .callout:not(.info){border-left-color:var(--sec);background:var(--sec-s)}
+.kpis>.kpi:nth-child(6n+1){border-top:3px solid var(--c-teal)}.kpis>.kpi:nth-child(6n+2){border-top:3px solid var(--c-purple)}
+.kpis>.kpi:nth-child(6n+3){border-top:3px solid var(--c-blue)}.kpis>.kpi:nth-child(6n+4){border-top:3px solid var(--c-orange)}
+.kpis>.kpi:nth-child(6n+5){border-top:3px solid var(--c-green)}.kpis>.kpi:nth-child(6n){border-top:3px solid var(--c-magenta)}
+/* tables: tinted header, zebra rows, row highlight, colour-keyed top edge, fitted columns, scroll cues */
+.wrap .tbl{border-top:3px solid var(--sec,var(--grp))}
+.wrap th{background:var(--sec-s,var(--sunk,#eef2f2));color:var(--fg,#17212b);white-space:normal;text-wrap:balance;vertical-align:bottom}
+:where(.wrap tbody tr:nth-child(even)>td){background:color-mix(in srgb,var(--sunk,#eef2f2) 60%,transparent)}
+:where(.wrap tbody tr:hover>td){background:var(--sec-s,var(--accent-soft,#e1f0ef))}
+:where(.wrap td){line-height:1.5}
+.dqp-fit-t{width:1%;white-space:nowrap}
+.dqp-fit-m{min-width:calc(10rem * var(--fs,1))}
+.dqp-fit-w{min-width:calc(min(20rem,72vw) * var(--fs,1))}
+.dqp-fit-x{min-width:calc(min(28rem,80vw) * var(--fs,1));max-width:48rem}
+.wrap td.dqp-fit-w,.wrap td.dqp-fit-x{hyphens:auto;overflow-wrap:break-word}
+.tbl.dqp-long{max-height:min(78vh,900px);overflow:auto}
+.tbl.dqp-long thead th{position:sticky;top:0;z-index:2;box-shadow:0 1px 0 var(--line,#d6dddf)}
+.tbl.dqp-sl{background:linear-gradient(90deg,var(--surface,#fff) 30%,transparent) left/40px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.18),transparent) left/14px 100% no-repeat scroll,var(--surface,#fff)}
+.tbl.dqp-sr2{background:linear-gradient(270deg,var(--surface,#fff) 30%,transparent) right/40px 100% no-repeat local,
+  radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.18),transparent) right/14px 100% no-repeat scroll,var(--surface,#fff)}
+.tbl.dqp-sl.dqp-sr2{background:linear-gradient(90deg,var(--surface,#fff) 30%,transparent) left/40px 100% no-repeat local,
+  linear-gradient(270deg,var(--surface,#fff) 30%,transparent) right/40px 100% no-repeat local,
+  radial-gradient(farthest-side at 0 50%,rgba(0,0,0,.18),transparent) left/14px 100% no-repeat scroll,
+  radial-gradient(farthest-side at 100% 50%,rgba(0,0,0,.18),transparent) right/14px 100% no-repeat scroll,var(--surface,#fff)}
+.dqp-scrollhint{font-size:.78rem;color:var(--muted,#56636e);display:flex;align-items:center;gap:6px;margin:-4px 0 0}
+.dqp-scrollhint b{color:var(--sec,var(--accent));font-weight:700}
+/* reading progress, back to top, previous and next */
+.dqp-prog{position:absolute;left:0;right:0;bottom:-1px;height:3px;pointer-events:none}
+.dqp-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--dqp-focus),var(--c-gold));transition:width .1s linear}
+.dqp-top{position:fixed;z-index:70;right:max(14px,env(safe-area-inset-right,0px));bottom:max(14px,env(safe-area-inset-bottom,0px));
+  display:inline-flex;align-items:center;gap:6px;font:600 14px/1 "Public Sans",system-ui,sans-serif;padding:10px 14px;min-height:44px;border-radius:999px;
+  border:1px solid var(--dqp-bar-line);background:var(--dqp-bar);color:var(--dqp-bar-fg);cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.dqp-top:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
+.dqp-top .dqi{transform:rotate(180deg)}
+.dqp-pn{max-width:1180px;margin:0 auto 34px;padding:0 max(16px,env(safe-area-inset-left,0px));display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;font-family:"Public Sans",system-ui,sans-serif}
+.dqp-pn a.dqp-pn-prev,.dqp-pn a.dqp-pn-next{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:10px;border:1px solid var(--line,#d6dddf);
+  border-left:5px solid var(--grp);background:var(--surface,#fff);color:var(--fg,#17212b);text-decoration:none;min-width:0}
+.dqp-pn a.dqp-pn-next{text-align:right;border-left-width:1px;border-right:5px solid var(--grp);align-items:flex-end}
+.dqp-pn a:hover b{text-decoration:underline}
+.dqp-pn small{font-size:12px;color:var(--muted,#56636e);font-weight:600}
+.dqp-pn b{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--grp)}
+.dqp-pn b .dqi{color:var(--grp)}
+.dqp-pn-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--muted,#56636e);text-align:center}
+.dqp-pn-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+.dqp-pn-dot{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%}
+.dqp-pn-dot::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--grp);background:transparent}
+.dqp-pn-dot[aria-current="page"]::before{background:var(--grp);width:12px;height:12px}
+.dqp-pn a:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+@media (max-width:640px){.dqp-pn{grid-template-columns:1fr 1fr}.dqp-pn-mid{grid-column:1/-1;order:-1}}
+/* tooltips: shown on hover or keyboard focus, stay while the pointer is over them, close with Escape */
+abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-decoration-color:var(--sec,var(--accent));cursor:help}
+.dqp-tip{position:fixed;z-index:200;max-width:min(320px,calc(100vw - 24px));padding:8px 11px;border-radius:8px;background:#17212b;color:#f5f7f7;
+  font:500 13px/1.45 "Public Sans",system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25);border:1px solid #3b4b57}
+.dqp-tip::after{content:"";position:absolute;left:var(--ax,50%);width:10px;height:10px;background:inherit;border:inherit;transform:translateX(-50%) rotate(45deg)}
+.dqp-tip[data-pos="top"]::after{bottom:-6px;border-top:0;border-left:0}
+.dqp-tip[data-pos="bottom"]::after{top:-6px;border-bottom:0;border-right:0}
+:root[data-theme="dark"] .dqp-tip{background:#f5f7f7;color:#17212b;border-color:#c9d3d8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .dqp-tip{background:#f5f7f7;color:#17212b;border-color:#c9d3d8}}
+@media print{.dqp-top,.dqp-prog,.dqp-pn,.dqp-tip,.dqp-scrollhint{display:none!important}.tbl.dqp-long{max-height:none;overflow:visible}}
+@media (forced-colors: active){.dqp-pn-dot::before{border-color:CanvasText}.dqp-pn-dot[aria-current="page"]::before{background:CanvasText}.dqp-prog i{background:Highlight}}
+/* v2.8.0 share, embed mode and site map entry points */
+.dqp-share{position:relative;align-self:flex-start;display:flex;gap:8px;flex-wrap:wrap}
+.dqp-sharebtn{display:inline-flex;align-items:center;gap:6px;font:600 14px/1 "Public Sans",system-ui,sans-serif;min-height:36px;padding:8px 14px;border-radius:999px;
+  border:1px solid var(--grp);background:var(--surface,#fff);color:var(--grp);cursor:pointer}
+.dqp-sharebtn:hover{background:var(--grp-s)}
+.dqp-sharebtn:focus-visible,.dqp-sharemenu button:focus-visible,.dqp-sharemenu a:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+.dqp-sharemenu{position:absolute;z-index:60;top:calc(100% + 6px);left:0;min-width:min(290px,calc(100vw - 32px));background:var(--surface,#fff);color:var(--fg,#17212b);
+  border:1px solid var(--line,#d6dddf);border-top:4px solid var(--grp);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.18);padding:8px;display:flex;flex-direction:column;gap:2px}
+.dqp-sharemenu button,.dqp-sharemenu a{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font:500 14px/1.3 "Public Sans",system-ui,sans-serif;
+  padding:9px 10px;min-height:40px;border:0;border-radius:6px;background:none;color:inherit;text-decoration:none;cursor:pointer}
+.dqp-sharemenu button:hover,.dqp-sharemenu a:hover{background:var(--grp-s)}
+.dqp-sharemenu .dqi{color:var(--grp)}
+.dqp-sharemenu p{margin:4px 10px 6px;font-size:12px;color:var(--muted,#56636e)}
+.dqp-sharemsg{font-size:13px;font-weight:600;color:var(--good,#1f7a3d);align-self:center}
+.dqp-embed .dqp-bar,.dqp-embed .dqp-foot,.dqp-embed .dqp-pn,.dqp-embed .dqp-otpbtn,.dqp-embed .dqp-top,.dqp-embed .dqp-skip,.dqp-embed #dqp-tour-start{display:none!important}
+.dqp-embedsrc{max-width:1180px;margin:0 auto;padding:8px 16px;font:500 13px/1.4 "Public Sans",system-ui,sans-serif;color:var(--muted,#56636e);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.dqp-embedsrc a{color:var(--accent,#0d6b6e)}
 </style>
+<script>
+/* Embed mode (v2.8.0): ?embed=1 hides the Commons menu and footer so a page can sit inside an intranet page.
+   &accent=RRGGBB takes the host's accent colour (6 hex digits only). */
+(function () {
+  try {
+    var q = new URLSearchParams(location.search), r = document.documentElement;
+    if (q.get("embed") !== "1") return;
+    r.classList.add("dqp-embed");
+    var a = (q.get("accent") || "").replace(/^#/, "");
+    if (/^[0-9a-fA-F]{6}$/.test(a)) { ["--accent", "--grp", "--sec", "--dqp-icon"].forEach(function (v) { r.style.setProperty(v, "#" + a); }); }
+  } catch (e) {}
+})();
+</script>
 <a class="dqp-skip" href="#dqp-main">Skip to main content</a>
 {{ICONS}}
 <div class="dqp-bar" role="banner">
+  <div class="dqp-prog" aria-hidden="true"><i id="dqp-prog"></i></div>
   <div class="dqp-in">
     <a class="dqp-brand" href="index.html" aria-label="{{BRAND}}, home">
       <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.6"><circle cx="32" cy="24.5" r="13"/><circle cx="23.2" cy="39.5" r="13"/><circle cx="40.8" cy="39.5" r="13"/></g><circle cx="32" cy="34.6" r="7.4" fill="#ffbf47"/><path d="M28.4 34.8l2.6 2.6 4.8-5.2" fill="none" stroke="#0b0c0c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -216,6 +347,7 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
   <form role="search" onsubmit="return false"><svg class="dqi" aria-hidden="true"><use href="#i-search"/></svg><label for="dqp-q" class="dqp-sr">Search pages, sections, frameworks, professions and terms</label><input id="dqp-q" type="search" autocomplete="off" placeholder="Search pages, frameworks, professions, terms…" aria-describedby="dqp-scount"><button type="button" class="dqp-dclose" id="dqp-search-close" aria-label="Close search">×</button></form>
   <p class="dqp-shelp" id="dqp-scount" role="status" aria-live="polite">Type at least 2 letters. Use the arrow keys to move through results, Enter to open, Escape to close.</p>
   <ul class="dqp-sres" id="dqp-sres"></ul>
+  <p class="dqp-shelp"><a href="ask.html" id="dqp-ask-link">Ask a question instead</a>: answers drawn from across the Commons, with links to the source. Or browse the <a href="sitemap.html">site map</a>.</p>
 </dialog>
 <script>
 /* One way to reach GitHub from any page (D-GH-01, D-GH-02). Every portal form opens the
@@ -233,6 +365,8 @@ window.DQP_GITHUB = (function () {
   };
 })();
 </script>
+<script type="application/json" id="dqp-acr">{{ACRONYMS}}</script>
+<button class="dqp-top" type="button" id="dqp-top" hidden data-tip="Back to the top of the page (Home key)"><svg class="dqi" aria-hidden="true"><use href="#i-chevron"/></svg>Top</button>
 <script type="application/json" id="dqp-secflags">{{SECTION_FLAGS}}</script>
 <script type="application/json" id="dqp-releases">{{RELEASES}}</script>
 <span id="dqp-main" tabindex="-1"></span>
@@ -354,7 +488,15 @@ window.DQP_GITHUB = (function () {
     setTimeout(function () { place(el); next.focus(); }, el ? 350 : 0);
   }
   function start() {
-    steps = (window.DQP_TOUR || []).filter(function (s) { return !s.sel || document.querySelector(s.sel); });
+    // Every page tour ends with the shared aids (v2.8.0): fitted tables, tooltips and previous / next. Only shown if on screen.
+    var COMMON = [
+      {sel: ".wrap .tbl", title: "Reading tables", text: "Columns are sized to what they hold: short codes and numbers stay narrow, long descriptions get more room. If a table is wider than the screen, a shadow appears on its edge: scroll sideways, or hold Shift and use the mouse wheel. Long tables keep their column headings in view as you scroll."},
+      {sel: "abbr.dqp-abbr", title: "Tooltips and acronyms", text: "Acronyms have a dotted underline: hover over or tap one to see what it means. Buttons that only show an icon explain themselves when you hover over or tab to them. Press Escape to close a tooltip. Every term is also in the glossary on the Learn page."},
+      {sel: ".dqp-pn", title: "Previous, next and where you are", text: "At the end of each page you can go to the previous or next page in menu order. The dots show where you are in this part of the menu. Each part of the menu has its own colour, used on page headings, menu panels and these links."}
+    ];
+    var seen = {};
+    steps = (window.DQP_TOUR || []).filter(function (s) { if (s.sel) seen[s.sel] = 1; return !s.sel || document.querySelector(s.sel); })
+      .concat(COMMON.filter(function (s) { var el = document.querySelector(s.sel); return !seen[s.sel] && el && el.getClientRects().length; }));
     if (!steps.length) return;
     opener = document.activeElement;
     box = document.createElement("div");
@@ -491,6 +633,7 @@ window.DQP_GITHUB = (function () {
   function mark(text, toks) { var h = esc(text); toks.forEach(function (t) { if (t.length > 1) h = h.replace(new RegExp("(" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig"), "<mark>$1</mark>"); }); return h; }
   function run() {
     var v = q.value.trim().toLowerCase(), toks = v.split(/\s+/).filter(Boolean);
+    var al = $("dqp-ask-link"); if (al) al.href = "ask.html" + (v ? "?q=" + encodeURIComponent(q.value.trim()) : "");
     if (v.length < 2) { list.innerHTML = ""; count.textContent = "Type at least 2 letters. Use the arrow keys to move through results, Enter to open, Escape to close."; return; }
     if (!window.DQP_INDEX) { loadIndex(run); count.textContent = "Loading the search index…"; return; }
     var res = [];
@@ -525,6 +668,335 @@ window.DQP_GITHUB = (function () {
   });
 
   function ready() { setTimeout(function () { build(); motion(); }, 300); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready); else ready();
+})();
+</script>
+<script>
+/* v2.8.0 reading aids: section colours, fitted table columns, scroll cues, acronym tooltips,
+   reading progress and back to top. Everything is progressive: without JavaScript the page reads as before. */
+(function () {
+  var wrap = null;  // the page body comes after this script, so it is found once the page has loaded
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var HUES = {start: 0, learn: 1, check: 2, improve: 3, apply: 4, contribute: 5};
+  var ACR = {}; try { ACR = JSON.parse(($("dqp-acr") || {}).textContent || "{}") || {}; } catch (e) { ACR = {}; }
+
+  /* 1. Section colours: each top-level section takes the next hue, starting from the page's own group colour. */
+  function hues() {
+    if (!wrap) return;
+    var n = HUES[wrap.getAttribute("data-group")] || 0, k = 0;
+    wrap.querySelectorAll("section").forEach(function (sec) {
+      if (sec.hasAttribute("data-hue") || (sec.parentElement && sec.parentElement.closest("[data-hue]"))) return;
+      if (!sec.querySelector("h2")) return;
+      sec.setAttribute("data-hue", String((n + k++) % 8));
+    });
+    // match the colours in the "On this page" list
+    document.querySelectorAll("#dqp-otp-list a").forEach(function (a) {
+      var h = document.getElementById(a.getAttribute("href").slice(1)), host = h && h.closest("[data-hue]");
+      if (host) a.setAttribute("data-hue", host.getAttribute("data-hue"));
+    });
+  }
+
+  /* 2. Fitted columns: short columns shrink to fit, long-text columns get room to breathe. */
+  var CTRL = "input,select,textarea,button,canvas,progress,meter";
+  function text(c) { return (c.textContent || "").replace(/\s+/g, " ").trim(); }
+  function fit(table) {
+    if (table.closest(".dqp-nofit") || table.getAttribute("data-fit") === "off") return;
+    var rows = table.rows, cols = [], occ = {};
+    table.querySelectorAll(".dqp-fit-t,.dqp-fit-m,.dqp-fit-w,.dqp-fit-x").forEach(function (x) { x.classList.remove("dqp-fit-t", "dqp-fit-m", "dqp-fit-w", "dqp-fit-x"); });
+    for (var r = 0; r < rows.length; r++) {
+      var ci = 0;
+      for (var c = 0; c < rows[r].cells.length; c++) {
+        var cell = rows[r].cells[c];
+        while (occ[r + ":" + ci]) ci++;
+        var span = cell.colSpan || 1, rs = cell.rowSpan || 1;
+        for (var a = 0; a < rs; a++) for (var b = 0; b < span; b++) occ[(r + a) + ":" + (ci + b)] = 1;
+        if (span === 1) {
+          var col = cols[ci] || (cols[ci] = {cells: [], lens: [], head: 0, ctrl: false, num: 0, fixed: false});
+          col.cells.push(cell);
+          if (col.cells.length <= 3) { var mw = getComputedStyle(cell).minWidth; if (mw && mw !== "auto" && mw !== "0px") col.fixed = true; }
+          if (cell.tagName === "TH" && cell.closest("thead")) col.head = Math.max(col.head, text(cell).length);
+          else {
+            var t = text(cell); col.lens.push(t.length);
+            if (cell.querySelector(CTRL)) col.ctrl = true;
+            if (cell.classList.contains("num") || /^[\d\s.,%£$€+\-–−/:]+$/.test(t)) col.num++;
+          }
+        }
+        ci += span;
+      }
+    }
+    if (cols.length < 2) return;
+    cols.forEach(function (col) {
+      if (!col || col.fixed || col.ctrl || !col.lens.length) return;
+      var max = Math.max.apply(null, col.lens), avg = col.lens.reduce(function (x, y) { return x + y; }, 0) / col.lens.length, cls = "";
+      if (col.num / col.lens.length >= 0.8 || max <= 14) cls = "dqp-fit-t";
+      else if (cols.length >= 3 && (avg >= 90 || max >= 220)) cls = "dqp-fit-x";
+      else if (avg >= 45 || max >= 110) cls = "dqp-fit-w";
+      else if (avg >= 18) cls = "dqp-fit-m";
+      if (!cls) return;
+      col.cells.forEach(function (cell) { if (cls !== "dqp-fit-t" || cell.tagName === "TD" || text(cell).length <= 18) cell.classList.add(cls); });
+    });
+  }
+  function wrapCues(tbl) {
+    var table = tbl.querySelector("table"); if (!table) return;
+    var body = table.tBodies[0], many = body && body.rows.length > 25 && !tbl.closest(".card, dialog, details:not([open])");
+    tbl.classList.toggle("dqp-long", !!many);
+    // let a wide table use the spare width beside the reading column on large screens
+    tbl.style.marginLeft = tbl.style.marginRight = "";
+    if (wrap && window.innerWidth >= 1260 && tbl.parentElement && Math.abs(tbl.parentElement.clientWidth - tbl.clientWidth) < 4) {
+      var need = (tbl.scrollWidth - tbl.clientWidth) / 2, avail = (Math.min(1340, window.innerWidth - 56) - wrap.clientWidth + 32) / 2;
+      var wc = wrap.getBoundingClientRect(), tc = tbl.getBoundingClientRect();
+      if (need > 2 && avail > 8 && tc.width >= wc.width - 40) { var m = Math.round(Math.min(need, avail)); tbl.style.marginLeft = tbl.style.marginRight = (-m) + "px"; }
+    }
+    // on larger screens, ease the minimum widths down (in steps) until the table fits, so nothing hides off the edge;
+    // on phones the columns keep their readable width and the table scrolls sideways instead
+    table.style.removeProperty("--fs");
+    if (window.innerWidth >= 700) {
+      var fs = 1;
+      for (var k = 0; k < 6 && tbl.scrollWidth > tbl.clientWidth + 1 && fs > 0.5; k++) { fs = Math.max(0.5, fs * 0.85); table.style.setProperty("--fs", fs.toFixed(2)); }
+    }
+    var over = tbl.scrollWidth > tbl.clientWidth + 2, hint = tbl.nextElementSibling;
+    if (!(hint && hint.classList && hint.classList.contains("dqp-scrollhint"))) {
+      if (!over) { edge(tbl); return; }
+      hint = document.createElement("p"); hint.className = "dqp-scrollhint"; hint.setAttribute("aria-hidden", "true");
+      hint.innerHTML = "<b>↔</b> Wider than the screen: scroll sideways, or hold Shift and use the mouse wheel.";
+      tbl.insertAdjacentElement("afterend", hint);
+    }
+    hint.hidden = !over;
+    if (!tbl._dqpEdge) { tbl._dqpEdge = 1; tbl.addEventListener("scroll", function () { edge(tbl); }, {passive: true}); }
+    edge(tbl);
+  }
+  function edge(t) {
+    t.classList.toggle("dqp-sl", t.scrollLeft > 2);
+    t.classList.toggle("dqp-sr2", t.scrollLeft + t.clientWidth < t.scrollWidth - 2);
+  }
+  function tables() {
+    if (!wrap) return;
+    wrap.querySelectorAll("table").forEach(function (t) { if (t.offsetParent !== null || t.closest("[hidden]") === null) fit(t); });
+    wrap.querySelectorAll(".tbl").forEach(wrapCues);
+  }
+
+  /* 3. Acronyms: the first use of each on the page gets a dotted underline and a tooltip. */
+  var used = {}, keys = Object.keys(ACR).sort(function (a, b) { return b.length - a.length; });
+  var RX = keys.length ? new RegExp("\\b(" + keys.map(function (k) { return k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }).join("|") + ")\\b") : null;
+  var SKIP = "a,button,code,pre,kbd,script,style,h1,h2,h3,summary,label,option,select,textarea,abbr,svg,.eyebrow,.dqp-easy,.chip,.pill,.dqp-pn,[aria-hidden='true'],.sr-only,.dqp-sr,dialog";
+  function acronyms() {
+    if (!wrap || !RX) return;
+    var walker = document.createTreeWalker(wrap, NodeFilter.SHOW_TEXT, {acceptNode: function (n) {
+      if (!n.nodeValue || n.nodeValue.length < 2 || !RX.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+      var p = n.parentElement; return p && !p.closest(SKIP) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }});
+    var nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (n) {
+      var v = n.nodeValue, re = new RegExp(RX.source, "g"), m;
+      while ((m = re.exec(v))) {
+        if (used[m[1]]) continue;
+        used[m[1]] = 1;
+        var after = n.splitText(m.index), rest = after.splitText(m[1].length);
+        var ab = document.createElement("abbr"); ab.className = "dqp-abbr"; ab.setAttribute("data-tip", m[1] + ": " + ACR[m[1]]);
+        ab.textContent = m[1]; after.parentNode.replaceChild(ab, after);
+        n = rest; v = n.nodeValue; re.lastIndex = 0;
+      }
+    });
+  }
+
+  /* 4. Tooltips: one shared bubble for anything with data-tip. Hover, keyboard focus or tap shows it;
+        it stays while the pointer is over it, and Escape closes it (WCAG 1.4.13). */
+  var LVL = {beginner: "Beginner: no previous knowledge needed", intermediate: "Intermediate: some familiarity with data quality helps", advanced: "Advanced: for specialists, assumes working knowledge"};
+  function autoTips() {
+    document.querySelectorAll(".dqp-lvl:not([data-tip])").forEach(function (b) { var k = (b.textContent || "").trim().toLowerCase(); if (LVL[k]) b.setAttribute("data-tip", LVL[k]); });
+    document.querySelectorAll(".dqp-navflag:not([data-tip])").forEach(function (b) { b.setAttribute("data-tip", b.classList.contains("upd") ? "Changed in a recent release" : "Added in a recent release"); });
+    var shell = {"dqp-search-open": "Search the Commons (press / or Ctrl+K)", "dqp-new-open": "What's new and what's changed in each release", "dqp-tour-start": "A short guided tour of this page", "dqp-otp-open": "Jump to a section of this page; colours match the section headings"};
+    Object.keys(shell).forEach(function (id) { var e = $(id); if (e && !e.hasAttribute("data-tip")) e.setAttribute("data-tip", shell[id]); });
+    document.querySelectorAll("[title]").forEach(function (e) {
+      if (e.closest("svg") || e.tagName === "IFRAME" || e.tagName === "LINK" || e.tagName === "STYLE" || e.tagName === "ABBR" && e.classList.contains("dqp-abbr")) return;
+      var t = e.getAttribute("title"); if (!t) return;
+      if (!text(e) && !e.getAttribute("aria-label") && !e.getAttribute("aria-labelledby")) e.setAttribute("aria-label", t);
+      e.setAttribute("data-tip", t); e.removeAttribute("title");
+    });
+    document.querySelectorAll("button[aria-label]:not([data-tip]),a[aria-label]:not([data-tip])").forEach(function (e) {
+      if (text(e).replace(/[×✕+−]/g, "").length < 2 && !e.closest(".dqp-bar .dqp-brand")) e.setAttribute("data-tip", e.getAttribute("aria-label"));
+    });
+  }
+  var tip = document.createElement("div"); tip.className = "dqp-tip"; tip.id = "dqp-tip"; tip.setAttribute("role", "tooltip"); tip.hidden = true;
+  document.body.appendChild(tip);
+  var cur = null, showT = 0, hideT = 0, pinned = false;
+  function show(el) {
+    clearTimeout(hideT); clearTimeout(showT);
+    if (cur && cur !== el) hide(true);
+    var t = el.getAttribute("data-tip"); if (!t) return;
+    cur = el; tip.textContent = t; tip.hidden = false;
+    var lab = (el.getAttribute("aria-label") || "").trim();
+    if (lab !== t && document.activeElement === el) {
+      var d = (el.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
+      if (d.indexOf("dqp-tip") < 0) { d.push("dqp-tip"); el.setAttribute("aria-describedby", d.join(" ")); }
+    }
+    pos();
+  }
+  function pos() {
+    if (!cur) return;
+    var r = cur.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight, vw = window.innerWidth;
+    var top = r.top - h - 10, where = "top";
+    if (top < 62) { top = r.bottom + 10; where = "bottom"; }
+    var left = Math.min(Math.max(12, r.left + r.width / 2 - w / 2), vw - w - 12);
+    tip.style.top = top + "px"; tip.style.left = left + "px"; tip.setAttribute("data-pos", where);
+    tip.style.setProperty("--ax", Math.min(Math.max(12, r.left + r.width / 2 - left), w - 12) + "px");
+  }
+  function hide(now) {
+    clearTimeout(showT);
+    var go = function () {
+      if (cur) { var d = (cur.getAttribute("aria-describedby") || "").split(/\s+/).filter(function (x) { return x && x !== "dqp-tip"; });
+        if (d.length) cur.setAttribute("aria-describedby", d.join(" ")); else cur.removeAttribute("aria-describedby"); }
+      cur = null; pinned = false; tip.hidden = true;
+    };
+    if (now === true) go(); else hideT = setTimeout(go, 150);
+  }
+  document.addEventListener("mouseover", function (e) {
+    var el = e.target.closest && e.target.closest("[data-tip]");
+    if (el) { clearTimeout(hideT); if (el !== cur) { clearTimeout(showT); showT = setTimeout(function () { show(el); }, 250); } }
+    else if (e.target.closest && e.target.closest("#dqp-tip")) clearTimeout(hideT);
+  });
+  document.addEventListener("mouseout", function (e) {
+    var el = e.target.closest && e.target.closest("[data-tip], #dqp-tip");
+    if (el && !pinned && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest("[data-tip], #dqp-tip") === el)) { clearTimeout(showT); hide(); }
+  });
+  document.addEventListener("focusin", function (e) { var el = e.target.closest && e.target.closest("[data-tip]"); if (el) show(el); });
+  document.addEventListener("focusout", function (e) { if (cur && e.target === cur && !pinned) hide(true); });
+  document.addEventListener("click", function (e) {
+    var ab = e.target.closest && e.target.closest("abbr.dqp-abbr");
+    if (ab) { if (cur === ab && pinned) hide(true); else { show(ab); pinned = true; } return; }
+    if (pinned && !(e.target.closest && e.target.closest("#dqp-tip"))) hide(true);
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && cur) { hide(true); } }, true);
+  window.addEventListener("scroll", function () { if (cur) pos(); }, {passive: true});
+
+  /* 5. Reading progress and back to top. */
+  var bar = $("dqp-prog"), top = $("dqp-top"), ticking = false;
+  function onScroll() {
+    ticking = false;
+    var h = document.documentElement, max = h.scrollHeight - window.innerHeight, y = window.scrollY || h.scrollTop;
+    if (bar) bar.style.width = (max > 0 ? Math.min(100, y / max * 100) : 0) + "%";
+    if (top) top.hidden = y < window.innerHeight * 1.5;
+  }
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, {passive: true});
+  if (top) top.addEventListener("click", function () {
+    window.scrollTo({top: 0, behavior: reduce ? "auto" : "smooth"});
+    var m = $("dqp-main"); if (m) m.focus({preventScroll: true});
+    hide(true);
+  });
+
+  /* Run once the page has drawn, and again (debounced) whenever a page redraws its own tables or lists. */
+  function all() { wrap = document.querySelector(".wrap"); hues(); tables(); acronyms(); autoTips(); onScroll(); }
+  var deb = 0;
+  function later() { clearTimeout(deb); deb = setTimeout(all, 250); }
+  function ready() {
+    wrap = document.querySelector(".wrap");
+    setTimeout(all, 450);
+    if (wrap && "MutationObserver" in window) new MutationObserver(function (ms) {
+      for (var i = 0; i < ms.length; i++) {
+        var add = ms[i].addedNodes;
+        for (var j = 0; j < add.length; j++) {
+          var n = add[j];
+          if (n.nodeType === 1 && !(n.classList.contains("dqp-scrollhint") || n.classList.contains("dqp-abbr"))) return later();
+        }
+      }
+    }).observe(wrap, {childList: true, subtree: true});
+    var rt = 0; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(function () { tables(); onScroll(); }, 200); });
+    window.addEventListener("beforeprint", function () { document.querySelectorAll(".tbl").forEach(function (t) { t.style.marginLeft = t.style.marginRight = ""; }); });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready); else ready();
+})();
+</script>
+<script>
+/* v2.8.0 Share on every page, deep links (?search=), and embed mode helpers. Nothing is sent anywhere:
+   sharing uses your own device, mail program or the site you choose. */
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); };
+  var svg = function (n) { return '<svg class="dqi" aria-hidden="true" focusable="false"><use href="#i-' + n + '"/></svg>'; };
+  function clean(u) { var x = new URL(u || location.href); x.searchParams.delete("embed"); x.searchParams.delete("accent"); x.searchParams.delete("tour"); return x.toString(); }
+  function currentSection() {
+    var hs = Array.prototype.slice.call(document.querySelectorAll(".wrap h2[id]")), best = null;
+    hs.forEach(function (h) { if (h.getBoundingClientRect().top < 140 && h.offsetParent !== null) best = h; });
+    return best;
+  }
+  function copy(text, done) {
+    var ok = function () { done(true); }, bad = function () {
+      var t = document.createElement("textarea"); t.value = text; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+      document.body.appendChild(t); t.select(); var r = false; try { r = document.execCommand("copy"); } catch (e) {} t.remove(); done(r);
+    };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, bad); else bad();
+  }
+  function shareUI() {
+    var head = document.querySelector(".wrap > header.page");
+    if (!head || head.querySelector(".dqp-share")) return;
+    var box = document.createElement("div"); box.className = "dqp-share";
+    box.innerHTML = '<button type="button" class="dqp-sharebtn" aria-expanded="false" aria-controls="dqp-sharemenu">' + svg("share") + 'Share this page</button>' +
+      '<span class="dqp-sharemsg" role="status" aria-live="polite"></span>' +
+      '<div class="dqp-sharemenu" id="dqp-sharemenu" hidden></div>';
+    var after = head.querySelector(":scope > .lede") || head.querySelector("h1"); if (after) after.insertAdjacentElement("afterend", box); else head.appendChild(box);
+    var btn = box.querySelector("button"), menu = box.querySelector(".dqp-sharemenu"), msg = box.querySelector(".dqp-sharemsg");
+    function say(t) { msg.textContent = t; setTimeout(function () { if (msg.textContent === t) msg.textContent = ""; }, 4000); }
+    function close(focus) { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); if (focus) btn.focus(); }
+    function open() {
+      var url = clean(), title = document.title, sec = currentSection(), secUrl = sec ? clean(location.href.split("#")[0]) + "#" + sec.id : "";
+      var items = [];
+      if (navigator.share) items.push('<button type="button" data-a="native">' + svg("share") + "Share using your device…</button>");
+      items.push('<button type="button" data-a="copy">' + svg("copy") + "Copy link to this page</button>");
+      if (sec) items.push('<button type="button" data-a="sec">' + svg("link") + "Copy link to this section: " + esc(sec.textContent.replace(/\s*(New|Updated)\s*$/, "").trim().slice(0, 40)) + "</button>");
+      items.push('<a data-a="mail" href="mailto:?subject=' + encodeURIComponent(title) + "&body=" + encodeURIComponent(title + "\n" + url) + '">' + svg("message") + "Email the link</a>");
+      items.push('<a data-a="x" target="_blank" rel="noopener" href="https://teams.microsoft.com/share?href=' + encodeURIComponent(url) + "&msgText=" + encodeURIComponent(title) + '">' + svg("chat") + 'Share to Microsoft Teams<span class="dqp-sr"> (opens in a new tab)</span></a>');
+      items.push('<a data-a="x" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(url) + '">' + svg("users") + 'Share to LinkedIn<span class="dqp-sr"> (opens in a new tab)</span></a>');
+      items.push('<button type="button" data-a="embed">' + svg("code") + "Copy code to embed this page</button>");
+      items.push('<button type="button" data-a="print">' + svg("filecheck") + "Print or save as PDF</button>");
+      items.push("<p>Nothing is sent by the Commons: sharing uses your own device, mail program or the site you choose. <a href=\"reuse.html\" style=\"display:inline;padding:0;min-height:0\">More ways to reuse</a>.</p>");
+      menu.innerHTML = items.join("");
+      menu.hidden = false; btn.setAttribute("aria-expanded", "true");
+      var f = menu.querySelector("button,a"); if (f) f.focus();
+      menu.onclick = function (e) {
+        var t = e.target.closest("[data-a]"); if (!t) return;
+        var a = t.getAttribute("data-a");
+        if (a === "native") { navigator.share({title: title, url: url}).catch(function () {}); close(true); }
+        else if (a === "copy") { copy(url, function (k) { say(k ? "Link copied." : "Couldn't copy. Copy the address from your browser."); }); close(true); }
+        else if (a === "sec") { copy(secUrl, function (k) { say(k ? "Section link copied." : "Couldn't copy the link."); }); close(true); }
+        else if (a === "embed") {
+          var code = '<iframe src="' + url.split("#")[0] + (url.indexOf("?") > -1 ? "&" : "?") + 'embed=1" title="' + esc(title) + ' (DQ Commons)" width="100%" height="900" style="border:0" loading="lazy"></iframe>';
+          copy(code, function (k) { say(k ? "Embed code copied. See Use the Commons your way for options." : "Couldn't copy the code."); }); close(true);
+        }
+        else if (a === "print") { close(false); window.print(); }
+        else close(false);
+      };
+    }
+    btn.addEventListener("click", function () { if (menu.hidden) open(); else close(true); });
+    document.addEventListener("click", function (e) { if (!menu.hidden && !box.contains(e.target)) close(false); });
+    box.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !menu.hidden) { e.preventDefault(); e.stopPropagation(); close(true); }
+      if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !menu.hidden) {
+        var els = Array.prototype.slice.call(menu.querySelectorAll("button,a[data-a]")), i = els.indexOf(document.activeElement);
+        e.preventDefault(); var n = e.key === "ArrowDown" ? (i + 1) % els.length : (i - 1 + els.length) % els.length; els[n].focus();
+      }
+    });
+  }
+  function embedMode() {
+    var r = document.documentElement; if (!r.classList.contains("dqp-embed")) return;
+    var src = document.createElement("p"); src.className = "dqp-embedsrc";
+    src.innerHTML = svg("external") + 'From the <a href="' + esc(clean()) + '" target="_blank" rel="noopener">Public Sector Data Quality Commons<span class="dqp-sr"> (opens in a new tab)</span></a>, open and free to reuse.';
+    var w = document.querySelector(".wrap"); if (w) w.parentNode.insertBefore(src, w);
+    var q = new URLSearchParams(location.search), keep = "embed=1" + (q.get("accent") ? "&accent=" + encodeURIComponent(q.get("accent")) : "");
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]"); if (!a) return;
+      var h = a.getAttribute("href"); if (!/^[a-z0-9-]+\.html/i.test(h) || a.target) return;
+      e.preventDefault(); var parts = h.split("#"); location.href = parts[0] + (parts[0].indexOf("?") > -1 ? "&" : "?") + keep + (parts[1] ? "#" + parts[1] : "");
+    });
+    // let the host page size the frame to fit (the host needs a small listener; see Use the Commons your way)
+    var last = 0; function tell() { var h = document.documentElement.scrollHeight; if (Math.abs(h - last) > 4 && window.parent !== window) { last = h; window.parent.postMessage({type: "dqp-height", height: h}, "*"); } }
+    setInterval(tell, 1000); tell();
+  }
+  function ready() {
+    setTimeout(shareUI, 350); embedMode();
+    var s = new URLSearchParams(location.search).get("search");
+    if (s) setTimeout(function () { var b = $("dqp-search-open"), q = $("dqp-q"); if (b && q) { b.click(); q.value = s.slice(0, 120); q.dispatchEvent(new Event("input")); } }, 500);
+  }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", ready); else ready();
 })();
 </script>
