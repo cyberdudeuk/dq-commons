@@ -10,6 +10,7 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 - `knowledge/feedback.yaml`: Microsoft Form route (configurable link and pre-filled link), question set, settings and set-up steps; feedback strip on every page; Give feedback section on `build.html`; `downloads/dq-commons-feedback-form-questions.docx` (D-FB-01).
 - `tests/test_wheel_change_feedback.py` (14 tests). Icons `wheel`, `feedback`.
 ### Changed
+- Striped table rows use a theme-aware overlay, fixing dark-mode contrast on pages with their own colour tokens.
 - Maturity page links to the wheel; Community adds the KIM profession and The National Archives' information management; supplier and information governance roles gain change duties; privacy notice covers the Microsoft Form; user guide tasks and tour list; operating model, FTIR spec, equality and data protection screening, user research bundle.
 
 ## 2.8.0 — 2026-11-05

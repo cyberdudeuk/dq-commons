@@ -189,15 +189,15 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 :root{
   --c-teal:#0d6b6e;--c-teal-s:#e1f0ef;--c-purple:#6a3d9a;--c-purple-s:#efe8f8;--c-blue:#1c5ea6;--c-blue-s:#e3edf9;
   --c-orange:#a04800;--c-orange-s:#fcebdd;--c-green:#2d7521;--c-green-s:#e5f2e1;--c-magenta:#a12d6c;--c-magenta-s:#f9e4ef;
-  --c-gold:#7f5f00;--c-gold-s:#f8efd2;--c-slate:#4a5a6a;--c-slate-s:#e8ecf0;--grp:var(--c-teal);--grp-s:var(--c-teal-s);--sec:var(--grp);--sec-s:var(--grp-s)}
+  --c-gold:#7f5f00;--c-gold-s:#f8efd2;--c-slate:#4a5a6a;--c-slate-s:#e8ecf0;--grp:var(--c-teal);--grp-s:var(--c-teal-s);--sec:var(--grp);--sec-s:var(--grp-s);--dqp-zebra:rgba(23,33,43,.04)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --c-teal:#4fb8b4;--c-teal-s:#16312f;--c-purple:#b79be6;--c-purple-s:#271e3a;--c-blue:#86b5ee;--c-blue-s:#16263c;
   --c-orange:#f0a46b;--c-orange-s:#38230f;--c-green:#8fcf7e;--c-green-s:#18301a;--c-magenta:#ec93c2;--c-magenta-s:#391a2b;
-  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36}}
+  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36;--dqp-zebra:rgba(255,255,255,.045)}}
 :root[data-theme="dark"]{
   --c-teal:#4fb8b4;--c-teal-s:#16312f;--c-purple:#b79be6;--c-purple-s:#271e3a;--c-blue:#86b5ee;--c-blue-s:#16263c;
   --c-orange:#f0a46b;--c-orange-s:#38230f;--c-green:#8fcf7e;--c-green-s:#18301a;--c-magenta:#ec93c2;--c-magenta-s:#391a2b;
-  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36}
+  --c-gold:#e3c35a;--c-gold-s:#33290c;--c-slate:#aab8c6;--c-slate-s:#222c36;--dqp-zebra:rgba(255,255,255,.045)}
 [data-group="start"],[data-g="start"]{--grp:var(--c-teal);--grp-s:var(--c-teal-s)}
 [data-group="learn"],[data-g="learn"]{--grp:var(--c-purple);--grp-s:var(--c-purple-s)}
 [data-group="check"],[data-g="check"]{--grp:var(--c-blue);--grp-s:var(--c-blue-s)}
@@ -229,7 +229,7 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 /* tables: tinted header, zebra rows, row highlight, colour-keyed top edge, fitted columns, scroll cues */
 .wrap .tbl{border-top:3px solid var(--sec,var(--grp))}
 .wrap th{background:var(--sec-s,var(--sunk,#eef2f2));color:var(--fg,#17212b);white-space:normal;text-wrap:balance;vertical-align:bottom}
-:where(.wrap tbody tr:nth-child(even)>td){background:color-mix(in srgb,var(--sunk,#eef2f2) 60%,transparent)}
+:where(.wrap tbody tr:nth-child(even)>td){background:var(--dqp-zebra)}
 :where(.wrap tbody tr:hover>td){background:var(--sec-s,var(--accent-soft,#e1f0ef))}
 :where(.wrap td){line-height:1.5}
 .dqp-fit-t{width:1%;white-space:nowrap}

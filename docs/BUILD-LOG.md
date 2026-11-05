@@ -9,6 +9,7 @@
 - **Research:** checked the DMA for Government structure (10 topics, 6 themes, five levels), the DAMA-DMBOK2 revised edition (2024), NISTA replacing the IPA (April 2025), the KIM profession, The National Archives' IMA and the section 46 Code, and Microsoft Forms pre-filled links.
 - **Community:** added the Government Knowledge and Information Management Profession and The National Archives' information management.
 - **Docs:** decisions, changelog, README, user guide (page and Markdown), FTIR spec, operating model, equality and data protection screening, user research bundle (personas and hypotheses 5 to 7), architecture section 12.
+- **Fixed after the CI accessibility check:** striped table rows used a light fallback colour on the two pages that carry their own colour tokens, so dark mode had light-on-light rows (baseline, NDL assurance). Stripes now use a theme-aware overlay defined in the shell. Also fixed in this release: two YAML values lost to unquoted commas and colons (caught by the knowledge tests), and tables no longer hyphenate words.
 
 ## 2026-11-05 — v2.8.0: easier tables and signposting, site map, Ask the Commons, sharing and reuse
 
