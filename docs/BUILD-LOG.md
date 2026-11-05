@@ -1,5 +1,15 @@
 # Build journal
 
+## 2026-11-05 — v2.7.0: catalogues and quality tools, integration and buying
+
+**Asked for:** content and guidance on integrating data catalogue software with data quality software (same or different vendors), resources for finding out more, help for RFI, RFP and wider procurement, and avoiding vendor lock-in through bundles and commercial barriers.
+
+**Researched (5 November 2026):** vendor documentation and announcements for Alation, Atlan, Collibra, Informatica, Ataccama, IBM, Precisely, Qlik Talend, Microsoft Purview, Google Knowledge Catalog, AWS Glue Data Quality and SageMaker Catalog, Databricks Unity Catalog, Snowflake Horizon, DataHub, OpenMetadata, data.world, Great Expectations, Soda and observability tools; ODCS v3.1, OpenLineage, Iceberg REST, Polaris and Unity Catalog open source; Procurement Act 2023, G-Cloud 15 and the Government Commercial Agency, Technology Code of Practice, Open Standards principles, DDaT Playbook, CMA cloud investigation and March 2026 actions, EU Data Act switching rules, the Commons Science, Innovation and Technology Committee report of 3 June 2026, EDM Council CDMC. One false claim (an acquisition that did not happen) was found in an AI-generated vendor profile and excluded.
+
+**Built:** `knowledge/catalogue-integration.yaml`; `catalogues.html` with pattern explorer, depth ladder, filterable product table with side-by-side comparison, lock-in checker (statements, score, risks, clauses, questions), question builder (CSV and Markdown downloads), proof-of-concept and exit checklists, buying route and resources; clause builder deep links; links from Tooling, Buying and suppliers, home capability map and capabilities C3 and C12; search entries.
+
+**Checked:** knowledge tests (6), full suite, browser tests of every control and the hand-off to the clause builder, phone width (long links now wrap), page probe on every page.
+
 ## 2026-11-04 — v2.6.0: menu fixed, visual inspection, models made interactive and joined up across the Commons
 
 **Asked for:** fix the first menu running off screen; run a general visual inspection; update the Commons with the new capability, data model and workflow content, as intuitive, dynamic and interactive as possible, with visual navigation.

@@ -68,6 +68,7 @@ GROUPS = [
         ("playbook", "Data quality management playbook", "Eight stages to manage the quality of critical data assets: steps, checklists, roles, templates and the DAM policy, usable anywhere"),
         ("frameworks", "Frameworks and standards", "30 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
+        ("catalogues", "Catalogues and quality tools", "How data catalogues and quality tools connect, what to ask suppliers, and how to avoid lock-in and bundling traps"),
         ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
         ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),
         ("legacy", "Legacy and modernisation", "Data debt, migration gates, MoSCoW, self-assessment and a reconciliation tool"),
@@ -94,7 +95,7 @@ GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
                                     "check", "maturity", "scenarios", "community", "surveys", "operate"]},
-         **{s: "Intermediate" for s in ["professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
+         **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
                                         "frameworks", "tooling", "ai", "commercial", "global", "share", "build"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
@@ -104,7 +105,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake"}
 
 
 def icon(name: str) -> str:
@@ -285,6 +286,7 @@ def knowledge() -> dict:
         "COMMERCIAL": lambda: y("commercial"),
         "LEGACY": lambda: y("legacy"),
         "INTEROP": lambda: y("interop"),
+        "CATALOGUES": lambda: y("catalogue-integration"),
         "MODELS": lambda: models_summary(),
         "MODELNAV": lambda: models_nav(),
         "MEDIA": lambda: y("media"),
@@ -502,7 +504,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 SEARCH_SOURCES = {"frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
-                  "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles"}
+                  "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
 NAME_KEYS = ("name", "title", "term", "label", "question")
 DESC_KEYS = ("summary", "description", "definition", "what", "why", "answer", "desc", "purpose", "note")
 SECTION_FLAGS: dict = {}

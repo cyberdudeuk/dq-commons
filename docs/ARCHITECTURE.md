@@ -230,6 +230,11 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 9. v2.7.0: catalogues and quality tools (5 November 2026)
+- **Knowledge:** `knowledge/catalogue-integration.yaml` (patterns, depth, products with sources and checked dates, standards, risks, rfx, poc, exit, steps, routes, related), fed to `catalogues.html` as `__K_CATALOGUES__` and to search.
+- **Cross-page:** `commercial.html#add=<clause ids>` adds clauses to the schedule; risks and the exit checklist use it (D-COM-02).
+- **Client-side only:** checker answers, selections and ticks stay in the browser (localStorage, guarded); downloads are generated in the browser.
+
 ## 8. v2.6.0: the model as navigation (4 November 2026)
 - **Navigation fields** in `models/dq-capability.yaml`: `pages` (capability), `page` and `stage` (step), `lanes` (swimlane to stakeholder and learning role). Validated by `build_models.py` against `portal/src/pages`, `knowledge/playbook.yaml`, `stakeholders.yaml` and `learning.yaml` (D-NAV-02).
 - **Feeds:** `__K_MODELS__` (full, models page) and `__K_MODELNAV__` (light: capabilities, lanes, steps; home, roles, playbook).

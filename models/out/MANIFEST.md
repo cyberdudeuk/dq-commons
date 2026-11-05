@@ -11,7 +11,7 @@ Model version 1.1.0, from models/dq-capability.yaml. sha256 of each file:
 - `bpmn/P3-data-quality-issue-management.bpmn` ab6b22865c8c527a
 - `bpmn/P4-scheduled-measurement-run.bpmn` a81781e527857101
 - `bpmn/P5-annual-review-and-return.bpmn` a219b43f77606f29
-- `dictionary/capability-guidance-matrix.csv` 8baf91dfc68826f1
+- `dictionary/capability-guidance-matrix.csv` 87a52775454feb59
 - `dictionary/data-dictionary.csv` fd2dfa06977c7bd8
 - `erd/dq-data-model.mmd` f919afd106e6ddf3
 - `json/dq-data-model.schema.json` 6ca5cf095a630dc8

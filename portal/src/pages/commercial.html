@@ -62,6 +62,7 @@ __BASE_CSS__
 <section id="tender" aria-labelledby="t-h">
   <h2 id="t-h">Tender questions, with what good looks like</h2>
   <p class="small">Use these in evaluation. Score each answer 0 to 4; the total shows how ready a bidder is to carry data quality responsibility.</p>
+  <p class="small">Buying a data catalogue or quality tool? <a href="catalogues.html#questions">Build an RFI or RFP from 32 integration, portability and lock-in questions</a>, and <a href="catalogues.html#checker">check a bundle for lock-in risks</a>.</p>
   <div class="tbl"><table class="score"><thead><tr><th>Question</th><th>A good answer</th><th>Score</th></tr></thead><tbody id="tq"></tbody></table></div>
   <p id="tqTotal" aria-live="polite"></p>
 </section>
@@ -108,6 +109,11 @@ $("buyer").addEventListener("input", drawSched);
 $("pMust").onclick = () => { chosen = new Set(K.clauses.filter(c => c.moscow === "must").map(c => c.id)); drawList(); drawSched(); };
 $("pAll").onclick = () => { chosen = new Set(K.clauses.map(c => c.id)); drawList(); drawSched(); };
 $("pNone").onclick = () => { chosen = new Set(); drawList(); drawSched(); };
+// Deep link from other pages: commercial.html#add=C03,C12 adds those clauses to the schedule.
+(() => { const m = location.hash.match(/^#add=([A-Z0-9,]+)$/); if (!m) return;
+  const ids = m[1].split(",").filter(id => K.clauses.some(c => c.id === id)); if (!ids.length) return;
+  ids.forEach(id => chosen.add(id)); drawList(); drawSched(); $("msg").textContent = `Added ${ids.join(", ")} to your schedule.`;
+  setTimeout(() => $("clauses").scrollIntoView(), 50); })();
 $("bars").addEventListener("click", e => { const b = e.target.closest("[data-add]"); if (!b) return; chosen.add(b.dataset.add); drawList(); drawSched();
   $("msg").textContent = `Added ${b.dataset.add} to your schedule.`; });
 $("copy").onclick = async () => { try { await navigator.clipboard.writeText($("sched").value); $("msg").textContent = "Copied."; } catch (e) { $("sched").focus(); $("sched").select(); $("msg").textContent = "Copying isn't allowed here; the text is selected: press Ctrl+C (or Cmd+C)."; } };

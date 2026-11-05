@@ -2,6 +2,14 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.7.0 — 2026-11-05
+### Added
+- `knowledge/catalogue-integration.yaml` and page `catalogues.html` (Manage and improve): integration patterns, integration depth levels, 20 products with sources, open standards, 16 lock-in risks, 32 RFI and RFP questions, a 10-test proof-of-concept script, exit checklist, buying route and UK procurement resources (D-COM-02).
+- `tests/test_catalogues.py`.
+### Changed
+- `commercial.html` accepts `#add=C03,C12` to add clauses to the schedule; links from Tooling and the tender questions.
+- Capabilities C3 and C12 link to the new page (model version 1.1.0 exports regenerated).
+
 ## 2.6.0 — 2026-11-04
 ### Fixed
 - Menu panels: positioned to stay on screen (`placePanel` in the shell); groups with more than 6 pages show in two columns; full menu from 1300px, compact Menu button below; brand no longer shrinks or overlaps the menu; no sideways scrolling from 320px up.

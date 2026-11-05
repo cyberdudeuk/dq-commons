@@ -1,0 +1,795 @@
+# Data catalogues and data quality tools: how they connect, how to buy them, and how to avoid lock-in.
+# Feeds the "Catalogues and quality tools" page (catalogues.html). Product facts are what each vendor or its
+# documentation says, checked on the date shown, with sources. They are not endorsements, rankings or
+# approved-supplier statements. Check again before you rely on them: products, names and owners change.
+review: {last_reviewed: "2026-11-05", owner_role: "Content steward (tooling and commercial)", next_review: "2027-02-05"}
+
+summary: "A data catalogue tells people what data exists, what it means and who owns it. A data quality tool tells them whether it is good enough to use. People need both answers in the same place, at the moment they choose the data. Most organisations already own a catalogue or a quality tool, or are about to buy one, often as part of a bundle. This page explains how the two connect, what to ask suppliers, how to test their claims and how to keep the freedom to change supplier later."
+
+disclaimer: "Product information is taken from vendors' own documentation and announcements, and from public sources, on the date shown. It is not an endorsement, a ranking or advice to buy. Prices quoted from Digital Marketplace listings are examples only. This is not legal or commercial advice: work with your commercial and legal teams."
+
+facts:
+- text: "Lock-in is now a parliamentary concern. On 3 June 2026 the Commons Science, Innovation and Technology Committee called the public sector's reliance on a small number of large technology suppliers an unacceptable point of weakness, said vendor lock-in is not inevitable, called for a cross-public-sector strategy to end it, and highlighted serious data hygiene deficiencies."
+  source: "https://committees.parliament.uk/committee/135/science-innovation-and-technology-committee/news/214048/mps-warn-that-palantirs-increasing-presence-in-the-uk-public-sector-is-an-unacceptable-point-of-weakness/"
+- text: "The Competition and Markets Authority's cloud market investigation (final decision 31 July 2025) found that data egress fees and barriers to interoperability restrict switching and multi-cloud use. In March 2026 the CMA announced a package of actions, including steps by Amazon and Microsoft on egress fees and interoperability for UK customers."
+  source: "https://www.gov.uk/government/news/cma-announces-package-of-actions-on-business-software-and-cloud-services"
+- text: "The market is consolidating. Salesforce completed its purchase of Informatica (catalogue, quality, governance, master data) on 18 November 2025. ServiceNow agreed to buy the data.world catalogue in May 2025. Qlik bought Talend in 2023. A change of owner can change roadmaps, bundles and prices, so contracts need to plan for it."
+  source: "https://www.businesswire.com/news/home/20251118759580/en"
+- text: "The big cloud and data platforms now include their own catalogue and data quality features: Microsoft Purview Unified Catalog, Google Knowledge Catalog (formerly Dataplex Universal Catalog), AWS Glue Data Quality with Amazon SageMaker Catalog, Databricks Unity Catalog and Snowflake Horizon. They are convenient, but they tie quality to one platform unless you plan otherwise."
+  source: "https://learn.microsoft.com/purview/unified-catalog-data-quality"
+- text: "Open standards now cover the main joins between tools: the Open Data Contract Standard (ODCS, version 3.1) for rules and expectations, OpenLineage for lineage and quality results from pipelines, W3C DCAT and DQV for catalogue records and quality measurements, and the Apache Iceberg REST catalog specification for tables. Asking for them is the most effective single protection against lock-in."
+  source: "https://bitol.io/bitol-announces-odcs-v3-1-0-stronger-smarter-and-stricter/"
+- text: "Check vendor facts at source. While researching this page the Commons found an AI-generated vendor profile stating that one data quality vendor had been bought by a competitor; it had not. Use vendors' own documentation, official notices and the Digital Marketplace, and ask suppliers to confirm claims in writing."
+  source: ""
+
+# How catalogue and quality tools are put together, from most to least locked in.
+patterns:
+- id: bundle
+  name: "Single-vendor suite"
+  lockin: 5
+  what: "One vendor sells catalogue, quality and often master data, lineage and integration as one platform, priced together."
+  examples: ["Ataccama ONE", "Informatica IDMC (Salesforce)", "Collibra", "IBM watsonx.data intelligence", "Precisely Data Integrity Suite", "Qlik Talend Cloud"]
+  good: "One user interface; quality results map to catalogue assets automatically; one supplier to manage."
+  watch: "Rules, results and glossaries may only exist in the vendor's format; modules are often priced as a bundle or from a shared pool of consumption units; leaving means replacing several capabilities at once."
+  when: "A large organisation that wants one supported platform and can negotiate strong export, exit and module-by-module pricing terms."
+- id: platform
+  name: "Platform-native"
+  lockin: 4
+  what: "The cloud or data platform you already use provides the catalogue and quality checks, running next to the data."
+  examples: ["Microsoft Purview Unified Catalog", "Google Knowledge Catalog", "AWS Glue Data Quality and SageMaker Catalog", "Databricks Unity Catalog", "Snowflake Horizon"]
+  good: "No data movement; pay as you go; quick to start; security inherited from the platform."
+  watch: "Quality runs only on that platform's data, or is limited elsewhere; costs are consumption-based and can grow quietly; some features need a premium edition; multi-cloud estates end up with several catalogues."
+  when: "Most of your critical data sits on one platform and you accept that platform as a long-term choice."
+- id: partner
+  name: "Catalogue with partner quality tools"
+  lockin: 3
+  what: "A specialist catalogue shows results from quality and observability tools you choose, through a published integration framework or API."
+  examples: ["Alation Open Data Quality Framework", "Atlan (with Anomalo, Monte Carlo, Soda, Ataccama)", "data.world"]
+  good: "Choose the best quality tool for each team; change quality tool without changing catalogue."
+  watch: "Integration depth varies from a link to full two-way working; two contracts and two roadmaps; the catalogue may also sell its own quality module that competes with partners."
+  when: "You want a business-friendly catalogue and already have, or want to keep, separate quality tools."
+- id: open
+  name: "Open-source catalogue and quality tools"
+  lockin: 2
+  what: "An open-source catalogue receives results from open-source or any other quality tools through documented APIs, hosted by you or by a support supplier."
+  examples: ["DataHub", "OpenMetadata", "Great Expectations", "Soda Core", "dbt tests", "The Commons toolkit (dqkit)"]
+  good: "No licence lock-in; code and data formats are inspectable; communities share connectors; you can buy support from several suppliers."
+  watch: "You need skills to host, upgrade and secure it, or a support contract; some advanced features are only in the commercial editions."
+  when: "You have, or can buy, engineering capacity and want maximum control, transparency and reuse across government."
+- id: standards
+  name: "Standards-first (any tools)"
+  lockin: 1
+  what: "Whatever tools you buy, rules live in an open contract format, lineage and results are exchanged in open formats, and tables use open table formats, so any compliant tool can take over."
+  examples: ["ODCS for rules", "OpenLineage for lineage and run results", "DCAT and DQV for catalogue records and quality results", "Apache Iceberg with a REST catalog for tables"]
+  good: "Tools become replaceable parts; quality history survives a change of supplier; easier to share across organisations."
+  watch: "Not every product supports every standard yet; you must specify, test and contract for it."
+  when: "Always, as the target. Combine it with any of the patterns above."
+
+# How deep an integration really is. Ask suppliers to show which level they reach, with your data.
+depth:
+- level: 0
+  name: "Separate"
+  what: "No connection. People look in two places, or quality is reported in spreadsheets."
+- level: 1
+  name: "Link-out"
+  what: "The catalogue page links to the quality tool. Nothing is shown in the catalogue itself."
+- level: 2
+  name: "Display"
+  what: "Quality scores, check results or trust badges appear on the catalogue's asset pages, refreshed on a schedule."
+- level: 3
+  name: "Two-way"
+  what: "Rules can be defined or run from the catalogue; results, incidents and owners flow back and are mapped to columns and critical data elements."
+- level: 4
+  name: "Governed and portable"
+  what: "Quality is tied to policies, data contracts and lineage impact, alerts reach the named owner, and rules, results and metadata can be exported in open standards."
+
+# Product landscape. type: catalogue, quality, both, platform, observability, open-source.
+# native_dq: yes, partial, no. All facts as described by the vendor or its documentation on "checked".
+products:
+- id: alation
+  name: "Alation Data Intelligence Platform"
+  vendor: "Alation"
+  type: catalogue
+  native_dq: "yes"
+  dq_note: "Offers its own AI-powered Alation Data Quality alongside the Open Data Quality Framework, which publishes partner results in the catalogue."
+  partners: ["Acceldata", "Anomalo", "Bigeye", "Databricks", "DataBuck", "Datactics", "DQC", "DQLabs", "Experian", "Lightup", "Monte Carlo", "Revefi", "Snowflake", "Soda", "Telmai"]
+  standards: ["Open API and SDK for quality partners"]
+  open_source: false
+  watch: "Check whether partner integrations reach display (level 2) or two-way (level 3) for your platforms. Alation acquired Numbers Station AI in May 2025."
+  sources: ["https://alation.com/product/data-quality", "https://www.alation.com/press-releases/data-quality-leaders-unite-around-alations-open-data-quality-initiative/"]
+  checked: "2026-11-05"
+- id: atlan
+  name: "Atlan"
+  vendor: "Atlan"
+  type: catalogue
+  native_dq: "partial"
+  dq_note: "Data Quality Studio defines rules in Atlan and runs them natively in Snowflake (Data Metric Functions) and Databricks; announced June 2025 in private preview. Aggregates results from partner tools."
+  partners: ["Anomalo", "Monte Carlo", "Soda", "Ataccama", "Snowflake", "Databricks"]
+  standards: ["OpenLineage (ingests Airflow lineage events)", "Data contracts"]
+  open_source: false
+  watch: "Native rules execute on the warehouse you use, so compute is billed there. Confirm general availability status for the features you need."
+  sources: ["https://www.businesswire.com/news/home/20250603590536/en", "https://atlan.com/announcing-data-quality-studio-for-databricks/", "https://docs.atlan.com/tags/data-quality"]
+  checked: "2026-11-05"
+- id: collibra
+  name: "Collibra Platform with Data Quality & Observability"
+  vendor: "Collibra"
+  type: both
+  native_dq: "yes"
+  dq_note: "Data Quality & Observability runs jobs by pushdown inside the source (for example Snowflake, Databricks, BigQuery, SQL Server, SAP HANA) and maps rules and metrics to catalogue assets and policies. Integration with the catalogue is optional."
+  partners: []
+  standards: ["REST APIs"]
+  open_source: false
+  watch: "Ask which features need the separate quality licence and how rules and results export if you leave."
+  sources: ["https://www.collibra.com/blog/whats-new-in-the-q4-2024-release-of-collibra-data-quality-and-observability", "https://productresources.collibra.com/docs/collibra/latest/Content/UnifiedDataQuality/DataSources/ref_data-quality-supported-data-sources.htm"]
+  checked: "2026-11-05"
+- id: informatica
+  name: "Informatica Intelligent Data Management Cloud (IDMC)"
+  vendor: "Informatica, a Salesforce company"
+  type: both
+  native_dq: "yes"
+  dq_note: "Cloud Data Governance and Catalog and Cloud Data Quality are services in one cloud platform, bought with Informatica Processing Units (IPUs) that can be used across services."
+  partners: []
+  standards: ["REST APIs", "CDMC certified (EDM Council)"]
+  open_source: false
+  watch: "Salesforce completed the acquisition on 18 November 2025: ask about roadmap, pricing and support commitments. Model IPU consumption for your workloads before you commit. Digital Marketplace listings show starting prices."
+  sources: ["https://www.businesswire.com/news/home/20251118759580/en", "https://www.informatica.com/blogs/announcing-consumption-pricing-for-informatica-intelligent-data-management-cloud.html", "https://www.applytosupply.digitalmarketplace.service.gov.uk/g-cloud-14/services/768263252738893"]
+  checked: "2026-11-05"
+- id: ataccama
+  name: "Ataccama ONE"
+  vendor: "Ataccama"
+  type: both
+  native_dq: "yes"
+  dq_note: "One platform for data quality, catalogue, observability, lineage, and reference and master data. Hybrid deployment processes data in your environment."
+  partners: ["Atlan (native integration announced October 2025)", "Snowflake"]
+  standards: ["GraphQL and REST APIs"]
+  open_source: false
+  watch: "Independent company; Snowflake Ventures invested in January 2026. Price each module separately and confirm export of rules and results."
+  sources: ["https://docs.ataccama.com/one/latest/overview.html", "https://www.globenewswire.com/search/tag/ataccama"]
+  checked: "2026-11-05"
+- id: ibm
+  name: "IBM watsonx.data intelligence (formerly IBM Knowledge Catalog)"
+  vendor: "IBM"
+  type: both
+  native_dq: "yes"
+  dq_note: "Catalogue, business glossary, data quality rules and lineage. Renamed from IBM Knowledge Catalog on IBM Cloud and SaaS on 2 May 2025; Cloud Pak for Data still uses the old service name."
+  partners: []
+  standards: ["ODCS v3 data contracts (reported for version 2.3)"]
+  open_source: false
+  watch: "Check which product track (SaaS or Cloud Pak for Data) your licence is on; features differ."
+  sources: ["https://www.ibm.com/products/knowledge-catalog", "https://atlan.com/know/ai-agent/ibm/ibm-knowledge-catalog/"]
+  checked: "2026-11-05"
+- id: precisely
+  name: "Precisely Data Integrity Suite"
+  vendor: "Precisely"
+  type: both
+  native_dq: "yes"
+  dq_note: "Interoperable SaaS modules (catalogue, governance, quality, observability, integration, enrichment) share a common data catalogue. Governance shows quality scores and exposes them to AI agents through APIs and a hosted MCP server."
+  partners: []
+  standards: ["APIs", "MCP server"]
+  open_source: false
+  watch: "Modules can be bought separately: confirm how they work if you take only some."
+  sources: ["https://www.precisely.com/press-release/precisely-extends-data-integrity-leadership-with-new-innovations-in-first-of-its-kind-data-integrity-suite", "https://www.precisely.com/product/data-integrity/precisely-data-integrity-suite/data-governance"]
+  checked: "2026-11-05"
+- id: qlik
+  name: "Qlik Talend Cloud"
+  vendor: "Qlik (owner of Talend since 2023)"
+  type: both
+  native_dq: "yes"
+  dq_note: "Catalogue and data products with the Qlik Trust Score, a weighted score across quality dimensions, computed by pushdown or in Qlik's cloud."
+  partners: []
+  standards: []
+  open_source: false
+  watch: "Trust Score and quality assessment need the Enterprise subscription; check what lower editions include."
+  sources: ["https://community.qlik.com/t5/Product-Innovation/Introducing-Qlik-Trust-Score-Elevating-Data-Trustworthiness-in/ba-p/2505393"]
+  checked: "2026-11-05"
+- id: purview
+  name: "Microsoft Purview Unified Catalog"
+  vendor: "Microsoft"
+  type: platform
+  native_dq: "yes"
+  dq_note: "Data quality rules, scoring, alerts and actions for data products, including rules on critical data elements. Supports Fabric, Azure Databricks Unity Catalog, Snowflake, BigQuery and Iceberg data. REST APIs for quality are available."
+  partners: []
+  standards: ["REST APIs", "CDMC certified (EDM Council)"]
+  open_source: false
+  watch: "Quality is billed by Data Governance Processing Units (pay as you go). Model scan frequency and volume; check region support."
+  sources: ["https://learn.microsoft.com/purview/unified-catalog-data-quality", "https://learn.microsoft.com/en-us/purview/whats-new"]
+  checked: "2026-11-05"
+- id: google
+  name: "Google Knowledge Catalog (formerly Dataplex Universal Catalog)"
+  vendor: "Google Cloud"
+  type: platform
+  native_dq: "yes"
+  dq_note: "Auto data quality scans for BigQuery tables, with predefined and custom SQL rules managed as code (YAML or JSON), and results published to the catalogue."
+  partners: []
+  standards: ["Rules as code", "CDMC certified (EDM Council)"]
+  open_source: false
+  watch: "Scans run per table on BigQuery and supported sources; plan for data held elsewhere."
+  sources: ["https://docs.cloud.google.com/dataplex/docs/auto-data-quality-overview", "https://docs.cloud.google.com/dataplex/docs/use-auto-data-quality"]
+  checked: "2026-11-05"
+- id: aws
+  name: "AWS Glue Data Quality with Amazon SageMaker Catalog"
+  vendor: "Amazon Web Services"
+  type: platform
+  native_dq: "yes"
+  dq_note: "Rules in the Data Quality Definition Language (DQDL) run on the Glue Data Catalog and in pipelines; scores show in Amazon SageMaker Catalog, which can also display results from third-party tools through quality APIs."
+  partners: ["Third-party tools through quality APIs"]
+  standards: ["Apache Iceberg tables"]
+  open_source: false
+  watch: "Pay per use; costs grow with data and frequency. Rules written in DQDL need rewriting for other tools."
+  sources: ["https://docs.aws.amazon.com/glue/latest/dg/glue-data-quality", "https://aws.amazon.com/about-aws/whats-new/2025/07/aws-glue-data-quality-s3-tables-managed-iceberg", "https://docs.aws.amazon.com/sagemaker-unified-studio/latest/userguide/data-source-glue.html"]
+  checked: "2026-11-05"
+- id: databricks
+  name: "Databricks Unity Catalog data quality monitoring"
+  vendor: "Databricks"
+  type: platform
+  native_dq: "yes"
+  dq_note: "Anomaly detection for freshness and completeness across a schema, and data profiling (formerly Lakehouse Monitoring). Unity Catalog has an open-source version (Apache 2.0) that supports the Iceberg REST catalog interface."
+  partners: []
+  standards: ["Unity Catalog open source", "Iceberg REST catalog", "Delta Lake"]
+  open_source: true
+  watch: "Monitoring runs on serverless compute, billed as DBUs. Anomaly detection covers freshness and completeness; you still need rules for validity, consistency and accuracy."
+  sources: ["https://docs.databricks.com/aws/en/data-quality-monitoring", "https://venturebeat.com/ai/databricks-open-sources-unity-catalog-challenging-snowflake-on-interoperability-for-data-workloads"]
+  checked: "2026-11-05"
+- id: snowflake
+  name: "Snowflake Horizon Catalog with Data Metric Functions"
+  vendor: "Snowflake"
+  type: platform
+  native_dq: "yes"
+  dq_note: "Built-in and custom Data Metric Functions measure quality on tables; catalogues such as Atlan and data.world read the results. Snowflake also created Polaris, an open-source catalog for Apache Iceberg."
+  partners: ["Catalogues that read Data Metric Function results"]
+  standards: ["Apache Iceberg", "Polaris (Iceberg REST catalog)"]
+  open_source: false
+  watch: "Data quality monitoring requires Enterprise Edition or higher."
+  sources: ["https://docs.snowflake.com/sql-reference/functions/data_quality_monitoring_results", "https://www.snowflake.com/en/blog/introducing-polaris-catalog/", "https://docs.snowflake.com/user-guide/data-quality-intro"]
+  checked: "2026-11-05"
+- id: datahub
+  name: "DataHub"
+  vendor: "Open source (LF AI and Data project origin at LinkedIn); DataHub Cloud is the commercial edition"
+  type: open-source
+  native_dq: "partial"
+  dq_note: "The open-source core ingests and displays assertion results from dbt, Great Expectations, Snowflake Data Metric Functions or any tool through the SDK. Running assertions natively and anomaly detection are DataHub Cloud features. Ingests ODCS v3 contracts."
+  partners: ["dbt", "Great Expectations", "Snowflake", "any tool via SDK"]
+  standards: ["ODCS v3.0 and v3.1", "OpenLineage", "Open APIs and SDKs"]
+  open_source: true
+  watch: "Decide whether you need the open-source core plus external quality tools, or the commercial edition."
+  sources: ["https://docs.datahub.com/docs/managed-datahub/observe/overview", "https://docs.datahub.com/docs/generated/ingestion/sources/odcs", "https://docs.datahub.com/docs/metadata-ingestion/integration_docs/great-expectations"]
+  checked: "2026-11-05"
+- id: openmetadata
+  name: "OpenMetadata"
+  vendor: "Open source; Collate offers a managed service"
+  type: open-source
+  native_dq: "yes"
+  dq_note: "Native table and column tests for all supported database connectors, no-code test creation, alerts, a health dashboard, resolution workflow and data contracts with quality sections."
+  partners: []
+  standards: ["JSON Schema data contracts", "Open APIs"]
+  open_source: true
+  watch: "Plan hosting, upgrades and security, or buy support."
+  sources: ["https://docs.open-metadata.org/latest/how-to-guides/data-quality-observability/quality", "https://docs.open-metadata.org/latest/how-to-guides/data-contracts/spec"]
+  checked: "2026-11-05"
+- id: dataworld
+  name: "data.world"
+  vendor: "data.world (ServiceNow agreed to acquire, May 2025)"
+  type: catalogue
+  native_dq: "partial"
+  dq_note: "Knowledge-graph catalogue that harvests and broadcasts quality results, for example from Snowflake Data Metric Functions."
+  partners: ["Snowflake"]
+  standards: ["Knowledge graph (RDF)"]
+  open_source: false
+  watch: "Ask about product direction inside ServiceNow and whether a standalone licence remains available."
+  sources: ["https://thenewstack.io/servicenow-acquires-data-world-to-expand-its-ai-data-strategy/", "https://data.world/blog/integration-fuels-innovation-data-world-and-snowflake-horizon-paving-the-way-for-next-generation-data-governance"]
+  checked: "2026-11-05"
+- id: gx
+  name: "Great Expectations (GX Core)"
+  vendor: "Open source; GX Cloud is the commercial edition"
+  type: quality
+  native_dq: "yes"
+  dq_note: "Codified expectations validated against data, with documentation of results. Publishes results to DataHub through an action."
+  partners: ["DataHub", "most catalogues through APIs"]
+  standards: ["Open source (Apache 2.0)"]
+  open_source: true
+  watch: "Expectations are Python-based; plan how rules map to your contract format."
+  sources: ["https://greatexpectations.io/blog/better-together-datahub-and-great-expectations/"]
+  checked: "2026-11-05"
+- id: soda
+  name: "Soda (Soda Core and Soda Cloud)"
+  vendor: "Soda"
+  type: quality
+  native_dq: "yes"
+  dq_note: "Checks declared in YAML and run in pipelines (open-source Soda Core), with a commercial platform for monitoring. Integrates with Alation and Atlan."
+  partners: ["Alation", "Atlan"]
+  standards: ["Open source core"]
+  open_source: true
+  watch: "Some advanced features are only in the commercial platform."
+  sources: ["https://alation.com/product/data-quality", "https://docs.atlan.com/tags/data-quality"]
+  checked: "2026-11-05"
+- id: observability
+  name: "Data observability tools (for example Monte Carlo, Anomalo, Bigeye)"
+  vendor: "Various"
+  type: observability
+  native_dq: "yes"
+  dq_note: "Machine-learning monitoring of freshness, volume, schema and distribution, with incidents. Publish results to catalogues such as Alation and Atlan."
+  partners: ["Alation", "Atlan"]
+  standards: []
+  open_source: false
+  watch: "Observability finds unexpected change; it does not replace agreed rules and targets for critical data. Pricing is often by number of monitored tables."
+  sources: ["https://www.alation.com/news-and-press/alation-expands-partner-ecosystem", "https://www.anomalo.com/blog/how-anomalo-integrates-with-the-alation-data-catalog/"]
+  checked: "2026-11-05"
+- id: dqkit
+  name: "The Commons toolkit (dqkit)"
+  vendor: "Public Sector Data Quality Commons (MIT licence)"
+  type: quality
+  native_dq: "yes"
+  dq_note: "Rules in YAML, scored with the GOV.UK issues framework; writes results as W3C DQV, the critical data asset return and DQAP workbooks; exports rules as ODCS, Table Schema, CSVW, Great Expectations and R validate."
+  partners: ["Any catalogue that reads DQV, CSV or ODCS"]
+  standards: ["DQV", "DCAT", "ODCS", "Table Schema", "CSVW"]
+  open_source: true
+  watch: "A toolkit, not a hosted service: run it in your pipeline or GitHub Actions."
+  sources: ["https://github.com/cyberdudeuk/dq-commons"]
+  checked: "2026-11-05"
+
+standards:
+- id: odcs
+  name: "Open Data Contract Standard (ODCS) v3.1"
+  steward: "Bitol project, Linux Foundation AI and Data"
+  use: "Rules, quality expectations, schema, SLAs and owners in one YAML contract that any compliant tool can read. Ask suppliers to import and export it."
+  url: "https://bitol.io/bitol-announces-odcs-v3-1-0-stronger-smarter-and-stricter/"
+- id: openlineage
+  name: "OpenLineage"
+  steward: "Linux Foundation AI and Data (graduated project)"
+  use: "Lineage events from pipelines, with standard facets for data quality assertions and metrics. Lets any catalogue show where data came from and whether checks passed."
+  url: "https://github.com/OpenLineage/OpenLineage/blob/main/spec/OpenLineage.md"
+- id: dqv
+  name: "W3C Data Quality Vocabulary (DQV)"
+  steward: "W3C"
+  use: "Quality measurements and annotations attached to catalogue records; the Commons writes it."
+  url: "https://www.w3.org/TR/vocab-dqv/"
+- id: dcat
+  name: "W3C DCAT 3 and the UK metadata standard for critical data assets"
+  steward: "W3C; Government Digital Service"
+  use: "Catalogue records that move between catalogues and feed national catalogues."
+  url: "https://www.gov.uk/government/publications/record-metadata-to-describe-critical-data-assets/recording-metadata-to-describe-critical-data-assets"
+- id: iceberg
+  name: "Apache Iceberg and the Iceberg REST catalog specification"
+  steward: "Apache Software Foundation"
+  use: "Open table format and catalogue interface, so several engines and catalogues work on one copy of the data. Open implementations include Apache Polaris and Unity Catalog open source."
+  url: "https://www.snowflake.com/en/blog/introducing-polaris-catalog/"
+- id: cdmc
+  name: "EDM Council CDMC 14 key controls"
+  steward: "EDM Council (free licence)"
+  use: "A checklist of controls for data in the cloud, including catalogue ownership and four data quality controls (rules, measurement, reporting, issue management). Useful as requirements; certification is vendor-sponsored."
+  url: "https://edmcouncil.org/?p=857"
+
+# Lock-in risks. Each links to questions (rfx ids) and contract clauses on the Buying and suppliers page.
+risks:
+- id: R1
+  name: "Rules trapped in a proprietary language"
+  what: "Rules can only be written and read in the tool's own language or user interface."
+  check: "We can export every rule in an open format (ODCS, YAML or SQL) and run it in another tool."
+  ask: "Can every rule be exported in an open format such as ODCS, YAML or SQL, and re-imported elsewhere?"
+  mitigation: "Require rule export in ODCS or plain SQL; prove a round trip in the proof of concept; keep the master copy of rules in your own repository."
+  clauses: [C03, C12, C18]
+  rfx: [Q-ST1, Q-ST2, Q-POC2]
+- id: R2
+  name: "Quality history trapped"
+  what: "Results and trends cannot be exported, so years of evidence are lost if you leave."
+  check: "We can export all quality results and history in DQV or CSV, now and at exit."
+  ask: "Can all results, with dates, rules and assets, be exported in DQV or CSV at any time and at exit?"
+  mitigation: "Contract for monthly export of results in DQV or CSV to your storage, and for a full export at exit."
+  clauses: [C03, C06, C12]
+  rfx: [Q-ST3, Q-EX2]
+- id: R3
+  name: "Metadata and glossary trapped"
+  what: "Business glossary, ownership, classifications and lineage cannot leave the catalogue in a usable form."
+  check: "We can export all catalogue metadata (glossary, owners, classifications) in DCAT, CSV or JSON, and lineage in OpenLineage."
+  ask: "Can all metadata be exported in DCAT, CSV or JSON and lineage in OpenLineage?"
+  mitigation: "Require open exports and test them; mirror critical asset records in the UK metadata format."
+  clauses: [C04, C12, C18]
+  rfx: [Q-ST4, Q-ST5]
+- id: R4
+  name: "Bundled pricing hides the cost of each part"
+  what: "Catalogue, quality, master data and integration are sold as one price or one pool of units, so you pay for parts you do not use and cannot drop them."
+  check: "Each module has its own price, and we can drop modules we don't use at renewal."
+  ask: "Is each module priced separately, and can modules be added or removed at renewal?"
+  mitigation: "Ask for itemised pricing and module-level break rights; compare against buying the parts separately."
+  clauses: [C15]
+  rfx: [Q-CO1, Q-CO2]
+- id: R5
+  name: "Consumption pricing surprises"
+  what: "Quality scans and catalogue jobs consume units (for example IPUs, processing units, DBUs or warehouse credits) that are hard to predict."
+  check: "We know what our expected workload will cost each year, with a cap or committed price and monthly usage reports."
+  ask: "What will our expected workload cost per year, with a cap, alerts and monthly usage reports?"
+  mitigation: "Build a should-cost model for three volumes; require usage reporting and a spending cap; price incremental scans and sampling."
+  clauses: [C05]
+  rfx: [Q-CO3, Q-POC7]
+- id: R6
+  name: "Features gated by edition"
+  what: "Quality monitoring, trust scores or lineage need a premium edition that was not in the price."
+  check: "We have written confirmation of which edition each feature we need requires, and it is in the price."
+  ask: "Which edition or licence does each feature we need require?"
+  mitigation: "List required features in the specification and get the edition for each confirmed in writing."
+  clauses: []
+  rfx: [Q-CO4]
+- id: R7
+  name: "Quality only works on one platform"
+  what: "Checks run only on the vendor's platform, leaving other data unchecked or needing a second tool."
+  check: "The quality tool can check critical data on all our data platforms, not just one."
+  ask: "Which of our data platforms can the tool check without copying data, and which cannot?"
+  mitigation: "Map your estate; require coverage of critical data assets wherever they sit; prefer open table formats."
+  clauses: [C18]
+  rfx: [Q-IN2]
+- id: R8
+  name: "\"Integration\" that is only a link"
+  what: "The integration claimed in sales material is a link or a nightly score, not the two-way working you need."
+  check: "We have seen the integration working at the depth we need, with our own data."
+  ask: "Which integration depth (0 to 4) do you reach with our catalogue or quality tool, shown with our data?"
+  mitigation: "Score integration depth in the evaluation; require a live demonstration and a reference customer using the same combination."
+  clauses: []
+  rfx: [Q-IN1, Q-POC1]
+- id: R9
+  name: "Connector, user or egress charges"
+  what: "Extra charges per connector, per user or for moving data out make wider use or exit expensive."
+  check: "Connectors, read-only users and exports are included, and egress and exit charges are capped or nil."
+  ask: "Are all connectors, viewers and exports included? What are egress and exit charges?"
+  mitigation: "Include unlimited read-only users and needed connectors; cap or remove egress and exit charges."
+  clauses: [C03, C12]
+  rfx: [Q-CO5, Q-EX3]
+- id: R10
+  name: "Change of owner or roadmap"
+  what: "The vendor is bought or changes strategy, and products, prices or support change."
+  check: "The contract protects prices, support and exit if the supplier is bought or retires the product."
+  ask: "What happens to our contract, prices and support if you are acquired or retire this product?"
+  mitigation: "Change-of-control and end-of-life terms, price protection, notice periods and exit assistance."
+  clauses: [C12, C13]
+  rfx: [Q-EX4]
+- id: R11
+  name: "AI features and agents that lock in"
+  what: "AI assistants, generated rules or agent connections (for example MCP servers) depend on the vendor's models and cannot be explained or moved."
+  check: "AI features are optional and explainable, and their outputs can be exported."
+  ask: "Are AI features optional, explainable, and are their outputs (rules, descriptions) exportable?"
+  mitigation: "AI outputs exported like any other content; transparency about models and data use; AI features priced separately."
+  clauses: [C14]
+  rfx: [Q-AI1, Q-AI2]
+- id: R12
+  name: "Skills only the vendor has"
+  what: "Only vendor-certified people can configure the tool, so you depend on the supplier or its partners."
+  check: "Our own staff can configure and run the tools without the supplier, and knowledge transfer is in the contract."
+  ask: "What knowledge transfer, documentation and training do you include?"
+  mitigation: "Knowledge transfer and documentation in the contract; train your own staff; prefer common skills such as SQL and YAML."
+  clauses: [C13]
+  rfx: [Q-SK1]
+- id: R13
+  name: "Data location and sovereignty"
+  what: "Profiling samples, error records or metadata are stored outside your control or jurisdiction."
+  check: "We know where metadata, samples and error records are processed and stored, and sensitive processing can stay in our environment."
+  ask: "Where are metadata, samples and error records processed and stored? Can processing stay in our environment?"
+  mitigation: "Require UK or agreed locations, processing in your environment for sensitive data, and data protection terms."
+  clauses: [C19]
+  rfx: [Q-SE1, Q-SE2]
+- id: R14
+  name: "No tested way out"
+  what: "There is an exit clause but no one has tried it, so exit costs and time are unknown."
+  check: "There is a written exit plan, an exit data pack and an annual exit rehearsal."
+  ask: "Will you rehearse exit with us every year and provide an exit data pack?"
+  mitigation: "Exit plan from day one, an exit data pack and an annual exit rehearsal."
+  clauses: [C12, C13]
+  rfx: [Q-EX1, Q-EX5]
+- id: R15
+  name: "Long commitments and automatic renewal"
+  what: "Multi-year commitments, auto-renewal or prepaid units remove leverage."
+  check: "There are break points at least yearly and no automatic renewal without notice."
+  ask: "What are the minimum term, renewal terms and break points?"
+  mitigation: "Break points aligned to reviews; no automatic renewal without notice; avoid large prepaid unit pools."
+  clauses: []
+  rfx: [Q-CO6]
+- id: R16
+  name: "Tools some people cannot use"
+  what: "The catalogue or quality tool fails accessibility standards, so some staff and partners are excluded."
+  check: "The tools have a current accessibility statement showing conformance with WCAG 2.2 AA."
+  ask: "Show your accessibility statement and conformance with WCAG 2.2 AA."
+  mitigation: "Accessibility as a must requirement; test with assistive technology in the proof of concept."
+  clauses: [C20]
+  rfx: [Q-AC1]
+
+# Question bank for requests for information (RFI) and proposals (RFP). weight: must, should, could.
+rfx:
+- id: Q-IN1
+  category: Integration
+  stage: both
+  weight: must
+  question: "Which integration depth do you reach with our catalogue (or quality tool): link-out, display, two-way, or governed and portable? Show it with our data."
+  good: "A named level, a live demonstration on our platform, and a reference customer using the same combination."
+  evidence: "Demonstration recording; architecture diagram; reference contact."
+- id: Q-IN2
+  category: Integration
+  stage: RFI
+  weight: must
+  question: "Which of our data platforms can you check without copying data, and how (pushdown, agent, or extract)?"
+  good: "Coverage of every platform holding critical data assets, with pushdown or in-place processing for sensitive data."
+  evidence: "Supported sources list with versions; deployment options."
+- id: Q-IN3
+  category: Integration
+  stage: RFP
+  weight: should
+  question: "How are quality results mapped to catalogue assets, columns and critical data elements, and kept in step when schemas change?"
+  good: "Automatic mapping by identifier, with alerts when mappings break."
+  evidence: "Documentation; demonstration of a renamed column."
+- id: Q-IN4
+  category: Integration
+  stage: RFP
+  weight: should
+  question: "How do incidents and failed checks reach the named data owner and steward, and how is resolution recorded?"
+  good: "Owner taken from the catalogue; notifications in existing channels; status and resolution dates kept with the asset."
+  evidence: "Workflow demonstration."
+- id: Q-ST1
+  category: "Standards and portability"
+  stage: both
+  weight: must
+  question: "Can rules be imported and exported in the Open Data Contract Standard (ODCS) or another open format such as YAML or SQL?"
+  good: "ODCS v3 import and export, or documented YAML or SQL export of every rule, tested round trip."
+  evidence: "Sample export; documentation link."
+- id: Q-ST2
+  category: "Standards and portability"
+  stage: RFP
+  weight: should
+  question: "Who owns rules, descriptions and other content we create in the tool, including AI-generated content?"
+  good: "The buyer owns all content and can export it at any time without charge."
+  evidence: "Contract terms."
+- id: Q-ST3
+  category: "Standards and portability"
+  stage: both
+  weight: must
+  question: "Can all quality results and history be exported, with dates, rules and assets, in W3C DQV or CSV, by API and in bulk?"
+  good: "Scheduled and on-demand exports in DQV or CSV through a documented API."
+  evidence: "Sample export file; API documentation."
+- id: Q-ST4
+  category: "Standards and portability"
+  stage: RFP
+  weight: must
+  question: "Can catalogue metadata (assets, glossary, owners, classifications) be exported in DCAT, CSV or JSON, and does it support the UK metadata properties for critical data assets?"
+  good: "Full export in open formats; the 13 critical data asset properties recorded and exportable."
+  evidence: "Sample export; mapping to the UK properties."
+- id: Q-ST5
+  category: "Standards and portability"
+  stage: RFP
+  weight: should
+  question: "Do you emit or consume OpenLineage events, including data quality facets?"
+  good: "Native OpenLineage support for lineage and quality results."
+  evidence: "Documentation; demonstration with one pipeline."
+- id: Q-ST6
+  category: "Standards and portability"
+  stage: RFI
+  weight: could
+  question: "Do you support open table formats (Apache Iceberg, Delta) and the Iceberg REST catalog interface?"
+  good: "Reads and governs open table formats through standard interfaces."
+  evidence: "Documentation."
+- id: Q-CO1
+  category: "Commercial and pricing"
+  stage: both
+  weight: must
+  question: "Give itemised prices for each module (catalogue, quality, observability, lineage, master data, AI). Can modules be added or removed at renewal?"
+  good: "Separate prices per module and the right to drop modules at renewal."
+  evidence: "Price schedule."
+- id: Q-CO2
+  category: "Commercial and pricing"
+  stage: RFP
+  weight: should
+  question: "Are any modules required to use the quality features we need (for example a catalogue licence to use quality, or the reverse)?"
+  good: "No forced bundles; dependencies stated in writing."
+  evidence: "Licence terms."
+- id: Q-CO3
+  category: "Commercial and pricing"
+  stage: RFP
+  weight: must
+  question: "Price our expected workload at three volumes. If pricing is consumption-based, provide a cap, alerts and monthly usage reports."
+  good: "A worked estimate, a hard cap or committed price, and usage reporting by asset and job."
+  evidence: "Pricing model; sample usage report."
+- id: Q-CO4
+  category: "Commercial and pricing"
+  stage: RFI
+  weight: must
+  question: "Which edition or licence tier does each feature we listed require?"
+  good: "Feature-by-feature edition list confirmed in writing."
+  evidence: "Edition comparison."
+- id: Q-CO5
+  category: "Commercial and pricing"
+  stage: RFP
+  weight: should
+  question: "Are connectors, read-only users and exports included, or charged separately?"
+  good: "All needed connectors and unlimited read-only users included."
+  evidence: "Price schedule."
+- id: Q-CO6
+  category: "Commercial and pricing"
+  stage: RFP
+  weight: should
+  question: "What are the minimum term, renewal terms, notice periods and break points?"
+  good: "Break points at least at each annual review; no automatic renewal without notice."
+  evidence: "Contract terms."
+- id: Q-EX1
+  category: "Exit and lock-in"
+  stage: both
+  weight: must
+  question: "Describe your exit plan: what you hand over, in which formats, how long it takes and what it costs."
+  good: "A written plan with an exit data pack (rules, results, metadata, configuration) in open formats, a timetable and capped costs."
+  evidence: "Exit plan document."
+- id: Q-EX2
+  category: "Exit and lock-in"
+  stage: RFP
+  weight: must
+  question: "Will you export all rules, results and metadata at exit at no extra charge?"
+  good: "Yes, in open formats, at no charge."
+  evidence: "Contract terms."
+- id: Q-EX3
+  category: "Exit and lock-in"
+  stage: RFP
+  weight: should
+  question: "What egress, switching or termination charges apply?"
+  good: "None, or capped at cost and stated up front."
+  evidence: "Price schedule."
+- id: Q-EX4
+  category: "Exit and lock-in"
+  stage: RFP
+  weight: should
+  question: "What happens to our contract, prices, product and support if you are acquired, merge or retire the product?"
+  good: "Change-of-control terms, price protection, notice and exit assistance."
+  evidence: "Contract terms."
+- id: Q-EX5
+  category: "Exit and lock-in"
+  stage: RFP
+  weight: should
+  question: "Will you take part in an annual exit rehearsal, exporting and re-importing a sample into another tool?"
+  good: "Yes, included in the price."
+  evidence: "Contract terms."
+- id: Q-SE1
+  category: "Security and data location"
+  stage: both
+  weight: must
+  question: "Where are metadata, profiling samples and error records processed and stored? Can processing stay inside our environment?"
+  good: "UK or agreed locations; in-place or hybrid processing for sensitive data; no samples stored by default."
+  evidence: "Data flow diagram; data processing terms."
+- id: Q-SE2
+  category: "Security and data location"
+  stage: RFP
+  weight: must
+  question: "Which security certifications and assessments apply (for example Cyber Essentials Plus, ISO 27001, NCSC cloud security principles)?"
+  good: "Current certificates and a mapping to the NCSC cloud security principles."
+  evidence: "Certificates."
+- id: Q-AI1
+  category: AI
+  stage: RFP
+  weight: should
+  question: "Which features use AI, which models and data do they use, and can they be switched off?"
+  good: "A list of AI features, model providers and data use; each can be switched off; not trained on our data without agreement."
+  evidence: "AI transparency statement."
+- id: Q-AI2
+  category: AI
+  stage: RFP
+  weight: could
+  question: "Are AI outputs (suggested rules, descriptions, classifications) reviewable, logged and exportable like other content?"
+  good: "Human review before use, audit trail, exportable."
+  evidence: "Demonstration."
+- id: Q-AC1
+  category: "Accessibility and inclusion"
+  stage: both
+  weight: must
+  question: "Provide your accessibility statement and evidence of conformance with WCAG 2.2 AA for the user interfaces our staff will use."
+  good: "A current statement, an independent audit and a plan for known issues."
+  evidence: "Accessibility statement; audit report."
+- id: Q-AC2
+  category: "Accessibility and inclusion"
+  stage: RFP
+  weight: should
+  question: "Can the tool measure quality across groups of people (for example completeness by age band or ethnicity) to show who is missing or misrecorded?"
+  good: "Group-level rules or custom SQL, with results by group."
+  evidence: "Demonstration."
+- id: Q-SK1
+  category: "Skills and support"
+  stage: RFP
+  weight: should
+  question: "What knowledge transfer, documentation and training do you include, and which common skills (SQL, YAML, Python) does configuration use?"
+  good: "Training for our staff, public documentation, configuration in common languages."
+  evidence: "Training plan; documentation."
+- id: Q-SK2
+  category: "Skills and support"
+  stage: RFI
+  weight: could
+  question: "Which other public bodies use this combination of catalogue and quality tool, and can we speak to them?"
+  good: "Named public sector references using the same combination."
+  evidence: "References."
+- id: Q-POC1
+  category: "Proof of concept"
+  stage: RFP
+  weight: must
+  question: "In a proof of concept with our data, define a rule in the quality tool and show the result, owner and history on the catalogue page."
+  good: "Works end to end within the agreed time, without custom code."
+  evidence: "Proof of concept result."
+- id: Q-POC2
+  category: "Proof of concept"
+  stage: RFP
+  weight: must
+  question: "In a proof of concept, export all rules and import them into a second tool (for example the Commons toolkit or Great Expectations)."
+  good: "Rules run in the second tool with the same results."
+  evidence: "Proof of concept result."
+- id: Q-POC7
+  category: "Proof of concept"
+  stage: RFP
+  weight: should
+  question: "In a proof of concept, report the actual consumption cost of the test workload and project it to a year."
+  good: "Measured cost within the quoted range."
+  evidence: "Usage report."
+
+# A proof-of-concept test script: run it with your shortlisted combination, using your own data.
+poc:
+- {id: T1, name: "Rule to catalogue", test: "Write one rule for a critical data item in the quality tool. Within one scheduled run, the catalogue page shows the result, the rule, the owner and the history.", proves: "Integration depth 2 or more"}
+- {id: T2, name: "Catalogue to rule", test: "Start from the catalogue: create or request a rule on a column and see it run.", proves: "Integration depth 3"}
+- {id: T3, name: "Incident to owner", test: "Make a check fail. The named owner and steward are notified in an existing channel, and resolution is recorded.", proves: "Issue management works"}
+- {id: T4, name: "Rules round trip", test: "Export every rule (ODCS, YAML or SQL) and run them in a second tool, such as the Commons toolkit. Results match.", proves: "Rules are portable"}
+- {id: T5, name: "History export", test: "Export all results for the test period in DQV or CSV and load them into a spreadsheet.", proves: "Quality history is portable"}
+- {id: T6, name: "Metadata export", test: "Export the test assets in DCAT or CSV, including owners and the critical data asset properties.", proves: "Metadata is portable"}
+- {id: T7, name: "Lineage", test: "Send one OpenLineage event from a pipeline and see lineage and quality facets in the catalogue.", proves: "Open lineage exchange"}
+- {id: T8, name: "Unplug one tool", test: "Switch off the quality tool's integration. The catalogue still works, and existing results remain visible or exportable.", proves: "No hidden dependency"}
+- {id: T9, name: "Cost replay", test: "Record the consumption for the test and project it to a year at three volumes.", proves: "Costs are predictable"}
+- {id: T10, name: "Accessibility", test: "Complete T1 and T3 using only a keyboard and with a screen reader.", proves: "Usable by everyone"}
+
+exit:
+- "An up-to-date exit plan exists from the start of the contract, with named owners on both sides."
+- "Rules are held in your own repository in an open format, not only inside the tool."
+- "Quality results are exported monthly to your own storage in DQV or CSV."
+- "Catalogue metadata, including owners and the critical data asset properties, can be exported in DCAT, CSV or JSON."
+- "Lineage is available in OpenLineage or another documented format."
+- "Configuration (connections, schedules, workflows, roles) is documented."
+- "The exit data pack's contents, formats, timetable and costs are written into the contract."
+- "An exit rehearsal is run every year with a sample, importing it into another tool."
+- "Break points line up with your annual review, with notice periods you can meet."
+- "Change-of-control and end-of-life terms protect prices and support."
+- "Your staff can configure and run the tools without the supplier."
+- "Users with assistive technology can use any replacement you choose."
+
+steps:
+- {n: 1, name: "Start from needs", what: "Use the capability model and your critical data assets to list what the catalogue and quality tools must do, for whom.", link: "models.html#capabilities"}
+- {n: 2, name: "Map what you have", what: "List the catalogues, quality tools and data platforms you already pay for, their contract end dates and who uses them.", link: "tooling.html"}
+- {n: 3, name: "Choose a target pattern", what: "Pick the pattern that fits, and make standards-first the target whatever you buy.", link: "#patterns"}
+- {n: 4, name: "Sound the market (RFI)", what: "Search the Digital Marketplace, then send the RFI questions. Ask each supplier which integration depth it reaches with your other tools.", link: "#questions"}
+- {n: 5, name: "Test, don't trust", what: "Run the proof-of-concept script with your own data and at least two combinations.", link: "#poc"}
+- {n: 6, name: "Evaluate (RFP)", what: "Score must requirements as pass or fail, then weight portability, integration depth, whole-life cost and accessibility.", link: "#questions"}
+- {n: 7, name: "Contract for freedom", what: "Add open formats, exit data pack, annual exit rehearsal and open standards clauses.", link: "commercial.html#add=C03,C04,C12,C13,C18"}
+- {n: 8, name: "Plan the exit on day one", what: "Agree the exit plan, start monthly exports of rules and results, and review it every year.", link: "#exit"}
+
+routes:
+- name: "Procurement Act 2023"
+  what: "The rules for public procurement in England, Wales and Northern Ireland from 24 February 2025 (Scotland has its own regime). Covers market engagement, competitive flexible procedures and transparency notices."
+  url: "https://www.gov.uk/government/collections/transforming-public-procurement"
+- name: "G-Cloud 15"
+  what: "Live since August 2026 and run by the Government Commercial Agency (successor to Crown Commercial Service). An open framework that reopens to suppliers at 18 and 36 months, with separate lots for infrastructure software and software as a service. Search it for catalogue and quality services during market research."
+  url: "https://www.applytosupply.digitalmarketplace.service.gov.uk"
+- name: "Technology Code of Practice, points 3 and 4"
+  what: "Be open and use open source; make use of open standards so technology works with other technology and avoids vendor lock-in. Spend control asks how you meet them."
+  url: "https://www.gov.uk/guidance/make-use-of-open-standards"
+- name: "Open Standards principles"
+  what: "Government policy on choosing open standards to avoid lock-in, enable interoperability and share data between systems."
+  url: "https://www.gov.uk/government/publications/open-standards-principles/open-standards-principles"
+- name: "Digital, Data and Technology Playbook"
+  what: "Market health checks, delivery model assessments, should cost models for whole-life cost, evaluation, and exit planning to prevent legacy IT and lock-in."
+  url: "https://www.gov.uk/government/publications/the-digital-data-and-technology-playbook/the-digital-data-and-technology-playbook"
+- name: "Service Standard, point 13"
+  what: "Use and contribute to open standards, common components and patterns."
+  url: "https://www.gov.uk/service-manual/service-standard/point-13-use-common-standards-components-patterns"
+- name: "CMA cloud services market investigation"
+  what: "Findings on egress fees, interoperability and licensing (July 2025) and the March 2026 package of actions."
+  url: "https://www.gov.uk/guidance/cloud-services-market-investigation-provisional-findings"
+- name: "EU Data Act switching rules (for services in the EU)"
+  what: "Switching and egress charges for data processing services, including SaaS, are capped at cost until 12 January 2027 and banned from then on, except at-cost egress for parallel use. Relevant to suppliers and to bodies operating in the EU."
+  url: "https://eur-lex.europa.eu/eli/reg/2023/2854/oj"
+- name: "EDM Council CDMC 14 key controls"
+  what: "Free controls framework covering catalogue ownership and data quality rules, measurement, reporting and issues. Use as a requirements checklist."
+  url: "https://edmcouncil.org/?p=857"
+- name: "Analyst reports (use with care)"
+  what: "Gartner's Magic Quadrant for Augmented Data Quality Solutions (February 2026) and Forrester's Wave for Data Quality Solutions (2026) compare vendors. They are paid research; free copies are usually distributed by vendors that rank well. Use them to build a long list, not to decide."
+  url: ""
+
+related:
+- {name: "Buying and suppliers: clause builder", link: "commercial.html#clauses", why: "Contract wording for open formats, exit and data quality KPIs."}
+- {name: "Tooling", link: "tooling.html", why: "Data quality tools and open code used across government."}
+- {name: "Interoperability and standards", link: "interop.html", why: "Identifiers, formats and data contracts."}
+- {name: "Metadata Weaver", link: "weaver.html", why: "Check a catalogue record against DCAT, the UK critical data asset profile and others."}
+- {name: "Capability and data models", link: "models.html#cap-C12", why: "Where buying and supplier management sits in the data quality capability."}
+- {name: "Check your data", link: "check.html", why: "Export rules as ODCS, Great Expectations or Table Schema to test portability."}

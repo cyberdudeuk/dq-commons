@@ -407,7 +407,7 @@ capabilities:
     guidance: [MD, DCAT, GDQF-P4]
     entities: [MetadataRecord, Distribution]
     children: [Record the 13 properties, Publish in open standards, Profile checks]
-    pages: [weaver, interop, knowledge]
+    pages: [weaver, interop, knowledge, catalogues]
   - id: C4
     name: User needs and requirements
     principle: GDQF-P2
@@ -470,7 +470,7 @@ capabilities:
     guidance: [GDQF-P5, GDQF-LC, DQAP7]
     entities: [DataSharingAgreement, DataItem]
     children: [Assess before and after change, Supplier quality, Archive with quality information]
-    pages: [legacy, commercial, interop]
+    pages: [legacy, commercial, catalogues, interop]
 
 # ---------------------------------------------------------------------------------------------------------
 # Processes (workflows). Steps run in order unless "next" says otherwise; a gateway step lists its branches.

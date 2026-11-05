@@ -208,9 +208,9 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.6.0) makes the capability model interactive and uses it to join up the Commons:
-play through each workflow step by step, highlight your role, explore how records link, and find your way
-from the home page by capability. Menus now stay on screen at every size. Release 2.5.0 published the
-capability as data models, a Visio process map and BPMN workflows (see [`models/`](models/README.md)).
-The portal needs no claude.ai account. Contact is by form only. Every release is in
-[`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.
+The latest release (2.7.0) adds guidance on data catalogues and data quality tools: how 20 products
+connect, five integration patterns from bundled suites to standards-first, a lock-in checker, an RFI and RFP
+question builder, a proof-of-concept script and an exit checklist. Release 2.6.0 made the capability model
+interactive; 2.5.0 published it as data models, a Visio process map and BPMN workflows (see
+[`models/`](models/README.md)). The portal needs no claude.ai account. Contact is by form only. Every release
+is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

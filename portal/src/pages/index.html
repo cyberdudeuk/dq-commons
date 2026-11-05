@@ -257,7 +257,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
   const MN = __K_MODELNAV__, col = Object.fromEntries(MN.principles.map(p => [p.id, p.colour]));
   const LBL = {roles: "Your role", operate: "Operating model", playbook: "Playbook", baseline: "CDA baseline", weaver: "Metadata Weaver", interop: "Interoperability",
     knowledge: "Knowledge map", surveys: "Surveys", assistant: "Rules assistant", guidance: "Issues framework", frameworks: "Frameworks", check: "Check your data",
-    pipeline: "Pipeline", legacy: "Legacy", share: "Case studies", "ndl-assurance": "NDL assurance", training: "Skills", learn: "Learn", maturity: "Maturity", professions: "Professions", commercial: "Suppliers"};
+    pipeline: "Pipeline", legacy: "Legacy", share: "Case studies", "ndl-assurance": "NDL assurance", training: "Skills", learn: "Learn", maturity: "Maturity", professions: "Professions", commercial: "Suppliers", catalogues: "Catalogues and tools"};
   document.getElementById("capkey").innerHTML = MN.principles.map(p => `<span style="--c:${p.colour}"><i></i>${esc(p.name)}</span>`).join("");
   document.getElementById("capnav").innerHTML = MN.capabilities.map(c => `<li style="--c:${col[c.principle]}"><a class="t" href="models.html#cap-${c.id}"><span>${esc(c.id)}</span>${esc(c.name)}</a>
     <div class="go">${(c.pages || []).map(p => `<a href="${esc(p)}.html">${esc(LBL[p] || p)}</a>`).join("")}</div></li>`).join("");

@@ -17,7 +17,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Start: Get started | Home, New to GitHub?, About the Commons, User guide, For your role, Accessibility and privacy | Find your way, see what the Commons is for and what each role needs |
 | Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
 | Check: Check and assess | Check your data, Maturity self-assessment, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, prioritise issues, draft rules, size a baseline |
-| Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
+| Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
 | Apply: Apply to your context | All scenarios, UK and the world, National Data Library | Work through a policy, sector, nation or platform |
 | Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
@@ -39,6 +39,9 @@ Go to **Maturity**. Choose the statement that best fits you for each of 8 themes
 
 ### Share rules as a data contract
 On **Check your data**, under "Share the rules as a data contract", choose ODCS, Table Schema, CSVW, Great Expectations or R validate. You can also load a contract as rules.
+
+### Buy or connect a data catalogue and a quality tool
+Go to **Catalogues and quality tools**. See how products connect and which integration pattern fits you. Use the **lock-in checker** on a bundle or supplier you are considering, then the **question builder** to download RFI or RFP questions. Run the **proof-of-concept** tests with your own data, and keep the **exit checklist** up to date. The checker can add the matching clauses to the clause builder on **Buying and suppliers**.
 
 ### Put data quality into a supplier contract
 Go to **Buying and suppliers**. Choose clauses in the builder (the "must" clauses are a sensible floor), add your organisation's name, and copy the schedule for your commercial and legal teams. It is illustrative drafting, not legal advice.

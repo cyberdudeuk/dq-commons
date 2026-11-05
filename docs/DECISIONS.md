@@ -1,5 +1,11 @@
 # Decision log (this repository)
 
+## 2026-11-05 · D-COM-02 · Guidance on catalogue and quality tools is vendor-neutral, sourced and dated, and favours standards-first
+- **Decision:** a new page sets out how catalogues and quality tools connect, a product landscape with each claim sourced to the vendor's own documentation or official notices and dated, five integration patterns ranked by lock-in, a five-level integration depth scale, a lock-in checker, an RFI and RFP question bank, a proof-of-concept script and an exit checklist. Standards-first (ODCS, OpenLineage, DCAT and DQV, Iceberg) is the recommended target whatever is bought. Risks link to existing contract clauses (C03, C04, C12 to C20) through a deep link into the clause builder.
+- **Why:** organisations are buying catalogues and quality tools now, often bundled, while the market consolidates (Salesforce and Informatica, ServiceNow and data.world) and Parliament and the CMA have highlighted lock-in. Buyers need questions and tests, not rankings.
+- **Safeguards:** no rankings or endorsements; product facts carry sources and a checked date and a three-monthly review; analyst reports are flagged as paid research; an AI-generated vendor profile found during research to contain a false acquisition claim was not used, and the page warns buyers to check facts at source.
+- **Alternatives considered:** a scored vendor comparison (rejected: not neutral, quickly stale, and the Commons cannot test every product); leaving it to the existing tender questions (rejected: they cover data quality duties, not tool integration, portability or bundling).
+
 ## 2026-11-04 · D-NAV-02 · The capability model is the Commons' map: every capability, step and role links to where the work is done
 - **Decision:** the model gains navigation fields (`pages`, `page`, `stage`, `lanes`). The models page becomes interactive (capability map, workflow player, record explorer, deep links), and the home, roles, playbook, search and knowledge map pages link into it. The generator refuses links to pages, stages or roles that don't exist.
 - **Why:** people arrive with a job to do ("I'm a data owner", "we need to prioritise issues"). The model already says who does what and with which records; using it as the map turns 36 pages into one joined-up route, and keeps the links honest because they are tested.

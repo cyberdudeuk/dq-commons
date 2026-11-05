@@ -2,7 +2,7 @@
 # Versioning: semantic versioning (major.minor.patch). Major: changes that break files or links people rely on.
 # Minor: new features or pages. Patch: fixes and content updates. Types: new, changed, fixed, removed.
 # pages_new / pages_changed flag menu entries as "New" or "Updated" while that release is the latest or the one before.
-review: {last_reviewed: "2026-11-04", owner_role: Product owner (Commons)}
+review: {last_reviewed: "2026-11-05", owner_role: Product owner (Commons)}
 
 policy:
 - "Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content."
@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.7.0"
+  date: "2026-11-05"
+  title: "Catalogues and quality tools: integration, buying and avoiding lock-in"
+  pages_new: [catalogues]
+  pages_changed: [commercial, tooling, index]
+  items:
+  - {type: new, text: "How 20 catalogue, platform and quality products connect, with sources and the date checked: native quality features, partner integrations and open standards", link: "catalogues.html#products"}
+  - {type: new, text: "Five integration patterns from single-vendor suites to standards-first, and a five-level scale for how deep an integration really is", link: "catalogues.html#patterns"}
+  - {type: new, text: "Lock-in risk checker: 16 statements about a bundle or supplier, with the clauses and questions to add", link: "catalogues.html#checker"}
+  - {type: new, text: "RFI and RFP question builder: 32 questions with what a good answer looks like, downloadable as a spreadsheet or document", link: "catalogues.html#questions"}
+  - {type: new, text: "Proof-of-concept test script, exit checklist and a buying route that avoids lock-in, with UK procurement rules and resources", link: "catalogues.html#poc"}
+  - {type: changed, text: "The clause builder accepts links that add clauses directly, used by the lock-in checker and exit checklist", link: "commercial.html#clauses"}
 - version: "2.6.0"
   date: "2026-11-04"
   title: "Interactive capability models, joined up across the Commons; menu fixes"

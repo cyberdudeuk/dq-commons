@@ -1,0 +1,286 @@
+<title>Catalogues and quality tools: integration and buying</title>
+<style>
+__BASE_CSS__
+.facts{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))}
+.facts .card p{margin:0;font-size:.9rem}
+.facts .card a{font-size:.8rem}
+.spectrum{position:relative;margin:18px 0 8px;padding:34px 0 8px}
+.spectrum .bar{height:12px;border-radius:999px;background:linear-gradient(90deg,#942514,#a14d00 30%,#594d00 55%,#1d70b8 75%,#005a30)}
+.spectrum .ends{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-top:6px}
+.pats{display:grid;gap:8px;grid-template-columns:repeat(5,minmax(0,1fr));margin-top:10px}
+@media (max-width:860px){.pats{grid-template-columns:minmax(0,1fr)}}
+.pats button{font:inherit;text-align:left;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-top:5px solid var(--c);border-radius:8px;padding:10px 12px;cursor:pointer;min-height:84px}
+.pats button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--c)}
+.pats b{display:block}
+.pats span{font-size:.8rem;color:var(--muted)}
+.meter{display:inline-flex;gap:3px;vertical-align:middle;margin-left:6px}
+.meter i{width:12px;height:8px;border-radius:2px;background:var(--line)}
+.meter i.on{background:#942514}
+.detail{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-top:12px}
+.detail h3{margin-top:0}
+.two{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.ladder{list-style:none;padding:0;margin:0;display:flex;flex-direction:column-reverse;gap:6px}
+.ladder li{display:grid;grid-template-columns:70px minmax(0,1fr);gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-left:calc(var(--l) * 4%)}
+.ladder li b.n{font-family:var(--f-mono);font-size:1.4rem;color:var(--accent);text-align:center}
+.ladder li span{font-size:.88rem}
+.filters2{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:10px}
+.filters2 .field{display:flex;flex-direction:column;gap:4px;font-size:.88rem}
+.filters2 select,.filters2 input[type=search]{min-height:36px}
+.prod td{vertical-align:top;font-size:.86rem}
+.prod td:first-child{min-width:190px}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);margin:0 4px 4px 0;white-space:nowrap}
+.tag.open{background:#cce2d8;color:#005a30;border-color:transparent}
+.tag.yes{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.cmp{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.cmp .card h4{margin:0 0 6px}
+.cmp dl{margin:0;font-size:.85rem}.cmp dt{font-weight:700;margin-top:6px}.cmp dd{margin:0}
+.q{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin:0 0 8px;background:var(--surface)}
+.q legend{font-weight:600;font-size:.92rem;padding:0 4px}
+.q .opts{display:flex;flex-wrap:wrap;gap:14px;margin-top:6px;font-size:.88rem}
+.q .opts label{display:inline-flex;gap:6px;align-items:center;min-height:28px;cursor:pointer}
+.score{display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:10px 0}
+.score .big{font-size:2rem;font-weight:800;font-family:var(--f-display)}
+.gauge{flex:1 1 220px;height:14px;border-radius:999px;background:var(--sunk);overflow:hidden;border:1px solid var(--line)}
+.gauge i{display:block;height:100%;background:var(--c, #005a30);transition:width .3s}
+.risk{border-left:5px solid #942514;background:var(--surface);border-radius:6px;padding:8px 12px;margin-bottom:6px;font-size:.9rem}
+.risk.unk{border-left-color:#594d00}
+.qb li{list-style:none;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:6px;background:var(--surface)}
+.qb ul{padding:0;margin:0}
+.qb label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.qb input{margin-top:4px}
+.qb .meta{font-size:.78rem;color:var(--muted)}
+.qb .good{font-size:.84rem;margin:4px 0 0 28px}
+.w-must{color:var(--crit);background:var(--crit-soft)} .w-should{color:var(--warn);background:var(--warn-soft)} .w-could{color:var(--info);background:var(--info-soft)}
+.chk li{list-style:none;margin-bottom:6px}
+.chk ul{padding:0}
+.chk label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.chk input{margin-top:4px}
+.route{list-style:none;padding:0;margin:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));counter-reset:r}
+.route li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;position:relative}
+.route li b{display:block;color:var(--accent)}
+.route li span{font-size:.86rem}
+@media (prefers-reduced-motion:reduce){.gauge i{transition:none}}
+#srcs a,#routes a,#stds a,.facts a,.prod a{overflow-wrap:anywhere;word-break:break-word}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Manage and improve · Catalogues and quality tools</span>
+  <h1>Catalogues and data quality tools: connect them, buy them well, stay free to change</h1>
+  <p class="lede" id="sum"></p>
+  <nav class="toc" aria-label="On this page"><a href="#why">Why it matters</a><a href="#patterns">Patterns</a><a href="#depth">Integration depth</a><a href="#products">Products</a><a href="#checker">Lock-in checker</a><a href="#questions">RFI and RFP questions</a><a href="#poc">Proof of concept</a><a href="#exit">Exit checklist</a><a href="#route">Buying route</a><a href="#resources">Resources</a></nav>
+</header>
+
+<div class="card" role="note"><p class="small"><b>Read this first.</b> <span id="disc"></span></p></div>
+
+<section id="why" aria-labelledby="why-h"><h2 id="why-h">Why it matters now</h2><div class="facts" id="facts"></div></section>
+
+<section id="patterns" aria-labelledby="p-h"><h2 id="p-h">Five ways catalogues and quality tools fit together</h2>
+  <p>From the most locked in to the most free. Choose one to see examples, strengths, what to watch and when it fits. Whatever you choose, aim for the last one, standards-first, as well.</p>
+  <div class="spectrum" aria-hidden="true"><div class="bar"></div><div class="ends"><span>More locked in</span><span>More freedom to change</span></div></div>
+  <div class="pats" id="pats" role="group" aria-label="Integration patterns"></div>
+  <div class="detail" id="patD" aria-live="polite"></div>
+</section>
+
+<section id="depth" aria-labelledby="d-h"><h2 id="d-h">How deep is the integration?</h2>
+  <p>"Integrates with" can mean anything from a link to full two-way working. Ask every supplier which level they reach with your other tools, and ask them to show it with your data.</p>
+  <ol class="ladder" id="ladder"></ol>
+</section>
+
+<section id="products" aria-labelledby="pr-h"><h2 id="pr-h">Products and how they connect</h2>
+  <p class="small muted">As described by each vendor or its documentation on the date checked, with sources. Not an endorsement or a ranking. Tick up to three to compare them side by side.</p>
+  <div class="filters2">
+    <div class="field"><label for="fT">Type</label><select id="fT"><option value="">All types</option></select></div>
+    <div class="field"><label for="fN">Own quality features</label><select id="fN"><option value="">Any</option><option value="yes">Yes</option><option value="partial">Partly</option></select></div>
+    <div class="field"><label for="fO">Licence</label><select id="fO"><option value="">Any</option><option value="1">Open source available</option><option value="0">Commercial only</option></select></div>
+    <div class="field"><label for="fQ">Search</label><input type="search" id="fQ" placeholder="For example: ODCS, Snowflake, Soda"></div>
+  </div>
+  <p class="small" id="pCount" role="status" aria-live="polite"></p>
+  <div class="tbl"><table class="prod"><thead><tr><th scope="col">Product</th><th scope="col">Type</th><th scope="col">Quality features</th><th scope="col">Connects with</th><th scope="col">Open standards</th><th scope="col">Watch for</th></tr></thead><tbody id="pRows"></tbody></table></div>
+  <div id="cmpWrap" hidden><h3>Side by side</h3><div class="cmp" id="cmp"></div></div>
+</section>
+
+<section id="checker" aria-labelledby="c-h"><h2 id="c-h">Lock-in risk checker</h2>
+  <p>For the option you are considering (an existing contract, a bundle on offer or a shortlisted supplier), say whether each statement is true. Your answers stay in this browser. You get the risks to deal with, the contract clauses that address them, and questions to add to your request.</p>
+  <div class="filters2"><div class="field"><label for="opt">Option you are checking (optional)</label><input type="text" id="opt" placeholder="For example: catalogue renewal, quality add-on"></div>
+    <button class="btn ghost" type="button" id="resetC">Clear answers</button></div>
+  <div id="qs"></div>
+  <div class="score" id="score" aria-live="polite"></div>
+  <div id="riskOut"></div>
+</section>
+
+<section id="questions" aria-labelledby="q-h"><h2 id="q-h">RFI and RFP question builder</h2>
+  <p>Pick the questions for a request for information (market sounding) or a request for proposal (tender). Each shows what a good answer looks like and the evidence to ask for. Download them as a spreadsheet or a document. Score "must" questions as pass or fail.</p>
+  <div class="filters2">
+    <div class="field"><label for="qS">Stage</label><select id="qS"><option value="">RFI and RFP</option><option value="RFI">RFI</option><option value="RFP">RFP</option></select></div>
+    <div class="field"><label for="qC">Category</label><select id="qC"><option value="">All categories</option></select></div>
+    <div class="field"><label for="qW">Weight</label><select id="qW"><option value="">All</option><option value="must">Must</option><option value="should">Should</option><option value="could">Could</option></select></div>
+    <button class="btn ghost" type="button" id="qAllMust">Select all "must"</button>
+    <button class="btn ghost" type="button" id="qNone">Clear selection</button>
+  </div>
+  <p class="small" id="qCount" role="status" aria-live="polite"></p>
+  <div class="qb"><ul id="qList"></ul></div>
+  <p><button class="btn" type="button" id="dlCsv">Download selected as CSV</button> <button class="btn ghost" type="button" id="dlMd">Download as a document (Markdown)</button> <button class="btn ghost" type="button" id="cpMd">Copy</button> <span class="small" id="cpMsg" role="status" aria-live="polite"></span></p>
+</section>
+
+<section id="poc" aria-labelledby="t-h"><h2 id="t-h">Proof-of-concept test script</h2>
+  <p>Don't rely on demonstrations with the supplier's data. Run these tests with your own data and at least two shortlisted combinations. Ticks stay in this browser.</p>
+  <div class="chk"><ul id="pocList"></ul></div>
+  <p><button class="btn ghost" type="button" id="dlPoc">Download the script with your ticks</button></p>
+</section>
+
+<section id="exit" aria-labelledby="x-h"><h2 id="x-h">Exit checklist: keep your freedom from day one</h2>
+  <div class="chk"><ul id="exitList"></ul></div>
+  <p class="small" id="exitSum" role="status" aria-live="polite"></p>
+  <p><a class="btn" id="clauseBtn" href="commercial.html#add=C03,C04,C12,C13,C18">Add exit and open-format clauses in the clause builder</a></p>
+</section>
+
+<section id="route" aria-labelledby="r-h"><h2 id="r-h">A buying route that avoids lock-in</h2><ol class="route" id="steps"></ol></section>
+
+<section id="resources" aria-labelledby="res-h"><h2 id="res-h">Procurement routes, rules and resources</h2>
+  <div class="two"><div><h3>Rules and routes</h3><ul class="plain small" id="routes"></ul></div><div><h3>Open standards to ask for</h3><ul class="plain small" id="stds"></ul></div></div>
+  <h3>Related in the Commons</h3><div class="facts" id="rel"></div>
+  <h3>Sources for product information</h3><ul class="plain small" id="srcs"></ul>
+  <p class="small muted" id="rev"></p>
+</section>
+</div>
+
+<script>
+const K = __K_CATALOGUES__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+const host = u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return ""; } };
+const download = (name, text, type) => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type})); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); };
+$("sum").textContent = K.summary; $("disc").textContent = K.disclaimer;
+$("rev").textContent = `Last reviewed ${K.review.last_reviewed}; next review ${K.review.next_review}. Spotted something out of date? Tell us through the contact form on Help us build this.`;
+$("facts").innerHTML = K.facts.map(f => `<div class="card"><p>${esc(f.text)}</p>${f.source ? `<a href="${esc(f.source)}" rel="noopener">Source: ${esc(host(f.source))}</a>` : ""}</div>`).join("");
+
+// Patterns
+const PCOL = {5: "#942514", 4: "#a14d00", 3: "#594d00", 2: "#1d70b8", 1: "#005a30"};
+let pat = location.hash.startsWith("#pattern-") ? location.hash.slice(9) : "standards";
+const meter = n => `<span class="meter" aria-label="Lock-in ${n} out of 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+function drawPat() {
+  $("pats").innerHTML = K.patterns.map(p => `<button type="button" data-p="${p.id}" aria-pressed="${p.id === pat}" style="--c:${PCOL[p.lockin]}"><b>${esc(p.name)}</b><span>Lock-in ${meter(p.lockin)}</span></button>`).join("");
+  const p = K.patterns.find(x => x.id === pat);
+  $("patD").innerHTML = `<h3>${esc(p.name)} ${meter(p.lockin)}</h3><p>${esc(p.what)}</p>
+    <div class="two"><div><h4>Good for</h4><p>${esc(p.good)}</p><h4>Fits when</h4><p>${esc(p.when)}</p></div>
+    <div><h4>Watch for</h4><p>${esc(p.watch)}</p><h4>Examples</h4><p>${p.examples.map(e => `<span class="tag">${esc(e)}</span>`).join("")}</p></div></div>`;
+}
+$("pats").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { pat = b.dataset.p; drawPat(); } });
+drawPat();
+
+// Depth ladder
+$("ladder").innerHTML = K.depth.map(d => `<li style="--l:${d.level}"><b class="n" aria-hidden="true">${d.level}</b><span><b>Level ${d.level}: ${esc(d.name)}.</b> ${esc(d.what)}</span></li>`).join("");
+
+// Products
+const TYPE = {catalogue: "Catalogue", quality: "Quality tool", both: "Catalogue and quality suite", platform: "Platform-native", observability: "Observability", "open-source": "Open-source catalogue"};
+$("fT").innerHTML += Object.entries(TYPE).map(([k, v]) => `<option value="${k}">${esc(v)}</option>`).join("");
+let cmpSel = new Set(store.get("dqc.cat.cmp", []));
+function drawProducts() {
+  const t = $("fT").value, n = $("fN").value, o = $("fO").value, q = $("fQ").value.trim().toLowerCase();
+  const list = K.products.filter(p => (!t || p.type === t) && (!n || p.native_dq === n) && (!o || String(+p.open_source) === o) && (!q || JSON.stringify(p).toLowerCase().includes(q)));
+  $("pCount").textContent = `${list.length} of ${K.products.length} products. Checked ${K.products[0].checked}.`;
+  $("pRows").innerHTML = list.map(p => `<tr id="prod-${esc(p.id)}"><td><label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" data-c="${esc(p.id)}"${cmpSel.has(p.id) ? " checked" : ""}${!cmpSel.has(p.id) && cmpSel.size >= 3 ? " disabled" : ""}><span><b>${esc(p.name)}</b><br><span class="small muted">${esc(p.vendor)}</span></span></label>
+      <details class="small"><summary>Sources</summary><ul>${p.sources.map(s => `<li><a href="${esc(s)}" rel="noopener">${esc(host(s))}</a></li>`).join("")}</ul></details></td>
+    <td><span class="tag">${esc(TYPE[p.type])}</span>${p.open_source ? '<span class="tag open">Open source</span>' : ""}</td>
+    <td>${p.native_dq === "yes" ? '<span class="tag yes">Own quality features</span>' : p.native_dq === "partial" ? '<span class="tag">Partly</span>' : ""}<br>${esc(p.dq_note)}</td>
+    <td>${p.partners.map(x => `<span class="tag">${esc(x)}</span>`).join("") || '<span class="muted">Not stated</span>'}</td>
+    <td>${p.standards.map(x => `<span class="tag">${esc(x)}</span>`).join("") || '<span class="muted">Not stated</span>'}</td>
+    <td>${esc(p.watch)}</td></tr>`).join("");
+  drawCmp();
+}
+function drawCmp() {
+  const ps = K.products.filter(p => cmpSel.has(p.id));
+  $("cmpWrap").hidden = ps.length < 2;
+  $("cmp").innerHTML = ps.map(p => `<div class="card"><h4>${esc(p.name)}</h4><dl><dt>Type</dt><dd>${esc(TYPE[p.type])}${p.open_source ? ", open source available" : ""}</dd>
+    <dt>Quality features</dt><dd>${esc(p.dq_note)}</dd><dt>Connects with</dt><dd>${esc(p.partners.join(", ") || "Not stated")}</dd>
+    <dt>Open standards</dt><dd>${esc(p.standards.join(", ") || "Not stated")}</dd><dt>Watch for</dt><dd>${esc(p.watch)}</dd></dl></div>`).join("");
+}
+["fT", "fN", "fO", "fQ"].forEach(id => $(id).addEventListener("input", drawProducts));
+$("pRows").addEventListener("change", e => { const c = e.target.dataset.c; if (!c) return; e.target.checked ? cmpSel.add(c) : cmpSel.delete(c); store.set("dqc.cat.cmp", [...cmpSel]); drawProducts(); });
+drawProducts();
+
+// Lock-in checker
+let ans = store.get("dqc.cat.ans", {});
+$("opt").value = store.get("dqc.cat.opt", "");
+$("opt").addEventListener("input", () => store.set("dqc.cat.opt", $("opt").value));
+$("qs").innerHTML = K.risks.map(r => `<fieldset class="q"><legend>${esc(r.check)}</legend><div class="opts">
+  ${[["yes", "Yes"], ["no", "No"], ["unsure", "Not sure"]].map(([v, l]) => `<label><input type="radio" name="r-${r.id}" value="${v}"${ans[r.id] === v ? " checked" : ""}> ${l}</label>`).join("")}</div>
+  <p class="small muted" style="margin:4px 0 0">${esc(r.name)}. Ask the supplier: ${esc(r.ask)}</p></fieldset>`).join("");
+const QBY = Object.fromEntries(K.rfx.map(q => [q.id, q]));
+function drawRisk() {
+  const answered = K.risks.filter(r => ans[r.id]).length, no = K.risks.filter(r => ans[r.id] === "no"), uns = K.risks.filter(r => ans[r.id] === "unsure");
+  const risk = Math.round(100 * (no.length + 0.5 * uns.length) / K.risks.length);
+  const lvl = !answered ? "" : risk >= 50 ? "High" : risk >= 25 ? "Medium" : "Low";
+  const c = !answered ? "var(--line)" : risk >= 50 ? "#942514" : risk >= 25 ? "#a14d00" : "#005a30";
+  $("score").innerHTML = `<div><span class="big">${answered ? lvl : "–"}</span><br><span class="small">lock-in risk${$("opt").value ? ` for ${esc($("opt").value)}` : ""}</span></div>
+    <div class="gauge" role="img" aria-label="Lock-in risk ${risk} out of 100"><i style="width:${answered ? risk : 0}%;--c:${c}"></i></div>
+    <div class="small">${answered} of ${K.risks.length} answered · ${no.length} no · ${uns.length} not sure</div>`;
+  const items = [...no, ...uns];
+  const clauses = [...new Set(items.flatMap(r => r.clauses))].sort();
+  const qids = [...new Set(items.flatMap(r => r.rfx))];
+  $("riskOut").innerHTML = items.length ? `<h3>What to deal with</h3>${items.map(r => `<div class="risk${ans[r.id] === "unsure" ? " unk" : ""}"><b>${esc(r.name)}${ans[r.id] === "unsure" ? " (find out)" : ""}.</b> ${esc(r.what)}<br><b>Do this:</b> ${esc(r.mitigation)}
+      ${r.clauses.length ? ` <span class="small">Clauses: ${r.clauses.map(esc).join(", ")}</span>` : ""}</div>`).join("")}
+    <p>${clauses.length ? `<a class="btn" href="commercial.html#add=${clauses.join(",")}">Add ${clauses.length} clause(s) in the clause builder</a> ` : ""}<button class="btn ghost" type="button" id="addQs" data-q="${qids.join(",")}">Add ${qids.length} question(s) to the question builder</button></p>` : (answered ? "<p>No gaps found in your answers. Keep the exit checklist up to date.</p>" : "");
+}
+$("qs").addEventListener("change", e => { if (e.target.name && e.target.name.startsWith("r-")) { ans[e.target.name.slice(2)] = e.target.value; store.set("dqc.cat.ans", ans); drawRisk(); } });
+$("resetC").onclick = () => { ans = {}; store.set("dqc.cat.ans", ans); document.querySelectorAll("#qs input").forEach(i => i.checked = false); drawRisk(); };
+$("riskOut").addEventListener("click", e => { const b = e.target.closest("#addQs"); if (!b) return; b.dataset.q.split(",").filter(Boolean).forEach(id => qSel.add(id)); saveQ(); drawQ(); $("questions").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}); });
+drawRisk();
+
+// Question builder
+let qSel = new Set(store.get("dqc.cat.q", []));
+const saveQ = () => store.set("dqc.cat.q", [...qSel]);
+$("qC").innerHTML += [...new Set(K.rfx.map(q => q.category))].map(c => `<option>${esc(c)}</option>`).join("");
+const qShown = () => { const s = $("qS").value, c = $("qC").value, w = $("qW").value; return K.rfx.filter(q => (!s || q.stage === s || q.stage === "both") && (!c || q.category === c) && (!w || q.weight === w)); };
+function drawQ() {
+  const list = qShown();
+  $("qCount").textContent = `${qSel.size} selected · ${list.length} shown of ${K.rfx.length}.`;
+  $("qList").innerHTML = list.map(q => `<li><label><input type="checkbox" data-q="${q.id}"${qSel.has(q.id) ? " checked" : ""}><span><b>${esc(q.question)}</b><br>
+    <span class="meta"><span class="pill w-${q.weight}">${esc(q.weight)}</span> ${esc(q.category)} · ${q.stage === "both" ? "RFI and RFP" : esc(q.stage)} · ${esc(q.id)}</span></span></label>
+    <p class="good"><b>Good answer:</b> ${esc(q.good)} <span class="muted">Evidence: ${esc(q.evidence)}</span></p></li>`).join("");
+}
+["qS", "qC", "qW"].forEach(id => $(id).addEventListener("input", drawQ));
+$("qList").addEventListener("change", e => { const id = e.target.dataset.q; if (!id) return; e.target.checked ? qSel.add(id) : qSel.delete(id); saveQ(); drawQ(); });
+$("qAllMust").onclick = () => { qShown().filter(q => q.weight === "must").forEach(q => qSel.add(q.id)); saveQ(); drawQ(); };
+$("qNone").onclick = () => { qSel.clear(); saveQ(); drawQ(); };
+const chosen = () => K.rfx.filter(q => qSel.has(q.id));
+const csvCell = s => `"${String(s ?? "").replace(/"/g, '""')}"`;
+$("dlCsv").onclick = () => { const rows = [["id", "category", "stage", "weight", "question", "what a good answer looks like", "evidence to ask for", "supplier answer", "score"]].concat(chosen().map(q => [q.id, q.category, q.stage, q.weight, q.question, q.good, q.evidence, "", ""]));
+  download("catalogue-dq-questions.csv", rows.map(r => r.map(csvCell).join(",")).join("\r\n"), "text/csv"); };
+const md = () => { const qs = chosen(), cats = [...new Set(qs.map(q => q.category))];
+  return [`# Catalogue and data quality tools: questions for suppliers`, "", `Generated from the Public Sector Data Quality Commons on ${new Date().toISOString().slice(0, 10)}. "Must" questions are scored pass or fail.`, ""]
+    .concat(...cats.map(c => [`## ${c}`, "", ...qs.filter(q => q.category === c).flatMap(q => [`### ${q.id} (${q.weight})`, "", q.question, "", `- What a good answer looks like: ${q.good}`, `- Evidence: ${q.evidence}`, ""])])).join("\n"); };
+$("dlMd").onclick = () => download("catalogue-dq-questions.md", md(), "text/markdown");
+$("cpMd").onclick = async () => { try { await navigator.clipboard.writeText(md()); $("cpMsg").textContent = "Copied."; } catch (e) { $("cpMsg").textContent = "Copy didn't work here; use the download instead."; } };
+drawQ();
+
+// Proof of concept
+let poc = store.get("dqc.cat.poc", {});
+$("pocList").innerHTML = K.poc.map(t => `<li><label><input type="checkbox" data-t="${t.id}"${poc[t.id] ? " checked" : ""}><span><b>${esc(t.id)} ${esc(t.name)}.</b> ${esc(t.test)} <span class="small muted">Proves: ${esc(t.proves)}.</span></span></label></li>`).join("");
+$("pocList").addEventListener("change", e => { const id = e.target.dataset.t; if (id) { poc[id] = e.target.checked; store.set("dqc.cat.poc", poc); } });
+$("dlPoc").onclick = () => download("catalogue-dq-poc-script.md", ["# Proof-of-concept test script", "", ...K.poc.map(t => `- [${poc[t.id] ? "x" : " "}] **${t.id} ${t.name}.** ${t.test} (Proves: ${t.proves})`)].join("\n"), "text/markdown");
+
+// Exit checklist
+let ex = store.get("dqc.cat.exit", {});
+const drawExitSum = () => { const n = K.exit.filter((_, i) => ex[i]).length; $("exitSum").textContent = `${n} of ${K.exit.length} in place.`; };
+$("exitList").innerHTML = K.exit.map((x, i) => `<li><label><input type="checkbox" data-x="${i}"${ex[i] ? " checked" : ""}><span>${esc(x)}</span></label></li>`).join("");
+$("exitList").addEventListener("change", e => { const i = e.target.dataset.x; if (i !== undefined) { ex[i] = e.target.checked; store.set("dqc.cat.exit", ex); drawExitSum(); } });
+drawExitSum();
+
+// Route, resources, sources
+$("steps").innerHTML = K.steps.map(s => `<li><b>${s.n}. ${esc(s.name)}</b><span>${esc(s.what)}</span> <a class="small" href="${esc(s.link)}">Go</a></li>`).join("");
+$("routes").innerHTML = K.routes.map(r => `<li>${r.url ? `<a href="${esc(r.url)}" rel="noopener"><b>${esc(r.name)}</b></a>` : `<b>${esc(r.name)}</b>`}: ${esc(r.what)}</li>`).join("");
+$("stds").innerHTML = K.standards.map(s => `<li><a href="${esc(s.url)}" rel="noopener"><b>${esc(s.name)}</b></a> <span class="muted">(${esc(s.steward)})</span>: ${esc(s.use)}</li>`).join("");
+$("rel").innerHTML = K.related.map(r => `<a class="card" href="${esc(r.link)}" style="text-decoration:none;color:var(--fg)"><b style="color:var(--accent)">${esc(r.name)}</b><br><span class="small">${esc(r.why)}</span></a>`).join("");
+$("srcs").innerHTML = [...new Set(K.products.flatMap(p => p.sources))].map(s => `<li><a href="${esc(s)}" rel="noopener">${esc(s)}</a></li>`).join("");
+
+window.DQP_TOUR = [
+  {sel: "#pats", title: "Five patterns", text: "From single-vendor suites to standards-first. Choose one to see what it means for lock-in."},
+  {sel: "#ladder", title: "Integration depth", text: "Ask suppliers which level they reach, and to show it with your data."},
+  {sel: "#pRows", title: "Products", text: "What each catalogue and quality tool says it connects with, with sources. Tick up to three to compare."},
+  {sel: "#qs", title: "Lock-in checker", text: "Answer for the option you are considering to see the risks, clauses and questions to add."},
+  {sel: "#qList", title: "Question builder", text: "Choose questions for an RFI or RFP and download them as a spreadsheet or document."},
+];
+</script>
