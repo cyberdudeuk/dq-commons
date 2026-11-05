@@ -35,11 +35,11 @@ mark{background:var(--c-gold-s,#f8efd2);color:inherit;padding:0 2px;border-radiu
   <h2 id="chat-h">Your question</h2>
   <div class="layout">
     <div class="chat">
-      <div class="log" id="log" role="log" aria-live="polite" aria-label="Questions and answers"></div>
+      <div class="log" id="log" role="log" aria-live="polite" aria-label="Questions and answers" tabindex="0"></div>
       <form class="ask" id="askForm" onsubmit="return false">
         <label for="q" style="font-weight:600;font-size:.9rem">Ask a question</label>
         <div class="row"><input id="q" type="text" autocomplete="off" placeholder="For example: what should I ask a catalogue supplier about lock-in?" maxlength="300"><button class="btn" type="submit" id="send">Ask</button></div>
-        <div class="quick" id="quick" aria-label="Example questions"></div>
+        <div class="quick" id="quick" role="group" aria-label="Example questions"></div>
       </form>
     </div>
     <div class="side">

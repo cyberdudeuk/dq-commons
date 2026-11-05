@@ -569,7 +569,7 @@ window.DQP_GITHUB = (function () {
     }).join("");
     var since = FLAGS._since ? " since version " + esc(FLAGS._since) : "";
     $("dqp-otp-legend").innerHTML = flagged ? "<b>New</b> and <b>Updated</b> mark sections added or changed" + since + "." : "Nothing on this page has changed" + since + ".";
-    var cnt = $("dqp-otp-cnt"); if (flagged) { cnt.hidden = false; cnt.textContent = flagged; cnt.setAttribute("aria-label", flagged + " sections new or updated"); }
+    var cnt = $("dqp-otp-cnt"); if (flagged) { cnt.hidden = false; cnt.innerHTML = flagged + '<span class="dqp-sr"> sections new or updated</span>'; }
     var btn = $("dqp-otp-open"); btn.hidden = false;
     wire(heads);
   }
@@ -811,6 +811,9 @@ window.DQP_GITHUB = (function () {
     document.querySelectorAll("[title]").forEach(function (e) {
       if (e.closest("svg") || e.tagName === "IFRAME" || e.tagName === "LINK" || e.tagName === "STYLE" || e.tagName === "ABBR" && e.classList.contains("dqp-abbr")) return;
       var t = e.getAttribute("title"); if (!t) return;
+      // only controls and images can carry a name; other elements keep their native title (WCAG 4.1.2, axe aria-prohibited-attr)
+      var named = /^(A|BUTTON|INPUT|SELECT|TEXTAREA|SUMMARY)$/.test(e.tagName) || /^(img|button|link)$/.test(e.getAttribute("role") || "");
+      if (!named) return;
       if (!text(e) && !e.getAttribute("aria-label") && !e.getAttribute("aria-labelledby")) e.setAttribute("aria-label", t);
       e.setAttribute("data-tip", t); e.removeAttribute("title");
     });

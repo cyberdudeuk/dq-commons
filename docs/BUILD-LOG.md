@@ -15,7 +15,7 @@
 **Checked**
 - Palette contrast: every hue on its tint 4.9:1 or more (light) and 5.8:1 or more (dark); on page backgrounds 5.3:1 or more.
 - 191 tests pass (11 new in `tests/test_reuse_nav.py`); two-engine parity 37 of 37; content health 0 errors, 0 warnings.
-- Visual inspection of all 40 pages at 1366, 1100, 768 (dark) and 375px; per-page probe in light and dark: no script errors, no sideways page scroll. Fixed during inspection: site map tiles squeezed by a shared link rule; share button insertion on pages whose title is nested; links in card headings now at least 24px tall; easy read summaries missing on two pages.
+- Visual inspection of all 40 pages at 1366, 1100, 768 (dark) and 375px; per-page probe in light and dark: no script errors, no sideways page scroll. Fixed during inspection: site map tiles squeezed by a shared link rule; share button insertion on pages whose title is nested; links in card headings now at least 24px tall; easy read summaries missing on two pages. After the first CI accessibility run: tooltip conversion no longer adds names to table cells and other non-interactive elements (axe aria-prohibited-attr), the New/Updated count uses hidden text instead of a label on a span, and the Ask conversation can be scrolled by keyboard.
 - Tours: every tour runs to the end and adds the shared steps where the page has them; tooltip shows on hover and focus, closes with Escape.
 - Remaining inspection notes (not faults): output areas that stay empty until you run a tool; a few links in lists and survey checkboxes under 24px that meet WCAG 2.5.8 by spacing; the models swimlane diagram and home carousel scroll inside their own frames.
 
