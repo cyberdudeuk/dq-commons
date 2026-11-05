@@ -54,6 +54,7 @@ GROUPS = [
     ("2 Learn", [
         ("learn", "Learn", "Pathways by role, modules, tutorials and glossary"),
         ("professions", "Across the professions", "Where data quality sits in every profession's capability framework, in the UK nations and internationally"),
+        ("governance", "Governance boards and forums", "Who decides, advises, regulates and meets on government data: purpose, aims, outcomes, rules of engagement and terms of reference, and where your question should go"),
         ("training", "Skills and training", "Skills check against your role, a development plan and a catalogue of courses and qualifications"),
         ("knowledge", "Knowledge map", "Glossary, thesaurus, data dictionary, taxonomies, ontology and an interactive knowledge graph with lineage"),
         ("library", "Library and knowledge base", "Curated resources, how-to articles and resources shared by members"),
@@ -90,6 +91,7 @@ GROUPS = [
     ]),
     ("6 Contribute", [
         ("community", "Community", "Contributions library, wishlist, networks and how to get involved"),
+        ("getinvolved", "Get involved", "Contribute, join a working group, champion the Commons in your organisation, a communications kit and badges"),
         ("share", "Case studies", "Draft case studies from measured results, to share what worked"),
         ("surveys", "Surveys and commissions", "Take or run a data quality survey, or ask the Commons for help"),
         ("research", "Take part in user research", "An introduction to the Commons for you and your team, the research panel, what we want to learn and what changed because of it"),
@@ -102,9 +104,9 @@ GROUPS = [
 GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3 Check": "Check and assess",
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
-                                    "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask", "research"]},
+                                    "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask", "research", "getinvolved"]},
          **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
-                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem", "roadmap"]},
+                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem", "roadmap", "governance"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
@@ -113,7 +115,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
 
 
 def icon(name: str) -> str:
@@ -305,6 +307,9 @@ def knowledge() -> dict:
         "FEEDBACK": lambda: y("feedback"),
         "STANDARDS": lambda: y("standards-catalogue"),
         "ECO": lambda: y("ecosystem"),
+        "CODE": lambda: y("code-evidence"),
+        "GOVBODIES": lambda: y("governance-bodies"),
+        "PARTICIPATION": lambda: y("participation"),
         "RESEARCH": lambda: {**y("research"), "email_text": research_email()[1]},
         "ROADMAP": lambda: {**y("roadmap"), "backlog": y("build")["backlog"], "github_live": github_live()},
         "SITEMAP": lambda: site_map(),
@@ -523,7 +528,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"participation": "getinvolved", "governance-bodies": "governance", "research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -750,6 +755,12 @@ def research_bundle(folder: Path, base: str = PORTAL_URL) -> None:
             r = t.add_row().cells; r[0].text, r[1].text, r[2].text = str(st["min"]), st["part"], st["detail"]
         if g.get("note"):
             d.add_paragraph(g["note"])
+    bm = R["benchmark"]
+    d.add_heading(f'Usability benchmark: {bm["name"]}', 1)
+    d.add_paragraph("Ask at the end of every usability and accessibility session. Answers: " + ", ".join(f"{i + 1} {x}" for i, x in enumerate(bm["scale"])) + ".")
+    for i, x in enumerate(bm["items"], 1):
+        d.add_paragraph(f"{i}. {x}   1  2  3  4  5")
+    d.add_paragraph(bm["scoring"]); d.add_paragraph(bm["reading"]); d.add_paragraph(bm["credit"])
     d.add_heading("Who to recruit (minimums per round)", 1)
     bullets(d, [f'{q["group"]}: at least {q["min"]}' for q in R["quotas"]])
     d.add_heading("Turning sessions into findings", 1)
@@ -791,6 +802,82 @@ Nothing in this bundle names anyone. It has no tracking. Licence: Open Governmen
                 z.write(f, f"dq-commons-research-bundle/{f.name}")
 
 
+def ambassador_kit(folder: Path, base: str = PORTAL_URL) -> None:
+    """The champion and ambassador kit (v2.12.0): every message in the communications kit as text and Word, the
+    introduction email as an .eml draft, role descriptions, working group terms, badge rules and snippets, in one zip."""
+    import zipfile
+    from email.message import EmailMessage
+    from docx import Document
+    from docx.shared import Pt
+    P = yaml.safe_load((ROOT / "knowledge" / "participation.yaml").read_text(encoding="utf-8"))
+    folder.mkdir(parents=True, exist_ok=True)
+    fill = lambda t: t.replace("{link}", base)
+    d = Document()
+    d.core_properties.title, d.core_properties.author = "DQ Commons champion and ambassador kit", BRAND
+    d.styles["Normal"].font.name, d.styles["Normal"].font.size = "Arial", Pt(12)
+    d.add_heading("DQ Commons champion and ambassador kit", 0)
+    d.add_paragraph(P["intro"])
+    d.add_heading("Roles", 1)
+    for r in P["champions"]["roles"]:
+        d.add_heading(f'{r["name"]} ({r["for"]}, {r["time"]})', 2)
+        for x in r["do"]:
+            d.add_paragraph(x, style="List Bullet")
+    d.add_heading("What you get", 1)
+    for x in P["champions"]["get"]:
+        d.add_paragraph(x, style="List Bullet")
+    d.add_heading("What we ask", 1)
+    for x in P["champions"]["ask"]:
+        d.add_paragraph(x, style="List Bullet")
+    d.add_heading("How to start", 1)
+    for i, x in enumerate(P["champions"]["start"], 1):
+        d.add_paragraph(f"{i}. {x}")
+    d.add_heading("Messages to send in your organisation", 1)
+    for k in P["kit"]:
+        d.add_heading(k["channel"], 2)
+        if k["subject"]:
+            d.add_paragraph(f'Subject: {k["subject"]}')
+        for para in fill(k["text"]).strip().split("\n\n"):
+            d.add_paragraph(para)
+        (folder / f'{k["id"]}.txt').write_text((f'Subject: {k["subject"]}\n\n' if k["subject"] else "") + fill(k["text"]), encoding="utf-8")
+    d.add_heading("Working groups", 1)
+    for g in P["working_groups"]:
+        d.add_paragraph().add_run(f'{g["name"]} ({g["status"]})').bold = True
+        d.add_paragraph(g["purpose"])
+    d.add_heading("How working groups run", 2)
+    for x in P["working_group_terms"]:
+        d.add_paragraph(x, style="List Bullet")
+    d.add_heading("Badges", 1)
+    for bd in P["badges"]:
+        d.add_paragraph(f'{bd["name"]}: {bd["criteria"]} ({"self-declared" if bd["confirm"] == "self" else "confirmed by a maintainer"})', style="List Bullet")
+    for x in P["badge_rules"]:
+        d.add_paragraph(x)
+    d.add_paragraph(f"Badge images and copy-and-paste code for GitHub, social media and email signatures: {base}getinvolved.html#badges")
+    d.save(str(folder / "dq-commons-ambassador-kit.docx"))
+    em = next(k for k in P["kit"] if k["id"] == "email")
+    m = EmailMessage()
+    m["Subject"] = em["subject"]
+    m["X-Unsent"] = "1"
+    m.set_content(fill(em["text"]))
+    (folder / "dq-commons-introduction.eml").write_bytes(bytes(m))
+    (folder / "README.txt").write_text(f"""DQ Commons champion and ambassador kit (version {VERSION})
+
+- dq-commons-ambassador-kit.docx: roles, what you get and what we ask, every message, working groups and badges
+- dq-commons-introduction.eml: the introduction email as a draft; open it, add recipients and send
+- email.txt, teams.txt, slack.txt, engage.txt, intranet.txt, newsletter.txt, talk.txt, update.txt: each message as plain text
+Badges: {base}getinvolved.html#badges
+
+Nothing here names anyone and nothing tracks who opens it. Licence: Open Government Licence v3.0.
+""", encoding="utf-8")
+    with zipfile.ZipFile(folder / "dq-commons-ambassador-kit.zip", "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(folder.iterdir()):
+            if f.suffix != ".zip":
+                z.write(f, f"dq-commons-ambassador-kit/{f.name}")
+
+
+def PLAYBOOK_STAGES() -> list:
+    return yaml.safe_load((ROOT / "knowledge" / "playbook.yaml").read_text(encoding="utf-8"))["stages"]
+
+
 def xref_manifest(base: str) -> dict:
     """Shared keys and their addresses, in the same shape as the DAM playbooks' data/xref.json (v2.10.0). Ids only, no copied text."""
     st = yaml.safe_load((ROOT / "knowledge" / "stakeholders.yaml").read_text(encoding="utf-8"))
@@ -803,7 +890,9 @@ def xref_manifest(base: str) -> dict:
                 "dama_areas": [{"id": v["dam"], "commons_id": k, "name": v["name"], "url": f"{base}wheel.html#area-{k}"} for k, v in dm.items()],
                 "roles": [{"id": r["id"], "code": rc.get(r["id"], ""), "name": r["name"], "group": r.get("group", "everyday"), "url": f"{base}roles.html#{r['id']}"} for r in st["roles"]],
                 "standards": [{"id": x["id"], "name": x["name"], "status": x["status"], "domain": x["domain"], "url": f"{base}interop.html#std-{x['id']}"} for x in sc["standards"]],
-                "pages": [{"id": stem, "name": label, "url": f"{base}{stem}.html"} for stem, label, _ in PAGES]},
+                "pages": [{"id": stem, "name": label, "url": f"{base}{stem}.html"} for stem, label, _ in PAGES],
+                "dam_requirements": [{"id": r["id"], "strength": r["strength"], "commons_stages": [st["id"] for st in PLAYBOOK_STAGES() if r["id"] in st.get("dam_playbooks", [])],
+                                      "url": f"{base}playbook.html#stages"} for r in ECO["xref"]["requirements"]]},
             "related": [{k: p[k] for k in ("id", "name", "url", "status", "licence")} for p in ECO["portals"] if p["id"] != "dqc"]}
 
 
@@ -985,7 +1074,9 @@ def feedback_strip(stem: str, label: str) -> str:
     items = " · ".join(f'<a href="{html.escape(u)}"' + (' target="_blank" rel="noopener"' if ext else "") + f'>{html.escape(t)}'
                        + ('<span class="dqp-sr"> (opens in a new tab)</span>' if ext else "") + "</a>" for u, t, ext in links)
     return (f'<aside class="dqp-fb" aria-label="Feedback about this page">{icon("feedback")}<p><b>Is something wrong, missing or hard to use on this page?</b> '
-            f'Tell us: {items}. Please don\'t include personal data.</p></aside>')
+            f'Tell us: {items}. Please don\'t include personal data. '
+            f'<span class="dqp-fbx">Is it really about the <a href="{html.escape(FEEDBACK["sister_routes"]["dam"])}" rel="noopener">DAM capability playbooks</a> or the '
+            f'<a href="{html.escape(FEEDBACK["sister_routes"]["cat"])}" rel="noopener">GitHub repos asset catalogue</a>? Tell them directly, or tell us and we\'ll pass it on.</span></p></aside>')
 
 
 def prev_next(stem: str) -> str:
@@ -1021,6 +1112,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
              .replace("{{SECTION_FLAGS}}", js_json(SECTION_FLAGS.get(stem, {})))
              .replace("{{REPO}}", html.escape(REPO[0]))
              .replace("{{ACRONYMS}}", js_json(ACRONYMS)))
+    fragment = fragment.replace("{{REPO}}", html.escape(REPO[0]))  # pages may use the repository placeholder too
     # every page's eyebrow gets that page's icon
     fragment = re.sub(r'<span class="eyebrow">[^<·]*·', lambda m: f'<span class="eyebrow">{GROUP_TITLE.get(GROUP_OF.get(stem, ""), "Commons")} ·', fragment, count=1)
     fragment = fragment.replace('<span class="eyebrow">', f'<span class="eyebrow">{icon(PAGE_ICON.get(stem, "arrow"))}', 1)
@@ -1048,7 +1140,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation"}
 
 
 def provenance(names: set) -> str:
@@ -1203,6 +1295,18 @@ def main(argv=None) -> int:
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
         feedback_docx(dl / "dq-commons-feedback-form-questions.docx")
+        if (ROOT / "portal" / "src" / "badges").exists():
+            shutil.copytree(ROOT / "portal" / "src" / "badges", target / "badges", dirs_exist_ok=True)
+        ambassador_kit(dl / "getinvolved", f"https://{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[0]}.github.io/{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[1]}/")
+        # Weaver to the UK cross-government metadata model, for review (BL-12): one row per Rosetta concept.
+        ro = yaml.safe_load((ROOT / "knowledge" / "rosetta.yaml").read_text(encoding="utf-8"))
+        with open(dl / "weaver-uk-mem-mapping.csv", "w", newline="", encoding="utf-8") as fh:
+            w = csv.writer(fh)
+            w.writerow(["concept_id", "concept", "definition", "DCAT v3", "UK MEM / x-gov", "DQV", "status"])
+            for c in ro["concepts"]:
+                st = c.get("standards", {})
+                w.writerow([c["id"], c["name"], c.get("definition", ""), st.get("DCAT v3", ""), st.get("UK MEM / x-gov", ""), st.get("DQV", ""),
+                            "Draft for review by the Data Standards Authority peer review route"])
         research_bundle(dl / "research", f"https://{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[0]}.github.io/{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[1]}/")
         owner, name = (a.repo.rstrip("/").split("/")[-2:] + ["", ""])[:2]
         write_api(target, a.repo, f"https://{owner}.github.io/{name}/")

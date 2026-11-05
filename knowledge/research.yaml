@@ -158,3 +158,26 @@ synthesis:
   - "Fix anything that excludes a group first."
   - "Turn each theme into a backlog item or a change to an existing one, with the finding's id."
   - "Publish the summary here, update the findings table, and tell participants what changed."
+
+# Usability benchmark (v2.12.0, BL-32): the System Usability Scale (John Brooke, 1986; free to use with attribution),
+# worded for the Commons. Asked at the end of every usability and accessibility session, and open to anyone on the
+# research page, where the score is worked out in the browser and nothing is sent.
+benchmark:
+  name: "System Usability Scale (SUS)"
+  credit: "System Usability Scale by John Brooke (1986), free to use with attribution."
+  scale: ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"]
+  items:
+  - "I think that I would like to use DQ Commons frequently."
+  - "I found DQ Commons unnecessarily complex."
+  - "I thought DQ Commons was easy to use."
+  - "I think that I would need the support of a technical person to be able to use DQ Commons."
+  - "I found the various parts of DQ Commons were well joined up."
+  - "I thought there was too much inconsistency in DQ Commons."
+  - "I would imagine that most people would learn to use DQ Commons very quickly."
+  - "I found DQ Commons very awkward to use."
+  - "I felt very confident using DQ Commons."
+  - "I needed to learn a lot of things before I could get going with DQ Commons."
+  scoring: "Odd-numbered statements score the answer minus 1; even-numbered statements score 5 minus the answer (answers 1 to 5). Add the ten and multiply by 2.5 to get a score from 0 to 100."
+  reading: "Scores are compared between rounds, not with a pass mark. Published research puts the average across many products at about 68."
+  target: "Each round's average score rises, and no group (for example assistive technology users) scores more than 10 points below the overall average."
+  results: []   # one entry per round: {round: R1, sessions: n, mean: x, note: ""}

@@ -59,3 +59,12 @@ routes:
     best_for: Anything that stops you using a page. We reply within 1 working day.
     privacy: Use any route above and choose "Accessibility problem".
     link: accessibility.html
+
+# One feedback picture across the three portals (v2.12.0, BL-30). Feedback that belongs to a sister portal is passed on
+# within 5 working days with nothing that identifies the person; themes are compared with the sister portals each quarter.
+sister_routes:
+  dam: "https://cyberdudeuk.github.io/dam-capability-playbooks/contact.html"
+  cat: "https://github.com/cyberdudeuk/github-repos-asset-catalogue/issues/new/choose"
+cross_portal:
+  pass_on: "Feedback about a sister portal is passed on to its maintainers within 5 working days, as a new issue in their repository, with nothing that identifies you. We tell you where it went."
+  themes: "Each quarter the three portals compare their feedback themes, and shared problems become one backlog item in each portal, linked to the others."

@@ -15,11 +15,11 @@ The Commons is a free, open place to check, improve and talk about the quality o
 | Group | Pages | Use it to |
 |---|---|---|
 | Start: Get started | Home, New to GitHub?, About the Commons, User guide, Site map, Ask the Commons, For your role, Accessibility and privacy | Find your way, ask a question, see what the Commons is for and what each role needs |
-| Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
+| Learn: Learn and build skills | Learn, Across the professions, Governance boards and forums, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
 | Check: Check and assess | Check your data, Maturity self-assessment, Data management wheel, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, see your whole data capability, prioritise issues, draft rules, size a baseline |
 | Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
 | Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Three portals one journey, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
-| Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Take part in user research, Help us build this, Open roadmap and priorities, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
+| Contribute: Contribute and get help | Community, Get involved, Case studies, Surveys and commissions, Take part in user research, Help us build this, Open roadmap and priorities, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
 
 On a wide screen each group opens a panel under its tab. On smaller screens, and when zoomed in, press **Menu** to see every group in one list. The **Site map** shows every page on one screen, by group and level, with suggested routes.
 
@@ -100,6 +100,15 @@ Open **Take part in user research**. Read what the Commons offers each role, the
 
 ### See what's coming and why
 Open **Open roadmap and priorities**. Choose an item on the roadmap to see its evidence, score, the government strategy it supports and its objective. Move the sliders under **How we prioritise** to try your own weights. Suggest an idea or vote through **Help us build this**.
+
+### Get involved, champion the Commons or get a badge
+Open **Get involved**. Pick a route: contribute directly, join a working group, or become a champion or ambassador. Under **Communications kit**, choose a message for email, Teams, Slack, Viva Engage, your intranet or a team meeting and copy it. Under **Badges**, choose a badge to get the code for your GitHub profile, email signature or social media, then claim it on GitHub.
+
+### Find which board or forum deals with something
+Open **Governance boards and forums** and choose a question under **Where should my question go?**. Open any body for its aims, outcomes, rules of engagement and terms of reference.
+
+### Make pages easier to read
+Select **Aa** in the top bar: text size, spacing, an easier-to-read font, high contrast, reduced movement and source labels.
 
 ### Give feedback
 Every page ends with a feedback link. Use the **Microsoft Form** (no sign-in, no names or emails), the **GitHub contact form**, a survey, or the accessibility route. All of them are on **Help us build this** under Give feedback.

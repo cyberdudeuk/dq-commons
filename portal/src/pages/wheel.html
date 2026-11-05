@@ -113,7 +113,8 @@ __BASE_CSS__
 
 <script>
 (function () {
-  const W = __K_WHEEL__, MAT = __K_MATURITY__, COM = __K_COMMUNITIES__, ECO = __K_ECO__;
+  const W = __K_WHEEL__, MAT = __K_MATURITY__, COM = __K_COMMUNITIES__, ECO = __K_ECO__, CE = __K_CODE__;
+  const CEA = Object.fromEntries(CE.areas.map(x => [x.id, x]));
   const EP = Object.fromEntries(ECO.portals.map(p => [p.id, p])), DAMK = Object.fromEntries(ECO.xref.dama.map(x => [x.dqc, x.dam]));
   const $ = id => document.getElementById(id);
   const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -188,7 +189,10 @@ __BASE_CSS__
       <div><h4>${I("network")} Continue in a sister portal (key ${esc(DAMK[a.id] || "")})</h4><p class="chipline">
         <a class="chip" href="${EP.dam.url}capability-model.html#${(DAMK[a.id] || "").toLowerCase()}" rel="noopener">DAM playbooks: capabilities in this area</a>
         <a class="chip" href="${EP.cat.url}#dama" rel="noopener">Repos catalogue: code evidence</a>
-        <a class="chip" href="ecosystem.html#lineage">How they connect</a></p></div>`;
+        <a class="chip" href="ecosystem.html#lineage">How they connect</a></p></div>` +
+      (CEA[a.id] ? `<div><h4>${I("code")} Evidence in public code</h4><p><b>${CEA[a.id].repos.toLocaleString("en-GB")}</b> public sector code projects show this area, <b>${CEA[a.id].in_code.toLocaleString("en-GB")}</b> of them in the code itself, across ${CEA[a.id].orgs} organisations.
+        ${CEA[a.id].examples.length ? `For example: ${CEA[a.id].examples.map(r => `<a href="https://github.com/${esc(r)}" rel="noopener">${esc(r)}</a>`).join(", ")}.` : ""}</p>
+        <p class="small muted">From the <a href="${esc(CE.source.url)}#dama" rel="noopener">GitHub Repos Asset Catalogue</a>, data as of ${esc(CE.source.data_as_of)}. Evidence of use, not a census.</p></div>` : "");
     if (focus) $("panel").focus();
     document.querySelectorAll("#audcards .card").forEach(c => c.classList.toggle("sel", c.dataset.au === aud));
   }

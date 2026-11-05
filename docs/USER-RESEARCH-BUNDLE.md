@@ -74,3 +74,7 @@ consent, sign-up questions for Microsoft Forms Quick import, session guides and 
 New hypotheses:
 8. Teams adopt the Commons faster when a colleague sends the introduction than when they find it themselves.
 9. Publishing scores and reasons makes people more willing to suggest ideas and accept decisions.
+
+## v2.12.0 additions
+- The System Usability Scale is now on the research page (scored in the browser) and in the session guides; results are published per round.
+- Hypotheses: 10. Champions with a ready-made kit bring in more research participants than general announcements. 11. Display options are used most by people who don't use browser zoom.

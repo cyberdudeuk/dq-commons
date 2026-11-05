@@ -78,7 +78,9 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_INTEROP__, RO = __K_ROSETTA__, SC = __K_STANDARDS__, ECO = __K_ECO__;
+const K = __K_INTEROP__, RO = __K_ROSETTA__, SC = __K_STANDARDS__, ECO = __K_ECO__, CE = __K_CODE__;
+const CE_ALIAS = {"SDMX": "SDMX (RDF)", "ISO 19115 / UK GEMINI": "ISO 19115 / 19139", "RDF / OWL / SHACL": "SHACL"};
+const CES = Object.fromEntries(CE.standards.map(x => [x.name, x])), ceOf = x => x.id === "mem" ? CES["xGov MEM"] : CES[CE_ALIAS[x.catalogue] || x.catalogue];
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("sum").textContent = K.summary;
@@ -135,7 +137,7 @@ function drawSC() {
     <td><span class="pill ${STC[x.status]}">${esc(x.status)}</span>${x.source && SRC[x.source] ? `<br><a class="small" href="${esc(SRC[x.source].url)}" rel="noopener">GOV.UK list</a>` : ""}</td>
     <td>${x.concepts.length ? `<span class="chips">${x.concepts.map(c => `<a class="chip" href="#rosetta" data-c="${c}">${esc(CN[c] || c)}</a>`).join("")}</span>` : '<span class="muted small">Not a metadata concept</span>'}</td>
     <td>${WV[x.weaver] ? `<a href="weaver.html">${WV[x.weaver]}</a>` : ""}</td>
-    <td class="small">${x.catalogue ? `<a href="${P.cat.url}#standards" rel="noopener">In public code</a><br>` : ""}${x.domain === "data" || x.domain === "tech" ? `<a href="${P.dam.url}tooling.html" rel="noopener">DAM playbooks</a>` : ""}</td></tr>`).join("") || '<tr><td colspan="6">No standards match.</td></tr>';
+    <td class="small">${x.catalogue || x.id === "mem" ? `<a href="${P.cat.url}#standards" rel="noopener">In public code</a>${ceOf(x) ? `: ${ceOf(x).repos} repos, ${ceOf(x).orgs} orgs${ceOf(x).applied_in_data ? `, ${ceOf(x).applied_in_data} applied in data` : ""}` : ""}<br>` : ""}${x.domain === "data" || x.domain === "tech" ? `<a href="${P.dam.url}tooling.html" rel="noopener">DAM playbooks</a>` : ""}</td></tr>`).join("") || '<tr><td colspan="6">No standards match.</td></tr>';
 }
 ["scq", "scD", "scS", "scW"].forEach(id => $(id).addEventListener("input", drawSC)); drawSC();
 document.addEventListener("click", e => {

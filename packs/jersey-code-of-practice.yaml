@@ -1,0 +1,17 @@
+id: jersey-code-of-practice
+name: Jersey Code of Practice for Statistics (draft pack)
+summary: "DRAFT, not yet checked with Statistics Jersey. For public authorities in Jersey: links results to the three pillars of Jersey's Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Statistics Users Group under the Statistics and Census (Jersey) Law 2018. Pillar-level only and paraphrased; the code's own principles and practices are the authority. Producers of official statistics also follow the separate Code of Practice for Official Statistics."
+jurisdiction: Jersey
+sector: Statistics produced by public authorities
+source: "https://www.gov.je/SiteCollectionDocuments/Government%20and%20administration/Code%20of%20Practice%20for%20Statistics%202019.pdf"
+status: draft
+frameworks: [uk-code-of-practice-3]
+target_policy: high
+requirements:
+  - {id: JE-T1, text: "Trustworthiness - someone is accountable for the statistics and the data behind them.", evidence: {asset_field: owner}}
+  - {id: JE-T2, text: "Trustworthiness - statistics are released openly and orderly, with integrity (check against the code's release practices).", evidence: {manual: "Jersey code: trustworthiness and release practices"}}
+  - {id: JE-Q1, text: "Quality - data are accurate and complete enough for their use.", evidence: {dimensions: [accuracy, completeness]}}
+  - {id: JE-Q2, text: "Quality - methods and classifications are applied consistently.", evidence: {dimensions: [validity, consistency]}}
+  - {id: JE-Q3, text: "Quality - data are timely and kept up to date.", evidence: {checks: [freshness]}}
+  - {id: JE-V1, text: "Value - users' needs are understood and statistics are accessible and clearly explained.", evidence: {manual: "Jersey code: value pillar (user engagement, accessibility, clarity)"}}
+report: [Trustworthiness, Quality, Value]

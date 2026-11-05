@@ -1,0 +1,17 @@
+name: Join a working group or become a champion
+description: Join a Commons working group, or become a data quality champion or ambassador.
+title: "[Join] "
+labels: [community, triage]
+body:
+  - type: markdown
+    attributes: {value: "Thank you. Issues are public, so give only your GitHub name and your kind of organisation, never an email address. We reply here within 10 working days."}
+  - type: dropdown
+    id: what
+    attributes: {label: "I'd like to", options: ["Join the Standards and metadata group", "Join the Accessibility and inclusion group", "Join the User research group", "Join the Sector, nation and territory packs group", "Join the Data quality practice group", "Become a data quality champion in my team", "Become a Commons ambassador"]}
+    validations: {required: true}
+  - type: dropdown
+    id: org
+    attributes: {label: "Kind of organisation", options: ["Central government", "Arm's-length body", "Local authority", "Devolved government", "Crown Dependency or Overseas Territory", "NHS or health and care", "Voluntary or community sector", "Supplier", "Academic", "Other"]}
+  - type: textarea
+    id: why
+    attributes: {label: "What you'd like to bring or get (optional)", description: "No personal data, please."}

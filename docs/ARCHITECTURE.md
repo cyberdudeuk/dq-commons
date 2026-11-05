@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 15. v2.12.0: participation, governance, display and labels (5 November 2026)
+- **Knowledge:** `participation.yaml` (`__K_PARTICIPATION__`), `governance-bodies.yaml` (`__K_GOVBODIES__`), `code-evidence.yaml` (`__K_CODE__`, written by `scripts/import_code_evidence.py`); `playbook.yaml` stages gain `dam_playbooks`; `ecosystem.yaml` gains `xref.requirements`; `feedback.yaml` gains `sister_routes` and `cross_portal`.
+- **Build:** copies `portal/src/badges/` to `badges/`; `ambassador_kit()` writes `downloads/getinvolved/`; writes `downloads/weaver-uk-mem-mapping.csv`; `{{REPO}}` replaced in pages; `api/xref.json` adds `dam_requirements`.
+- **Shell:** display options panel and early-apply script (`dqp-display` in localStorage); source labels (`.dqp-src`, classified by hostname, re-run on page changes); journey bar (`dqp-journey`); reflow rules for large text; menu breakpoint 1440 pixels.
+- **Pages:** `getinvolved.html`, `governance.html` (46 pages in total).
+
 ## 14. v2.11.0: research and open roadmap (5 November 2026)
 - **Knowledge:** `knowledge/research.yaml` feeds `__K_RESEARCH__` (plus `email_text` from `research_email()`); `knowledge/roadmap.yaml` feeds `__K_ROADMAP__` with the backlog from `build.yaml` and live GitHub votes (`github_live()`). Both are searchable and published under `api/knowledge/` (D-UR-02, D-RM-01).
 - **Scoring:** weighted mean of four 0 to 3 criteria times an effort factor; the band sets MoSCoW in `build.yaml` (tested), so `roadmap()` and `scripts/backlog_to_issues.py` keep using MoSCoW and status unchanged. The page recomputes scores in the browser only for the what-if view.

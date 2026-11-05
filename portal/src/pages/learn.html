@@ -21,6 +21,10 @@ __BASE_CSS__
 .gloss dd{margin:2px 0 0;color:var(--muted)}
 .lv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px}
 .prog{font-weight:600}
+.pbar{height:14px;border-radius:7px;background:var(--sunk);overflow:hidden;margin:4px 0 8px;max-width:640px}
+.pbar i{display:block;height:100%;background:var(--good);transition:width .3s}
+.nextup{border-left:5px solid var(--accent);background:var(--surface);border-radius:8px;padding:8px 14px;margin:0 0 10px;max-width:760px}
+.tut .done{margin-top:auto}
 </style>
 
 <div class="wrap">
@@ -36,6 +40,8 @@ __BASE_CSS__
   <div class="roles" id="roles" role="group" aria-label="Choose your role"></div>
   <p id="roleNeed" class="small" aria-live="polite"></p>
   <p class="prog" id="prog" aria-live="polite"></p>
+  <div class="pbar" role="progressbar" id="pbar" aria-label="Your pathway progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="pbarI"></i></div>
+  <p class="nextup" id="nextup"></p>
   <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn ghost" type="button" id="xapi">Download my learning record (xAPI)</button><span class="small muted" id="xMsg" role="status" aria-live="polite">An open standard most learning systems can import. It holds only module names and dates.</span></div>
 </section>
 
@@ -70,6 +76,7 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
 let role = store.get("dqc.learn.role", "steward"); if (!L.roles.some(r => r.id === role)) role = L.roles[0].id;
 let done = new Set(store.get("dqc.learn.done", []));
+let tdone = new Set(store.get("dqc.learn.tutsDone", []));
 const DESC = {Awareness: "Knows why data quality matters and who is responsible.", Working: "Can apply methods with guidance: write rules, read results, log issues.",
   Practitioner: "Leads data quality work for assets and teaches others.", Expert: "Sets direction across organisations and shapes standards."};
 $("roles").innerHTML = L.roles.map(r => `<button type="button" data-r="${esc(r.id)}" aria-pressed="${r.id === role}">${esc(r.name)}</button>`).join("");
@@ -82,7 +89,12 @@ function draw() {
     (R.ddat ? `<br><span class="small">Closest roles in the <a href="https://understand-digital-data-roles-skills.service.gov.uk/" rel="noopener">GDaD capability framework</a>: ${esc(R.ddat)} (indicative; check the role descriptions there).</span>` : "");
   const mine = L.modules.filter(m => m.roles.includes(role));
   const mins = mine.reduce((n, m) => n + (m.minutes || 0), 0), got = mine.filter(m => done.has(m.id)).length;
-  $("prog").textContent = `${mine.length} modules on your pathway, about ${Math.round(mins / 60 * 10) / 10} hours. You've done ${got}.`;
+  const tDone = L.tutorials.filter(t => tdone.has(t.id)).length, left = mine.filter(m => !done.has(m.id)), pc = mine.length ? Math.round(got / mine.length * 100) : 0;
+  $("prog").textContent = `${mine.length} modules on your pathway, about ${Math.round(mins / 60 * 10) / 10} hours. You've done ${got} (${pc}%), and ${tDone} of ${L.tutorials.length} tutorials.`;
+  $("pbar").setAttribute("aria-valuenow", pc); $("pbar").setAttribute("aria-valuetext", `${pc}% of your pathway done`); $("pbarI").style.width = pc + "%";
+  const nx = left[0];
+  $("nextup").innerHTML = nx ? `<b>Next up:</b> <a href="#${esc(nx.id)}">${esc(nx.id.toUpperCase())} ${esc(nx.title)}</a> (${nx.minutes} minutes). Your progress is saved in this browser only. <button class="btn ghost" type="button" id="pReset" style="margin-left:6px">Start again</button>`
+    : (mine.length ? `<b>You've finished your pathway.</b> Download your learning record below, or choose another role to keep going. <button class="btn ghost" type="button" id="pReset" style="margin-left:6px">Start again</button>` : "");
   $("mods").innerHTML = L.modules.map((m, i) => `<article class="mod${m.roles.includes(role) ? "" : " dim"}" id="${esc(m.id)}">
     <span class="num">${esc(m.id.toUpperCase())}</span>
     <div><h3>${esc(m.title)}</h3><p class="small muted">${esc(m.capability)} · ${m.levels.map(esc).join(", ")} · ${m.minutes} minutes</p>
@@ -108,7 +120,11 @@ $("mods").addEventListener("change", e => { const m = e.target.dataset.m; if (!m
   if (e.target.checked) doneAt[m] = new Date().toISOString(); else delete doneAt[m]; store.set("dqc.learn.doneAt", doneAt); draw(); });
 draw();
 $("tuts").innerHTML = L.tutorials.map(t => `<article class="card" id="${esc(t.id)}"><span class="chip acc" style="align-self:flex-start">${esc(t.id.toUpperCase())} · ${t.minutes} minutes</span>
-  <h3>${esc(t.title)}</h3><ol>${t.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol></article>`).join("");
+  <h3>${esc(t.title)}</h3><ol>${t.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol><label class="done"><input type="checkbox" data-t="${esc(t.id)}"${tdone.has(t.id) ? " checked" : ""}> Done</label></article>`).join("");
+$("tuts").addEventListener("change", e => { const t = e.target.dataset.t; if (!t) return; e.target.checked ? tdone.add(t) : tdone.delete(t); store.set("dqc.learn.tutsDone", [...tdone]); draw(); });
+document.addEventListener("click", e => { if (e.target.id !== "pReset") return; if (!confirm("Clear your ticks for modules and tutorials in this browser?")) return;
+  done = new Set(); tdone = new Set(); doneAt = {}; store.set("dqc.learn.done", []); store.set("dqc.learn.tutsDone", []); store.set("dqc.learn.doneAt", {});
+  document.querySelectorAll('#tuts input[data-t]').forEach(i => { i.checked = false; }); draw(); });
 $("lv").innerHTML = L.levels.map(l => `<div class="card"><h3>${esc(l)}</h3><p class="small">${esc(DESC[l] || "")}</p></div>`).join("");
 function gloss() {
   const q = $("gq").value.trim().toLowerCase();

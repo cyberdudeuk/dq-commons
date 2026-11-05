@@ -3799,6 +3799,102 @@
    ]
   },
   {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/isle-of-man-code-of-practice",
+   "@type": [
+    "dqc:Pack"
+   ],
+   "label": "Isle of Man Code of Practice for Statistics (draft pack)",
+   "definition": "DRAFT, not yet checked with Statistics Isle of Man. For Isle of Man Government departments: links results to the three pillars of the Isle of Man Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Cabinet Office. Pillar-level only and paraphrased; the code itself is the authority.",
+   "dqc:implements": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3"
+    }
+   ],
+   "dqc:requires": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t1"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t2"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q1"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q2"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q3"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-v1"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-T1: Trustworthiness - the people, processes and systems behind the statistics are accountable; an owner is named."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t2",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-T2: Trustworthiness - statistics are released openly and impartially (check against the code)."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-Q1: Quality - data are accurate and complete enough for their use.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q2",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-Q2: Quality - definitions and methods are consistent and valid.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q3",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-Q3: Quality - statistics are timely.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/freshness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-v1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "IM-V1: Value - statistics meet users' needs and are accessible."
+  },
+  {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/iso-19157-geospatial",
    "@type": [
     "dqc:Pack"
@@ -4013,6 +4109,102 @@
     "dqc:Requirement"
    ],
    "label": "SYS: System-dependent characteristics (availability, portability, recoverability) assessed."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/jersey-code-of-practice",
+   "@type": [
+    "dqc:Pack"
+   ],
+   "label": "Jersey Code of Practice for Statistics (draft pack)",
+   "definition": "DRAFT, not yet checked with Statistics Jersey. For public authorities in Jersey: links results to the three pillars of Jersey's Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Statistics Users Group under the Statistics and Census (Jersey) Law 2018. Pillar-level only and paraphrased; the code's own principles and practices are the authority. Producers of official statistics also follow the separate Code of Practice for Official Statistics.",
+   "dqc:implements": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3"
+    }
+   ],
+   "dqc:requires": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t1"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t2"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q1"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q2"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q3"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-v1"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-T1: Trustworthiness - someone is accountable for the statistics and the data behind them."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t2",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-T2: Trustworthiness - statistics are released openly and orderly, with integrity (check against the code's release practices)."
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-Q1: Quality - data are accurate and complete enough for their use.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q2",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-Q2: Quality - methods and classifications are applied consistently.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity"
+    },
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q3",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-Q3: Quality - data are timely and kept up to date.",
+   "dqc:evidencedBy": [
+    {
+     "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/freshness"
+    }
+   ]
+  },
+  {
+   "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-v1",
+   "@type": [
+    "dqc:Requirement"
+   ],
+   "label": "JE-V1: Value - users' needs are understood and statistics are accessible and clearly explained."
   },
   {
    "@id": "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/ndl-curation",

@@ -1,0 +1,19 @@
+name: Claim a badge
+description: Ask for a Commons recognition badge (Contributor, Reviewer, Research participant, Working group member, Champion or Ambassador).
+title: "[Badge] "
+labels: [badge-claim, triage]
+body:
+  - type: markdown
+    attributes: {value: "Badges recognise contribution; they are not a qualification. Supporter is self-declared and needs no claim. Please give your GitHub name only: never an email address or other personal data. Issues are public."}
+  - type: dropdown
+    id: badge
+    attributes: {label: "Badge", options: [Contributor, Reviewer, Research participant, Working group member, Champion, Ambassador]}
+    validations: {required: true}
+  - type: textarea
+    id: evidence
+    attributes: {label: "Evidence", description: "A link to your merged contribution, review, issue or working group notes. For research participation or champion work, say which round or quarter; we'll check our own records."}
+    validations: {required: true}
+  - type: dropdown
+    id: credit
+    attributes: {label: "May we list you on the contributors page?", options: ["Yes, with my GitHub name", "No, just confirm the badge here"]}
+    validations: {required: true}

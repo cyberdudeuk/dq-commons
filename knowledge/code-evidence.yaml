@@ -1,0 +1,241 @@
+# Evidence from public code, imported by scripts/import_code_evidence.py (BL-29). Do not edit by hand.
+review:
+  last_reviewed: '2026-11-05'
+  owner_role: Product owner (Commons)
+source:
+  name: GitHub Repos Asset Catalogue (open edition)
+  url: https://cyberdudeuk.github.io/github-repos-asset-catalogue/
+  version: 7.15.0
+  data_as_of: '2026-10-08'
+  licence: Open Government Licence v3.0
+  method: 'Counts of public code projects whose files, dependencies or infrastructure (in code) or names and descriptions show each knowledge
+    area, and standards graded 1 to 4 per repository (mentioned, schema or profile, applied in data, every record). Evidence of use, not a census:
+    private code and catalogue databases are not visible.'
+levels:
+  1: Mentioned
+  2: Schema or profile
+  3: Applied in data
+  4: Every record
+areas:
+- id: storage
+  repos: 987
+  in_code: 681
+  orgs: 68
+  examples:
+  - Civil-Service-Human-Resources/civil-servant-registry-service
+  - Civil-Service-Human-Resources/csl-identity-service
+  - Civil-Service-Human-Resources/lpg-learner-record
+  - Civil-Service-Human-Resources/lpg-learning-catalogue
+  - Civil-Service-Human-Resources/lpg-report-service
+- id: modelling
+  repos: 604
+  in_code: 394
+  orgs: 70
+  examples:
+  - CDEIUK/model-cards-plus
+  - Crown-Commercial-Service/ccs-ai-josh
+  - Crown-Commercial-Service/ccs-conclave-document-check
+  - Crown-Commercial-Service/ccs-conclave-document-upload
+  - Crown-Commercial-Service/ccs-contract-map
+- id: integration
+  repos: 575
+  in_code: 149
+  orgs: 71
+  examples:
+  - Crown-Commercial-Service/ccs-migration-alpha-tools
+  - DFE-Digital/childcare-support-platform
+  - DFE-Digital/funding-service-odl-prototype
+  - DFE-Digital/terraform-azurerm-web-app-services-hosting
+  - GCHQ/gchq-data-quality
+- id: content
+  repos: 446
+  in_code: 42
+  orgs: 76
+  examples:
+  - Crown-Commercial-Service/ccs-wordpress
+  - Crown-Commercial-Service/gca-Intranet
+  - DFE-Digital/apply-the-service-standard-in-dfe
+  - DFE-Digital/buy-for-your-school
+  - DFE-Digital/document-analysis-agentic-poc
+- id: dwbi
+  repos: 443
+  in_code: 132
+  orgs: 71
+  examples:
+  - CDU-data-science-team/patient-experience-dashboard
+  - Crown-Commercial-Service/ccs-ai-josh
+  - DFE-Digital/apply-for-teacher-training
+  - DFE-Digital/childcare-support-platform
+  - DFE-Digital/dau-sssr-pipeline-daily-run
+- id: masterdata
+  repos: 321
+  in_code: 4
+  orgs: 59
+  examples:
+  - ministryofjustice/hmpps-person-match
+  - moj-analytical-services/splink
+  - moj-analytical-services/uk_address_matcher
+  - uktrade/matchlab
+- id: security
+  repos: 208
+  in_code: 26
+  orgs: 53
+  examples:
+  - LBHackney-IT/lbh-additional-needs-ml
+  - LBHackney-IT/mtfh-scripts
+  - NHSX/nhsx-website
+  - ONSdigital/survey-assist-pii
+  - Planning-Inspectorate/odw-synapse-workspace
+- id: quality
+  repos: 199
+  in_code: 105
+  orgs: 48
+  examples:
+  - DFE-Digital/improve-workload-and-wellbeing-for-school-staff
+  - DFE-Digital/publish-teacher-training
+  - DFE-Digital/support-for-early-career-teachers
+  - MetOffice/mule
+  - MetOffice/rose_picker
+- id: metadata
+  repos: 180
+  in_code: 21
+  orgs: 40
+  examples:
+  - LBHackney-IT/Data-Platform
+  - ONSdigital/explore-local-statistics-app
+  - Planning-Inspectorate/odw-infrastructure
+  - Planning-Inspectorate/odw-purview
+  - Planning-Inspectorate/odw-synapse-workspace
+- id: architecture
+  repos: 88
+  in_code: 9
+  orgs: 30
+  examples:
+  - Crown-Commercial-Service/ccs-wordpress
+  - LBHackney-IT/Data-Platform
+  - ministryofjustice/modernisation-platform-environments
+  - ministryofjustice/terraform-aws-analytical-platform-lakeformation
+  - ministryofjustice/terraform-aws-data-platform-lakeformation
+- id: governance
+  repos: 6
+  in_code: 0
+  orgs: 5
+  examples: []
+standards:
+- name: OpenAPI
+  repos: 384
+  applied_in_data: 0
+  every_record: 0
+  orgs: 36
+  examples: []
+- name: JSON Schema
+  repos: 116
+  applied_in_data: 0
+  every_record: 0
+  orgs: 27
+  examples: []
+- name: CSVW
+  repos: 22
+  applied_in_data: 4
+  every_record: 2
+  orgs: 4
+  examples:
+  - ONSdigital/explore-local-statistics-app
+  - co-cddo/api-catalogue
+  - co-cddo/rAPId-API-demo
+  - dvla/sifft
+- name: ISO 19115 / 19139
+  repos: 19
+  applied_in_data: 0
+  every_record: 0
+  orgs: 13
+  examples: []
+- name: DDI
+  repos: 13
+  applied_in_data: 0
+  every_record: 0
+  orgs: 1
+  examples: []
+- name: DCAT
+  repos: 12
+  applied_in_data: 2
+  every_record: 1
+  orgs: 5
+  examples:
+  - co-cddo/data-marketplace-api
+  - ukaea/fuel
+- name: SKOS
+  repos: 11
+  applied_in_data: 7
+  every_record: 3
+  orgs: 9
+  examples:
+  - DFE-Digital/education-provider-registry-docs
+  - MetOffice/dm-dps-wmo-codes-registry
+  - MetOffice/localTables-GRIB-BUFR
+  - UKGovLD/registry-core
+  - co-cddo/data-marketplace-api
+- name: Dublin Core
+  repos: 10
+  applied_in_data: 9
+  every_record: 0
+  orgs: 8
+  examples:
+  - DFE-Digital/education-provider-registry-docs
+  - MetOffice/dm-dps-wmo-codes-registry
+  - MetOffice/localTables-GRIB-BUFR
+  - UKGovLD/registry-core
+  - alphagov/govuk-information-model
+- name: schema.org
+  repos: 9
+  applied_in_data: 3
+  every_record: 0
+  orgs: 6
+  examples:
+  - defra/trade-gateway
+  - defra/trade-imports-schemas
+  - ukaea/fuel
+- name: SDMX (RDF)
+  repos: 8
+  applied_in_data: 0
+  every_record: 0
+  orgs: 3
+  examples: []
+- name: Frictionless Data Package
+  repos: 4
+  applied_in_data: 0
+  every_record: 0
+  orgs: 4
+  examples: []
+- name: PROV-O
+  repos: 3
+  applied_in_data: 2
+  every_record: 0
+  orgs: 3
+  examples:
+  - UKGovLD/registry-core
+  - co-cddo/data-marketplace-api
+- name: LinkML
+  repos: 3
+  applied_in_data: 0
+  every_record: 0
+  orgs: 2
+  examples: []
+- name: SHACL
+  repos: 2
+  applied_in_data: 0
+  every_record: 0
+  orgs: 2
+  examples: []
+- name: xGov MEM
+  repos: 1
+  applied_in_data: 0
+  every_record: 0
+  orgs: 1
+  examples: []
+- name: Croissant
+  repos: 1
+  applied_in_data: 0
+  every_record: 0
+  orgs: 1
+  examples: []

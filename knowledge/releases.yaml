@@ -11,6 +11,24 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.12.0"
+  date: "2026-11-05"
+  title: "Get involved, governance bodies, display options, source labels, and nine backlog items delivered"
+  pages_new: [getinvolved, governance]
+  pages_changed: [learn, playbook, wheel, interop, weaver, research, ecosystem, roadmap, build, guide]
+  items:
+  - {type: new, text: "Get involved: contribute directly, join one of five working groups, or become a champion or ambassador in your organisation, with a communications kit (email, Teams, Slack, Viva Engage, intranet, newsletter, talking points) and an ambassador kit to download", link: "getinvolved.html"}
+  - {type: new, text: "Badges for your GitHub profile, social media and email signature: Supporter, Contributor, Reviewer, Research participant, Working group member, Champion and Ambassador, with copy-and-paste code and alt text", link: "getinvolved.html#badges"}
+  - {type: new, text: "Governance boards and forums: who decides, advises, regulates and meets on government data, with purpose, aims, outcomes, rules of engagement and terms of reference, and where your question should go", link: "governance.html"}
+  - {type: new, text: "Display options on every page (Aa in the top bar): text size up to 150%, wider spacing, an easier-to-read font, light, dark or high contrast, and reduced movement", link: "guide.html#display"}
+  - {type: new, text: "Source labels: every link to an outside source says whether it is official, a standard, international, code, news or a blog, or a supplier", link: "guide.html#sources"}
+  - {type: new, text: "Follow a journey across the three portals, with a bar that keeps your place and opens the next step", link: "ecosystem.html#journeys"}
+  - {type: new, text: "Evidence from public code on each wheel area and standard: how many public sector code projects and organisations use it", link: "wheel.html"}
+  - {type: new, text: "Each playbook stage names the DAM Policy requirements it helps meet, linked to the same requirement in the DAM capability playbooks", link: "playbook.html"}
+  - {type: new, text: "Usability benchmark: score the Commons yourself with the System Usability Scale; results are published each research round", link: "research.html#benchmark"}
+  - {type: new, text: "Learning progress: a progress bar, your next module, tutorial ticks and start again", link: "learn.html#pathway"}
+  - {type: new, text: "Draft framework packs for the Jersey and Isle of Man codes of practice for statistics, and a Weaver mapping to the Metadata Exchange Model for review", link: "weaver.html#assess"}
+  - {type: fixed, text: "Long labels wrap at large text sizes instead of pushing pages sideways; the capability model's link to its source file works again", link: "guide.html#display"}
 - version: "2.11.0"
   date: "2026-11-05"
   title: "User research with your team, and an open roadmap you can follow and shape"

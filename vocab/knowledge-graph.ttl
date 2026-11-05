@@ -1036,6 +1036,26 @@ dqc:inScope a owl:ObjectProperty ;
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/imf-dqaf-dqaf-5> a dqc:Requirement ;
   rdfs:label "DQAF-5: Accessibility - data and metadata are clear: measures carry units."@en ;
   dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/header-has-unit> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/isle-of-man-code-of-practice> a dqc:Pack ;
+  rdfs:label "Isle of Man Code of Practice for Statistics (draft pack)"@en ;
+  skos:definition "DRAFT, not yet checked with Statistics Isle of Man. For Isle of Man Government departments: links results to the three pillars of the Isle of Man Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Cabinet Office. Pillar-level only and paraphrased; the code itself is the authority."@en ;
+  dqc:implements <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3> ;
+  dqc:requires <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t1>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t2>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q1>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q2>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q3>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-v1> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t1> a dqc:Requirement ;
+  rdfs:label "IM-T1: Trustworthiness - the people, processes and systems behind the statistics are accountable; an owner is named."@en .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-t2> a dqc:Requirement ;
+  rdfs:label "IM-T2: Trustworthiness - statistics are released openly and impartially (check against the code)."@en .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q1> a dqc:Requirement ;
+  rdfs:label "IM-Q1: Quality - data are accurate and complete enough for their use."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q2> a dqc:Requirement ;
+  rdfs:label "IM-Q2: Quality - definitions and methods are consistent and valid."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-q3> a dqc:Requirement ;
+  rdfs:label "IM-Q3: Quality - statistics are timely."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/freshness> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/isle-of-man-code-of-practice-im-v1> a dqc:Requirement ;
+  rdfs:label "IM-V1: Value - statistics meet users' needs and are accessible."@en .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/iso-19157-geospatial> a dqc:Pack ;
   rdfs:label "Geospatial data quality (ISO 19157-1)"@en ;
   skos:definition "Maps results to the ISO 19157 data quality elements used for geographic information."@en ;
@@ -1081,6 +1101,26 @@ dqc:inScope a owl:ObjectProperty ;
   rdfs:label "BOTH: Understandability and traceability evidenced through metadata."@en .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/iso-iec-25012-sys> a dqc:Requirement ;
   rdfs:label "SYS: System-dependent characteristics (availability, portability, recoverability) assessed."@en .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/jersey-code-of-practice> a dqc:Pack ;
+  rdfs:label "Jersey Code of Practice for Statistics (draft pack)"@en ;
+  skos:definition "DRAFT, not yet checked with Statistics Jersey. For public authorities in Jersey: links results to the three pillars of Jersey's Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Statistics Users Group under the Statistics and Census (Jersey) Law 2018. Pillar-level only and paraphrased; the code's own principles and practices are the authority. Producers of official statistics also follow the separate Code of Practice for Official Statistics."@en ;
+  dqc:implements <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Framework/uk-code-of-practice-3> ;
+  dqc:requires <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t1>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t2>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q1>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q2>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q3>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-v1> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t1> a dqc:Requirement ;
+  rdfs:label "JE-T1: Trustworthiness - someone is accountable for the statistics and the data behind them."@en .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-t2> a dqc:Requirement ;
+  rdfs:label "JE-T2: Trustworthiness - statistics are released openly and orderly, with integrity (check against the code's release practices)."@en .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q1> a dqc:Requirement ;
+  rdfs:label "JE-Q1: Quality - data are accurate and complete enough for their use."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/accuracy>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/completeness> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q2> a dqc:Requirement ;
+  rdfs:label "JE-Q2: Quality - methods and classifications are applied consistently."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/validity>, <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Dimension/consistency> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-q3> a dqc:Requirement ;
+  rdfs:label "JE-Q3: Quality - data are timely and kept up to date."@en ;
+  dqc:evidencedBy <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Check/freshness> .
+<https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Requirement/jersey-code-of-practice-je-v1> a dqc:Requirement ;
+  rdfs:label "JE-V1: Value - users' needs are understood and statistics are accessible and clearly explained."@en .
 <https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#k/Pack/ndl-curation> a dqc:Pack ;
   rdfs:label "National Data Library - curated data page"@en ;
   skos:definition "Scenario pack for assets curated into the National Data Library - CDA metadata, publisher, update frequency and inclusion signposting."@en ;

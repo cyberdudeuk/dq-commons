@@ -1,5 +1,39 @@
 # Decision log (this repository)
 
+## 2026-11-05 · D-PART-01 · Three ways in, five working groups, champions and badges
+- **Decision:** `getinvolved.html` and `knowledge/participation.yaml` set out three routes (contribute, join, champion), five working groups (standards and metadata, accessibility and inclusion, user research, sector and nation packs, data quality practice) with published terms (open membership, 1 to 2 hours a month, consensus, published notes, rotating convenor, yearly review), champion and ambassador roles, a communications kit and seven badges. Supporter is self-declared; other badges are confirmed by a maintainer and recorded with the person's agreement.
+- **Why:** the user asked for routes to collaborate and participate, ways for people to engage others in their organisations, ready-made artefacts and a recognition scheme.
+- **Privacy:** sign-ups and claims go through public GitHub forms that ask for a GitHub name only, or the private Microsoft Form; the kit's messages name no one and carry no tracking; `mailto:` links have no address.
+- **Honest status:** the working groups are "forming" until they have members; badges are recognition, not qualifications or government endorsement.
+- **Alternatives considered:** a hosted badge platform such as Open Badges with a backend (new processor and accounts); points and leaderboards (reward volume over quality and exclude people with less time).
+
+## 2026-11-05 · D-GOV-01 · A guide to governance bodies from public facts
+- **Decision:** `governance.html` lists 20 bodies in seven layers with purpose, aims, outcomes, rules of engagement, decision rights, cadence, terms-of-reference status (published, described, not found) and activity (active, unclear). Facts come from each body's own page, paraphrased; contact details are not repeated. The Commons' own governance is listed alongside.
+- **Why:** the user asked for the boards, committees, councils and forums associated with the capability, with their terms of reference where available.
+- **Honesty:** the Open Standards Board shows "activity unclear" (latest minutes March 2023); in-organisation governance is described as a typical pattern because the DAM Policy names roles, not a board.
+- **Alternatives considered:** an org chart diagram (implies hierarchy that doesn't exist between advisory and regulatory bodies).
+
+## 2026-11-05 · D-DISP-01 · Display options in the shell
+- **Decision:** an Aa button opens display options (text size 100 to 150%, wider spacing, an easier-to-read system font, light, dark or high contrast, reduced movement, source labels on or off), applied before the page draws and saved in the browser. The full menu now shows from 1440 pixels so the bar fits; body text uses rem; shell CSS makes chips, tags, buttons and filters wrap at large sizes.
+- **Why:** BL-27 (must, inclusion 3). Browser zoom remains the primary route; these options help people who don't know it or need spacing and contrast too.
+- **Alternatives considered:** loading a dyslexia font (an outside request and weight; evidence for special fonts is mixed); per-page settings (inconsistent).
+
+## 2026-11-05 · D-SRC-01 · Source labels by kind of source
+- **Decision:** the shell labels every outside link in page content by its address: Official, Standard, International, Code, News or blog (government blogs included), Supplier or Other. A legend sits in the user guide. Facts checked at source keep their "verified" marking.
+- **Why:** BL-26, learned from the DAM capability playbooks: readers need to judge how far to rely on each statement.
+- **Limits:** classification is by domain, so a label describes the publisher, not whether a particular statement is right.
+- **Alternatives considered:** labelling every sentence by hand (thousands of statements; would go stale).
+
+## 2026-11-05 · D-JRN-01 · Journeys across portals through a shared browser key
+- **Decision:** "Follow this journey" stores the journey in the browser under `dqp-journey`. All three portals are on the same github.io origin, so any of them can read it and show the same bar; the Commons shows it now.
+- **Why:** BL-34. Keeps people's place without accounts or tracking.
+- **Alternatives considered:** query strings carried between portals (lost on the first link the portal doesn't control).
+
+## 2026-11-05 · D-CODE-01 · Evidence from public code, imported as aggregates
+- **Decision:** `scripts/import_code_evidence.py` reads the repos catalogue's open edition (refusing any other edition) and writes counts and up to five example public repositories per wheel area and standard. Re-run when the catalogue publishes new data.
+- **Why:** BL-29. Shows that a practice or standard is really used, without copying the catalogue.
+- **Alternatives considered:** fetching live from the catalogue (the page is 13 MB; no API).
+
 ## 2026-11-05 · D-RM-01 · An open roadmap where the score sets the priority
 - **Decision:** `roadmap.html` and `knowledge/roadmap.yaml` publish how the order is decided. Every open backlog item is scored 0 to 3 on user need, inclusion, strategic alignment and feasibility (weights 3, 3, 2, 2), multiplied by an effort factor (S 1.0, M 0.9, L 0.8). The score's band sets the MoSCoW priority in `knowledge/build.yaml` (2.2 must, 1.6 should, 1.0 could, below that won't), a test enforces it, so the open roadmap, the build page and the GitHub milestones cannot disagree. Next fills in score order up to the quarter's volunteer capacity; the rest is shown as waiting. Anyone can try their own weights; our published order uses ours.
 - **Alignment:** eight strategy anchors, led by A roadmap for modern digital government 2025 to 2030 (GDS, 19 January 2026) and the strategic roadmap for public sector data it committed for April 2026. We could not confirm the latter has been published, so it is marked "committed" and BL-31 re-scores everything when it is.

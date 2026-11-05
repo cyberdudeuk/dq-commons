@@ -67,6 +67,7 @@ stages:
   - You know which groups of people, places or organisations the data covers, and which it might miss.
   raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: I}
   dam: [DAM-1, DAM-2, DAM-4, DQAP-1, CDA-M]
+  dam_playbooks: [DAM-R01, DAM-R05, DAM-R11, DAM-R12, DAM-R14]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: ISO 8000-61 (data quality planning), DAMA-DMBOK (critical data elements), Canada GC data quality guidance (identify key data), EU high-value datasets."
   toolkit: {text: "Describe the asset once and see gaps against the CDA metadata", link: weaver.html}
   inclusion: "Check the user map includes services for disabled people, people on low incomes, Welsh and other language users, and all four UK nations where relevant."
@@ -90,6 +91,7 @@ stages:
   - Rules are stored as files, not only in a tool, so they survive a change of supplier.
   raci: {O: A, S: R, P: C, U: C, Q: R, G: I, C: I}
   dam: [DAM-3, DAM-5, DQAP-2, IF-1, IF-2]
+  dam_playbooks: [DAM-R06, DAM-R07]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: ISO/IEC 25012 (quality characteristics), ODCS v3.1 quality rules, W3C DQV, ESS and UN NQAF quality dimensions."
   toolkit: {text: "Write rules in plain English with the assistant, then save them as a data contract", link: assistant.html}
   inclusion: "Add rules for fields that affect fair treatment: completeness of protected characteristics where lawfully collected, valid address formats for all nations, names in all scripts."
@@ -113,6 +115,7 @@ stages:
   - Results are stored where the next steward will find them.
   raci: {O: A, S: R, P: C, U: I, Q: R, G: I, C: I}
   dam: [DQAP-3]
+  dam_playbooks: [DAM-R06, DAM-R07]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: ISO 8000-8 (measurement), IMF DQAF assessment, ABS data quality statements."
   toolkit: {text: "Profile and check a file in your browser; nothing is uploaded", link: check.html}
   inclusion: "If quality is worse for a group, record it as a separate issue so it is not averaged away."
@@ -135,6 +138,7 @@ stages:
   - Issues that affect some groups more than others are not ranked down because they are 'small'.
   raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: C}
   dam: [DQAP-4, IF-3, IF-4]
+  dam_playbooks: [DAM-R15]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: risk-based prioritisation in ISO 31000 and DAMA-DMBOK; US agency data quality plans."
   toolkit: {text: "Score and rank issues with the government method", link: guidance.html}
   inclusion: "Weight impact by who is affected, not only how many: a small number of wrong records can stop someone getting a service."
@@ -157,6 +161,7 @@ stages:
   - Changes to forms or systems were tested with users, including assistive technology users.
   raci: {O: A, S: R, P: R, U: C, Q: C, G: I, C: C}
   dam: [DQAP-5]
+  dam_playbooks: [DAM-R06]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: ISO 8000-61 improvement process, Plan-Do-Check-Act, Lean root cause analysis."
   toolkit: {text: "Put data quality duties and KPIs into supplier contracts", link: commercial.html}
   inclusion: "Fix forms that force wrong answers (no 'prefer not to say', one-line names, UK-only postcodes). These cause bias at source."
@@ -180,6 +185,7 @@ stages:
   - Group differences in quality are reported, not hidden.
   raci: {O: A, S: R, P: I, U: I, Q: C, G: I, C: I}
   dam: [DAM-4, DQAP-6]
+  dam_playbooks: [DAM-R02, DAM-R03, DAM-R13]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: Code of Practice for Statistics (Quality pillar), ESS quality reports, ABS and Statistics Canada quality statements, W3C DQV."
   toolkit: {text: "Export results as DQV and CDA return rows", link: pipeline.html}
   inclusion: "Test the statement with people outside the data team. Offer it in Welsh where required and in Easy Read where the data describes the public."
@@ -203,6 +209,7 @@ stages:
   - Rules and results are stored openly where licensing allows (MIT code, OGL content).
   raci: {O: A, S: R, P: R, U: I, Q: R, G: I, C: I}
   dam: [DQAP-7]
+  dam_playbooks: [DAM-R04, DAM-R10]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: data observability practice, ISO 8000-150 (roles), continual improvement in ISO 9001."
   toolkit: {text: "Schedule checks in a pipeline and watch the status", link: pipeline.html}
   inclusion: "Keep the group breakdowns in the monitoring, not just the baseline."
@@ -226,6 +233,7 @@ stages:
   - Lessons are shared with the Commons or your community.
   raci: {O: A, S: R, P: C, U: C, Q: C, G: I, C: C}
   dam: [DAM-6]
+  dam_playbooks: [DAM-R04, DAM-R07, DAM-R08, DAM-R09]   # the same requirements in the DAM capability playbooks (BL-33)
   elsewhere: "Comparable to: annual statistical quality reviews, ISO 8000-61 review, management review in ISO 9001."
   toolkit: {text: "Re-run the maturity self-assessment", link: maturity.html}
   inclusion: "Ask representatives of groups the data describes whether anything has changed for them."

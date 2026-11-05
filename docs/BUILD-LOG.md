@@ -1,5 +1,11 @@
 # Build journal
 
+## 2026-11-05 — v2.12.0: get involved, governance bodies, display options, and the backlog executed
+- **Built:** Get involved (routes, working groups, champions and ambassadors, communications kit, badges and an ambassador kit); Governance boards and forums (20 bodies, routes, how a standard is agreed); display options; source labels; cross-portal journey bar; evidence from public code; DAM requirement links per playbook stage; feedback routes to sister portals; usability benchmark; learning progress; draft Jersey and Isle of Man packs; Weaver mapping to the Metadata Exchange Model for review.
+- **Backlog:** BL-26, 27, 28, 29, 30, 32, 33, 34 done. BL-12, 15, 31 advanced and waiting on others (DSA review, statistics offices, publication of the strategic roadmap for public sector data). BL-01, 02, 06, 09, 17, 22, 23, 25 need people (participants, an auditor, translators, a live tenant, testers).
+- **Checked:** full tests; every internal link and anchor on all 46 pages (hash routes confirmed by hand); four-size inspection; accessibility names; every page at 150% text, wide spacing and high contrast at 390 and 1280 pixels (8 overflows found and fixed); screenshots of new pages in light and dark.
+- **Fixed:** an unreplaced `{{REPO}}` placeholder on the capability model page; reflow at large text.
+
 ## 2026-11-05 — v2.11.0: user research with your team, and an open roadmap
 - **Built:** Take part in user research (introduction for teams, research panel, questions, methods, rounds, quotas, findings, consent) and Open roadmap and priorities (pipeline, objectives, Now/Next/Later with capacity, scores with your-own-weights, tracing, strategy anchors, governance); the research bundle generated with the portal (invitation, email file, consent, sign-up questions, session guides, zip); ten backlog items; two contact topics.
 - **Sister repositories (same session):** DAM capability playbooks 1.8.3 signposts the Commons' new pages and fixes a CI break test; the GitHub repos asset catalogue links back from its wheel and standards views and footer (RM-27, first part).

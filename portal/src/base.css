@@ -21,7 +21,7 @@
   --info:#8fb0ef; --info-soft:#1b2640; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.55;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:.9375rem;line-height:1.55;margin:0}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));
   padding-block:28px 56px;display:flex;flex-direction:column;gap:34px}
 h1,h2,h3{margin:0;line-height:1.2;text-wrap:balance}

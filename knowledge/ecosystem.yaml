@@ -108,6 +108,22 @@ joinup:
   - {id: X9, action: "Research and roadmap in the open", detail: "Each portal publishes its backlog and how it prioritises, and invites users of the others to its research.", status: "DQ Commons from 2.11.0 (research.html, roadmap.html); the catalogue has a public roadmap"}
 
 xref:
+  requirements:   # DAM Policy requirement ids as published by the DAM capability playbooks (data/xref.json); labels are our short paraphrase
+    - {id: DAM-R01, strength: must, short: "Identify in-scope data assets"}
+    - {id: DAM-R02, strength: must, short: "Manage metadata in your catalogues"}
+    - {id: DAM-R03, strength: must, short: "Report in-scope assets to GDS"}
+    - {id: DAM-R04, strength: must, short: "Maintain metadata; review it every year"}
+    - {id: DAM-R05, strength: must, short: "A named data owner for every asset"}
+    - {id: DAM-R06, strength: must, short: "A data quality action plan (DQAP) for every asset"}
+    - {id: DAM-R07, strength: should, short: "Check existing quality processes cover the DQAP guide"}
+    - {id: DAM-R08, strength: must, short: "The CDO implements; the CDO Council oversees"}
+    - {id: DAM-R09, strength: must, short: "Choose an ownership option and keep IAO actions"}
+    - {id: DAM-R10, strength: must, short: "Hand over when a data owner leaves"}
+    - {id: DAM-R11, strength: should, short: "Each asset serves one of the seven purposes"}
+    - {id: DAM-R12, strength: should, short: "Designate source data sets as well as distributions"}
+    - {id: DAM-R13, strength: should, short: "Record the metadata properties in plain English"}
+    - {id: DAM-R14, strength: should, short: "The CDO leads identification with a coordinating team"}
+    - {id: DAM-R15, strength: method, short: "Prioritise issues with the issues framework"}
   dama:
     - {dqc: governance, dam: DM-GOV, name: Data governance}
     - {dqc: architecture, dam: DM-ARC, name: Data architecture}

@@ -2,6 +2,21 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.12.0 — 2026-11-05
+### Added
+- Page `getinvolved.html` (Contribute) and `knowledge/participation.yaml`: three routes in (contribute, join, champion), five working groups with terms of reference, champion and ambassador roles, a communications kit for email, Teams, Slack, Viva Engage, intranet, newsletters and meetings, and seven badges (D-PART-01). `scripts/make_badges.py` writes badges to `portal/src/badges/` (SVG and PNG); `ambassador_kit()` writes `downloads/getinvolved/` (Word, .eml, text files, zip). GitHub forms `8-badge-claim.yml` and `9-join-working-group.yml`; contact topics for working groups, champions and badges.
+- Page `governance.html` (Learn) and `knowledge/governance-bodies.yaml`: 20 bodies in seven layers (decide, advise, regulate, communities, devolved and Crown Dependency, your organisation, the Commons) with purpose, aims, outcomes, rules of engagement, decision rights, cadence, terms-of-reference and activity status; question routes; how a standard is agreed (D-GOV-01).
+- Shell: display options (BL-27, D-DISP-01); source labels on outside links (BL-26, D-SRC-01); journey bar for cross-portal journeys (BL-34, D-JRN-01).
+- `scripts/import_code_evidence.py` and `knowledge/code-evidence.yaml`: evidence from public code on wheel areas and standards (BL-29, D-CODE-01).
+- DAM requirement ids per playbook stage and in `api/xref.json` (BL-33); feedback routes to the sister portals on every page (BL-30); System Usability Scale on the research page and in the session guides (BL-32); learning progress (BL-28); draft Jersey and Isle of Man packs (BL-15); `downloads/weaver-uk-mem-mapping.csv` (BL-12).
+- Routines: strategy watch, code evidence refresh, cross-portal feedback themes. `tests/test_participation_governance.py`.
+### Changed
+- Menu and bar: the full menu shows from 1440 pixels wide (was 1300) so the new Aa button fits; the phone bar is tighter.
+- Body text is sized in rem so it follows the text size option.
+### Fixed
+- Reflow at 150% text with wide spacing: chips, tags, buttons, filter labels and the Ask box wrap instead of overflowing (WCAG 1.4.4, 1.4.10).
+- `{{REPO}}` placeholders inside pages are now replaced (the capability model's source link).
+
 ## 2.11.0 — 2026-11-05
 ### Added
 - Page `research.html` (Contribute) and `knowledge/research.yaml`: introduction for prospective consumers and their teams, research panel sign-up (Microsoft Form when configured; otherwise the contact form with no contact details), 10 research questions (6 tactical, 4 strategic) linked to backlog items, 10 methods, 3 planned rounds, inclusion quotas, findings ("You said, we did"), synthesis steps, participant information and consent (D-UR-02).

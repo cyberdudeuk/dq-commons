@@ -1,0 +1,17 @@
+id: isle-of-man-code-of-practice
+name: Isle of Man Code of Practice for Statistics (draft pack)
+summary: "DRAFT, not yet checked with Statistics Isle of Man. For Isle of Man Government departments: links results to the three pillars of the Isle of Man Code of Practice for Statistics (Trustworthiness, Quality and Value), published by the Cabinet Office. Pillar-level only and paraphrased; the code itself is the authority."
+jurisdiction: Isle of Man
+sector: Statistics produced by Isle of Man Government
+source: "https://www.gov.im/media/1380246/2023-code-of-practice-for-statistics.pdf"
+status: draft
+frameworks: [uk-code-of-practice-3]
+target_policy: high
+requirements:
+  - {id: IM-T1, text: "Trustworthiness - the people, processes and systems behind the statistics are accountable; an owner is named.", evidence: {asset_field: owner}}
+  - {id: IM-T2, text: "Trustworthiness - statistics are released openly and impartially (check against the code).", evidence: {manual: "Isle of Man code: trustworthiness"}}
+  - {id: IM-Q1, text: "Quality - data are accurate and complete enough for their use.", evidence: {dimensions: [accuracy, completeness]}}
+  - {id: IM-Q2, text: "Quality - definitions and methods are consistent and valid.", evidence: {dimensions: [validity, consistency]}}
+  - {id: IM-Q3, text: "Quality - statistics are timely.", evidence: {checks: [freshness]}}
+  - {id: IM-V1, text: "Value - statistics meet users' needs and are accessible.", evidence: {manual: "Isle of Man code: value"}}
+report: [Trustworthiness, Quality, Value]

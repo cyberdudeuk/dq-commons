@@ -113,3 +113,8 @@ return under the data asset management policy. The GOV.UK DAM policy also requir
 - **Standards and join-up (2.10):** a catalogue of open standards with GOV.UK status; DQV output from the Metadata Weaver; Three portals, one journey with the DAM capability playbooks and the GitHub repos asset catalogue.
 - **User research with prospective consumers (2.11):** an introduction for teams, a research panel and an emailable research bundle. Success: two research rounds by March 2027 with every quota met, findings published and linked to backlog changes.
 - **Open roadmap (2.11):** published scores, objectives, capacity and alignment with government strategy (the Roadmap for modern digital government; the strategic roadmap for public sector data once published). Success: every open item scored and traceable; challenges answered within 10 working days.
+
+## v2.12 additions (2026-11-05)
+- **Participation:** routes, working groups, champions and ambassadors, a communications kit and badges. Success: five working groups with members by March 2027; champions in at least ten organisations across three nations.
+- **Governance guide:** where data questions go and how bodies work. Success: reviewed every six months against each body's page.
+- **Inclusion:** display options and source labels on every page; reflow at 150% text with no sideways scrolling.

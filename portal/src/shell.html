@@ -51,10 +51,10 @@
   max-height:calc(100vh - 60px);overflow-y:auto;padding:6px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px));box-shadow:0 12px 28px rgba(0,0,0,.2)}
 .dqp-grp h2{font:700 11.5px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--dqp-panel-muted);margin:14px 12px 4px}
 .dqp-grp a[aria-current="page"]{box-shadow:inset 4px 0 0 var(--dqp-focus)}
-@media (max-width:1299px){.dqp-nav{display:none}.dqp-menu{display:block}.dqp-tourbtn{margin-left:0}}
+@media (max-width:1439px){.dqp-nav{display:none}.dqp-menu{display:block}.dqp-tourbtn{margin-left:0}}
 .dqp-short{display:none}
 @media (max-width:520px){.dqp-brand span{display:none}.dqp-long{display:none}.dqp-short{display:inline}}
-@media (min-width:1300px) and (max-width:1599px){.dqp-brand small{display:none}}
+@media (min-width:1440px) and (max-width:1599px){.dqp-brand small{display:none}}
 @media (max-width:900px){.dqp-brand small{display:none}}
 @media (max-width:380px){.dqp-in{gap:8px}.dqp-menu>summary,.dqp-tourbtn,.dqp-newbtn,.dqp-searchbtn{padding-left:8px;padding-right:8px}.dqp-newbtn .dqp-short{display:none}}
 .dqc-ctx{background:var(--dqp-panel);color:var(--dqp-panel-fg);border:1px solid var(--dqp-panel-line);border-left:4px solid var(--dqp-focus);border-radius:6px;padding:10px 14px;font:400 14px/1.55 "Public Sans",system-ui,sans-serif;max-width:80ch;margin-top:10px}
@@ -109,12 +109,12 @@
 .dqp-navflag{font:700 10px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:2px 5px;border-radius:4px;background:#ffbf47;color:#0b0c0c;margin-left:6px;vertical-align:1px}
 .dqp-navflag.upd{background:#d9e6f7;color:#1d3a6b}
 .dqp-drawer :focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
-@media (max-width:1299px){.dqp-newbtn{margin-left:0}}
+@media (max-width:1439px){.dqp-newbtn{margin-left:0}}
 /* Journey menu: level badges (text carries the meaning; the border style is a second cue) and group titles */
 .dqp-lvl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-right:4px;line-height:16px;vertical-align:1px}
 .dqp-lvl-intermediate{border-style:dashed}
 .dqp-lvl-advanced{border-width:2px}
-@media (min-width:1300px){.dqp-panel.dqp-wide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:4px;width:min(720px,calc(100vw - 24px));max-width:none}
+@media (min-width:1440px){.dqp-panel.dqp-wide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:4px;width:min(720px,calc(100vw - 24px));max-width:none}
   .dqp-panel.dqp-wide .dqp-gt{grid-column:1/-1}}
 .dqp-gt{margin:0 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
 /* WCAG 2.2 SC 2.5.8 Target size (minimum): standalone links and tick boxes are at least 24 x 24 CSS px */
@@ -287,6 +287,22 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 .dqp-fb p{margin:0;flex:1;border:1px dashed var(--line,#d6dddf);border-radius:10px;background:var(--surface,#fff);padding:10px 14px}
 .dqp-fb>.dqi{margin-top:12px;color:var(--grp)}
 .dqp-fb a{color:var(--accent,#0d6b6e)}
+.dqp-jbar{position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:max(12px,env(safe-area-inset-bottom,0px));width:min(760px,calc(100vw - 24px));background:var(--dqp-panel);color:var(--dqp-panel-fg);border:2px solid var(--dqp-icon);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font:500 14px/1.4 "Public Sans",system-ui,sans-serif}
+.dqp-jbar b{font-weight:700}
+.dqp-jbar a,.dqp-jbar button{font:600 14px/1 "Public Sans",system-ui,sans-serif;min-height:36px;padding:8px 12px;border-radius:8px;border:1px solid var(--dqp-panel-line);background:transparent;color:var(--dqp-panel-fg);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.dqp-jbar a.go{background:var(--dqp-icon);color:#fff;border-color:var(--dqp-icon)}
+.dqp-jbar .grow{flex:1 1 220px}
+body.dqp-has-jbar{padding-bottom:110px}
+.dqp-has-jbar .dqp-otpbtn,.dqp-has-jbar .dqp-top{bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
+@media (max-width:600px){.dqp-has-jbar .dqp-otpbtn,.dqp-has-jbar .dqp-top{bottom:190px!important}body.dqp-has-jbar{padding-bottom:200px}}
+@media print{.dqp-jbar{display:none!important}}
+.dqp-embed .dqp-jbar{display:none!important}
+.dqp-src{display:inline-block;margin-left:4px;padding:0 6px;border-radius:999px;font:700 10.5px/1.6 "Public Sans",system-ui,sans-serif;letter-spacing:.02em;vertical-align:1px;white-space:nowrap;border:1px solid currentColor;text-decoration:none!important}
+.dqp-src[data-k="official"]{color:var(--c-teal,#0b6b6e)}.dqp-src[data-k="standard"]{color:var(--c-blue,#1d5aa8)}.dqp-src[data-k="intl"]{color:var(--c-purple,#6a3d9a)}
+.dqp-src[data-k="code"]{color:var(--c-green,#2e6b1f)}.dqp-src[data-k="news"]{color:var(--c-orange,#9a4a00)}.dqp-src[data-k="vendor"]{color:var(--c-pink,#a3245e)}.dqp-src[data-k="other"]{color:var(--muted,#56636e)}
+:root[data-srclabels="off"] .dqp-src{display:none}
+@media print{.dqp-src{border:0;padding:0}}
+.dqp-fbx{display:block;font-size:13px;color:var(--muted,#56636e);margin-top:2px}
 .dqp-embed .dqp-fb{display:none!important}
 @media print{.dqp-fb{display:none!important}}
 @media (max-width:640px){.dqp-pn{grid-template-columns:1fr 1fr}.dqp-pn-mid{grid-column:1/-1;order:-1}}
@@ -318,7 +334,48 @@ abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-de
 .dqp-embed .dqp-bar,.dqp-embed .dqp-foot,.dqp-embed .dqp-pn,.dqp-embed .dqp-otpbtn,.dqp-embed .dqp-top,.dqp-embed .dqp-skip,.dqp-embed #dqp-tour-start{display:none!important}
 .dqp-embedsrc{max-width:1180px;margin:0 auto;padding:8px 16px;font:500 13px/1.4 "Public Sans",system-ui,sans-serif;color:var(--muted,#56636e);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .dqp-embedsrc a{color:var(--accent,#0d6b6e)}
+/* Display options (v2.12.0, BL-27): text size, spacing, an easier-to-read font, colours and motion. Kept in this browser only. */
+html{font-size:var(--dqp-fs,100%)}
+.dqp-dispbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:700 14px/1 "Public Sans",system-ui,sans-serif;color:var(--dqp-bar-fg);background:transparent;border:1px solid var(--dqp-bar-line);border-radius:999px;min-width:40px;min-height:36px;padding:6px 10px;cursor:pointer;margin-left:6px}
+.dqp-dispbtn:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
+@media (max-width:1439px){.dqp-dispbtn{margin-left:0}}
+.dqp-disp fieldset{border:1px solid var(--dqp-panel-line);border-radius:8px;margin:0 0 12px;padding:8px 12px 10px}
+.dqp-disp legend{font-weight:700;padding:0 4px}
+.dqp-disp label{display:flex;align-items:center;gap:8px;min-height:32px;cursor:pointer}
+.dqp-disp input{width:20px;height:20px;accent-color:var(--dqp-icon)}
+.dqp-disp .dqp-dreset{font:600 14px/1 "Public Sans",system-ui,sans-serif;padding:10px 14px;border-radius:8px;border:1px solid var(--dqp-panel-line);background:transparent;color:var(--dqp-panel-fg);cursor:pointer;min-height:40px}
+:root[data-spacing="wide"] body{line-height:1.9;letter-spacing:.03em;word-spacing:.12em}
+:root[data-spacing="wide"] p,:root[data-spacing="wide"] li{margin-bottom:.6em}
+:root[data-font="readable"] body,:root[data-font="readable"] h1,:root[data-font="readable"] h2,:root[data-font="readable"] h3,:root[data-font="readable"] .lede{font-family:Verdana,Tahoma,"Segoe UI",system-ui,sans-serif!important}
+:root[data-contrast="high"]{--bg:#ffffff;--surface:#ffffff;--sunk:#f2f2f2;--fg:#000000;--muted:#1f1f1f;--line:#000000;--accent:#00007a;--accent-fg:#ffffff;--accent-soft:#e6e6ff;--good:#004d00;--warn:#7a3300;--sec:#000000;--sec-s:#ffffff;--grp:#000000}
+:root[data-contrast="high"] a{text-decoration:underline!important;text-decoration-thickness:2px!important}
+:root[data-contrast="high"] .card,:root[data-contrast="high"] .tbl,:root[data-contrast="high"] .kpi{border:2px solid #000!important}
+:root[data-contrast="high"] *:focus-visible{outline:4px solid #000!important;box-shadow:0 0 0 7px #ffdd00!important}
+:root[data-motion="reduce"] *,:root[data-motion="reduce"] *::before,:root[data-motion="reduce"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+@media print{.dqp-dispbtn,.dqp-disp{display:none!important}}
+/* Reflow at large text sizes (WCAG 1.4.4 and 1.4.10): long labels wrap rather than push the page sideways. */
+.wrap .chip,.wrap .tag,.wrap .pill,.wrap .dqp-src{white-space:normal;max-width:100%}
+.wrap dd,.wrap code{overflow-wrap:anywhere}
+.wrap td{overflow-wrap:break-word}
+.wrap tbody th{vertical-align:top}
+.wrap select,.wrap input,.wrap textarea{max-width:100%}
+.wrap .filters > label{max-width:100%;flex-wrap:wrap}
+.wrap .card,.wrap [class*="grid"] > *{min-width:0}
+@media (max-width:600px){.wrap .btn{white-space:normal;max-width:100%;height:auto}}
+@media (max-width:440px){.dqp-in{gap:6px}.dqp-newbtn .dqp-short{display:none}.dqp-menu>summary,.dqp-tourbtn,.dqp-newbtn,.dqp-searchbtn{padding-left:9px;padding-right:9px}.dqp-dispbtn{padding:6px 8px;min-width:36px}}
 </style>
+<script>
+/* Apply saved display options before the page draws, so nothing jumps. */
+(function () {
+  try {
+    var o = JSON.parse(localStorage.getItem("dqp-display") || "{}"), r = document.documentElement;
+    if (o.fs) r.style.setProperty("--dqp-fs", o.fs + "%");
+    if (o.theme === "light" || o.theme === "dark") r.setAttribute("data-theme", o.theme);
+    ["spacing", "font", "contrast", "motion", "srclabels"].forEach(function (k) { if (o[k]) r.setAttribute("data-" + k, o[k]); });
+    if (o.contrast === "high") r.setAttribute("data-theme", "light");
+  } catch (e) {}
+})();
+</script>
 <script>
 /* Embed mode (v2.8.0): ?embed=1 hides the Commons menu and footer so a page can sit inside an intranet page.
    &accent=RRGGBB takes the host's accent colour (6 hex digits only). */
@@ -345,6 +402,7 @@ abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-de
     <details class="dqp-menu"><summary aria-label="Open the menu">Menu</summary><nav class="dqp-drop" aria-label="Commons (menu)">{{NAV_LONG}}</nav></details>
     <button class="dqp-searchbtn" type="button" id="dqp-search-open" aria-haspopup="dialog" aria-keyshortcuts="/"><svg class="dqi" aria-hidden="true"><use href="#i-search"/></svg><span class="dqp-long">Search</span><span class="dqp-sr"> the Commons</span><kbd aria-hidden="true">/</kbd></button>
     <button class="dqp-newbtn" type="button" id="dqp-new-open" aria-controls="dqp-news" aria-expanded="false"><svg class="dqi" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="dqp-long">What's new</span><span class="dqp-short">New</span><span class="dqp-dot" id="dqp-new-dot" aria-hidden="true" hidden></span><span class="dqp-sr" id="dqp-new-sr" hidden> (updates you haven't seen)</span></button>
+    <button class="dqp-dispbtn" type="button" id="dqp-disp-open" aria-controls="dqp-disp" aria-expanded="false" data-tip="Display options: text size, spacing, colours"><span aria-hidden="true">Aa</span><span class="dqp-sr">Display options</span></button>
     <button class="dqp-tourbtn" type="button" id="dqp-tour-start" hidden><span class="dqp-long">Take the tour</span><span class="dqp-short">Tour</span></button>
   </div>
 </div>
@@ -353,6 +411,97 @@ abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-de
   <p class="dqp-dsub">Version {{VERSION}}. We use semantic versioning: a new major number for big changes, minor for new features, patch for fixes. <a href="build.html#releases">All releases and change logs</a>.</p>
   <div id="dqp-news-body"></div>
 </aside>
+<aside class="dqp-drawer dqp-disp" id="dqp-disp" role="dialog" aria-modal="false" aria-labelledby="dqp-disp-h" hidden>
+  <div class="dqp-dhead"><h2 id="dqp-disp-h">Display options</h2><button type="button" class="dqp-dclose" id="dqp-disp-close" aria-label="Close display options">×</button></div>
+  <p class="dqp-dsub">Make the Commons easier for you to read. Your choices stay in this browser and apply to every page. Your browser's own zoom and settings still work too.</p>
+  <form id="dqp-disp-f">
+    <fieldset><legend>Text size</legend><label><input type="radio" name="fs" value="100">Standard</label><label><input type="radio" name="fs" value="115">Large</label><label><input type="radio" name="fs" value="130">Larger</label><label><input type="radio" name="fs" value="150">Largest</label></fieldset>
+    <fieldset><legend>Spacing</legend><label><input type="radio" name="spacing" value="">Standard</label><label><input type="radio" name="spacing" value="wide">Wider lines, letters and words</label></fieldset>
+    <fieldset><legend>Font</legend><label><input type="radio" name="font" value="">Standard</label><label><input type="radio" name="font" value="readable">Easier to read (simpler letter shapes)</label></fieldset>
+    <fieldset><legend>Colours</legend><label><input type="radio" name="theme" value="">Follow my device</label><label><input type="radio" name="theme" value="light">Light</label><label><input type="radio" name="theme" value="dark">Dark</label><label><input type="radio" name="theme" value="high">High contrast</label></fieldset>
+    <fieldset><legend>Source labels</legend><label><input type="radio" name="srclabels" value="">Show what kind of source each link is</label><label><input type="radio" name="srclabels" value="off">Hide source labels</label></fieldset>
+    <fieldset><legend>Movement</legend><label><input type="radio" name="motion" value="">Follow my device</label><label><input type="radio" name="motion" value="reduce">Reduce movement</label></fieldset>
+    <button type="button" class="dqp-dreset" id="dqp-disp-reset">Reset to standard</button> <span id="dqp-disp-msg" class="dqp-dsub" role="status" aria-live="polite"></span>
+  </form>
+</aside>
+<script>
+(function () {
+  var r = document.documentElement, b = document.getElementById("dqp-disp-open"), p = document.getElementById("dqp-disp"), f = document.getElementById("dqp-disp-f");
+  if (!b || !p) return;
+  function load() { try { return JSON.parse(localStorage.getItem("dqp-display") || "{}"); } catch (e) { return {}; } }
+  function save(o) { try { localStorage.setItem("dqp-display", JSON.stringify(o)); } catch (e) {} }
+  function apply(o) {
+    r.style.setProperty("--dqp-fs", (o.fs || 100) + "%");
+    ["spacing", "font", "motion", "srclabels"].forEach(function (k) { if (o[k]) r.setAttribute("data-" + k, o[k]); else r.removeAttribute("data-" + k); });
+    if (o.theme === "high") { r.setAttribute("data-contrast", "high"); r.setAttribute("data-theme", "light"); }
+    else { r.removeAttribute("data-contrast"); if (o.theme) r.setAttribute("data-theme", o.theme); else r.removeAttribute("data-theme"); }
+  }
+  function fill(o) { var v = {fs: String(o.fs || 100), spacing: o.spacing || "", font: o.font || "", theme: o.contrast === "high" ? "high" : (o.theme || ""), motion: o.motion || "", srclabels: o.srclabels || ""};
+    Object.keys(v).forEach(function (k) { var i = f.querySelector('input[name="' + k + '"][value="' + v[k] + '"]'); if (i) i.checked = true; }); }
+  var o = load(); if (o.contrast === "high") o.theme = "high"; fill(o);
+  f.addEventListener("change", function () { var n = {}; ["fs", "spacing", "font", "theme", "motion", "srclabels"].forEach(function (k) { var i = f.querySelector('input[name="' + k + '"]:checked'); if (i && i.value) n[k] = k === "fs" ? +i.value : i.value; });
+    if (n.fs === 100) delete n.fs; var s = {fs: n.fs, spacing: n.spacing, font: n.font, motion: n.motion, srclabels: n.srclabels, theme: n.theme === "high" ? "light" : n.theme, contrast: n.theme === "high" ? "high" : undefined};
+    apply(n); save(s); document.getElementById("dqp-disp-msg").textContent = "Saved for every page."; });
+  document.getElementById("dqp-disp-reset").addEventListener("click", function () { save({}); apply({}); fill({}); document.getElementById("dqp-disp-msg").textContent = "Back to standard."; });
+  function open() { p.hidden = false; requestAnimationFrame(function () { p.classList.add("open"); }); b.setAttribute("aria-expanded", "true"); var c = f.querySelector("input:checked"); (c || f.querySelector("input")).focus(); }
+  function close() { p.classList.remove("open"); b.setAttribute("aria-expanded", "false"); setTimeout(function () { p.hidden = true; }, 260); b.focus(); }
+  b.addEventListener("click", function () { p.hidden ? open() : close(); });
+  document.getElementById("dqp-disp-close").addEventListener("click", close);
+  p.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+})();
+</script>
+<script>
+/* Journeys across the three portals (v2.12.0, BL-34): keeps your place in a journey started on "Three portals, one journey". */
+(function () {
+  var st; try { st = JSON.parse(localStorage.getItem("dqp-journey") || "null"); } catch (e) { return; }
+  if (!st || !st.steps || !st.steps.length) return;
+  var here = location.origin + location.pathname, at = -1;
+  st.steps.forEach(function (s, k) { try { var u = new URL(s.url); if (u.origin + u.pathname === here) at = k; } catch (e) {} });
+  if (at < 0) return;
+  st.i = at; try { localStorage.setItem("dqp-journey", JSON.stringify(st)); } catch (e) {}
+  var n = st.steps.length, nx = st.steps[at + 1], pv = st.steps[at - 1];
+  function esc(x) { return String(x).replace(/[&<>"]/g, function (c) { return {"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]; }); }
+  var bar = document.createElement("aside"); bar.className = "dqp-jbar"; bar.setAttribute("aria-label", "Your journey");
+  bar.innerHTML = '<span class="grow"><b>' + esc(st.name) + '</b> · step ' + (at + 1) + ' of ' + n + ': ' + esc(st.steps[at].text) + '</span>' +
+    (pv ? '<a href="' + esc(pv.url) + '">Back</a>' : '') +
+    (nx ? '<a class="go" href="' + esc(nx.url) + '">Next: ' + esc(nx.portal) + ' →</a>' : '<span><b>Last step.</b></span>') +
+    '<button type="button" id="dqp-jstop">' + (nx ? 'Stop the journey' : 'Finish') + '</button>';
+  function add() { document.body.appendChild(bar); document.body.classList.add("dqp-has-jbar");
+    document.getElementById("dqp-jstop").addEventListener("click", function () { try { localStorage.removeItem("dqp-journey"); } catch (e) {} bar.remove(); document.body.classList.remove("dqp-has-jbar"); }); }
+  if (document.body) add(); else document.addEventListener("DOMContentLoaded", add);
+})();
+</script>
+<script>
+/* Source labels (v2.12.0, BL-26): every link to an outside source says what kind of source it is, so readers can judge
+   how far to rely on it. Classified by address; the legend is on the user guide page (guide.html#sources). */
+(function () {
+  var OFFICIAL = /(^|\.)(gov\.uk|gov\.scot|gov\.wales|llyw\.cymru|nidirect\.gov\.uk|nhs\.uk|nhs\.scot|legislation\.gov\.uk|parliament\.uk|ons\.gov\.uk|nationalarchives\.gov\.uk|ico\.org\.uk|statisticsauthority\.gov\.uk|ncsc\.gov\.uk|gov\.je|gov\.gg|gov\.im|nisra\.gov\.uk|europa\.eu|service\.gov\.uk)$/;
+  var STANDARD = /(^|\.)(w3\.org|iso\.org|bsigroup\.com|ogc\.org|ietf\.org|rfc-editor\.org|schema\.org|unicode\.org|xbrl\.org|snomed\.org|hl7\.org|datapackage\.org|bitol\.io|dama\.org|edmcouncil\.org|sdmx\.org|ddialliance\.org|opengeospatial\.org|semiceu\.github\.io|bitol-io\.github\.io)$/;
+  var INTL = /(^|\.)(un\.org|unstats\.un\.org|imf\.org|oecd\.org|who\.int|worldbank\.org|paris21\.org|unssc\.org|rd-alliance\.org)$/;
+  var CODE = /(^|\.)(github\.com|gitlab\.com|pypi\.org|npmjs\.com)$/;
+  var NEWS = /(^|\.)(publictechnology\.net|ukauthority\.com|computerweekly\.com|businesswire\.com|thinkdigitalpartners\.com|civilserviceworld\.com|government-transformation\.com|techuk\.org|blog\.gov\.uk)$/;
+  var VENDOR = /(^|\.)(snowflake\.com|alation\.com|atlan\.com|precisely\.com|informatica\.com|collibra\.com|microsoft\.com|amazon\.com|google\.com|datahub\.com|open-metadata\.org|ataccama\.com|genorma\.com)$/;
+  var SIB = /^cyberdudeuk\.github\.io$/, GOVPAGES = /^(co-cddo|alphagov|govuk-one-login|ukgovdatascience|ministryofjustice|dwp|hmrc|nhsdigital|nhsengland)\.github\.io$/;
+  var L = {official: "Official", standard: "Standard", intl: "International", code: "Code", news: "News or blog", vendor: "Supplier", other: "Other source"};
+  var T = {official: "Official source: government, legislation, a regulator or a statutory body", standard: "Standards body or the standard itself",
+    intl: "International organisation", code: "Public code repository", news: "News, trade press or blog: check against an official source",
+    vendor: "Supplier's own material: may promote a product", other: "Other outside source"};
+  function kind(h) { if (SIB.test(h)) return ""; if (GOVPAGES.test(h)) return "official"; if (/\.blog\.gov\.uk$/.test(h)) return "news"; if (OFFICIAL.test(h)) return "official"; if (STANDARD.test(h)) return "standard"; if (INTL.test(h)) return "intl";
+    if (CODE.test(h)) return "code"; if (NEWS.test(h)) return "news"; if (VENDOR.test(h)) return "vendor"; return "other"; }
+  function run(root) {
+    var main = document.querySelector(".wrap") || document.body;
+    (root || main).querySelectorAll('a[href^="http"]').forEach(function (a) {
+      if (a.dataset.src || a.closest(".dqp-bar,.dqp-foot,.dqp-pn,.dqp-rel,.dqp-fb,.btn,.chip,nav,.dqp-jbar,.dqp-drawer,[data-nosrc]") || a.classList.contains("btn") || a.classList.contains("chip")) return;
+      var h; try { h = new URL(a.href).hostname; } catch (e) { return; }
+      var k = kind(h); a.dataset.src = k || "none"; if (!k) return;
+      var s = document.createElement("span"); s.className = "dqp-src"; s.dataset.k = k; s.textContent = L[k]; s.title = T[k];
+      a.insertAdjacentElement("afterend", s);
+    });
+  }
+  function go() { run(); var t; new MutationObserver(function () { clearTimeout(t); t = setTimeout(function () { run(); }, 400); }).observe(document.querySelector(".wrap") || document.body, {childList: true, subtree: true}); }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", go); else go();
+})();
+</script>
 <button class="dqp-otpbtn" type="button" id="dqp-otp-open" aria-controls="dqp-otp" aria-expanded="false" hidden><svg class="dqi" aria-hidden="true"><use href="#i-list"/></svg>On this page<span class="dqp-cnt" id="dqp-otp-cnt" hidden></span></button>
 <aside class="dqp-otp" id="dqp-otp" role="dialog" aria-modal="false" aria-labelledby="dqp-otp-h" hidden>
   <div class="dqp-dhead"><h2 id="dqp-otp-h">On this page</h2><button type="button" class="dqp-dclose" id="dqp-otp-close" aria-label="Close the page contents">×</button></div>

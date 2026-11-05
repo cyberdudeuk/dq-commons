@@ -151,3 +151,15 @@
 | F-312 | Open roadmap: pipeline, objectives, Now/Next/Later with capacity, published scores, what-if weights, tracing, strategy anchors | Functional | `roadmap.html`, `knowledge/roadmap.yaml` |
 | I-310 | Wishlist votes and backlog issues from GitHub shown beside the scores | Integration | `github_live()` |
 | T-310 | Every open item scored; MoSCoW matches score band; sign-up privacy; bundle has no addresses | Technical | `tests/test_research_roadmap.py` |
+
+## v2.12 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-320 | Routes to contribute, join working groups and champion the Commons; a communications kit; badges with code for GitHub, social media and email signatures | Functional | `getinvolved.html`, `knowledge/participation.yaml`, `badges/`, `downloads/getinvolved/` |
+| F-321 | Governance bodies with purpose, aims, outcomes, rules of engagement and terms-of-reference status; question routes | Functional | `governance.html`, `knowledge/governance-bodies.yaml` |
+| F-322 | Display options: text size, spacing, readable font, colours including high contrast, reduced movement | Functional | shell |
+| F-323 | Every outside link labelled by kind of source | Functional | shell, `guide.html#sources` |
+| F-324 | Journeys that continue across the three portals | Functional | `ecosystem.html#journeys`, shell |
+| I-320 | Evidence from public code imported from the repos catalogue open edition | Integration | `scripts/import_code_evidence.py` |
+| I-321 | DAM requirement ids per playbook stage, published in the manifest | Integration | `api/xref.json` |
+| T-320 | Governance, participation, badges, code evidence, requirement links and shell features tested | Technical | `tests/test_participation_governance.py` |

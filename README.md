@@ -208,11 +208,11 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.11.0) adds **user research with your team**: an introduction to the Commons, a research panel,
-the questions we want answered, and a research bundle (invitation, email, consent, sign-up questions and session
-guides) to email to colleagues; and an **open roadmap** that shows every priority score and its reasons, delivery
-objectives, alignment with government strategy (including the Roadmap for modern digital government), capacity, and
-lets anyone try their own weights. Release 2.10.0 added the standards catalogue, DQV output from the Metadata Weaver
-and Three portals, one journey.
+The latest release (2.12.0) adds **Get involved** (working groups, champions and ambassadors, a communications
+kit for email, Teams, Slack and intranets, and badges for GitHub, social media and email signatures), a guide to the
+**governance boards and forums** for government data, **display options** (text size, spacing, readable font, high
+contrast), **source labels** on every outside link, journeys that continue across the three portals, evidence from
+public code, and DAM Policy requirement links on every playbook stage. Release 2.11.0 added user research with your
+team and the open roadmap.
 The portal needs no claude.ai account. Contact is by form only. Every release
 is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

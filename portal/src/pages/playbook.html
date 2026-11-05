@@ -96,7 +96,8 @@ python -m dqkit playbook status births</code></pre>
 </div>
 
 <script>
-const PB = __K_PLAYBOOK__, REQ = __K_REQUIREMENTS__, FW = __K_FRAMEWORKS__, MN = __K_MODELNAV__;
+const PB = __K_PLAYBOOK__, REQ = __K_REQUIREMENTS__, FW = __K_FRAMEWORKS__, MN = __K_MODELNAV__, ECO = __K_ECO__;
+const DR = Object.fromEntries(ECO.xref.requirements.map(r => [r.id, r])), DAMURL = ECO.portals.find(p => p.id === "dam").url;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
@@ -125,6 +126,7 @@ function drawStage(focus) {
       <p class="small"><b>Leads:</b> ${raci}</p></div>
     <div><h4>Checklist</h4><ul class="chk">${s.checklist.map((x, i) => `<li><label><input type="checkbox" data-k="${s.id}.${i}"${ticks[`${s.id}.${i}`] ? " checked" : ""}> <span>${esc(x)}</span></label></li>`).join("")}</ul>
       <h4>UK DAM policy and DQAP</h4>${clauses}
+      ${(s.dam_playbooks || []).length ? `<p class="small"><b>The same requirements in the DAM capability playbooks:</b></p><ul class="small">${s.dam_playbooks.map(id => `<li><a href="${DAMURL}dam.html#${esc(id)}" rel="noopener">${esc(id)}</a> ${esc((DR[id] || {}).short || "")} <span class="muted">(${esc((DR[id] || {}).strength || "")})</span></li>`).join("")}</ul>` : ""}
       <p class="small"><b>Elsewhere:</b> ${esc(s.elsewhere)}</p></div>
   </div>
   <p class="incl"><b>Inclusion check:</b> ${esc(s.inclusion)}</p>

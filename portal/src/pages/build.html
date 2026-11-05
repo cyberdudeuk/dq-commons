@@ -122,6 +122,7 @@ __BASE_CSS__
     <h3>Settings</h3><ul class="plain small" id="fbSet"></ul>
     <h3>Set-up steps</h3><ol class="plain small" id="fbSteps"></ol>
   </div></details>
+  <h3>About another portal?</h3><p class="small" id="fbX"></p>
 </section>
 
 <section id="contact" aria-labelledby="ct-h">
@@ -140,6 +141,7 @@ __BASE_CSS__
 
 <script>
 const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__, FB = __K_FEEDBACK__;
+document.getElementById("fbX").innerHTML = `${FB.cross_portal.pass_on} ${FB.cross_portal.themes} Or go straight to the <a href="${FB.sister_routes.dam}" rel="noopener">DAM capability playbooks</a> or the <a href="${FB.sister_routes.cat}" rel="noopener">GitHub repos asset catalogue</a>.`;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const gh = t => `${B.repo}/issues/new?template=${t}`;
@@ -151,7 +153,7 @@ $("intro").textContent = K.intro;
 [["lCharter", "/blob/main/CHARTER.md"], ["lCoc", "/blob/main/CODE_OF_CONDUCT.md"], ["lContrib", "/blob/main/CONTRIBUTING.md"], ["lContributors", "/blob/main/CONTRIBUTORS.md"], ["lSec", "/security/advisories/new"]]
   .forEach(([id, p]) => { $(id).href = B.repo + p; });
 const WAYS = [["blocks", "Pick up a backlog item", "Comment on the GitHub issue to say you're working on it.", "#backlog"],
-  ["heart", "Vote on the wishlist", "A 👍 on a wish is a vote. Votes help set priorities.", "#wishlist"], ["chat", "Join co-design", "Shape a feature with others, live or in your own time.", "#codesign"],
+  ["users", "Join, champion, get a badge", "Working groups, champions and ambassadors, a communications kit and badges.", "getinvolved.html"], ["heart", "Vote on the wishlist", "A 👍 on a wish is a vote. Votes help set priorities.", "#wishlist"], ["chat", "Join co-design", "Shape a feature with others, live or in your own time.", "#codesign"],
   ["library", "Share a resource", "Case studies, guidance and training, moderated before they're public.", "community.html#contribute"],
   ["layers", "Add a framework or pack", "Especially from the nations, Crown Dependencies, Territories and partners.", gh("3-rule-or-pack.yml")],
   ["alert", "Report a problem", "Something wrong, out of date or hard to use.", gh("2-bug.yml")], ["message", "Contact us", "No email needed.", "#contact"]];

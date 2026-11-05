@@ -97,6 +97,8 @@ __BASE_CSS__
   <div class="jpick" id="jP" role="group" aria-label="Choose a journey"></div>
   <p class="small muted" id="jW"></p>
   <ol class="jsteps" id="jS"></ol>
+  <p style="margin-top:10px"><button class="btn" type="button" id="jGo">Follow this journey, step by step</button> <span class="small muted" id="jGoMsg" role="status" aria-live="polite"></span></p>
+  <p class="small muted">A small bar at the bottom of each Commons page keeps your place and opens the next step, even when a step is in a sister portal. Your place is kept only in this browser. The sister portals can show the same bar by reading the shared key <code>dqp-journey</code>.</p>
 </section>
 
 <section id="joinup" aria-labelledby="ju-h">
@@ -207,6 +209,11 @@ __BASE_CSS__
     $("jW").textContent = "For: " + j.who + ". Each step opens the exact page; the colour shows which portal it is in.";
     $("jS").innerHTML = j.steps.map(s => `<li><a href="${esc(href(s.portal, s.path))}"${ext(s.portal)} data-hue="${P[s.portal].hue}"><small>${esc(P[s.portal].short)}</small>${esc(s.text)}</a></li>`).join(""); }
   $("jP").addEventListener("click", e => { const b = e.target.closest("[data-j]"); if (b) { jc = b.dataset.j; drawJ(); } }); drawJ();
+  $("jGo").addEventListener("click", () => { const j = E.journeys.find(x => x.id === jc);
+    const abs = (pid, path) => new URL(href(pid, path), location.href).href;
+    const st = {id: j.id, name: j.name, i: 0, steps: j.steps.map(x => ({portal: P[x.portal].short, url: abs(x.portal, x.path), text: x.text}))};
+    try { localStorage.setItem("dqp-journey", JSON.stringify(st)); } catch (e) { $("jGoMsg").textContent = "Your browser blocked saving your place, so follow the steps above instead."; return; }
+    location.href = st.steps[0].url; });
 
   // join-up
   $("juB").innerHTML = E.joinup.map(x => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal">${esc(x.id)}. ${esc(x.action)}</th><td>${esc(x.detail)}</td><td>${esc(x.status)}</td></tr>`).join("");

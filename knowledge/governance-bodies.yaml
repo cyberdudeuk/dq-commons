@@ -1,0 +1,357 @@
+# Governance boards, committees, councils and forums for data quality and data asset management (v2.12.0).
+# Feeds governance.html and search. Public facts only, from each body's own GOV.UK (or government) page, paraphrased.
+# tor: "published" (terms of reference are public), "described" (role is described but no full terms of reference found),
+# "not found". activity: "active" (recent minutes or page updates), "unclear" (no recent minutes), "historic".
+# Contact details are not repeated here: each body's page lists its own route (the Commons publishes no email addresses).
+review: {last_reviewed: "2026-11-05", owner_role: Product owner (Commons)}
+
+intro: "Who decides what about government data, who advises, and where practitioners meet. Use this page to find where a data quality or data asset question should go, what each body is for, and how to take part. Membership and meeting details change: each body's own page is the authority."
+
+layers:
+- {id: decide, name: "Decide", text: "Bodies that approve standards, policies or data sharing."}
+- {id: advise, name: "Advise and review", text: "Bodies that review proposals, challenge and advise; they do not decide."}
+- {id: regulate, name: "Regulate and assure", text: "Bodies that set codes and check compliance."}
+- {id: community, name: "Communities and networks", text: "Where practitioners meet, share and shape the work."}
+- {id: devolved, name: "Devolved and Crown Dependency", text: "Bodies in Scotland, Wales, Northern Ireland and the Crown Dependencies."}
+- {id: local, name: "In your organisation", text: "Governance the DAM Policy expects inside each organisation."}
+- {id: commons, name: "The Commons' own governance", text: "How the Commons itself decides, in the open."}
+
+bodies:
+- id: cdo-council
+  name: "Chief Data Officer Council"
+  layer: decide
+  scope: UK government
+  host: "Government Digital Service (DSIT)"
+  purpose: "The most senior cross-government governance body for data management issues. Collectively accountable for government's own use and reuse of data, and named by the DAM Policy as the body with oversight of the policy's implementation."
+  aims: ["Set strategic direction for government's use of data", "Oversee implementation of the Data Asset Management Policy", "Help the Data Standards Authority see strategic risks, problems and opportunities in adopting common standards"]
+  outcomes: ["Departments implement the DAM Policy, with chief data officers accountable in each organisation", "Strategic risks to data standardisation are surfaced and acted on"]
+  engagement: "Strategic, not technical: the council does not set specific data standards. Members are chief data officers. The Executive CDO Council is briefed by the DSA Steering Board."
+  decides: "Strategy and oversight of policy implementation"
+  cadence: "Not published"
+  tor: described
+  activity: active
+  dam: [DAM-R08]
+  links:
+  - {title: "DSA operational model and processes (describes the council's role)", url: "https://www.gov.uk/government/publications/data-standards-authority-operational-model-and-processes/data-standards-authority-operational-model-and-processes"}
+  - {title: "Data Asset Management Policy", url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government"}
+
+- id: dsa-steering
+  name: "Data Standards Authority Steering Board"
+  layer: decide
+  scope: UK government
+  host: "Government Digital Service (DSIT)"
+  purpose: "A senior group that shapes the Data Standards Authority's work and acts as its decision-making body: it gives final approval to cross-government data standards."
+  aims: ["Set a cross-government standardisation strategy and delivery plan", "Oversee DSA priorities, monitoring, enforcement and assurance", "Drive implementation in the organisations members represent"]
+  outcomes: ["Cross-government data standards approved and adopted", "Recent work includes the data ownership model and policies that underpin the DAM Policy"]
+  engagement: "Members are senior representatives of departments, functions or programmes. Proposals reach the board after review by the Peer Review Group. Minutes are published."
+  decides: "Final approval of cross-government data standards"
+  cadence: "Regular meetings; minutes published on GOV.UK"
+  tor: described
+  activity: active
+  links:
+  - {title: "Data Standards Authority (GOV.UK group)", url: "https://www.gov.uk/government/groups/data-standards-authority"}
+  - {title: "Meeting minutes for the DSA governance boards", url: "https://www.gov.uk/government/publications/meeting-minutes-for-the-data-standards-authority-governance-boards"}
+
+- id: dsa-prg
+  name: "DSA and Data Quality Hub Peer Review Group"
+  layer: advise
+  scope: UK government
+  host: "Government Digital Service and the Government Data Quality Hub"
+  purpose: "An expert advisory group that reviews products, proposals and standards before they go to the DSA Steering Board, and reviews products and services from the Government Data Quality Hub."
+  aims: ["Help shape proposals: cost and impact, skills and capability, technical feasibility", "Suggest priority data areas", "Comment on proposals for the organisations members represent"]
+  outcomes: ["Standards reach the Steering Board tested by practitioners", "Data quality products reflect departments' real needs"]
+  engagement: "Advisory only. Members represent organisations, functions, domains or programmes. The route for data quality proposals from the Commons, such as the Weaver's UK mapping."
+  decides: "Nothing: it reviews and advises"
+  cadence: "Regular meetings; notes published on GOV.UK"
+  tor: described
+  activity: active
+  links:
+  - {title: "DSA operational model and processes", url: "https://www.gov.uk/government/publications/data-standards-authority-operational-model-and-processes/data-standards-authority-operational-model-and-processes"}
+
+- id: dtada
+  name: "Data and Technology Architecture Design Authority"
+  layer: decide
+  scope: UK government
+  host: "Sub-group of the CDO Council and CTO Council"
+  purpose: "The decision-making body for data architecture principles, policies, strategies and standards for government, working alongside the DSA."
+  aims: ["Commission and approve data architecture principles, policies and standards", "Oversee the national reference data architecture and data architecture on large projects", "Approve domain-specific conceptual data models"]
+  outcomes: ["Consistent enterprise and data architecture across government"]
+  engagement: "Membership not published. Coordinates with other design authorities and external standards bodies."
+  decides: "Data architecture principles, policies, standards and conceptual data models"
+  cadence: "Not published"
+  tor: described
+  activity: unclear
+  links:
+  - {title: "DSA operational model and processes", url: "https://www.gov.uk/government/publications/data-standards-authority-operational-model-and-processes/data-standards-authority-operational-model-and-processes"}
+
+- id: osb
+  name: "Open Standards Board"
+  layer: decide
+  scope: UK government
+  host: "Cabinet Office (now supported by GDS)"
+  purpose: "Accountable for the transparent selection and implementation of open standards for software interoperability, data and document formats across government."
+  aims: ["Review recommendations on open standards", "Reach consensus on whether a standard is adopted, made mandatory, or both", "Make sure existing open standards are considered before government creates its own"]
+  outcomes: ["The mandated and recommended open standards listed on GOV.UK, which the Technology Code of Practice and spend controls rely on"]
+  engagement: "Volunteers from industry, professions, developers and academia, who agree published terms and conditions (two-year appointments, declaring interests). Anyone can join the discussion on open standards challenges; no supplier gets preference. Decisions are by consensus against published criteria."
+  decides: "Whether an open standard is adopted or mandated for government"
+  cadence: "Twice a year, plus business by correspondence"
+  tor: published
+  activity: unclear
+  note: "The most recent minutes listed are from March 2023."
+  links:
+  - {title: "Open Standards Board (terms of reference and members)", url: "https://www.gov.uk/government/groups/open-standards-board"}
+  - {title: "Terms and conditions for members", url: "https://www.gov.uk/government/publications/terms-and-conditions-for-open-standards-board-members"}
+  - {title: "How to suggest an open standards challenge", url: "https://www.gov.uk/guidance/current-open-standards-challenges"}
+
+- id: psd-review
+  name: "Digital Economy Act 2017: Public Service Delivery Review Board"
+  layer: decide
+  scope: "UK; England-only and non-devolved proposals, and devolved proposals that need central government data"
+  host: "Government Digital Service (secretariat)"
+  purpose: "Reviews proposed data sharing objectives under the public service delivery powers in Part 5 of the Digital Economy Act 2017, and advises ministers."
+  aims: ["Review whether proposed new objectives are suitable", "Keep a consistent strategic approach to data sharing under the power", "Oversee the register of information sharing"]
+  outcomes: ["Lawful, consistent data sharing to improve and target public services", "Ministers advised on new objectives"]
+  engagement: "Members are senior officials from information governance or social policy areas; the Welsh, Scottish and Northern Ireland governments and the Privacy and Consumer Advisory Group attend. Public authorities can propose objectives that meet the Code of Practice criteria."
+  decides: "Recommendations to the minister on data sharing objectives"
+  cadence: "Quarterly"
+  tor: published
+  activity: active
+  links:
+  - {title: "Public Service Delivery Review Board (terms of reference and minutes)", url: "https://www.gov.uk/government/groups/digital-economy-act-public-service-delivery-review-board"}
+  - {title: "Code of practice for Part 5 of the Digital Economy Act", url: "https://www.gov.uk/government/publications/digital-economy-act-2017-part-5-codes-of-practice/code-of-practice-for-public-authorities-disclosing-information-under-chapters-1-3-and-4-public-service-delivery-debt-and-fraud-of-part-5-of-the-di"}
+
+- id: ndl-eag
+  name: "National Data Library Expert Advisory Group"
+  layer: advise
+  scope: UK
+  host: "Department for Science, Innovation and Technology"
+  purpose: "Set up in September 2025 to support and challenge the design and delivery of the National Data Library, testing its strategic direction with experts and organisations representing all stakeholders."
+  aims: ["Give strategic insight and scrutiny to shape NDL design and delivery", "Review proposals and advise on user impact and operational feasibility"]
+  outcomes: ["NDL decisions, made in other forums, are informed by industry, academia and civil society"]
+  engagement: "A stakeholder forum with published terms of reference (January 2026). It is not a decision-making forum."
+  decides: "Nothing: it advises NDL decisions made elsewhere"
+  cadence: "See the terms of reference"
+  tor: published
+  activity: active
+  links:
+  - {title: "NDL Expert Advisory Group", url: "https://www.gov.uk/government/groups/national-data-library-expert-advisory-group"}
+  - {title: "Terms of reference", url: "https://www.gov.uk/government/publications/national-data-library-expert-advisory-group-terms-of-reference/national-data-library-terms-of-reference"}
+
+- id: tog
+  name: "Taxonomy Oversight Group"
+  layer: advise
+  scope: UK government
+  host: "Government Data Architecture Community"
+  purpose: "Coordinates taxonomy work, addresses challenges and recommends taxonomies for common use. Responsibility for taxonomies rests with the DSA."
+  aims: ["Oversee proposals for new or existing taxonomies", "Recommend taxonomies for common use"]
+  outcomes: ["Shared classifications that make data comparable across government"]
+  engagement: "An expert group within the Government Data Architecture Community."
+  decides: "Recommends taxonomies"
+  cadence: "Not published"
+  tor: described
+  activity: unclear
+  links:
+  - {title: "DSA operational model and processes", url: "https://www.gov.uk/government/publications/data-standards-authority-operational-model-and-processes/data-standards-authority-operational-model-and-processes"}
+
+- id: osr
+  name: "Office for Statistics Regulation and the UK Statistics Authority Regulation Committee"
+  layer: regulate
+  scope: UK
+  host: "UK Statistics Authority"
+  purpose: "The statistics regulator. Maintains the Code of Practice for Statistics (edition 3.0 from October 2025), assesses official statistics against trustworthiness, quality and value, and runs the voluntary application scheme for anyone else producing data and analysis. Its Regulation Committee approves key regulatory decisions."
+  aims: ["Set and maintain the Code of Practice for Statistics", "Assess compliance and accredit official statistics", "Encourage voluntary application of TQV beyond official statistics"]
+  outcomes: ["Accredited official statistics people can trust", "A community applying TQV voluntarily"]
+  engagement: "Official statistics producers must follow the Code. Any organisation can join the TQV voluntary application scheme. Concerns about statistics can be raised with the regulator."
+  decides: "Accreditation and regulatory decisions on official statistics"
+  cadence: "Ongoing regulation; the Regulation Committee meets regularly"
+  tor: described
+  activity: active
+  links:
+  - {title: "Code of Practice for Statistics", url: "https://code.statisticsauthority.gov.uk/"}
+  - {title: "OSR guide to the UK statistical system", url: "https://osr.statisticsauthority.gov.uk/guidance/the-office-for-statistics-regulations-guide-to-the-uk-statistical-system/pages/4"}
+
+- id: geo
+  name: "Geospatial Commission (and its expert board)"
+  layer: decide
+  scope: UK
+  host: "Department for Science, Innovation and Technology"
+  purpose: "Leads the UK geospatial strategy. Its expert board endorses geospatial data standards, and with its partner bodies it runs data improvement work on the quality, findability and reuse of public sector location data (Q-FAIR)."
+  aims: ["Endorse geospatial data standards", "Improve the quality and FAIRness of national geospatial data assets"]
+  outcomes: ["Consistent, better quality location data across the public sector"]
+  engagement: "Works with partner bodies such as Ordnance Survey, HM Land Registry and the UK Hydrographic Office."
+  decides: "Endorsement of geospatial data standards"
+  cadence: "Board meetings with published minutes"
+  tor: described
+  activity: active
+  links:
+  - {title: "Geospatial Commission", url: "https://www.gov.uk/government/organisations/geospatial-commission"}
+
+- id: dq-community
+  name: "Government Data Quality Community"
+  layer: community
+  scope: "UK government and the public sector"
+  host: "Government Data Quality Hub (ONS)"
+  purpose: "A place for public sector data professionals to meet, share and learn, launched in 2022 to improve data quality across government and the public sector."
+  aims: ["Connect people working on, or interested in, data quality", "Share good practice and experience", "Build capability and skills"]
+  outcomes: ["Continuous improvement of data quality across government", "Shared approaches to communicating quality and writing data quality policies"]
+  engagement: "Open to anyone in UK government or the public sector with an interest in data quality, whatever their experience or role. Meet-ups include networking in small groups. Join through the Data Quality Hub."
+  decides: "Nothing: it is a community"
+  cadence: "Regular meet-ups and events"
+  tor: not found
+  activity: active
+  links:
+  - {title: "Introducing the Government Data Quality Community", url: "https://www.gov.uk/government/news/introducing-the-government-data-quality-community"}
+  - {title: "Government Data Quality Hub", url: "https://www.gov.uk/government/organisations/government-data-quality-hub/about"}
+
+- id: quality-champions
+  name: "GSS Quality Champions network"
+  layer: community
+  scope: Government Statistical Service
+  host: "Government Data Quality Hub"
+  purpose: "Raises the quality of official statistics produced by government departments by sharing guidance and good practice, supporting statistical heads of profession."
+  aims: ["Share quality guidance and good practice in each department", "Encourage teams to follow the quality principles of the Code of Practice for Statistics"]
+  outcomes: ["Easier compliance with the quality aspects of the Code"]
+  engagement: "Champions in each department. It promotes good practice and support; it does not enforce compliance."
+  decides: "Nothing: it supports"
+  cadence: "Network meetings"
+  tor: described
+  activity: active
+  links:
+  - {title: "GSS quality champions", url: "https://analysisfunction.civilservice.gov.uk/government-statistical-service-and-statistician-group/champion-networks/quality-champions"}
+
+- id: expert-communities
+  name: "Government data expert communities"
+  layer: community
+  scope: UK government
+  host: "Government Digital Service and partners"
+  purpose: "Communities the DSA draws on to find problems, share practice and develop and review standards: the Government Data Architecture Community, the API Community and the Data Sharing Practitioners Community."
+  aims: ["Identify problems", "Share best practice", "Develop and review solutions and standards"]
+  outcomes: ["Standards shaped by the people who will use them"]
+  engagement: "For public sector practitioners in each discipline."
+  decides: "Nothing: they advise and contribute"
+  cadence: "Varies"
+  tor: described
+  activity: active
+  links:
+  - {title: "DSA operational model and processes", url: "https://www.gov.uk/government/publications/data-standards-authority-operational-model-and-processes/data-standards-authority-operational-model-and-processes"}
+
+- id: scot-hsc
+  name: "Scotland: Health and Social Care Data Board"
+  layer: devolved
+  scope: Scotland (health and social care)
+  host: "Scottish Government and COSLA"
+  purpose: "Develops the governance and delivery arrangements for using data in health and social care, with a Data Delivery Sub-board and a Data Standards Sub-board that sets preferred standards across the sector."
+  aims: ["Lead governance and delivery for health and social care data", "Set common data standards for the sector", "Work with other data governance bodies on shared priorities"]
+  outcomes: ["A common approach to capturing and using health and social care data"]
+  engagement: "Members from the Scottish Government, NHS boards, local government and partners; terms of reference published."
+  decides: "Governance and standards for health and social care data in Scotland"
+  cadence: "Regular meetings with published minutes"
+  tor: published
+  activity: active
+  links:
+  - {title: "Health and Social Care Data Board", url: "https://www.gov.scot/groups/health-and-social-care-data-board/"}
+
+- id: scot-research
+  name: "Scotland: Data for Research Change Management Board"
+  layer: devolved
+  scope: Scotland
+  host: "Scottish Government"
+  purpose: "Set up in November 2025 to streamline how Scotland manages, shares and uses administrative data for public good research."
+  aims: ["Improve how researchers access data", "Strengthen agreements and governance between agencies", "Keep legal, ethical and operational standards robust"]
+  outcomes: ["Faster, safer access to administrative data through the Scottish National Safe Haven"]
+  engagement: "Details and minutes on the Scottish Government website."
+  decides: "Changes to data-for-research processes"
+  cadence: "See the Scottish Government page"
+  tor: described
+  activity: active
+  links:
+  - {title: "Introducing the Data for Research Change Management Board", url: "https://blogs.gov.scot/digital/2026/03/03/introducing-the-scottish-governments-data-for-research-change-management-board/"}
+
+- id: jersey-sug
+  name: "Jersey: Statistics Users Group"
+  layer: devolved
+  scope: Jersey
+  host: "Established under the Statistics and Census (Jersey) Law 2018"
+  purpose: "An independent group that oversees the quality, relevance and integrity of statistics compiled by or for public authorities in Jersey, and publishes Jersey's codes of practice for statistics."
+  aims: ["Publish and maintain the Code of Practice for Statistics and the Code of Practice for Official Statistics", "Designate official statistics"]
+  outcomes: ["Statistics in Jersey that meet trustworthiness, quality and value"]
+  engagement: "Its role and membership are set out in law and in the annex to the code."
+  decides: "Which statistics are official, and the codes they follow"
+  cadence: "See Statistics Jersey"
+  tor: published
+  activity: active
+  links:
+  - {title: "Jersey statistics system", url: "https://www.gov.je/StatisticsPerformance/Pages/JerseyStatisticsSystem.aspx"}
+  - {title: "Statistics and Census (Jersey) Law 2018", url: "https://www.jerseylaw.je/laws/current/l_8_2018"}
+
+- id: org-governance
+  name: "Your organisation: chief data officer, data owners and a data governance board"
+  layer: local
+  scope: "Each organisation in scope of the DAM Policy"
+  host: "Your organisation"
+  purpose: "The DAM Policy makes each organisation's chief data officer responsible for implementing it, gives every critical data asset a named data owner, and expects a data quality action plan for each asset. Most organisations run a data governance board (or use an existing senior board) to make these decisions; statistics producers often have a senior statistics board."
+  aims: ["Identify and record critical data assets and report them to GDS", "Name data owners and keep the ownership model current", "Approve and track data quality action plans and escalations"]
+  outcomes: ["An annual return to GDS that is complete and assured", "Quality issues on critical data fixed at source"]
+  engagement: "A typical pattern, not a mandated structure: the DAM Policy names roles and duties, not a board. Local government can apply the policy optionally; devolved governments have their own approaches."
+  decides: "Local priorities, ownership, DQAP approval and escalation"
+  cadence: "Typically quarterly, plus the annual return cycle"
+  tor: not found
+  activity: active
+  dam: [DAM-R05, DAM-R06, DAM-R08, DAM-R09, DAM-R14]
+  links:
+  - {title: "Data Asset Management Policy", url: "https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government"}
+  - {title: "Governance roles in the Commons (RACI)", url: "roles.html#change"}
+
+- id: commons-triage
+  name: "Commons monthly triage and quarterly roadmap review"
+  layer: commons
+  scope: DQ Commons
+  host: "The Commons' product owner and maintainers, in the open"
+  purpose: "Scores new ideas, wishes, feedback and research findings against published criteria, decides the backlog and roadmap, and reviews capacity and strategy every quarter."
+  aims: ["Score and decide in the open", "Fix anything that excludes people first", "Keep the Commons aligned with government strategy"]
+  outcomes: ["A public, traceable backlog and roadmap", "Challenges answered within 10 working days"]
+  engagement: "Anyone can suggest, vote or challenge a decision through the contact form. Scores, reasons and decisions are published on the open roadmap."
+  decides: "The Commons' backlog, priorities and roadmap"
+  cadence: "Monthly triage; quarterly roadmap review"
+  tor: published
+  activity: active
+  links:
+  - {title: "Open roadmap and priorities", url: "roadmap.html#governance"}
+  - {title: "Co-design charter, rules and safeguards", url: "build.html#charter"}
+
+- id: commons-moderation
+  name: "Commons moderation and content review"
+  layer: commons
+  scope: DQ Commons
+  host: "Commons moderators"
+  purpose: "Checks every contribution before it is public, keeps sources current and samples facts each quarter."
+  aims: ["Nothing harmful, personal or misleading is published", "Sources stay current and checked"]
+  outcomes: ["Trustworthy, current content", "Decisions on contributions within 10 working days"]
+  engagement: "Moderation rules and service levels are published; anyone can report a problem with content through the contact form."
+  decides: "Whether a contribution is published"
+  cadence: "Daily triage; quarterly fact sampling"
+  tor: published
+  activity: active
+  links:
+  - {title: "How we keep content trustworthy", url: "build.html#trust"}
+
+# How a data standard moves through government governance (from the DSA operational model), and where the Commons plugs in.
+standards_flow:
+- {step: "Identify", who: "Departments, domains or functions; an open standards challenge; data projects; analysis of the standards catalogue", commons: "Raise it on the Commons roadmap or in the Government Data Quality Community"}
+- {step: "Research and review", who: "The proposal lead, with expert communities", commons: "Use the Commons' standards catalogue, Rosetta Stone and evidence from public code"}
+- {step: "Prioritise", who: "The Head of Frameworks and Standards recommends to the Government Chief Data Officer; the Steering Board and Peer Review Group validate", commons: ""}
+- {step: "Taxonomies", who: "Taxonomy Oversight Group", commons: ""}
+- {step: "Consult", who: "Public consultation targeted at experts", commons: "Share the consultation with the Commons community"}
+- {step: "Review", who: "DSA and DQ Hub Peer Review Group", commons: "Send data quality proposals here (for example the Weaver's UK mapping)"}
+- {step: "Approve", who: "DSA Steering Board", commons: ""}
+- {step: "Publish and monitor", who: "The standard's lead or owner", commons: "The Commons adds it to the standards catalogue and checks it in the Weaver"}
+
+routes:
+- {question: "I want a data standard adopted across government", go: [dsa-prg, dsa-steering, osb]}
+- {question: "I need to share personal data with another public body for a public service", go: [psd-review]}
+- {question: "Who oversees the DAM Policy?", go: [cdo-council, org-governance]}
+- {question: "I want to improve data quality with peers", go: [dq-community, quality-champions]}
+- {question: "I produce statistics and want to show they can be trusted", go: [osr, quality-champions, jersey-sug]}
+- {question: "I want to influence the National Data Library", go: [ndl-eag]}
+- {question: "I work with location data", go: [geo]}
+- {question: "I want to change what the Commons does next", go: [commons-triage]}

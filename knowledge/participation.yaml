@@ -1,0 +1,217 @@
+# Get involved (v2.12.0): routes to contribute, join and champion the Commons, a communications kit people can send
+# inside their own organisations, and a recognition scheme with badges. Feeds getinvolved.html, the ambassador kit in
+# downloads/getinvolved/ and the badges in badges/. No personal data is collected here: claims and sign-ups go through
+# GitHub (public, so give only your GitHub name) or the private Microsoft Form when it is set up.
+review: {last_reviewed: "2026-11-05", owner_role: Community lead (Commons)}
+
+intro: "The Commons is built by the people who use it. Pick the way that suits your time and confidence: a two-minute fix, a seat in a working group, or championing better data quality in your own team. Every contribution is credited, and you can step back at any time."
+
+routes:
+- id: contribute
+  name: "Contribute directly"
+  time: "From 2 minutes"
+  for: "Anyone, with or without GitHub"
+  items:
+  - {what: "Fix a typo or broken link", how: "Choose 'Edit this page' or use the contact form ('Report a problem with content').", link: "build.html#contact"}
+  - {what: "Suggest a feature or vote on one", how: "Add a wish or give an existing one a thumbs-up.", link: "build.html#wishlist"}
+  - {what: "Share a rule, framework pack or template", how: "Use the 'Rule or pack' form on GitHub; a moderator checks it before it is published.", link: "community.html"}
+  - {what: "Share a resource or case study", how: "Use the contribution form, or draft a case study from your own results.", link: "share.html"}
+  - {what: "Review content", how: "Check a page against its sources and tell us what has changed. Reviewers are credited.", link: "build.html#trust"}
+  - {what: "Write code or tests", how: "Pick a backlog item labelled 'good first issue', open a pull request, and follow CONTRIBUTING.md.", link: "github.html"}
+  - {what: "Translate", how: "Help with Welsh or community language versions using the translation pack.", link: "build.html#backlog"}
+- id: join
+  name: "Join a community or working group"
+  time: "About 1 to 2 hours a month"
+  for: "Practitioners who want to shape the direction"
+  items:
+  - {what: "Join a working group", how: "Five open groups shape the Commons' standards, inclusion, research, packs and practice. See below.", link: "#groups"}
+  - {what: "Join the research panel", how: "Take part in interviews, testing and co-design.", link: "research.html#join"}
+  - {what: "Join co-design sessions", how: "Rotating time slots for every time zone.", link: "build.html#codesign"}
+  - {what: "Join a wider network", how: "The Government Data Quality Community and other networks listed on the Community page.", link: "community.html"}
+- id: champion
+  name: "Champion it where you work"
+  time: "About 1 hour a month"
+  for: "Anyone who wants better data quality in their own team or organisation"
+  items:
+  - {what: "Become a champion in your team", how: "Share the Commons, gather feedback and bring your team's needs back to us.", link: "#champions"}
+  - {what: "Become an ambassador for your organisation or sector", how: "Introduce the Commons to other teams, give short talks and connect people to the working groups.", link: "#champions"}
+  - {what: "Use the communications kit", how: "Ready-to-send emails, Teams, Slack and Viva Engage posts, an intranet article and talking points.", link: "#kit"}
+
+working_groups:
+- id: WG-STD
+  name: "Standards and metadata"
+  purpose: "Keep the standards catalogue, Rosetta Stone and Metadata Weaver accurate and aligned with UK and international standards, and prepare proposals for the Data Standards Authority's peer review route."
+  outputs: ["Reviewed Weaver mapping to the Metadata Exchange Model (BL-12)", "Quarterly check of the standards catalogue", "Proposals for new standards or profiles"]
+  backlog: [BL-12]
+  status: forming
+- id: WG-INC
+  name: "Accessibility and inclusion"
+  purpose: "Make sure no one is shut out: assistive technology, plain English and easy read, Welsh and community languages, low bandwidth and every nation and territory."
+  outputs: ["Accessibility audit follow-up (BL-02)", "Easy read with pictures, tested with people with learning disabilities (BL-22)", "Translation reviews (BL-06, BL-23)"]
+  backlog: [BL-02, BL-06, BL-22, BL-23]
+  status: forming
+- id: WG-RES
+  name: "User research"
+  purpose: "Plan and run research rounds, recruit across the quotas, synthesise findings and publish 'You said, we did'."
+  outputs: ["Research rounds 1 to 3", "Usability benchmark scores", "Updated personas and journeys"]
+  backlog: [BL-01, BL-25, BL-32]
+  status: forming
+- id: WG-PCK
+  name: "Sector, nation and territory packs"
+  purpose: "Build and check framework packs for sectors, the devolved nations, the Crown Dependencies and the Overseas Territories, with the people who know them."
+  outputs: ["Checked Jersey and Isle of Man packs (BL-15)", "New sector packs", "Devolved and territory signposting"]
+  backlog: [BL-15]
+  status: forming
+- id: WG-PRA
+  name: "Data quality practice"
+  purpose: "Improve the playbook, rule library, issues framework guidance and case studies from real experience."
+  outputs: ["Playbook updates each year", "New rules and templates", "Case studies"]
+  backlog: [BL-17]
+  status: forming
+
+working_group_terms:
+- "Open membership: anyone working in or with the UK public sector can join, and leave at any time."
+- "About 1 to 2 hours a month: a monthly online meeting (times rotate across time zones) and work in your own time on GitHub or by email."
+- "Decisions by consensus; if there is none, the group sets out the options and the monthly triage decides, in the open."
+- "Notes, decisions and outputs are published on GitHub. Nothing that identifies a member is published without their agreement."
+- "Everyone follows the Code of Conduct and the co-design charter. Declare any interest, for example working for a supplier."
+- "A convenor from the group keeps the agenda, notes and actions; the role rotates every 6 months."
+- "Each group reviews its purpose and membership once a year."
+
+champions:
+  roles:
+  - id: champion
+    name: "Data quality champion"
+    for: "Your own team"
+    do: ["Tell your team about the Commons and the tools that fit their work", "Collect feedback and ideas and pass them on (a short note each quarter is enough)", "Point colleagues to the research panel and working groups", "Share a story of what worked"]
+    time: "About 1 hour a month"
+  - id: ambassador
+    name: "Commons ambassador"
+    for: "Your organisation, profession or sector"
+    do: ["Introduce the Commons to other teams, networks or events (a 10-minute talk using the talking points)", "Connect people to the working groups and research", "Join the quarterly ambassadors' call to share what you hear", "Help shape the roadmap with your organisation's needs"]
+    time: "About 2 hours a month"
+  get:
+  - "A badge for your GitHub profile, social media and email signature"
+  - "Credit on the contributors page (only if you want it)"
+  - "Early previews of new features, and a say in what comes next"
+  - "Co-authorship of guidance and case studies you help write"
+  - "Evidence for your own development: the roles map to data, digital and analysis capability frameworks (for example community engagement and data governance skills)"
+  ask:
+  - "Share only what is public, and never personal or sensitive data"
+  - "Represent the Commons accurately: it is a community project, not official GOV.UK guidance"
+  - "Follow the Code of Conduct"
+  - "Check with your manager that it fits your role; it is voluntary"
+  start:
+  - "Read this page and the Code of Conduct."
+  - "Tell us you'd like to be a champion or ambassador: use the contact form and choose 'Become a champion or ambassador'. Give only your kind of organisation and your GitHub name if you have one."
+  - "We reply within 10 working days with a welcome and the ambassadors' call dates."
+  - "Send the introduction email or post from the communications kit to your team."
+  - "Claim your badge."
+
+# The communications kit. {link} is replaced with the portal address. Written to be pasted as-is or adapted; no tracking.
+kit:
+- id: email
+  channel: "Email to colleagues"
+  subject: "A free data quality toolkit for our team: DQ Commons"
+  text: |
+    Hello everyone,
+
+    I've been using DQ Commons, a free, open portal for anyone in the UK public sector who looks after or relies on data. I think it could help us.
+
+    In five minutes you can:
+    - check a data file in your browser (nothing is uploaded) and see what to fix first
+    - find the data quality frameworks for our nation and sector
+    - describe a dataset once and get it in every metadata standard
+
+    It needs no account and works on a phone, with a screen reader and offline.
+
+    Have a look: {link}
+
+    The Commons is built in the open by the people who use it. If you'd like to shape it, there's a research panel and working groups: {link}getinvolved.html
+
+    [Your name]
+- id: teams
+  channel: "Microsoft Teams post"
+  subject: ""
+  text: |
+    📊 Found something useful for anyone working with data: **DQ Commons**, a free, open data quality portal for the UK public sector.
+    ✅ Check a file in your browser (nothing uploaded) · 📚 Frameworks for every UK nation and sector · 🔁 Describe a dataset once, publish it in every metadata standard
+    Try it: {link}
+    Want to help shape it? {link}getinvolved.html
+- id: slack
+  channel: "Slack post"
+  subject: ""
+  text: |
+    :bar_chart: *DQ Commons*: a free, open data quality portal for the UK public sector.
+    • Check a file in your browser (nothing is uploaded)
+    • Frameworks for every UK nation and sector
+    • Describe a dataset once, publish it in every metadata standard
+    Try it: {link} · Get involved: {link}getinvolved.html
+- id: engage
+  channel: "Viva Engage (Yammer) or intranet community post"
+  subject: "Better data quality, without buying anything"
+  text: |
+    If you look after data, or rely on it, DQ Commons is worth five minutes. It's a free, open portal made by and for public sector data people: browser checks, frameworks for every nation and sector, playbooks, learning and an open roadmap you can vote on.
+
+    {link}
+
+    I'm acting as a data quality champion for our team. Tell me what would help, and I'll pass it on.
+- id: intranet
+  channel: "Intranet news article"
+  subject: "Free, open data quality tools for every team"
+  text: |
+    Good data underpins every service we run. DQ Commons is a free, open portal for the UK public sector that helps teams check, score and improve the quality of their data.
+
+    What you can do with it
+    - Check a CSV or spreadsheet in your browser: nothing leaves your computer.
+    - Find the frameworks that apply to us, including the Data Asset Management Policy.
+    - Use an eight-stage playbook, templates and learning pathways by role.
+    - Describe a dataset once and publish it in DCAT, schema.org, CKAN and more.
+
+    It is a community project, not official GOV.UK guidance, so check official sources for anything binding.
+
+    Find out more: {link}
+    Contribute, join a working group or become a champion: {link}getinvolved.html
+- id: newsletter
+  channel: "Newsletter or bulletin item (short)"
+  subject: "DQ Commons: free data quality tools"
+  text: |
+    DQ Commons is a free, open data quality portal for the UK public sector: browser checks, frameworks, playbooks and learning, built in the open. {link}
+- id: talk
+  channel: "Talking points for a 10-minute slot in a team meeting"
+  subject: ""
+  text: |
+    1. Why it matters: decisions and services are only as good as the data behind them.
+    2. What DQ Commons is: free, open, no account; made by and for public sector data people.
+    3. Show one thing live: open Check your data, run the example, read the top issue.
+    4. What it means for us: the frameworks for our sector, and the DAM Policy if it applies.
+    5. How to get involved: research panel, working groups, champions. {link}getinvolved.html
+    6. Ask: what would make our data easier to trust? Collect answers and pass them on.
+- id: update
+  channel: "Champion's quarterly note back to the Commons"
+  subject: "Champion update: [kind of organisation], [quarter]"
+  text: |
+    What my team used:
+    What helped:
+    What got in the way:
+    Ideas or requests:
+    Anything excluding people (access, language, connectivity):
+    (Please don't include names or personal data.)
+
+# Badges: original designs, generated by scripts/make_badges.py into portal/src/badges/. Self-declared where marked;
+# others are confirmed by a maintainer and recorded on the contributors page.
+badges:
+- {id: supporter, name: "Supporter", color: "#0b6b6e", criteria: "You've shared the Commons with your team or network.", confirm: self}
+- {id: contributor, name: "Contributor", color: "#1d5aa8", criteria: "A contribution of yours (content, a rule or pack, code, a resource or a case study) has been accepted.", confirm: maintainer}
+- {id: reviewer, name: "Reviewer", color: "#6a3d9a", criteria: "You've reviewed content against its sources, or reviewed a contribution.", confirm: maintainer}
+- {id: researcher, name: "Research participant", color: "#2e6b1f", criteria: "You've taken part in a research session, test or co-design workshop.", confirm: maintainer}
+- {id: working-group, name: "Working group member", color: "#9a4a00", criteria: "You're an active member of a Commons working group.", confirm: maintainer}
+- {id: champion, name: "Champion", color: "#a3245e", criteria: "You're a data quality champion in your team and have sent at least one quarterly note.", confirm: maintainer}
+- {id: ambassador, name: "Ambassador", color: "#17212b", criteria: "You're a Commons ambassador for your organisation, profession or sector.", confirm: maintainer}
+
+badge_rules:
+- "Badges recognise contribution; they are not a qualification or an endorsement by any government body."
+- "Supporter is self-declared. Every other badge is confirmed by a maintainer, who records it on the contributors page (with your agreement) so anyone can check it."
+- "To claim a badge, open the 'Claim a badge' form on GitHub with a link to the evidence (for example your merged contribution), or use the contact form ('Claim a badge'). Give your GitHub name only, never an email address."
+- "Badges stay yours. If you'd like a badge removed from the contributors page, ask and we'll remove it."
+- "Use the plain-text signature line if images are blocked or for screen reader users; always keep the alt text."

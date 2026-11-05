@@ -1,0 +1,135 @@
+<title>Get involved</title>
+<style>
+__BASE_CSS__
+.rts{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.rts .card{border-top:6px solid var(--sec)}
+.rts .card h3{font-size:1.1rem;margin:0}
+.rts ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.rts li a{font-weight:600}
+.wgs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.wgs .card{border-left:6px solid var(--sec)}
+.roles2{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.kitpick{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.kitpick button{font:inherit;font-weight:600;font-size:.88rem;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:40px}
+.kitpick button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.msg-box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;white-space:pre-wrap;font-size:.94rem;max-height:440px;overflow:auto}
+.bdg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.bdg button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:44px}
+.bdg button[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft)}
+.bdg button:focus-visible{box-shadow:0 0 0 3px #ffbf47}
+.bdg img{max-width:100%;height:auto}
+.snip{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))}
+.snip textarea{width:100%;min-height:96px;font:.84rem var(--f-mono);border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--fg);box-sizing:border-box}
+.prev{background:#fff;color:#17212b;border:1px solid var(--line);border-radius:8px;padding:12px;font:14px/1.4 Arial,sans-serif}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Contribute · Get involved</span>
+  <h1>Get involved: contribute, join, champion</h1>
+  <p class="lede" id="lede"></p>
+  <nav class="toc" aria-label="On this page"><a href="#routes">Three ways in</a><a href="#groups">Working groups</a><a href="#champions">Champions and ambassadors</a><a href="#kit">Communications kit</a><a href="#badges">Badges</a></nav>
+</header>
+
+<section id="routes" aria-labelledby="ro-h">
+  <h2 id="ro-h">Three ways in</h2>
+  <div class="rts" id="roB"></div>
+</section>
+
+<section id="groups" aria-labelledby="wg-h">
+  <h2 id="wg-h">Working groups</h2>
+  <p>Five open groups shape the Commons. Each is forming now: join one and help set it up. <a class="btn" href="#" id="wgJoin" rel="noopener" style="margin-left:6px">Join a working group</a></p>
+  <div class="wgs" id="wgB"></div>
+  <details class="disc"><summary>How working groups run (terms of reference)</summary><div class="body"><ul id="wgT"></ul></div></details>
+</section>
+
+<section id="champions" aria-labelledby="ch-h">
+  <h2 id="ch-h">Champions and ambassadors</h2>
+  <p>Help better data quality take root where you work. Both roles are voluntary; check they fit with your manager.</p>
+  <div class="roles2" id="chR"></div>
+  <div class="roles2" style="margin-top:12px">
+    <div class="card"><h3>What you get</h3><ul id="chG"></ul></div>
+    <div class="card"><h3>What we ask</h3><ul id="chA"></ul></div>
+  </div>
+  <h3>How to start</h3><ol id="chS"></ol>
+  <p><a class="btn" href="#" id="chJoin" rel="noopener">Become a champion or ambassador</a> <a href="downloads/getinvolved/dq-commons-ambassador-kit.zip" download style="margin-left:12px;display:inline-block;padding:8px 0">Download the ambassador kit (zip)</a></p>
+</section>
+
+<section id="kit" aria-labelledby="kt-h">
+  <h2 id="kt-h">Communications kit: tell others in your organisation</h2>
+  <p>Ready-made messages for email, Microsoft Teams, Slack, Viva Engage, your intranet, newsletters and team meetings. Copy one, add a line from you, and send. They contain no tracking and name no one.</p>
+  <div class="kitpick" id="kP" role="group" aria-label="Choose a message"></div>
+  <p class="small" id="kS"></p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin:0 0 8px;align-items:center"><button class="btn" type="button" id="kCopy">Copy this message</button><a class="btn ghost" id="kMail" href="#">Open in my email</a><span id="kOut" class="small" role="status" aria-live="polite"></span></div>
+  <div class="msg-box" id="kB" tabindex="0" role="region" aria-label="Message text"></div>
+  <p class="small"><a href="downloads/getinvolved/dq-commons-ambassador-kit.zip" download>Download every message, the introduction email file and the role descriptions (zip)</a> · <a href="downloads/getinvolved/dq-commons-ambassador-kit.docx" download>Word version</a></p>
+</section>
+
+<section id="badges" aria-labelledby="bd-h">
+  <h2 id="bd-h">Badges</h2>
+  <p>A thank-you you can show on your GitHub profile, social media and email signature. Choose a badge to see what it's for and get the code.</p>
+  <div class="bdg" id="bdB" role="group" aria-label="Choose a badge"></div>
+  <div id="bdD" style="margin-top:14px"></div>
+  <details class="disc"><summary>Badge rules</summary><div class="body"><ul id="bdR"></ul></div></details>
+  <p><a class="btn" href="#" id="bdClaim" rel="noopener">Claim a badge on GitHub</a> <a href="build.html?topic=Claim%20a%20badge#contact" style="margin-left:12px;display:inline-block;padding:8px 0">or use the contact form</a></p>
+</section>
+</div>
+
+<script>
+(function () {
+  const P = __K_PARTICIPATION__, B = __BUILD__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const base = new URL(".", location.href).href.startsWith("http") && !/localhost|127\.0\.0\.1/.test(location.hostname) ? new URL(".", location.href).href : "https://cyberdudeuk.github.io/dq-commons/";
+  const fill = t => t.replaceAll("{link}", base);
+  $("lede").textContent = P.intro;
+  $("roB").innerHTML = P.routes.map((r, i) => `<div class="card" data-hue="${i * 2 % 8}"><h3>${esc(r.name)}</h3><p class="small muted">${esc(r.time)} · ${esc(r.for)}</p>
+    <ul>${r.items.map(x => `<li><a href="${esc(x.link)}">${esc(x.what)}</a><br><span class="small">${esc(x.how)}</span></li>`).join("")}</ul></div>`).join("");
+  const join = `${B.repo}/issues/new?template=9-join-working-group.yml`;
+  $("wgJoin").href = join; $("chJoin").href = join; $("bdClaim").href = `${B.repo}/issues/new?template=8-badge-claim.yml`;
+  $("wgB").innerHTML = P.working_groups.map((g, i) => `<div class="card" data-hue="${i % 8}"><h3>${esc(g.name)} <span class="chip warn">${esc(g.status)}</span></h3><p class="small">${esc(g.purpose)}</p>
+    <p class="small"><b>Outputs:</b></p><ul class="small">${g.outputs.map(o => `<li>${esc(o)}</li>`).join("")}</ul><p class="small"><b>Backlog:</b> ${g.backlog.map(b => `<a href="roadmap.html#item-${esc(b)}">${esc(b)}</a>`).join(", ")}</p></div>`).join("");
+  $("wgT").innerHTML = P.working_group_terms.map(t => `<li>${esc(t)}</li>`).join("");
+  const C = P.champions;
+  $("chR").innerHTML = C.roles.map((r, i) => `<div class="card" data-hue="${i ? 5 : 3}"><h3>${esc(r.name)}</h3><p class="small muted">For ${esc(r.for)} · ${esc(r.time)}</p><ul>${r.do.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+  $("chG").innerHTML = C.get.map(x => `<li>${esc(x)}</li>`).join(""); $("chA").innerHTML = C.ask.map(x => `<li>${esc(x)}</li>`).join("");
+  $("chS").innerHTML = C.start.map(x => `<li>${esc(x)}</li>`).join("");
+
+  let kc = P.kit[0].id;
+  function drawK() { const k = P.kit.find(x => x.id === kc);
+    $("kP").innerHTML = P.kit.map(x => `<button type="button" data-k="${esc(x.id)}" aria-pressed="${x.id === kc}">${esc(x.channel)}</button>`).join("");
+    $("kS").innerHTML = k.subject ? `<b>Subject:</b> ${esc(k.subject)}` : "";
+    $("kB").textContent = fill(k.text);
+    $("kMail").href = `mailto:?subject=${encodeURIComponent(k.subject || "DQ Commons")}&body=${encodeURIComponent(fill(k.text))}`;
+    $("kMail").hidden = !(k.id === "email" || k.id === "newsletter" || k.id === "update"); $("kOut").textContent = ""; }
+  $("kP").addEventListener("click", e => { const b = e.target.closest("[data-k]"); if (b) { kc = b.dataset.k; drawK(); } }); drawK();
+  $("kCopy").addEventListener("click", () => { const t = $("kB").textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { $("kOut").textContent = "Copied. Paste it where you post."; })
+      .catch(() => { const r = document.createRange(); r.selectNodeContents($("kB")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("kOut").textContent = "Selected. Press Ctrl+C (or Cmd+C) to copy."; }); });
+
+  let bc = P.badges[0].id;
+  function drawB() { const b = P.badges.find(x => x.id === bc), img = `${base}badges/${b.id}`;
+    $("bdB").innerHTML = P.badges.map(x => `<button type="button" data-b="${esc(x.id)}" aria-pressed="${x.id === bc}"><img src="badges/${esc(x.id)}-signature.png" width="240" height="60" alt="DQ Commons ${esc(x.name)} badge"><span class="small">${esc(x.criteria)}</span><span class="chip">${x.confirm === "self" ? "Self-declared" : "Confirmed by a maintainer"}</span></button>`).join("");
+    const md = `[![DQ Commons ${b.name}](${img}.svg)](${base}getinvolved.html#badges)`;
+    const sig = `<a href="${base}getinvolved.html#badges"><img src="${img}-signature.png" width="160" height="40" alt="DQ Commons ${b.name}"></a>`;
+    const txt = `DQ Commons ${b.name}: helping improve public sector data quality, ${base}`;
+    $("bdD").innerHTML = `<h3>${esc(b.name)}</h3><div class="snip">
+      <div><label for="sMd"><b>GitHub profile or README</b> (Markdown)</label><textarea id="sMd" readonly>${esc(md)}</textarea><p class="small"><img src="badges/${esc(b.id)}.svg" alt="DQ Commons ${esc(b.name)} badge, small" height="20"></p></div>
+      <div><label for="sSig"><b>Email signature</b> (HTML image with alt text)</label><textarea id="sSig" readonly>${esc(sig)}</textarea>
+        <p class="small">In Outlook: Settings, Signatures, then insert the downloaded image and link it. Some organisations block signature images: use the plain-text line instead.</p></div>
+      <div><label for="sTxt"><b>Plain-text signature line</b> (always accessible)</label><textarea id="sTxt" readonly>${esc(txt)}</textarea></div>
+      <div><b>Social media</b><p class="small">Download the square image and add it to a post, your LinkedIn Featured section or a profile banner. Add this alt text: "DQ Commons ${esc(b.name)} badge".</p>
+        <p><a href="badges/${esc(b.id)}-square.png" download>Square image (PNG)</a> · <a href="badges/${esc(b.id)}-signature.png" download>Signature image (PNG)</a> · <a href="badges/${esc(b.id)}.svg" download>Small badge (SVG)</a></p>
+        <div class="prev"><p style="margin:0 0 6px">Kind regards,<br>Your name<br>Your role</p><img src="badges/${esc(b.id)}-signature.png" width="160" height="40" alt="DQ Commons ${esc(b.name)}"></div></div></div>`; }
+  $("bdB").addEventListener("click", e => { const b = e.target.closest("[data-b]"); if (b) { bc = b.dataset.b; drawB(); } }); drawB();
+  $("bdR").innerHTML = P.badge_rules.map(t => `<li>${esc(t)}</li>`).join("");
+
+  window.DQP_TOUR = [
+    {sel: "#roB", title: "Three ways in", text: "Contribute directly, join a group, or champion the Commons where you work."},
+    {sel: "#wgB", title: "Working groups", text: "Five open groups, about 1 to 2 hours a month, each linked to the backlog items it moves."},
+    {sel: "#chR", title: "Champions and ambassadors", text: "What each role does, what you get and how to start."},
+    {sel: "#kP", title: "Communications kit", text: "Messages for email, Teams, Slack, Viva Engage, your intranet and team meetings, ready to copy."},
+    {sel: "#bdB", title: "Badges", text: "Choose a badge to get the code for GitHub, your email signature and social media."},
+  ];
+})();
+</script>

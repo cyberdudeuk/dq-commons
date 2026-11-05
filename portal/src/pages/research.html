@@ -35,7 +35,7 @@ __BASE_CSS__
   <span class="eyebrow">Contribute · Take part in user research</span>
   <h1>Help shape the Commons: take part in user research</h1>
   <p class="lede">An introduction to DQ Commons for you and your team, and an invitation to help decide what it does next. Research findings set the backlog and the open roadmap, and everything we learn is published here.</p>
-  <nav class="toc" aria-label="On this page"><a href="#intro">What the Commons is</a><a href="#join">Join the research panel</a><a href="#questions">What we want to learn</a><a href="#methods">Ways to take part</a><a href="#rounds">Research rounds</a><a href="#inclusion">Who we need to hear from</a><a href="#findings">You said, we did</a><a href="#bundle">Research bundle for your team</a><a href="#privacy">Your information</a></nav>
+  <nav class="toc" aria-label="On this page"><a href="#intro">What the Commons is</a><a href="#join">Join the research panel</a><a href="#questions">What we want to learn</a><a href="#methods">Ways to take part</a><a href="#rounds">Research rounds</a><a href="#inclusion">Who we need to hear from</a><a href="#benchmark">Usability benchmark</a><a href="#findings">You said, we did</a><a href="#bundle">Research bundle for your team</a><a href="#privacy">Your information</a></nav>
 </header>
 
 <section id="intro" aria-labelledby="in-h">
@@ -78,6 +78,18 @@ __BASE_CSS__
   <h2 id="ic-h">Who we need to hear from</h2>
   <p>We want people the Commons may be failing today, not only people who find it easy. These are minimum numbers for each round, not targets. Age, sex, ethnicity and disability are recorded only as totals, never against a person.</p>
   <div class="tbl"><table><thead><tr><th scope="col">Group</th><th scope="col">At least</th></tr></thead><tbody id="quB"></tbody></table></div>
+</section>
+
+<section id="benchmark" aria-labelledby="bm-h">
+  <h2 id="bm-h">Usability benchmark</h2>
+  <p id="bmIntro"></p>
+  <details class="disc"><summary>Score the Commons yourself (2 minutes)</summary><div class="body">
+    <p class="small">Answer each statement. Your score is worked out here in your browser; nothing is sent or saved. If you'd like it to count, put it in the Microsoft Form or the contact form with your kind of organisation, never your name.</p>
+    <form id="sus" novalidate></form>
+    <p><button class="btn" type="button" id="susGo">Work out my score</button> <span id="susOut" role="status" aria-live="polite" style="margin-left:8px;font-weight:700"></span></p>
+  </div></details>
+  <div class="tbl"><table><thead><tr><th scope="col">Round</th><th scope="col">Sessions</th><th scope="col">Average score</th><th scope="col">Notes</th></tr></thead><tbody id="bmB"></tbody></table></div>
+  <p class="small muted" id="bmCredit"></p>
 </section>
 
 <section id="findings" aria-labelledby="f-h">
@@ -159,6 +171,18 @@ __BASE_CSS__
   $("cpMail").addEventListener("click", () => { const t = $("mail").textContent;
     (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { $("cpOut").textContent = "Copied. Paste it into your email or message."; })
       .catch(() => { const r = document.createRange(); r.selectNodeContents($("mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $("cpOut").textContent = "Selected. Press Ctrl+C (or Cmd+C) to copy."; }); });
+
+  const BM = R.benchmark;
+  $("bmIntro").textContent = `After every usability and accessibility session we ask the ten standard statements of the ${BM.name}, so we can tell whether the Commons gets easier to use from one round to the next. ${BM.reading} Our target: ${BM.target}`;
+  $("sus").innerHTML = BM.items.map((t, i) => `<fieldset style="border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:0 0 8px"><legend style="font-weight:600;padding:0 4px">${i + 1}. ${esc(t)}</legend>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 14px">${BM.scale.map((l, k) => `<label style="display:flex;gap:6px;align-items:center;min-height:32px"><input type="radio" name="s${i}" value="${k + 1}" style="width:20px;height:20px">${esc(l)}</label>`).join("")}</div></fieldset>`).join("");
+  $("susGo").addEventListener("click", () => { const a = BM.items.map((_, i) => { const c = document.querySelector(`input[name="s${i}"]:checked`); return c ? +c.value : null; });
+    const miss = a.map((v, i) => v === null ? i + 1 : 0).filter(Boolean);
+    if (miss.length) { $("susOut").textContent = `Please answer statement${miss.length > 1 ? "s" : ""} ${miss.join(", ")}.`; return; }
+    const sc = a.reduce((t, v, i) => t + (i % 2 === 0 ? v - 1 : 5 - v), 0) * 2.5;
+    $("susOut").textContent = `Your score: ${sc} out of 100. ${sc >= 68 ? "That is above the average of about 68 across many products." : "That is below the average of about 68 across many products: please tell us what got in the way."}`; });
+  $("bmB").innerHTML = BM.results.length ? BM.results.map(r => `<tr><td>${esc(r.round)}</td><td>${r.sessions}</td><td>${r.mean}</td><td>${esc(r.note || "")}</td></tr>`).join("") : `<tr><td colspan="4">No rounds have run yet. Round 1 is planned for ${esc(R.rounds[0].when)}.</td></tr>`;
+  $("bmCredit").textContent = BM.credit + " " + BM.scoring;
 
   $("cB").innerHTML = R.consent.sections.map(s => `<details class="disc"><summary>${esc(s.h)}</summary><div class="body"><p>${esc(s.p)}</p></div></details>`).join("") +
     `<h3>What people agree to</h3><ul>${R.consent.statements.map(s => `<li>${esc(s)}</li>`).join("")}</ul>`;

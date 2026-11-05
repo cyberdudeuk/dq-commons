@@ -7,6 +7,8 @@ review:
   owner_role: Commons content lead
   next_step: Test with people with learning disabilities and their organisations; add pictures where they help.
 pages:
+  getinvolved: ["You can help make this website better.", "You can fix things, join a group, or tell your team about it.", "There are messages you can send to your team.", "You can get a badge to say thank you."]
+  governance: ["This page is about the groups that make decisions about government data.", "Some groups decide. Some give advice. Some check rules are followed.", "It says what each group is for and how to take part.", "It helps you find the right group for your question."]
   research: ["This page tells you about this website and who it is for.", "You can help make it better.", "You can talk to us, try the website, or answer questions.", "We never share your name. We tell you what we changed."]
   roadmap: ["This page shows what we will make next.", "Anyone can suggest an idea or vote for one.", "We give each idea a score and show why.", "You can see how ideas help people and fit with government plans."]
   ecosystem: ["This page is about three websites that work together.", "Each one helps with a different part of looking after data.", "It shows what each one does well.", "It shows how to go from one website to the next."]

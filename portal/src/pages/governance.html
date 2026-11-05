@@ -1,0 +1,118 @@
+<title>Governance boards and forums</title>
+<style>
+__BASE_CSS__
+.routes{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.routes button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:4px;background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--sec);border-radius:10px;padding:10px 14px;min-height:44px}
+.routes button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.routes button:focus-visible{box-shadow:0 0 0 3px #ffbf47}
+.map{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+.lyr{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--sec);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.lyr h3{margin:0;font-size:1rem}
+.lyr p{margin:0}
+.lyr ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.lyr a{display:block;padding:6px 8px;border-radius:6px;border:1px solid var(--line);text-decoration:none;color:var(--fg);background:var(--bg);font-size:.9rem}
+.lyr a.hit{border-color:var(--accent);background:var(--accent-soft);font-weight:700}
+.bodies{display:flex;flex-direction:column;gap:10px}
+.body-card{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--sec);border-radius:10px;padding:12px 16px}
+.body-card.hit{box-shadow:0 0 0 3px var(--accent)}
+.body-card h3{margin:0 0 4px;font-size:1.05rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.tg{display:grid;gap:10px 18px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.tg h4{margin:0 0 2px;font-size:.88rem}
+.tg ul{margin:0;padding-left:1.1em;font-size:.9rem}
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;counter-reset:f}
+.flow li{counter-increment:f;flex:1 1 170px;background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--sec);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.flow li::before{content:counter(f);font:700 .8rem var(--f-mono);color:var(--sec)}
+.flow .c{font-size:.82rem;color:var(--accent);font-weight:600}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Learn · Governance boards and forums</span>
+  <h1>Governance boards, councils and forums for government data</h1>
+  <p class="lede" id="lede"></p>
+  <nav class="toc" aria-label="On this page"><a href="#routes">Where should my question go?</a><a href="#map">The map</a><a href="#bodies">Each body in detail</a><a href="#flow">How a standard is agreed</a><a href="#about">About this information</a></nav>
+</header>
+
+<section id="routes" aria-labelledby="rt-h">
+  <h2 id="rt-h">Where should my question go?</h2>
+  <p>Choose a question to highlight the bodies that deal with it.</p>
+  <div class="routes" id="rtB" role="group" aria-label="Choose a question"></div>
+  <p class="small muted" id="rtOut" role="status" aria-live="polite"></p>
+</section>
+
+<section id="map" aria-labelledby="mp-h">
+  <h2 id="mp-h">The map: who decides, advises, regulates and meets</h2>
+  <div class="filters"><div class="field"><label for="fScope">Show</label><select id="fScope"><option value="">Everything</option><option value="active">Only active bodies</option><option value="published">Only bodies with published terms of reference</option></select></div></div>
+  <div class="map" id="mpB"></div>
+</section>
+
+<section id="bodies" aria-labelledby="bd-h">
+  <h2 id="bd-h">Each body in detail</h2>
+  <p>Purpose, aims, expected outcomes, rules of engagement and terms of reference, as each body describes them. <b>Terms of reference</b>: <span class="chip good">published</span> the full terms are public; <span class="chip acc">described</span> the role is described, but we found no full terms; <span class="chip warn">not found</span>.</p>
+  <div class="bodies" id="bdB"></div>
+</section>
+
+<section id="flow" aria-labelledby="fl-h">
+  <h2 id="fl-h">How a data standard is agreed, and where the Commons helps</h2>
+  <p>The route a cross-government data standard follows, from the Data Standards Authority's operational model. Blue notes show where the Commons can help.</p>
+  <ol class="flow" id="flB"></ol>
+</section>
+
+<section id="about" aria-labelledby="ab-h">
+  <h2 id="ab-h">About this information</h2>
+  <ul>
+    <li>Everything here comes from each body's own public page, paraphrased, as of the review date at the foot of the page. Membership, meetings and remits change: always check the body's page.</li>
+    <li>We don't repeat contact details. Each body's page gives its own route; the Commons publishes no email addresses.</li>
+    <li>"Activity unclear" means we found no recent minutes, not that the body has stopped.</li>
+    <li>Missing a body that matters to you, especially in Wales, Northern Ireland, the Crown Dependencies, the Overseas Territories, local government or your sector? <a href="build.html?topic=Suggest%20a%20partner%20or%20framework#contact">Tell us</a>.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function () {
+  const G = __K_GOVBODIES__, ECO = __K_ECO__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const B = Object.fromEntries(G.bodies.map(b => [b.id, b])), DR = Object.fromEntries(ECO.xref.requirements.map(r => [r.id, r]));
+  const DAMURL = ECO.portals.find(p => p.id === "dam").url;
+  const TOR = {published: "good", described: "acc", "not found": "warn"};
+  const ACT = {active: "Active", unclear: "Activity unclear", historic: "Historic"};
+  let hit = new Set();
+  $("lede").textContent = G.intro;
+  $("rtB").innerHTML = G.routes.map((r, i) => `<button type="button" data-r="${i}" aria-pressed="false"><b>${esc(r.question)}</b><span class="small muted">${r.go.map(g => esc(B[g].name)).join(" · ")}</span></button>`).join("");
+  $("rtB").addEventListener("click", e => { const b = e.target.closest("[data-r]"); if (!b) return; const on = b.getAttribute("aria-pressed") !== "true";
+    [...$("rtB").children].forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", String(on));
+    hit = on ? new Set(G.routes[+b.dataset.r].go) : new Set(); draw();
+    $("rtOut").textContent = on ? `Highlighted: ${[...hit].map(g => B[g].name).join("; ")}. Open each one below.` : ""; });
+  function shown(b) { const f = $("fScope").value; return !f || (f === "active" ? b.activity === "active" : b.tor === "published"); }
+  function draw() {
+    $("mpB").innerHTML = G.layers.map((l, i) => { const bs = G.bodies.filter(b => b.layer === l.id && shown(b));
+      return bs.length ? `<div class="lyr" data-hue="${i % 8}"><h3>${esc(l.name)}</h3><p class="small muted">${esc(l.text)}</p><ul>${bs.map(b => `<li><a href="#body-${esc(b.id)}"${hit.has(b.id) ? ' class="hit"' : ""}>${esc(b.name)}</a></li>`).join("")}</ul></div>` : ""; }).join("");
+    $("bdB").innerHTML = G.layers.map((l, i) => { const bs = G.bodies.filter(b => b.layer === l.id && shown(b)); if (!bs.length) return "";
+      return `<h3 style="margin:10px 0 0">${esc(l.name)}</h3>` + bs.map(b => `<article class="body-card${hit.has(b.id) ? " hit" : ""}" id="body-${esc(b.id)}" data-hue="${i % 8}">
+        <h3>${esc(b.name)}</h3>
+        <div class="meta"><span class="chip">${esc(b.scope)}</span><span class="chip">${esc(b.host)}</span><span class="chip ${TOR[b.tor]}">Terms of reference: ${esc(b.tor)}</span><span class="chip">${esc(ACT[b.activity])}</span></div>
+        <p>${esc(b.purpose)}</p>
+        <details class="disc"><summary>Aims, outcomes, rules of engagement and terms of reference</summary><div class="body"><div class="tg">
+          <div><h4>Aims and objectives</h4><ul>${b.aims.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>
+          <div><h4>Expected outcomes</h4><ul>${b.outcomes.map(a => `<li>${esc(a)}</li>`).join("")}</ul></div>
+          <div><h4>Rules of engagement</h4><p class="small">${esc(b.engagement)}</p></div>
+          <div><h4>What it decides</h4><p class="small">${esc(b.decides)}</p><h4>How often it meets</h4><p class="small">${esc(b.cadence)}</p></div>
+        </div>${b.note ? `<p class="small muted">${esc(b.note)}</p>` : ""}
+        ${(b.dam || []).length ? `<p class="small"><b>DAM Policy requirements:</b> ${b.dam.map(d => `<a href="${DAMURL}dam.html#${esc(d)}" rel="noopener">${esc(d)}</a> ${esc((DR[d] || {}).short || "")}`).join("; ")}</p>` : ""}
+        <p class="small"><b>Read more:</b> ${b.links.map(k => `<a href="${esc(k.url)}"${k.url.startsWith("http") ? ' rel="noopener"' : ""}>${esc(k.title)}</a>`).join(" · ")}</p></div></details>
+      </article>`).join(""); }).join("") || "<p>No bodies match.</p>";
+  }
+  $("fScope").addEventListener("change", draw); draw();
+  $("flB").innerHTML = G.standards_flow.map((s, i) => `<li data-hue="${i % 8}"><b>${esc(s.step)}</b><span class="small">${esc(s.who)}</span>${s.commons ? `<span class="c">${esc(s.commons)}</span>` : ""}</li>`).join("");
+  const h = location.hash.match(/^#body-(.+)$/); if (h && B[h[1]]) { const el = document.getElementById("body-" + h[1]); if (el) { el.querySelector("details").open = true; el.scrollIntoView(); } }
+  window.DQP_TOUR = [
+    {sel: "#rtB", title: "Where should my question go?", text: "Choose a question and the bodies that deal with it light up."},
+    {sel: "#mpB", title: "The map", text: "Bodies grouped by what they do: decide, advise, regulate, communities, devolved, your organisation and the Commons itself."},
+    {sel: "#bdB", title: "Each body", text: "Open a body for its aims, outcomes, rules of engagement and terms of reference, with links to its own page."},
+    {sel: "#flB", title: "How a standard is agreed", text: "The steps from idea to published standard, and where the Commons can help."},
+  ];
+})();
+</script>

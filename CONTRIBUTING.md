@@ -54,6 +54,12 @@ written back as a comment. Support and operating model pages live in Confluence
 We credit every kind of contribution, by GitHub username or organisation, never personal details. See
 [CONTRIBUTORS.md](CONTRIBUTORS.md).
 
+## Working groups, champions and badges
+
+- **Working groups:** five open groups (standards and metadata, accessibility and inclusion, user research, sector and nation packs, data quality practice) meet monthly online. Join with the "Join a working group or become a champion" issue form.
+- **Champions and ambassadors:** help better data quality take root in your team or organisation. The communications kit and ambassador kit are on the portal's Get involved page.
+- **Badges:** Supporter (self-declared), Contributor, Reviewer, Research participant, Working group member, Champion and Ambassador. Claim one with the "Claim a badge" issue form, giving your GitHub name only. Badge images are in `portal/src/badges/` (regenerate with `python scripts/make_badges.py`).
+
 ## Licence
 
 Code: MIT. Content: Open Government Licence v3.0. By contributing you agree your contribution is
