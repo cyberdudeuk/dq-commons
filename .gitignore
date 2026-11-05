@@ -21,3 +21,4 @@ portal/dist/
 *.wmv
 *.mpg
 *.mpeg
+.export/
