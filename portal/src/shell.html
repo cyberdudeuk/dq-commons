@@ -236,7 +236,7 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 .dqp-fit-m{min-width:calc(10rem * var(--fs,1))}
 .dqp-fit-w{min-width:calc(min(20rem,72vw) * var(--fs,1))}
 .dqp-fit-x{min-width:calc(min(28rem,80vw) * var(--fs,1));max-width:48rem}
-.wrap td.dqp-fit-w,.wrap td.dqp-fit-x{hyphens:auto;overflow-wrap:break-word}
+.wrap td.dqp-fit-w,.wrap td.dqp-fit-x{hyphens:manual;overflow-wrap:break-word}
 .tbl.dqp-long{max-height:min(78vh,900px);overflow:auto}
 .tbl.dqp-long thead th{position:sticky;top:0;z-index:2;box-shadow:0 1px 0 var(--line,#d6dddf)}
 .tbl.dqp-sl{background:linear-gradient(90deg,var(--surface,#fff) 30%,transparent) left/40px 100% no-repeat local,
@@ -271,6 +271,12 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 .dqp-pn-dot::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--grp);background:transparent}
 .dqp-pn-dot[aria-current="page"]::before{background:var(--grp);width:12px;height:12px}
 .dqp-pn a:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+.dqp-fb{max-width:1180px;margin:0 auto 14px;padding:0 max(16px,env(safe-area-inset-left,0px));display:flex;gap:10px;align-items:flex-start;font:400 14px/1.5 "Public Sans",system-ui,sans-serif;color:var(--fg,#17212b)}
+.dqp-fb p{margin:0;flex:1;border:1px dashed var(--line,#d6dddf);border-radius:10px;background:var(--surface,#fff);padding:10px 14px}
+.dqp-fb>.dqi{margin-top:12px;color:var(--grp)}
+.dqp-fb a{color:var(--accent,#0d6b6e)}
+.dqp-embed .dqp-fb{display:none!important}
+@media print{.dqp-fb{display:none!important}}
 @media (max-width:640px){.dqp-pn{grid-template-columns:1fr 1fr}.dqp-pn-mid{grid-column:1/-1;order:-1}}
 /* tooltips: shown on hover or keyboard focus, stay while the pointer is over them, close with Escape */
 abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-decoration-color:var(--sec,var(--accent));cursor:help}

@@ -58,6 +58,12 @@ __BASE_CSS__
   <div class="tbl"><table><thead><tr><th>Theme</th><th class="num">Average level</th><th class="num">You</th></tr></thead><tbody id="benchRows"><tr><td colspan="3">No benchmark has been published yet.</td></tr></tbody></table></div>
   <p class="small" id="benchN"></p>
 </section>
+
+<section id="wheel-link" aria-labelledby="wl-h">
+  <h2 id="wl-h">See your results as a capability map</h2>
+  <div class="callout"><p>The <a href="wheel.html"><b>data management wheel</b></a> maps these eight themes, and the ten topics of the government's Data Maturity Assessment, to the 11 DAMA-DMBOK knowledge areas. Turn on <b>Colour by my maturity results</b> on the wheel to see which areas to strengthen, what each means for your role and for the DAM policy, and how records and information management fits in.</p>
+  <p><a class="btn" href="wheel.html">Open the data management wheel</a></p></div>
+</section>
 </div>
 
 <script>
@@ -134,6 +140,7 @@ drawBench();
 window.DQP_TOUR = [
   {sel: "#themes .theme", title: "One theme at a time", text: "Choose the statement that best describes you today, not where you'd like to be."},
   {sel: ".sticky", title: "See your results", text: "When every theme is answered, see your level per theme and the next steps."},
+  {sel: "#wheel-link", title: "The bigger picture", text: "Your answers can colour the data management wheel, so you see which wider data management areas to strengthen."},
   {sel: "#bench", title: "Compare", text: "See average levels for all organisations, or for your sector or nation, from those who chose to share."},
 ];
 </script>

@@ -2,6 +2,16 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.9.0 — 2026-11-05
+### Added
+- Page `wheel.html` (Check and assess) and `knowledge/dama-wheel.yaml`: an original wheel of the 11 DAMA-DMBOK knowledge areas, seven audience views, DAM policy actions, mappings to the Commons maturity themes and the DMA for Government's 10 topics, maturity overlay from the visitor's own answers, data and records lifecycle, records frameworks, ten join-up actions with CSV plan download, communities (D-WHEEL-01).
+- `knowledge/change-delivery.yaml` and a "Data quality in change programmes and projects" section on `roles.html`: assessment of 14 change roles, lifecycle with GDS phases and assurance gates, RACI (13 activities, one accountable each), service blueprint, proto-personas and journeys (D-ROLE-02).
+- 10 change and delivery roles in `knowledge/stakeholders.yaml` (`group: change`); the role picker groups everyday and change roles.
+- `knowledge/feedback.yaml`: Microsoft Form route (configurable link and pre-filled link), question set, settings and set-up steps; feedback strip on every page; Give feedback section on `build.html`; `downloads/dq-commons-feedback-form-questions.docx` (D-FB-01).
+- `tests/test_wheel_change_feedback.py` (14 tests). Icons `wheel`, `feedback`.
+### Changed
+- Maturity page links to the wheel; Community adds the KIM profession and The National Archives' information management; supplier and information governance roles gain change duties; privacy notice covers the Microsoft Form; user guide tasks and tour list; operating model, FTIR spec, equality and data protection screening, user research bundle.
+
 ## 2.8.0 — 2026-11-05
 ### Added
 - Pages `sitemap.html` (Start), `ask.html` (Start) and `reuse.html` (Apply); knowledge files `knowledge/reuse.yaml` and `knowledge/acronyms.yaml` (D-NAV-03, D-AI-02, D-REUSE-01).

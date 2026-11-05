@@ -28,6 +28,26 @@ communities:
   join: Request to join through Knowledge Hub, using the link on the data.gov.uk Data Manual 'Join a data community' page.
   verified: 'yes'
   checked_on: '2026-10-30'
+- name: Government Knowledge and Information Management Profession
+  kind: Profession
+  scope: UK government
+  sector: Cross-government
+  what: The civil service profession for records, information and knowledge management, with a skills framework.
+    Partner for joining up data and records management (see the data management wheel).
+  url: https://www.gov.uk/government/organisations/civil-service-government-knowledge-information-management-profession
+  join: Through your department's head of knowledge and information management.
+  verified: 'yes'
+  checked_on: '2026-11-05'
+- name: The National Archives - information management
+  kind: Guidance and assessment
+  scope: UK government and public records bodies
+  sector: Cross-government
+  what: Guidance on managing information and records, the Information Management Assessment programme and
+    self-assessment tools, including a section 46 maturity tool.
+  url: https://www.nationalarchives.gov.uk/information-management/manage-information/
+  join: Use the guidance and self-assessment tools; core departments can take part in the assessment programme.
+  verified: 'yes'
+  checked_on: '2026-11-05'
 - name: Government Analysis Function
   kind: Profession and function
   scope: UK government

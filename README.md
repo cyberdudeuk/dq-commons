@@ -208,11 +208,10 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.8.0) makes the portal easier to read and find your way around: a site map, tables
-with columns sized to their content, a wider accessible colour palette with a colour for each part of the menu,
-tooltips for acronyms, a reading progress bar, Top, and previous and next links on every page. It adds
-**Ask the Commons** (questions answered from across the portal, in your browser), **Share this page** on every
-page, and **Use the Commons your way**: embedding in intranets, an open data API (`api/index.json`), a releases
-feed, white-label and offline copies, and AI assistants through MCP. Release 2.7.0 added guidance on data
-catalogues and quality tools. The portal needs no claude.ai account. Contact is by form only. Every release
+The latest release (2.9.0) adds a **data management wheel** of the 11 DAMA-DMBOK knowledge areas, mapped to the
+maturity models, the DAM policy, one lifecycle for data and records, and practical actions to join up data and
+records professionals; **data quality in change programmes** (10 change and delivery roles, gate questions, a RACI and
+a service blueprint); and a **Microsoft Form** feedback route alongside the GitHub contact form. Release 2.8.0 made the
+portal easier to read and navigate, and added a site map, Ask the Commons, Share on every page and an open data API.
+The portal needs no claude.ai account. Contact is by form only. Every release
 is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.

@@ -1,0 +1,249 @@
+# The data management capability wheel: the 11 DAMA-DMBOK knowledge areas, seen from the Commons.
+# Shown on wheel.html (Check and assess) and linked from the maturity self-assessment.
+# The knowledge area names come from DAMA-DMBOK2 (DAMA International). The diagram, groupings, descriptions,
+# mappings and advice are the Commons' own: we do not reproduce DAMA's wheel graphic or text.
+# Mappings to the DMA for Government topics and to the Commons maturity themes are our judgement, to be tested.
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Content steward (learning)
+  next_step: Review the mappings with DAMA UK members, the Data Management Community and KIM profession representatives.
+
+source:
+  name: DAMA-DMBOK2 Revised Edition (DAMA International, 2024)
+  note: "DAMA International published a revised second edition in 2024. Work on DMBOK 3.0 has started; it is expected to add AI governance and cloud-native practices. Chapters that sit outside the wheel (data handling ethics, big data and data science, maturity assessment, organisation and roles, and organisational change management) are drawn on in the audience views and the change roles on the For your role page."
+  url: https://dama.org/articles/introducing-the-revised-dama-data-management-body-of-knowledge-2nd-edition
+
+dma:
+  name: Data Maturity Assessment for Government (CDDO, 2023)
+  url: https://www.gov.uk/government/publications/data-maturity-assessment-for-government-framework
+  note: "97 rows across 10 topics and 6 themes (uses, data, leadership, culture, tools, skills), each with five levels from Beginning to Mastering. It gives a matrix, not a single score."
+  topics:
+    engaging: Engaging with others
+    skills: Having the right data skills and knowledge
+    systems: Having the right systems
+    knowing: Knowing the data you have
+    decisions: Making decisions with data
+    ethics: Managing and using data ethically
+    managing: Managing your data
+    protecting: Protecting your data
+    direction: Setting your data direction
+    responsibility: Taking responsibility for data
+
+groups:
+  - {id: plan, name: "Plan and design", hue: 1}
+  - {id: run, name: "Build and run", hue: 2}
+  - {id: protect, name: "Protect and describe", hue: 5}
+  - {id: use, name: "Use and improve", hue: 3}
+
+audiences:
+  - id: leaders
+    name: CDOs and the CDO Council
+    lens: "Use the wheel as a capability map: which areas are strong, which are missing, and where to invest. Pair it with your Data Maturity Assessment results so investment follows evidence."
+    questions: ["Which areas does our data strategy cover, and which does nobody own?", "Where are we lowest on the DMA, and which wheel areas explain that?", "Is records and information management part of our data operating model, or separate?"]
+    dam: ["Name an accountable owner for each wheel area in the operating model", "Make data quality and metadata the first investments for critical data assets", "Report one joined-up view of data and information management to the board"]
+  - id: owners
+    name: Data owners and information asset owners
+    lens: "Use the wheel to see everything your asset depends on beyond quality: its model, security, metadata, master data and records duties. Each area is a question to ask your steward and custodian."
+    questions: ["Is my asset described, secured, retained and quality-checked?", "Do my CDA entry and my information asset register entry agree?", "Who do I call for each area?"]
+    dam: ["Check your CDA has metadata, an owner, a quality measure and a retention rule", "Link the CDA register entry to the information asset register entry", "Agree a DQAP or equivalent with your steward"]
+  - id: stewards
+    name: Data stewards and quality leads
+    lens: "Use the wheel to find the root causes of quality problems: many sit in other areas (a weak model, missing reference data, poor integration). Work with the people who own those areas."
+    questions: ["Is this issue caused by data entry, the model, integration or reference data?", "Which metadata do users need to trust the data?", "Where does quality evidence get recorded and kept?"]
+    dam: ["Baseline quality and record it with metadata", "Trace your top issues to their wheel area and owner", "Keep quality evidence as a record, with retention"]
+  - id: architects
+    name: Architects and engineers
+    lens: "Use the wheel to check that platforms and designs serve every area: models, storage, integration, master data, metadata and security, with quality checks built in."
+    questions: ["Do our designs use shared identifiers and reference data?", "Is metadata captured automatically or by hand?", "Can quality be measured in the pipeline?"]
+    dam: ["Capture CDA metadata in the catalogue from the platform", "Build quality rules into pipelines", "Design retention and disposal into storage"]
+  - id: records
+    name: Records and information managers
+    lens: "Use the wheel to see where records and information management already does the work: document and content management, metadata, security, retention and disposal. Your frameworks fill gaps that data teams often miss."
+    questions: ["Which critical data assets are also records under the Public Records Act?", "Do retention schedules cover structured data and datasets, not just documents?", "Is our information asset register joined to the CDA register and catalogue?"]
+    dam: ["Cross-check the information asset register against the CDA register", "Add retention and disposal to each CDA record", "Bring the Information Management Assessment and the DMA results together"]
+  - id: change
+    name: Programme and change roles
+    lens: "Use the wheel as a checklist for any change that touches data: each area is a design decision the programme will make, for better or worse, for years to come."
+    questions: ["Which wheel areas does our change touch?", "Who in BAU owns each of them after go-live?", "Which areas are in our assurance gates?"]
+    dam: ["List the CDAs your change touches at discovery", "Put data and records criteria in each gate", "Hand each area to a named BAU owner at transition"]
+  - id: suppliers
+    name: Suppliers and partners
+    lens: "Use the wheel to show which areas your product or service covers, which it integrates with, and which the customer must still own. It is a neutral way to avoid gaps and lock-in."
+    questions: ["Which areas does our product cover natively, and which through open standards?", "Can the customer get their metadata, rules and quality history back at exit?"]
+    dam: ["Map your offer to the wheel in tender responses", "Support open standards for metadata and quality (DCAT, DQV, ODCS)", "Agree data quality duties in the contract"]
+
+areas:
+  - id: governance
+    name: Data governance
+    group: centre
+    summary: "Decision rights, accountability, policy and oversight for data. It sits at the centre because every other area needs someone to decide, own and check."
+    themes: [ownership, reporting, culture]
+    dma: [direction, responsibility]
+    dam: "Name owners and stewards for every critical data asset, agree how the DAM policy is applied, and report coverage and quality to your data board."
+    lifecycle: [plan, use, enhance]
+    irm: "Information governance already provides SIROs, information asset owners and an information asset register. Use one governance forum and one RACI for data and information where you can."
+    standards: ["Lord Chancellor's Code of Practice on the management of records (section 46, Freedom of Information Act 2000)", "HMG information assurance roles: SIRO and information asset owners"]
+    pages: [roles, playbook, operate]
+    views: {leaders: "Make governance one forum for data and information, with the DAM policy as a standing item.", owners: "Your accountability is the hub: agree it in writing.", stewards: "Bring issues you can't fix to the governance forum with a priority.", architects: "Take design decisions with standards through the design authority.", records: "Offer the information governance structures you already run.", change: "Add the data owner to programme boards that touch their data.", suppliers: "Agree who decides on data in the contract."}
+  - id: architecture
+    name: Data architecture
+    group: plan
+    summary: "The blueprint for how data is organised, flows and is stored across the organisation, aligned to its strategy."
+    themes: [tools, rules]
+    dma: [systems, managing]
+    dam: "Show where each critical data asset lives and flows, so changes and risks to it are visible."
+    lifecycle: [plan, design]
+    irm: "Records and information architecture (file plans, classification schemes) is the document-side twin; align the two so a dataset and its records sit in one picture."
+    standards: ["ISO 15489-1:2016 (records management concepts and principles)"]
+    pages: [models, interop, legacy]
+    views: {leaders: "Ask for one picture of where critical data lives.", owners: "Know which systems hold your asset and where it flows.", stewards: "Use data flows to trace where errors enter.", architects: "Keep a living data flow for each CDA.", records: "Align the file plan with the data architecture.", change: "Update the architecture before design decisions are fixed.", suppliers: "Document flows in and out of your product."}
+  - id: modelling
+    name: Data modelling and design
+    group: plan
+    summary: "Turning business meaning into models, definitions and structures that systems use."
+    themes: [rules, critical-data]
+    dma: [managing, knowing]
+    dam: "Publish definitions for each critical data asset's key fields, so quality rules test the right meaning."
+    lifecycle: [design]
+    irm: "Records metadata schemes and business classification describe meaning for documents; use shared definitions for both."
+    standards: ["ISO 23081-1:2017 (metadata for records)"]
+    pages: [models, knowledge, interop]
+    views: {leaders: "Fund shared definitions; they save repeated arguments.", owners: "Approve the definitions of your key fields.", stewards: "Write quality rules against agreed definitions.", architects: "Model with shared identifiers and code lists.", records: "Reuse business classification terms in data models.", change: "Fix definitions in alpha, before build.", suppliers: "Expose your data model and definitions."}
+  - id: storage
+    name: Data storage and operations
+    group: run
+    summary: "Running the databases and platforms that hold data: availability, backup, recovery and performance."
+    themes: [tools, measurement]
+    dma: [systems, protecting]
+    dam: "Know where each critical data asset is stored and that it can be recovered."
+    lifecycle: [store]
+    irm: "Digital preservation and retention keep records usable over time; storage plans should include retention, legal holds and disposal."
+    standards: ["ISO 16175-1:2020 (processes and functional requirements for software for managing records)"]
+    pages: [tooling, pipeline]
+    views: {leaders: "Ask whether critical data can be recovered, and how fast.", owners: "Know your asset's recovery time.", stewards: "Watch for quality drops after platform changes.", architects: "Design retention and recovery into storage.", records: "Bring preservation and legal hold needs to platform design.", change: "Test backup and recovery of migrated data.", suppliers: "State recovery and export terms."}
+  - id: security
+    name: Data security
+    group: protect
+    summary: "Keeping data confidential, intact and available to the right people, and meeting privacy duties."
+    themes: []
+    dma: [protecting, ethics]
+    dam: "Record each critical data asset's classification and access route; security problems are quality problems too (integrity)."
+    lifecycle: [store, use, archive]
+    irm: "Information security and records management share classification, access control and audit trails; integrity of records is a records requirement."
+    standards: ["UK GDPR and the Data Protection Act 2018 (accuracy, storage limitation)", "Government Security Classifications"]
+    pages: [interop, accessibility]
+    views: {leaders: "Treat integrity as part of quality, not only security.", owners: "Agree the classification and who can see your asset.", stewards: "Check access does not stop quality checks.", architects: "Build least-privilege access and audit trails.", records: "Align access rules for records and datasets.", change: "Complete the DPIA before personal data moves.", suppliers: "Prove controls and audit trails."}
+  - id: integration
+    name: Data integration and interoperability
+    group: run
+    summary: "Moving and combining data between systems and organisations so it keeps its meaning."
+    themes: [rules, tools]
+    dma: [engaging, systems]
+    dam: "Use open standards and shared identifiers so critical data assets can be joined and shared without losing quality."
+    lifecycle: [create, use]
+    irm: "Transfers of records between bodies and to archives need the same care: provenance, context and integrity."
+    standards: ["DCAT and the Data Quality Vocabulary (W3C)", "Open Data Contract Standard (ODCS)"]
+    pages: [interop, weaver, catalogues]
+    views: {leaders: "Back open standards to avoid lock-in.", owners: "Agree data contracts with the teams that use your asset.", stewards: "Check quality at every hand-off.", architects: "Use standards-first integration.", records: "Keep provenance when data moves.", change: "Reconcile data at every interface.", suppliers: "Support open standards and data contracts."}
+  - id: content
+    name: Document and content management
+    group: protect
+    summary: "Managing unstructured information: documents, records, email and web content, through their life."
+    themes: [critical-data, reporting]
+    dma: [knowing, managing]
+    dam: "Keep the documents that explain a critical data asset (methods, quality statements, decisions) as records, linked to the asset."
+    lifecycle: [create, store, archive]
+    irm: "This is the heartland of records and information management. Retention schedules, file plans and disposal apply here, and to the evidence that supports data quality."
+    standards: ["ISO 15489-1:2016", "ISO 30301:2019 (management systems for records)", "Lord Chancellor's Code of Practice (section 46)", "Public Records Act 1958"]
+    pages: [playbook, library]
+    views: {leaders: "Count records management as part of your data capability.", owners: "Keep your asset's method and quality statement as records.", stewards: "File DQAPs and issue logs where they will be kept.", architects: "Link documents to datasets with identifiers.", records: "Lead here; offer your schedules for data evidence.", change: "Agree records needs in design.", suppliers: "Support export of documents and their metadata."}
+  - id: masterdata
+    name: Reference and master data
+    group: run
+    summary: "Shared core data (people, places, organisations) and code lists that many systems must agree on."
+    themes: [rules, critical-data]
+    dma: [managing, knowing]
+    dam: "Use authoritative reference data (for example UPRN, GSS codes, ODS codes) in critical data assets and check against it."
+    lifecycle: [create, use, enhance]
+    irm: "Controlled vocabularies and authority files in records management are reference data; share them."
+    standards: ["Identifier schemes and value sets in the Commons toolkit"]
+    pages: [interop, check]
+    views: {leaders: "Invest in shared reference data across government.", owners: "Make your asset use authoritative codes.", stewards: "Check codes against the reference lists.", architects: "Design one source for master data.", records: "Share your controlled vocabularies.", change: "Map legacy codes before migration.", suppliers: "Load reference data from authoritative sources."}
+  - id: dwbi
+    name: Data warehousing and business intelligence
+    group: use
+    summary: "Bringing data together for reporting, analysis and decisions."
+    themes: [reporting, measurement]
+    dma: [decisions, systems]
+    dam: "Show data quality alongside the figures people use to decide, so they know how much to trust them."
+    lifecycle: [use]
+    irm: "Reports and dashboards that inform decisions may themselves be records to keep."
+    standards: ["Code of Practice for Statistics (quality pillar), where outputs are statistics"]
+    pages: [pipeline, ndl-assurance]
+    views: {leaders: "Ask for quality next to every key figure.", owners: "Publish a quality statement for your asset.", stewards: "Feed quality measures into dashboards.", architects: "Carry quality flags into the warehouse.", records: "Keep decision reports as records.", change: "Show benefits with trusted data.", suppliers: "Expose quality measures in reports."}
+  - id: metadata
+    name: Metadata management
+    group: protect
+    summary: "Data about data: what it is, where it came from, who owns it, how good it is and how it may be used."
+    themes: [critical-data, reporting]
+    dma: [knowing, managing]
+    dam: "Record the CDA properties for each asset in your catalogue, including owner, quality and access route, and publish what you can."
+    lifecycle: [plan, create, use, archive]
+    irm: "Records metadata (ISO 23081) and data catalogue metadata (DCAT) describe the same things in different words; crosswalk them once."
+    standards: ["ISO 23081-1:2017", "DCAT (W3C)", "Critical data asset properties"]
+    pages: [weaver, knowledge, catalogues]
+    views: {leaders: "Make the catalogue the single place to find critical data.", owners: "Keep your asset's catalogue entry current.", stewards: "Publish quality metadata with the data.", architects: "Harvest metadata automatically.", records: "Crosswalk records metadata to the catalogue.", change: "Capture metadata as you build.", suppliers: "Export metadata in open standards."}
+  - id: quality
+    name: Data quality
+    group: use
+    summary: "Making sure data is fit for its purposes: measuring, prioritising and fixing problems at the source."
+    themes: [measurement, issues, rules]
+    dma: [decisions, managing, responsibility]
+    dam: "Baseline each critical data asset, agree a data quality action plan (or equivalent), and report quality in the return."
+    lifecycle: [create, use, enhance]
+    irm: "Accuracy and completeness are records requirements too (authenticity, reliability, integrity, usability in ISO 15489); share the evidence."
+    standards: ["Government Data Quality Framework", "UK GDPR accuracy principle"]
+    pages: [check, guidance, playbook]
+    views: {leaders: "Use the Commons measures to compare across departments.", owners: "Agree targets and accept the priorities.", stewards: "Run the playbook cycle.", architects: "Validate at the point of entry.", records: "Use quality evidence to show records are reliable.", change: "Make data readiness a gate criterion.", suppliers: "Report quality against contract KPIs."}
+
+lifecycle:
+  - {id: plan, name: "Plan", data: "Strategy, needs, ownership and funding for data", records: "Information management policy and responsibilities", dam: "Identify critical data assets and owners", areas: [governance, architecture, metadata]}
+  - {id: design, name: "Design and enable", data: "Models, standards, rules and platforms", records: "File plans, classification and retention design", dam: "Define key fields and quality rules", areas: [modelling, architecture, security]}
+  - {id: create, name: "Create or acquire", data: "Collect, capture, receive or derive data", records: "Create and capture records with their metadata", dam: "Validate at entry; record provenance", areas: [quality, integration, masterdata, content]}
+  - {id: store, name: "Store and maintain", data: "Hold, secure, back up and maintain data", records: "Store, protect and preserve records", dam: "Know where the asset lives; keep it recoverable", areas: [storage, security, content]}
+  - {id: use, name: "Use and share", data: "Analyse, report, share and publish", records: "Access, use and FOI or subject access requests", dam: "Publish quality and access information", areas: [dwbi, integration, metadata, governance]}
+  - {id: enhance, name: "Improve", data: "Fix issues, enrich, link and improve", records: "Review and update records and their metadata", dam: "Run the DQAP cycle and the annual review", areas: [quality, masterdata, governance]}
+  - {id: archive, name: "Archive, transfer or dispose", data: "Retire, archive or delete data and its copies", records: "Appraise, select, transfer to The National Archives or a place of deposit, or destroy", dam: "Keep the history a CDA depends on; record disposal", areas: [content, security, metadata]}
+
+frameworks:
+  - {name: "DAMA-DMBOK2 (DAMA International)", side: data, covers: "Data management body of knowledge: 11 knowledge areas, roles, maturity and change", overlap: "Document and content management, metadata and security overlap with records management", action: "Use as the shared vocabulary for data capability"}
+  - {name: "Data Maturity Assessment for Government (CDDO)", side: data, covers: "Organisational data maturity across 10 topics and 6 themes", overlap: "Topics on knowing, managing and protecting data include records and disposal", action: "Run alongside the Information Management Assessment and compare actions", url: "https://www.gov.uk/government/publications/data-maturity-assessment-for-government-framework"}
+  - {name: "Government Data Quality Framework", side: data, covers: "Principles and practices for data quality in government", overlap: "Quality evidence and statements are records", action: "Keep quality evidence with retention"}
+  - {name: "ISO 15489-1:2016 Records management", side: records, covers: "Concepts and principles: authoritative records that are authentic, reliable, have integrity and are usable", overlap: "Integrity and reliability are data quality dimensions by another name", action: "Map record characteristics to data quality dimensions"}
+  - {name: "ISO 30301:2019 Management systems for records", side: records, covers: "Requirements for a management system for records", overlap: "A management-system approach fits the DQAP cycle (plan, do, check, act)", action: "Run one management review for data and records"}
+  - {name: "ISO 16175-1:2020 Software for managing records", side: records, covers: "Functional requirements for systems that manage records", overlap: "Requirements for new data platforms", action: "Add records functions to platform requirements"}
+  - {name: "ISO 23081-1:2017 Metadata for records", side: records, covers: "Principles for records metadata", overlap: "Catalogue metadata (DCAT, CDA properties)", action: "Crosswalk once, in the Metadata Weaver"}
+  - {name: "Code of Practice on the management of records (section 46, FOIA 2000)", side: records, covers: "How relevant authorities keep, manage and destroy records", overlap: "Applies to information in data systems too", action: "Check new systems against the Code at design", url: "https://www.gov.uk/government/publications/code-of-practice-on-the-management-of-records-issued-under-section-46-the-freedom-of-information-act-2000"}
+  - {name: "Public Records Act 1958", side: records, covers: "Selection, transfer and preservation of public records", overlap: "Some datasets are public records", action: "Appraise critical data assets for permanent preservation"}
+  - {name: "The National Archives' Information Management Assessment (IMA)", side: records, covers: "Independent assessment of information management, with a section 46 maturity tool and a Microsoft 365 maturity tool", overlap: "DMA topics on managing and protecting data", action: "Share IMA and DMA findings in one improvement plan", url: "https://www.nationalarchives.gov.uk/information-management/manage-information/ima/"}
+  - {name: "UK GDPR and the Data Protection Act 2018", side: both, covers: "Lawful processing, including accuracy and storage limitation principles", overlap: "Accuracy is data quality; storage limitation is retention", action: "Join accuracy and retention checks in one review"}
+
+joinup:
+  - {id: J1, action: "One register of assets", who: "CDO, records manager, data protection officer", detail: "Link the information asset register, the record of processing activities, the CDA register and the data catalogue with shared identifiers, rather than keeping four lists.", outcome: "One view of each asset; fewer duplicate returns; gaps become visible", first_step: "Match the 20 most important CDAs to their IAR entries", measure: "Share of CDAs linked to an IAR entry"}
+  - {id: J2, action: "One governance forum and RACI", who: "CDO and SIRO", detail: "Bring data governance and information governance together, or give them a shared agenda and RACI, with the DAM policy as a standing item.", outcome: "Decisions made once; owners know what is expected", first_step: "Add records and data quality to each other's terms of reference", measure: "Joint decisions logged per quarter"}
+  - {id: J3, action: "Align owners and information asset owners", who: "Data owners and IAOs", detail: "Where the same person owns a dataset and an information asset, say so and combine the duties; where not, name how they work together.", outcome: "No asset falls between two owners", first_step: "Compare the CDA owner list with the IAO list", measure: "CDAs where owner and IAO are the same or formally linked"}
+  - {id: J4, action: "Shared lifecycle checkpoints", who: "Stewards and records managers", detail: "Add retention and disposal to data quality reviews, and quality checks to appraisal and disposal decisions.", outcome: "History that CDAs depend on is kept; nothing is deleted that is still needed", first_step: "Add retention to the CDA return and the playbook's annual review", measure: "CDAs with a retention rule"}
+  - {id: J5, action: "One metadata crosswalk", who: "Metadata and records specialists", detail: "Crosswalk records metadata (ISO 23081) with catalogue metadata (DCAT and CDA properties) once and reuse it.", outcome: "Describe once, publish everywhere", first_step: "Map your records metadata fields in the Metadata Weaver", measure: "Fields mapped"}
+  - {id: J6, action: "Data and records criteria in change gates", who: "SROs, PMOs and design authorities", detail: "Use the gate questions on the For your role page so data quality and records duties are checked at every assurance gate.", outcome: "Problems fixed at design, not after go-live", first_step: "Add two data questions to your next gate review", measure: "Programmes with data criteria in gates"}
+  - {id: J7, action: "Joined-up assessments", who: "CDO and head of KIM", detail: "Run the Data Maturity Assessment and the Information Management Assessment (or its self-assessment tools) in the same cycle and agree one improvement plan.", outcome: "One plan, fewer surveys, shared evidence", first_step: "List the actions from your last IMA and DMA side by side", measure: "Shared actions in the plan"}
+  - {id: J8, action: "Cross-profession learning", who: "Heads of profession and learning leads", detail: "Shadowing, joint learning paths and short rotations between data, analysis, digital and KIM professions.", outcome: "People understand each other's frameworks and language", first_step: "Pair one steward with one records manager for a quarter", measure: "People who completed a cross-profession activity"}
+  - {id: J9, action: "Communities that meet each other", who: "Community leads", detail: "Joint sessions between the data quality, data management and KIM communities, and shared spaces for common problems.", outcome: "Problems solved once and reused across government", first_step: "Hold one joint session on retention and data quality", measure: "Joint sessions and shared outputs"}
+  - {id: J10, action: "Shared measures", who: "Data boards", detail: "A small set of measures both sides own: CDAs with owner, metadata, quality baseline and retention; records transferred on time; issues closed.", outcome: "Progress is visible and comparable", first_step: "Agree three shared measures", measure: "Measures reported each quarter"}
+
+communities:
+  - {name: "Government Data Quality Hub", for: "Data quality practice and the Government Data Quality Framework", where: "community"}
+  - {name: "Data Management Community (cross-government, on Knowledge Hub)", for: "Data asset management policy and data management practice", where: "community"}
+  - {name: "Government Knowledge and Information Management Profession", for: "Records, information and knowledge management across government", url: "https://www.gov.uk/government/organisations/civil-service-government-knowledge-information-management-profession"}
+  - {name: "The National Archives: information management", for: "Guidance, the Information Management Assessment and the section 46 Code", url: "https://www.nationalarchives.gov.uk/information-management/manage-information/"}
+  - {name: "Government Analysis Function", for: "Analysts and statisticians who use and assure data", where: "community"}
+  - {name: "DAMA International and its chapters (including DAMA UK)", for: "Data management professionals and the DMBOK", where: "community"}

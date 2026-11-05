@@ -1,5 +1,15 @@
 # Build journal
 
+## 2026-11-05 — v2.9.0: data management wheel, data quality in change, Microsoft Form feedback
+
+**Built**
+- **Data management wheel** (`wheel.html`, `knowledge/dama-wheel.yaml`): interactive SVG wheel (keyboard: Tab, Enter, arrow keys; list view, used by default under 600px); seven audience views; panel with DAM policy action, maturity themes and DMA topics, lifecycle stages, records overlap and Commons pages; maturity overlay from the visitor's own answers; maturity matrix; DMA topic table; audience cards; data and records lifecycle; 11 frameworks (data, records, both); ten join-up actions with a downloadable CSV plan; communities; sources (D-WHEEL-01).
+- **Change and delivery roles** (D-ROLE-02): assessment of 14 roles, 10 added to the role picker under "Change and delivery roles"; lifecycle cards with gate questions; RACI with phase filter and role highlight; service blueprint (5 lanes by 6 phases); four proto-personas with journeys. Supplier and information governance roles gained change duties.
+- **Feedback** (D-FB-01): `knowledge/feedback.yaml`; feedback strip on every page; Give feedback section on Help us build this with the form status, questions, settings and set-up steps; Word question set in downloads; privacy notice updated.
+- **Research:** checked the DMA for Government structure (10 topics, 6 themes, five levels), the DAMA-DMBOK2 revised edition (2024), NISTA replacing the IPA (April 2025), the KIM profession, The National Archives' IMA and the section 46 Code, and Microsoft Forms pre-filled links.
+- **Community:** added the Government Knowledge and Information Management Profession and The National Archives' information management.
+- **Docs:** decisions, changelog, README, user guide (page and Markdown), FTIR spec, operating model, equality and data protection screening, user research bundle (personas and hypotheses 5 to 7), architecture section 12.
+
 ## 2026-11-05 — v2.8.0: easier tables and signposting, site map, Ask the Commons, sharing and reuse
 
 **Built**

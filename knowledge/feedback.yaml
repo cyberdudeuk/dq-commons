@@ -1,0 +1,61 @@
+# Feedback routes, including a Microsoft Form for people who can't or won't use GitHub.
+# The portal shows every route on the "Help us build this" page, in the footer and at the end of every page.
+# To switch the Microsoft Form on: create the form from the questions below, then paste its share link into
+# microsoft_form.url (and, optionally, a pre-filled link into prefill_url, see the set-up steps). Rebuild.
+# No email address is ever shown. Respondents are never asked for their name or email.
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Commons product owner
+  next_step: Create the form in the Commons Microsoft 365 tenant, paste the link below, and review responses monthly with the backlog.
+
+microsoft_form:
+  title: DQ Commons feedback
+  # Paste the form's share link here (Collect responses > Copy link). Leave empty until the form exists.
+  url: ""
+  # Optional: a pre-filled link where the "Which page" answer is the word PAGE. The portal swaps PAGE for the page name.
+  prefill_url: ""
+  status_when_empty: The Microsoft Form is being set up. Until then, use the GitHub contact form or a survey.
+  settings:
+    - "Who can fill out this form: Anyone can respond (so people outside your organisation can reply without signing in)."
+    - "Do not record names or email addresses; turn off 'Record name' and any requirement to sign in."
+    - "Turn on 'Enable pre-filled answers' only if you will use the pre-filled link."
+    - "Set a response receipt off by default; say in the form that answers may be published in summary form."
+    - "Keep responses in the Commons team's Microsoft 365 tenant; export monthly to the backlog and delete raw responses after 12 months."
+  setup_steps:
+    - "Download the question set (Word document) from the downloads folder, or copy the questions below."
+    - "In Microsoft Forms, create a new form. If your tenant allows it, use Quick import to load the Word document; otherwise add the questions by hand."
+    - "Apply the settings listed here, especially 'Anyone can respond' and no names or emails."
+    - "Select Collect responses, copy the link, and paste it into microsoft_form.url in knowledge/feedback.yaml."
+    - "Optional: open '…' then 'Get pre-filled URL', enable pre-filled answers, type PAGE in question 1, copy the pre-filled link into prefill_url."
+    - "Rebuild the portal. The Microsoft Form now appears as a feedback route on every page."
+    - "Add the form to the support routine: review responses monthly, log actions in the backlog, and reply publicly through What's new where useful."
+
+questions:
+  - {n: 1, type: text, required: false, text: "Which page or part of the Commons is your feedback about?", hint: "For example: Catalogues and quality tools, or the whole site."}
+  - {n: 2, type: choice, required: true, text: "What kind of feedback is it?", options: ["Something is wrong or out of date", "Something is missing", "Something is hard to use or understand", "Accessibility problem", "An idea or suggestion", "Praise: something worked well", "Other"]}
+  - {n: 3, type: long_text, required: true, text: "Tell us more", hint: "Please don't include names, contact details, personal data or anything official-sensitive."}
+  - {n: 4, type: choice, required: false, text: "Which best describes your role?", options: ["Chief data officer or data leader", "Data owner or information asset owner", "Data steward or data quality lead", "Data engineer, architect or analyst", "Records, information or knowledge manager", "Programme, project or change role", "Supplier or partner", "Member of the public", "Other or prefer not to say"]}
+  - {n: 5, type: choice, required: false, text: "Where do you work?", options: ["UK central government", "Devolved government", "Local government", "NHS or health", "Arm's-length body or regulator", "Private or third sector", "Outside the UK", "Prefer not to say"]}
+  - {n: 6, type: rating, required: false, text: "How useful was the Commons for what you needed today?", scale: "1 (not useful) to 5 (very useful)"}
+  - {n: 7, type: choice, required: false, text: "May we quote your feedback, without anything that identifies you, in our public release notes?", options: ["Yes", "No"]}
+
+routes:
+  - id: msform
+    name: Microsoft Form
+    best_for: People who use Microsoft 365 at work, or who don't have or want a GitHub account. No sign-in needed.
+    privacy: Answers go to the Commons team's Microsoft 365 tenant. No names or emails are collected.
+  - id: github
+    name: GitHub contact form
+    best_for: Questions you'd like answered in the open, and problems we should fix in public.
+    privacy: Opens a public GitHub issue under your GitHub username. Don't include personal data.
+    link: build.html#contact
+  - id: survey
+    name: Surveys and commissions
+    best_for: Structured feedback, taking part in research, or asking the Commons for help.
+    privacy: Surveys never ask for names; totals under 5 are hidden.
+    link: surveys.html
+  - id: access
+    name: Accessibility problem
+    best_for: Anything that stops you using a page. We reply within 1 working day.
+    privacy: Use any route above and choose "Accessibility problem".
+    link: accessibility.html

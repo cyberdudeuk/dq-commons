@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 12. v2.9.0: wheel, change roles and feedback (5 November 2026)
+- **Knowledge:** `dama-wheel.yaml` (`__K_WHEEL__`), `change-delivery.yaml` (`__K_CHANGE__`), `feedback.yaml` (`__K_FEEDBACK__`); all three feed search and Ask the Commons through `SEARCH_SOURCES`.
+- **Pages:** `wheel.html` reads `__K_WHEEL__`, `__K_MATURITY__` and `__K_COMMUNITIES__`; the overlay reads the visitor's `dqc.maturity` answers from their browser, and join-up ticks are kept in `dqc.joinup`. `roles.html` reads `__K_CHANGE__` and groups roles by `group`.
+- **Build:** `feedback_strip()` adds the feedback aside before the previous and next links on every page (the Microsoft Form link only when configured; pre-filled link with PAGE replaced by the page name); `feedback_docx()` writes the question set to downloads (python-docx).
+- **Tests:** `tests/test_wheel_change_feedback.py` checks mappings, one accountable role per RACI activity, role and anchor clashes, blueprint completeness and the form's privacy rules.
+
 ## 11. v2.8.0: reading aids, site map, Ask, share and reuse (5 November 2026)
 - **Shell:** visual layer CSS and a reading-aids script (section hues, column fitting, scroll cues, acronyms, tooltips, progress, Top) that runs after the page draws and again, debounced, when a page redraws (MutationObserver); a share and embed script. Group key comes from the build (`data-group` on `.wrap`, `data-g` on menu groups) (D-VIS-01, D-SHARE-01).
 - **Build:** `prev_next()` adds page navigation; `site_map()` and `mcp_tools()` feed `__K_SITEMAP__` and `__K_MCPTOOLS__`; `knowledge/reuse.yaml` feeds `__K_REUSE__`; `{{ACRONYMS}}` from `knowledge/acronyms.yaml`; `write_api()` writes `api/`, `feed.xml`, `sitemap.xml` and `ask-index.js` (passages collected by `search_index()`) (D-REUSE-01, D-AI-02).

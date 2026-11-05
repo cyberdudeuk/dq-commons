@@ -101,6 +101,12 @@ __BASE_CSS__
     <p>Go to <a href="maturity.html">Maturity self-assessment</a>. For each of 8 themes, choose the statement that fits best. You'll get a level per theme and next steps. Your answers stay in your browser.</p></div></details>
   <details class="disc"><summary>Prioritise issues</summary><div class="body">
     <p>Use the calculator on <a href="guidance.html">Issues framework</a>. Enter how important the purpose is and how bad the impact would be. It gives the target, the priority band and how quickly to fix.</p></div></details>
+  <details class="disc"><summary>See your whole data capability on the data management wheel</summary><div class="body">
+    <p>Open the <a href="wheel.html">data management wheel</a>. Choose your role, then an area of the wheel, to see what it means for you, what to do for the DAM policy, where it shows up in maturity, and how records and information management fits in. If you have done the <a href="maturity.html">maturity self-assessment</a>, tick <b>Colour by my maturity results</b>. Tick the join-up actions you will take and download your plan.</p></div></details>
+  <details class="disc"><summary>Run data quality through a programme or project</summary><div class="body">
+    <p>On <a href="roles.html#change">For your role</a>, pick your change role (for example SRO, delivery manager, business analyst, architect, migration lead or records manager). Use the lifecycle and gate questions at each assurance review, the RACI to agree who does what, and the service blueprint to plan the data and records work behind each phase.</p></div></details>
+  <details class="disc"><summary>Give feedback</summary><div class="body">
+    <p>Every page ends with a feedback link. Choose the <b>Microsoft Form</b> (no sign-in, no names), the <b>GitHub contact form</b>, a survey, or the accessibility route. All routes are on <a href="build.html#feedback">Help us build this</a>.</p></div></details>
   <details class="disc"><summary>Get value from AI safely</summary><div class="body">
     <p>Read <a href="ai.html">AI for data quality</a>, then try the <a href="assistant.html">rules assistant</a>, which runs in your browser with no AI service. Always review what it drafts: the page tests every draft against the kit before showing it.</p></div></details>
   <details class="disc"><summary>Contribute, take a survey, or ask for help</summary><div class="body">
@@ -141,7 +147,7 @@ const groups = [...document.querySelectorAll(".dqp-drop .dqp-grp")].map(g => ({n
   pages: [...g.querySelectorAll("a")].map(a => ({href: a.getAttribute("href"), label: a.dataset.t, desc: a.querySelector("small").textContent}))}));
 document.getElementById("menuRows").innerHTML = groups.map(g => g.pages.map((p, i) =>
   `<tr>${i ? "" : `<th scope="rowgroup" rowspan="${g.pages.length}" style="background:none;color:var(--fg)">${esc(g.name)}</th>`}<td><a href="${esc(p.href)}">${esc(p.label)}</a></td><td>${esc(p.desc)}</td></tr>`).join("")).join("");
-const tourPages = ["index", "sitemap", "ask", "check", "frameworks", "maturity", "learn", "catalogues", "models", "ai", "assistant", "reuse", "community", "surveys", "scenarios"];
+const tourPages = ["index", "sitemap", "ask", "check", "frameworks", "maturity", "wheel", "roles", "learn", "catalogues", "models", "ai", "assistant", "reuse", "community", "surveys", "scenarios"];
 document.getElementById("tourLinks").innerHTML = groups.flatMap(g => g.pages).filter(p => tourPages.includes(p.href.replace(".html", "")))
   .map(p => `<a href="${esc(p.href)}?tour=1"><b>Tour: ${esc(p.label)}</b><span>${esc(p.desc)}</span></a>`).join("");
 window.DQP_TOUR = [

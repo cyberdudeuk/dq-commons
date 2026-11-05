@@ -1,0 +1,169 @@
+# Data quality in change: roles in medium to large initiatives, programmes and projects.
+# An assessment of which change and delivery roles carry data quality responsibilities, how those duties run
+# through the delivery lifecycle (GDS phases and NISTA-led assurance gates), a RACI, a service blueprint,
+# proto-personas and journeys. Shown on the "For your role" page. New roles are also added to
+# knowledge/stakeholders.yaml (group: change) so they appear in the role picker.
+# Hypotheses until tested in user research (docs/USER-RESEARCH-BUNDLE.md).
+review:
+  last_reviewed: 2026-11-05
+  owner_role: Commons product owner
+  next_step: Test the RACI and blueprint with two live programmes (one system replacement, one data migration) and a NISTA or departmental assurance reviewer.
+
+summary: >-
+  Most data quality problems in public services are created, or fixed, during change: new systems, migrations,
+  mergers, new data collections and service redesigns. The business-as-usual roles (owners, stewards, quality
+  leads) are not enough on their own, because programmes make the decisions that fix data quality for years:
+  data models, migration rules, acceptance criteria and what is handed over to live. We assessed 14 change and
+  delivery roles and added 10 to the Commons' roles, journeys and blueprint.
+
+assessment:
+  - {role: "Senior responsible owner (SRO)", verdict: add, id: sro, why: "Accountable for the programme's outcomes, including the quality of the data it creates, migrates or retires. Signs off data readiness at assurance gates and owns the risk if data is not fit for purpose at go-live."}
+  - {role: "Programme, project or delivery manager", verdict: add, id: delivery, why: "Plans and resources data quality work (profiling, cleansing, migration rehearsals, reconciliation), keeps data risks in the RAID log and makes data readiness a milestone, not an afterthought."}
+  - {role: "Programme or portfolio office (PMO)", verdict: add, id: pmo, why: "Reports data readiness across projects and owns the quality of the programme's own management information, including returns to the centre. Tracks benefits that depend on better data."}
+  - {role: "Business change and transition lead", verdict: add, id: bizchange, why: "Embeds new data responsibilities in business as usual: who owns which data after go-live, training, processes that keep data right at source, and the handover to live service."}
+  - {role: "Business analyst", verdict: add, id: ba, why: "Writes data requirements, definitions and acceptance criteria that can be tested; records business rules that become data quality rules."}
+  - {role: "Product or service owner", verdict: add, id: product, why: "Owns the service's data in live under the Service Standard: prioritises data quality fixes in the backlog and decides trade-offs between speed and data quality."}
+  - {role: "Enterprise, solution and data architects (design authority)", verdict: add, id: architect, why: "Set data models, standards, identifiers and interoperability; the design authority approves designs that will either prevent or bake in data quality problems."}
+  - {role: "Data migration lead", verdict: add, id: migration, why: "Owns profiling, cleansing, mapping, rehearsal and reconciliation for data moving between systems, and the decision that migrated data is good enough to switch over."}
+  - {role: "Test and quality assurance lead", verdict: add, id: test, why: "Plans data testing (validity, completeness, reconciliation), safe test data (synthetic where possible) and data-related entry and exit criteria for each test phase."}
+  - {role: "Records and information manager (knowledge and information management)", verdict: add, id: kim, why: "Makes sure new systems keep the right records, apply retention and disposal, and meet the section 46 Code of Practice and Public Records Act duties. Often holds the information asset register."}
+  - {role: "Supplier or system integrator", verdict: covered, id: supplier, why: "Already a role. Change duties added to its 'watch' list: contract data quality obligations, migration support and exit."}
+  - {role: "Data protection and information governance (DPO, SIRO, IAO)", verdict: covered, id: ig, why: "Already a role. Programmes need a DPIA before processing personal data; the role's guidance now points to the change lifecycle below."}
+  - {role: "Commercial lead", verdict: covered, id: "", why: "Covered by Buying and suppliers and Catalogues and quality tools: data quality clauses, KPIs, tender questions and exit."}
+  - {role: "Assurance reviewer (gateway, internal audit, design authority panel)", verdict: covered, id: "", why: "Not a separate role in the Commons: reviewers use the gate questions in the lifecycle below and the evidence the programme produces."}
+
+phases:
+  - id: discover
+    name: Discover and justify
+    gds: Discovery
+    gate: "Gate 0 (strategic assessment) and Gate 1 (business justification)"
+    dq: "Find the data the change depends on or creates, and any critical data assets affected. Profile it. Name owners. Put data quality risks and costs in the business case."
+    evidence: "List of affected data assets and CDAs; first profile; named owners; data risks in the RAID log; data costs in the business case."
+    question: "Do we know which data this change depends on, how good it is today, and who owns it?"
+  - id: design
+    name: Design
+    gds: Alpha
+    gate: "Gate 2 (delivery strategy)"
+    dq: "Agree data requirements, definitions, models and identifiers. Turn business rules into testable data quality rules and targets. Decide the migration approach and records needs (retention, disposal)."
+    evidence: "Data requirements and acceptance criteria; data model approved by the design authority; rules file with targets; migration and records approach; DPIA started."
+    question: "Will the design prevent the data problems we found, and can we test that it does?"
+  - id: build
+    name: Build and migrate
+    gds: Beta (private)
+    gate: "Gate 3 (investment decision)"
+    dq: "Build validation at the point of entry. Cleanse at source. Rehearse migration and reconcile counts and values. Keep a data issue log with priorities."
+    evidence: "Validation in the build; migration rehearsal results and reconciliation; issue log with priorities and owners; test data approach."
+    question: "Are data issues found early, prioritised and fixed at source rather than patched downstream?"
+  - id: accept
+    name: Test and accept
+    gds: Beta (public)
+    gate: "Gate 4 (readiness for service)"
+    dq: "Run data tests against the rules and targets. Agree what 'good enough to go live' means with the owner. Confirm records, retention and access controls work."
+    evidence: "Data test results against targets; signed data readiness decision; records and retention tested; open issues accepted with a plan."
+    question: "Has the data owner accepted the data as fit for purpose, with known issues and a plan?"
+  - id: transition
+    name: Go live and hand over
+    gds: Beta to live
+    gate: "Gate 4 (readiness for service)"
+    dq: "Hand data quality duties to business as usual: owners, stewards, monitoring, issue routes, quality statement. Retire legacy data properly (archive, transfer or dispose)."
+    evidence: "Named BAU owner and steward; monitoring running; quality statement published; legacy data disposal or transfer recorded."
+    question: "Who looks after this data from tomorrow, and how will we know if it gets worse?"
+  - id: operate
+    name: Operate and realise benefits
+    gds: Live
+    gate: "Gate 5 (operations review and benefits realisation)"
+    dq: "Monitor quality, report it, and show the benefits that depended on better data. Feed lessons into the next change."
+    evidence: "Quality trend; benefits tracked against data measures; lessons learned shared."
+    question: "Did the data get better, and did the benefits that depended on it arrive?"
+
+raci_activities:
+  - {id: a1, name: "Find affected data and critical data assets", phase: discover}
+  - {id: a2, name: "Profile data and record a baseline", phase: discover}
+  - {id: a3, name: "Put data risks and costs in the business case", phase: discover}
+  - {id: a4, name: "Write data requirements and acceptance criteria", phase: design}
+  - {id: a5, name: "Approve data models, standards and identifiers", phase: design}
+  - {id: a6, name: "Set data quality rules and targets", phase: design}
+  - {id: a7, name: "Agree records, retention and disposal", phase: design}
+  - {id: a8, name: "Build validation and cleanse at source", phase: build}
+  - {id: a9, name: "Rehearse and reconcile the migration", phase: build}
+  - {id: a10, name: "Test data against rules and targets", phase: accept}
+  - {id: a11, name: "Decide the data is ready to go live", phase: accept}
+  - {id: a12, name: "Hand data duties over to business as usual", phase: transition}
+  - {id: a13, name: "Monitor quality and report benefits", phase: operate}
+
+# R responsible, A accountable, C consulted, I informed. One A per activity.
+raci:
+  sro:       {a1: I, a2: I, a3: A, a4: I, a5: I, a6: I, a7: I, a8: I, a9: I, a10: I, a11: A, a12: A, a13: A}
+  delivery:  {a1: R, a2: C, a3: R, a4: C, a5: C, a6: C, a7: C, a8: C, a9: A, a10: C, a11: R, a12: R, a13: I}
+  pmo:       {a1: C, a2: I, a3: C, a4: I, a5: I, a6: I, a7: I, a8: I, a9: I, a10: I, a11: C, a12: C, a13: R}
+  bizchange: {a1: C, a2: I, a3: C, a4: C, a5: I, a6: C, a7: C, a8: C, a9: I, a10: I, a11: C, a12: R, a13: C}
+  ba:        {a1: R, a2: C, a3: C, a4: A, a5: C, a6: R, a7: C, a8: C, a9: C, a10: C, a11: C, a12: C, a13: I}
+  product:   {a1: C, a2: C, a3: C, a4: R, a5: C, a6: A, a7: C, a8: A, a9: C, a10: C, a11: R, a12: R, a13: R}
+  architect: {a1: C, a2: C, a3: C, a4: C, a5: A, a6: C, a7: C, a8: R, a9: C, a10: I, a11: C, a12: I, a13: I}
+  migration: {a1: C, a2: R, a3: C, a4: C, a5: C, a6: R, a7: C, a8: R, a9: R, a10: R, a11: C, a12: C, a13: I}
+  test:      {a1: I, a2: C, a3: I, a4: C, a5: I, a6: C, a7: I, a8: C, a9: R, a10: A, a11: C, a12: I, a13: I}
+  kim:       {a1: C, a2: I, a3: C, a4: C, a5: C, a6: I, a7: A, a8: C, a9: C, a10: C, a11: C, a12: C, a13: I}
+  owner:     {a1: A, a2: A, a3: C, a4: C, a5: C, a6: C, a7: R, a8: C, a9: C, a10: C, a11: R, a12: C, a13: C}
+  steward:   {a1: R, a2: R, a3: I, a4: C, a5: C, a6: R, a7: C, a8: C, a9: C, a10: R, a11: C, a12: R, a13: R}
+  dqlead:    {a1: C, a2: R, a3: C, a4: C, a5: C, a6: R, a7: I, a8: C, a9: C, a10: C, a11: C, a12: C, a13: R}
+
+blueprint:
+  lanes:
+    - {id: user, name: "People using the service or data (what they experience)"}
+    - {id: front, name: "Programme team (visible actions)"}
+    - {id: back, name: "Data, records and quality work (behind the scenes)"}
+    - {id: support, name: "Supporting tools and Commons pages"}
+    - {id: evidence, name: "Evidence and gate question"}
+  cells:
+    discover:
+      user: "Hit by today's data problems: wrong letters, duplicate records, missing groups."
+      front: "Business case, options, stakeholder map; data owner named for each affected asset."
+      back: "Inventory of affected data and CDAs; first profile; IAR and CDA register cross-checked."
+      support: "Check your data; Critical data asset baseline; Scenarios"
+      evidence: "Do we know which data this depends on, how good it is, and who owns it?"
+    design:
+      user: "User research includes people often missing from data; their needs shape definitions."
+      front: "Requirements, acceptance criteria, design authority reviews, DPIA started."
+      back: "Data model, identifiers and code lists; rules and targets; records and retention plan."
+      support: "Rules assistant; Interoperability and standards; Capability and data models; Metadata Weaver"
+      evidence: "Will the design prevent the problems we found, and can we test it?"
+    build:
+      user: "Private beta users see validation that helps them get it right first time."
+      front: "Sprints include data stories; RAID log tracks data risks; supplier duties checked."
+      back: "Validation at entry; cleansing at source; migration rehearsals and reconciliation; issue log."
+      support: "Legacy and modernisation (reconcile); Issues framework; Buying and suppliers"
+      evidence: "Are issues found early, prioritised and fixed at source?"
+    accept:
+      user: "Public beta: fewer errors and complaints about data; accessible error messages."
+      front: "Test phases with data entry and exit criteria; go-live readiness board."
+      back: "Data tests against rules and targets; owner's data readiness decision; retention tested."
+      support: "Check your data; Pipeline status; Data quality management playbook"
+      evidence: "Has the owner accepted the data as fit for purpose, with a plan for known issues?"
+    transition:
+      user: "Service works from day one; people know how to report a data error."
+      front: "Handover to live service; training; business change complete."
+      back: "BAU owner and steward named; monitoring on; quality statement; legacy data archived, transferred or disposed of."
+      support: "Operating model and support; Data quality management playbook (stages 7 and 8)"
+      evidence: "Who looks after this data from tomorrow, and how will we know if it gets worse?"
+    operate:
+      user: "Trust grows when data is right; quality information is published."
+      front: "Benefits reviews; lessons learned shared."
+      back: "Quality trend and issue routes; annual review; data feeds the next change."
+      support: "Pipeline status; Maturity self-assessment; Case studies"
+      evidence: "Did the data get better, and did the benefits arrive?"
+
+personas:
+  - {name: "Dami, SRO of a benefits system replacement", context: "Accountable for a three-year programme replacing a 20-year-old system", goal: "Go live on time without harming claimants", pain: "Data readiness is reported as green until the last rehearsal fails"}
+  - {name: "Chris, data migration lead at a supplier", context: "Moving 12 million records with legacy codes", goal: "A clean, reconciled switch-over", pain: "No agreed rules or owner to accept 'good enough'"}
+  - {name: "Leah, records manager in a department", context: "Holds the information asset register and retention schedule", goal: "New systems keep and dispose of records properly", pain: "Brought in after the design is fixed"}
+  - {name: "Tom, business analyst on an alpha", context: "Writing requirements for a new data collection", goal: "Acceptance criteria that testers and suppliers can use", pain: "Business rules live in people's heads, not in testable form"}
+
+journeys:
+  - persona: Dami
+    steps: ["Opens For your role and picks Senior responsible owner", "Uses the gate questions at each assurance review", "Asks for the data readiness evidence before Gate 4", "Signs the go-live decision with the data owner", "Tracks benefits that depend on data at Gate 5"]
+  - persona: Chris
+    steps: ["Profiles legacy data with Check your data", "Agrees rules and targets with the steward", "Reconciles rehearsal results on Legacy and modernisation", "Prioritises issues with the issues framework", "Hands over the issue log at transition"]
+  - persona: Leah
+    steps: ["Joins at discovery through the RACI", "Cross-checks the information asset register against the CDA register", "Sets retention and disposal in the design", "Tests retention before go-live", "Records legacy disposal or transfer"]
+  - persona: Tom
+    steps: ["Turns business rules into plain English rules in the Rules assistant", "Gets a tested rules file to use as acceptance criteria", "Shares definitions through the Knowledge map and data contract", "Checks them with the design authority"]

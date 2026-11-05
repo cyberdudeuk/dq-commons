@@ -23,6 +23,7 @@ import argparse
 import csv
 import html
 import json
+import urllib.parse
 import re
 import shutil
 import subprocess
@@ -62,6 +63,7 @@ GROUPS = [
     ("3 Check", [
         ("check", "Check your data", "Run the toolkit in your browser on a CSV file. Nothing is uploaded"),
         ("maturity", "Maturity self-assessment", "Where you are on 8 themes, from Beginning to Mastering, and next steps"),
+        ("wheel", "Data management wheel", "The 11 DAMA knowledge areas mapped to maturity, the DAM policy, the data and records lifecycle, and how professions join up"),
         ("guidance", "Issues framework", "Prioritise issues with the government method: a live calculator"),
         ("assistant", "Rules assistant", "Plain English to tested rules in your browser, plus framework and scoring look-ups"),
         ("baseline", "Critical data asset baseline", "Effort to report data quality for every critical data asset, to your own deadline"),
@@ -99,7 +101,7 @@ GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
                                     "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask"]},
          **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
-                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse"]},
+                                        "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
 # Decorative icons from portal/src/icons.svg, for each menu group and page.
@@ -108,7 +110,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel"}
 
 
 def icon(name: str) -> str:
@@ -295,6 +297,9 @@ def knowledge() -> dict:
         "INTEROP": lambda: y("interop"),
         "CATALOGUES": lambda: y("catalogue-integration"),
         "REUSE": lambda: y("reuse"),
+        "WHEEL": lambda: y("dama-wheel"),
+        "CHANGE": lambda: y("change-delivery"),
+        "FEEDBACK": lambda: y("feedback"),
         "SITEMAP": lambda: site_map(),
         "MCPTOOLS": lambda: mcp_tools(),
         "MODELS": lambda: models_summary(),
@@ -511,7 +516,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"reuse": "reuse", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -581,6 +586,31 @@ def mcp_tools() -> list:
     sys.path.insert(0, str(ROOT))
     from dqkit import mcp_server
     return [{"name": t["name"], "title": t.get("title", ""), "description": t.get("description", "")} for t in mcp_server.TOOLS]
+
+
+def feedback_docx(path: Path) -> None:
+    """The Microsoft Form question set as a Word document, ready for Microsoft Forms' Quick import (v2.9.0)."""
+    from docx import Document
+    d = Document()
+    d.core_properties.title = FEEDBACK["microsoft_form"]["title"]
+    d.core_properties.author = BRAND
+    d.add_heading(FEEDBACK["microsoft_form"]["title"], 0)
+    d.add_paragraph("Tell us what is wrong, missing or hard to use in the Public Sector Data Quality Commons, or what worked well. "
+                    "Please don't include names, contact details, personal data or anything official-sensitive. "
+                    "We may publish feedback in summary form, without anything that identifies you.")
+    for q in FEEDBACK["questions"]:
+        d.add_paragraph().add_run(f'{q["n"]}. {q["text"]}' + (" (required)" if q.get("required") else "")).bold = True
+        if q.get("hint"):
+            d.add_paragraph(q["hint"])
+        for o in q.get("options", []):
+            d.add_paragraph(o, style="List Bullet")
+        if q.get("scale"):
+            d.add_paragraph(f'Rating: {q["scale"]}')
+    d.add_heading("Settings for the form owner", 1)
+    for x in FEEDBACK["microsoft_form"]["settings"]:
+        d.add_paragraph(x, style="List Bullet")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    d.save(str(path))
 
 
 def write_api(target: Path, repo: str, base: str) -> None:
@@ -726,6 +756,25 @@ def split_fragment(text: str) -> tuple[str, str]:
     return text[:m.start()], text[m.start():]
 
 
+FEEDBACK = yaml.safe_load((ROOT / "knowledge" / "feedback.yaml").read_text(encoding="utf-8"))
+
+
+def feedback_strip(stem: str, label: str) -> str:
+    """'Tell us about this page' at the end of every page: the Microsoft Form (when set up) and the GitHub form (v2.9.0)."""
+    mf = FEEDBACK["microsoft_form"]
+    links = []
+    if mf.get("prefill_url") and "PAGE" in mf["prefill_url"]:
+        links.append((mf["prefill_url"].replace("PAGE", urllib.parse.quote(label)), "Microsoft Form", True))
+    elif mf.get("url"):
+        links.append((mf["url"], "Microsoft Form", True))
+    links.append((f"build.html#contact", "GitHub contact form", False))
+    links.append(("build.html#feedback", "other ways to give feedback", False))
+    items = " · ".join(f'<a href="{html.escape(u)}"' + (' target="_blank" rel="noopener"' if ext else "") + f'>{html.escape(t)}'
+                       + ('<span class="dqp-sr"> (opens in a new tab)</span>' if ext else "") + "</a>" for u, t, ext in links)
+    return (f'<aside class="dqp-fb" aria-label="Feedback about this page">{icon("feedback")}<p><b>Is something wrong, missing or hard to use on this page?</b> '
+            f'Tell us: {items}. Please don\'t include personal data.</p></aside>')
+
+
 def prev_next(stem: str) -> str:
     """Previous and next page in menu order, so people can move through the Commons like a book (v2.8.0)."""
     stems = [o[0] for o in ORDER]
@@ -771,7 +820,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
     # group colour key for signposting (v2.8.0)
     fragment = fragment.replace('<div class="wrap"', f'<div class="wrap" data-group="{GROUP_KEY.get(GROUP_OF.get(stem, ""), "start")}"', 1)
     head, body = split_fragment(fragment)
-    body += "\n" + prev_next(stem)
+    body += "\n" + feedback_strip(stem, dict((p[0], p[1]) for p in PAGES).get(stem, stem)) + "\n" + prev_next(stem)
     head += f'\n<link rel="icon" type="image/svg+xml" href="{FAVICON}">'
     shell_css, shell_body = shell.split("</style>", 1)
     shell_css += "</style>"
@@ -786,7 +835,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback"}
 
 
 def provenance(names: set) -> str:
@@ -940,6 +989,7 @@ def main(argv=None) -> int:
         (target / ".nojekyll").write_text("", encoding="utf-8")
         # Portal search: loaded only when someone opens search, so pages stay light.
         (target / "search-index.js").write_text("window.DQP_INDEX=" + json.dumps(search_index(), ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+        feedback_docx(dl / "dq-commons-feedback-form-questions.docx")
         owner, name = (a.repo.rstrip("/").split("/")[-2:] + ["", ""])[:2]
         write_api(target, a.repo, f"https://{owner}.github.io/{name}/")
         # Offline copy (issue #24): the whole portal in one zip. Open index.html from the unzipped folder;

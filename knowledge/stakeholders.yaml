@@ -193,6 +193,7 @@ roles:
   watch:
   - UK GDPR's accuracy principle already requires personal data to be accurate and kept up to date
   - ICO guidance on accuracy is under review after the Data (Use and Access) Act 2025
+  - Programmes processing personal data need a DPIA before they start; join at discovery (see the change lifecycle on this page)
   routes:
   - {text: Equality and data protection screening, link: "build.html#bundle"}
   - {text: UK GDPR accuracy framework, link: "frameworks.html#fw-uk-ico-accuracy"}
@@ -205,6 +206,7 @@ roles:
   - Clear, measurable obligations and the rules they will be judged by
   watch:
   - Contracts over £5 million need published KPIs under the Procurement Act 2023
+  - In programmes, contracts should cover data quality during migration, acceptance criteria for data, and data handback at exit
   routes:
   - {text: Model clauses and KPIs, link: commercial.html}
 
@@ -228,6 +230,168 @@ roles:
   - To be counted correctly, whoever they are and wherever they live
   routes:
   - {text: Inclusion checks, link: "playbook.html#inclusion"}
+
+# Change and delivery roles (v2.9.0): data quality duties in medium to large initiatives, programmes and projects.
+# The assessment behind them, the lifecycle, RACI and service blueprint are in knowledge/change-delivery.yaml.
+- id: sro
+  group: change
+  name: Senior responsible owner (SRO)
+  who: The senior leader accountable for a programme or major project
+  accountable: The programme's outcomes, including the quality of the data it creates, migrates or retires
+  needs:
+  - An honest view of data readiness at every assurance gate, not a green rating until the last rehearsal
+  - To know which critical data assets the programme touches and who owns them
+  decide:
+  - Whether data quality risks and costs belong in the business case
+  - Whether the data is ready to go live, together with the data owner
+  watch:
+  - Data readiness is often reported late; ask for evidence (profiles, rehearsal results), not ratings
+  - Benefits that depend on better data need data measures to show they arrived
+  measures:
+  - Share of affected assets with a baseline and a named owner
+  - Migration rehearsal reconciliation rates
+  - Critical and high data issues open at each gate
+  routes:
+  - {text: Gate questions by phase, link: "roles.html#change"}
+  - {text: Issues framework, link: "guidance.html"}
+- id: delivery
+  group: change
+  name: Programme, project or delivery manager
+  who: Runs the day-to-day delivery of a programme, project or agile team
+  accountable: Planning and resourcing data quality work, and keeping data risks visible
+  needs:
+  - "Data quality tasks in the plan: profiling, cleansing, migration rehearsals and reconciliation"
+  - A data issue log with priorities that the team and supplier share
+  decide:
+  - When data readiness milestones fall and what evidence each needs
+  watch:
+  - Data cleansing is often underestimated; use the effort model to size it
+  measures:
+  - Data milestones met on time
+  - Data issues open by priority and age
+  routes:
+  - {text: Effort model, link: "baseline.html"}
+  - {text: Reconcile a migration, link: "legacy.html"}
+- id: pmo
+  group: change
+  name: Programme or portfolio office (PMO)
+  who: Reporting, planning and benefits support for programmes and portfolios
+  accountable: Reporting data readiness across projects, and the quality of the programme's own management information
+  needs:
+  - Comparable data readiness measures across projects
+  - Benefits that depend on data linked to data measures
+  watch:
+  - Returns to the centre are data too; apply the same quality checks to them
+  measures:
+  - Data readiness by project and phase
+  - Benefits tracked with a data measure
+  routes:
+  - {text: Pipeline status, link: "pipeline.html"}
+  - {text: Maturity self-assessment, link: "maturity.html"}
+- id: bizchange
+  group: change
+  name: Business change and transition lead
+  who: Prepares the business to adopt the change and hands it over to live service
+  accountable: Embedding new data responsibilities in business as usual
+  needs:
+  - Named owners and stewards for the data after go-live
+  - Training and processes that keep data right at the source
+  watch:
+  - If nobody owns the data on day one of live service, quality drifts quickly
+  measures:
+  - Share of new data assets with a named BAU owner and steward at go-live
+  routes:
+  - {text: Playbook stages 7 and 8, link: "playbook.html"}
+  - {text: Operating model, link: "operate.html"}
+- id: ba
+  group: change
+  name: Business analyst
+  who: Captures business needs, rules and requirements
+  accountable: Testable data requirements, definitions and acceptance criteria
+  needs:
+  - A way to turn business rules into data quality rules that testers and suppliers can use
+  watch:
+  - Rules that live in people's heads are lost at migration; write them down as rules
+  measures:
+  - Share of data requirements with a testable rule and target
+  routes:
+  - {text: Rules assistant, link: "assistant.html"}
+  - {text: Knowledge map and glossary, link: "knowledge.html"}
+- id: product
+  group: change
+  name: Product or service owner
+  who: Owns a digital service or product and its backlog, during delivery and in live
+  accountable: The service's data in live, and trade-offs between speed and data quality
+  needs:
+  - Data quality fixes prioritised in the backlog by impact, not by who shouts loudest
+  watch:
+  - Validation at the point of entry is cheaper than cleansing later
+  measures:
+  - Data errors reported by users; issues fixed at source
+  routes:
+  - {text: Issues framework, link: "guidance.html"}
+  - {text: Check your data, link: "check.html"}
+- id: architect
+  group: change
+  name: Enterprise, solution and data architect (design authority)
+  who: Designs and approves data models, standards, identifiers and integration
+  accountable: Designs that prevent data quality problems rather than bake them in
+  needs:
+  - Agreed identifiers, code lists and data standards to design to
+  - Data quality rules expressed alongside the data model
+  watch:
+  - Point-to-point integrations without shared definitions multiply data quality issues
+  measures:
+  - Share of designs using approved standards and identifiers
+  routes:
+  - {text: Capability and data models, link: "models.html"}
+  - {text: Interoperability and standards, link: "interop.html"}
+- id: migration
+  group: change
+  name: Data migration lead
+  who: Moves data between systems, in-house or at a supplier
+  accountable: Profiling, cleansing, mapping, rehearsal and reconciliation of migrated data
+  needs:
+  - Agreed rules and targets, and an owner who can accept 'good enough to switch over'
+  watch:
+  - Reconcile values, not just counts; check groups of people are not lost in mapping
+  measures:
+  - Reconciliation rates per rehearsal; issues closed before switch-over
+  routes:
+  - {text: Legacy and modernisation, link: "legacy.html"}
+  - {text: Check your data, link: "check.html"}
+- id: test
+  group: change
+  name: Test and quality assurance lead
+  who: Plans and runs testing across delivery phases
+  accountable: Data testing, safe test data and data entry and exit criteria for each test phase
+  needs:
+  - Data quality rules and targets to test against
+  - Synthetic or properly protected test data
+  watch:
+  - Live personal data in test environments is a data protection risk; use synthetic data where possible
+  measures:
+  - Data tests passed against targets at each phase
+  routes:
+  - {text: Check your data, link: "check.html"}
+  - {text: AI for data quality (synthetic data), link: "ai.html"}
+- id: kim
+  group: change
+  name: Records and information manager (knowledge and information management)
+  who: Manages records, retention, disposal and the information asset register
+  accountable: New and changed systems keeping the right records, and applying retention, disposal and transfer
+  needs:
+  - To be involved at discovery and design, not after the system is built
+  - One register that links information assets, records and critical data assets
+  watch:
+  - Disposal or migration can break the history a critical data asset depends on
+  - The section 46 Code of Practice and Public Records Act duties apply to data in new systems too
+  measures:
+  - Share of new systems with retention and disposal agreed before go-live
+  - Information asset register entries linked to CDA register entries
+  routes:
+  - {text: Data management wheel, link: "wheel.html#records"}
+  - {text: Change roles and RACI, link: "roles.html#change"}
 
 gaps:
 - {id: G01, area: "Policy", gap: "The DAM policy requires a DQAP 'or equivalent' but sets no minimum data quality metrics or reporting fields", affects: [council, gds, coordinator], severity: High, status: partly, response: "Proposed minimum entry set (15 fields) on the baseline page and as CDA return columns", where: "baseline.html"}

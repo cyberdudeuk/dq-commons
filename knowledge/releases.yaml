@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.9.0"
+  date: "2026-11-05"
+  title: "Data management wheel, data quality in change programmes, and a Microsoft Form for feedback"
+  pages_new: [wheel]
+  pages_changed: [roles, maturity, build, guide, accessibility, community]
+  items:
+  - {type: new, text: "Data management wheel: the 11 DAMA-DMBOK knowledge areas with views for seven audiences, the DAM policy action for each, where they surface in the maturity themes and the Data Maturity Assessment, and a maturity overlay", link: "wheel.html"}
+  - {type: new, text: "One lifecycle for data and records, records and information management frameworks side by side, and ten join-up actions you can tick and download as a plan", link: "wheel.html#joinup"}
+  - {type: new, text: "Data quality in change programmes and projects: 10 change and delivery roles added after an assessment of 14, a lifecycle with assurance gate questions, a RACI, a service blueprint and journeys", link: "roles.html#change"}
+  - {type: new, text: "Give feedback: a Microsoft Form route (no sign-in, no names) alongside the GitHub contact form and surveys, with a feedback link at the end of every page", link: "build.html#feedback"}
+  - {type: changed, text: "Maturity self-assessment links to the wheel so results read as a capability map", link: "maturity.html#wheel-link"}
+  - {type: changed, text: "Community adds the Government Knowledge and Information Management Profession and The National Archives' information management guidance", link: "community.html"}
 - version: "2.8.0"
   date: "2026-11-05"
   title: "Easier to read and find your way; site map, Ask the Commons, sharing and reuse"

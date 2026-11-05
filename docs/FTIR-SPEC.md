@@ -113,10 +113,22 @@
 ## v1.6 requirements
 | ID | Requirement | Type | Met by |
 |---|---|---|---|
-| F-160 | Show needs, decisions, risks, measures, routes and affecting gaps for 13 roles; remember the chosen role | Functional | `roles.html` |
+| F-160 | Show needs, decisions, risks, measures, routes and affecting gaps for 13 roles (23 from v2.9.0, see F-290); remember the chosen role | Functional | `roles.html` |
 | F-161 | Build a CDO Council brief from current effort scenarios and portfolio results; download as Markdown | Functional | Withdrawn in 2.0.0 (held privately) |
 | F-162 | Filter the gap register by status, severity and affected role | Functional | `roles.html#gaps` |
 | F-163 | Rate Q-FAIR per asset with reasons; never infer missing fields | Functional | `dqkit/qfair.py` |
 | I-160 | CDA return carries 11 new columns (Q-FAIR fields, ratings, confidence) | Integration | `dqkit/cdareturn.py` |
 | I-161 | MCP tool `estimate_effort`; `check_data` returns Q-FAIR | Integration | `dqkit/mcp_server.py` |
 | T-160 | Effort model has one source; Python and browser agree on a known case | Technical | `knowledge/effort.yaml`, tests |
+
+## v2.8 and v2.9 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-280 | Site map, Ask the Commons, Use the Commons your way, Share on every page | Functional | `sitemap.html`, `ask.html`, `reuse.html`, shell |
+| I-280 | Read-only open data API, releases feed and sitemap built with the portal | Integration | `api/`, `feed.xml`, `sitemap.xml` |
+| F-290 | Show 23 roles (13 everyday, 10 change and delivery) grouped in the picker; F-160 updated | Functional | `roles.html`, `knowledge/stakeholders.yaml` |
+| F-291 | Change lifecycle with gate questions, a RACI with one accountable role per activity, a service blueprint and journeys | Functional | `roles.html#change`, `knowledge/change-delivery.yaml` |
+| F-292 | Data management wheel: 11 knowledge areas, audience views, maturity overlay, lifecycle, records frameworks, join-up plan download | Functional | `wheel.html`, `knowledge/dama-wheel.yaml` |
+| F-293 | Feedback routes on every page, including a Microsoft Form when its link is configured; no names or emails | Functional | shell feedback strip, `build.html#feedback`, `knowledge/feedback.yaml` |
+| I-290 | Microsoft Form question set as a Word document for Quick import | Integration | `downloads/dq-commons-feedback-form-questions.docx` |
+| T-290 | Mappings, RACI, blueprint and feedback checked by tests | Technical | `tests/test_wheel_change_feedback.py` |

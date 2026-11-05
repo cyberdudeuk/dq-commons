@@ -18,6 +18,22 @@ __BASE_CSS__
 .sev-High{color:var(--crit);font-weight:700}.sev-Medium{color:var(--warn);font-weight:700}
 .st-addressed{color:var(--good);font-weight:600}.st-partly{color:var(--warn);font-weight:600}.st-open{color:var(--crit);font-weight:600}
 .filters{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:8px}
+.picker .pg{flex-basis:100%;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.verdict{font-size:.74rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.v-add{background:var(--good-soft);color:var(--good)}.v-covered{background:var(--info-soft);color:var(--info)}
+.phases{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+.phases .card .q{font-weight:700;background:var(--sec-s);border-radius:6px;padding:8px 10px}
+.raci td{text-align:center;font-family:var(--f-mono);font-weight:700}
+.raci td.r-A{background:var(--c-orange-s);color:var(--c-orange)}.raci td.r-R{background:var(--c-blue-s);color:var(--c-blue)}
+.raci td.r-C{color:var(--muted)}.raci td.r-I{color:var(--muted);font-weight:400}
+.raci th[scope=row]{text-align:left;white-space:normal;text-transform:none;letter-spacing:0;font-size:.84rem;min-width:13rem;vertical-align:middle}
+.raci thead th{min-width:6.5rem}
+.bp th[scope=row]{text-transform:none;letter-spacing:0;font-size:.84rem}
+.raci tr.me th,.raci tr.me td{outline:2px solid var(--fg);outline-offset:-2px}
+.bp th[scope=row]{min-width:10rem}
+.journey{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0;counter-reset:j}
+.journey li{counter-increment:j;font-size:.84rem;background:var(--sec-s);border-radius:8px;padding:6px 10px}
+.journey li::before{content:counter(j) ". ";font-weight:800;color:var(--sec)}
 </style>
 
 <div class="wrap">
@@ -25,13 +41,34 @@ __BASE_CSS__
   <span class="eyebrow">Start · For your role</span>
   <h1>What you need, decide and should watch</h1>
   <p class="lede" id="sum"></p>
-  <nav class="toc" aria-label="On this page"><a href="#pick">Your role</a><a href="#dates">Key dates</a><a href="#gaps">Gap register</a><a href="#sources">Sources</a></nav>
+  <nav class="toc" aria-label="On this page"><a href="#pick">Your role</a><a href="#change">Change programmes</a><a href="#dates">Key dates</a><a href="#gaps">Gap register</a><a href="#sources">Sources</a></nav>
 </header>
 
 <section id="pick" aria-labelledby="pk-h">
   <h2 id="pk-h">Choose your role</h2>
   <div class="picker" id="picker" role="group" aria-label="Roles"></div>
   <div class="panel" id="role" tabindex="-1" aria-live="polite"></div>
+</section>
+
+<section id="change" aria-labelledby="ch-h">
+  <h2 id="ch-h">Data quality in change programmes and projects</h2>
+  <p id="chsum"></p>
+  <details class="disc" open><summary>Which change roles carry data quality duties: our assessment</summary><div class="body">
+    <div class="tbl"><table><thead><tr><th>Role</th><th>Verdict</th><th>Why</th></tr></thead><tbody id="asb"></tbody></table></div>
+    <p class="small muted">Added roles appear in the role picker above, under Change and delivery roles. Covered roles are already in the Commons. These are hypotheses to test in user research.</p>
+  </div></details>
+  <h3>The delivery lifecycle: data quality at every phase and assurance gate</h3>
+  <p class="small">Phases follow the GDS Service Manual (discovery, alpha, beta, live). Gates follow the gateway reviews used for major projects, now led by the National Infrastructure and Service Transformation Authority (NISTA); departments run equivalent internal gates. Each phase ends with the question an assurance reviewer should ask.</p>
+  <div class="phases" id="phb"></div>
+  <h3>Who does what (RACI)</h3>
+  <div class="filters"><div class="field"><label for="raciPh">Show phase</label><select id="raciPh"><option value="">All phases</option></select></div>
+    <div class="field"><label for="raciMe">Highlight my role</label><select id="raciMe"><option value="">None</option></select></div></div>
+  <div class="tbl"><table class="raci"><thead id="rch"></thead><tbody id="rcb"></tbody></table></div>
+  <p class="small muted">R: responsible. A: accountable (one per activity). C: consulted. I: informed. Business-as-usual roles (owner, steward, quality lead) are included because programmes hand the data back to them.</p>
+  <h3>Service blueprint: data quality through a change</h3>
+  <div class="tbl"><table class="bp"><thead id="bph"></thead><tbody id="bpb"></tbody></table></div>
+  <h3>Proto-personas and their journeys</h3>
+  <div class="grid" id="psb"></div>
 </section>
 
 <section id="dates" aria-labelledby="dt-h">
@@ -56,7 +93,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const S = __K_STAKEHOLDERS__, MN = __K_MODELNAV__;
+const S = __K_STAKEHOLDERS__, MN = __K_MODELNAV__, CH = __K_CHANGE__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
@@ -69,7 +106,9 @@ let cur = (S.roles.find(r => location.hash === "#" + r.id) || {}).id || store.ge
 if (!RN[cur]) cur = "council";
 function list(title, icon, items) { return items && items.length ? `<div><h4>${DQI(icon)} ${title}</h4><ul>${items.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""; }
 function drawRole(focus) {
-  $("picker").innerHTML = S.roles.map(r => `<button type="button" data-r="${r.id}" aria-pressed="${r.id === cur}">${esc(r.name)}</button>`).join("");
+  const btn = r => `<button type="button" data-r="${r.id}" aria-pressed="${r.id === cur}">${esc(r.name)}</button>`;
+  $("picker").innerHTML = `<span class="pg">Everyday data roles</span>` + S.roles.filter(r => !r.group).map(btn).join("") +
+    `<span class="pg">Change and delivery roles (programmes and projects)</span>` + S.roles.filter(r => r.group === "change").map(btn).join("");
   const r = S.roles.find(x => x.id === cur), mine = S.gaps.filter(g => g.affects.includes(cur));
   $("role").innerHTML = `<h3>${esc(r.name)}</h3><p class="small muted">${esc(r.who)}. <b>Accountable for:</b> ${esc(r.accountable)}.</p>
   <div class="cols">${list("What you need", "target", r.needs)}${list("Decisions coming up", "flag", r.decide)}${list("Be aware", "alert", r.watch)}${list("Measures to ask for", "chart", r.measures)}</div>
@@ -100,9 +139,33 @@ function drawGaps() {
 }
 ["fS", "fV", "fR"].forEach(id => $(id).addEventListener("change", drawGaps)); drawGaps();
 $("src").innerHTML = S.sources.map(s => `<li><a href="${esc(s.url)}" rel="noopener">${esc(s.title)}</a></li>`).join("");
+
+// change programmes (v2.9.0)
+$("chsum").textContent = CH.summary;
+$("asb").innerHTML = CH.assessment.map(a => `<tr><td>${a.id && RN[a.id] ? `<a href="#${a.id}" data-r="${a.id}">${esc(a.role)}</a>` : esc(a.role)}</td><td><span class="verdict v-${a.verdict}">${a.verdict === "add" ? "Added" : "Already covered"}</span></td><td>${esc(a.why)}</td></tr>`).join("");
+$("asb").addEventListener("click", e => { const l = e.target.closest("[data-r]"); if (!l) return; e.preventDefault(); cur = l.dataset.r; store.set("dqc.role", cur); drawRole(true); $("pick").scrollIntoView({behavior: "smooth"}); });
+$("phb").innerHTML = CH.phases.map((p, i) => `<div class="card" data-hue="${i % 8}"><h4 style="margin:0">${i + 1}. ${esc(p.name)}</h4><p class="small muted">${esc(p.gds)} · ${esc(p.gate)}</p><p class="small">${esc(p.dq)}</p><p class="small"><b>Evidence:</b> ${esc(p.evidence)}</p><p class="small q">${esc(p.question)}</p></div>`).join("");
+const PH = Object.fromEntries(CH.phases.map(p => [p.id, p.name]));
+$("raciPh").innerHTML += CH.phases.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("");
+$("raciMe").innerHTML += Object.keys(CH.raci).map(r => `<option value="${r}">${esc(RN[r] || r)}</option>`).join("");
+function drawRaci() {
+  const ph = $("raciPh").value, me = $("raciMe").value, acts = CH.raci_activities.filter(a => !ph || a.phase === ph);
+  $("rch").innerHTML = `<tr><th scope="col">Role</th>${acts.map(a => `<th scope="col" title="${esc(PH[a.phase])}">${esc(a.name)}</th>`).join("")}</tr>`;
+  $("rcb").innerHTML = Object.entries(CH.raci).map(([r, v]) => `<tr${r === me ? ' class="me"' : ""}><th scope="row">${esc(RN[r] || r)}</th>${acts.map(a => `<td class="r-${v[a.id]}">${v[a.id] || ""}</td>`).join("")}</tr>`).join("");
+}
+["raciPh", "raciMe"].forEach(id => $(id).addEventListener("change", drawRaci));
+$("raciMe").value = CH.raci[cur] ? cur : ""; drawRaci();
+$("bph").innerHTML = `<tr><th scope="col">Lane</th>${CH.phases.map(p => `<th scope="col">${esc(p.name)}</th>`).join("")}</tr>`;
+$("bpb").innerHTML = CH.blueprint.lanes.map(l => `<tr><th scope="row">${esc(l.name)}</th>${CH.phases.map(p => `<td class="small">${esc((CH.blueprint.cells[p.id] || {})[l.id] || "")}</td>`).join("")}</tr>`).join("");
+$("psb").innerHTML = CH.personas.map((p, i) => { const j = CH.journeys.find(x => p.name.startsWith(x.persona)); return `<div class="card" data-hue="${(i + 3) % 8}"><h4 style="margin:0">${esc(p.name)}</h4>
+  <p class="small"><b>Context:</b> ${esc(p.context)}. <b>Goal:</b> ${esc(p.goal)}. <b>Pain point:</b> ${esc(p.pain)}.</p>${j ? `<ol class="journey">${j.steps.map(s => `<li>${esc(s)}</li>`).join("")}</ol>` : ""}</div>`; }).join("");
 window.DQP_TOUR = [
-  {sel: "#picker", title: "Your role", text: "Thirteen roles, from the CDO Council to the people the data describes."},
+  {sel: "#picker", title: "Your role", text: "Thirteen everyday data roles, from the CDO Council to the people the data describes, and ten change and delivery roles for programmes and projects."},
   {sel: "#role", title: "Tailored view", text: "What you need, decisions coming up, what to watch, measures to ask for and the gaps that affect you."},
+  {sel: "#asb", title: "Change roles", text: "Why ten programme and project roles were added: each makes decisions that fix data quality for years."},
+  {sel: "#phb", title: "Lifecycle and gates", text: "What data quality work each delivery phase needs, the evidence, and the question an assurance reviewer should ask."},
+  {sel: ".raci", title: "Who does what", text: "A RACI for 13 data activities. Filter by phase or highlight your role."},
+  {sel: ".bp", title: "Service blueprint", text: "What people experience, what the programme does, the data and records work behind the scenes, the Commons tools that help, and the gate question, phase by phase."},
   {sel: "#gb", title: "Gap register", text: "The gaps found, who they affect and what is being done. Filter by status, severity or role."},
 ];
 </script>

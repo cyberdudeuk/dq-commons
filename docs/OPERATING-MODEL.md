@@ -27,6 +27,8 @@ Roles we design for: data owners, data stewards, analysts and engineers, statist
 
 Accessibility requests (for example an alternative format, or a problem with assistive technology) always go to tier 2 and are acknowledged in 1 working day.
 
+**Feedback routes (v2.9.0).** Every page ends with "Is something wrong, missing or hard to use on this page?" and links to the routes in `knowledge/feedback.yaml`: a Microsoft Form (once its link is configured; no sign-in, no names or emails), the GitHub contact form, surveys and the accessibility route. The Commons team reviews Microsoft Form responses monthly, logs actions in the backlog, exports and then deletes raw responses after 12 months, and reports back through What's new.
+
 ## 3. Roles
 
 | Role | Does | Time |

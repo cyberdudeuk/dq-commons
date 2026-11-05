@@ -1,0 +1,253 @@
+<title>Data management wheel</title>
+<style>
+__BASE_CSS__
+.aud{display:flex;flex-wrap:wrap;gap:6px}
+.aud button{font:inherit;font-size:.86rem;font-weight:600;padding:7px 12px;border-radius:999px;border:1px solid var(--muted);background:var(--surface);color:var(--fg);cursor:pointer;min-height:36px}
+.aud button[aria-pressed="true"]{background:var(--fg);color:var(--surface);border-color:var(--fg)}
+.wlayout{display:grid;gap:18px;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);align-items:start}
+@media (max-width:980px){.wlayout{grid-template-columns:minmax(0,1fr)}}
+.wheelbox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+#wsvg{width:100%;height:auto;max-width:560px;margin:0 auto;display:block}
+#wsvg .seg path,#wsvg .seg circle{stroke:var(--surface);stroke-width:3;cursor:pointer}
+#wsvg .seg text{font:600 11.5px/1 "Public Sans",system-ui,sans-serif;pointer-events:none}
+#wsvg .seg:focus{outline:none}
+#wsvg .seg:focus-visible path,#wsvg .seg:focus-visible circle{stroke:#ffbf47;stroke-width:5}
+#wsvg .grp text{font:700 11px "Public Sans",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.wctl{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;font-size:.88rem}
+.wctl label{display:flex;gap:6px;align-items:center}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:4px;vertical-align:-2px}
+.wlist{display:none;flex-wrap:wrap;gap:6px}
+.wlist.on{display:flex}
+.wlist button{font:inherit;font-size:.84rem;padding:6px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:32px}
+.wlist button[aria-pressed="true"]{border-color:var(--fg);font-weight:700}
+#panel{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--sec);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+#panel h3{font-size:1.2rem;font-family:var(--f-display)}
+#panel h4{font-size:.86rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:0}
+#panel .you{background:var(--sec-s);border-radius:8px;padding:10px 12px}
+#panel ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px;font-size:.9rem}
+.mx td,.mx th{text-align:center}
+.mx td:first-child,.mx th:first-child{text-align:left}
+.mx .y{font-weight:800;color:var(--good)}
+.cards3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))}
+.cards3 .card.sel{outline:3px solid var(--fg);outline-offset:2px}
+.chipline{display:flex;flex-wrap:wrap;gap:4px}
+.jcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+.jcards .card dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0;font-size:.86rem}
+.jcards .card dt{color:var(--muted);font-weight:600}.jcards .card dd{margin:0}
+.jcards label{display:flex;gap:8px;align-items:center;font-weight:600;font-size:.88rem}
+.side-badge{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.side-data{background:var(--c-blue-s);color:var(--c-blue)}.side-records{background:var(--c-magenta-s);color:var(--c-magenta)}.side-both{background:var(--c-green-s);color:var(--c-green)}
+</style>
+
+<div class="wrap">
+<header class="page">
+  <span class="eyebrow">Check · Data management wheel</span>
+  <h1>The data management wheel: see your whole data capability</h1>
+  <p class="lede">The 11 data management knowledge areas from DAMA-DMBOK, mapped to the maturity models, the Data Asset Management (DAM) policy, the data and records lifecycle, and the people who do the work. Pick your role and an area to see what it means for you.</p>
+  <nav class="toc" aria-label="On this page"><a href="#wheel">The wheel</a><a href="#maturity">How it surfaces in maturity</a><a href="#audiences">Use it from your role</a><a href="#lifecycle">One lifecycle for data and records</a><a href="#records">Data and records frameworks</a><a href="#joinup">Joining up the professions</a><a href="#communities">Communities</a><a href="#sources">Sources</a></nav>
+</header>
+
+<section id="wheel" aria-labelledby="wheel-h">
+  <h2 id="wheel-h">The wheel</h2>
+  <div class="field"><span id="aud-l" style="font-weight:600;font-size:.9rem">I am a…</span><div class="aud" role="group" aria-labelledby="aud-l" id="aud"></div></div>
+  <div class="wlayout">
+    <div class="wheelbox">
+      <svg id="wsvg" viewBox="0 0 520 520" role="group" aria-labelledby="wsvg-t"><title id="wsvg-t">Data management wheel: data governance at the centre, ten knowledge areas around it in four groups. Choose an area to see details.</title></svg>
+      <div class="wctl">
+        <label><input type="checkbox" id="ovl"> Colour by my maturity results</label>
+        <label><input type="checkbox" id="lst"> Show as a list</label>
+      </div>
+      <p class="small muted" id="ovlnote" hidden></p>
+      <div class="legend" id="legend"></div>
+      <div class="wlist" id="wlist" role="group" aria-label="Knowledge areas"></div>
+      <p class="small muted">An original Commons diagram. Knowledge area names are from DAMA-DMBOK2 (DAMA International); groupings, descriptions and mappings are ours.</p>
+    </div>
+    <div id="panel" tabindex="-1" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="maturity" aria-labelledby="mx-h">
+  <h2 id="mx-h">How the wheel surfaces in maturity</h2>
+  <p>Each knowledge area shows up in the Commons <a href="maturity.html">maturity self-assessment</a> themes and in the topics of the government's <a href="https://www.gov.uk/government/publications/data-maturity-assessment-for-government-framework" rel="noopener">Data Maturity Assessment (DMA)</a>. Use this to read your maturity results as a capability map: a low theme points to the areas to strengthen. These mappings are the Commons' judgement.</p>
+  <div class="tbl"><table class="mx"><thead id="mxh"></thead><tbody id="mxb"></tbody></table></div>
+  <details class="disc"><summary>The DMA's ten topics and the areas they draw on</summary><div class="body"><div class="tbl"><table><thead><tr><th>DMA topic</th><th>Knowledge areas</th></tr></thead><tbody id="dmab"></tbody></table></div><p class="small muted" id="dmanote"></p></div></details>
+</section>
+
+<section id="audiences" aria-labelledby="au-h">
+  <h2 id="au-h">Use the wheel from your role</h2>
+  <p>How each group can use the wheel to shape its organisation's data management capability, its end-to-end data lifecycle, and how it adopts, implements and embeds the DAM policy.</p>
+  <div class="cards3" id="audcards"></div>
+</section>
+
+<section id="lifecycle" aria-labelledby="lc-h">
+  <h2 id="lc-h">One lifecycle for data and records</h2>
+  <p>Data and records go through the same stages under different names. Running them as one lifecycle means retention, disposal and quality are decided together, and nothing a critical data asset depends on is lost.</p>
+  <div class="tbl"><table><thead><tr><th>Stage</th><th>Data management</th><th>Records and information management</th><th>DAM policy</th><th>Knowledge areas</th></tr></thead><tbody id="lcb"></tbody></table></div>
+</section>
+
+<section id="records" aria-labelledby="rec-h">
+  <h2 id="rec-h">Data and records frameworks: where they overlap</h2>
+  <p>Records and information management has its own standards, methods and assessments. Many overlap with data management; using them together avoids duplicate work and fills gaps on both sides.</p>
+  <div class="tbl"><table><thead><tr><th>Framework</th><th>Side</th><th>What it covers</th><th>Overlap with data management</th><th>Join-up action</th></tr></thead><tbody id="fwb"></tbody></table></div>
+</section>
+
+<section id="joinup" aria-labelledby="ju-h">
+  <h2 id="ju-h">Joining up the professions: practical actions</h2>
+  <p>Ten actions that bring data, analysis, digital, information governance, and knowledge and information management (KIM) professionals together, each with who leads, the outcome, a first step and a measure. Tick the ones you will take on, then download your plan.</p>
+  <div class="jcards" id="jcards"></div>
+  <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn" type="button" id="jdl">Download my join-up plan (CSV)</button><span class="msg ok" id="jmsg" role="status" aria-live="polite"></span></p>
+</section>
+
+<section id="communities" aria-labelledby="cm-h">
+  <h2 id="cm-h">Communities and networks where the professions meet</h2>
+  <ul class="plain" id="cml"></ul>
+  <p class="small">More networks are on the <a href="community.html">Community</a> page. The roles that join these up in programmes are on <a href="roles.html#change">For your role</a>.</p>
+</section>
+
+<section id="sources" aria-labelledby="so-h">
+  <h2 id="so-h">Sources</h2>
+  <ul class="plain small" id="srcl"></ul>
+</section>
+</div>
+
+<script>
+(function () {
+  const W = __K_WHEEL__, MAT = __K_MATURITY__, COM = __K_COMMUNITIES__;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const I = n => (window.DQI ? window.DQI(n) : "");
+  const store = {get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }};
+  const PAGE = {roles: "For your role", playbook: "Data quality management playbook", operate: "Operating model", models: "Capability and data models", interop: "Interoperability and standards", legacy: "Legacy and modernisation", knowledge: "Knowledge map", tooling: "Tooling", pipeline: "Pipeline status", accessibility: "Accessibility and privacy", weaver: "Metadata Weaver", catalogues: "Catalogues and quality tools", library: "Library", check: "Check your data", "ndl-assurance": "National Data Library", guidance: "Issues framework"};
+  const THEME = Object.fromEntries(MAT.themes.map(t => [t.id, t.name]));
+  const AREA = Object.fromEntries(W.areas.map(a => [a.id, a]));
+  const GROUP = Object.fromEntries(W.groups.map(g => [g.id, g]));
+  const HUEVAR = ["teal", "purple", "blue", "orange", "green", "magenta", "gold", "slate"];
+  const hueOf = a => a.group === "centre" ? 0 : GROUP[a.group].hue;
+  let aud = store.get("dqc.wheel.aud", "leaders"), cur = (location.hash.match(/^#area-(\w+)/) || [])[1] || "quality";
+  if (!AREA[cur]) cur = "quality";
+  if (!W.audiences.find(x => x.id === aud)) aud = "leaders";
+
+  // maturity overlay: average of the mapped Commons themes the visitor has answered
+  const ans = store.get("dqc.maturity", {});
+  const lvl = a => { const v = a.themes.map(t => ans[t]).filter(x => typeof x === "number"); return v.length ? v.reduce((p, q) => p + q, 0) / v.length : null; };
+  const hasAns = Object.keys(ans).length > 0;
+
+  // draw the wheel
+  const C = 260, R0 = 82, R1 = 196, R2 = 204, R3 = 238;
+  const ring = W.areas.filter(a => a.group !== "centre"), N = ring.length, step = 360 / N;
+  const pt = (r, deg) => { const t = (deg - 90) * Math.PI / 180; return [C + r * Math.cos(t), C + r * Math.sin(t)]; };
+  const arc = (r1, r2, a1, a2) => { const [x1, y1] = pt(r2, a1), [x2, y2] = pt(r2, a2), [x3, y3] = pt(r1, a2), [x4, y4] = pt(r1, a1), L = a2 - a1 > 180 ? 1 : 0;
+    return `M${x1} ${y1}A${r2} ${r2} 0 ${L} 1 ${x2} ${y2}L${x3} ${y3}A${r1} ${r1} 0 ${L} 0 ${x4} ${y4}Z`; };
+  function words(name, max) { const w = name.replace(" and ", " & ").split(" "), out = [""]; w.forEach(x => { if ((out[out.length - 1] + " " + x).trim().length > max) out.push(x); else out[out.length - 1] = (out[out.length - 1] + " " + x).trim(); }); return out; }
+  function draw() {
+    const ov = $("ovl").checked && hasAns;
+    let s = "";
+    // group arcs (outer ring)
+    let i = 0;
+    W.groups.forEach(g => { const n = ring.filter(a => a.group === g.id).length, a1 = i * step, a2 = (i + n) * step; i += n;
+      const mid = (a1 + a2) / 2, flip = mid > 90 && mid < 270, id = "gp-" + g.id;
+      const [sx, sy] = pt(222, flip ? a2 - 2 : a1 + 2), [ex, ey] = pt(222, flip ? a1 + 2 : a2 - 2);
+      s += `<g class="grp" aria-hidden="true"><path d="${arc(R2, R3, a1 + .6, a2 - .6)}" fill="var(--c-${HUEVAR[g.hue]}-s)" stroke="var(--c-${HUEVAR[g.hue]})" stroke-width="1"/>
+        <path id="${id}" d="M${sx} ${sy}A222 222 0 0 ${flip ? 0 : 1} ${ex} ${ey}" fill="none"/><text fill="var(--c-${HUEVAR[g.hue]})" dy="4"><textPath href="#${id}" startOffset="50%" text-anchor="middle">${esc(g.name)}</textPath></text></g>`; });
+    // knowledge area segments
+    ring.forEach((a, k) => { const a1 = k * step, a2 = (k + 1) * step, hv = HUEVAR[hueOf(a)], sel = a.id === cur, L = lvl(a);
+      const fill = ov ? (L == null ? "var(--sunk)" : `color-mix(in srgb, var(--c-${hv}) ${Math.round(15 + (L - 1) * 21)}%, var(--surface))`) : (sel ? `var(--c-${hv})` : `var(--c-${hv}-s)`);
+      const txt = sel && !ov ? "var(--surface)" : "var(--fg)";
+      const [tx, ty] = pt((R0 + R1) / 2 + 6, (a1 + a2) / 2), lines = words(a.name, 13);
+      s += `<g class="seg" role="button" tabindex="0" data-a="${a.id}" aria-pressed="${sel}" aria-label="${esc(a.name)} (${esc(GROUP[a.group].name)})${ov ? (L == null ? ", no maturity answers yet" : ", maturity " + L.toFixed(1) + " of 5") : ""}">
+        <path d="${arc(R0 + 4, R1, a1 + .5, a2 - .5)}" fill="${fill}"${sel ? ' stroke="var(--fg)" stroke-width="3"' : ""}/>
+        ${lines.map((l, j) => `<text x="${tx}" y="${ty + (j - (lines.length - 1) / 2) * 13 + 4}" text-anchor="middle" fill="${txt}">${esc(l)}</text>`).join("")}
+        ${ov && L != null ? `<text x="${tx}" y="${ty + (lines.length / 2) * 13 + 14}" text-anchor="middle" fill="var(--fg)" style="font-weight:800">${L.toFixed(1)}</text>` : ""}</g>`; });
+    // centre: governance
+    const g = AREA.governance, gs = cur === "governance";
+    s += `<g class="seg" role="button" tabindex="0" data-a="governance" aria-pressed="${gs}" aria-label="${esc(g.name)} (centre)${ov && lvl(g) != null ? ", maturity " + lvl(g).toFixed(1) + " of 5" : ""}">
+      <circle cx="${C}" cy="${C}" r="${R0}" fill="${ov ? (lvl(g) == null ? "var(--sunk)" : `color-mix(in srgb, var(--c-teal) ${Math.round(15 + (lvl(g) - 1) * 21)}%, var(--surface))`) : gs ? "var(--c-teal)" : "var(--c-teal-s)"}"${gs ? ' stroke="var(--fg)" stroke-width="3"' : ""}/>
+      <text x="${C}" y="${C - 4}" text-anchor="middle" fill="${gs && !ov ? "var(--surface)" : "var(--fg)"}" style="font-size:14px;font-weight:800">Data</text>
+      <text x="${C}" y="${C + 14}" text-anchor="middle" fill="${gs && !ov ? "var(--surface)" : "var(--fg)"}" style="font-size:14px;font-weight:800">governance</text>
+      ${ov && lvl(g) != null ? `<text x="${C}" y="${C + 34}" text-anchor="middle" fill="var(--fg)" style="font-weight:800">${lvl(g).toFixed(1)}</text>` : ""}</g>`;
+    $("wsvg").innerHTML = `<title id="wsvg-t">Data management wheel: data governance at the centre, ten knowledge areas around it in four groups. Choose an area to see details.</title>` + s;
+    $("legend").innerHTML = ov ? `<span>Shade shows your average maturity level for the themes mapped to each area (darker is more mature). Grey: no answers yet, or no Commons theme maps to that area (security is covered by the DMA, not the Commons themes).</span>`
+      : W.groups.map(g => `<span><i style="background:var(--c-${HUEVAR[g.hue]})"></i>${esc(g.name)}</span>`).join("") + `<span><i style="background:var(--c-teal)"></i>Centre: data governance</span>`;
+    $("wlist").innerHTML = W.areas.map(a => `<button type="button" data-a="${a.id}" aria-pressed="${a.id === cur}">${esc(a.name)}</button>`).join("");
+  }
+  $("ovlnote").hidden = hasAns; $("ovlnote").innerHTML = 'You have not answered the <a href="maturity.html">maturity self-assessment</a> yet. Answer it to colour the wheel by your results.';
+  function panel(focus) {
+    const a = AREA[cur], au = W.audiences.find(x => x.id === aud), L = lvl(a);
+    $("panel").dataset.hue = hueOf(a);
+    $("panel").innerHTML = `<p class="eyebrow" style="margin:0">${a.group === "centre" ? "Centre of the wheel" : esc(GROUP[a.group].name)}</p><h3>${esc(a.name)}</h3><p>${esc(a.summary)}</p>
+      <div class="you"><h4>${I("users")} For ${esc(au.name.toLowerCase())}</h4><p>${esc(a.views[aud])}</p></div>
+      <div><h4>${I("flag")} DAM policy: what to do</h4><p>${esc(a.dam)}</p></div>
+      <div><h4>${I("gauge")} Where it surfaces in maturity</h4><ul>
+        <li>Commons themes: ${a.themes.length ? a.themes.map(t => `<a href="maturity.html">${esc(THEME[t])}</a>`).join(", ") : "no direct data quality theme"}${L != null ? ` (your average: <b>${L.toFixed(1)}</b> of 5)` : ""}</li>
+        <li>DMA topics: ${a.dma.map(t => esc(W.dma.topics[t])).join(", ")}</li></ul></div>
+      <div><h4>${I("refresh")} Lifecycle stages</h4><p class="chipline">${a.lifecycle.map(l => `<a class="chip" href="#lc-${l}">${esc((W.lifecycle.find(x => x.id === l) || {}).name)}</a>`).join("")}</p></div>
+      <div><h4>${I("library")} Records and information management</h4><p>${esc(a.irm)}</p>${a.standards.length ? `<ul class="small">${a.standards.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}</div>
+      <div><h4>${I("arrow")} In the Commons</h4><p class="chipline">${a.pages.map(p => `<a class="chip acc" href="${p}.html">${esc(PAGE[p] || p)}</a>`).join("")}</p></div>`;
+    if (focus) $("panel").focus();
+    document.querySelectorAll("#audcards .card").forEach(c => c.classList.toggle("sel", c.dataset.au === aud));
+  }
+  function pick(id, focus) { cur = id; history.replaceState(null, "", "#area-" + id); draw(); panel(focus); }
+  $("aud").innerHTML = W.audiences.map(x => `<button type="button" data-au="${x.id}" aria-pressed="${x.id === aud}">${esc(x.name)}</button>`).join("");
+  $("aud").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; aud = b.dataset.au; store.set("dqc.wheel.aud", aud);
+    document.querySelectorAll("#aud button").forEach(x => x.setAttribute("aria-pressed", String(x === b))); panel(false); });
+  $("wsvg").addEventListener("click", e => { const g = e.target.closest(".seg"); if (g) pick(g.dataset.a, false); });
+  $("wsvg").addEventListener("keydown", e => { const g = e.target.closest(".seg"); if (!g) return;
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(g.dataset.a, true); }
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); const ids = W.areas.map(a => a.id), i = ids.indexOf(g.dataset.a), n = ids[(i + (e.key === "ArrowRight" ? 1 : ids.length - 1)) % ids.length];
+      pick(n, false); const el = $("wsvg").querySelector(`[data-a="${n}"]`); if (el) el.focus(); } });
+  $("wlist").addEventListener("click", e => { const b = e.target.closest("button"); if (b) pick(b.dataset.a, true); });
+  $("ovl").addEventListener("change", draw);
+  $("lst").addEventListener("change", () => $("wlist").classList.toggle("on", $("lst").checked));
+  // on small screens the wheel's labels get small: start with the list, the wheel stays above it
+  if (window.innerWidth < 600) { $("lst").checked = true; $("wlist").classList.add("on"); }
+  draw(); panel(false);
+
+  // maturity matrix
+  const themes = MAT.themes;
+  $("mxh").innerHTML = `<tr><th scope="col">Knowledge area</th>${themes.map(t => `<th scope="col">${esc(t.name)}</th>`).join("")}<th scope="col">DMA topics</th></tr>`;
+  $("mxb").innerHTML = W.areas.map(a => `<tr><th scope="row"><a href="#area-${a.id}" data-a="${a.id}">${esc(a.name)}</a></th>${themes.map(t => a.themes.includes(t.id) ? '<td class="y"><span aria-hidden="true">●</span><span class="sr-only">Yes</span></td>' : '<td><span class="sr-only">No</span></td>').join("")}<td>${a.dma.map(t => esc(W.dma.topics[t])).join("; ")}</td></tr>`).join("");
+  $("mxb").addEventListener("click", e => { const l = e.target.closest("a[data-a]"); if (l) { e.preventDefault(); pick(l.dataset.a, false); $("wheel").scrollIntoView({behavior: "smooth"}); } });
+  $("dmab").innerHTML = Object.entries(W.dma.topics).map(([k, v]) => `<tr><td>${esc(v)}</td><td>${W.areas.filter(a => a.dma.includes(k)).map(a => esc(a.name)).join(", ") || "Mostly about skills and culture, which run through every area"}</td></tr>`).join("");
+  $("dmanote").textContent = W.dma.note;
+
+  // audiences
+  $("audcards").innerHTML = W.audiences.map((x, i) => `<div class="card" data-au="${x.id}" data-hue="${i % 8}"><h3>${esc(x.name)}</h3><p class="small">${esc(x.lens)}</p>
+    <h4 class="small">Questions to ask</h4><ul class="plain small">${x.questions.map(q => `<li>${esc(q)}</li>`).join("")}</ul>
+    <h4 class="small">First actions for the DAM policy</h4><ol class="plain small">${x.dam.map(q => `<li>${esc(q)}</li>`).join("")}</ol></div>`).join("");
+
+  // lifecycle and frameworks
+  $("lcb").innerHTML = W.lifecycle.map(l => `<tr id="lc-${l.id}"><th scope="row">${esc(l.name)}</th><td>${esc(l.data)}</td><td>${esc(l.records)}</td><td>${esc(l.dam)}</td><td><span class="chipline">${l.areas.map(a => `<a class="chip" href="#area-${a}" data-a="${a}">${esc(AREA[a].name)}</a>`).join("")}</span></td></tr>`).join("");
+  $("lcb").addEventListener("click", e => { const l = e.target.closest("a[data-a]"); if (l) { e.preventDefault(); pick(l.dataset.a, false); $("wheel").scrollIntoView({behavior: "smooth"}); } });
+  const SIDE = {data: "Data", records: "Records", both: "Both"};
+  $("fwb").innerHTML = W.frameworks.map(f => `<tr><td>${f.url ? `<a href="${esc(f.url)}" rel="noopener">${esc(f.name)}</a>` : esc(f.name)}</td><td><span class="side-badge side-${f.side}">${SIDE[f.side]}</span></td><td>${esc(f.covers)}</td><td>${esc(f.overlap)}</td><td>${esc(f.action)}</td></tr>`).join("");
+
+  // join-up plan
+  let mine = store.get("dqc.joinup", []);
+  $("jcards").innerHTML = W.joinup.map((j, i) => `<div class="card" data-hue="${i % 8}"><h3>${esc(j.id)}. ${esc(j.action)}</h3><p class="small">${esc(j.detail)}</p>
+    <dl><dt>Who leads</dt><dd>${esc(j.who)}</dd><dt>Outcome</dt><dd>${esc(j.outcome)}</dd><dt>First step</dt><dd>${esc(j.first_step)}</dd><dt>Measure</dt><dd>${esc(j.measure)}</dd></dl>
+    <label><input type="checkbox" data-j="${j.id}" ${mine.includes(j.id) ? "checked" : ""}> We will do this</label></div>`).join("");
+  $("jcards").addEventListener("change", e => { const c = e.target.closest("[data-j]"); if (!c) return; mine = mine.filter(x => x !== c.dataset.j); if (c.checked) mine.push(c.dataset.j); store.set("dqc.joinup", mine); });
+  $("jdl").addEventListener("click", () => {
+    const rows = W.joinup.filter(j => !mine.length || mine.includes(j.id));
+    const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+    const csv = ["ID,Action,Who leads,Outcome,First step,Measure,Owner,Due date,Status"].concat(rows.map(j => [j.id, j.action, j.who, j.outcome, j.first_step, j.measure, "", "", "Not started"].map(q).join(","))).join("\r\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + csv], {type: "text/csv"})); a.download = "dq-commons-join-up-plan.csv"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    $("jmsg").textContent = (mine.length ? mine.length + " actions" : "All 10 actions") + " downloaded. Add owners and dates in your spreadsheet.";
+  });
+
+  // communities and sources
+  const cm = Object.fromEntries(COM.map(c => [c.name, c]));
+  $("cml").innerHTML = W.communities.map(c => { const u = c.url || (cm[c.name] || {}).url; return `<li><b>${u ? `<a href="${esc(u)}" rel="noopener">${esc(c.name)}</a>` : esc(c.name)}</b>: ${esc(c.for)}</li>`; }).join("");
+  $("srcl").innerHTML = [[W.source.name, W.source.url], [W.dma.name, W.dma.url]].concat(W.frameworks.filter(f => f.url).map(f => [f.name, f.url])).map(([n, u]) => `<li><a href="${esc(u)}" rel="noopener">${esc(n)}</a></li>`).join("") + `<li>${esc(W.source.note)}</li>`;
+
+  window.DQP_TOUR = [
+    {sel: "#aud", title: "Choose your role", text: "The advice in the panel changes to suit you: leaders, owners, stewards, architects, records managers, programme roles or suppliers."},
+    {sel: "#wsvg", title: "The wheel", text: "Data governance sits at the centre; ten knowledge areas surround it in four groups. Choose an area with the mouse, or Tab to it and press Enter. Arrow keys move around the wheel."},
+    {sel: "#ovl", title: "Your maturity on the wheel", text: "If you have answered the maturity self-assessment, colour the wheel by your results to see which areas to strengthen."},
+    {sel: "#panel", title: "What it means for you", text: "For each area: what to do for the DAM policy, where it shows up in maturity, its lifecycle stages, the records management overlap and where to go in the Commons."},
+    {sel: "#lifecycle", title: "One lifecycle", text: "Data and records stages side by side, so retention, disposal and quality are decided together."},
+    {sel: "#jcards", title: "Join up the professions", text: "Ten practical actions with outcomes and measures. Tick the ones you'll do and download your plan."},
+  ];
+})();
+</script>

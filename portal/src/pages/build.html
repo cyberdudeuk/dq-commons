@@ -34,7 +34,7 @@ __BASE_CSS__
   <span class="eyebrow">Community · Help us build this</span>
   <h1>Help us build the Commons</h1>
   <p class="lede" id="intro"></p>
-  <nav class="toc" aria-label="On this page"><a href="#ways">Ways to help</a><a href="#roadmap">Roadmap</a><a href="#backlog">Backlog</a><a href="#wishlist">Wishlist and votes</a><a href="#codesign">Co-design</a><a href="#charter">Charter and safeguards</a><a href="#trust">Trust</a><a href="#contributors">Contributors</a><a href="#github">GitHub</a><a href="#contact">Contact us</a></nav>
+  <nav class="toc" aria-label="On this page"><a href="#ways">Ways to help</a><a href="#feedback">Give feedback</a><a href="#roadmap">Roadmap</a><a href="#backlog">Backlog</a><a href="#wishlist">Wishlist and votes</a><a href="#codesign">Co-design</a><a href="#charter">Charter and safeguards</a><a href="#trust">Trust</a><a href="#contributors">Contributors</a><a href="#github">GitHub</a><a href="#contact">Contact us</a></nav>
   <p class="state">Everything on this page runs on GitHub: votes are 👍 reactions, suggestions and messages are GitHub issue forms that open already filled in. You need a free GitHub account to vote or send; if you don't have one, ask a colleague.</p>
 </header>
 
@@ -111,6 +111,19 @@ __BASE_CSS__
   <p class="small muted">The bundle is generated from the repository's docs by <code>scripts/build_bundle.py</code>, so it always matches the build.</p>
 </section>
 
+<section id="feedback" aria-labelledby="fb-h">
+  <h2 id="fb-h">Give feedback</h2>
+  <p>Choose the route that suits you. None of them asks for your name or email, and we never show an email address.</p>
+  <div class="grid" id="fbRoutes"></div>
+  <details class="disc"><summary>The Microsoft Form: questions and set-up (for the Commons team)</summary><div class="body">
+    <p class="small" id="fbStatus"></p>
+    <h3>Questions</h3><ol class="plain small" id="fbQs"></ol>
+    <p class="small"><a href="__DOWNLOADS__dq-commons-feedback-form-questions.docx">Download the questions as a Word document</a> (for Microsoft Forms' Quick import, where your organisation allows it).</p>
+    <h3>Settings</h3><ul class="plain small" id="fbSet"></ul>
+    <h3>Set-up steps</h3><ol class="plain small" id="fbSteps"></ol>
+  </div></details>
+</section>
+
 <section id="contact" aria-labelledby="ct-h">
   <h2 id="ct-h">Contact us</h2>
   <p>Send us a message through this form. It is the only way to contact the team: we never publish an email address, which keeps spam and impersonation down, and you never need to give yours. The form opens a pre-filled GitHub contact issue (a free GitHub account is needed; if you don't have one, ask a colleague) and we reply there.</p>
@@ -126,7 +139,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__;
+const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__, FB = __K_FEEDBACK__;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const gh = t => `${B.repo}/issues/new?template=${t}`;
@@ -232,8 +245,23 @@ $("ctForm").addEventListener("submit", e => {
   DQP_GITHUB.open(url);
   $("ctOut").innerHTML = `<span class="msg ok">Your message is ready in a new tab on GitHub. Check it, then select <b>Create</b>. We reply there, usually within 5 working days. <a href="${esc(url)}" target="_blank" rel="noopener">Open it again</a>.</span>`;
 });
+
+// feedback routes (v2.9.0)
+(function () {
+  const mf = FB.microsoft_form, ready = !!mf.url;
+  $("fbRoutes").innerHTML = FB.routes.map((r, i) => {
+    let act = "";
+    if (r.id === "msform") act = ready ? `<a class="btn" style="align-self:flex-start" href="${esc(mf.url)}" target="_blank" rel="noopener">Open the Microsoft Form<span class="sr-only"> (opens in a new tab)</span></a>` : `<p class="small"><span class="chip warn">Being set up</span> ${esc(mf.status_when_empty)}</p>`;
+    else if (r.link) act = `<a class="btn ghost" style="align-self:flex-start" href="${esc(r.link)}">${{github: "Use the contact form", survey: "Take or run a survey", access: "Read the accessibility statement"}[r.id] || "Go"}</a>`;
+    return `<div class="card" data-hue="${(i + 1) % 8}"><h3>${esc(r.name)}</h3><p class="small">${esc(r.best_for)}</p><p class="small muted">${esc(r.privacy)}</p>${act}</div>`; }).join("");
+  $("fbStatus").textContent = ready ? "The form is live." : "Status: not live yet. Paste the form's share link into microsoft_form.url in knowledge/feedback.yaml and rebuild.";
+  $("fbQs").innerHTML = FB.questions.map(q => `<li><b>${esc(q.text)}</b>${q.required ? " (required)" : ""}${q.options ? `<br><span class="muted">${q.options.map(esc).join(" · ")}</span>` : ""}${q.scale ? `<br><span class="muted">${esc(q.scale)}</span>` : ""}</li>`).join("");
+  $("fbSet").innerHTML = mf.settings.map(x => `<li>${esc(x)}</li>`).join("");
+  $("fbSteps").innerHTML = mf.setup_steps.map(x => `<li>${esc(x)}</li>`).join("");
+})();
 window.DQP_TOUR = [
   {sel: "#wayz", title: "Ways to help", text: "Pick up work, vote, co-design, share, or tell us what's wrong."},
+  {sel: "#fbRoutes", title: "Give feedback", text: "A Microsoft Form (no sign-in, no names), the GitHub contact form, surveys, or the accessibility route. Every page also ends with a feedback link."},
   {sel: "#road", title: "Roadmap", text: "What's done, next and later."},
   {sel: "#bl", title: "Backlog", text: "Every item is a GitHub issue you can follow or pick up."},
   {sel: "#wishlist", title: "Wishlist", text: "Vote with a 👍 on GitHub; the most-wanted wishes come first."},

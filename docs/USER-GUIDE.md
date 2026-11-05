@@ -16,7 +16,7 @@ The Commons is a free, open place to check, improve and talk about the quality o
 |---|---|---|
 | Start: Get started | Home, New to GitHub?, About the Commons, User guide, Site map, Ask the Commons, For your role, Accessibility and privacy | Find your way, ask a question, see what the Commons is for and what each role needs |
 | Learn: Learn and build skills | Learn, Across the professions, Skills and training, Knowledge map, Library and knowledge base, Media centre, Events | Learn, check your skills, explore concepts and how they connect, read and watch |
-| Check: Check and assess | Check your data, Maturity self-assessment, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, prioritise issues, draft rules, size a baseline |
+| Check: Check and assess | Check your data, Maturity self-assessment, Data management wheel, Issues framework, Rules assistant, Critical data asset baseline | Measure quality in your browser, assess maturity, see your whole data capability, prioritise issues, draft rules, size a baseline |
 | Improve: Manage and improve | Data quality management playbook, Frameworks and standards, Tooling, Catalogues and quality tools, AI for data quality, Buying and suppliers, Legacy and modernisation, Interoperability and standards, Metadata Weaver, Capability and data models, Pipeline status | Follow the playbook, compare frameworks, choose and connect catalogues and quality tools, use AI safely, write contracts, migrate, join data up, publish metadata, see the capability model and workflows |
 | Apply: Apply to your context | All scenarios, UK and the world, National Data Library, Use the Commons your way | Work through a policy, sector, nation or platform; bring the Commons into your organisation, systems and AI assistants |
 | Contribute: Contribute and get help | Community, Case studies, Surveys and commissions, Help us build this, Operating model and support | Contribute, run surveys, ask for help, vote on the roadmap, co-design, contact us |
@@ -79,6 +79,15 @@ Go to **Use the Commons your way**. Answer three questions to see which routes s
 
 ### Use the Commons with an AI assistant
 Try **Ask the Commons** first. To use your organisation's own approved assistant, follow the MCP set-up steps on **Use the Commons your way** (`python -m dqkit.mcp_server`), or give it `api/passages.json` as a knowledge source. Follow the guardrails on that page: approved tools only, no personal data, cite and check sources.
+
+### See your whole data capability on the data management wheel
+Go to **Data management wheel**. Choose your role, then an area of the wheel (data governance sits at the centre, ten knowledge areas around it). You see what it means for you, what to do for the DAM policy, where it surfaces in the maturity themes and the government's Data Maturity Assessment, its lifecycle stages, and how records and information management overlaps. Tick **Colour by my maturity results** to shade the wheel with your answers. Further down: one lifecycle for data and records, records frameworks side by side, ten join-up actions you can tick and download as a plan, and the communities where the professions meet.
+
+### Run data quality through a programme or project
+On **For your role**, choose a change and delivery role (SRO, programme or delivery manager, PMO, business change lead, business analyst, product or service owner, architect, data migration lead, test lead, or records and information manager). Under **Data quality in change programmes and projects** you'll find why each role was added, the lifecycle with gate questions, a RACI you can filter by phase or role, a service blueprint and example journeys.
+
+### Give feedback
+Every page ends with a feedback link. Use the **Microsoft Form** (no sign-in, no names or emails), the **GitHub contact form**, a survey, or the accessibility route. All of them are on **Help us build this** under Give feedback.
 
 ### See what's new
 Press **What's new** in the top bar. Each release lists what's new, changed and fixed. New and updated pages are flagged in the menus.

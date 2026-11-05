@@ -14,11 +14,25 @@ treating it as evidence.
 | Jordan, data user with a visual impairment | Uses a screen reader | Download and analyse data | PDF-only and dashboard-only data is hard to use |
 | Morgan, analyst in Northern Ireland | Looks for UK-wide comparisons | Find equivalent NI data | England-only pages don't signpost NI sources |
 
+### Change and delivery proto-personas (v2.9.0)
+
+| Persona | Context | Goal | Pain point (hypothesis) |
+|---|---|---|---|
+| Dami, SRO of a benefits system replacement | Accountable for a three-year programme | Go live on time without harming claimants | Data readiness reported green until the last rehearsal fails |
+| Chris, data migration lead at a supplier | Moving 12 million records with legacy codes | A clean, reconciled switch-over | No agreed rules, or owner to accept "good enough" |
+| Leah, records manager in a department | Holds the information asset register and retention schedule | New systems keep and dispose of records properly | Brought in after the design is fixed |
+| Tom, business analyst on an alpha | Writing requirements for a new data collection | Acceptance criteria testers and suppliers can use | Business rules live in people's heads |
+
+Journeys for each are on the For your role page (`knowledge/change-delivery.yaml`).
+
 ## Hypotheses to test
 1. A rules file in YAML is usable by stewards with spreadsheet skills, given examples. (If not, build the web form, F-09.)
 2. Framework-based priorities change what owners fix first.
 3. Users trust NDL pages more when quality and owner information is shown.
 4. Signposting other UK nations increases successful finds for devolved-nation users.
+5. Programmes that use the gate questions and RACI find data readiness problems earlier (test with two live programmes and an assurance reviewer).
+6. Records managers and data stewards who share one asset register and lifecycle duplicate less work (test with two departments).
+7. People without GitHub accounts give more feedback when a Microsoft Form is offered.
 
 ## Research plan
 1. **Sample:** 8 to 10 stewards from at least 5 organisations, including 2 ALBs and 1 devolved administration. Include at least 2 disabled participants and 2 people who have little experience with data tools.
