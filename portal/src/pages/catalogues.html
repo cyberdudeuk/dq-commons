@@ -159,7 +159,7 @@ $("facts").innerHTML = K.facts.map(f => `<div class="card"><p>${esc(f.text)}</p>
 // Patterns
 const PCOL = {5: "#942514", 4: "#a14d00", 3: "#594d00", 2: "#1d70b8", 1: "#005a30"};
 let pat = location.hash.startsWith("#pattern-") ? location.hash.slice(9) : "standards";
-const meter = n => `<span class="meter" aria-label="Lock-in ${n} out of 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
+const meter = n => `<span class="meter" role="img" aria-label="Lock-in ${n} out of 5">${[1, 2, 3, 4, 5].map(i => `<i class="${i <= n ? "on" : ""}"></i>`).join("")}</span>`;
 function drawPat() {
   $("pats").innerHTML = K.patterns.map(p => `<button type="button" data-p="${p.id}" aria-pressed="${p.id === pat}" style="--c:${PCOL[p.lockin]}"><b>${esc(p.name)}</b><span>Lock-in ${meter(p.lockin)}</span></button>`).join("");
   const p = K.patterns.find(x => x.id === pat);
