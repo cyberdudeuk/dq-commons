@@ -11,6 +11,15 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.12.1"
+  date: "2026-11-06"
+  title: "The menu bar fixed: the full menu on laptops again, and every control the same size"
+  pages_new: []
+  pages_changed: []
+  items:
+  - {type: fixed, text: "The full menu shows again on screens 1200 pixels and wider (it had moved behind 'Menu' below 1440); search, what's new, display options and the tour become compact so everything fits on one row", link: "sitemap.html"}
+  - {type: fixed, text: "Every control in the top bar is the same height and shape, the bar no longer changes height between screen sizes, and icon-only buttons keep their names for screen readers", link: "guide.html#display"}
+  - {type: fixed, text: "An open menu now sits above the 'On this page' and 'Top' buttons on phones", link: "guide.html"}
 - version: "2.12.0"
   date: "2026-11-05"
   title: "Get involved, governance bodies, display options, source labels, and nine backlog items delivered"

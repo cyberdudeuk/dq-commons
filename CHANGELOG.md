@@ -2,6 +2,10 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.12.1 — 2026-11-06
+### Fixed
+- Global menu bar: one set of breakpoints replaces seven scattered ones. The full menu shows from 1200 pixels (was 1440, which hid it on most laptops); between 1200 and 1919 pixels search and what's new become icon-only and the tour button says "Tour"; below 1200 the menu collapses into "Menu". Every bar control is 40 pixels high and pill-shaped; the bar is 60 pixels at every width; labels hidden for space stay in the accessible name; open menus sit above the floating buttons (D-NAV-04).
+
 ## 2.12.0 — 2026-11-05
 ### Added
 - Page `getinvolved.html` (Contribute) and `knowledge/participation.yaml`: three routes in (contribute, join, champion), five working groups with terms of reference, champion and ambassador roles, a communications kit for email, Teams, Slack, Viva Engage, intranet, newsletters and meetings, and seven badges (D-PART-01). `scripts/make_badges.py` writes badges to `portal/src/badges/` (SVG and PNG); `ambassador_kit()` writes `downloads/getinvolved/` (Word, .eml, text files, zip). GitHub forms `8-badge-claim.yml` and `9-join-working-group.yml`; contact topics for working groups, champions and badges.

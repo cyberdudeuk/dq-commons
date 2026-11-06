@@ -1,5 +1,9 @@
 # Build journal
 
+## 2026-11-06 — v2.12.1: global menu bar fixed
+- **Fixed:** the full menu shows from 1200 pixels again with compact buttons; uniform 40-pixel controls in a 60-pixel bar at every width; accessible names kept for icon-only buttons; open menus above floating buttons.
+- **Checked:** bar measured at 390, 768, 1024, 1280, 1366, 1440, 1536 and 1920 pixels (no overflow, constant height); every menu group opens inside the screen and closes with Escape; collapsed menu on phone and tablet; accessible names; accessibility checks.
+
 ## 2026-11-05 — v2.12.0: get involved, governance bodies, display options, and the backlog executed
 - **Built:** Get involved (routes, working groups, champions and ambassadors, communications kit, badges and an ambassador kit); Governance boards and forums (20 bodies, routes, how a standard is agreed); display options; source labels; cross-portal journey bar; evidence from public code; DAM requirement links per playbook stage; feedback routes to sister portals; usability benchmark; learning progress; draft Jersey and Isle of Man packs; Weaver mapping to the Metadata Exchange Model for review.
 - **Backlog:** BL-26, 27, 28, 29, 30, 32, 33, 34 done. BL-12, 15, 31 advanced and waiting on others (DSA review, statistics offices, publication of the strategic roadmap for public sector data). BL-01, 02, 06, 09, 17, 22, 23, 25 need people (participants, an auditor, translators, a live tenant, testers).

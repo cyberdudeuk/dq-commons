@@ -1,5 +1,10 @@
 # Decision log (this repository)
 
+## 2026-11-06 · D-NAV-04 · One responsive rule set for the global bar
+- **Decision:** replace the bar's scattered breakpoints with one set: full menu from 1200 pixels, compact right-hand buttons from 1200 to 1919 pixels (icon-only search and what's new, "Tour"), full labels from 1920, "Menu" below 1200; every control 40 pixels high; the bar 60 pixels; hidden labels clipped rather than removed so screen readers still hear them.
+- **Why:** after 2.12.0 added the Aa button, the full menu only showed from 1440 pixels, so most laptops (1280 to 1366) saw "Menu" with empty space, and controls had five different heights. The user asked for the bar to be fixed.
+- **Alternatives considered:** shortening group names (they carry the numbered journey); moving display options into the footer (harder to find for the people who need it).
+
 ## 2026-11-05 · D-PART-01 · Three ways in, five working groups, champions and badges
 - **Decision:** `getinvolved.html` and `knowledge/participation.yaml` set out three routes (contribute, join, champion), five working groups (standards and metadata, accessibility and inclusion, user research, sector and nation packs, data quality practice) with published terms (open membership, 1 to 2 hours a month, consensus, published notes, rotating convenor, yearly review), champion and ambassador roles, a communications kit and seven badges. Supporter is self-declared; other badges are confirmed by a maintainer and recorded with the person's agreement.
 - **Why:** the user asked for routes to collaborate and participate, ways for people to engage others in their organisations, ready-made artefacts and a recognition scheme.

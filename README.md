@@ -208,7 +208,7 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.12.0) adds **Get involved** (working groups, champions and ambassadors, a communications
+The latest release (2.12.1) fixes the menu bar: the full menu shows on laptops again and every control is the same size. Release 2.12.0 added **Get involved** (working groups, champions and ambassadors, a communications
 kit for email, Teams, Slack and intranets, and badges for GitHub, social media and email signatures), a guide to the
 **governance boards and forums** for government data, **display options** (text size, spacing, readable font, high
 contrast), **source labels** on every outside link, journeys that continue across the three portals, evidence from

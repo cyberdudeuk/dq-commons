@@ -51,12 +51,8 @@
   max-height:calc(100vh - 60px);overflow-y:auto;padding:6px max(16px, env(safe-area-inset-right, 0px)) 16px max(16px, env(safe-area-inset-left, 0px));box-shadow:0 12px 28px rgba(0,0,0,.2)}
 .dqp-grp h2{font:700 11.5px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.09em;text-transform:uppercase;color:var(--dqp-panel-muted);margin:14px 12px 4px}
 .dqp-grp a[aria-current="page"]{box-shadow:inset 4px 0 0 var(--dqp-focus)}
-@media (max-width:1439px){.dqp-nav{display:none}.dqp-menu{display:block}.dqp-tourbtn{margin-left:0}}
 .dqp-short{display:none}
-@media (max-width:520px){.dqp-brand span{display:none}.dqp-long{display:none}.dqp-short{display:inline}}
-@media (min-width:1440px) and (max-width:1599px){.dqp-brand small{display:none}}
 @media (max-width:900px){.dqp-brand small{display:none}}
-@media (max-width:380px){.dqp-in{gap:8px}.dqp-menu>summary,.dqp-tourbtn,.dqp-newbtn,.dqp-searchbtn{padding-left:8px;padding-right:8px}.dqp-newbtn .dqp-short{display:none}}
 .dqc-ctx{background:var(--dqp-panel);color:var(--dqp-panel-fg);border:1px solid var(--dqp-panel-line);border-left:4px solid var(--dqp-focus);border-radius:6px;padding:10px 14px;font:400 14px/1.55 "Public Sans",system-ui,sans-serif;max-width:80ch;margin-top:10px}
 .dqc-ctx a{color:inherit;text-decoration:underline;font-weight:600}
 .dqp-foot{font-family:"Public Sans",system-ui,sans-serif;font-size:13px;line-height:1.5;color:var(--muted, #56636e);border-top:3px solid var(--accent, #0d6b6e);background:var(--surface, #fff);
@@ -109,12 +105,11 @@
 .dqp-navflag{font:700 10px/1 "Public Sans",system-ui,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:2px 5px;border-radius:4px;background:#ffbf47;color:#0b0c0c;margin-left:6px;vertical-align:1px}
 .dqp-navflag.upd{background:#d9e6f7;color:#1d3a6b}
 .dqp-drawer :focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
-@media (max-width:1439px){.dqp-newbtn{margin-left:0}}
 /* Journey menu: level badges (text carries the meaning; the border style is a second cue) and group titles */
 .dqp-lvl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;border:1px solid currentColor;border-radius:999px;padding:0 6px;margin-right:4px;line-height:16px;vertical-align:1px}
 .dqp-lvl-intermediate{border-style:dashed}
 .dqp-lvl-advanced{border-width:2px}
-@media (min-width:1440px){.dqp-panel.dqp-wide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:4px;width:min(720px,calc(100vw - 24px));max-width:none}
+@media (min-width:1200px){.dqp-panel.dqp-wide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:4px;width:min(720px,calc(100vw - 24px));max-width:none}
   .dqp-panel.dqp-wide .dqp-gt{grid-column:1/-1}}
 .dqp-gt{margin:0 0 6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;opacity:.85}
 /* WCAG 2.2 SC 2.5.8 Target size (minimum): standalone links and tick boxes are at least 24 x 24 CSS px */
@@ -153,7 +148,6 @@ h3>a:only-child{display:inline-flex;align-items:center;min-height:24px}
 /* Search across the portal */
 .dqp-searchbtn{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 "Public Sans",system-ui,sans-serif;color:var(--dqp-bar-fg);background:transparent;border:1px solid var(--dqp-bar-line, rgba(255,255,255,.35));border-radius:999px;padding:8px 12px;cursor:pointer;min-height:36px}
 .dqp-searchbtn kbd{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;border:1px solid currentColor;border-radius:4px;padding:2px 5px;opacity:.8}
-@media (max-width:760px){.dqp-searchbtn kbd,.dqp-searchbtn .dqp-long{display:none}}
 .dqp-search{border:0;padding:0;margin:8vh auto auto;width:min(680px,94vw);max-height:80vh;border-radius:12px;background:var(--dqp-panel);color:var(--dqp-panel-fg);box-shadow:0 24px 60px rgba(0,0,0,.35)}
 .dqp-search::backdrop{background:rgba(5,15,20,.55)}
 .dqp-search form{display:flex;gap:8px;align-items:center;padding:14px;border-bottom:1px solid var(--dqp-panel-line)}
@@ -339,7 +333,6 @@ abbr.dqp-abbr{text-decoration:underline dotted;text-underline-offset:3px;text-de
 html{font-size:var(--dqp-fs,100%)}
 .dqp-dispbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:700 14px/1 "Public Sans",system-ui,sans-serif;color:var(--dqp-bar-fg);background:transparent;border:1px solid var(--dqp-bar-line);border-radius:999px;min-width:40px;min-height:36px;padding:6px 10px;cursor:pointer;margin-left:6px}
 .dqp-dispbtn:focus-visible{outline:3px solid var(--dqp-focus);outline-offset:2px}
-@media (max-width:1439px){.dqp-dispbtn{margin-left:0}}
 .dqp-disp fieldset{border:1px solid var(--dqp-panel-line);border-radius:8px;margin:0 0 12px;padding:8px 12px 10px}
 .dqp-disp legend{font-weight:700;padding:0 4px}
 .dqp-disp label{display:flex;align-items:center;gap:8px;min-height:32px;cursor:pointer}
@@ -353,6 +346,37 @@ html{font-size:var(--dqp-fs,100%)}
 :root[data-contrast="high"] .card,:root[data-contrast="high"] .tbl,:root[data-contrast="high"] .kpi{border:2px solid #000!important}
 :root[data-contrast="high"] *:focus-visible{outline:4px solid #000!important;box-shadow:0 0 0 7px #ffdd00!important}
 :root[data-motion="reduce"] *,:root[data-motion="reduce"] *::before,:root[data-motion="reduce"] *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+/* Global bar (v2.12.1): one row and one height at every width. The full menu shows from 1200 pixels; between 1200
+   and 1599 the buttons on the right become compact (icon-only labels stay readable by screen readers); below 1200 the
+   menu collapses into "Menu". Every control is 40 pixels high and the bar is 60. */
+.dqp-in{min-height:60px;gap:10px;max-width:1600px}
+.dqp-nav{align-self:stretch;margin-left:auto}
+.dqp-g{display:flex}
+.dqp-g>summary{display:flex;align-items:center;box-sizing:border-box;height:60px;padding:3px 10px 0;font-size:14px}
+.dqp-menu>summary,.dqp-searchbtn,.dqp-newbtn,.dqp-dispbtn,.dqp-tourbtn{box-sizing:border-box;height:40px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:0 14px;margin:0;border-radius:999px;font:600 14px/1 "Public Sans",system-ui,sans-serif;white-space:nowrap;flex:none}
+.dqp-menu>summary{border-radius:999px}
+.dqp-dispbtn{width:40px;padding:0}
+.dqp-searchbtn kbd{margin-left:2px}
+.dqp-vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (min-width:1200px) and (max-width:1919px){
+  .dqp-brand small{display:none}
+  .dqp-searchbtn,.dqp-newbtn{width:40px;padding:0}
+  .dqp-searchbtn .dqp-long,.dqp-newbtn .dqp-long{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  .dqp-searchbtn kbd,.dqp-newbtn .dqp-short{display:none}
+  .dqp-tourbtn .dqp-long{display:none}.dqp-tourbtn .dqp-short{display:inline}
+}
+@media (max-width:1199px){.dqp-nav{display:none}.dqp-menu{display:block;margin-left:auto}}
+.dqp-bar:has(.dqp-menu[open]),.dqp-bar:has(.dqp-g[open]){z-index:95}
+@media (max-width:900px){.dqp-brand small{display:none}}
+@media (max-width:760px){
+  .dqp-searchbtn,.dqp-newbtn{width:40px;padding:0}
+  .dqp-searchbtn .dqp-long,.dqp-newbtn .dqp-long{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+  .dqp-searchbtn kbd,.dqp-newbtn .dqp-short{display:none}
+  .dqp-tourbtn .dqp-long{display:none}.dqp-tourbtn .dqp-short{display:inline}
+}
+@media (max-width:520px){.dqp-brand span{display:none}.dqp-in{gap:8px}.dqp-menu>summary,.dqp-tourbtn{padding:0 12px}}
+@media (max-width:359px){.dqp-in{gap:5px}.dqp-searchbtn,.dqp-newbtn,.dqp-dispbtn{width:36px;height:36px;min-height:36px}.dqp-menu>summary,.dqp-tourbtn{height:36px;min-height:36px;padding:0 9px}}
 @media print{.dqp-dispbtn,.dqp-disp{display:none!important}}
 /* Reflow at large text sizes (WCAG 1.4.4 and 1.4.10): long labels wrap rather than push the page sideways. */
 .wrap .chip,.wrap .tag,.wrap .pill,.wrap .dqp-src{white-space:normal;max-width:100%}
@@ -363,7 +387,7 @@ html{font-size:var(--dqp-fs,100%)}
 .wrap .filters > label{max-width:100%;flex-wrap:wrap}
 .wrap .card,.wrap [class*="grid"] > *{min-width:0}
 @media (max-width:600px){.wrap .btn{white-space:normal;max-width:100%;height:auto}}
-@media (max-width:440px){.dqp-in{gap:6px}.dqp-newbtn .dqp-short{display:none}.dqp-menu>summary,.dqp-tourbtn,.dqp-newbtn,.dqp-searchbtn{padding-left:9px;padding-right:9px}.dqp-dispbtn{padding:6px 8px;min-width:36px}}
+
 </style>
 <script>
 /* Apply saved display options before the page draws, so nothing jumps. */

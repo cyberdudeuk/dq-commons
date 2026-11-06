@@ -79,7 +79,7 @@ class Versions(unittest.TestCase):
         self.assertEqual(mcp_server.SERVER_INFO["version"], latest)
         notes = subprocess.run([sys.executable, str(ROOT / "scripts" / "release_notes.py"), latest], capture_output=True, text=True)
         self.assertEqual(notes.returncode, 0, notes.stderr)
-        self.assertIn("### New", notes.stdout)
+        self.assertRegex(notes.stdout, r"### (New|Changed|Fixed)")  # a patch release may only fix things
 
 
 if __name__ == "__main__":
