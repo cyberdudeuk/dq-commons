@@ -43,6 +43,7 @@ BRAND = "Public Sector Data Quality Commons"
 GROUPS = [
     ("1 Start", [
         ("index", "Home", "Start here: what the Commons does, with routes by role and task"),
+        ("map", "Data quality at a glance", "Pictures instead of tables: who does each step and how much it matters, the steps as a flow, how records connect, and how a rule travels"),
         ("github", "New to GitHub?", "What GitHub is, how the portal and its repository connect, and what you can do there"),
         ("about", "About the Commons", "Background, why it exists, purpose, aims, goals, objectives and desired outcomes"),
         ("guide", "User guide", "How to use the portal, guided tours, tutorials and frequently asked questions"),
@@ -104,7 +105,7 @@ GROUPS = [
 # Full group titles, shown in the menu panel and in each page's breadcrumb.
 GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3 Check": "Check and assess",
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
-LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
+LEVEL = {**{s: "Beginner" for s in ["index", "map", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
                                     "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask", "research", "getinvolved"]},
          **{s: "Intermediate" for s in ["catalogues", "connectors", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
                                         "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem", "roadmap", "governance"]},
@@ -116,7 +117,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "connectors": "link", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "connectors": "link", "map": "map", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
 
 
 def icon(name: str) -> str:
@@ -310,6 +311,7 @@ def knowledge() -> dict:
         "ECO": lambda: y("ecosystem"),
         "CODE": lambda: y("code-evidence"),
         "VENDORS": lambda: {**y("vendors"), "crosswalk": weaves.crosswalk()},
+        "PROVENANCE": lambda: provenance_feed(),
         "GOVBODIES": lambda: y("governance-bodies"),
         "PARTICIPATION": lambda: y("participation"),
         "RESEARCH": lambda: {**y("research"), "email_text": research_email()[1]},
@@ -530,7 +532,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"vendors": "connectors", "participation": "getinvolved", "governance-bodies": "governance", "research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"provenance": "build", "vendors": "connectors", "participation": "getinvolved", "governance-bodies": "governance", "research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -1142,7 +1144,16 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation", "VENDORS": "vendors"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation", "VENDORS": "vendors", "PROVENANCE": "provenance"}
+
+
+def provenance_feed() -> dict:
+    """The content provenance register plus counts per class, for the build page."""
+    reg = yaml.safe_load((ROOT / "knowledge" / "provenance.yaml").read_text(encoding="utf-8"))
+    counts: dict = {}
+    for i in reg["items"]:
+        counts[i["class"]] = counts.get(i["class"], 0) + 1
+    return {**reg, "counts": counts}
 
 
 def provenance(names: set) -> str:
@@ -1244,6 +1255,7 @@ def main(argv=None) -> int:
         "__JSYAML__": "/*! js-yaml 4.2.0 | MIT | https://github.com/nodeca/js-yaml */\n"
                       + (SRC / "js" / "vendor" / "js-yaml.min.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
         "__ENGINE__": (SRC / "js" / "engine.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
+        "__DIAGRAMS__": (SRC / "js" / "diagrams.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
         "__SHEETS__": (SRC / "js" / "sheets.js").read_text(encoding="utf-8").replace("</script", "<\\/script"),
         "__BUILD__": js_json({"version": VERSION, "sha": sha, "built": date.today().isoformat(), "as_of": port["as_of"],
                               "repo": a.repo}),

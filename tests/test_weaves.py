@@ -121,3 +121,42 @@ class VendorDataTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ProvenanceTests(unittest.TestCase):
+    def test_audit_passes(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import audit_provenance
+        r = audit_provenance.audit()
+        self.assertTrue(r["ok"], {"unregistered": list(r["unregistered"]), "missing": r["missing"], "bad_class": r["bad_class"]})
+
+    def test_no_example_domains_left_in_weaver(self):
+        self.assertNotIn("example.org", (ROOT / "portal" / "src" / "pages" / "weaver.html").read_text(encoding="utf-8"))
+
+    def test_masters_are_https(self):
+        reg = yaml.safe_load((ROOT / "knowledge" / "provenance.yaml").read_text(encoding="utf-8"))
+        for m in reg["masters"]:
+            self.assertTrue(m["url"].startswith("https://"), m["what"])
+
+
+class MapPageTests(unittest.TestCase):
+    def test_map_page_wired(self):
+        page = (ROOT / "portal" / "src" / "pages" / "map.html").read_text(encoding="utf-8")
+        self.assertIn("__DIAGRAMS__", page)
+        self.assertIn("__K_MODELS__", page)
+        for section in ("who", "steps", "records", "travel", "how"):
+            self.assertIn(f'id="{section}"', page)
+        src = (ROOT / "scripts" / "build_dq_portal.py").read_text(encoding="utf-8")
+        self.assertIn('("map",', src)
+
+    def test_diagrams_have_no_external_dependencies(self):
+        js = (ROOT / "portal" / "src" / "js" / "diagrams.js").read_text(encoding="utf-8")
+        self.assertNotRegex(js, r"https?://(?!www\.w3\.org/2000/svg)")
+        for f in ("constellation", "flow", "columns", "listView"):
+            self.assertIn(f, js)
+
+    def test_every_lineage_box_opens_a_real_page(self):
+        page = (ROOT / "portal" / "src" / "pages" / "map.html").read_text(encoding="utf-8")
+        pages = {p.stem for p in (ROOT / "portal" / "src" / "pages").glob("*.html")}
+        for stem in re.findall(r'href: "([a-z-]+)\.html', page):
+            self.assertIn(stem, pages)

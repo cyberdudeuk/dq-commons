@@ -1,5 +1,17 @@
 # Decision log (this repository)
 
+## 2026-11-07 · D-PROV-01 · A provenance register and audit instead of silent examples
+- **Decision:** every file that contains something that looks like an example, placeholder or invented detail is registered in `knowledge/provenance.yaml` with its class and how the page labels it; `scripts/audit_provenance.py` fails the build otherwise. Where another body masters the real thing (GOV.UK organisations, data.gov.uk, ONS geography, Ordnance Survey, the Environment Agency, DfT, DfE), the register links to it. Invented records attributed to real organisations were replaced with real public records.
+- **Why:** the user asked to find inferred, dummy and made-up content, replace it with authoritative content where it is mastered elsewhere, and set routines to keep checking it.
+- **Kept as illustrative:** content that is illustrative by nature (model contract clauses, worked AI examples with invented figures, the escalation example's simulated dates, the ODCS skeleton), because no authentic equivalent can be published; each is labelled on the page.
+- **Alternatives considered:** deleting all examples (the features become hard to understand); live pulls from data.gov.uk on page load (breaks offline use and the no-tracking stance).
+
+## 2026-11-07 · D-DIAG-01 · Pictures first, derived from the model, in the style of a Morgan Map
+- **Decision:** a small in-house SVG diagram kit (no libraries) and a "Data quality at a glance" page as a picture-first way in. Workflow steps are placed on two axes, who does it against how much it matters to trust, adapting Tom Wynne-Morgan's Morgan Map (automation against criticality). Positions come from the capability model by published rules (step type and guidance cited), never hand-placed scores. Every diagram has a list equivalent and keyboard access.
+- **Why:** the user asked for friendlier, diagram-based views of lineage, traceability and entity relationships that bring in a less technical audience while keeping every feature.
+- **Alternatives considered:** Mermaid (a large dependency and its output is hard to make accessible); copying the Morgan Map tool's interface (it is someone else's work; we adapted the idea, not the code).
+- **Next:** apply the kit to more pages (ecosystem lineage, knowledge graph, roadmap) and test with users in research round 1.
+
 ## 2026-11-07 · D-WEAVE-01 · Weave rules into each platform's own format, derived crosswalk
 - **Decision:** add 11 weaves that write Commons rules in each platform's native rule language, mirrored in the browser and held to byte-for-byte parity; derive the crosswalk by running each weave on a one-rule sample per check, so the matrix can never disagree with the code.
 - **Why:** the user asked for connectors, add-ons and crosswalks to the data quality solutions of the major vendors. A one-way export people can paste is the lowest-friction connector and keeps rules portable (avoids lock-in, see the catalogues page).

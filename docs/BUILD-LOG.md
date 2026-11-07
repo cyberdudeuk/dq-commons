@@ -1,5 +1,11 @@
 # Build journal
 
+## 2026-11-07 — v2.14.0: data quality at a glance, real examples, provenance register
+- **Built:** diagram kit (constellation, flow, columns); Data quality at a glance page (workflow constellation, flow, record relationships, rule lineage, placement rules); provenance register, audit script and build-page section; home page links.
+- **Replaced:** invented Metadata Weaver records with real Defra, Environment Agency, DfT and DfE records (sources found and checked by search); F-03's untraceable evidence restated as an assumption.
+- **Checked:** full tests; parity; provenance audit (18 files registered, none unregistered); new page at 1366 and 390 pixels in light and dark; all 48 pages at 150% text with high contrast (one overflow on the connectors page found and fixed); internal links and anchors (one broken link in the register found and fixed).
+- **Not yet done:** applying the diagram kit to the other pages, and a full visual refresh of all 48 pages; these are on the backlog for testing with users first.
+
 ## 2026-11-07 — v2.13.0: connectors, weaves and AI
 - **Built:** 11 platform weaves in Python and the browser; the Connectors, weaves and AI page (generator, directory of 27 vendors and platforms, crosswalk, AI and MCP table, analyst reports); `dqkit export --to <platform>`; `weave_rules` MCP tool; monthly repository check.
 - **Researched:** 2026 Gartner Magic Quadrant vendor list (13) from Gartner's abstract; positions announced by Informatica, Ataccama, Qlik, IBM (Leaders), DQLabs (Visionary), CluedIn (Niche Player); Forrester Wave Q1 2026 Leaders (Ataccama, Informatica, Qlik) and Experian (Strong Performer); MCP and agent offerings from vendor documentation; 30 GitHub repositories confirmed live.

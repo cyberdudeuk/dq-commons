@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.14.0"
+  date: "2026-11-07"
+  title: "Data quality at a glance: pictures for everyone, real examples instead of invented ones, and a register of where content comes from"
+  pages_new: [map]
+  pages_changed: [weaver, build, index, research]
+  items:
+  - {type: new, text: "Data quality at a glance: each workflow step mapped by who does it and how much it matters to trust (in the style of a Morgan Map), the steps as a flow, how the 22 kinds of record connect, and how a rule travels to catalogues and the National Data Library; every picture can also be read as a list", link: "map.html"}
+  - {type: new, text: "Where our content comes from: a register of real examples, templates, estimates, assessments and illustrations, how each is labelled, and the bodies that master the real thing", link: "build.html#provenance"}
+  - {type: changed, text: "Metadata Weaver examples are now real public records from Defra, the Environment Agency, the Department for Transport and the Department for Education, with their sources, instead of invented ones", link: "weaver.html"}
+  - {type: changed, text: "A research finding that cited untraceable notes is now stated as an assumption to test in the first research round", link: "research.html"}
+  - {type: new, text: "Provenance audit on every change: anything that looks like an example, placeholder or invented detail must be registered and labelled, or the build fails", link: "build.html#trust"}
+  - {type: new, text: "Home page buttons to the new pictures and to the connectors", link: "index.html"}
 - version: "2.13.0"
   date: "2026-11-07"
   title: "Connectors, weaves and AI: write rules once, use them in 11 platforms, and see each vendor's AI and MCP offer"

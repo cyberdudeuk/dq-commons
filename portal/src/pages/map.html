@@ -1,0 +1,178 @@
+<title>Data quality at a glance</title>
+<style>
+__BASE_CSS__
+.pics{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));margin:10px 0 0;padding:0;list-style:none}
+.pics a{display:flex;flex-direction:column;gap:6px;height:100%;box-sizing:border-box;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;border-top:6px solid var(--accent)}
+.pics a:hover,.pics a:focus-visible{border-color:var(--accent)}
+.pics b{font-size:1.1rem}
+.pics svg{width:44px;height:44px}
+.wfpick{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 12px;padding:0;list-style:none}
+.wfpick button{font:inherit;font-weight:600;font-size:.9rem;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;min-height:44px;text-align:left}
+.wfpick button[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.rules3{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+</style>
+
+<div class="wrap">
+<header class="hero">
+  <h1>Data quality at a glance</h1>
+  <p class="lead">Pictures instead of tables. See who does each part of data quality work, how much it matters, how the steps follow on, how the records connect, and how a rule travels from your desk to the National Data Library.</p>
+  <ul class="pics">
+    <li><a href="#who"><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="2" width="40" height="40" rx="6" fill="var(--warn-soft)"/><circle cx="14" cy="14" r="5" fill="var(--accent)"/><rect x="25" y="25" width="10" height="10" fill="var(--good)"/><path d="M14 14 L30 30" stroke="var(--fg)" stroke-width="2"/></svg><b>Who does what</b><span>Every step placed by who does it and how much it matters to trust.</span></a></li>
+    <li><a href="#steps"><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="16" width="12" height="12" rx="3" fill="var(--info)"/><path d="M22 12 L30 22 L22 32 L14 22 Z" fill="var(--warn)" transform="translate(4 0)"/><rect x="32" y="16" width="10" height="12" rx="3" fill="var(--good)"/></svg><b>Follow the steps</b><span>The same workflow as a flow, lane by lane.</span></a></li>
+    <li><a href="#records"><svg viewBox="0 0 44 44" aria-hidden="true"><rect x="2" y="6" width="16" height="10" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><rect x="26" y="18" width="16" height="10" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><rect x="2" y="30" width="16" height="10" rx="3" fill="var(--accent-soft)" stroke="var(--accent)"/><path d="M18 11 C24 11 22 23 26 23 M18 35 C24 35 22 23 26 23" stroke="var(--fg)" fill="none" stroke-width="2"/></svg><b>How records connect</b><span>The 22 kinds of record and the links between them.</span></a></li>
+    <li><a href="#travel"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="6" cy="22" r="4" fill="var(--muted)"/><rect x="15" y="16" width="12" height="12" rx="3" fill="var(--info)"/><rect x="33" y="16" width="9" height="12" rx="2" fill="var(--good)"/><path d="M10 22 H15 M27 22 H33" stroke="var(--fg)" stroke-width="2"/></svg><b>How a rule travels</b><span>From your rules file to checks, plans, metadata, catalogues and other platforms.</span></a></li>
+  </ul>
+</header>
+
+<section aria-labelledby="pick-h"><h2 id="pick-h">Choose a workflow</h2>
+  <p>The first two pictures show the workflow you choose. They come from the Commons capability model, the same source as the <a href="models.html">capability and data models</a> page.</p>
+  <ul class="wfpick" id="wf" aria-labelledby="pick-h"></ul>
+</section>
+
+<section id="who" aria-labelledby="who-h"><h2 id="who-h">Who does what, and how much it matters</h2>
+  <p>Each step of the workflow is a point on the map, in the style of a Morgan Map. Left to right: who does the work, from people to the toolkit. Bottom to top: how much it matters to trust, from good practice to required by the Data Asset Management policy. Lines show what leads to what. Choose a point to see its details.</p>
+  <ul class="dqd-legend" aria-label="Key">
+    <li><svg viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/></svg>Done by people</li>
+    <li><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M11 2 L20 11 L11 20 L2 11Z" fill="var(--warn-soft)" stroke="var(--warn)" stroke-width="2"/></svg>A decision</li>
+    <li><svg viewBox="0 0 22 22" aria-hidden="true"><path d="M19 11 L15 18 L7 18 L3 11 L7 4 L15 4Z" fill="var(--info-soft)" stroke="var(--info)" stroke-width="2"/></svg>People, with a Commons tool</li>
+    <li><svg viewBox="0 0 22 22" aria-hidden="true"><rect x="4" y="4" width="14" height="14" rx="2" fill="var(--good-soft)" stroke="var(--good)" stroke-width="2"/></svg>Done by the toolkit</li>
+  </ul>
+  <div class="dqd-wrap">
+    <div class="dqd-canvas" id="cMap" tabindex="0" role="region" aria-label="Workflow map. Use Tab to move between steps and Enter to choose one."></div>
+    <aside class="dqd-panel" id="cPanel" aria-live="polite" data-empty="<p>Choose a point on the map to see what happens there, who does it, what it needs and what it leads to.</p>"></aside>
+  </div>
+  <details class="disc"><summary>Show the map as a list</summary><div class="body" id="cList"></div></details>
+</section>
+
+<section id="steps" aria-labelledby="st-h"><h2 id="st-h">Follow the steps</h2>
+  <p>The same workflow from start to finish. Each row is a role; dashed lines loop back.</p>
+  <div class="dqd-wrap">
+    <div><div class="dqd-canvas" id="fMap" tabindex="0" role="region" aria-label="Workflow flow. Scroll sideways on small screens."></div><p class="dqd-hint">Wide picture: scroll sideways to see it all, or open the list below.</p></div>
+    <aside class="dqd-panel" id="fPanel" aria-live="polite" data-empty="<p>Choose a step to see its details.</p>"></aside>
+  </div>
+  <details class="disc"><summary>Show the steps as a list</summary><div class="body" id="fList"></div></details>
+</section>
+
+<section id="records" aria-labelledby="re-h"><h2 id="re-h">How records connect</h2>
+  <p>The records a data quality service keeps, grouped by area. An arrow means one record points to another, for example an issue points to the rule result that raised it.</p>
+  <div class="dqd-wrap">
+    <div><div class="dqd-canvas" id="eMap" tabindex="0" role="region" aria-label="Records and their links. Scroll sideways on small screens."></div><p class="dqd-hint">Wide picture: scroll sideways to see it all, or open the list below.</p></div>
+    <aside class="dqd-panel" id="ePanel" aria-live="polite" data-empty="<p>Choose a record to see what it holds and what it links to.</p>"></aside>
+  </div>
+  <details class="disc"><summary>Show the records as a list</summary><div class="body" id="eList"></div></details>
+</section>
+
+<section id="travel" aria-labelledby="tr-h"><h2 id="tr-h">How a rule travels</h2>
+  <p>Lineage of your data quality rules through the Commons: what each step produces and where it ends up. Every box is a real feature you can open.</p>
+  <div class="dqd-wrap">
+    <div><div class="dqd-canvas" id="tMap" tabindex="0" role="region" aria-label="How a rule travels. Scroll sideways on small screens."></div><p class="dqd-hint">Wide picture: scroll sideways to see it all, or open the list below.</p></div>
+    <aside class="dqd-panel" id="tPanel" aria-live="polite" data-empty="<p>Choose a box to see what it does.</p>"></aside>
+  </div>
+  <details class="disc"><summary>Show the journey as a list</summary><div class="body" id="tList"></div></details>
+</section>
+
+<section id="how" aria-labelledby="how-h"><h2 id="how-h">How each step is placed</h2>
+  <p>Nothing on the map is a guess. Each step's position comes from the capability model by these rules, so it changes when the model does.</p>
+  <div class="rules3">
+    <div class="card"><h3>Who does it (left to right)</h3><ul><li><b>People:</b> a task done by a person, with no Commons tool.</li><li><b>Decision:</b> a yes or no choice made by a person.</li><li><b>People with a tool:</b> a person's task that a Commons tool supports.</li><li><b>The toolkit:</b> a task the toolkit does automatically.</li></ul></div>
+    <div class="card"><h3>How much it matters (bottom to top)</h3><ul><li><b>Required:</b> the step cites the Data Asset Management policy or its mandatory guidance on critical data assets, metadata and ownership.</li><li><b>Recommended:</b> the step cites other published guidance, such as the action plan guide, issues framework or Government Data Quality Framework.</li><li><b>Good practice:</b> no guidance cited.</li><li>A decision takes the level of the most important step it leads to.</li></ul></div>
+    <div class="card"><h3>Reading the corners</h3><p>Top left: high stakes and done by people, so keep human judgement and make it easy to evidence. Top right: high stakes and automated, so automate with checks and a person to review. Bottom right: let the toolkit do it. Bottom left: simplify with templates.</p><p class="small">Inspired by the Morgan Map, a way of mapping services by automation and criticality to trust.</p></div>
+  </div>
+</section>
+</div>
+
+<script>
+__DIAGRAMS__
+</script>
+<script>
+const M = __K_MODELS__;
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LABEL = M.page_labels || {};
+const TOOL_PAGES = new Set(["check", "pipeline", "weaver", "connectors", "baseline", "assistant", "legacy", "ndl-assurance", "guidance", "maturity"]);
+const REQUIRED = new Set(["DAM", "IDC", "MD", "DOM"]);
+const GUIDE = Object.fromEntries(Object.entries(M.guidance).map(([k, g]) => [k, g.title]));
+const gname = c => GUIDE[c] || GUIDE[c.replace(/\d+$/, "")] || (c.startsWith("GDQF") ? GUIDE.GDQF : c);
+
+function edges(p) {
+  const out = [], st = p.steps;
+  st.forEach((s, i) => {
+    if (s.kind === "end") return;
+    if (s.kind === "gateway") Object.entries(s.branches).forEach(([l, t]) => out.push({from: s.id, to: t, label: l}));
+    else if (s.next) out.push({from: s.id, to: s.next});
+    else if (st[i + 1]) out.push({from: s.id, to: st[i + 1].id});
+  });
+  return out;
+}
+const who = s => s.kind === "service" ? "auto" : s.kind === "gateway" ? "decision" : s.kind === "user" ? (s.page && TOOL_PAGES.has(s.page) ? "tool" : "person") : "event";
+const WHO_X = {person: .14, decision: .38, tool: .62, auto: .86};
+const WHO_TXT = {person: "Done by people", decision: "A decision", tool: "People, with a Commons tool", auto: "Done by the toolkit", event: "Start or finish"};
+const SHAPE = {person: "circle", decision: "diamond", tool: "hex", auto: "square", event: "circle"};
+function level(s) { const g = s.guidance || []; return g.some(c => REQUIRED.has(c)) ? 2 : g.length ? 1 : 0; }
+const LEVEL_Y = [.2, .5, .8], LEVEL_TXT = ["Good practice", "Recommended by guidance", "Required by the DAM policy"];
+
+function describe(s) {
+  const g = (s.guidance || []).map(c => esc(gname(c))).join("; ");
+  return `<b>${esc(WHO_TXT[who(s)])}</b> · role: ${esc(s.lane)}` + (g ? `<br>Guidance: ${g}` : "") +
+    (s.outputs ? `<br>Produces: ${s.outputs.map(o => `<a href="#records" data-rec="${esc(o)}">${esc(o)}</a>`).join(", ")}` : "");
+}
+function draw(p) {
+  const E = edges(p), byId = Object.fromEntries(p.steps.map(s => [s.id, s]));
+  // Levels for decisions: the most important step they lead to.
+  const lv = {}; p.steps.forEach(s => lv[s.id] = level(s));
+  p.steps.filter(s => s.kind === "gateway").forEach(s => { lv[s.id] = Math.max(0, ...Object.values(s.branches).map(t => lv[t] || 0)); });
+  // Spread the steps that share a cell evenly inside it, alternating left and right, so labels do not collide.
+  const steps = p.steps.filter(s => s.kind !== "start" && s.kind !== "end"), inCell = {}, nodes = [];
+  steps.forEach(s => { const k = who(s) + lv[s.id]; (inCell[k] = inCell[k] || []).push(s.id); });
+  steps.forEach(s => {
+    const w = who(s), list = inCell[w + lv[s.id]], i = list.indexOf(s.id), n = list.length;
+    const step = Math.min(.1, .27 / Math.max(n - 1, 1)), dy = n > 1 ? (n - 1) / 2 * step - i * step : 0, dx = n > 1 ? (i % 2 ? .055 : -.055) : 0;
+    nodes.push({id: s.id, label: s.name, x: Math.min(.95, Math.max(.05, WHO_X[w] + dx)), y: LEVEL_Y[lv[s.id]] + dy, kind: SHAPE[w], cls: w,
+      tag: `${WHO_TXT[w]}; ${LEVEL_TXT[lv[s.id]]}`, desc: describe(s), href: s.page ? `${s.page}.html` : "", hrefText: s.page ? `Open ${LABEL[s.page] || s.page}` : ""});
+  });
+  const ids = new Set(nodes.map(n => n.id));
+  // Links skip start and finish events: join through them.
+  const L = E.filter(e => ids.has(e.from) && ids.has(e.to));
+  DQD.constellation($("cMap"), {title: p.name, xAxis: ["People", "The toolkit", "Who does it"], yAxis: ["Good practice", "Required by policy", "How much it matters to trust"],
+    quadrants: ["High stakes, done by people: keep judgement, make it easy to evidence", "High stakes, automated: check and review", "Lower stakes, done by people: simplify", "Lower stakes, automated: let the toolkit do it"],
+    nodes, links: L, panel: $("cPanel"), list: $("cList"), listHeading: p.name});
+  const fnodes = p.steps.map(s => ({id: s.id, label: s.name, lane: s.lane, kind: s.kind === "gateway" ? "diamond" : (s.kind === "start" || s.kind === "end") ? "circle" : s.kind === "service" ? "square" : "round",
+    cls: who(s), tag: WHO_TXT[who(s)], desc: describe(s), href: s.page ? `${s.page}.html` : "", hrefText: s.page ? `Open ${LABEL[s.page] || s.page}` : ""}));
+  DQD.flow($("fMap"), {title: p.name, lanes: p.lanes, nodes: fnodes, links: E, panel: $("fPanel"), list: $("fList"), listHeading: p.name});
+}
+$("wf").innerHTML = M.processes.map((p, i) => `<li><button type="button" data-p="${esc(p.id)}" aria-pressed="${i === 0}">${esc(p.name)}</button></li>`).join("");
+$("wf").addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return;
+  $("wf").querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); draw(M.processes.find(p => p.id === b.dataset.p)); });
+draw(M.processes[0]);
+
+// ---- Records and relationships (from ref: attributes in the model) ----
+const groups = [...new Set(M.entities.map(e => e.group))];
+const enodes = M.entities.map(e => ({id: e.name, label: e.name.replace(/([a-z])([A-Z])/g, "$1 $2"), group: e.group, cls: "person", tag: e.group,
+  desc: `${esc(e.description)}<br><span class="small">Holds: ${e.attributes.slice(0, 8).map(a => esc(a.name)).join(", ")}${e.attributes.length > 8 ? ", and more" : ""}</span>`,
+  href: `models.html#ent-${e.name}`, hrefText: "Open in the data model"}));
+const elinks = [];
+M.entities.forEach(e => e.attributes.forEach(a => { if (String(a.type).startsWith("ref:") && a.type.slice(4) !== e.name) elinks.push({from: e.name, to: a.type.slice(4), label: a.name}); }));
+const selRec = DQD.columns($("eMap"), {title: "Records", groups, nodes: enodes, links: elinks, panel: $("ePanel"), list: $("eList")});
+document.addEventListener("click", e => { const a = e.target.closest("[data-rec]"); if (!a) return; e.preventDefault();
+  $("records").scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}); selRec(a.dataset.rec); });
+
+// ---- How a rule travels: real features of the Commons ----
+const T = [
+  {id: "rules", label: "Your rules file", kind: "circle", cls: "event", desc: "Plain YAML: which checks apply to which columns, with targets. Start from the rule library or let the toolkit suggest rules.", href: "check.html", hrefText: "Write rules"},
+  {id: "meta", label: "Your metadata record", kind: "circle", cls: "event", desc: "A description of the dataset in any common format: CKAN, DCAT, schema.org, CSVW, Frictionless or ODCS.", href: "weaver.html", hrefText: "Open the Metadata Weaver"},
+  {id: "check", label: "Check your data", kind: "round", cls: "tool", desc: "Runs the rules on your file in the browser. Nothing is uploaded.", href: "check.html", hrefText: "Check data"},
+  {id: "weaves", label: "Weaves", kind: "round", cls: "tool", desc: "Writes the same rules in 11 platforms' own formats.", href: "connectors.html#weave", hrefText: "Open weaves"},
+  {id: "weaver", label: "Metadata Weaver", kind: "round", cls: "tool", desc: "Translates one metadata record into every catalogue standard and shows the gaps.", href: "weaver.html", hrefText: "Open the Weaver"},
+  {id: "results", label: "Results and scores", kind: "square", cls: "auto", desc: "Pass rates per rule, scored against targets with the issues framework.", href: "check.html", hrefText: "See results"},
+  {id: "contract", label: "Data contract", kind: "square", cls: "auto", desc: "Rules shared as an ODCS, Table Schema or CSVW contract.", href: "check.html", hrefText: "Share as a contract"},
+  {id: "platforms", label: "Your quality platform", kind: "square", cls: "auto", desc: "Snowflake, Databricks, AWS Glue, Google Knowledge Catalog, dbt, Soda, Deequ, OpenMetadata, DataHub, Monte Carlo, or any tool that takes SQL rules.", href: "connectors.html#directory", hrefText: "Find your platform"},
+  {id: "dqap", label: "Action plan and issue log", kind: "square", cls: "auto", desc: "The GOV.UK data quality action plan template, filled in, with issues prioritised and owned.", href: "pipeline.html", hrefText: "Open the pipeline"},
+  {id: "dqv", label: "Quality statement (DQV)", kind: "square", cls: "auto", desc: "Results carried in metadata using the W3C Data Quality Vocabulary, so catalogues can show them.", href: "interop.html", hrefText: "About DQV"},
+  {id: "catalogue", label: "Your catalogue", kind: "square", cls: "auto", desc: "Any catalogue that reads DCAT, schema.org or CKAN.", href: "catalogues.html", hrefText: "Catalogues and quality tools"},
+  {id: "ndl", label: "National Data Library", kind: "square", cls: "auto", desc: "data.gov.uk and the National Data Library, where critical data assets are found and their quality shown.", href: "ndl-assurance.html", hrefText: "NDL assurance"},
+];
+const TL = [{from: "rules", to: "check"}, {from: "rules", to: "weaves"}, {from: "check", to: "results"}, {from: "check", to: "contract"}, {from: "weaves", to: "platforms"},
+  {from: "results", to: "dqap"}, {from: "results", to: "dqv"}, {from: "meta", to: "weaver"}, {from: "weaver", to: "dqv"}, {from: "weaver", to: "catalogue"}, {from: "dqv", to: "catalogue"},
+  {from: "contract", to: "catalogue"}, {from: "catalogue", to: "ndl"}];
+DQD.flow($("tMap"), {title: "How a rule travels", nodes: T, links: TL, panel: $("tPanel"), list: $("tList")});
+</script>

@@ -230,6 +230,11 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 17. v2.14.0: diagrams and provenance (7 November 2026)
+- `portal/src/js/diagrams.js` exposes `DQD.constellation`, `DQD.flow` and `DQD.columns`. Each returns a `select(id)` function and shares one interaction model: SVG `g` elements with `role="button"`, `tabindex="0"` and names; Enter or Space selects, Escape clears; selection fades unrelated elements and fills an `aria-live` panel; a list view mirrors the data. Colours come from CSS variables in `base.css` (`.dqd-*`), with forced-colours rules.
+- `map.html` derives every position from `models/dq-capability.yaml` (`__K_MODELS__`): step kind and page decide the horizontal band; guidance codes decide the vertical band (DAM, IDC, MD, DOM are required; any other code is recommended); a decision takes the highest band of its branches.
+- `knowledge/provenance.yaml` plus `scripts/audit_provenance.py` (run by `tests/test_weaves.py` on every change) and `provenance_feed()` in the build (`__K_PROVENANCE__` on `build.html`).
+
 ## 16. v2.13.0: connectors, weaves and AI (7 November 2026)
 - `dqkit/weaves.py` turns a rules spec into native text for 11 targets through one shared `passes(rule, dialect)` function that writes a row-level pass condition per SQL dialect (ANSI, Snowflake, Spark, BigQuery); aggregate checks (uniqueness, sums, freshness) are handled per target. `engine.js` mirrors it as `DQ.weaves`; `scripts/parity_check.py` compares both on every fixture.
 - `weaves.crosswalk()` runs each weave on a one-rule sample per check type and classifies the result (native, SQL, none); the build passes it to `connectors.html` with `knowledge/vendors.yaml` as `__K_VENDORS__`.

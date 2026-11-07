@@ -92,6 +92,16 @@ __BASE_CSS__
   <details class="disc"><summary>Open findings from the latest content health report</summary><div class="body" id="hOpen"></div></details>
 </section>
 
+<section id="provenance" aria-labelledby="pv-h"><h2 id="pv-h">Where our content comes from</h2>
+  <p id="pvSum"></p>
+  <div class="kpis" id="pvK"></div>
+  <h3>Who masters the real thing</h3>
+  <p class="small">Where another body keeps the authoritative version, the Commons links to it rather than keeping its own copy.</p>
+  <div class="tbl"><table><thead><tr><th scope="col">What</th><th scope="col">Authoritative source</th><th scope="col">Used on</th></tr></thead><tbody id="pvM"></tbody></table></div>
+  <details class="disc"><summary>Examples, templates and estimates, and how each is labelled</summary><div class="body"><div class="tbl"><table><thead><tr><th scope="col">Where</th><th scope="col">Kind</th><th scope="col">What it is</th><th scope="col">How you can tell</th></tr></thead><tbody id="pvI"></tbody></table></div></div></details>
+  <p class="small">The provenance audit runs on every change: if anything that looks like an example appears without being registered here, the build fails. Spotted something that looks invented? <a href="build.html?topic=Report%20a%20problem%20with%20content#contact">Tell us</a>.</p>
+</section>
+
 <section id="contributors" aria-labelledby="co-h"><h2 id="co-h">Contributors</h2><p class="small" id="coHow"></p><div class="contrib" id="coT"></div>
   <p class="small">See the <a id="lContributors" href="#">contributors list</a>. Credit is by GitHub username or organisation, never personal details.</p></section>
 
@@ -140,7 +150,7 @@ __BASE_CSS__
 </div>
 
 <script>
-const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__, FB = __K_FEEDBACK__;
+const K = __K_BUILD__, B = __BUILD__, H = __K_HEALTH__, REL = __K_RELEASES__, FB = __K_FEEDBACK__, PV = __K_PROVENANCE__;
 document.getElementById("fbX").innerHTML = `${FB.cross_portal.pass_on} ${FB.cross_portal.themes} Or go straight to the <a href="${FB.sister_routes.dam}" rel="noopener">DAM capability playbooks</a> or the <a href="${FB.sister_routes.cat}" rel="noopener">GitHub repos asset catalogue</a>.`;
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -271,4 +281,10 @@ window.DQP_TOUR = [
   {sel: "#charter", title: "Charter and safeguards", text: "How we work together, and how we protect people and data."},
   {sel: "#ctForm", title: "Contact us", text: "No email address needed, and ours is never shown."},
 ];
+
+// Where our content comes from (v2.14)
+$("pvSum").textContent = PV.summary;
+$("pvK").innerHTML = Object.entries(PV.classes).filter(([k]) => k !== "not-content").map(([k, c]) => `<div class="kpi"><b>${(PV.counts[k] || 0)}</b><span>${esc(c.label)}</span><span class="small muted">${esc(c.text)}</span></div>`).join("");
+$("pvM").innerHTML = PV.masters.map(m => `<tr><td>${esc(m.what)}</td><td><a href="${esc(m.url)}" rel="noopener">${esc(m.master)}</a></td><td>${m.used_in.map(u => `<a href="${esc(u)}.html">${esc(u)}</a>`).join(", ")}</td></tr>`).join("");
+$("pvI").innerHTML = PV.items.filter(x => x.class !== "not-content").map(x => `<tr><td><code>${esc(x.where)}</code></td><td>${esc(PV.classes[x.class].label)}</td><td>${esc(x.what)}${x.replaced ? `<br><span class="small"><b>Replaced:</b> ${esc(x.replaced)}</span>` : ""}</td><td>${esc(x.shown || "")}${x.replace_with ? `<br><span class="small muted">${esc(x.replace_with)}</span>` : ""}</td></tr>`).join("");
 </script>

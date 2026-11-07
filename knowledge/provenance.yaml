@@ -1,0 +1,142 @@
+# Content provenance register: where the Commons' content comes from, which parts are examples, and who
+# masters the real thing. scripts/audit_provenance.py scans the repository for signs of illustrative or
+# placeholder content (example domains, "illustrative", "made up", "invented"); every file it finds must be
+# listed under items, or the build fails. Rechecked by the routine "Provenance audit".
+review: {last_reviewed: "2026-11-07", owner_role: Content designer (Commons), next_due: "2027-02-07"}
+
+summary: >-
+  Everything in the Commons is either taken from a named public source, worked out from those sources by
+  published code, or clearly labelled as an example, a template or an estimate. Where another body masters
+  the real thing (organisations, datasets, codes, standards), the Commons links to that master instead of
+  keeping its own copy.
+
+classes:
+  sourced: {label: "From a public source", text: "Taken from a named public source and linked to it."}
+  derived: {label: "Worked out", text: "Calculated from sourced data by code anyone can read and rerun."}
+  real-example: {label: "Real example", text: "A real public record used to show a feature; descriptions may be paraphrased."}
+  template: {label: "Template", text: "A blank structure to fill in with your own details."}
+  estimate: {label: "Estimate", text: "A modelled figure with its assumptions stated, which you can change."}
+  judgement: {label: "Assessment", text: "A reasoned judgement by the maintainers, with the criteria published."}
+  illustrative: {label: "Illustrative", text: "Invented to show how something works. Always labelled on the page."}
+  not-content: {label: "Not content", text: "The scan matched advice or interface text, not example content."}
+
+# Authoritative masters the Commons defers to. Where one exists, the Commons links to it rather than copying.
+masters:
+- {what: "Government organisations and their names", master: "GOV.UK organisations register", url: "https://www.gov.uk/government/organisations", used_in: [governance, roles]}
+- {what: "Published datasets and their publishers", master: "data.gov.uk (part of the National Data Library)", url: "https://www.data.gov.uk/", used_in: [weaver, ndl-assurance, catalogues]}
+- {what: "The Government Data Quality Framework", master: "GOV.UK", url: "https://www.gov.uk/government/publications/the-government-data-quality-framework", used_in: [frameworks, models, check]}
+- {what: "Statistical geography codes (GSS codes)", master: "ONS Open Geography Portal", url: "https://geoportal.statistics.gov.uk/", used_in: [check]}
+- {what: "Unique Property Reference Numbers (UPRN)", master: "Ordnance Survey", url: "https://www.ordnancesurvey.co.uk/products/os-open-uprn", used_in: [check]}
+- {what: "Flood warnings, river levels and monitoring stations", master: "Environment Agency real time flood-monitoring API", url: "https://environment.data.gov.uk/flood-monitoring/doc/reference", used_in: [weaver]}
+- {what: "Public transport access points", master: "Department for Transport (NaPTAN)", url: "https://www.data.gov.uk/dataset/naptan", used_in: [weaver]}
+- {what: "School places in England", master: "Department for Education (Explore education statistics)", url: "https://explore-education-statistics.service.gov.uk/find-statistics/school-capacity", used_in: [weaver]}
+- {what: "Data quality vendor positions", master: "Gartner and Forrester public summaries, and vendors' own announcements", url: "https://www.gartner.com/en/documents/7429962", used_in: [connectors]}
+- {what: "Open standards (DCAT, DQV, CSVW, ODCS)", master: "W3C and the Bitol project", url: "https://www.w3.org/TR/vocab-dcat-3/", used_in: [interop, weaver]}
+
+items:
+- where: knowledge/ai-for-dq.yaml
+  class: illustrative
+  what: "Three worked examples of AI for data quality: the steps are real toolkit behaviour, the figures are invented."
+  shown: "Labelled 'illustrative' on each example on the AI page."
+  replace_with: "Real case studies with sources sit beside them on the same page; swap a worked example for a published case when one covers the same task."
+  status: labelled
+- where: portal/src/pages/ai.html
+  class: illustrative
+  what: "Displays the worked examples above."
+  shown: "An 'Illustrative' chip and a sentence explaining they are not real projects."
+  status: labelled
+- where: knowledge/commercial.yaml
+  class: illustrative
+  what: "Model contract clauses in plain English."
+  shown: "Disclaimer on the page: illustrative drafting, not legal advice and not approved government terms."
+  replace_with: "Approved government terms are mastered by the Cabinet Office and Crown Commercial Service; the page tells buyers to use their contract's own terms."
+  status: labelled
+- where: knowledge/media.yaml
+  class: not-content
+  what: "A news item that repeats the clause disclaimer."
+  status: labelled
+- where: examples/illustrative-escalation/README.md
+  class: illustrative
+  what: "Re-measures the real NDL air quality file as if on three dates, to show issue ageing and escalation."
+  shown: "Titled 'Illustrative example'; the data is real, only the dates are simulated."
+  status: labelled
+- where: portal/src/pages/weaver.html
+  class: real-example
+  what: "Metadata Weaver examples: Defra road noise, Environment Agency flood-monitoring API, DfT NaPTAN and DfE school capacity, as published (descriptions paraphrased). The ODCS contract example is illustrative."
+  shown: "Sources listed under the example buttons; the ODCS button says 'illustrative'."
+  replaced: "2026-11-07: invented records with example.org links replaced by real public records."
+  status: replaced
+- where: knowledge/effort.yaml
+  class: estimate
+  what: "Days per activity for a first data quality baseline."
+  shown: "The baseline page says GOV.UK publishes no time estimates and every figure can be changed."
+  status: labelled
+- where: knowledge/roadmap.yaml
+  class: judgement
+  what: "Scores for need, inclusion, alignment and feasibility."
+  shown: "Criteria and weights are published on the roadmap page, and you can apply your own weights."
+  status: labelled
+- where: knowledge/research.yaml
+  class: judgement
+  what: "Findings F-01 to F-04 are desk findings (secondary), not results of sessions with users."
+  shown: "Each finding is marked 'secondary'; F-03 is stated as an assumption to test."
+  replaced: "2026-11-07: F-03's evidence restated as an untested assumption."
+  status: labelled
+- where: rules/library
+  class: template
+  what: "Starter rules files with column names to rename."
+  shown: "The check page says the columns are placeholders to rename."
+  status: labelled
+- where: knowledge/legacy.yaml
+  class: not-content
+  what: "Advice about dummy values and placeholders in legacy systems."
+  status: labelled
+- where: knowledge/articles.yaml
+  class: not-content
+  what: "Advice not to use placeholder dates or dummy identifiers."
+  status: labelled
+- where: knowledge/stakeholders.yaml
+  class: not-content
+  what: "Advice to use synthetic test data instead of live personal data."
+  status: labelled
+- where: knowledge/change-delivery.yaml
+  class: not-content
+  what: "Advice to use synthetic test data."
+  status: labelled
+- where: knowledge/playbook.yaml
+  class: not-content
+  what: "States that templates are blank and filled examples are marked."
+  status: labelled
+- where: portal/src/pages/tooling.html
+  class: sourced
+  what: "A real repository's own description contains the word 'placeholder'."
+  status: labelled
+- where: portal/src/pages/assistant.html
+  class: not-content
+  what: "Interface text explaining that column names were guessed from your words."
+  status: labelled
+- where: portal/src/pages/check.html
+  class: not-content
+  what: "A code comment about template columns."
+  status: labelled
+- where: portal/src/pages/github.html
+  class: not-content
+  what: "Advice to use made-up data when reporting a problem."
+  status: labelled
+- where: portal/src/pages/pipeline.html
+  class: illustrative
+  what: "Describes the illustrative escalation example (real data, simulated dates)."
+  shown: "Linked to the example and labelled."
+  status: labelled
+- where: knowledge/build.yaml
+  class: not-content
+  what: "The provenance audit routine's own description."
+  status: labelled
+- where: portal/src/pages/build.html
+  class: not-content
+  what: "The provenance section's own explanation."
+  status: labelled
+- where: knowledge/releases.yaml
+  class: not-content
+  what: "Release notes that describe replacing invented examples."
+  status: labelled

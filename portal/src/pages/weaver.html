@@ -124,30 +124,45 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;
 const W = DQ.weaver, NAMES = {dcat: "DCAT v3", schema: "schema.org", ckan: "CKAN", odcs: "ODCS", geodcat: "GeoDCAT-AP", statdcat: "StatDCAT-AP", dqv: "DQV (metadata quality)"};
 const OUT_TABS = [...W.TARGETS, "geodcat", "statdcat", "dqv"], WRITE = {...W.write, geodcat: W.toGeodcat, statdcat: W.toStatdcat,
   dqv: c => W.toDqv(c, W.coverage(c), W.cdaCheck(c), W.profiles(c))};
+// Real public records (v2.14): titles, publishers, licences and links are as published; descriptions are paraphrased.
+// Sources are listed under the example buttons. The ODCS contract is illustrative (no public contract exists to copy).
 const EXAMPLES = {
-  "CKAN (data.gov.uk style)": {result: {id: "example-0001", name: "road-noise", title: "Road noise", notes: "Strategic noise mapping of English road sources from 2022, for planning and health.",
+  "CKAN (data.gov.uk style)": {result: {name: "road-noise-lnight-england-round-31", title: "Road Noise - Lnight - England Round 3",
+    notes: "Night-time road traffic noise levels (Lnight) from Defra's round 3 strategic noise mapping of road sources across England.",
     organization: {title: "Department for Environment, Food and Rural Affairs"}, license_id: "uk-ogl", tags: [{name: "noise"}, {name: "roads"}],
-    extras: [{key: "temporal_start", value: "2022-01-01"}, {key: "temporal_end", value: "2022-12-31"}, {key: "spatial_text", value: "England"}],
-    resources: [{name: "Road noise (GeoPackage)", url: "https://example.org/road-noise.gpkg", format: "GPKG"}]}},
-  "DCAT JSON-LD": {"@context": {dcat: "http://www.w3.org/ns/dcat#", dct: "http://purl.org/dc/terms/"}, "@type": "dcat:Dataset", "dct:title": "Flood alerts",
-    "dct:description": "Flood alerts and warnings in England, searchable by location, updated daily.", "dct:publisher": {"foaf:name": "Environment Agency"},
-    "dcat:keyword": ["flood", "warnings"], "dct:license": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
-    "dct:accrualPeriodicity": "daily", "dcat:distribution": [{"dcat:accessURL": "https://example.org/flood-api", "dcat:mediaType": "application/json"}]},
-  "schema.org Dataset": {"@context": "https://schema.org/", "@type": "Dataset", name: "Bus stops", description: "Every bus stop in Great Britain, with location and accessibility details.",
-    creator: {"@type": "Organization", name: "Department for Transport", contactPoint: {name: "Transport data team"}}, keywords: "transport, buses, accessibility",
-    temporalCoverage: "2024/2025", distribution: [{contentUrl: "https://example.org/stops.csv", encodingFormat: "text/csv"}]},
-  "Frictionless Data Package": {profile: "tabular-data-package", name: "school-places", title: "School places", description: "Places and pupils by school in England, published each June.",
-    version: "1.2.0", keywords: ["education", "schools"], created: "2026-06-30", licenses: [{name: "OGL-UK-3.0", path: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"}],
-    contributors: [{title: "School places data team", role: "maintainer"}, {title: "Department for Education", role: "publisher"}],
-    resources: [{name: "places", path: "https://example.org/places.csv", format: "csv", mediatype: "text/csv"}]},
-  "CSVW": {"@context": "http://www.w3.org/ns/csvw", url: "https://example.org/stops.csv", "dc:title": "Bus stops (NaPTAN)", "dc:description": "Every bus stop in the county with its NaPTAN code and location.",
-    "dc:publisher": "County council transport team", "dc:license": "OGL-UK-3.0", tableSchema: {columns: [{name: "atco_code", titles: "ATCO code"}, {name: "name", titles: "Stop name"}]}},
-  "ODCS contract": {apiVersion: "v3.1.0", kind: "DataContract", id: "claims-monthly", version: "1.4.0", status: "active", name: "Monthly claims",
+    extras: [{key: "spatial_text", value: "England"}],
+    resources: [{name: "Road Noise - Lnight - England Round 3 (WFS)", url: "https://environment.data.gov.uk/spatialdata/road-noise-lnight-england-round-3/wfs", format: "WFS"},
+                {name: "Road Noise - Lnight - England Round 3 (WMS)", url: "https://environment.data.gov.uk/spatialdata/road-noise-lnight-england-round-3/wms", format: "WMS"}]}},
+  "DCAT JSON-LD": {"@context": {dcat: "http://www.w3.org/ns/dcat#", dct: "http://purl.org/dc/terms/"}, "@type": "dcat:Dataset", "dct:title": "Environment Agency real time flood-monitoring API",
+    "dct:description": "Near real-time flood warnings and alerts, the areas they apply to, water levels and flows, and the monitoring stations in England.", "dct:publisher": {"foaf:name": "Environment Agency"},
+    "dcat:keyword": ["flood", "warnings", "river levels"], "dct:license": "http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+    "dcat:landingPage": "https://environment.data.gov.uk/flood-monitoring/doc/reference",
+    "dcat:distribution": [{"dcat:accessURL": "https://environment.data.gov.uk/flood-monitoring/id/floods", "dcat:mediaType": "application/json"}]},
+  "schema.org Dataset": {"@context": "https://schema.org/", "@type": "Dataset", name: "National Public Transport Access Nodes (NaPTAN)",
+    description: "Britain's national system for uniquely identifying points of access to public transport: every bus stop, railway station, airport and ferry terminal in England, Scotland and Wales.",
+    creator: {"@type": "Organization", name: "Department for Transport"}, keywords: "transport, bus stops, stations",
+    license: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/", url: "https://www.data.gov.uk/dataset/naptan"},
+  "Frictionless Data Package": {profile: "tabular-data-package", name: "school-capacity", title: "School capacity",
+    description: "School places in state-funded primary and secondary schools in England, reported by local authorities in the annual School Capacity (SCAP) survey.",
+    keywords: ["education", "schools"], licenses: [{name: "OGL-UK-3.0", path: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"}],
+    contributors: [{title: "Department for Education", role: "publisher"}],
+    homepage: "https://explore-education-statistics.service.gov.uk/find-statistics/school-capacity",
+    resources: [{name: "capacity-national-regional-la", path: "https://explore-education-statistics.service.gov.uk/data-catalogue/data-set/7e6c8c7d-7dc5-4914-bac5-55472c20c939", format: "csv", mediatype: "text/csv"}]},
+  "CSVW": {"@context": "http://www.w3.org/ns/csvw", url: "https://www.data.gov.uk/dataset/naptan", "dc:title": "National Public Transport Access Nodes (NaPTAN)",
+    "dc:description": "Every public transport access point in Great Britain with its ATCO code and location.",
+    "dc:publisher": "Department for Transport", "dc:license": "OGL-UK-3.0", tableSchema: {columns: [{name: "ATCOCode", titles: "ATCO code"}, {name: "CommonName", titles: "Stop name"}]}},
+  "ODCS contract (illustrative)": {apiVersion: "v3.1.0", kind: "DataContract", id: "claims-monthly", version: "1.4.0", status: "active", name: "Monthly claims",
     description: {purpose: "Monthly count of new claims by local authority, for planning services.", limitations: "Counts under 5 are suppressed."},
     team: {name: "Claims analysis team"}, slaProperties: [{property: "frequency", value: 1, unit: "month"}],
     schema: [{name: "claims", properties: [{name: "la_code", logicalType: "string", required: true}, {name: "count", logicalType: "integer"}]}]},
 };
 const ex = document.querySelector(".ex");
+const EX_SOURCES = [["Defra road noise (data.gov.uk)", "https://www.data.gov.uk/dataset/road-noise-lnight-england-round-31"],
+  ["Environment Agency flood-monitoring API", "https://environment.data.gov.uk/flood-monitoring/doc/reference"],
+  ["NaPTAN (data.gov.uk)", "https://www.data.gov.uk/dataset/naptan"], ["School capacity (DfE)", "https://explore-education-statistics.service.gov.uk/find-statistics/school-capacity"]];
+{ const n = document.createElement("p"); n.className = "small muted";
+  n.innerHTML = "Examples are real public records, with descriptions paraphrased: " + EX_SOURCES.map(([t, u]) => `<a href="${u}" rel="noopener">${t}</a>`).join(", ") + ". The ODCS contract is illustrative.";
+  ex.after(n); }
 Object.keys(EXAMPLES).forEach(k => { const b = document.createElement("button"); b.type = "button"; b.textContent = k;
   b.onclick = () => { $("rec").value = JSON.stringify(EXAMPLES[k], null, 2); $("fmt").value = ""; weave(); }; ex.appendChild(b); });
 $("file").addEventListener("change", async e => { const f = e.target.files[0]; if (!f) return; $("rec").value = await f.text(); weave(); });
@@ -221,7 +236,7 @@ $("dl").onclick = async () => {
 
 // Contract change check
 $("cEx").onclick = () => {
-  const old = EXAMPLES["ODCS contract"], nw = JSON.parse(JSON.stringify(old));
+  const old = EXAMPLES["ODCS contract (illustrative)"], nw = JSON.parse(JSON.stringify(old));
   nw.version = "1.5.0"; nw.schema[0].properties[1].logicalType = "number"; nw.schema[0].properties.push({name: "region"});
   $("cOld").value = JSON.stringify(old, null, 2); $("cNew").value = JSON.stringify(nw, null, 2); check();
 };

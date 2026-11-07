@@ -2,6 +2,15 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.14.0 — 2026-11-07
+### Added
+- Page `map.html` (Start) and `portal/src/js/diagrams.js` (injected as `__DIAGRAMS__`): a dependency-free diagram kit with a constellation (two axes in the style of a Morgan Map), a swimlane flow (in the spirit of Mermaid) and grouped relationship columns. Each diagram has focusable named elements, shapes as well as colours, a details panel, a list view, theme colours and forced-colours support. The page maps each workflow step by who does it (person, decision, person with a Commons tool, toolkit) and how much it matters (required by the DAM policy, recommended by guidance, good practice), all derived from `models/dq-capability.yaml` by published rules; shows the same workflow as a flow; the 22 records and their `ref:` links; and the lineage of a rule through the Commons (D-DIAG-01).
+- `knowledge/provenance.yaml` and `scripts/audit_provenance.py`: a register of content classes (sourced, derived, real example, template, estimate, assessment, illustrative), the authoritative masters the Commons defers to, and every file containing example-like content; the audit fails the build on anything unregistered. Shown on `build.html#provenance` (D-PROV-01). Routine "Provenance audit".
+### Changed
+- Metadata Weaver examples replaced with real public records (Defra road noise round 3, Environment Agency flood-monitoring API, DfT NaPTAN, DfE school capacity) with sources; the ODCS example is labelled illustrative.
+- Research finding F-03 restated as an untested assumption.
+- Home page links to the new page and to connectors. Diagram styles added to `base.css`.
+
 ## 2.13.0 — 2026-11-07
 ### Added
 - `dqkit/weaves.py` and `DQ.weaves` in `engine.js` (identical output, checked by the parity check): one rules file to 11 native formats — SQL rule pack, Snowflake data metric functions, Databricks Lakeflow expectations, AWS Glue DQDL, Google Knowledge Catalog (Dataplex) rules, dbt data tests, SodaCL, PyDeequ, OpenMetadata test cases, DataHub assertions, Monte Carlo monitors-as-code. Rules with no equivalent are listed, never dropped. `weaves.crosswalk()` derives the check-by-platform matrix from the weaves (D-WEAVE-01).

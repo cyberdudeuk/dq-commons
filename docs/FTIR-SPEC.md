@@ -152,6 +152,16 @@
 | I-310 | Wishlist votes and backlog issues from GitHub shown beside the scores | Integration | `github_live()` |
 | T-310 | Every open item scored; MoSCoW matches score band; sign-up privacy; bundle has no addresses | Technical | `tests/test_research_roadmap.py` |
 
+## v2.14 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-340 | Picture-first views of workflows, record relationships and rule lineage, each with a list equivalent | Functional | `map.html`, `diagrams.js` |
+| F-341 | Workflow steps mapped by who does them and how much they matter to trust, derived from the model | Functional | `map.html#who` |
+| F-342 | Register of where content comes from, its labelling, and the authoritative masters | Functional | `build.html#provenance`, `knowledge/provenance.yaml` |
+| F-343 | Examples use real public records where they exist | Functional | `weaver.html` |
+| T-340 | Provenance audit fails the build on unregistered example content | Technical | `scripts/audit_provenance.py`, `tests/test_weaves.py` |
+| N-340 | Diagrams keyboard operable, named, not colour-only, forced-colours aware, with a list view | Non-functional | `diagrams.js`, `base.css` |
+
 ## v2.13 requirements
 | ID | Requirement | Type | Met by |
 |---|---|---|---|

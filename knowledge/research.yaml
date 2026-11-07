@@ -148,7 +148,7 @@ quotas:
 findings:
 - {id: F-01, source: secondary, theme: "Teams build their own data quality checks because shared ones are hard to find", evidence: "Review of 27 public sector code repositories", change: "Check your data runs shared rules in the browser; the rule library and identifier checks", link: "check.html", backlog: []}
 - {id: F-02, source: secondary, theme: "Many people who would give feedback have no GitHub account", evidence: "Equality screening since v1.0.0", change: "A Microsoft Form feedback route and a feedback link on every page (v2.9.0)", link: "build.html#feedback", backlog: []}
-- {id: F-03, source: secondary, theme: "Small island and rural teams may have limited connectivity", evidence: "Co-design notes with Crown Dependency contacts", change: "The whole portal as an offline zip (v2.3.0)", link: "reuse.html", backlog: [BL-24]}
+- {id: F-03, source: secondary, theme: "Small island and rural teams may have limited connectivity", evidence: "Assumption from the equality screening, not yet tested with users: to be checked in research round 1", change: "The whole portal as an offline zip (v2.3.0)", link: "reuse.html", backlog: [BL-24]}
 - {id: F-04, source: secondary, theme: "Teams want to know how the Commons relates to central guidance and other portals", evidence: "Comparison of three portals, November 2026", change: "Three portals, one journey, and links between them (v2.10.0)", link: "ecosystem.html", backlog: [BL-30]}
 
 synthesis:
