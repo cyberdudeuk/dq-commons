@@ -25,7 +25,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import framework, packs, profile, rules, sources, trust, pathway
+from . import framework, packs, profile, rules, sources, trust, pathway, weaves
 
 PROTOCOL_VERSION = "2025-06-18"
 def _version() -> str:
@@ -58,6 +58,11 @@ TOOLS = [
     {"name": "suggest_rules", "title": "Suggest starter rules",
      "description": "Profile a dataset and draft a starter rules file (YAML). A data steward must review every rule.",
      "inputSchema": {"type": "object", "properties": {**DATA_PROPS, "asset_id": {"type": "string"}}},
+     "annotations": {"readOnlyHint": True, "openWorldHint": False}},
+    {"name": "weave_rules", "title": "Write rules in another platform's format",
+     "description": "Turn a Commons rules file (YAML) into a platform's native rules: " + ", ".join(weaves.TARGETS)
+                    + ". Rules with no equivalent are listed at the end, never dropped.",
+     "inputSchema": {"type": "object", "properties": {**RULE_PROPS, "target": {"type": "string", "enum": weaves.TARGETS}}, "required": ["target"]},
      "annotations": {"readOnlyHint": True, "openWorldHint": False}},
     {"name": "validate_rules", "title": "Validate a rules file",
      "description": "Check a rules file (YAML) is well formed: known checks, identifier schemes, value sets, unique ids.",
@@ -200,6 +205,11 @@ def call_tool(name: str, args: dict) -> dict:
         df = _data(args)
         spec = profile.suggest(df, {"id": args.get("asset_id") or "my-asset"})
         return {"rules_yaml": profile.to_yaml(spec, args.get("data_path") or "the data"), "note": "Draft only: review every rule."}
+    if name == "weave_rules":
+        try:
+            return {"target": args.get("target"), "text": weaves.weave(_spec(args), args.get("target", ""))}
+        except ValueError as e:
+            raise ToolError(str(e)) from None
     if name == "validate_rules":
         spec = _spec(args)
         return {"valid": True, "rules": len(spec["rules"]), "asset": spec["asset"].get("id")}

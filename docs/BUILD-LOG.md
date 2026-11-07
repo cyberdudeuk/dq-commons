@@ -1,5 +1,10 @@
 # Build journal
 
+## 2026-11-07 — v2.13.0: connectors, weaves and AI
+- **Built:** 11 platform weaves in Python and the browser; the Connectors, weaves and AI page (generator, directory of 27 vendors and platforms, crosswalk, AI and MCP table, analyst reports); `dqkit export --to <platform>`; `weave_rules` MCP tool; monthly repository check.
+- **Researched:** 2026 Gartner Magic Quadrant vendor list (13) from Gartner's abstract; positions announced by Informatica, Ataccama, Qlik, IBM (Leaders), DQLabs (Visionary), CluedIn (Niche Player); Forrester Wave Q1 2026 Leaders (Ataccama, Informatica, Qlik) and Experian (Strong Performer); MCP and agent offerings from vendor documentation; 30 GitHub repositories confirmed live.
+- **Checked:** full tests (including 11 new), two-engine parity 37 of 37 with the weaves added, content health, the new page at 1366 and 390 pixels in light and dark (a phone overflow and a badge style clash found and fixed).
+
 ## 2026-11-06 — v2.12.1: global menu bar fixed
 - **Fixed:** the full menu shows from 1200 pixels again with compact buttons; uniform 40-pixel controls in a 60-pixel bar at every width; accessible names kept for icon-only buttons; open menus above floating buttons.
 - **Checked:** bar measured at 390, 768, 1024, 1280, 1366, 1440, 1536 and 1920 pixels (no overflow, constant height); every menu group opens inside the screen and closes with Escape; collapsed menu on phone and tablet; accessible names; accessibility checks.

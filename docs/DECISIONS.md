@@ -1,5 +1,16 @@
 # Decision log (this repository)
 
+## 2026-11-07 · D-WEAVE-01 · Weave rules into each platform's own format, derived crosswalk
+- **Decision:** add 11 weaves that write Commons rules in each platform's native rule language, mirrored in the browser and held to byte-for-byte parity; derive the crosswalk by running each weave on a one-rule sample per check, so the matrix can never disagree with the code.
+- **Why:** the user asked for connectors, add-ons and crosswalks to the data quality solutions of the major vendors. A one-way export people can paste is the lowest-friction connector and keeps rules portable (avoids lock-in, see the catalogues page).
+- **Proprietary suites:** Informatica, Ataccama, Qlik, IBM, Precisely, Collibra and others accept SQL-defined rules but publish no open import format, so they get the SQL rule pack plus the crosswalk rather than a guessed proprietary file.
+- **Alternatives considered:** live API connectors per vendor (needs credentials and tenants we don't have, and would break silently); hand-written mapping tables (drift from the code).
+
+## 2026-11-07 · D-VEND-01 · Vendor directory with sourced facts only
+- **Decision:** `knowledge/vendors.yaml` starts from the 2026 Gartner Magic Quadrant (vendor list from Gartner's public abstract) and the Forrester Wave Q1 2026; shows a position only when the vendor or analyst has announced it publicly; lists only first-party GitHub repositories, each confirmed through the GitHub API; states "no first-party MCP server found" with the date rather than "none"; tones down any product detail without a source.
+- **Why:** the user asked for vendors' data quality repositories and their AI agent and MCP features for cataloguing and metadata. Analyst graphics and texts are copyright, and vendor facts change quickly, so every line carries a source and a checked date, and a routine rechecks them.
+- **Alternatives considered:** copying Magic Quadrant positions from third-party sites (unverifiable); listing community MCP servers (not the vendor's offer, variable quality).
+
 ## 2026-11-06 · D-NAV-04 · One responsive rule set for the global bar
 - **Decision:** replace the bar's scattered breakpoints with one set: full menu from 1200 pixels, compact right-hand buttons from 1200 to 1919 pixels (icon-only search and what's new, "Tour"), full labels from 1920, "Menu" below 1200; every control 40 pixels high; the bar 60 pixels; hidden labels clipped rather than removed so screen readers still hear them.
 - **Why:** after 2.12.0 added the Aa button, the full menu only showed from 1440 pixels, so most laptops (1280 to 1366) saw "Menu" with empty space, and controls had five different heights. The user asked for the bar to be fixed.

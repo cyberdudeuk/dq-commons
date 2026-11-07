@@ -14,6 +14,7 @@ pages:
   ecosystem: ["This page is about three websites that work together.", "Each one helps with a different part of looking after data.", "It shows what each one does well.", "It shows how to go from one website to the next."]
   wheel: ["This page shows all the parts of looking after data, as a wheel.", "Choose your job to see what each part means for you.", "It shows how data and records teams can work together.", "You can make a plan and download it."]
   catalogues: ["This page is about software that lists and checks data.", "Some companies sell both kinds together.", "Buying them together can make it hard to change later.", "It gives questions to ask before you buy."]
+  connectors: ["This page helps you use your quality rules in other software.", "You write your rules once.", "The page changes them into the format each product uses.", "It also shows which products can work with AI helpers, and where to check the facts."]
   models: ["This page shows how data quality work fits together, as pictures.", "It shows the jobs, the records and the steps.", "Each step links to the page where you do it.", "You can download the pictures for other tools."]
   sitemap: ["This page shows every page on one map.", "The pages are in six parts.", "Each part has its own colour.", "You can look for a page by typing a word."]
   ask: ["You can ask a question on this page.", "Type it in your own words.", "The answer comes from this website.", "It shows where the answer came from. Nothing you type is sent anywhere."]

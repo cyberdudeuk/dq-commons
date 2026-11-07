@@ -22,13 +22,18 @@ jobs:
       - id: check
         run: python scripts/check_links.py --out link-report.md --archive 40 --diff .cache/source-hashes.json
         continue-on-error: true
+      - id: repos
+        run: python scripts/check_vendor_repos.py --out repo-report.md
+        env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
+        continue-on-error: true
       - if: always()
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           script: |
             const fs = require('fs');
-            const body = fs.existsSync('link-report.md') ? fs.readFileSync('link-report.md', 'utf8') : '';
-            const broken = '${{ steps.check.outcome }}' === 'failure';
+            const read = f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
+            const body = read('link-report.md') + '\n\n' + read('repo-report.md');
+            const broken = '${{ steps.check.outcome }}' === 'failure' || '${{ steps.repos.outcome }}' === 'failure';
             const title = 'Broken links found by the monthly check';
             const open = (await github.rest.issues.listForRepo({...context.repo, state: 'open', labels: 'links'})).data;
             if (broken && open.length) await github.rest.issues.update({...context.repo, issue_number: open[0].number, body});

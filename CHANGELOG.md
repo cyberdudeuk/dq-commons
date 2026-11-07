@@ -2,6 +2,13 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.13.0 — 2026-11-07
+### Added
+- `dqkit/weaves.py` and `DQ.weaves` in `engine.js` (identical output, checked by the parity check): one rules file to 11 native formats — SQL rule pack, Snowflake data metric functions, Databricks Lakeflow expectations, AWS Glue DQDL, Google Knowledge Catalog (Dataplex) rules, dbt data tests, SodaCL, PyDeequ, OpenMetadata test cases, DataHub assertions, Monte Carlo monitors-as-code. Rules with no equivalent are listed, never dropped. `weaves.crosswalk()` derives the check-by-platform matrix from the weaves (D-WEAVE-01).
+- Page `connectors.html` (Apply) and `knowledge/vendors.yaml`: 27 vendors and platforms from the 2026 Gartner Magic Quadrant for Augmented Data Quality Solutions (all 13 named vendors), the Forrester Wave Data Quality Solutions Q1 2026, and the catalogues and platforms they connect to; analyst positions only where publicly confirmed; GitHub repositories confirmed; AI agent and MCP offerings for cataloguing and metadata with sources (D-VEND-01).
+- `dqkit export --to <platform>`; `weave_rules` tool in the Commons MCP server.
+- `scripts/check_vendor_repos.py`, run by the monthly link check. Routines "Vendor and analyst facts" and "Weave parity". `tests/test_weaves.py`.
+
 ## 2.12.1 — 2026-11-06
 ### Fixed
 - Global menu bar: one set of breakpoints replaces seven scattered ones. The full menu shows from 1200 pixels (was 1440, which hid it on most laptops); between 1200 and 1919 pixels search and what's new become icon-only and the tour button says "Tour"; below 1200 the menu collapses into "Menu". Every bar control is 40 pixels high and pill-shaped; the bar is 60 pixels at every width; labels hidden for space stay in the accessible name; open menus sit above the floating buttons (D-NAV-04).

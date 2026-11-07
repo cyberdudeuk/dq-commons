@@ -41,6 +41,9 @@ The user guide page in the portal has six short tutorials: find anything in unde
 ### See where you fit in data quality management
 Go to **Capability and data models** (or **Find your way by capability** on the home page). Choose a capability to see what it involves and where to do it in the Commons. Under **Workflows**, press **Play** to walk through a workflow, or highlight your role to see just your steps; each step links to the page where you do it. Under **Records**, choose a record to see its fields and how it links to others. Downloads for Visio, ArchiMate, UML, BPMN and database tools are on the same page.
 
+### Use your rules in another platform
+Go to **Connectors, weaves and AI** (menu 5 Apply). Load an example or paste your rules, then choose a platform: the page writes the same rules in that platform's own format, ready to copy or download. Anything that can't be translated is listed at the end. From the toolkit: `python3 -m dqkit export rules.yaml --to glue`. The same page lists each vendor's open-source code, AI agents and MCP servers, with a source for every fact.
+
 ### Check a dataset
 Go to **Check data**. Open your file, add rules (or press **Suggest rules**), then **Run**. Identifier checks cover NHS numbers, National Insurance numbers, postcodes, UPRNs, GSS codes and more. Nothing is uploaded.
 

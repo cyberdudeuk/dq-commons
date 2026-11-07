@@ -1,0 +1,558 @@
+# Vendor connectors, weaves and AI (agent and MCP) offerings.
+# Every fact has a public source and a checked date. Analyst positions come only from the analyst's own
+# public abstract or from the vendor's own announcement; no analyst graphic or text is copied.
+# Rechecked by routine RT-VENDORS (every 3 months, and when a new Magic Quadrant or Wave is published).
+review: {last_reviewed: "2026-11-07", owner_role: Commons maintainers (supplier and market facts), next_due: "2027-02-07"}
+as_of: "2026-11-07"
+review_every: P3M
+summary: >-
+  The platforms that public bodies are most likely to meet, starting with the vendors in the 2026 Gartner
+  Magic Quadrant for Augmented Data Quality Solutions and the Forrester Wave for Data Quality Solutions (Q1 2026),
+  then the catalogues and data platforms they connect to. For each one: how to get Commons rules into it
+  (a weave), the open-source repositories it publishes, and what its AI agents and MCP servers can do for
+  data cataloguing and metadata management.
+disclaimer: >-
+  Inclusion is not endorsement. The Commons is vendor-neutral and buys nothing. Analyst reports are
+  opinions of their authors; positions are shown only where publicly confirmed. Product facts change
+  quickly: check the linked source before relying on any of them.
+legend:
+  mcp:
+    ga: "Generally available from the vendor"
+    preview: "Vendor preview or on request"
+    open-source: "Vendor-published open-source server you run yourself"
+    not-found: "No first-party MCP server found in public sources on the checked date"
+  weave:
+    native: "A dqkit weave writes the platform's own rule format"
+    sql: "Use the SQL rule pack (the platform accepts SQL-defined rules)"
+    mapping: "Map by hand using the crosswalk; no importable format"
+
+reports:
+  - id: gartner-adq-2026
+    short: Gartner MQ 2026
+    title: Gartner Magic Quadrant for Augmented Data Quality Solutions
+    published: "2026-02-11"
+    analysts: Sue Waite, Divya Radhakrishnan, Amy Bickel
+    vendors_evaluated: 13
+    vendors: [Ab Initio Software, Acceldata, Anomalo, Ataccama, CluedIn, DQLabs, Experian, IBM, Irion, Precisely, Qlik, Salesforce (Informatica), Soda]
+    note: "Vendor list from Gartner's public abstract. Positions only where the vendor has announced them."
+    source: https://www.gartner.com/en/documents/7429962
+  - id: gartner-adq-2025
+    short: Gartner MQ 2025
+    title: Gartner Magic Quadrant for Augmented Data Quality Solutions (previous edition)
+    published: "2025-03-10"
+    analysts: Melody Chien, Divya Radhakrishnan, Sue Waite
+    vendors_evaluated: 12
+    vendors: [Ab Initio, Anomalo, Ataccama, CluedIn, DQLabs, Experian, IBM, Informatica, Irion, Precisely, Qlik, SAS]
+    source: https://www.gartner.com/en/documents/6246519
+  - id: forrester-dq-2026
+    short: Forrester Wave 2026
+    title: The Forrester Wave, Data Quality Solutions, Q1 2026
+    published: "2026-01-28"
+    vendors_evaluated: 10
+    note: "First dedicated Forrester Wave for data quality. Only positions announced by vendors are shown; the other evaluated vendors are not listed here until confirmed."
+    source: https://www.forrester.com/blogs/the-forrester-wave-data-quality-solutions-q1-2026
+
+vendors:
+  # ---------- Data quality suites in the 2026 Magic Quadrant ----------
+  - id: informatica
+    name: Informatica (from Salesforce)
+    group: dq-suite
+    catalogue_id: informatica
+    products: [Intelligent Data Management Cloud (IDMC), Cloud Data Quality, Cloud Data Governance and Catalog (CDGC)]
+    recognition:
+      - {report: gartner-adq-2026, position: Leader, source: "https://www.informatica.com/data-quality-magic-quadrant.html"}
+      - {report: forrester-dq-2026, position: Leader, source: "https://research.oz.spotlightar.com/reports/forrester-wave-data-quality-solutions-q1-2026/leaders"}
+    weave: sql
+    weave_note: "Paste the SQL rule pack into a custom SQL rule, or map rules by hand with the crosswalk."
+    integration: [REST APIs, pre-built connectors, MCP servers, A2A]
+    ai:
+      mcp: ga
+      mcp_summary: "IDMC capabilities (data integration, data quality, master data, catalog and governance) exposed as MCP servers, including CDGC Metadata Search for semantic asset search, lineage and compliance checks."
+      agents: "CLAIRE Agents, including Data Quality Agents that create and run rules from plain-English specifications, and Discovery Agents."
+      catalogue_features: [semantic asset search, lineage, owner and classification lookup, certification status, catalogue enrichment]
+      sources:
+        - https://www.informatica.com/blogs/new-informatica-capabilities-clear-the-path-to-ai-ready-data.html
+        - https://anypoint.mulesoft.com/exchange/68e53915-e89b-4e82-b794-12d37982db4c/cdgc-asset
+    github: []
+    docs: https://docs.informatica.com/
+    checked: "2026-11-07"
+
+  - id: ataccama
+    name: Ataccama
+    group: dq-suite
+    catalogue_id: ataccama
+    products: [Ataccama ONE (Data Quality & Catalog, MDM, RDM)]
+    recognition:
+      - {report: gartner-adq-2026, position: Leader, source: "https://www.ataccama.com/news/ataccama-named-a-leader-in-2026-gartner-magic-quadrant-for-augmented-data-quality-solutions-for-the-fifth-consecutive-time"}
+      - {report: forrester-dq-2026, position: Leader, source: "https://www.ataccama.com/news/ataccama-named-a-leader-in-data-quality-solutions-report-by-independent-research-firm"}
+    weave: sql
+    weave_note: "Use the SQL rule pack for SQL-based rules, or map with the crosswalk."
+    integration: [GraphQL and REST APIs, MCP server, ONE Desktop]
+    ai:
+      mcp: ga
+      mcp_summary: "Data Quality & Catalog (DQ&C) MCP server: read-only tools for catalogue search, glossary, profiling, data quality results and stewardship. Cloud only, enabled on request."
+      agents: "ONE AI Agent: creates and applies rules, detects duplicates, profiles data and documents each step."
+      catalogue_features: [catalogue search, glossary lookup, profiling, data quality job history, stewardship]
+      sources:
+        - https://docs.ataccama.com/one/latest/generative-ai/mcp-dqc.html
+        - https://docs.ataccama.com/ataccama-one-agentic/latest/gen-ai/mcp-trust-layer.html
+    github: []
+    docs: https://docs.ataccama.com/
+    checked: "2026-11-07"
+
+  - id: qlik
+    name: Qlik (Qlik Talend Cloud)
+    group: dq-suite
+    catalogue_id: qlik
+    products: [Qlik Talend Cloud, Qlik Cloud Analytics, Qlik Trust Score]
+    recognition:
+      - {report: gartner-adq-2026, position: Leader, source: "https://www.businesswire.com/news/home/20260217190043/en/Qlik-Named-a-Leader-in-the-2026-Gartner-Magic-Quadrant-for-Augmented-Data-Quality-Solutions"}
+      - {report: forrester-dq-2026, position: Leader, source: "https://research.oz.spotlightar.com/reports/forrester-wave-data-quality-solutions-q1-2026/leaders"}
+    weave: sql
+    integration: [REST APIs, MCP server, Talend Studio]
+    ai:
+      mcp: ga
+      mcp_summary: "Qlik MCP server; for Qlik Talend Cloud it exposes search, glossary, data products, lineage and dataset quality signals (trust score, quality recomputation). Enabled per tenant by an administrator."
+      agents: "Data Product Agent and Data Quality Agent (trust signals, rules, service levels); Discovery Agent for anomalies."
+      catalogue_features: [search, glossary, data products, lineage, trust score]
+      sources:
+        - https://community.qlik.com/t5/Product-Innovation/MCP-for-Data-Engineering-in-Qlik-Talend-Cloud/ba-p/2542572
+    github:
+      - {repo: qlik-oss/agentic-skills, what: "Qlik AI assets for agents and MCP", licence: Apache-2.0}
+    docs: https://help.qlik.com/
+    checked: "2026-11-07"
+
+  - id: ibm
+    name: IBM
+    group: dq-suite
+    catalogue_id: ibm
+    products: [watsonx.data intelligence]
+    recognition:
+      - {report: gartner-adq-2026, position: Leader, source: "https://www.ibm.com/new/announcements/ibm-named-a-leader-in-the-2026-gartner-magic-quadrant-for-augmented-data-quality-solutions"}
+      - {report: forrester-dq-2026, position: "Declined full participation", source: "https://research.oz.spotlightar.com/reports/forrester-wave-data-quality-solutions-q1-2026/vendor-movements"}
+    weave: sql
+    integration: [REST APIs, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "data-intelligence-mcp-server: a central MCP server for watsonx.data intelligence capabilities."
+      agents: "AI-driven profiling, discovery and remediation inside watsonx.data intelligence."
+      catalogue_features: [catalogue search, governance metadata, data quality]
+      sources:
+        - https://github.com/IBM/data-intelligence-mcp-server
+    github:
+      - {repo: IBM/data-intelligence-mcp-server, what: "MCP server for watsonx.data intelligence", licence: Apache-2.0}
+      - {repo: IBM/mcp, what: "IBM collection of MCP servers and tools", licence: Apache-2.0}
+    docs: https://www.ibm.com/docs/en/watsonx/wdi
+    checked: "2026-11-07"
+
+  - id: dqlabs
+    name: DQLabs
+    group: dq-suite
+    products: [DQLabs platform (observability and quality)]
+    recognition:
+      - {report: gartner-adq-2026, position: Visionary, source: "https://www.dqlabs.ai/news/dqlabs-named-a-visionary-in-the-2026-gartner-magic-quadrant-for-augmented-data-quality-solutions/"}
+    weave: sql
+    integration: [REST APIs]
+    ai:
+      mcp: not-found
+      agents: "Vendor describes autonomous observability and quality."
+      sources: ["https://www.dqlabs.ai/2026-gartner-magic-quadrant-for-augmented-data-quality-solutions/"]
+    github: []
+    checked: "2026-11-07"
+
+  - id: cluedin
+    name: CluedIn
+    group: dq-suite
+    products: [CluedIn (data quality and MDM)]
+    recognition:
+      - {report: gartner-adq-2026, position: "Niche Player", source: "https://www.cluedin.com/resources/articles/cluedin-named-in-gartner-magic-quadrant-for-augmented-data-quality-26"}
+    weave: sql
+    integration: [APIs (see vendor documentation)]
+    ai:
+      mcp: not-found
+      agents: "Vendor describes AI agents that analyse and map new data sources."
+      sources: ["https://www.cluedin.com/resources/articles/cluedin-named-in-gartner-magic-quadrant-for-augmented-data-quality-26"]
+    github: []
+    checked: "2026-11-07"
+
+  - id: experian
+    name: Experian
+    group: dq-suite
+    products: [Aperture Data Studio]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+      - {report: forrester-dq-2026, position: "Strong Performer", source: "https://www.experian.com/blogs/data-quality/experian-named-a-strong-performer-in-the-forrester-wave-for-data-quality-solutions-q1-2026/"}
+    weave: mapping
+    integration: [REST API, Java SDK for custom workflow steps, Snowflake native app]
+    ai:
+      mcp: not-found
+      agents: "Embedded generative AI in Aperture Data Studio."
+      sources: ["https://www.experianplc.com/newsroom/press-releases/2025/experian-announces-major-update-to-aperture-data-studio"]
+    github: []
+    checked: "2026-11-07"
+
+  - id: precisely
+    name: Precisely
+    group: dq-suite
+    catalogue_id: precisely
+    products: [Data Integrity Suite]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: sql
+    integration: [REST APIs for data integration, quality and catalog, hosted MCP server]
+    ai:
+      mcp: ga
+      mcp_summary: "Precisely-hosted MCP server over Data Integrity Suite APIs (data quality, catalog, enrichment and location), for example asking for quality scores of a dataset."
+      agents: "Gio AI Assistant and agents for data integration and data quality."
+      catalogue_features: [quality scores, catalogue metadata, enrichment]
+      sources:
+        - https://www.precisely.com/press-release/precisely-advances-agentic-ready-data-with-a-new-ai-agent/
+    github:
+      - {repo: PreciselyData/precisely-mcp-servers, what: "MCP servers from Precisely"}
+    checked: "2026-11-07"
+
+  - id: irion
+    name: Irion
+    group: dq-suite
+    products: [Irion EDM]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: sql
+    integration: [APIs (see vendor documentation)]
+    ai: {mcp: not-found, sources: []}
+    github: []
+    checked: "2026-11-07"
+
+  - id: abinitio
+    name: Ab Initio Software
+    group: dq-suite
+    products: [Ab Initio data quality and metadata hub]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: mapping
+    integration: [Proprietary graphs and metadata hub]
+    ai: {mcp: not-found, sources: []}
+    github: []
+    checked: "2026-11-07"
+
+  - id: anomalo
+    name: Anomalo
+    group: dq-suite
+    catalogue_id: observability
+    products: [Anomalo (unsupervised data quality monitoring)]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: sql
+    integration: [REST API, Python SDK]
+    ai:
+      mcp: open-source
+      mcp_summary: "anomalo-mcp, published on PyPI, brings an Anomalo deployment into MCP clients."
+      sources: ["https://pypi.org/project/anomalo-mcp/"]
+    github: []
+    checked: "2026-11-07"
+
+  - id: acceldata
+    name: Acceldata
+    group: dq-suite
+    products: [Acceldata data observability]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: sql
+    integration: [REST APIs]
+    ai: {mcp: not-found, sources: []}
+    github: []
+    checked: "2026-11-07"
+
+  - id: soda
+    name: Soda
+    group: dq-suite
+    catalogue_id: soda
+    products: [Soda Core (open source), Soda Cloud]
+    recognition:
+      - {report: gartner-adq-2026, position: "Named (position not confirmed)", source: "https://www.gartner.com/en/documents/7429962"}
+    weave: native
+    weave_target: soda
+    integration: [CLI, REST API, MCP server, data contracts]
+    ai:
+      mcp: ga
+      mcp_summary: "soda-mcp: lets MCP clients inspect and manage datasets, checks, contracts, scans, monitors and incidents in Soda Cloud."
+      catalogue_features: [dataset health, contracts, incidents]
+      sources: ["https://docs.soda.io/soda-ai/soda-mcp"]
+    github:
+      - {repo: sodadata/soda-core, what: "Data contracts engine (open source)"}
+    checked: "2026-11-07"
+
+  - id: sas
+    name: SAS
+    group: dq-suite
+    products: [SAS Viya data quality]
+    recognition:
+      - {report: gartner-adq-2025, position: "Named in 2025 (not in the 2026 list)", source: "https://www.gartner.com/en/documents/6246519"}
+    weave: mapping
+    integration: [SAS Viya REST APIs]
+    ai:
+      mcp: open-source
+      mcp_summary: "sas-mcp-server connects MCP clients to a SAS Viya environment (run code, explore data)."
+      sources: ["https://github.com/sassoftware/sas-mcp-server"]
+    github:
+      - {repo: sassoftware/sas-mcp-server, what: "Self-hosted MCP server for SAS Viya", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  # ---------- Catalogues and governance platforms ----------
+  - id: collibra
+    name: Collibra
+    group: catalogue
+    catalogue_id: collibra
+    products: [Collibra Platform, Collibra Data Quality & Observability]
+    recognition: []
+    weave: sql
+    weave_note: "Collibra DQ rules are SQL-based: paste the SQL rule pack queries as custom rules."
+    integration: [REST and GraphQL APIs, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "Collibra MCP server (chip), published by Collibra, bringing Collibra catalogue and governance context to MCP clients."
+      sources: ["https://github.com/collibra/chip"]
+    github:
+      - {repo: collibra/chip, what: "Collibra MCP server", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: alation
+    name: Alation
+    group: catalogue
+    catalogue_id: alation
+    products: [Alation Data Intelligence Platform]
+    recognition: []
+    weave: mapping
+    integration: [REST APIs, Open Data Quality Framework, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "MCP server shipped in the Alation AI Agent SDK (local or remote on your instance); catalogue context, lineage and data quality tools can be enabled."
+      catalogue_features: [catalogue search, metadata, lineage, data quality signals]
+      sources: ["https://pypi.org/project/alation-ai-agent-mcp/"]
+    github:
+      - {repo: Alation/alation-ai-agent-sdk, what: "AI agent SDK and MCP server", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: atlan
+    name: Atlan
+    group: catalogue
+    catalogue_id: atlan
+    products: [Atlan]
+    recognition: []
+    weave: mapping
+    integration: [REST API, Python SDK, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "Atlan AI Agent Toolkit, published by Atlan, for connecting AI agents to Atlan metadata."
+      sources: ["https://github.com/atlanhq/agent-toolkit"]
+    github:
+      - {repo: atlanhq/agent-toolkit, what: "Atlan AI Agent Toolkit", licence: MIT}
+    checked: "2026-11-07"
+
+  - id: purview
+    name: Microsoft Purview
+    group: catalogue
+    catalogue_id: purview
+    products: [Purview Unified Catalog, Purview data quality]
+    recognition: []
+    weave: mapping
+    integration: [REST APIs, Microsoft Fabric]
+    ai:
+      mcp: not-found
+      mcp_summary: "No first-party MCP server for Unified Catalog found on the checked date; Microsoft publishes other MCP servers in microsoft/mcp."
+      sources: ["https://learn.microsoft.com/en-us/purview/unified-catalog", "https://github.com/microsoft/mcp"]
+    github:
+      - {repo: microsoft/mcp, what: "Catalogue of official Microsoft MCP servers", licence: MIT}
+    checked: "2026-11-07"
+
+  # ---------- Cloud and data platforms ----------
+  - id: google
+    name: Google Cloud
+    group: platform
+    catalogue_id: google
+    products: [Knowledge Catalog (formerly Dataplex Universal Catalog), BigQuery]
+    recognition: []
+    weave: native
+    weave_target: dataplex
+    integration: [Dataplex API, remote MCP server, MCP Toolbox for Databases]
+    ai:
+      mcp: ga
+      mcp_summary: "Knowledge Catalog remote MCP server at dataplex.googleapis.com/mcp: discover assets, search metadata, get entry details and manage data products. Enabled with the Dataplex API."
+      catalogue_features: [asset discovery, metadata search, entry details, data products]
+      sources: ["https://docs.cloud.google.com/dataplex/docs/use-remote-mcp"]
+    github:
+      - {repo: googleapis/mcp-toolbox, what: "MCP Toolbox for Databases", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: aws
+    name: Amazon Web Services
+    group: platform
+    catalogue_id: aws
+    products: [AWS Glue Data Quality (DQDL), Glue Data Catalog, Amazon SageMaker Catalog]
+    recognition: []
+    weave: native
+    weave_target: glue
+    integration: [Glue APIs, Deequ, MCP servers]
+    ai:
+      mcp: open-source
+      mcp_summary: "AWS Data Processing MCP server: manage Glue Data Catalog databases, tables and partitions, and Glue jobs, in plain English."
+      catalogue_features: [catalogue databases and tables, partitions, connections]
+      sources: ["https://awslabs.github.io/mcp/servers/aws-dataprocessing-mcp-server"]
+    github:
+      - {repo: awslabs/mcp, what: "Open-source MCP servers for AWS", licence: Apache-2.0}
+      - {repo: awslabs/deequ, what: "Unit tests for data on Apache Spark", licence: Apache-2.0}
+      - {repo: awslabs/python-deequ, what: "Python API for Deequ", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: databricks
+    name: Databricks
+    group: platform
+    catalogue_id: databricks
+    products: [Unity Catalog, data quality monitoring, Lakeflow Declarative Pipelines expectations, DQX]
+    recognition: []
+    weave: native
+    weave_target: databricks
+    integration: [REST APIs and SDKs, managed MCP servers, Unity Catalog (open source)]
+    ai:
+      mcp: ga
+      mcp_summary: "Managed MCP servers for Genie spaces, Unity Catalog functions and Vector Search, all respecting Unity Catalog permissions; DQX also ships an MCP server."
+      catalogue_features: [governed queries, catalogue functions, permissions-aware access]
+      sources: ["https://databrickslabs.github.io/dqx/docs/guide/dqx_mcp_server/"]
+    github:
+      - {repo: databrickslabs/dqx, what: "Data quality framework for PySpark, with an MCP server"}
+      - {repo: databrickslabs/mcp, what: "Databricks Labs MCP servers"}
+      - {repo: unitycatalog/unitycatalog, what: "Open, multi-modal catalog for data and AI", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: snowflake
+    name: Snowflake
+    group: platform
+    catalogue_id: snowflake
+    products: [Horizon Catalog, data metric functions, Cortex AI]
+    recognition: []
+    weave: native
+    weave_target: snowflake
+    integration: [SQL, REST APIs, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "Snowflake MCP server including Cortex AI, object management, SQL orchestration and semantic views."
+      catalogue_features: [object metadata, semantic views, governed SQL]
+      sources: ["https://github.com/Snowflake-Labs/mcp"]
+    github:
+      - {repo: Snowflake-Labs/mcp, what: "MCP server for Snowflake", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  # ---------- Open-source catalogues and tools ----------
+  - id: datahub
+    name: DataHub
+    group: open-source
+    catalogue_id: datahub
+    products: [DataHub, DataHub Cloud]
+    recognition: []
+    weave: native
+    weave_target: datahub
+    integration: [GraphQL and REST APIs, Python SDK, assertions-as-code, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "Official DataHub MCP server: search, lineage and entity metadata for MCP clients; DataHub also publishes plugins for AI assistants."
+      catalogue_features: [search, lineage, ownership, glossary, assertions]
+      sources: ["https://github.com/acryldata/mcp-server-datahub"]
+    github:
+      - {repo: datahub-project/datahub, what: "DataHub platform", licence: Apache-2.0}
+      - {repo: acryldata/mcp-server-datahub, what: "Official DataHub MCP server", licence: Apache-2.0}
+      - {repo: datahub-project/datahub-cloud-ai-plugins, what: "Plugins for AI assistants"}
+    checked: "2026-11-07"
+
+  - id: openmetadata
+    name: OpenMetadata
+    group: open-source
+    catalogue_id: openmetadata
+    products: [OpenMetadata, Collate]
+    recognition: []
+    weave: native
+    weave_target: openmetadata
+    integration: [REST API, Python SDK, built-in MCP server, AI SDK]
+    ai:
+      mcp: open-source
+      mcp_summary: "OpenMetadata publishes an AI SDK to bring catalogue semantics to agents, and runnable MCP examples."
+      sources: ["https://github.com/open-metadata/ai-sdk"]
+    github:
+      - {repo: open-metadata/OpenMetadata, what: "OpenMetadata platform", licence: Apache-2.0}
+      - {repo: open-metadata/ai-sdk, what: "OpenMetadata and Collate AI SDK"}
+    checked: "2026-11-07"
+
+  - id: dbt
+    name: dbt Labs
+    group: open-source
+    products: [dbt Core, dbt platform]
+    recognition: []
+    weave: native
+    weave_target: dbt
+    integration: [YAML data tests, Semantic Layer, MCP server]
+    ai:
+      mcp: open-source
+      mcp_summary: "dbt MCP server (local and remote): models, lineage, tests and Semantic Layer for agents."
+      catalogue_features: [model metadata, lineage, tests, metrics]
+      sources: ["https://github.com/dbt-labs/dbt-mcp"]
+    github:
+      - {repo: dbt-labs/dbt-mcp, what: "dbt MCP server", licence: Apache-2.0}
+      - {repo: dbt-labs/dbt-utils, what: "Utility tests and macros", licence: Apache-2.0}
+      - {repo: metaplane/dbt-expectations, what: "Great Expectations-style tests for dbt", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+  - id: gx
+    name: Great Expectations
+    group: open-source
+    catalogue_id: gx
+    products: [GX Core]
+    recognition: []
+    weave: native
+    weave_target: great_expectations
+    weave_note: "Built in since v1: Downloads, then Great Expectations suite."
+    integration: [Python library, expectation suites]
+    ai: {mcp: not-found, sources: []}
+    github:
+      - {repo: fivetran/great_expectations, what: "GX Core (repository now under the fivetran organisation)"}
+    checked: "2026-11-07"
+
+  - id: montecarlo
+    name: Monte Carlo
+    group: observability
+    catalogue_id: observability
+    products: [Monte Carlo data observability]
+    recognition: []
+    weave: native
+    weave_target: montecarlo
+    integration: [monitors-as-code, GraphQL API, agent toolkit]
+    ai:
+      mcp: open-source
+      mcp_summary: "Monte Carlo agent toolkit: skills and plugins that bring observability context to AI coding agents."
+      sources: ["https://github.com/monte-carlo-data/mc-agent-toolkit"]
+    github:
+      - {repo: monte-carlo-data/mc-agent-toolkit, what: "Skills and plugins for AI agents", licence: Apache-2.0}
+    checked: "2026-11-07"
+
+weave_targets:
+  - {id: sql, label: "SQL rule pack", for: "Any tool that accepts SQL rules (Collibra DQ, Informatica, Ataccama, Qlik, IBM, Precisely, Irion, Anomalo and more)"}
+  - {id: snowflake, label: "Snowflake data metric functions", for: Snowflake}
+  - {id: databricks, label: "Databricks Lakeflow expectations", for: Databricks}
+  - {id: glue, label: "AWS Glue DQDL", for: "AWS Glue Data Quality"}
+  - {id: dataplex, label: "Google Knowledge Catalog (Dataplex) rules", for: "Google Cloud"}
+  - {id: dbt, label: "dbt data tests", for: dbt}
+  - {id: soda, label: "SodaCL checks", for: Soda}
+  - {id: deequ, label: "PyDeequ checks", for: "Apache Spark, AWS Deequ"}
+  - {id: openmetadata, label: "OpenMetadata test cases", for: OpenMetadata}
+  - {id: datahub, label: "DataHub assertions", for: DataHub}
+  - {id: montecarlo, label: "Monte Carlo monitors-as-code", for: "Monte Carlo"}
+
+ai_patterns:
+  - title: "Ground agents in the catalogue, not a schema dump"
+    text: "Point agents at the catalogue's MCP server so answers use governed names, owners, classifications and quality scores."
+  - title: "Read-only first"
+    text: "Start with read-only MCP tools (search, lineage, quality status). Allow writes such as rule creation only with human review."
+  - title: "Least privilege"
+    text: "Give each agent its own identity. MCP servers that respect the user's existing permissions keep access rules in one place."
+  - title: "Keep rules portable"
+    text: "Write rules once in the Commons format and weave them out, so you can change platform without rewriting your checks."
+  - title: "Record what agents did"
+    text: "Log agent actions alongside the data quality action plan, so changes can be audited and explained."

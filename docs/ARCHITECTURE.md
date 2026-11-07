@@ -230,6 +230,12 @@ flowchart LR
 
 **Effort.** `knowledge/effort.yaml` holds activities and defaults; the baseline page reads it through `__K_EFFORT__`; `dqkit/effort.py` ports the same formula.
 
+## 16. v2.13.0: connectors, weaves and AI (7 November 2026)
+- `dqkit/weaves.py` turns a rules spec into native text for 11 targets through one shared `passes(rule, dialect)` function that writes a row-level pass condition per SQL dialect (ANSI, Snowflake, Spark, BigQuery); aggregate checks (uniqueness, sums, freshness) are handled per target. `engine.js` mirrors it as `DQ.weaves`; `scripts/parity_check.py` compares both on every fixture.
+- `weaves.crosswalk()` runs each weave on a one-rule sample per check type and classifies the result (native, SQL, none); the build passes it to `connectors.html` with `knowledge/vendors.yaml` as `__K_VENDORS__`.
+- Entry points: the page (offline, in the browser), `python3 -m dqkit export --to <target>`, and the MCP tool `weave_rules`.
+- `scripts/check_vendor_repos.py` (GitHub search API) runs in the monthly link-check workflow and joins its single tracked issue.
+
 ## 15. v2.12.0: participation, governance, display and labels (5 November 2026)
 - **Knowledge:** `participation.yaml` (`__K_PARTICIPATION__`), `governance-bodies.yaml` (`__K_GOVBODIES__`), `code-evidence.yaml` (`__K_CODE__`, written by `scripts/import_code_evidence.py`); `playbook.yaml` stages gain `dam_playbooks`; `ecosystem.yaml` gains `xref.requirements`; `feedback.yaml` gains `sister_routes` and `cross_portal`.
 - **Build:** copies `portal/src/badges/` to `badges/`; `ambassador_kit()` writes `downloads/getinvolved/`; writes `downloads/weaver-uk-mem-mapping.csv`; `{{REPO}}` replaced in pages; `api/xref.json` adds `dam_requirements`.

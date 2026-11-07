@@ -490,9 +490,10 @@ def py_contracts(spec):
     from dqkit import contracts
     o = contracts.to_odcs(spec)
     t = contracts.to_table_schema(spec)
-    from dqkit import exporters
+    from dqkit import exporters, weaves
     return {"odcs": o, "ts": t, "csvw": contracts.to_csvw(spec), "back": contracts.from_odcs(o), "backTs": contracts.from_table_schema(t),
-            "unsupported": contracts.unsupported(o), "gx": exporters.to_great_expectations(spec), "rv": list(exporters.r_validate_rules(spec))}
+            "unsupported": contracts.unsupported(o), "gx": exporters.to_great_expectations(spec), "rv": list(exporters.r_validate_rules(spec)),
+            "weaves": {t: weaves.weave(spec, t) for t in weaves.TARGETS}}
 
 
 RECON_SRC = "id,name,amount,count,when\n1,Ann,10.5,3,2024-01-01\n2,Bo,20.25,4,2024-01-02\n3,Cy,,5,2024-01-03\n3,Cy,,5,2024-01-03\n4,Di,0.1,1,\n5,Ed,0.2,2,2024-01-05\n"
@@ -642,7 +643,7 @@ def check_micro(workdir) -> dict:
                 "error_rates": "error_rate text", "durations": "ISO durations", "csvs": "CSV reading (read_csv)",
                 "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",
                 "identifiers": "identifier formats and check digits", "valuesets": "value set expansion",
-                "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate)",
+                "contracts": "data contracts and exports (ODCS, Table Schema, CSVW, GX, R validate, platform weaves)",
                 "reconcile": "reconciliation (counts, keys, totals, values)",
                 "weave": "Metadata Weaver (read, write, gaps, CDA)", "contract_pairs": "contract validation and change control"}
     for k, label in labelled.items():

@@ -152,6 +152,17 @@
 | I-310 | Wishlist votes and backlog issues from GitHub shown beside the scores | Integration | `github_live()` |
 | T-310 | Every open item scored; MoSCoW matches score band; sign-up privacy; bundle has no addresses | Technical | `tests/test_research_roadmap.py` |
 
+## v2.13 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-330 | Turn one rules file into the native rules of the major platforms, offline, listing anything not exported | Functional | `connectors.html#weave`, `dqkit/weaves.py`, `DQ.weaves` |
+| F-331 | Directory of the vendors in the Gartner Magic Quadrant and Forrester Wave for data quality, and related catalogues and platforms, with sourced facts | Functional | `connectors.html#directory`, `knowledge/vendors.yaml` |
+| F-332 | Each vendor's AI agent and MCP offerings for cataloguing and metadata | Functional | `connectors.html#ai` |
+| F-333 | Crosswalk of Commons checks against platform rule types | Functional | `connectors.html#crosswalk`, `weaves.crosswalk()` |
+| I-330 | Weaves from the command line and the Commons MCP server | Integration | `dqkit export --to`, `weave_rules` |
+| I-331 | Vendor GitHub repositories confirmed monthly | Integration | `scripts/check_vendor_repos.py`, link-check workflow |
+| T-330 | Weaves, crosswalk, vendor data and parity tested | Technical | `tests/test_weaves.py`, `scripts/parity_check.py` |
+
 ## v2.12 requirements
 | ID | Requirement | Type | Met by |
 |---|---|---|---|

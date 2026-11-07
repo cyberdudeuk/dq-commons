@@ -52,7 +52,8 @@ if (c.kind === 'run' || c.kind === 'ops') {
   out.contracts = c.contract_specs.map((spec) => attempt(() => {
     const C = DQ.contracts, o = C.toOdcs(spec), t = C.toTableSchema(spec);
     return { odcs: o, ts: t, csvw: C.toCsvw(spec), back: C.fromOdcs(o), backTs: C.fromTableSchema(t), unsupported: C.unsupported(o),
-      gx: DQ.exporters.toGreatExpectations(spec), rv: DQ.exporters.rValidateRules(spec) };
+      gx: DQ.exporters.toGreatExpectations(spec), rv: DQ.exporters.rValidateRules(spec),
+      weaves: Object.fromEntries(DQ.weaves.TARGETS.map((t) => [t, DQ.weaves.weave(spec, t)])) };
   }));
   out.weave = c.weave.map((rec) => attempt(() => { const w = DQ.weaver.weave(rec), back = {};
     DQ.weaver.TARGETS.forEach((t) => { back[t] = DQ.weaver.read(w.outputs[t], t)[1]; }); return { ...w, back }; }));

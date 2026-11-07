@@ -11,6 +11,18 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.13.0"
+  date: "2026-11-07"
+  title: "Connectors, weaves and AI: write rules once, use them in 11 platforms, and see each vendor's AI and MCP offer"
+  pages_new: [connectors]
+  pages_changed: [catalogues]
+  items:
+  - {type: new, text: "Connectors, weaves and AI page: turn one rules file into the native rules of 11 platforms (SQL, Snowflake, Databricks, AWS Glue, Google Knowledge Catalog, dbt, Soda, Deequ, OpenMetadata, DataHub, Monte Carlo), in your browser", link: "connectors.html#weave"}
+  - {type: new, text: "Directory of 27 vendors and platforms, starting with the 13 in the 2026 Gartner Magic Quadrant for Augmented Data Quality and the Forrester Data Quality Wave: analyst positions where confirmed, products, how to get rules in, and GitHub repositories, each confirmed", link: "connectors.html#directory"}
+  - {type: new, text: "AI agents and MCP servers for cataloguing and metadata, vendor by vendor, with sources and safe-use patterns", link: "connectors.html#ai"}
+  - {type: new, text: "Crosswalk of every Commons check against every platform, worked out from the weaves themselves", link: "connectors.html#crosswalk"}
+  - {type: new, text: "Toolkit: python3 -m dqkit export rules.yaml --to glue (or any of the 11 platforms), and a weave_rules tool in the Commons MCP server", link: "connectors.html#weave"}
+  - {type: changed, text: "The monthly link check also confirms every vendor GitHub repository still exists and is not archived", link: "build.html#trust"}
 - version: "2.12.1"
   date: "2026-11-06"
   title: "The menu bar fixed: the full menu on laptops again, and every control the same size"

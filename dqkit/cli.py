@@ -32,7 +32,7 @@ from pathlib import Path
 import pandas as pd
 import yaml
 
-from . import casestudy, contracts, weaver, dqv, exporters, metadata, operations, pathway, rules, sources, trust
+from . import casestudy, contracts, weaver, dqv, exporters, metadata, operations, pathway, rules, sources, trust, weaves
 
 
 def _source_args(parser):
@@ -72,7 +72,8 @@ def main(argv=None) -> int:
     c.add_argument("--workbook", action="store_true", help="also write a filled-in DQAP workbook (.xlsx)")
     c.add_argument("--case-study", action="store_true", help="also draft a GDS-style case study (.md and .docx)")
     e = sub.add_parser("export")
-    e.add_argument("rules"); e.add_argument("--to", choices=["gx", "r-validate"], required=True)
+    e.add_argument("rules"); e.add_argument("--to", choices=["gx", "r-validate"] + weaves.TARGETS, required=True,
+                                             help="gx, r-validate, or a platform weave: " + ", ".join(weaves.TARGETS))
     ct = sub.add_parser("contract", help="convert rules to or from a data contract: Frictionless Table Schema, ODCS v3 or W3C CSVW")
     ct.add_argument("file", help="a rules file (with --to) or a contract file (with --from)")
     ct.add_argument("--to", choices=sorted(contracts.FORMATS))
@@ -173,7 +174,10 @@ def main(argv=None) -> int:
         return 0
     if a.cmd == "export":
         spec = rules.load_rules(a.rules)
-        print(json.dumps(exporters.to_great_expectations(spec), indent=2) if a.to == "gx" else exporters.to_r_validate(spec))
+        if a.to in weaves.TARGETS:
+            sys.stdout.write(weaves.weave(spec, a.to))
+        else:
+            print(json.dumps(exporters.to_great_expectations(spec), indent=2) if a.to == "gx" else exporters.to_r_validate(spec))
         return 0
     if a.cmd == "contract":
         if bool(a.to) == bool(a.src):

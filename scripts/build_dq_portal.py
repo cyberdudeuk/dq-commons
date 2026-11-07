@@ -74,6 +74,7 @@ GROUPS = [
         ("frameworks", "Frameworks and standards", "30 frameworks and standards, crosswalks, packs and clause-by-clause comparison"),
         ("tooling", "Tooling", "Data quality tools, standards and open code across government"),
         ("catalogues", "Catalogues and quality tools", "How data catalogues and quality tools connect, what to ask suppliers, and how to avoid lock-in and bundling traps"),
+        ("connectors", "Connectors, weaves and AI", "Write rules once and weave them into 11 platforms' own formats; vendors from the Gartner and Forrester reports, their GitHub code, AI agents and MCP servers"),
         ("ai", "AI for data quality", "Principles, use cases, vendor questions, worked examples and the route to reuse"),
         ("commercial", "Buying and suppliers", "Supplier obligations, model contract clauses, KPIs, tender questions and exit"),
         ("legacy", "Legacy and modernisation", "Data debt, migration gates, MoSCoW, self-assessment and a reconciliation tool"),
@@ -105,7 +106,7 @@ GROUP_TITLE = {"1 Start": "Get started", "2 Learn": "Learn and build skills", "3
                "4 Improve": "Manage and improve", "5 Apply": "Apply to your context", "6 Contribute": "Contribute and get help"}
 LEVEL = {**{s: "Beginner" for s in ["index", "github", "about", "guide", "roles", "accessibility", "learn", "library", "media", "events",
                                     "check", "maturity", "scenarios", "community", "surveys", "operate", "sitemap", "ask", "research", "getinvolved"]},
-         **{s: "Intermediate" for s in ["catalogues", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
+         **{s: "Intermediate" for s in ["catalogues", "connectors", "professions", "training", "knowledge", "guidance", "assistant", "baseline", "playbook",
                                         "frameworks", "tooling", "ai", "commercial", "global", "share", "build", "reuse", "wheel", "ecosystem", "roadmap", "governance"]},
          **{s: "Advanced" for s in ["legacy", "interop", "weaver", "models", "pipeline", "ndl-assurance"]}}
 PAGES = [p for _, ps in GROUPS for p in ps]
@@ -115,7 +116,7 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "assistant": "sparkle", "weaver": "weave", "pipeline": "pulse", "frameworks": "layers", "learn": "grad", "ai": "cpu",
              "guidance": "flag", "tooling": "wrench", "library": "library", "commercial": "contract", "legacy": "history",
              "interop": "link", "scenarios": "map", "global": "globe", "ndl-assurance": "database", "baseline": "target",
-             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
+             "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "connectors": "link", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
 
 
 def icon(name: str) -> str:
@@ -272,7 +273,7 @@ def knowledge() -> dict:
     """Every knowledge-base file as a page placeholder (__K_NAME__). Built lazily, only if a page uses it."""
     import sys
     sys.path.insert(0, str(ROOT))
-    from dqkit import packs, rules
+    from dqkit import packs, rules, weaves
     K = ROOT / "knowledge"
     y = lambda n: yaml.safe_load((K / f"{n}.yaml").read_text(encoding="utf-8"))
     with open(K / "requirements.csv", newline="", encoding="utf-8") as f:
@@ -308,6 +309,7 @@ def knowledge() -> dict:
         "STANDARDS": lambda: y("standards-catalogue"),
         "ECO": lambda: y("ecosystem"),
         "CODE": lambda: y("code-evidence"),
+        "VENDORS": lambda: {**y("vendors"), "crosswalk": weaves.crosswalk()},
         "GOVBODIES": lambda: y("governance-bodies"),
         "PARTICIPATION": lambda: y("participation"),
         "RESEARCH": lambda: {**y("research"), "email_text": research_email()[1]},
@@ -528,7 +530,7 @@ FAVICON = ("data:image/svg+xml," + __import__("urllib.parse", fromlist=["quote"]
 
 # ---------- section change flags and portal search ----------
 # Knowledge files that feed the search index, and the page each one is shown on.
-SEARCH_SOURCES = {"participation": "getinvolved", "governance-bodies": "governance", "research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
+SEARCH_SOURCES = {"vendors": "connectors", "participation": "getinvolved", "governance-bodies": "governance", "research": "research", "roadmap": "roadmap", "standards-catalogue": "interop", "ecosystem": "ecosystem", "reuse": "reuse", "dama-wheel": "wheel", "change-delivery": "roles", "feedback": "build", "frameworks": "frameworks", "professions": "professions", "learning": "learn", "playbook": "playbook",
                   "training": "training", "ontology": "knowledge", "articles": "library", "events": "events", "media": "media",
                   "ai-for-dq": "ai", "commercial": "commercial", "legacy": "legacy", "interop": "interop", "global": "global",
                   "communities": "community", "maturity": "maturity", "rosetta": "weaver", "build": "build", "stakeholders": "roles", "catalogue-integration": "catalogues"}
@@ -1140,7 +1142,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
-           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation"}
+           "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation", "VENDORS": "vendors"}
 
 
 def provenance(names: set) -> str:
