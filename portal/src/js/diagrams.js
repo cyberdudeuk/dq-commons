@@ -101,7 +101,7 @@
       el("rect", {x: X(q[0]), y: Y(q[3]), width: (q[1] - q[0]) * pw, height: (q[3] - q[2]) * ph, "class": "dqd-quad q" + i}, svg);
     });
     (o.quadrants || []).forEach(function (t, i) {
-      var qx = i % 2 ? X(.75) : X(.25), qy = i < 2 ? Y(.97) : Y(.47);
+      var qx = i % 2 ? X(.75) : X(.25), qy = i < 2 ? Y(.97) : Y(.04);
       label(svg, qx, qy, t, 44, "dqd-quadlbl");
     });
     el("line", {x1: X(0), y1: Y(0), x2: X(1), y2: Y(0), "class": "dqd-axis"}, svg);
@@ -113,6 +113,21 @@
     var yl = el("text", {x: 52, y: Y(0), "class": "dqd-ax", transform: "rotate(-90 52 " + Y(0) + ")", "text-anchor": "start"}, svg); yl.textContent = o.yAxis[0];
     var yh = el("text", {x: 52, y: Y(1), "class": "dqd-ax", transform: "rotate(-90 52 " + Y(1) + ")", "text-anchor": "end"}, svg); yh.textContent = o.yAxis[1];
     var pos = {}; o.nodes.forEach(function (n) { pos[n.id] = [X(n.x), Y(n.y)]; });
+    // Keep points and their labels apart: nudge any pair closer than the label box, within the plot.
+    var ids = o.nodes.map(function (n) { return n.id; }), MX = 120, MY = 58;
+    for (var it = 0; it < 80; it++) {
+      var moved = false;
+      for (var i = 0; i < ids.length; i++) for (var j = i + 1; j < ids.length; j++) {
+        var a = pos[ids[i]], b = pos[ids[j]], dx = b[0] - a[0], dy = b[1] - a[1];
+        if (Math.abs(dx) < MX && Math.abs(dy) < MY) {
+          var px = (MX - Math.abs(dx)) / 2 + .5, py = (MY - Math.abs(dy)) / 2 + .5, sx = dx >= 0 ? 1 : -1, sy = dy >= 0 ? 1 : -1;
+          if (px / MX < py / MY) { a[0] -= sx * px * .5; b[0] += sx * px * .5; } else { a[1] -= sy * py * .5; b[1] += sy * py * .5; }
+          moved = true;
+        }
+      }
+      ids.forEach(function (id) { var p = pos[id]; p[0] = Math.min(X(1) - 40, Math.max(X(0) + 40, p[0])); p[1] = Math.min(Y(0) - 40, Math.max(Y(1) + 26, p[1])); });
+      if (!moved) break;
+    }
     var lg = el("g", {"class": "dqd-links"}, svg);
     o.links.forEach(function (l) {
       if (!pos[l.from] || !pos[l.to]) return;
@@ -122,7 +137,7 @@
       var g = nodeGroup(svg, n, n.label + (n.tag ? ", " + n.tag : "")), p = pos[n.id];
       el("rect", {x: p[0] - 70, y: p[1] - 18, width: 140, height: 72, "class": "dqd-hit"}, g);
       shape(g, n.kind, p[0], p[1], 14);
-      label(g, p[0], p[1] + 30, n.label, 22, "dqd-lbl");
+      label(g, p[0], p[1] + 30, n.short || n.label, 22, "dqd-lbl");
     });
     listView(o.list, o.nodes, o.links, o.listHeading);
     return interact(host, svg, o.nodes, o.links, o.panel, o.onSelect);

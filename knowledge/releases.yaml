@@ -11,6 +11,16 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.15.0"
+  date: "2026-11-07"
+  title: "Priorities as a picture, Morgan Map layers, and journeys that carry on in all three portals"
+  pages_new: []
+  pages_changed: [roadmap, map, ecosystem]
+  items:
+  - {type: new, text: "Priorities at a glance: every open backlog item placed by how much it matters and how easy it is, straight from the published scores, readable as a list", link: "roadmap.html#glance"}
+  - {type: changed, text: "Each step on the at-a-glance map now says which Morgan Map layer it is: a decision, evidence (it produces a record) or execution", link: "map.html#who"}
+  - {type: changed, text: "Points and labels on two-axis pictures keep apart automatically, and labels can be clicked as well as the points", link: "map.html"}
+  - {type: new, text: "The DAM capability playbooks and the GitHub repos catalogue now show the journey bar too, from one shared script, so your place is kept wherever a step is", link: "ecosystem.html#journeys"}
 - version: "2.14.0"
   date: "2026-11-07"
   title: "Data quality at a glance: pictures for everyone, real examples instead of invented ones, and a register of where content comes from"

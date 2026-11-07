@@ -160,3 +160,18 @@ class MapPageTests(unittest.TestCase):
         pages = {p.stem for p in (ROOT / "portal" / "src" / "pages").glob("*.html")}
         for stem in re.findall(r'href: "([a-z-]+)\.html', page):
             self.assertIn(stem, pages)
+
+
+class JourneyBarTests(unittest.TestCase):
+    def test_shared_script_is_self_contained(self):
+        js = (ROOT / "portal" / "src" / "js" / "journey-bar.js").read_text(encoding="utf-8")
+        self.assertIn("dqp-journey", js)
+        self.assertNotIn("<style", js)          # styles go on elements so strict CSPs can't hide the bar
+        self.assertNotRegex(js, r"fetch\(|XMLHttpRequest|sendBeacon")
+        src = (ROOT / "scripts" / "build_dq_portal.py").read_text(encoding="utf-8")
+        self.assertIn('"journey-bar.js"', src)
+
+    def test_roadmap_picture(self):
+        page = (ROOT / "portal" / "src" / "pages" / "roadmap.html").read_text(encoding="utf-8")
+        self.assertIn('id="glance"', page)
+        self.assertIn("__DIAGRAMS__", page)

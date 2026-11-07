@@ -76,7 +76,7 @@ __BASE_CSS__
   <div class="rules3">
     <div class="card"><h3>Who does it (left to right)</h3><ul><li><b>People:</b> a task done by a person, with no Commons tool.</li><li><b>Decision:</b> a yes or no choice made by a person.</li><li><b>People with a tool:</b> a person's task that a Commons tool supports.</li><li><b>The toolkit:</b> a task the toolkit does automatically.</li></ul></div>
     <div class="card"><h3>How much it matters (bottom to top)</h3><ul><li><b>Required:</b> the step cites the Data Asset Management policy or its mandatory guidance on critical data assets, metadata and ownership.</li><li><b>Recommended:</b> the step cites other published guidance, such as the action plan guide, issues framework or Government Data Quality Framework.</li><li><b>Good practice:</b> no guidance cited.</li><li>A decision takes the level of the most important step it leads to.</li></ul></div>
-    <div class="card"><h3>Reading the corners</h3><p>Top left: high stakes and done by people, so keep human judgement and make it easy to evidence. Top right: high stakes and automated, so automate with checks and a person to review. Bottom right: let the toolkit do it. Bottom left: simplify with templates.</p><p class="small">Inspired by the Morgan Map, a way of mapping services by automation and criticality to trust.</p></div>
+    <div class="card"><h3>Reading the corners</h3><p>Top left: high stakes and done by people, so keep human judgement and make it easy to evidence. Top right: high stakes and automated, so automate with checks and a person to review. Bottom right: let the toolkit do it. Bottom left: simplify with templates.</p><p class="small">Inspired by the Morgan Map, which maps the decisions, evidence and execution in a service by automation and criticality to trust. Each step's details say which of the three it is: a decision, evidence (it produces a record) or execution.</p></div>
   </div>
 </section>
 </div>
@@ -104,6 +104,8 @@ function edges(p) {
   });
   return out;
 }
+// Morgan Map layers: decisions, evidence (steps that produce a record), execution (everything else).
+const layer = s => s.kind === "gateway" ? "Decision" : (s.outputs || []).length ? "Evidence" : "Execution";
 const who = s => s.kind === "service" ? "auto" : s.kind === "gateway" ? "decision" : s.kind === "user" ? (s.page && TOOL_PAGES.has(s.page) ? "tool" : "person") : "event";
 const WHO_X = {person: .14, decision: .38, tool: .62, auto: .86};
 const WHO_TXT = {person: "Done by people", decision: "A decision", tool: "People, with a Commons tool", auto: "Done by the toolkit", event: "Start or finish"};
@@ -128,7 +130,7 @@ function draw(p) {
     const w = who(s), list = inCell[w + lv[s.id]], i = list.indexOf(s.id), n = list.length;
     const step = Math.min(.1, .27 / Math.max(n - 1, 1)), dy = n > 1 ? (n - 1) / 2 * step - i * step : 0, dx = n > 1 ? (i % 2 ? .055 : -.055) : 0;
     nodes.push({id: s.id, label: s.name, x: Math.min(.95, Math.max(.05, WHO_X[w] + dx)), y: LEVEL_Y[lv[s.id]] + dy, kind: SHAPE[w], cls: w,
-      tag: `${WHO_TXT[w]}; ${LEVEL_TXT[lv[s.id]]}`, desc: describe(s), href: s.page ? `${s.page}.html` : "", hrefText: s.page ? `Open ${LABEL[s.page] || s.page}` : ""});
+      tag: `${layer(s)}${w === "decision" ? "" : ": " + WHO_TXT[w]}; ${LEVEL_TXT[lv[s.id]]}`, desc: describe(s), href: s.page ? `${s.page}.html` : "", hrefText: s.page ? `Open ${LABEL[s.page] || s.page}` : ""});
   });
   const ids = new Set(nodes.map(n => n.id));
   // Links skip start and finish events: join through them.

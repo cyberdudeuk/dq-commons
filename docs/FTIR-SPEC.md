@@ -152,6 +152,12 @@
 | I-310 | Wishlist votes and backlog issues from GitHub shown beside the scores | Integration | `github_live()` |
 | T-310 | Every open item scored; MoSCoW matches score band; sign-up privacy; bundle has no addresses | Technical | `tests/test_research_roadmap.py` |
 
+## v2.15 requirements
+| ID | Requirement | Type | Met by |
+|---|---|---|---|
+| F-350 | Backlog priorities as a picture, from the published scores, with a list view | Functional | `roadmap.html#glance` |
+| I-350 | One journey bar across the three portals, working under each portal's security policy | Integration | `js/journey-bar.js`, sister portals |
+
 ## v2.14 requirements
 | ID | Requirement | Type | Met by |
 |---|---|---|---|

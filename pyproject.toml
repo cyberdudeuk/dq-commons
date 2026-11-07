@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dqkit"
-version = "2.14.0"
+version = "2.15.0"
 description = "Public Sector Data Quality Commons toolkit: measure, report and improve data quality with open standards"
 readme = "README.md"
 license = {text = "MIT"}

@@ -2,6 +2,14 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.15.0 — 2026-11-07
+### Added
+- `roadmap.html#glance`: a constellation of open backlog items (x: feasibility plus effort, y: weighted need, inclusion and alignment), shapes by MoSCoW band, with a list view.
+- `portal/src/js/journey-bar.js`, published as `js/journey-bar.js`: the cross-portal journey bar as one self-contained script that sets styles on its own elements, so it works under strict Content-Security-Policies. Adopted by the DAM capability playbooks (every page) and the GitHub repos catalogue (in its page parts and published page; C-DIST-01 to 03 pass).
+### Changed
+- `diagrams.js`: a spacing pass keeps constellation points and labels apart; optional short labels; clickable labels; lower quadrant captions at the foot of their quadrant.
+- `map.html`: each step names its Morgan Map layer (decision, evidence, execution).
+
 ## 2.14.0 — 2026-11-07
 ### Added
 - Page `map.html` (Start) and `portal/src/js/diagrams.js` (injected as `__DIAGRAMS__`): a dependency-free diagram kit with a constellation (two axes in the style of a Morgan Map), a swimlane flow (in the spirit of Mermaid) and grouped relationship columns. Each diagram has focusable named elements, shapes as well as colours, a details panel, a list view, theme colours and forced-colours support. The page maps each workflow step by who does it (person, decision, person with a Commons tool, toolkit) and how much it matters (required by the DAM policy, recommended by guidance, good practice), all derived from `models/dq-capability.yaml` by published rules; shows the same workflow as a flow; the 22 records and their `ref:` links; and the lineage of a rule through the Commons (D-DIAG-01).

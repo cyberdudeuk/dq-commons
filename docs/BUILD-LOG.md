@@ -1,5 +1,11 @@
 # Build journal
 
+## 2026-11-07 — v2.15.0: priorities picture, Morgan layers, journey bar in all three portals, sync
+- **Built:** Priorities at a glance on the roadmap; Morgan Map layers on the at-a-glance map; label spacing in the diagram kit; the shared journey-bar script, adopted by the two sister portals (both pushed).
+- **Follow-ups closed:** sister portals' journey bar (BL-34); Confluence and Jira synced through the Atlassian connector (Architecture space, epic XDMH-210) for v2.13 to v2.15; review requests drafted for the Data Standards Authority (Weaver mapping, BL-12) and the Jersey and Isle of Man statistics offices (packs, BL-15), left unaddressed in the owner's email drafts.
+- **Checked:** full tests, parity, provenance audit; roadmap and map pictures at 1366 and 390 pixels; the journey bar in both sister portals in a browser; the catalogue's distribution checks.
+- **Needs people:** Microsoft Forms links, release tags, participants and reviewers' replies.
+
 ## 2026-11-07 — v2.14.0: data quality at a glance, real examples, provenance register
 - **Built:** diagram kit (constellation, flow, columns); Data quality at a glance page (workflow constellation, flow, record relationships, rule lineage, placement rules); provenance register, audit script and build-page section; home page links.
 - **Replaced:** invented Metadata Weaver records with real Defra, Environment Agency, DfT and DfE records (sources found and checked by search); F-03's untraceable evidence restated as an assumption.

@@ -1311,6 +1311,8 @@ def main(argv=None) -> int:
         feedback_docx(dl / "dq-commons-feedback-form-questions.docx")
         if (ROOT / "portal" / "src" / "badges").exists():
             shutil.copytree(ROOT / "portal" / "src" / "badges", target / "badges", dirs_exist_ok=True)
+            (target / "js").mkdir(exist_ok=True)
+            shutil.copy(SRC / "js" / "journey-bar.js", target / "js" / "journey-bar.js")
         ambassador_kit(dl / "getinvolved", f"https://{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[0]}.github.io/{(a.repo.rstrip('/').split('/')[-2:] + ['', ''])[1]}/")
         # Weaver to the UK cross-government metadata model, for review (BL-12): one row per Rosetta concept.
         ro = yaml.safe_load((ROOT / "knowledge" / "rosetta.yaml").read_text(encoding="utf-8"))

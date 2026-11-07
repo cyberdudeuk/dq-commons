@@ -1,5 +1,10 @@
 # Decision log (this repository)
 
+## 2026-11-07 · D-JRN-02 · One journey-bar script for all three portals
+- **Decision:** publish the journey bar as `js/journey-bar.js`, a self-contained script that sets its styles on its own elements, and add the same file to the DAM capability playbooks and the GitHub repos catalogue.
+- **Why:** BL-34 left the sister portals to adopt the bar; both are maintained alongside the Commons, so adopting it directly closes the item. The playbooks' Content-Security-Policy blocks inline style sheets, which hid a first version, so styles are set through the DOM instead.
+- **Alternatives considered:** each portal writing its own bar (three copies drift); a shared CDN file (the portals make no third-party requests).
+
 ## 2026-11-07 · D-PROV-01 · A provenance register and audit instead of silent examples
 - **Decision:** every file that contains something that looks like an example, placeholder or invented detail is registered in `knowledge/provenance.yaml` with its class and how the page labels it; `scripts/audit_provenance.py` fails the build otherwise. Where another body masters the real thing (GOV.UK organisations, data.gov.uk, ONS geography, Ordnance Survey, the Environment Agency, DfT, DfE), the register links to it. Invented records attributed to real organisations were replaced with real public records.
 - **Why:** the user asked to find inferred, dummy and made-up content, replace it with authoritative content where it is mastered elsewhere, and set routines to keep checking it.
