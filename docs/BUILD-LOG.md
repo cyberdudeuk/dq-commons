@@ -1,5 +1,10 @@
 # Build journal
 
+## 2026-11-09 — Weekly maintenance check (no release)
+- **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit; the earlier failures, last on 5 November, were fixed by later commits); open issues (no contact, content health, broken link or repository settings issues); Dependabot pull request #39; locally, 253 tests, 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
+- **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
+- **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
+
 ## 2026-11-07 — v2.15.0: priorities picture, Morgan layers, journey bar in all three portals, sync
 - **Built:** Priorities at a glance on the roadmap; Morgan Map layers on the at-a-glance map; label spacing in the diagram kit; the shared journey-bar script, adopted by the two sister portals (both pushed).
 - **Follow-ups closed:** sister portals' journey bar (BL-34); Confluence and Jira synced through the Atlassian connector (Architecture space, epic XDMH-210) for v2.13 to v2.15; review requests drafted for the Data Standards Authority (Weaver mapping, BL-12) and the Jersey and Isle of Man statistics offices (packs, BL-15), left unaddressed in the owner's email drafts.
