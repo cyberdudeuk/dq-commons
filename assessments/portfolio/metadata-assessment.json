@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-14",
+  "as_of": "2026-11-09",
   "pages": [
     {
       "collection": "business-and-economy",
@@ -61,7 +61,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-25 (203 days ago)",
+          "evidence": "Page last updated 2026-03-25 (229 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -111,7 +111,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 203 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 229 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -288,7 +288,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -338,7 +338,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -515,7 +515,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -565,7 +565,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -742,7 +742,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -792,7 +792,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -969,7 +969,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1019,7 +1019,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1196,7 +1196,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1246,7 +1246,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1423,7 +1423,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1473,7 +1473,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1650,7 +1650,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-07 (99 days ago)",
+          "evidence": "Page last updated 2026-07-07 (125 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1700,7 +1700,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 99 days ago",
+          "evidence": "Checked 125 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1877,7 +1877,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -1927,7 +1927,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2104,7 +2104,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2154,7 +2154,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2331,7 +2331,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2381,7 +2381,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2558,7 +2558,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2608,7 +2608,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2785,7 +2785,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -2835,7 +2835,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3012,7 +3012,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-09-16 (28 days ago)",
+          "evidence": "Page last updated 2026-09-16 (54 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3062,7 +3062,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 28 days ago",
+          "evidence": "Checked 54 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3239,7 +3239,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-09-24 (20 days ago)",
+          "evidence": "Page last updated 2026-09-24 (46 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3289,7 +3289,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 20 days ago",
+          "evidence": "Checked 46 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3466,7 +3466,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3516,7 +3516,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3693,7 +3693,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3743,7 +3743,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3920,7 +3920,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -3970,7 +3970,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4147,7 +4147,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4197,7 +4197,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4374,7 +4374,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4424,7 +4424,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4601,7 +4601,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4651,7 +4651,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4828,7 +4828,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -4878,7 +4878,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5055,7 +5055,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5105,7 +5105,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5282,7 +5282,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5332,7 +5332,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5509,7 +5509,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5559,7 +5559,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5736,7 +5736,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5786,7 +5786,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -5963,7 +5963,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6013,7 +6013,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6190,7 +6190,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6240,7 +6240,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6417,7 +6417,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-04-08 (189 days ago)",
+          "evidence": "Page last updated 2026-04-08 (215 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6467,7 +6467,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 189 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 215 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6644,7 +6644,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-09-04 (40 days ago)",
+          "evidence": "Page last updated 2026-09-04 (66 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6694,7 +6694,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 40 days ago",
+          "evidence": "Checked 66 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6871,7 +6871,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-28 (78 days ago)",
+          "evidence": "Page last updated 2026-07-28 (104 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -6921,7 +6921,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 78 days ago",
+          "evidence": "Checked 104 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7098,7 +7098,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7148,7 +7148,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7325,7 +7325,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-08-18 (57 days ago)",
+          "evidence": "Page last updated 2026-08-18 (83 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7375,7 +7375,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 57 days ago",
+          "evidence": "Checked 83 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7552,7 +7552,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-23 (83 days ago)",
+          "evidence": "Page last updated 2026-07-23 (109 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7602,7 +7602,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 83 days ago",
+          "evidence": "Checked 109 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7779,7 +7779,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-23 (83 days ago)",
+          "evidence": "Page last updated 2026-07-23 (109 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -7829,7 +7829,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 83 days ago",
+          "evidence": "Checked 109 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8006,7 +8006,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8056,7 +8056,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8233,7 +8233,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8283,7 +8283,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8460,7 +8460,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8510,7 +8510,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8687,7 +8687,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8737,7 +8737,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8914,7 +8914,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-16 (120 days ago)",
+          "evidence": "Page last updated 2026-06-16 (146 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -8964,7 +8964,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 120 days ago",
+          "evidence": "Checked 146 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9141,7 +9141,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-09-14 (30 days ago)",
+          "evidence": "Page last updated 2026-09-14 (56 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9191,7 +9191,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 30 days ago",
+          "evidence": "Checked 56 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9368,7 +9368,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9418,7 +9418,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9595,7 +9595,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-30 (76 days ago)",
+          "evidence": "Page last updated 2026-07-30 (102 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9645,7 +9645,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 76 days ago",
+          "evidence": "Checked 102 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9822,7 +9822,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -9872,7 +9872,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10049,7 +10049,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10099,7 +10099,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10276,7 +10276,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10326,7 +10326,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10503,7 +10503,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10553,7 +10553,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10730,7 +10730,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-09 (127 days ago)",
+          "evidence": "Page last updated 2026-06-09 (153 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10780,7 +10780,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 127 days ago",
+          "evidence": "Checked 153 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -10957,7 +10957,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11007,7 +11007,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11184,7 +11184,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11234,7 +11234,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11411,7 +11411,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-10-09 (5 days ago)",
+          "evidence": "Page last updated 2026-10-09 (31 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11461,7 +11461,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 5 days ago",
+          "evidence": "Checked 31 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11638,7 +11638,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11688,7 +11688,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11865,7 +11865,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -11915,7 +11915,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12092,7 +12092,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12142,7 +12142,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12319,7 +12319,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12369,7 +12369,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12546,7 +12546,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12596,7 +12596,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12773,7 +12773,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -12823,7 +12823,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13000,7 +13000,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13050,7 +13050,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13227,7 +13227,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13277,7 +13277,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13454,7 +13454,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13504,7 +13504,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13681,7 +13681,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13731,7 +13731,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13908,7 +13908,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -13958,7 +13958,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14135,7 +14135,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14185,7 +14185,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14362,7 +14362,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-09 (127 days ago)",
+          "evidence": "Page last updated 2026-06-09 (153 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14412,7 +14412,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 127 days ago",
+          "evidence": "Checked 153 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14589,7 +14589,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14639,7 +14639,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14816,7 +14816,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-09 (97 days ago)",
+          "evidence": "Page last updated 2026-07-09 (123 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -14866,7 +14866,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 97 days ago",
+          "evidence": "Checked 123 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15043,7 +15043,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15093,7 +15093,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15270,7 +15270,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15320,7 +15320,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15497,7 +15497,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-07-30 (76 days ago)",
+          "evidence": "Page last updated 2026-07-30 (102 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15547,7 +15547,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 76 days ago",
+          "evidence": "Checked 102 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15724,7 +15724,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15774,7 +15774,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -15951,7 +15951,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-15 (121 days ago)",
+          "evidence": "Page last updated 2026-06-15 (147 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16001,7 +16001,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 121 days ago",
+          "evidence": "Checked 147 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16178,7 +16178,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-15 (121 days ago)",
+          "evidence": "Page last updated 2026-06-15 (147 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16228,7 +16228,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 121 days ago",
+          "evidence": "Checked 147 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16405,7 +16405,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-15 (121 days ago)",
+          "evidence": "Page last updated 2026-06-15 (147 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16455,7 +16455,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 121 days ago",
+          "evidence": "Checked 147 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16632,7 +16632,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16682,7 +16682,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16859,7 +16859,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -16909,7 +16909,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17086,7 +17086,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17136,7 +17136,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17313,7 +17313,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-03-24 (204 days ago)",
+          "evidence": "Page last updated 2026-03-24 (230 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17363,7 +17363,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "partial",
-          "evidence": "Last checked 204 days ago; curation asks for up-to-date data",
+          "evidence": "Last checked 230 days ago; curation asks for up-to-date data",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17540,7 +17540,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17590,7 +17590,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17767,7 +17767,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17817,7 +17817,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -17994,7 +17994,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18044,7 +18044,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18221,7 +18221,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18271,7 +18271,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18448,7 +18448,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18498,7 +18498,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18675,7 +18675,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18725,7 +18725,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18902,7 +18902,7 @@
           "label": "Reviewed in the last 12 months",
           "source": "DAM / CDA",
           "status": "pass",
-          "evidence": "Page last updated 2026-06-03 (133 days ago)",
+          "evidence": "Page last updated 2026-06-03 (159 days ago)",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3
@@ -18952,7 +18952,7 @@
           "label": "Up to date (checked in the last 6 months)",
           "source": "NDL",
           "status": "pass",
-          "evidence": "Checked 133 days ago",
+          "evidence": "Checked 159 days ago",
           "issue_type": "review-overdue",
           "dimension": "metadata",
           "impact": 3

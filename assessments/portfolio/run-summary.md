@@ -1,8 +1,8 @@
 # Data quality run: National Data Library chart data
 
-- **Measured as of:** 2026-10-14 (run at 2026-10-15T08:15:03Z)
+- **Measured as of:** 2026-11-09 (run at 2026-11-09T16:14:44Z)
 - **Owner:** National Data Library team
-- **Assets:** 8 (8 measured this run)
+- **Assets:** 8 (0 measured this run)
 - **Rules meeting target:** 43 of 49
 - **Open issues:** 6 (5 High, 1 Medium)
 - **Overdue issues:** 0. **Escalations:** 0
@@ -11,14 +11,14 @@
 
 | Asset | Measured on | Rules met | Open issues | Worst priority | Overdue | Trust level | Route |
 |---|---|---|---|---|---|---|---|
-| NDL People collection: Births chart data | 2026-10-14 | 8/8 | 0 | None | 0 | Trustworthy | External data, no influence: assess, caveat and communicate |
-| NDL Early years collection: Childhood vaccinations chart data | 2026-10-14 | 8/9 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
-| NDL Transport collection: Road traffic chart data | 2026-10-14 | 6/6 | 0 | None | 0 | Trustworthy | External data, no influence: assess, caveat and communicate |
-| NDL Environment collection: Air quality chart data | 2026-10-14 | 5/6 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
-| NDL Government and Parliament collection: Election results chart data | 2026-10-14 | 4/5 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
-| NDL Transport collection: MOT results chart data | 2026-10-14 | 4/5 | 1 | Medium | 0 | Useable | External data, no influence: assess, caveat and communicate |
-| NDL Government and Parliament collection: Council tax chart data | 2026-10-14 | 5/6 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
-| NDL People collection: Social mobility chart data | 2026-10-14 | 3/4 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
+| NDL People collection: Births chart data | 2026-10-14 (carried forward) | 8/8 | 0 | None | 0 | Trustworthy | External data, no influence: assess, caveat and communicate |
+| NDL Early years collection: Childhood vaccinations chart data | 2026-10-14 (carried forward) | 8/9 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
+| NDL Transport collection: Road traffic chart data | 2026-10-14 (carried forward) | 6/6 | 0 | None | 0 | Trustworthy | External data, no influence: assess, caveat and communicate |
+| NDL Environment collection: Air quality chart data | 2026-10-14 (carried forward) | 5/6 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
+| NDL Government and Parliament collection: Election results chart data | 2026-10-14 (carried forward) | 4/5 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
+| NDL Transport collection: MOT results chart data | 2026-10-14 (carried forward) | 4/5 | 1 | Medium | 0 | Useable | External data, no influence: assess, caveat and communicate |
+| NDL Government and Parliament collection: Council tax chart data | 2026-10-14 (carried forward) | 5/6 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
+| NDL People collection: Social mobility chart data | 2026-10-14 (carried forward) | 3/4 | 1 | High | 0 | Requires improvement | External data, no influence: assess, caveat and communicate |
 
 ## What changed since the last run
 
