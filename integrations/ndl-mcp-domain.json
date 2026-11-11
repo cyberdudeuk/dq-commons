@@ -33,6 +33,11 @@
       "description": "Profile a dataset and draft a starter rules file (YAML). A data steward must review every rule."
     },
     {
+      "name": "weave_rules",
+      "title": "Write rules in another platform's format",
+      "description": "Turn a Commons rules file (YAML) into a platform's native rules: sql, snowflake, databricks, glue, dataplex, dbt, soda, deequ, openmetadata, datahub, montecarlo. Rules with no equivalent are listed at the end, never dropped."
+    },
+    {
       "name": "validate_rules",
       "title": "Validate a rules file",
       "description": "Check a rules file (YAML) is well formed: known checks, identifier schemes, value sets, unique ids."
@@ -76,6 +81,16 @@
       "name": "check_contract",
       "title": "Check an ODCS data contract",
       "description": "Validate an ODCS v3 contract; with 'previous', list the changes, which ones break consumers, and the version to use."
+    },
+    {
+      "name": "playbook",
+      "title": "Data quality management playbook",
+      "description": "The eight-stage playbook for managing the quality of critical data assets (UK DAM policy, usable anywhere). With no arguments: the stages. With 'stage' (1-8 or an id such as 'prioritise'): its steps, checklist, roles, DAM policy clauses and inclusion check. With 'workspace' (a folder made by 'dqkit playbook init'): which stages have evidence and what to do next."
+    },
+    {
+      "name": "estimate_effort",
+      "title": "Estimate effort to baseline critical data assets",
+      "description": "Person-days, people needed, days per CDA and share achievable by the January return, for full or proportionate baselines with or without a shared toolkit. With no arguments: the four standard scenarios. All figures are assumptions."
     },
     {
       "name": "list_checks",
