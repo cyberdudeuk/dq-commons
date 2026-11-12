@@ -5,12 +5,12 @@
   "title": "National Data Library chart data",
   "owner": "National Data Library team"
  },
- "as_of": "2026-10-14",
- "run_at": "2026-10-15T08:15:03Z",
- "fingerprint": "7103c933b81f4bbf",
+ "as_of": "2026-11-09",
+ "run_at": "2026-11-09T16:14:44Z",
+ "fingerprint": "70b4ef7a4184edaa",
  "totals": {
   "assets": 8,
-  "assets_measured": 8,
+  "assets_measured": 0,
   "assets_skipped": 0,
   "rules_total": 49,
   "rules_met": 43,
@@ -84,7 +84,7 @@
     "case_study": "assets/ndl-people-births-chart.case-study.md",
     "case_study_docx": "assets/ndl-people-births-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -195,7 +195,7 @@
     "case_study": "assets/ndl-early-years-childhood-vaccinations-chart.case-study.md",
     "case_study_docx": "assets/ndl-early-years-childhood-vaccinations-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -290,7 +290,7 @@
     "case_study": "assets/ndl-transport-road-traffic-chart.case-study.md",
     "case_study_docx": "assets/ndl-transport-road-traffic-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -403,7 +403,7 @@
     "case_study": "assets/ndl-environment-air-quality-chart.case-study.md",
     "case_study_docx": "assets/ndl-environment-air-quality-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -516,7 +516,7 @@
     "case_study": "assets/ndl-government-election-results-chart.case-study.md",
     "case_study_docx": "assets/ndl-government-election-results-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -630,7 +630,7 @@
     "case_study": "assets/ndl-transport-mot-results-chart.case-study.md",
     "case_study_docx": "assets/ndl-transport-mot-results-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -744,7 +744,7 @@
     "case_study": "assets/ndl-government-council-tax-chart.case-study.md",
     "case_study_docx": "assets/ndl-government-council-tax-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {
@@ -856,7 +856,7 @@
     "case_study": "assets/ndl-people-social-mobility-chart.case-study.md",
     "case_study_docx": "assets/ndl-people-social-mobility-chart.case-study.docx"
    },
-   "measured": true,
+   "measured": false,
    "next_due": "2027-01-11",
    "packs": [
     {

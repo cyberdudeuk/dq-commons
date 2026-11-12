@@ -25,7 +25,7 @@
 | F-20 | CDA return rows from measured results | Done | `cdareturn.py`; test |
 | F-21 | One portal for all data quality work, built from the latest results | Done | `build_dq_portal.py`; `tests/test_portal.py` |
 | F-22 | Check data in the browser without uploading it, with the same answers as Python | Done | `engine.js`; 30-case parity check |
-| F-23 | Weekly automated run with GitHub issues for escalations | Built, untested on GitHub | `dq-pipeline.yml`; structure tested |
+| F-23 | Weekly automated run with GitHub issues for escalations | Built; first run on GitHub due 9 November 2026 | `dq-pipeline.yml`; structure tested |
 
 ## Technical
 

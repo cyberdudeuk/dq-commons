@@ -3,11 +3,13 @@
 This runbook is for the people who look after the pipeline day to day. You do not need to be a
 developer. Where you need to type a command, it is shown in full, ready to copy and paste.
 
-> **Status: untested on GitHub.** The two workflow files (`.github/workflows/dq-pipeline.yml` and
-> `.github/workflows/ci.yml`) have been checked by the kit's tests (their structure and required
-> settings), but GitHub Actions cannot run until the repository is pushed to GitHub. Expect to fix
-> small problems on the first real run. Everything else in this runbook (`dqkit run`, `dqkit suggest`,
-> the output files) has been run and tested locally.
+> **Status (checked 9 November 2026):** the repository is on GitHub and its everyday workflows run
+> there: tests, accessibility, content health, CodeQL and `publish portal`, which publishes the portal
+> to GitHub Pages. The weekly data quality pipeline (`.github/workflows/dq-pipeline.yml`) has not yet
+> had a run on GitHub. Its first scheduled run falls on Monday 9 November 2026 (GitHub often starts
+> scheduled runs a few hours late). Its structure is checked by the kit's tests, and everything it
+> calls (`dqkit run`, `dqkit suggest`, the output files) has been run and tested locally. Expect to
+> fix small problems after that first run.
 
 ## 1. What the pipeline does
 
