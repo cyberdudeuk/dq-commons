@@ -106,6 +106,15 @@ class VendorDataTests(unittest.TestCase):
             for g in v.get("github", []):
                 self.assertRegex(g["repo"], r"^[A-Za-z0-9-]+/[A-Za-z0-9._-]+$", v["id"])
 
+    def test_vendor_groups_are_shown_on_the_connectors_page(self):
+        """Every vendor's group is one the connectors page has a heading for, so no vendor silently disappears (defect DQC-D-MDM)."""
+        import re as _re
+        src = (ROOT / "portal" / "src" / "pages" / "connectors.html").read_text(encoding="utf-8")
+        line = _re.search(r"const GROUPS = \{(.*?)\};", src).group(1)
+        shown = set(_re.findall(r'"?([a-z-]+)"?\s*:', line))
+        self.assertEqual({v["group"] for v in V["vendors"]} - shown, set())
+        self.assertEqual({"no-such-group"} - shown, {"no-such-group"})  # negative test: an unknown group is reported
+
     def test_every_2026_mq_vendor_is_listed(self):
         mq = next(r for r in V["reports"] if r["id"] == "gartner-adq-2026")
         names = " ".join(v["name"] for v in V["vendors"]).lower()

@@ -2,6 +2,13 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.16.0 — 2026-11-13
+### Added
+- `knowledge/communities.yaml`: `questions`, four answered questions on reference and master data, shown on `community.html#questions`; the proposed reference and master data special interest group.
+- `knowledge/vendors.yaml`: a `mdm` group (Master and reference data) with Semarchy; vendor cards show a `public_sector` line where one is recorded.
+- `knowledge/standards-catalogue.yaml`: the Person data standard (alpha); 60 standards. `knowledge/build.yaml`: Zingg and dedupe.
+- Tests: answered questions are complete, use https links and hold no email address (with negative tests); every vendor group has a heading on the connectors page (with a negative test).
+
 ## 2.15.1 — 2026-11-13
 ### Fixed
 - `knowledge/ecosystem.yaml`: the catalogue's crosswalks view is `#interop` (was `#crosswalk`, which the catalogue doesn't have), in `catalogue_views` and the Weaver's lineage. The catalogue's standards claim corrected (16 graded per repository, 41 interoperability standards; was 24), and its comparison entries updated for its 7.17 to 7.19 releases (devolved nations, procurement in Scotland and Wales, datasets that name code).

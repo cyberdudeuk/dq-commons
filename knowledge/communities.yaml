@@ -4,7 +4,33 @@
 review:
   last_reviewed: '2026-10-15'
   owner_role: Content steward (community)
+questions:
+- asked: Knowledge Hub, Cross-Government Data Management Community, November 2026
+  question: Can the National Data Library hold shared reference data, such as the list of government organisations, that the community keeps up to date?
+  answer: A pilot keys every GOV.UK organisation by the identifier GOV.UK already gives it, joins other lists to that key with their owners named, and sends uncertain matches to a steward. It also joins councils from the planning data register.
+  links: ["https://www.gov.uk/guidance/publish-reference-data-for-use-across-government"]
+- asked: A department, to the GDS Data Management Team, November 2026
+  question: Who else runs a master data management tool such as Semarchy, and what did they learn about hosting, releases, support, vulnerabilities and accessibility?
+  answer: Public notices name Semarchy at UKHSA, Genomics England and Defra, and HMCTS deploys it on Azure. The repos asset catalogue's register of expertise lists every public body with evidence of each tool. See Semarchy under Connectors, and the DAM playbooks' plays for choosing a master data tool with exit in mind.
+  links: ["https://cyberdudeuk.github.io/github-repos-asset-catalogue/#tooling"]
+- asked: Knowledge Hub, Cross-Government Data Management Community, October 2026
+  question: How should a department scope and cost Microsoft Fabric capacity?
+  answer: Microsoft's method is a trial capacity on one workload, measured with the Fabric Capacity Metrics app, then scaled until utilisation stays within limits; the Fabric SKU Estimator gives a first budget figure. Public notices from 35 buyers name Azure Synapse or Microsoft Fabric.
+  links: ["https://learn.microsoft.com/fabric/enterprise/plan-capacity"]
+- asked: Knowledge Hub, Cross-Government Data Management Community, April 2026
+  question: Is there a standard for recording people who have a single name?
+  answer: The Data Standards Authority's Person data standard (alpha, June 2026) says not to force first and last name structures, to store names as recorded, and that the split into given and family names is not mandated.
+  links: ["https://www.gov.uk/government/publications/attributes-specification-for-person-standard"]
 communities:
+- name: Reference and master data special interest group (proposed)
+  kind: Special interest group
+  scope: UK government
+  sector: Cross-government
+  what: Proposed in November 2026 within the cross-government Data Management Community, to share lessons on master data tools, keep a register of expertise and agree patterns for publishing reference data. Members-only, on Knowledge Hub.
+  url: https://khub.net/
+  join: Join the Data Management Community on Knowledge Hub (see the data.gov.uk Data Manual's 'Join a data community' page), then reply to the thread proposing the group.
+  verified: partly
+  checked_on: '2026-11-13'
 - name: Government Data Quality Hub
   kind: Centre of expertise
   scope: UK government

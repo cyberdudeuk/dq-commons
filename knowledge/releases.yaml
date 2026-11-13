@@ -11,6 +11,16 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.16.0"
+  date: "2026-11-13"
+  title: "Questions answered, a reference and master data group, Semarchy and the Person data standard"
+  pages_new: []
+  pages_changed: [community, connectors, interop]
+  items:
+  - {type: new, text: "Questions answered: four questions people asked across government about reference and master data, with short answers and where to go next", link: "community.html#questions"}
+  - {type: new, text: "The proposed reference and master data special interest group, in the cross-government Data Management Community", link: "community.html#networks"}
+  - {type: new, text: "A Master and reference data group under Connectors, starting with Semarchy: its public sector use, repositories and AI support", link: "connectors.html"}
+  - {type: new, text: "The Person data standard (alpha) joins the standards catalogue: 60 standards. Zingg and dedupe, for matching records, join the open tools list"}
 - version: "2.15.1"
   date: "2026-11-13"
   title: "Links into the repos catalogue fixed, Croissant and LinkML added, and links within the wheel and role pages followed"

@@ -122,6 +122,8 @@ github:
 - {group: "Open standards and tools", name: "great-expectations/great_expectations", url: "https://github.com/great-expectations/great_expectations", what: "Great Expectations, which the toolkit exports to."}
 - {group: "Open standards and tools", name: "sodadata/soda-core", url: "https://github.com/sodadata/soda-core", what: "Soda Core data quality checks."}
 - {group: "Open standards and tools", name: "moj-analytical-services/splink", url: "https://github.com/moj-analytical-services/splink", what: "Splink record linkage, from the Ministry of Justice."}
+- {group: "Open standards and tools", name: "zinggAI/zingg", url: "https://github.com/zinggAI/zingg", what: "Zingg entity resolution, for matching records into a master record (AGPL-3.0)."}
+- {group: "Open standards and tools", name: "dedupeio/dedupe", url: "https://github.com/dedupeio/dedupe", what: "dedupe, a Python library for fuzzy matching and record linkage (MIT)."}
 - {group: "Open standards and tools", name: "ckan/ckan", url: "https://github.com/ckan/ckan", what: "CKAN, the catalogue behind data.gov.uk and many others."}
 - {group: "Open standards and tools", name: "w3c/dxwg", url: "https://github.com/w3c/dxwg", what: "W3C Dataset Exchange Working Group (DCAT)."}
 - {group: "Open standards and tools", name: "all-contributors/all-contributors", url: "https://github.com/all-contributors/all-contributors", what: "How we credit every kind of contribution."}
