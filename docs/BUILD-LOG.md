@@ -5,6 +5,12 @@
 - **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
 - **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
 
+## 2026-11-13 — v2.15.1: catalogue links, Croissant and LinkML, hash changes
+
+- Found by a review of how the three portals join up: two links into the repos asset catalogue named a view it does not have, its standards count was out of date, and the catalogue tracks Croissant and LinkML which the standards catalogue lacked.
+- Every one of the 34 shared keys in `api/xref.json` was opened in a browser on the live site: all select the right area or role on load. Changing the address on an open page did not update it; now it does.
+- Checks: unit tests, two-engine parity (37 of 37), content health, link check, and axe-core on 48 pages in two modes, all pass.
+
 ## 2026-11-07 — v2.15.0: priorities picture, Morgan layers, journey bar in all three portals, sync
 - **Built:** Priorities at a glance on the roadmap; Morgan Map layers on the at-a-glance map; label spacing in the diagram kit; the shared journey-bar script, adopted by the two sister portals (both pushed).
 - **Follow-ups closed:** sister portals' journey bar (BL-34); Confluence and Jira synced through the Atlassian connector (Architecture space, epic XDMH-210) for v2.13 to v2.15; review requests drafted for the Data Standards Authority (Weaver mapping, BL-12) and the Jersey and Isle of Man statistics offices (packs, BL-15), left unaddressed in the owner's email drafts.

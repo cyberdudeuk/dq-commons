@@ -211,6 +211,8 @@ __BASE_CSS__
   // on small screens the wheel's labels get small: start with the list, the wheel stays above it
   if (window.innerWidth < 600) { $("lst").checked = true; $("wlist").classList.add("on"); }
   draw(); panel(false);
+  // follow a link to another area while the page is open (the address changes but the page does not reload)
+  window.addEventListener("hashchange", () => { const id = (location.hash.match(/^#area-(\w+)/) || [])[1]; if (id && AREA[id] && id !== cur) { cur = id; draw(); panel(false); } });
 
   // maturity matrix
   const themes = MAT.themes;

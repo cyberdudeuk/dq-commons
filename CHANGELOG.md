@@ -2,6 +2,14 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.15.1 — 2026-11-13
+### Fixed
+- `knowledge/ecosystem.yaml`: the catalogue's crosswalks view is `#interop` (was `#crosswalk`, which the catalogue doesn't have), in `catalogue_views` and the Weaver's lineage. The catalogue's standards claim corrected (16 graded per repository, 41 interoperability standards; was 24), and its comparison entries updated for its 7.17 to 7.19 releases (devolved nations, procurement in Scotland and Wales, datasets that name code).
+- `wheel.html` and `roles.html` follow `hashchange`, so a link to another area or role updates an open page.
+### Added
+- `knowledge/standards-catalogue.yaml`: Croissant (MLCommons) and LinkML, both tracked by the repos asset catalogue; 59 standards.
+- Tests: every catalogue link is a view in the catalogue's own `data/xref.json` (when the catalogue is checked out alongside, with `CATALOGUE_DIR`); every "N-standard catalogue" claim equals the catalogue's length; both pages listen for `hashchange`.
+
 ## 2.15.0 — 2026-11-07
 ### Added
 - `roadmap.html#glance`: a constellation of open backlog items (x: feasibility plus effort, y: weighted need, inclusion and alignment), shapes by MoSCoW band, with a list view.

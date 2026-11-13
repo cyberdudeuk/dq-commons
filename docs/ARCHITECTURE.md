@@ -254,7 +254,7 @@ flowchart LR
 - **Pages:** `research.html`, `roadmap.html` (44 pages in total).
 
 ## 13. v2.10.0: standards catalogue, DQV and the three-portal ecosystem (5 November 2026)
-- **Knowledge:** `knowledge/standards-catalogue.yaml` (sources, domains, 57 standards) feeds `__K_STANDARDS__` on `interop.html`; `knowledge/ecosystem.yaml` (portals, comparison, gains, join-up, xref maps, lineage nodes and edges, journeys, placements) feeds `__K_ECO__` on `ecosystem.html`, `wheel.html` and `roles.html`. Both are searchable (D-STD-01, D-ECO-01).
+- **Knowledge:** `knowledge/standards-catalogue.yaml` (sources, domains, 59 standards) feeds `__K_STANDARDS__` on `interop.html`; `knowledge/ecosystem.yaml` (portals, comparison, gains, join-up, xref maps, lineage nodes and edges, journeys, placements) feeds `__K_ECO__` on `ecosystem.html`, `wheel.html` and `roles.html`. Both are searchable (D-STD-01, D-ECO-01).
 - **Weaver:** `to_dqv()` / `W.toDqv` produce a `dqv:QualityMetadata` graph from coverage, CDA check and profile results; `weave()` returns `quality`; CLI `weave --to dqv` (D-DQV-02).
 - **Build:** `related_elsewhere(stem)` adds a "Continue in a sister portal" aside to pages listed in `placements`; `xref_manifest()` writes `api/xref.json` (keys: dama_areas, roles, standards, pages; related portals and their manifests).
 - **Interfaces with sister portals:** links only, by shared key and stable anchor (`capability-model.html#dm-xx`, `together.html#role-CODE` in the playbooks; `#dama`, `#standards`, `#guide` in the catalogue). The live check on `ecosystem.html` reads the playbooks' `data/xref.json` from the same github.io origin; failure shows a message and the links still work.

@@ -11,6 +11,16 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.15.1"
+  date: "2026-11-13"
+  title: "Links into the repos catalogue fixed, Croissant and LinkML added, and links within the wheel and role pages followed"
+  pages_new: []
+  pages_changed: [ecosystem, interop, wheel, roles]
+  items:
+  - {type: fixed, text: "Two links to the GitHub repos asset catalogue's crosswalks went to a view that doesn't exist; they now open its interoperability view, and a test checks every catalogue link against the views the catalogue publishes", link: "ecosystem.html"}
+  - {type: fixed, text: "The comparison said the catalogue tracks 24 standards: it grades 16 catalogue and metadata standards per repository and tracks 41 interoperability standards. Its entries now also name its devolved nations, procurement and dataset coverage", link: "ecosystem.html#compare"}
+  - {type: new, text: "Croissant, for describing machine learning datasets, and LinkML, for writing data models, join the standards catalogue: 59 standards. Both are ones the repos catalogue tracks in public code", link: "interop.html"}
+  - {type: fixed, text: "A link to another area of the data management wheel, or to another role, now updates the page when it is already open", link: "wheel.html"}
 - version: "2.15.0"
   date: "2026-11-07"
   title: "Priorities as a picture, Morgan Map layers, and journeys that carry on in all three portals"

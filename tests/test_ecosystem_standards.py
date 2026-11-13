@@ -20,6 +20,7 @@ load = lambda n: yaml.safe_load((K / f"{n}.yaml").read_text(encoding="utf-8"))
 SC, RO, ECO, WH, ST = load("standards-catalogue"), load("rosetta"), load("ecosystem"), load("dama-wheel"), load("stakeholders")
 PAGES = {f.stem for f in (ROOT / "portal" / "src" / "pages").glob("*.html")}
 PLAYBOOKS = Path(os.environ.get("DAM_PLAYBOOKS_DIR", ROOT.parent / "dam-capability-playbooks"))
+CATALOGUE = Path(os.environ.get("CATALOGUE_DIR", ROOT.parent / "github-repos-asset-catalogue"))
 
 
 class StandardsCatalogue(unittest.TestCase):
@@ -53,6 +54,18 @@ class StandardsCatalogue(unittest.TestCase):
         text = (K / "standards-catalogue.yaml").read_text(encoding="utf-8").lower()
         for banned in ("xlsx", "crosswalks", "classification_v5", "draft taxonomy"):
             self.assertNotIn(banned, text)
+
+    def test_standards_count_claims_match_the_catalogue(self):
+        # every "N-standard catalogue" claim in the comparison and gains must equal the catalogue's length
+        text = (K / "ecosystem.yaml").read_text(encoding="utf-8")
+        claims = [int(n) for n in re.findall(r"\b(\d+)-standard catalogue", text)]
+        self.assertTrue(claims, "no standards count claim found")
+        for n in claims:
+            self.assertEqual(n, len(SC["standards"]))
+
+    def test_tracked_by_the_catalogue_includes_croissant_and_linkml(self):
+        names = {s.get("catalogue") for s in SC["standards"]}
+        self.assertTrue({"Croissant", "LinkML"} <= names)
 
 
 class Rosetta(unittest.TestCase):
@@ -110,6 +123,46 @@ class Ecosystem(unittest.TestCase):
         for e in ECO["lineage"]["edges"]:
             self.assertIn(e["from"], ids)
             self.assertIn(e["to"], ids)
+
+    def _catalogue_paths(self):
+        out = []
+        def walk(x):
+            if isinstance(x, dict):
+                if x.get("portal") == "cat" and isinstance(x.get("path"), str):
+                    out.append(x["path"])
+                for k, v in x.items():
+                    if k == "catalogue_views":
+                        out.extend(view["path"] for view in v.values())
+                    walk(v)
+            elif isinstance(x, list):
+                for v in x:
+                    walk(v)
+        walk(ECO)
+        return out
+
+    def test_catalogue_links_are_views_it_publishes(self):
+        """Each link into the repos asset catalogue names a view in the catalogue's own manifest (data/xref.json)."""
+        man = CATALOGUE / "dist" / "data" / "xref.json"
+        if not man.exists():
+            self.skipTest("repos asset catalogue not alongside")
+        import json
+        views = {v["id"] for v in json.loads(man.read_text(encoding="utf-8"))["keys"]["views"]}
+        view = lambda p: re.match(r"#?([\w-]*)", p.split("#", 1)[-1]).group(1)
+        bad = [p for p in self._catalogue_paths() if view(p) not in views]
+        self.assertEqual(bad, [])
+        self.assertNotIn("crosswalk", views)  # negative test: the old #crosswalk link would be caught
+
+    def test_catalogue_paths_found(self):
+        paths = self._catalogue_paths()
+        self.assertGreater(len(paths), 8)
+        self.assertNotIn("#crosswalk", paths)
+
+    def test_deep_links_follow_address_changes(self):
+        """The wheel and the role pages read #area-... and #role from the address on load and whenever it changes."""
+        pages = ROOT / "portal" / "src" / "pages"
+        for name in ("wheel", "roles"):
+            src = (pages / f"{name}.html").read_text(encoding="utf-8")
+            self.assertRegex(src, r"addEventListener\(\s*\"hashchange\"", name)
 
     def test_xref_manifest_built(self):
         p = ROOT / "portal" / "dist" / "api" / "xref.json"
