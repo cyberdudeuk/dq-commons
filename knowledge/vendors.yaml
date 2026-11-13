@@ -365,6 +365,25 @@ vendors:
       - {repo: microsoft/mcp, what: "Catalogue of official Microsoft MCP servers", licence: MIT}
     checked: "2026-11-07"
 
+  # ---------- Master and reference data ----------
+  - id: semarchy
+    name: Semarchy
+    group: mdm
+    catalogue_id: semarchy
+    products: [Semarchy xDM (master and reference data management, with data quality)]
+    recognition: []
+    weave: sql
+    integration: [REST API, SQL]
+    public_sector: "Public notices name Semarchy at UKHSA (xDM licences, 2025), Genomics England (consultancy, 2025) and Defra (cloud master data management, 2024). HMCTS deploys xDM on Azure; a public mirror of its deployment code is at uk-gov-mirror/hmcts.semarchy-xdm."
+    ai:
+      mcp: not-found
+      mcp_summary: "No first-party MCP server found on the checked date. Community prototypes exist (for example fxnicolas/semarchy-mcp), not published by Semarchy."
+    github:
+      - {repo: semarchy/xdm-tutorials, what: "xDM tutorials", licence: "not stated"}
+      - {repo: semarchy/sdp-accelerators, what: "Semarchy Data Platform accelerators", licence: Apache-2.0}
+      - {repo: semarchy/azure-template, what: "xDM solution template and management scripts for Azure (last changed 2021)", licence: MIT}
+    checked: "2026-11-13"
+
   # ---------- Cloud and data platforms ----------
   - id: google
     name: Google Cloud

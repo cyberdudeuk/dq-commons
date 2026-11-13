@@ -109,7 +109,7 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 DQ.setVocab(VOC.issue_types, VOC.dimensions);
 const REP = Object.fromEntries(V.reports.map(r => [r.id, r]));
-const GROUPS = {"dq-suite": "Data quality suites", catalogue: "Catalogues and governance", platform: "Cloud and data platforms", "open-source": "Open-source tools", observability: "Observability"};
+const GROUPS = {"dq-suite": "Data quality suites", catalogue: "Catalogues and governance", mdm: "Master and reference data", platform: "Cloud and data platforms", "open-source": "Open-source tools", observability: "Observability"};
 const MCPL = V.legend.mcp, WL = V.legend.weave;
 const TG = Object.fromEntries(V.weave_targets.map(t => [t.id, t]));
 const host = u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } };
@@ -159,6 +159,7 @@ function card(v) {
       <dt>Products</dt><dd>${esc((v.products || []).join(", "))}</dd>
       <dt>Get rules in</dt><dd>${wv}${v.weave_note ? `<br><span class="small">${esc(v.weave_note)}</span>` : ""}</dd>
       <dt>Integration</dt><dd>${esc((v.integration || []).join(", "))}</dd>
+      ${v.public_sector ? `<dt>In the public sector</dt><dd>${esc(v.public_sector)}</dd>` : ""}
       ${ai.mcp_summary ? `<dt>MCP</dt><dd>${esc(ai.mcp_summary)}</dd>` : ""}
       ${ai.agents ? `<dt>AI agents</dt><dd>${esc(ai.agents)}</dd>` : ""}
       ${(ai.catalogue_features || []).length ? `<dt>For catalogues</dt><dd>${esc(ai.catalogue_features.join(", "))}</dd>` : ""}

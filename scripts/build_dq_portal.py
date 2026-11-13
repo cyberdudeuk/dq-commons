@@ -290,6 +290,7 @@ def knowledge() -> dict:
         "FRAMEWORKS": lambda: y("frameworks")["frameworks"],
         "REQUIREMENTS": lambda: reqs,
         "COMMUNITIES": lambda: y("communities")["communities"],
+        "COMMUNITY_QUESTIONS": lambda: y("communities").get("questions", []),
         "LEARNING": lambda: y("learning"),
         "MATURITY": lambda: y("maturity"),
         "SURVEYS": lambda: y("surveys"),
@@ -1141,7 +1142,7 @@ def assemble(stem: str, fragment: str, build_label: str, footer: str) -> tuple[s
 
 
 # Which knowledge file each __K_NAME__ placeholder comes from, for the per-page provenance line.
-K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "LEARNING": "learning", "MATURITY": "maturity",
+K_FILES = {"FRAMEWORKS": "frameworks", "COMMUNITIES": "communities", "COMMUNITY_QUESTIONS": "communities", "LEARNING": "learning", "MATURITY": "maturity",
            "SURVEYS": "surveys", "AI": "ai-for-dq", "COMMERCIAL": "commercial", "LEGACY": "legacy", "INTEROP": "interop",
            "MEDIA": "media", "ROSETTA": "rosetta", "ARTICLES": "articles", "GLOBAL": "global", "BUILD": "build",
            "EVENTS": "events", "TRAINING": "training", "ONTOLOGY": "ontology", "GRAPH": "ontology", "RELEASES": "releases", "PLAYBOOK": "playbook", "EFFORT": "effort", "STAKEHOLDERS": "stakeholders", "PROFESSIONS": "professions", "REUSE": "reuse", "WHEEL": "dama-wheel", "CHANGE": "change-delivery", "FEEDBACK": "feedback", "STANDARDS": "standards-catalogue", "ECO": "ecosystem", "RESEARCH": "research", "ROADMAP": "roadmap", "CODE": "code-evidence", "GOVBODIES": "governance-bodies", "PARTICIPATION": "participation", "VENDORS": "vendors", "PROVENANCE": "provenance"}
