@@ -65,7 +65,7 @@ class StandardsCatalogue(unittest.TestCase):
 
     def test_tracked_by_the_catalogue_includes_croissant_and_linkml(self):
         names = {s.get("catalogue") for s in SC["standards"]}
-        self.assertTrue({"Croissant", "LinkML"} <= names)
+        self.assertEqual({"Croissant", "LinkML"} - names, set())  # names any that are missing
 
 
 class Rosetta(unittest.TestCase):
