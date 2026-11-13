@@ -124,6 +124,8 @@ function drawRole(focus) {
 }
 $("picker").addEventListener("click", e => { const b = e.target.closest("[data-r]"); if (b) { cur = b.dataset.r; store.set("dqc.role", cur); drawRole(true); } });
 drawRole(false);
+// follow a link to another role while the page is open
+window.addEventListener("hashchange", () => { const r = S.roles.find(x => location.hash === "#" + x.id); if (r && r.id !== cur) { cur = r.id; drawRole(false); } });
 
 // dates
 const fmtD = w => w.length === 7 ? new Date(w + "-01T00:00:00Z").toLocaleDateString("en-GB", {month: "long", year: "numeric", timeZone: "UTC"}) : new Date(w + "T00:00:00Z").toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric", timeZone: "UTC"});
