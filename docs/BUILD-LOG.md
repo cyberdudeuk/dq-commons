@@ -5,11 +5,12 @@
 - **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
 - **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
 
-## 2026-11-13 — v2.16.0: questions answered, reference and master data group, Semarchy, Person standard
+## 2026-11-15 — v2.16.0: questions answered, reference and master data group, Semarchy, Person standard
 
 - From a sweep of mail, Teams, Knowledge Hub and Slack for questions on reference and master data: four questions are answered on the community page, and a special interest group was proposed in the Data Management Community.
 - Semarchy opens a Master and reference data group under Connectors, with its public sector use from published notices. A new test makes sure every vendor group has a heading, so a vendor in a new group can't silently disappear.
 - The Person data standard (alpha) joins the standards catalogue; Zingg and dedupe join the open tools list.
+
 ## 2026-11-15 — v2.15.2: code scanning fixes, linter in CI
 
 - Found by completing the OpenSSF Best Practices questionnaire: no linter ran in CI, and 15 medium or high CodeQL alerts were open.
