@@ -78,6 +78,18 @@ class Workflows(unittest.TestCase):
         # Alert 135: the tests workflow had no permissions block, so it ran with the default token scope.
         self.assertRegex(read(".github", "workflows", "ci.yml"), r"(?m)^permissions:\s*\n\s+contents:\s*read")
 
+    def test_ci_runs_the_fuzzer_with_dev_mode(self):
+        # OpenSSF dynamic_analysis: the parsers are fuzzed on every change, with warnings as errors.
+        ci = read(".github", "workflows", "ci.yml")
+        self.assertIn("python -X dev -W error -m unittest tests.test_fuzz", ci)
+
+    def test_release_workflow_accepts_a_release_made_on_the_website(self):
+        # D-REL-01: a release drafted on GitHub creates the tag first, and `gh release create`
+        # then failed because the release already existed. The workflow now attaches to it.
+        wf = read(".github", "workflows", "release.yml")
+        self.assertIn('gh release view "${GITHUB_REF_NAME}"', wf)
+        self.assertIn("gh release upload", wf)
+
     def test_ci_runs_the_linter(self):
         # OpenSSF "warnings": CI must fail on linter warnings.
         self.assertIn("ruff check .", read(".github", "workflows", "ci.yml"))

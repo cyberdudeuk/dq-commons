@@ -15,6 +15,8 @@ jobs:
       # Linter: any warning fails the build (OpenSSF Best Practices "warnings"; rules in pyproject.toml [tool.ruff])
       - run: pip install ruff==0.16.9 && ruff check .
       - run: python -m unittest discover -s tests -v
+      # Dynamic analysis: property-based fuzzing of the input parsers, with Python dev mode (warnings and assertions on)
+      - run: pip install hypothesis==6.170.15 && python -X dev -W error -m unittest tests.test_fuzz -v
       - run: python scripts/build_vocab.py && git diff --exit-code vocab/
       - run: python scripts/build_models.py --check
       - run: python scripts/run_ndl_assessment.py
