@@ -38,7 +38,7 @@ Please read the [charter](CHARTER.md) and [code of conduct](CODE_OF_CONDUCT.md) 
 
 1. Fork, then branch from `main`.
 2. Make the change, with tests.
-3. Run `python -m unittest discover -s tests` and, if relevant, `python scripts/parity_check.py`.
+3. Run `ruff check .` (no warnings allowed; CI fails on any) and `python -m unittest discover -s tests` and, if relevant, `python scripts/parity_check.py`.
 4. Update the docs in the same pull request.
 5. Fill in the pull request checklist. A maintainer reviews within 10 working days.
 

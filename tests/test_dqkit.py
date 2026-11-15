@@ -240,7 +240,8 @@ class TrustPathwayWorkbook(unittest.TestCase):
         self.assertTrue(any("limitations" in s for s in ext["steps"]))
 
     def test_workbook_tabs(self):
-        import tempfile, openpyxl
+        import tempfile
+        import openpyxl
         from dqkit import workbook
         res = rules.run(DF, SPEC, as_of=date(2026, 10, 14))
         with tempfile.TemporaryDirectory() as d:
@@ -294,7 +295,7 @@ class OperationsAndCaseStudy(unittest.TestCase):
             # every rule that failed, passed, then failed again is a recurrence
             recurring = [k for k, v in ops["rules"].items() if v["recurrences"]]
             self.assertTrue(recurring)
-            for k, v in ops["rules"].items():
+            for _k, v in ops["rules"].items():
                 if v["open"]:
                     self.assertEqual(v["overdue"], v["cycles_open"] > operations.WINDOW[v["priority"]])
 

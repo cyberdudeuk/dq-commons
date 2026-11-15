@@ -4,6 +4,9 @@ title: "Public Sector Data Quality Commons"
 abstract: "An open toolkit, portal and playbook to measure, report and improve data quality in the public sector with open standards, aligned to the Government Data Quality Framework, the data quality action plan guidance and the data asset management policy."
 type: software
 authors:
+  - given-names: Emanuel
+    family-names: Silva
+    orcid: "https://orcid.org/0009-0000-5880-7219"
   - name: "Public Sector Data Quality Commons contributors"
 repository-code: "https://github.com/cyberdudeuk/dq-commons"
 url: "https://cyberdudeuk.github.io/dq-commons/"

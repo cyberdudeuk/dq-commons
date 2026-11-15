@@ -115,7 +115,7 @@ def to_docx(d: dict, out_path) -> Path:
             cells = [c.strip() for c in line.strip("|").split("|")]
             if table is None:
                 table = doc.add_table(rows=0, cols=len(cells)); table.style = "Table Grid"
-            for cell, text in zip(table.add_row().cells, cells):
+            for cell, text in zip(table.add_row().cells, cells, strict=False):
                 cell.text = text
             continue
         table = None

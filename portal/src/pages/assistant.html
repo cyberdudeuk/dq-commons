@@ -114,7 +114,7 @@ $("suggest").addEventListener("click", () => {
     if (/date|_on$|_at$/i.test(c.name) && vals.length && vals.filter(v => /^\d{4}-\d{2}-\d{2}/.test(v)).length / vals.length > 0.8) rules.push({id: "R" + n++, check: "not_future", column: c.name, description: `${c.name} isn't in the future`});
   });
   $("draft").value = YAML.dump({asset: {id: fileName.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-"), title: fileName, importance: 3, target_policy: "low"}, rules}, {lineWidth: 110, noRefs: true});
-  validate(); add("sys", `Starter rules drafted from ${fileName}: ${rules.length} rules from its column names and formats. Review them and add your business rules.`);
+  validate(); add("sys", `Starter rules drafted from ${esc(fileName)}: ${rules.length} rules from its column names and formats. Review them and add your business rules.`);
 });
 
 // ---------- rules panel ----------
@@ -175,11 +175,11 @@ function draft(text) {
       const cols = m ? [m[2], m[3]].filter(Boolean).map(x => column(x)) : [column(c.replace(/\b(unique|no|duplicates?|not|duplicated)\b/gi, ""))];
       push({check: "unique", columns: [...new Set(cols)], description: `One row per ${cols.join(" and ")}`}, `Only one row for each <b>${esc(cols.join(" + "))}</b>.`); hit = true; }
     if ((m = c.match(/between\s+(-?[\d.]+)\s+and\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, min: +m[1], max: +m[2], description: `${name} is between ${m[1]} and ${m[2]}`}, `<b>${esc(name)}</b> must be between ${m[1]} and ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, min: +m[1], max: +m[2], description: `${name} is between ${m[1]} and ${m[2]}`}, `<b>${esc(name)}</b> must be between ${esc(m[1])} and ${esc(m[2])}.`); hit = true; }
     else if ((m = c.match(/\b(at least|no less than|minimum of|over)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, min: +m[2], description: `${name} is at least ${m[2]}`}, `<b>${esc(name)}</b> must be at least ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, min: +m[2], description: `${name} is at least ${m[2]}`}, `<b>${esc(name)}</b> must be at least ${esc(m[2])}.`); hit = true; }
     else if ((m = c.match(/\b(at most|no more than|up to|maximum of|under)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, max: +m[2], description: `${name} is at most ${m[2]}`}, `<b>${esc(name)}</b> must be at most ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, max: +m[2], description: `${name} is at most ${m[2]}`}, `<b>${esc(name)}</b> must be at most ${esc(m[2])}.`); hit = true; }
     else if (/\b(positive|not negative|zero or more)\b/i.test(c)) { const name = column(c.replace(/\b(positive|not|negative|zero|or|more)\b/gi, ""));
       push({check: "range", column: name, min: 0, description: `${name} is not negative`}, `<b>${esc(name)}</b> can't be negative.`); hit = true; }
     if ((m = c.match(/\b(?:one of|either|must be|is)\s+((?:[\w'-]+(?:\s[\w'-]+)?)(?:\s*,\s*[\w'-]+(?:\s[\w'-]+)?)*\s*,?\s*(?:or)\s+[\w'-]+(?:\s[\w'-]+)?)$/i)) && !/\bnumber|code|date\b/i.test(m[1])) {

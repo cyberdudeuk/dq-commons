@@ -30,7 +30,7 @@ BLOCK = re.compile(r"<(h[1-6]|p|li|th|td|label|summary|button|figcaption|dt|dd|c
 
 def page_strings(stem: str) -> list:
     src = (ROOT / "portal" / "src" / "pages" / f"{stem}.html").read_text(encoding="utf-8")
-    src = re.sub(r"<script\b.*?</script>|<style\b.*?</style>|<pre\b.*?</pre>|<code\b.*?</code>", " ", src, flags=re.S)
+    src = re.sub(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>|<pre\b.*?</pre\b[^>]*>|<code\b.*?</code\b[^>]*>", " ", src, flags=re.S | re.I)
     out = []
     for m in BLOCK.finditer(src):
         inner = m.group(2)

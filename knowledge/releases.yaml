@@ -21,6 +21,20 @@ releases:
   - {type: new, text: "The proposed reference and master data special interest group, in the cross-government Data Management Community", link: "community.html#networks"}
   - {type: new, text: "A Master and reference data group under Connectors, starting with Semarchy: its public sector use, repositories and AI support", link: "connectors.html"}
   - {type: new, text: "The Person data standard (alpha) joins the standards catalogue: 60 standards. Zingg and dedupe, for matching records, join the open tools list"}
+- version: "2.15.2"
+  date: "2026-11-15"
+  title: "Security hardening from code scanning, and a linter that fails the build on any warning"
+  pages_new: []
+  pages_changed: [guidance, assistant, ecosystem, media, library]
+  items:
+  - {type: fixed, text: "Fixed the medium and high findings from CodeQL code scanning: a user's file name is escaped before it is shown, link addresses are escaped inside attributes, the live manifest check compares the whole host name, tab panels are found by id, and the build's HTML stripping catches upper-case closing tags and any closing tag up to the bracket", link: "guidance.html"}
+  - {type: fixed, text: "Defect found in review: the first fix to the HTML stripping still missed closing tags with extra characters before the bracket, which browsers accept. Code scanning caught it on the pull request; the pattern now accepts any closing tag, and a test proves it"}
+  - {type: fixed, text: "Defect found in verification after merge: the rules assistant showed the numbers you typed without escaping them. Only digits could get through, so it was not exploitable, but every value is now escaped and a test checks every explanation", link: "assistant.html"}
+  - {type: fixed, text: "Three build scripts used f-string syntax that only works on Python 3.12, although the toolkit supports Python 3.10 and 3.11; they now run on all three"}
+  - {type: changed, text: "Every change is now checked by a Python linter (Ruff: pyflakes, pycodestyle errors and bugbear), and any warning fails the build. The tests workflow runs with read-only permissions"}
+  - {type: new, text: "Fuzz testing: the parsers that read your data are tried with thousands of generated inputs on every change, and the build fails if any of them crashes or breaks its documented rule"}
+  - {type: changed, text: "A release can now be started from the GitHub website as well as by pushing a tag; the downloads, notes and signed provenance are attached either way"}
+  - {type: new, text: "Ten regression tests, one for each code scanning fix, each shown to fail when its defect is put back"}
 - version: "2.15.1"
   date: "2026-11-13"
   title: "Links into the repos catalogue fixed, Croissant and LinkML added, and links within the wheel and role pages followed"

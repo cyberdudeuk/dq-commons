@@ -1,5 +1,4 @@
 """Weaves to other platforms, the vendor directory and their wiring (v2.13)."""
-import json
 import re
 import subprocess
 import sys

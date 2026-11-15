@@ -10,6 +10,16 @@
 - From a sweep of mail, Teams, Knowledge Hub and Slack for questions on reference and master data: four questions are answered on the community page, and a special interest group was proposed in the Data Management Community.
 - Semarchy opens a Master and reference data group under Connectors, with its public sector use from published notices. A new test makes sure every vendor group has a heading, so a vendor in a new group can't silently disappear.
 - The Person data standard (alpha) joins the standards catalogue; Zingg and dedupe join the open tools list.
+## 2026-11-15 — v2.15.2: code scanning fixes, linter in CI
+
+- Found by completing the OpenSSF Best Practices questionnaire: no linter ran in CI, and 15 medium or high CodeQL alerts were open.
+- Fixed: alerts 103, 112, 113, 114, 125, 135, 136, 144, 63 and 64, and the file-handle warnings 79 to 85. Three scripts used Python 3.12-only f-strings while the toolkit supports 3.10 (found by the linter).
+- Judged false positives, to be dismissed with reasons: 62 (XML parsing of a local workbook), 77 (a content link lint, not sanitisation), 115 and 116 (classifying JSON-LD contexts, not checking URLs), 142 (embed code written to a text box, not HTML).
+- Defect found in review: CodeQL on the pull request reported that the first HTML-stripping fix (`</script\s*>`) still missed `</script\t\n bar>`. Widened to `</script\b[^>]*>` with a negative test. It also re-flagged the SHA-1 in `build_models.py uid()`: a false positive, because the hash makes stable public identifiers, not a security control, and changing it would renumber every published model id; to be dismissed with that reason.
+- Defect found in verification after merge (PR #47): alert 125 stayed open on main. CodeQL traced typed text through the range patterns into the explanation HTML; the numbers were unescaped. Fixed with esc() and a test that fails on the old code.
+- Added dynamic analysis (Hypothesis fuzzing of numbers.parse, parse_uk_date and _is_public_sector, run with python -X dev -W error). Negative tests: a lenient number parser (match instead of fullmatch) and a suffix-only host check each make it fail. Test coverage measured with coverage.py: 85% of the dqkit library (statements and branches), 66% including build scripts.
+- Defect D-REL-01: release.yml failed when the release was drafted on the website first. Now attaches to an existing release.
+- Checks: ruff (0 warnings; a planted unused import and a planted 3.12-only f-string each fail it), 274 unit tests including 10 new regression tests (9 fail against the unfixed code; the tenth tests the pattern itself), vocabulary and model exports unchanged, NDL assessment and portal build pass.
 
 ## 2026-11-13 — v2.15.1: catalogue links, Croissant and LinkML, hash changes
 

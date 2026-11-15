@@ -29,7 +29,6 @@ import sys
 from datetime import date
 from pathlib import Path
 
-import pandas as pd
 import yaml
 
 from . import casestudy, contracts, weaver, dqv, exporters, metadata, operations, pathway, rules, sources, trust, weaves
@@ -277,7 +276,8 @@ def main(argv=None) -> int:
               f"{sum(m['count'] for m in r['mismatches'])} value differences.", file=sys.stderr)
         return 0 if r["passed"] else 1
     if a.cmd == "assess-metadata":
-        recs = [json.loads(l) for l in open(a.records, encoding="utf-8") if l.strip()]
+        with open(a.records, encoding="utf-8") as fh:
+            recs = [json.loads(l) for l in fh if l.strip()]
         res = metadata.assess_portfolio(recs, _date(a.as_of))
         text = json.dumps(res, indent=2, ensure_ascii=False)
         if a.out:

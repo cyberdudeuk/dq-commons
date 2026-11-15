@@ -197,7 +197,7 @@ def suggest(df: pd.DataFrame, asset: dict, prof: Optional[dict] = None) -> dict:
         if p["geography"]:
             add("regex", f"{round(100 * p['geography_share'])}% of values look like GSS geography codes (for example E06000001).",
                 column=c, pattern=GEOGRAPHY.pattern.strip("^$"), description=f"{c} is a 9-character GSS geography code")
-    for c, p in cols.items():
+    for c, _p in cols.items():
         sch = _identifier_scheme(df[c], c)
         if sch:
             add("identifier", f"{sch[1]}% of values pass the {sch[0]} rules, so this looks like that identifier. "

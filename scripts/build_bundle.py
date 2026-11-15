@@ -46,6 +46,9 @@ DOCS = [  # (group, file, short title)
 ]
 
 
+_SUB = ' class="sub"'  # Python 3.10 cannot have a backslash inside an f-string expression
+
+
 def _inline(s: str) -> str:
     s = html.escape(s, quote=False)
     s = re.sub(r"`([^`]+)`", lambda m: f"<code>{m.group(1)}</code>", s)
@@ -118,7 +121,7 @@ def md_to_html(md: str, prefix: str) -> tuple[str, list]:
                     break
                 i += 1
             tag = "ol" if ordered else "ul"
-            out.append(f"<{tag}>" + "".join(f'<li{" class=\"sub\"" if ind >= 2 else ""}>{_inline(t)}</li>' for ind, t in items) + f"</{tag}>")
+            out.append(f"<{tag}>" + "".join(f'<li{_SUB if ind >= 2 else ""}>{_inline(t)}</li>' for ind, t in items) + f"</{tag}>")
             continue
         if ln.startswith(">"):
             flush()

@@ -5,3 +5,4 @@ assesses catalogue records against GOV.UK DAM policy and CDA metadata guidance,
 and publishes results as W3C DQV, Great Expectations, R validate and DQAP outputs.
 """
 __version__ = "2.16.0"
+__version__ = "2.15.2"

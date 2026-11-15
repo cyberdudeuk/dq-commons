@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dqkit"
 version = "2.16.0"
+version = "2.15.2"
 description = "Public Sector Data Quality Commons toolkit: measure, report and improve data quality with open standards"
 readme = "README.md"
 license = {text = "MIT"}
@@ -19,3 +20,21 @@ packages = ["dqkit"]
 
 [tool.setuptools.package-data]
 dqkit = ["*.json"]
+
+# Linter (OpenSSF Best Practices "warnings" criteria, 15 Nov 2026). CI fails on any warning: .github/workflows/ci.yml.
+# Rule set: pyflakes (F), pycodestyle errors (E4, E7, E9), warnings (W) and bugbear (B).
+# House style, deliberately allowed: one-line compound statements (E702), named lambdas (E731) and short loop names such
+# as l (E741) are used throughout the generators for compactness; module imports after a sys.path insert (E402) in tests,
+# the Fabric notebook and build_vocab.py are intentional.
+[tool.ruff]
+target-version = "py310"
+line-length = 200
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "B"]
+ignore = ["E702", "E731", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["E402"]
+"integrations/fabric/*.py" = ["E402"]
+"scripts/build_vocab.py" = ["E402"]

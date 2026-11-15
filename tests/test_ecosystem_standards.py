@@ -110,7 +110,7 @@ class Ecosystem(unittest.TestCase):
             self.assertRegex(r["dam"], r"^[A-Z]{3}$")
 
     def test_commons_paths_exist(self):
-        for key, items in ECO["placements"].items():
+        for key, _items in ECO["placements"].items():
             self.assertIn(key, PAGES, key)
         for j in ECO["journeys"]:
             for step in j["steps"]:

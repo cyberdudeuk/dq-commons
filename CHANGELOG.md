@@ -8,6 +8,18 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 - `knowledge/vendors.yaml`: a `mdm` group (Master and reference data) with Semarchy; vendor cards show a `public_sector` line where one is recorded.
 - `knowledge/standards-catalogue.yaml`: the Person data standard (alpha); 60 standards. `knowledge/build.yaml`: Zingg and dedupe.
 - Tests: answered questions are complete, use https links and hold no email address (with negative tests); every vendor group has a heading on the connectors page (with a negative test).
+## 2.15.2 — 2026-11-15
+### Fixed
+- Code scanning (CodeQL) medium and high findings: `assistant.html` escapes the loaded file's name before showing it; `guidance.html` `esc()` escapes quotes because its output sits inside `href`; `ecosystem.html` compares the whole host name rather than a `github.io` suffix; `media.html` and `library.html` find tab panels with `getElementById`; `build_dq_portal.py` and `export_strings.py` strip `<script>` and `<style>` case-insensitively and accept any closing tag up to `>`; `build_models.py` marks its SHA-1 id hash `usedforsecurity=False` (ids are persistent, so the algorithm is unchanged); files are closed with `with` blocks.
+- Defect found in review of this release: the first fix for the HTML-stripping patterns (`</script\s*>`) still missed closing tags such as `</script\t\n bar>`, which browsers accept; CodeQL reported it on the pull request. The patterns are now `</script\b[^>]*>` (and the same for `style`, `pre`, `code`), with a negative test.
+- Defect found in verification after merge: alert 125 stayed open because the assistant's range explanations put the typed numbers into HTML unescaped. The pattern only captures digits, dots and minus signs, so it was not exploitable, but every value is now escaped, with a test that checks every explanation string.
+- `build_bundle.py` and `build_dq_portal.py` used f-string syntax that needs Python 3.12; they now run on 3.10 and 3.11 as `pyproject.toml` declares.
+### Changed
+- `release.yml`: a release drafted on the GitHub website (which creates the tag first) now gets its files, notes and provenance attached, where `gh release create` used to fail because the release existed (D-REL-01).
+- CI runs Ruff (`pyproject.toml` `[tool.ruff]`: pyflakes, pycodestyle errors, warnings and bugbear) and fails on any warning; the tests workflow has read-only `permissions`.
+### Added
+- `tests/test_fuzz.py`: dynamic analysis. Hypothesis fuzzes the number parser, the date parser and the public-sector host check, and CI runs it with Python dev mode and warnings as errors. Planting a lenient number parser or a suffix-only host check makes it fail.
+- `tests/test_security_hardening.py`: one regression test per code scanning fix (9 of 10 fail against 2.15.1; the tenth tests the pattern itself).
 
 ## 2.15.1 — 2026-11-13
 ### Fixed
