@@ -80,10 +80,9 @@ class ReleaseFiles(unittest.TestCase):
         texts = []
         for f in files:
             if f.endswith((".py", ".md", ".yaml", ".yml", ".toml", ".html", ".json", ".txt", ".cff")):
-                try:
-                    texts.append((f, (ROOT / f).read_text(encoding="utf-8")))
-                except (UnicodeDecodeError, FileNotFoundError):
-                    pass
+                # Read bytes and decode leniently: merge markers are ASCII, so no file is skipped, and a tracked
+                # file missing from disk fails the test rather than being passed over.
+                texts.append((f, (ROOT / f).read_bytes().decode("utf-8", errors="replace")))
         self.assertEqual(marker_problems(texts), [])
 
     def test_release_lists_agree(self):
