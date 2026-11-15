@@ -38,6 +38,17 @@ class Escaping(unittest.TestCase):
         self.assertNotIn("drafted from ${fileName}", src)
         self.assertIn("drafted from ${esc(fileName)}", src)
 
+    def test_assistant_escapes_every_value_in_its_explanations(self):
+        # Alert 125: words typed by the user reach innerHTML through add(); every ${...} in an
+        # explanation (the `<b>... HTML strings passed to push) must go through esc().
+        src = read("portal", "src", "pages", "assistant.html")
+        found = 0
+        for m in re.finditer(r"`(<b>[^`]*)`\)", src):
+            found += 1
+            for expr in re.findall(r"\$\{([^}]*)\}", m.group(1)):
+                self.assertTrue(expr.startswith("esc(") or ".map(esc)" in expr, f"unescaped ${{{expr}}} in explanation: {m.group(1)[:60]}")
+        self.assertGreater(found, 3)
+
     def test_tab_panels_looked_up_by_id(self):
         # Alerts 63, 64: panel ids from aria-controls went through the selector helper $(); use getElementById.
         for name in ("media.html", "library.html"):

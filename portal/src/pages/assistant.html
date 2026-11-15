@@ -175,11 +175,11 @@ function draft(text) {
       const cols = m ? [m[2], m[3]].filter(Boolean).map(x => column(x)) : [column(c.replace(/\b(unique|no|duplicates?|not|duplicated)\b/gi, ""))];
       push({check: "unique", columns: [...new Set(cols)], description: `One row per ${cols.join(" and ")}`}, `Only one row for each <b>${esc(cols.join(" + "))}</b>.`); hit = true; }
     if ((m = c.match(/between\s+(-?[\d.]+)\s+and\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, min: +m[1], max: +m[2], description: `${name} is between ${m[1]} and ${m[2]}`}, `<b>${esc(name)}</b> must be between ${m[1]} and ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, min: +m[1], max: +m[2], description: `${name} is between ${m[1]} and ${m[2]}`}, `<b>${esc(name)}</b> must be between ${esc(m[1])} and ${esc(m[2])}.`); hit = true; }
     else if ((m = c.match(/\b(at least|no less than|minimum of|over)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, min: +m[2], description: `${name} is at least ${m[2]}`}, `<b>${esc(name)}</b> must be at least ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, min: +m[2], description: `${name} is at least ${m[2]}`}, `<b>${esc(name)}</b> must be at least ${esc(m[2])}.`); hit = true; }
     else if ((m = c.match(/\b(at most|no more than|up to|maximum of|under)\s+(-?[\d.]+)/i))) { const name = column(c.replace(m[0], ""));
-      push({check: "range", column: name, max: +m[2], description: `${name} is at most ${m[2]}`}, `<b>${esc(name)}</b> must be at most ${m[2]}.`); hit = true; }
+      push({check: "range", column: name, max: +m[2], description: `${name} is at most ${m[2]}`}, `<b>${esc(name)}</b> must be at most ${esc(m[2])}.`); hit = true; }
     else if (/\b(positive|not negative|zero or more)\b/i.test(c)) { const name = column(c.replace(/\b(positive|not|negative|zero|or|more)\b/gi, ""));
       push({check: "range", column: name, min: 0, description: `${name} is not negative`}, `<b>${esc(name)}</b> can't be negative.`); hit = true; }
     if ((m = c.match(/\b(?:one of|either|must be|is)\s+((?:[\w'-]+(?:\s[\w'-]+)?)(?:\s*,\s*[\w'-]+(?:\s[\w'-]+)?)*\s*,?\s*(?:or)\s+[\w'-]+(?:\s[\w'-]+)?)$/i)) && !/\bnumber|code|date\b/i.test(m[1])) {
