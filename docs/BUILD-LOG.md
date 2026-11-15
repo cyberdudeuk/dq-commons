@@ -10,6 +10,7 @@
 - Found by completing the OpenSSF Best Practices questionnaire: no linter ran in CI, and 15 medium or high CodeQL alerts were open.
 - Fixed: alerts 103, 112, 113, 114, 125, 135, 136, 144, 63 and 64, and the file-handle warnings 79 to 85. Three scripts used Python 3.12-only f-strings while the toolkit supports 3.10 (found by the linter).
 - Judged false positives, to be dismissed with reasons: 62 (XML parsing of a local workbook), 77 (a content link lint, not sanitisation), 115 and 116 (classifying JSON-LD contexts, not checking URLs), 142 (embed code written to a text box, not HTML).
+- Defect found in review: CodeQL on the pull request reported that the first HTML-stripping fix (`</script\s*>`) still missed `</script\t\n bar>`. Widened to `</script\b[^>]*>` with a negative test. It also re-flagged the SHA-1 in `build_models.py uid()`: a false positive, because the hash makes stable public identifiers, not a security control, and changing it would renumber every published model id; to be dismissed with that reason.
 - Checks: ruff (0 warnings; a planted unused import and a planted 3.12-only f-string each fail it), 274 unit tests including 10 new regression tests (9 fail against the unfixed code; the tenth tests the pattern itself), vocabulary and model exports unchanged, NDL assessment and portal build pass.
 
 ## 2026-11-13 — v2.15.1: catalogue links, Croissant and LinkML, hash changes

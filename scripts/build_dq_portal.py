@@ -559,7 +559,7 @@ def section_slug(text: str) -> str:
 def page_sections(src: str) -> dict:
     """Each static <h2> on a page source and a fingerprint of everything up to the next <h2>."""
     import hashlib
-    src = re.sub(r"<script\b.*?</script\s*>|<style\b.*?</style\s*>", "", src, flags=re.S | re.I)
+    src = re.sub(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>", "", src, flags=re.S | re.I)
     parts = re.split(r"(<h2\b[^>]*>.*?</h2>)", src, flags=re.S)
     out = {}
     for i in range(1, len(parts), 2):
@@ -963,7 +963,7 @@ def search_index() -> list:
     for stem, label, desc in PAGES:
         add(label, "Page", f"{stem}.html", desc + " " + GROUP_TITLE[GROUP_OF[stem]], GROUP_TITLE[GROUP_OF[stem]])
     for stem, _label, _ in PAGES:
-        src = re.sub(r"<script\b.*?</script\s*>|<style\b.*?</style\s*>", "", (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"), flags=re.S | re.I)
+        src = re.sub(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>", "", (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"), flags=re.S | re.I)
         for m in re.finditer(r"<h([23])\b([^>]*)>(.*?)</h\1>(.{0,600})", src, flags=re.S):
             head = _plain(m.group(3))
             if head:

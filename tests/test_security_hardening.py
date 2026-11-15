@@ -52,12 +52,14 @@ class HtmlStripping(unittest.TestCase):
             src = read(path)
             for m in re.finditer(r're\.sub\(r"<script\\b[^"]*"', src):
                 line = src[m.start():src.index("\n", m.start())]
-                self.assertIn(r"</script\s*>", line, f"{path}: closing tag must allow spaces")
+                self.assertIn(r"</script\b[^>]*>", line, f"{path}: closing tag must allow anything up to >")
                 self.assertIn("re.I", line, f"{path}: tag match must ignore case")
 
     def test_pattern_behaviour(self):
-        pat = re.compile(r"<script\b.*?</script\s*>|<style\b.*?</style\s*>", re.S | re.I)
+        pat = re.compile(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>", re.S | re.I)
         self.assertEqual(pat.sub("", "a<SCRIPT>x</script >b<style>y</STYLE>c"), "abc")
+        # D-found-in-review: browsers also close on </script\t\n bar>, which \s*> missed.
+        self.assertEqual(pat.sub("", "a<script>x</script\t\n bar>b"), "ab")
 
 
 class Workflows(unittest.TestCase):
