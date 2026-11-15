@@ -8,7 +8,6 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 from build_dq_portal import PAGES as _P  # noqa: E402
 PAGES = [p[0] for p in _P]

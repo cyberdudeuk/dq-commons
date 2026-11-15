@@ -92,7 +92,7 @@ code{font-family:var(--f-mono);font-size:.85em}
 
 <script>
 const $=id=>document.getElementById(id);
-const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const SRC=[
  ["GOV.UK","Implement a data quality action plan, with the data quality issues framework","Government Digital Service · April 2026","The seven-step DQAP guide, the issues framework scoring method and the DQAP template.","https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide"],
  ["GOV.UK","The Government Data Quality Framework","Government Data Quality Hub · 2020","Principles, the six data quality dimensions and the idea of an action plan.","https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework"],

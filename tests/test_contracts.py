@@ -1,6 +1,5 @@
 """Data contracts: rules survive a trip through ODCS and Table Schema, and give the same results."""
 import glob
-import json
 import subprocess
 import sys
 import unittest

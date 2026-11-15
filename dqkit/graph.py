@@ -14,7 +14,6 @@ Nothing is invented: every node and edge comes from a knowledge file, and each n
 from __future__ import annotations
 
 import csv
-import json
 import re
 from collections import deque
 from pathlib import Path

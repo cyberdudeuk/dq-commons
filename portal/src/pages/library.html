@@ -88,7 +88,7 @@ function md(text) {
 // tabs (WAI-ARIA tabs pattern)
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 function show(t, focus) {
-  tabs.forEach(x => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; $(x.getAttribute("aria-controls")).hidden = !on; });
+  tabs.forEach(x => { const on = x === t; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute("aria-controls")).hidden = !on; });
   if (focus) t.focus();
 }
 tabs.forEach((t, i) => {

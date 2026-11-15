@@ -57,8 +57,8 @@ def estimate(days: int, lite: bool = False, kit: bool = False, cdas: int | None 
     for a in m["activities"]:
         f = (eff_cdi / 15) ** m["scale_exponent"] if a["sc"] else 1
         v = [a["d"][t] * f * (a["lite"] if lite else 1) * (a["kit"] if kit else 1) for t in range(3)]
-        per_tier = [p + x for p, x in zip(per_tier, v)]
-        w = sum(x * mx for x, mx in zip(v, mix)) * n
+        per_tier = [p + x for p, x in zip(per_tier, v, strict=False)]
+        w = sum(x * mx for x, mx in zip(v, mix, strict=False)) * n
         roles[a["r"]] = roles.get(a["r"], 0) + w
         dept += w
     central = m["central"]["per_cda_days"] * n + m["central"]["fte_for_window"] * days

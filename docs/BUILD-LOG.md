@@ -5,6 +5,13 @@
 - **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
 - **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
 
+## 2026-11-15 — v2.15.2: code scanning fixes, linter in CI
+
+- Found by completing the OpenSSF Best Practices questionnaire: no linter ran in CI, and 15 medium or high CodeQL alerts were open.
+- Fixed: alerts 103, 112, 113, 114, 125, 135, 136, 144, 63 and 64, and the file-handle warnings 79 to 85. Three scripts used Python 3.12-only f-strings while the toolkit supports 3.10 (found by the linter).
+- Judged false positives, to be dismissed with reasons: 62 (XML parsing of a local workbook), 77 (a content link lint, not sanitisation), 115 and 116 (classifying JSON-LD contexts, not checking URLs), 142 (embed code written to a text box, not HTML).
+- Checks: ruff (0 warnings; a planted unused import and a planted 3.12-only f-string each fail it), 274 unit tests including 10 new regression tests (9 fail against the unfixed code; the tenth tests the pattern itself), vocabulary and model exports unchanged, NDL assessment and portal build pass.
+
 ## 2026-11-13 — v2.15.1: catalogue links, Croissant and LinkML, hash changes
 
 - Found by a review of how the three portals join up: two links into the repos asset catalogue named a view it does not have, its standards count was out of date, and the catalogue tracks Croissant and LinkML which the standards catalogue lacked.

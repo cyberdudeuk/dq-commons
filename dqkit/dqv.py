@@ -7,7 +7,6 @@ proposed in decision D-014: quality travels with the asset's metadata.
 from __future__ import annotations
 
 import csv
-from pathlib import Path
 
 from .rules import ISSUE_TYPES, VOCAB_DIR
 

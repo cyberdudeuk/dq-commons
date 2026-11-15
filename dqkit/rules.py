@@ -220,7 +220,7 @@ def _nhs_number_ok(s: str) -> bool:
     s = s.replace(" ", "").replace("-", "")
     if re.fullmatch(r"[0-9]{10}", s) is None:
         return False
-    total = sum(int(d) * w for d, w in zip(s[:9], range(10, 1, -1)))
+    total = sum(int(d) * w for d, w in zip(s[:9], range(10, 1, -1), strict=False))
     check = 11 - total % 11
     if check == 11:
         check = 0

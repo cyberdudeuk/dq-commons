@@ -127,7 +127,7 @@ def sync(repo, token) -> int:
         body = i.get("body") or ""
         line = f"**Status:** {b['status']}" + (f" ({b['done']})" if b.get("done") else "")
         import re
-        new_body = re.sub(r"\*\*Status:\*\* [^\n]*?(?=  \n|\n|$)", lambda m: line, body, count=1)
+        new_body = re.sub(r"\*\*Status:\*\* [^\n]*?(?=  \n|\n|$)", lambda m, line=line: line, body, count=1)
         if new_body != body:
             patch["body"] = new_body
         labels = [l["name"] for l in i.get("labels", [])]

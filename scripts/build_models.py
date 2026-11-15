@@ -166,7 +166,7 @@ def slug(s: str) -> str:
 
 def uid(*parts: str) -> str:
     """Stable identifier, valid as an XML ID (starts with a letter)."""
-    return "id-" + hashlib.sha1("|".join(parts).encode()).hexdigest()[:16]
+    return "id-" + hashlib.sha1("|".join(parts).encode(), usedforsecurity=False).hexdigest()[:16]
 
 
 def xa(s) -> str:
@@ -430,7 +430,7 @@ def archimate_elements(m: dict):
         el(uid("role", r), "BusinessRole", r)
     for e in m["entities"]:
         el(uid("ent", e["name"]), "DataObject", e["name"], e["description"], group=e["group"], guidance=" ".join(e.get("guidance", [])))
-    for a, e in [(a, e) for e in m["entities"] for a in e["attributes"] if a["type"].startswith("ref:") and a["type"][4:] != e["name"]]:
+    for a, e in [(attr, ent) for ent in m["entities"] for attr in ent["attributes"] if attr["type"].startswith("ref:") and attr["type"][4:] != ent["name"]]:
         rel("Association", uid("ent", e["name"]), uid("ent", a["type"][4:]), a["name"])
     for c in m["capabilities"]:
         cid = el(uid("cap", c["id"]), "Capability", c["name"], f"Capability {c['id']}.", code=c["id"], principle=c["principle"], guidance=" ".join(c["guidance"]))
@@ -593,7 +593,7 @@ def xmi(m: dict) -> dict[str, str]:
             X.append("      </packagedElement>")
         X.append("    </packagedElement>")
     X.append(f'    <packagedElement xmi:type="uml:Package" xmi:id="{uid("pkg", "assoc")}" name="Associations">')
-    for asid, aid, src, tgt, name in assocs:
+    for asid, aid, src, _tgt, name in assocs:
         end = asid + "-src"
         X.append(f'      <packagedElement xmi:type="uml:Association" xmi:id="{asid}" name="{xa(name)}" memberEnd="{aid} {end}">')
         X.append(f'        <ownedEnd xmi:type="uml:Property" xmi:id="{end}" type="{uid("cls", src)}" association="{asid}">')
@@ -690,14 +690,14 @@ def bpmn(m: dict) -> dict[str, str]:
             X.append(f'    <bpmn:sequenceFlow id="{f}" sourceRef="{p["id"]}_{s}" targetRef="{p["id"]}_{t}"' + (f' name="{xa(l)}"' if l else "") + "/>")
         for en in sorted({en for _, en, _, _ in data_refs}):
             X.append(f'    <bpmn:dataObject id="DO_{p["id"]}_{en}" name="{xa(en)}"/>')
-        for nid, en, did, _ in data_refs:
+        for nid, en, _did, _ in data_refs:
             X.append(f'    <bpmn:dataObjectReference id="DOR_{nid}_{en}" name="{xa(en)}" dataObjectRef="DO_{p["id"]}_{en}"/>')
         X.append("  </bpmn:process>")
         # Diagram interchange
         X.append(f'  <bpmndi:BPMNDiagram id="Diagram_{p["id"]}"><bpmndi:BPMNPlane id="Plane_{p["id"]}" bpmnElement="{cid}">')
         W, H = lay["width"] * PX, lay["height"] * PX
         X.append(f'    <bpmndi:BPMNShape id="Part_{p["id"]}_di" bpmnElement="Part_{p["id"]}" isHorizontal="true"><dc:Bounds x="0" y="0" width="{W:.0f}" height="{H:.0f}"/></bpmndi:BPMNShape>')
-        for i, lane in enumerate(p["lanes"]):
+        for i, _lane in enumerate(p["lanes"]):
             X.append(f'    <bpmndi:BPMNShape id="Lane_{p["id"]}_{i}_di" bpmnElement="Lane_{p["id"]}_{i}" isHorizontal="true"><dc:Bounds x="30" y="{i * LANE_H * PX:.0f}" width="{W - 30:.0f}" height="{LANE_H * PX:.0f}"/></bpmndi:BPMNShape>')
         for s in p["steps"]:
             x, y, w, h = lay["px"][s["id"]]
@@ -711,7 +711,7 @@ def bpmn(m: dict) -> dict[str, str]:
             dx, dy = x + k * 34, y + h + 18
             X.append(f'    <bpmndi:BPMNShape id="DOR_{nid}_{en}_di" bpmnElement="DOR_{nid}_{en}"><dc:Bounds x="{dx:.0f}" y="{dy:.0f}" width="28" height="36"/></bpmndi:BPMNShape>')
             X.append(f'    <bpmndi:BPMNEdge id="{did}_di" bpmnElement="{did}"><di:waypoint x="{dx + 14:.0f}" y="{y + h:.0f}"/><di:waypoint x="{dx + 14:.0f}" y="{dy:.0f}"/></bpmndi:BPMNEdge>')
-        for (s, t, l), f in fid.items():
+        for (s, t, _l), f in fid.items():
             pts = route(lay, s, t)
             X.append(f'    <bpmndi:BPMNEdge id="{f}_di" bpmnElement="{f}">' + "".join(f'<di:waypoint x="{x * PX:.0f}" y="{y * PX:.0f}"/>' for x, y in pts) + "</bpmndi:BPMNEdge>")
         X.append("  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>\n</bpmn:definitions>")

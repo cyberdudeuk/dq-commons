@@ -34,7 +34,7 @@ def add_menu(html):
     for fn, d in NEW.items():
         if f'href="{fn}"' in html.split('<nav class="up-menu"', 1)[-1].split("</nav>", 1)[0]:
             continue
-        html = re.sub(r'(<a href="' + re.escape(d["after"]) + r'"[^>]*>.*?</a>\n)', lambda m: m.group(1) + menu_link(fn, d), html, count=1)
+        html = re.sub(r'(<a href="' + re.escape(d["after"]) + r'"[^>]*>.*?</a>\n)', lambda m, fn=fn, d=d: m.group(1) + menu_link(fn, d), html, count=1)
     return html
 
 
@@ -46,7 +46,7 @@ def add_tiles(html):
                 f'{d["blurb"].lower()} {d["pill"].lower()}"><span class="top"><span class="ic" aria-hidden="true">{d["ic"]}</span>'
                 f'<span> <span class="pill">{d["pill"]}</span></span></span><h3>{d["name"]}</h3><p>{d["blurb"]}</p>'
                 f'<span class="go" aria-hidden="true">Open ›</span></a>')
-        html = re.sub(r'(<a class="tile" href="' + re.escape(d["after"]) + r'".*?</a>)', lambda m: m.group(1) + tile, html, count=1, flags=re.S)
+        html = re.sub(r'(<a class="tile" href="' + re.escape(d["after"]) + r'".*?</a>)', lambda m, tile=tile: m.group(1) + tile, html, count=1, flags=re.S)
     return html.replace("Showing all 17 pages.", "Showing all 20 pages.").replace("Showing all 19 pages.", "Showing all 20 pages.")
 
 

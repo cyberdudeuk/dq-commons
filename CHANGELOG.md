@@ -2,6 +2,15 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.15.2 — 2026-11-15
+### Fixed
+- Code scanning (CodeQL) medium and high findings: `assistant.html` escapes the loaded file's name before showing it; `guidance.html` `esc()` escapes quotes because its output sits inside `href`; `ecosystem.html` compares the whole host name rather than a `github.io` suffix; `media.html` and `library.html` find tab panels with `getElementById`; `build_dq_portal.py` and `export_strings.py` strip `<script>` and `<style>` case-insensitively and allow spaces in closing tags; `build_models.py` marks its SHA-1 id hash `usedforsecurity=False` (ids are persistent, so the algorithm is unchanged); files are closed with `with` blocks.
+- `build_bundle.py` and `build_dq_portal.py` used f-string syntax that needs Python 3.12; they now run on 3.10 and 3.11 as `pyproject.toml` declares.
+### Changed
+- CI runs Ruff (`pyproject.toml` `[tool.ruff]`: pyflakes, pycodestyle errors, warnings and bugbear) and fails on any warning; the tests workflow has read-only `permissions`.
+### Added
+- `tests/test_security_hardening.py`: one regression test per code scanning fix (9 of 10 fail against 2.15.1; the tenth tests the pattern itself).
+
 ## 2.15.1 — 2026-11-13
 ### Fixed
 - `knowledge/ecosystem.yaml`: the catalogue's crosswalks view is `#interop` (was `#crosswalk`, which the catalogue doesn't have), in `catalogue_views` and the Weaver's lineage. The catalogue's standards claim corrected (16 graded per repository, 41 interoperability standards; was 24), and its comparison entries updated for its 7.17 to 7.19 releases (devolved nations, procurement in Scotland and Wales, datasets that name code).

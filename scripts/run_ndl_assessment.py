@@ -33,7 +33,8 @@ CHARTS = {  # rules file -> chart data file
     "social-mobility.yaml": "people__social-mobility.csv",
 }
 
-records = [json.loads(l) for l in open(A / "harvest.jsonl", encoding="utf-8") if l.strip()]
+with open(A / "harvest.jsonl", encoding="utf-8") as fh:
+    records = [json.loads(l) for l in fh if l.strip()]
 portfolio = metadata.assess_portfolio(records, AS_OF)
 (OUT / "metadata-assessment.json").write_text(json.dumps(portfolio, indent=2, ensure_ascii=False))
 

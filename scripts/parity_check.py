@@ -87,7 +87,7 @@ def compare(py, js, path="", errs=None):
     elif isinstance(py, list) and isinstance(js, list):
         if len(py) != len(js):
             errs.append(f"{path}: length python {len(py)} != js {len(js)}")
-        for i, (a, b) in enumerate(zip(py, js)):
+        for i, (a, b) in enumerate(zip(py, js, strict=False)):
             compare(a, b, f"{path}[{i}]", errs)
     elif py != js:
         errs.append(f"{path}: python {py!r} != js {js!r}")
@@ -118,7 +118,7 @@ def read_csv_text(text: str) -> pd.DataFrame:
 
 def table_of(df: pd.DataFrame) -> dict:
     return {"columns": [str(c) for c in df.columns],
-            "rows": [{str(c): (None if pd.isna(v) else v) for c, v in zip(df.columns, row)} for row in df.itertuples(index=False)]}
+            "rows": [{str(c): (None if pd.isna(v) else v) for c, v in zip(df.columns, row, strict=False)} for row in df.itertuples(index=False)]}
 
 
 def py_run_case(case: dict) -> dict:
@@ -149,7 +149,7 @@ def check_run(case: dict, workdir: Path) -> list:
         a, b = py["dqap"][part].split("\r\n"), js["dqap"][part].split("\r\n")
         if len(a) != len(b):
             errs.append(f"dqap.{part}: python {len(a)} lines != js {len(b)} lines")
-        errs += [f"dqap.{part} line {i + 1}: python {x!r} != js {y!r}" for i, (x, y) in enumerate(zip(a, b)) if x != y]
+        errs += [f"dqap.{part} line {i + 1}: python {x!r} != js {y!r}" for i, (x, y) in enumerate(zip(a, b, strict=False)) if x != y]
     return errs
 
 
@@ -624,7 +624,7 @@ def check_micro(workdir) -> dict:
     out = {}
     # Numbers, rounding and sums must match bit for bit, not just within 1e-9.
     errs = []
-    for i, (a, b) in enumerate(zip(py["numbers"], js["numbers"])):
+    for i, (a, b) in enumerate(zip(py["numbers"], js["numbers"], strict=False)):
         a = norm(a)
         if not (a == b or (isinstance(a, float) and isinstance(b, (int, float)) and a == float(b))):
             errs.append(f"numbers[{i}] {js_in['numbers'][i]!r}: python {a!r} != js {b!r}")
@@ -632,13 +632,13 @@ def check_micro(workdir) -> dict:
         errs.append("numbers: lengths differ")
     out["pandas to_numeric (exact)"] = errs
     errs = [f"rounds[{i}] round{tuple(js_in['rounds'][i])}: python {a!r} != js {b!r}"
-            for i, (a, b) in enumerate(zip(py["rounds"], js["rounds"])) if float(a) != float(b)]
+            for i, (a, b) in enumerate(zip(py["rounds"], js["rounds"], strict=False)) if float(a) != float(b)]
     out["Python round() (exact)"] = errs
-    errs = [f"sum[{i}]: python {a!r} != js {b!r}" for i, (a, b) in enumerate(zip(py["pairwise"] + py["pysum"], js["pairwise"] + js["pysum"]))
+    errs = [f"sum[{i}]: python {a!r} != js {b!r}" for i, (a, b) in enumerate(zip(py["pairwise"] + py["pysum"], js["pairwise"] + js["pysum"], strict=False))
             if float(a) != float(b)]
     out["numpy and Python sums (exact)"] = errs
     out["float repr"] = [f"repr {x!r}: python {a!r} != js {b!r}"
-                         for x, a, b in zip(REPRS, py["repr_text"], js["reprs"]) if a != b]
+                         for x, a, b in zip(REPRS, py["repr_text"], js["reprs"], strict=False) if a != b]
     labelled = {"types": "type checks (_is_type)", "dates": "date parsing (_parse_date)", "regex": "regex translation (fullmatch)",
                 "error_rates": "error_rate text", "durations": "ISO durations", "csvs": "CSV reading (read_csv)",
                 "validate": "validate_spec messages", "misc": "targets, bands, routes, trust",

@@ -114,7 +114,7 @@ $("suggest").addEventListener("click", () => {
     if (/date|_on$|_at$/i.test(c.name) && vals.length && vals.filter(v => /^\d{4}-\d{2}-\d{2}/.test(v)).length / vals.length > 0.8) rules.push({id: "R" + n++, check: "not_future", column: c.name, description: `${c.name} isn't in the future`});
   });
   $("draft").value = YAML.dump({asset: {id: fileName.replace(/\.[^.]+$/, "").toLowerCase().replace(/[^a-z0-9]+/g, "-"), title: fileName, importance: 3, target_policy: "low"}, rules}, {lineWidth: 110, noRefs: true});
-  validate(); add("sys", `Starter rules drafted from ${fileName}: ${rules.length} rules from its column names and formats. Review them and add your business rules.`);
+  validate(); add("sys", `Starter rules drafted from ${esc(fileName)}: ${rules.length} rules from its column names and formats. Review them and add your business rules.`);
 });
 
 // ---------- rules panel ----------

@@ -219,7 +219,7 @@ __BASE_CSS__
   $("juB").innerHTML = E.joinup.map(x => `<tr><th scope="row" style="background:none;color:var(--fg);text-transform:none;letter-spacing:0;white-space:normal">${esc(x.id)}. ${esc(x.action)}</th><td>${esc(x.detail)}</td><td>${esc(x.status)}</td></tr>`).join("");
 
   // live check of the playbooks' manifest (same address family when published; skipped offline)
-  const url = location.hostname.endsWith("github.io") ? "/dam-capability-playbooks/data/xref.json" : P.dam.xref;
+  const url = (location.hostname === "cyberdudeuk.github.io") ? "/dam-capability-playbooks/data/xref.json" : P.dam.xref;
   fetch(url, {cache: "no-store"}).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }).then(m => {
     const have = new Set((m.keys.dama_areas || []).map(a => a.id)), codes = new Set((m.keys.roles || []).map(r => r.code));
     const miss = E.xref.dama.filter(a => !have.has(a.dam)).map(a => a.dam).concat(E.xref.roles.filter(r => !codes.has(r.dam)).map(r => r.dam));
