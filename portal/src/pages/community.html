@@ -55,6 +55,12 @@ __BASE_CSS__
     <p><a class="btn" href="build.html#wishlist">Vote on the wishlist</a></p></div>
 </section>
 
+<section id="questions" aria-labelledby="qa-h">
+  <h2 id="qa-h">Questions answered</h2>
+  <p class="muted">Questions people have asked across government, with the short answer and where to go next. Ask yours in the community or through the contribute form above.</p>
+  <div id="qa"></div>
+</section>
+
 <section id="networks" aria-labelledby="net-h">
   <h2 id="net-h">Networks, communities and working groups</h2>
   <div class="filters"><div class="field"><label for="nq">Search</label><input type="search" id="nq"></div><div class="field"><label for="ns">Scope</label><select id="ns"></select></div></div>
@@ -77,6 +83,8 @@ const PII = [[/[\w.+-]+@[\w-]+\.[\w.]+/, "an email address"], [/\b(?:\+44\s?|0)(
 const piiCheck = t => { for (const [re, what] of PII) if (re.test(t)) return what; return null; };
 
 const CM = __K_COMMUNITY__;
+const QA = __K_COMMUNITY_QUESTIONS__;
+$("qa").innerHTML = QA.map(q => `<article class="card"><p class="small muted">${esc(q.asked)}</p><h3>${esc(q.question)}</h3><p class="small">${esc(q.answer)}</p>${(q.links || []).filter(safeUrl).map(u => `<p class="small"><a href="${esc(u)}" rel="noopener">${esc(u.replace(/^https:\/\//, ""))}</a></p>`).join("")}</article>`).join("") || `<p class="muted">No questions recorded yet.</p>`;
 
 // networks (static)
 const scopes = [...new Set(C.map(c => c.scope))].sort();
