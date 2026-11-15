@@ -9,6 +9,7 @@
 - **SDGs (G5):** 17.18 and 16.6 in the theory of change, with limits. Target and indicator wording checked against published SDG indicator pages.
 - **Stale README (G6), defect D-DOC-01:** status, version, test count, vocabulary and framework counts corrected; OpenSSF Best Practices badge added.
 - **Defect D-REL-03:** citation files said 2.15.0; now 2.16.1, with a check against the newest release.
+- **Defect D-REL-05:** release.yml uploaded files to a release already published on the website, which immutable releases forbid; it now attaches only to a draft, publishes it, and stops with a reason otherwise.
 - **Defect D-REL-04:** D-REL-02 had not been named here or in the change log; now named under 2.16.0.
 - **Defect D-NAME-01:** the former directorate name and a team name removed from sources and the bundle.
 - **Defect D-FONT-01:** the charter's claim that fonts were the only external request was false; the portal loads no web fonts.

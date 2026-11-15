@@ -25,10 +25,16 @@ jobs:
           # Software bill of materials (SPDX), from GitHub's dependency graph
           gh api "repos/${GITHUB_REPOSITORY}/dependency-graph/sbom" -q .sbom > "dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json"
           FILES="dq-commons-${GITHUB_REF_NAME}.zip dq-commons-${GITHUB_REF_NAME}-offline-portal.zip dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json"
-          # A release drafted on the website creates the tag first: then attach the files and notes to it
-          if gh release view "${GITHUB_REF_NAME}" > /dev/null 2>&1; then
+          # Immutable releases are on (D-REL-05): once published, a release takes no more files or edits.
+          # A draft saved on the website is still open, so it gets the files and notes and is then published here.
+          # A release already published can't be completed: stop with a reason rather than fail half-way.
+          if draft=$(gh release view "${GITHUB_REF_NAME}" --json isDraft -q .isDraft 2>/dev/null); then
+            if [ "$draft" != "true" ]; then
+              echo "::error::Release ${GITHUB_REF_NAME} is already published and immutable releases are on, so its files can't be attached. Push the tag without publishing a release first (D-REL-05)."
+              exit 1
+            fi
             gh release upload "${GITHUB_REF_NAME}" $FILES --clobber
-            gh release edit "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file notes.md
+            gh release edit "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file notes.md --draft=false
           else
             gh release create "${GITHUB_REF_NAME}" $FILES --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
           fi
