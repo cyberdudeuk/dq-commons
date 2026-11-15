@@ -563,7 +563,7 @@ TARGET_NAMES = {"dcat": "DCAT v3", "schema": "schema.org", "ckan": "CKAN", "odcs
 
 
 def _pct(a: int, b: int) -> float:
-    return round(100 * a / b, 1) if b else 0.0  # noqa: same in JS (pyRound)
+    return round(100 * a / b, 1) if b else 0.0  # keep: same rounding in JS (pyRound)
 
 
 def to_dqv(c: dict, cov: dict, cda: dict, prof: dict) -> dict:
@@ -621,7 +621,7 @@ def cda_check(c: dict) -> dict:
             st = "pass" if _filled(c, k) else "missing"
             why = "Present" if st == "pass" else "Not in the record"
         out[prop] = {"status": st, "field": k, "why": why}
-    score = round(100 * sum({"pass": 1, "partial": .5}.get(v["status"], 0) for v in out.values()) / len(out), 1)  # noqa: same in JS (pyRound)
+    score = round(100 * sum({"pass": 1, "partial": .5}.get(v["status"], 0) for v in out.values()) / len(out), 1)  # keep: same rounding in JS (pyRound)
     return {"properties": out, "coverage": score}
 
 

@@ -1,11 +1,14 @@
 """Build SKOS Turtle and JSON-LD from vocab/*.csv. Run: python scripts/build_vocab.py"""
-import csv, json
+import csv
+import json
 from pathlib import Path
 
 V = Path(__file__).resolve().parent.parent / "vocab"
 BASE = "https://cyberdudeuk.github.io/ndl-dq-assurance/vocab#"
-dims = list(csv.DictReader(open(V / "dimensions.csv", encoding="utf-8")))
-issues = list(csv.DictReader(open(V / "issue-types.csv", encoding="utf-8")))
+with open(V / "dimensions.csv", encoding="utf-8") as fh:
+    dims = list(csv.DictReader(fh))
+with open(V / "issue-types.csv", encoding="utf-8") as fh:
+    issues = list(csv.DictReader(fh))
 
 def lit(s):
     return '"' + s.replace("\\", "\\\\").replace('"', '\\"') + '"@en'
@@ -18,8 +21,8 @@ ttl = ["@prefix skos: <http://www.w3.org/2004/02/skos/core#> .", "@prefix dqv: <
        "ndq:IssueTypes a skos:ConceptScheme ;", '    skos:prefLabel "Cross-government data quality issue types"@en ;',
        '    dct:source "MHCLG planning data specification, GOV.UK DAM policy and DQAP guidance, NHS England QAFDL"@en .', ""]
 for d in dims:
-    ttl += [f"ndq:{d['id']} a dqv:Dimension, skos:Concept ;", f"    skos:inScheme ndq:GovernmentDataQualityFramework ;",
-            f"    dqv:inCategory ndq:GovernmentDataQualityFramework ;", f"    skos:prefLabel {lit(d['label'])} ;",
+    ttl += [f"ndq:{d['id']} a dqv:Dimension, skos:Concept ;", "    skos:inScheme ndq:GovernmentDataQualityFramework ;",
+            "    dqv:inCategory ndq:GovernmentDataQualityFramework ;", f"    skos:prefLabel {lit(d['label'])} ;",
             f"    skos:definition {lit(d['definition'])} ;", f"    dct:source {lit(d['source'])} .", ""]
 for i in issues:
     t = [f"<{BASE}issue/{i['id']}> a skos:Concept ;", "    skos:inScheme ndq:IssueTypes ;",

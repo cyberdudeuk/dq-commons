@@ -11,6 +11,17 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.15.2"
+  date: "2026-11-15"
+  title: "Security hardening from code scanning, and a linter that fails the build on any warning"
+  pages_new: []
+  pages_changed: [guidance, assistant, ecosystem, media, library]
+  items:
+  - {type: fixed, text: "Fixed the medium and high findings from CodeQL code scanning: a user's file name is escaped before it is shown, link addresses are escaped inside attributes, the live manifest check compares the whole host name, tab panels are found by id, and the build's HTML stripping catches upper-case closing tags and any closing tag up to the bracket", link: "guidance.html"}
+  - {type: fixed, text: "Defect found in review: the first fix to the HTML stripping still missed closing tags with extra characters before the bracket, which browsers accept. Code scanning caught it on the pull request; the pattern now accepts any closing tag, and a test proves it"}
+  - {type: fixed, text: "Three build scripts used f-string syntax that only works on Python 3.12, although the toolkit supports Python 3.10 and 3.11; they now run on all three"}
+  - {type: changed, text: "Every change is now checked by a Python linter (Ruff: pyflakes, pycodestyle errors and bugbear), and any warning fails the build. The tests workflow runs with read-only permissions"}
+  - {type: new, text: "Ten regression tests, one for each code scanning fix, each shown to fail when its defect is put back"}
 - version: "2.15.1"
   date: "2026-11-13"
   title: "Links into the repos catalogue fixed, Croissant and LinkML added, and links within the wheel and role pages followed"

@@ -27,7 +27,7 @@ SRC = ROOT / "portal" / "src"
 
 class Navigation(unittest.TestCase):
     def test_every_page_has_a_group_level_icon_and_summary(self):
-        for stem, label, desc in B.PAGES:
+        for stem, _label, _desc in B.PAGES:
             self.assertTrue((SRC / "pages" / f"{stem}.html").exists(), stem)
             self.assertIn(stem, B.LEVEL, stem)
             self.assertIn(stem, B.PAGE_ICON, stem)

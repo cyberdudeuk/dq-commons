@@ -120,6 +120,9 @@ PAGE_ICON = {"index": "home", "about": "info", "guide": "book", "accessibility":
              "community": "users", "media": "mic", "events": "calendar", "training": "grad", "knowledge": "globe", "surveys": "clipboard", "share": "quote", "build": "blocks", "operate": "lifebuoy", "playbook": "workflow", "roles": "users", "github": "repo", "professions": "blocks", "models": "steps", "catalogues": "handshake", "connectors": "link", "map": "map", "sitemap": "sitemap", "ask": "chat", "reuse": "share", "wheel": "wheel", "ecosystem": "network", "research": "message", "roadmap": "target", "governance": "scale", "getinvolved": "heart"}
 
 
+_ACUR = ' aria-current="page"'  # Python 3.10 cannot have a backslash inside an f-string expression
+
+
 def icon(name: str) -> str:
     return f'<svg class="dqi" aria-hidden="true" focusable="false"><use href="#i-{name}"/></svg>'
 
@@ -556,7 +559,7 @@ def section_slug(text: str) -> str:
 def page_sections(src: str) -> dict:
     """Each static <h2> on a page source and a fingerprint of everything up to the next <h2>."""
     import hashlib
-    src = re.sub(r"<script\b.*?</script>|<style\b.*?</style>", "", src, flags=re.S)
+    src = re.sub(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>", "", src, flags=re.S | re.I)
     parts = re.split(r"(<h2\b[^>]*>.*?</h2>)", src, flags=re.S)
     out = {}
     for i in range(1, len(parts), 2):
@@ -705,7 +708,7 @@ def research_bundle(folder: Path, base: str = PORTAL_URL) -> None:
     d.add_paragraph(R["why_research"])
     d.add_heading("Ways to take part", 1)
     t = d.add_table(rows=1, cols=3); t.style = "Table Grid"
-    for c, h in zip(t.rows[0].cells, ("Method", "Time", "What happens")):
+    for c, h in zip(t.rows[0].cells, ("Method", "Time", "What happens"), strict=False):
         c.text = h
     for m in R["methods"]:
         r = t.add_row().cells; r[0].text, r[1].text, r[2].text = m["name"], m["time"], m["what"]
@@ -753,7 +756,7 @@ def research_bundle(folder: Path, base: str = PORTAL_URL) -> None:
     for g in R["sessions"]:
         d.add_heading(g["title"], 1)
         t = d.add_table(rows=1, cols=3); t.style = "Table Grid"
-        for cell, h in zip(t.rows[0].cells, ("Minutes", "Part", "What to do")):
+        for cell, h in zip(t.rows[0].cells, ("Minutes", "Part", "What to do"), strict=False):
             cell.text = h
         for st in g["steps"]:
             r = t.add_row().cells; r[0].text, r[1].text, r[2].text = str(st["min"]), st["part"], st["detail"]
@@ -959,8 +962,8 @@ def search_index() -> list:
     labels = {stem: label for stem, label, _ in PAGES}
     for stem, label, desc in PAGES:
         add(label, "Page", f"{stem}.html", desc + " " + GROUP_TITLE[GROUP_OF[stem]], GROUP_TITLE[GROUP_OF[stem]])
-    for stem, label, _ in PAGES:
-        src = re.sub(r"<script\b.*?</script>|<style\b.*?</style>", "", (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"), flags=re.S)
+    for stem, _label, _ in PAGES:
+        src = re.sub(r"<script\b.*?</script\b[^>]*>|<style\b.*?</style\b[^>]*>", "", (SRC / "pages" / f"{stem}.html").read_text(encoding="utf-8"), flags=re.S | re.I)
         for m in re.finditer(r"<h([23])\b([^>]*)>(.*?)</h\1>(.{0,600})", src, flags=re.S):
             head = _plain(m.group(3))
             if head:
@@ -1009,9 +1012,9 @@ def nav(active: str, long: bool) -> str:
     for g, ps in GROUPS:
         cur_g = any(stem == active for stem, _, _ in ps)
         new, upd = flags()
-        flag = lambda s: ('<span class="dqp-navflag">New</span>' if s in new else '<span class="dqp-navflag upd">Updated</span>' if s in upd else "")
+        flag = lambda s, new=new, upd=upd: ('<span class="dqp-navflag">New</span>' if s in new else '<span class="dqp-navflag upd">Updated</span>' if s in upd else "")
         links = "".join(
-            f'<a href="{stem}.html" data-t="{html.escape(label)}"{" aria-current=\"page\"" if stem == active else ""}>'
+            f'<a href="{stem}.html" data-t="{html.escape(label)}"{_ACUR if stem == active else ""}>'
             f'{icon(PAGE_ICON.get(stem, "arrow"))}<span>{html.escape(label)}{flag(stem)}</span>'
             f'<small><b class="dqp-lvl dqp-lvl-{LEVEL.get(stem, "Beginner").lower()}">{LEVEL.get(stem, "Beginner")}</b> {html.escape(desc)}</small></a>' for stem, label, desc in ps)
         if long:
@@ -1073,7 +1076,7 @@ def feedback_strip(stem: str, label: str) -> str:
         links.append((mf["prefill_url"].replace("PAGE", urllib.parse.quote(label)), "Microsoft Form", True))
     elif mf.get("url"):
         links.append((mf["url"], "Microsoft Form", True))
-    links.append((f"build.html#contact", "GitHub contact form", False))
+    links.append(("build.html#contact", "GitHub contact form", False))
     links.append(("build.html#feedback", "other ways to give feedback", False))
     items = " · ".join(f'<a href="{html.escape(u)}"' + (' target="_blank" rel="noopener"' if ext else "") + f'>{html.escape(t)}'
                        + ('<span class="dqp-sr"> (opens in a new tab)</span>' if ext else "") + "</a>" for u, t, ext in links)
@@ -1099,7 +1102,7 @@ def prev_next(stem: str) -> str:
                 f'<small>{arrow} {word} · {html.escape(GROUP_TITLE[gg])}</small><b>{icon(PAGE_ICON.get(s2, "arrow"))}{html.escape(label)}</b></a>')
     prev = link(ORDER[i - 1], "prev", "←", "Previous") if i > 0 else '<span class="dqp-pn-prev" aria-hidden="true"></span>'
     nxt = link(ORDER[i + 1], "next", "→", "Next") if i < len(ORDER) - 1 else '<span class="dqp-pn-next" aria-hidden="true"></span>'
-    dots = "".join(f'<a href="{o[0]}.html" class="dqp-pn-dot"{" aria-current=\"page\"" if o[0] == stem else ""} data-tip="{html.escape(o[1])}">'
+    dots = "".join(f'<a href="{o[0]}.html" class="dqp-pn-dot"{_ACUR if o[0] == stem else ""} data-tip="{html.escape(o[1])}">'
                    f'<span class="dqp-sr">{html.escape(o[1])}</span></a>' for o in in_g)
     return (f'<nav class="dqp-pn" aria-label="Previous and next page" data-g="{GROUP_KEY[g]}">{prev}'
             f'<div class="dqp-pn-mid"><span>Page {pos} of {len(in_g)} in <b>{html.escape(GROUP_TITLE[g])}</b></span>'

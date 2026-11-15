@@ -1,5 +1,4 @@
 """The playbook works from the toolkit: workspaces, evidence-based status, the MCP tool and release housekeeping."""
-import json
 import subprocess
 import sys
 import tempfile
