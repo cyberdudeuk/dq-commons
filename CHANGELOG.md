@@ -2,12 +2,13 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
-## 2.16.0 — 2026-11-13
+## 2.16.0 — 2026-11-15
 ### Added
 - `knowledge/communities.yaml`: `questions`, four answered questions on reference and master data, shown on `community.html#questions`; the proposed reference and master data special interest group.
 - `knowledge/vendors.yaml`: a `mdm` group (Master and reference data) with Semarchy; vendor cards show a `public_sector` line where one is recorded.
 - `knowledge/standards-catalogue.yaml`: the Person data standard (alpha); 60 standards. `knowledge/build.yaml`: Zingg and dedupe.
 - Tests: answered questions are complete, use https links and hold no email address (with negative tests); every vendor group has a heading on the connectors page (with a negative test).
+
 ## 2.15.2 — 2026-11-15
 ### Fixed
 - Code scanning (CodeQL) medium and high findings: `assistant.html` escapes the loaded file's name before showing it; `guidance.html` `esc()` escapes quotes because its output sits inside `href`; `ecosystem.html` compares the whole host name rather than a `github.io` suffix; `media.html` and `library.html` find tab panels with `getElementById`; `build_dq_portal.py` and `export_strings.py` strip `<script>` and `<style>` case-insensitively and accept any closing tag up to `>`; `build_models.py` marks its SHA-1 id hash `usedforsecurity=False` (ids are persistent, so the algorithm is unchanged); files are closed with `with` blocks.
