@@ -22,6 +22,8 @@ releases:
   - {type: fixed, text: "Defect found in verification after merge: the rules assistant showed the numbers you typed without escaping them. Only digits could get through, so it was not exploitable, but every value is now escaped and a test checks every explanation", link: "assistant.html"}
   - {type: fixed, text: "Three build scripts used f-string syntax that only works on Python 3.12, although the toolkit supports Python 3.10 and 3.11; they now run on all three"}
   - {type: changed, text: "Every change is now checked by a Python linter (Ruff: pyflakes, pycodestyle errors and bugbear), and any warning fails the build. The tests workflow runs with read-only permissions"}
+  - {type: new, text: "Fuzz testing: the parsers that read your data are tried with thousands of generated inputs on every change, and the build fails if any of them crashes or breaks its documented rule"}
+  - {type: changed, text: "A release can now be started from the GitHub website as well as by pushing a tag; the downloads, notes and signed provenance are attached either way"}
   - {type: new, text: "Ten regression tests, one for each code scanning fix, each shown to fail when its defect is put back"}
 - version: "2.15.1"
   date: "2026-11-13"

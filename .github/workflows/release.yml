@@ -24,7 +24,14 @@ jobs:
           cp portal/dist/downloads/dq-commons-offline.zip "dq-commons-${GITHUB_REF_NAME}-offline-portal.zip"
           # Software bill of materials (SPDX), from GitHub's dependency graph
           gh api "repos/${GITHUB_REPOSITORY}/dependency-graph/sbom" -q .sbom > "dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json"
-          gh release create "${GITHUB_REF_NAME}" "dq-commons-${GITHUB_REF_NAME}.zip" "dq-commons-${GITHUB_REF_NAME}-offline-portal.zip" "dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json" --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
+          FILES="dq-commons-${GITHUB_REF_NAME}.zip dq-commons-${GITHUB_REF_NAME}-offline-portal.zip dq-commons-${GITHUB_REF_NAME}-sbom.spdx.json"
+          # A release drafted on the website creates the tag first: then attach the files and notes to it
+          if gh release view "${GITHUB_REF_NAME}" > /dev/null 2>&1; then
+            gh release upload "${GITHUB_REF_NAME}" $FILES --clobber
+            gh release edit "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file notes.md
+          else
+            gh release create "${GITHUB_REF_NAME}" $FILES --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
+          fi
       # Signed build provenance: anyone can check a download came from this repository's workflow
       # (gh attestation verify FILE -R cyberdudeuk/dq-commons)
       - uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4
