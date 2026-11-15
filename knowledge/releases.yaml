@@ -20,6 +20,7 @@ releases:
   - {type: changed, text: "Documentation and content are now under the Creative Commons Attribution 4.0 International licence (CC BY 4.0); code stays MIT. Third-party data copied into the assessments keeps its source's licence", link: "reuse.html"}
   - {type: fixed, text: "The privacy notice now names the data controller, says contact is by the contact form or a GitHub issue form only, and gives the data protection screening's conclusion; no impact assessment has been completed", link: "accessibility.html#privacy"}
   - {type: new, text: "The README says who owns the project: a personal project that no public body owns or endorses. The theory of change states the Sustainable Development Goals targets the Commons supports, 17.18 and 16.6, and their limits"}
+  - {type: fixed, text: "Releases work with immutable releases switched on: the release workflow attaches files only to a draft and then publishes it (D-REL-05)"}
   - {type: fixed, text: "Stale facts corrected: the README's status, version, test count, vocabulary and framework counts; the citation files' version; the charter's claim that fonts were the only outside request (pages load no web fonts); and the release record of D-REL-02"}
 
 - version: "2.16.0"

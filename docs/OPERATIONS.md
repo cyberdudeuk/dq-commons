@@ -74,6 +74,8 @@ You need to be an administrator of the repository.
    The build bundle is published at `/bundle/`.
    **Releases:** pushing a tag such as `v1.5.0` runs `release` (release.yml), which checks the version is in
    `knowledge/releases.yaml` and creates the GitHub release with notes and a source zip.
+   Immutable releases are on, so do not publish a release on the website first: push the tag, or save a
+   **draft** on the website and then push the tag; the workflow attaches the files and publishes the draft (D-REL-05).
 4. **Issue label.** The pipeline creates the `dq-escalation` label itself the first time it needs it.
    If you want to create it by hand: **Issues → Labels → New label**, name `dq-escalation`.
 5. **Run it once by hand** to check it works: **Actions → Data quality pipeline → Run workflow**.

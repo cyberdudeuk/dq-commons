@@ -16,6 +16,18 @@ def read(*parts):
     return ROOT.joinpath(*parts).read_text(encoding="utf-8")
 
 
+
+def release_workflow_problems(wf):
+    """What stops release.yml working with immutable releases (D-REL-05)."""
+    problems = []
+    if "--json isDraft" not in wf:
+        problems.append("does not check whether an existing release is still a draft")
+    if "--draft=false" not in wf:
+        problems.append("does not publish the draft after attaching the files")
+    if "immutable" not in wf.lower() or "exit 1" not in wf:
+        problems.append("does not stop with a reason when the release is already published")
+    return problems
+
 class HostChecks(unittest.TestCase):
     def test_no_suffix_host_check(self):
         # Alert 144: hostname.endsWith("github.io") also matches hosts such as evilgithub.io.
@@ -89,6 +101,19 @@ class Workflows(unittest.TestCase):
         wf = read(".github", "workflows", "release.yml")
         self.assertIn('gh release view "${GITHUB_REF_NAME}"', wf)
         self.assertIn("gh release upload", wf)
+
+    def test_release_workflow_respects_immutable_releases(self):
+        # Defect D-REL-05: immutable releases are on, so a release published on the website can't take files
+        # afterwards; the D-REL-01 path uploaded to it anyway and would fail half-way. Files may only go to a draft,
+        # which is then published; a published release stops the run with a reason.
+        self.assertEqual(release_workflow_problems(read(".github", "workflows", "release.yml")), [])
+
+    def test_release_workflow_check_catches_upload_to_a_published_release(self):
+        # Negative test for D-REL-05: the 2.16.0 workflow, which uploaded to any existing release.
+        old = ('if gh release view "${GITHUB_REF_NAME}" > /dev/null 2>&1; then\n'
+               '  gh release upload "${GITHUB_REF_NAME}" $FILES --clobber\n'
+               '  gh release edit "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file notes.md\n')
+        self.assertEqual(len(release_workflow_problems(old)), 3)
 
     def test_ci_runs_the_linter(self):
         # OpenSSF "warnings": CI must fail on linter warnings.
