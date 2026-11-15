@@ -1,9 +1,9 @@
 # Metadata Rosetta: 61 cataloguing concepts mapped to 11 metadata standards (schema.org, CKAN and ODCS added in v2.10.0 from the Metadata Weaver's mappings).
-# Imported from the OCDO Standards Rosetta in the DAM project; edit there or here and keep them in step.
+# Imported from the Government Data Directorate Standards Rosetta in the DAM project; edit there or here and keep them in step.
 review:
   last_reviewed: '2026-11-05'
   owner_role: Content steward (standards)
-source: OCDO Standards Rosetta (DAM data cataloguing playbook implementation bridge), imported into the Commons
+source: Government Data Directorate Standards Rosetta (DAM data cataloguing playbook implementation bridge), imported into the Commons
 standards:
 - DCAT v3
 - UK MEM / x-gov

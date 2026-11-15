@@ -1,5 +1,19 @@
 # Build journal
 
+## 2026-11-15 — v2.16.1: CC BY 4.0 content, ownership, privacy controller, SDGs, stale facts
+
+- Asked by the owner (15 November 2026, 20:16), to close Digital Public Goods gaps G3 to G6 and owner rules in one pull request.
+- **Licence (decision D-LIC-01):** the owner states the repository holds no Open Government Licence content. Documentation and content are now CC BY 4.0, code stays MIT. Every description of the Commons' own content was changed at its source and the generated outputs rebuilt. Found: `assessments/ndl/harvest.jsonl` (NDL page metadata from data.gov.uk) and `assessments/ndl/chart-data/` (the NDL's chart downloads) hold third-party data, as does `knowledge/code-evidence.yaml` (from the repos catalogue); they are not relicensed, and `docs/CONTENT-LICENCE.md` says so. The Commons' own results and reports are CC BY 4.0.
+- **Ownership (G3):** README Ownership section; `LICENSE` holder line now matches `CITATION.cff`.
+- **Privacy notice (G4), defect D-PRIV-01:** the controller placeholder replaced with the maintainer, contact by form only, and the screening's DPIA conclusion as it stands. No DPIA was invented.
+- **SDGs (G5):** 17.18 and 16.6 in the theory of change, with limits. Target and indicator wording checked against published SDG indicator pages.
+- **Stale README (G6), defect D-DOC-01:** status, version, test count, vocabulary and framework counts corrected; OpenSSF Best Practices badge added.
+- **Defect D-REL-03:** citation files said 2.15.0; now 2.16.1, with a check against the newest release.
+- **Defect D-REL-04:** D-REL-02 had not been named here or in the change log; now named under 2.16.0.
+- **Defect D-NAME-01:** the former directorate name and a team name removed from sources and the bundle.
+- **Defect D-FONT-01:** the charter's claim that fonts were the only external request was false; the portal loads no web fonts.
+- Checks: every defect has a check and a negative test in `tests/test_owner_rules.py` or `tests/test_release_files.py`; each negative test was run against the broken shape and fails it.
+
 ## 2026-11-09 — Weekly maintenance check (no release)
 - **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit; the earlier failures, last on 5 November, were fixed by later commits); open issues (no contact, content health, broken link or repository settings issues); Dependabot pull request #39; locally, 253 tests, 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
 - **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
@@ -10,6 +24,7 @@
 - From a sweep of mail, Teams, Knowledge Hub and Slack for questions on reference and master data: four questions are answered on the community page, and a special interest group was proposed in the Data Management Community.
 - Semarchy opens a Master and reference data group under Connectors, with its public sector use from published notices. A new test makes sure every vendor group has a heading, so a vendor in a new group can't silently disappear.
 - The Person data standard (alpha) joins the standards catalogue; Zingg and dedupe join the open tools list.
+- Defect D-REL-02: the 2.16.0 merge kept both sides of every conflict (a duplicate `pyproject.toml` version that failed CI on main, a duplicate `__version__`, and two "latest release" paragraphs in the README, build log and bundle). Fixed in PR #50; checked by `tests/test_release_files.py`, whose negative tests feed it each broken shape.
 
 ## 2026-11-15 — v2.15.2: code scanning fixes, linter in CI
 

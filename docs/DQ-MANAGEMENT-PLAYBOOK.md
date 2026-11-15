@@ -1,7 +1,7 @@
 # Data quality management playbook for critical data assets
 
 > Generated from `knowledge/playbook.yaml` by `scripts/build_playbook_doc.py`. Edit the YAML, not this file.
-> Last reviewed 2026-10-30. Owner: Data quality lead (Commons). Content licence: OGL v3.0.
+> Last reviewed 2026-10-30. Owner: Data quality lead (Commons). Content licence: CC BY 4.0.
 
 A repeatable way to know, prove and improve the quality of the data that matters most. Eight stages, from choosing your critical data to keeping it healthy year after year. Each stage has steps, outputs, a checklist, who does what, an inclusion check and the matching requirement in the UK DAM policy and elsewhere.
 
@@ -266,7 +266,7 @@ If your context has no mandate, start at stage 1 and use the issues framework as
 - [ ] Checks run without manual effort.
 - [ ] Someone is alerted when quality drops, and knows what to do.
 - [ ] The steward role has a named deputy.
-- [ ] Rules and results are stored openly where licensing allows (MIT code, OGL content).
+- [ ] Rules and results are stored openly where licensing allows (MIT code, CC BY 4.0 content).
 
 **Who leads:** Data owner (A), Data steward (R), Data producer or system owner (R), Data quality lead or analyst (R).
 

@@ -210,7 +210,7 @@ def build(sha: str) -> tuple[str, str]:
 <p id="fn" style="font-size:12px;color:var(--muted)" role="status" aria-live="polite"></p>{"".join(nav)}</nav>
 <main id="main" tabindex="-1">
 <section class="intro" aria-labelledby="bt"><h1 id="bt">Solution build and development bundle</h1>
-<p>Every product, architecture and delivery document for version <b>{html.escape(b.VERSION)}</b> ({html.escape(rel['title'])}, {html.escape(rel['date'])}), generated from the repository so it always matches the build. Code MIT, content OGL v3.0. Not an official government document.</p>
+<p>Every product, architecture and delivery document for version <b>{html.escape(b.VERSION)}</b> ({html.escape(rel['title'])}, {html.escape(rel['date'])}), generated from the repository so it always matches the build. Code MIT; documentation and content CC BY 4.0. Not an official government document.</p>
 <p style="font-size:13px">Source of truth: <a href="https://github.com/cyberdudeuk/dq-commons">github.com/cyberdudeuk/dq-commons</a>. Regenerate with <code>python scripts/build_bundle.py</code>.</p></section>
 {"".join(sections)}
 </main></div>

@@ -153,7 +153,7 @@ $("report").onclick = async () => {
   });
   const next = PB.stages.find(s => done(s) < s.checklist.length);
   L.push(next ? `Next: stage ${next.n}, ${next.name}. ${next.steps[0]}` : "All checks ticked. Book the next annual review.", "",
-    "Made with the Public Sector Data Quality Commons playbook. Content: Open Government Licence v3.0.");
+    "Made with the Public Sector Data Quality Commons playbook. Content: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).");
   const text = L.join("\n"), file = `playbook-progress-${today}.md`;
   try { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], {type: "text/markdown"})); a.download = file; document.body.appendChild(a); a.click(); a.remove(); $("rMsg").textContent = "Downloaded."; }
   catch (e) { $("rMsg").textContent = "Downloading isn't allowed here."; }

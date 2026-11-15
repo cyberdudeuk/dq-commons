@@ -23,7 +23,7 @@ def notes(version: str) -> str:
         items = [i for i in r["items"] if i["type"] == t]
         if items:
             out += [f"### {LABEL[t]}", ""] + [f"- {i['text']}" for i in items] + [""]
-    out += ["Full history: CHANGELOG.md. Code: MIT licence. Content: Open Government Licence v3.0."]
+    out += ["Full history: CHANGELOG.md. Code: MIT licence. Documentation and content: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)."]
     return "\n".join(out)
 
 

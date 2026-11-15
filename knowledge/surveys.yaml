@@ -39,7 +39,7 @@ surveys:
   purpose: Builds an open picture of which data quality tools organisations use, what for, and how well they work.
   note: >-
     This is the Commons edition, which includes the fixes in our review of the cross-government survey.
-    If you've been sent the GDS Data Management Team's survey, answer that one too: it is the official one.
+    If you've been sent the cross-government survey from GDS, answer that one too: it is the official one.
   minutes: 8
   questions:
   - *org_type

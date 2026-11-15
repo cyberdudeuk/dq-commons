@@ -62,5 +62,5 @@ We credit every kind of contribution, by GitHub username or organisation, never 
 
 ## Licence
 
-Code: MIT. Content: Open Government Licence v3.0. By contributing you agree your contribution is
+Code: MIT. Documentation and content: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). By contributing you agree your contribution is
 published under these licences.

@@ -6,7 +6,7 @@ We build the Commons with the people who use it, so it meets real needs, include
 
 ## Principles
 
-- **Open by default.** Code is MIT, content is OGL v3.0. Decisions, roadmap and backlog are public.
+- **Open by default.** Code is MIT; documentation and content are CC BY 4.0. Decisions, roadmap and backlog are public.
 - **Nothing about us without us.** People affected by data, including people who are often left out, help shape what we build.
 - **Plain English.** We write for everyone. Jargon is explained or removed.
 - **Accessible to all.** We aim for WCAG 2.2 AA, test with assistive technology, and offer alternatives for every activity.
@@ -38,7 +38,7 @@ We build the Commons with the people who use it, so it meets real needs, include
 - **Moderation.** Every contribution is checked before it's public: no personal data, accurate links, plain English, an open licence.
 - **Automatic personal data checks.** Forms block obvious emails, phone numbers, National Insurance and NHS numbers before anything is sent.
 - **Small numbers hidden.** Survey and benchmark results show totals only, and hide groups under 5.
-- **No tracking.** No analytics, cookies or third-party trackers. Fonts are the only external request.
+- **No tracking.** No analytics, cookies or third-party trackers, and no web fonts: pages use fonts already on your device. The only request beyond a page's own files is the ecosystem page's live check of the DAM playbooks' manifest, served from the same site when the portal is published.
 - **Masked contact.** Contact is through a form. The team's email address is never shown, to prevent spam and impersonation.
 - **Security reports in private.** Security problems go through GitHub private vulnerability reporting, never public issues.
 - **Right to withdraw.** Ask through the contact form and we'll remove your contribution.
