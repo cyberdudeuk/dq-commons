@@ -1,0 +1,35 @@
+{
+  "upload_type": "software",
+  "title": "Public Sector Data Quality Commons",
+  "creators": [
+    {
+      "name": "Silva, Emanuel",
+      "orcid": "0009-0000-5880-7219"
+    }
+  ],
+  "description": "An open toolkit, portal and playbook to measure, report and improve data quality in the public sector with open standards, aligned to the Government Data Quality Framework, the data quality action plan guidance and the data asset management policy.",
+  "keywords": [
+    "data quality",
+    "public sector",
+    "data governance",
+    "critical data assets",
+    "open standards",
+    "DQAP"
+  ],
+  "notes": "Prototype or personal project, not an official GOV.UK service or endorsed standard unless its README says otherwise. Status at release: Prototype.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/cyberdudeuk/dq-commons",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "version": "2.15.0",
+  "contributors": [
+    {
+      "name": "Public Sector Data Quality Commons contributors",
+      "type": "Other"
+    }
+  ],
+  "license": "mit"
+}
