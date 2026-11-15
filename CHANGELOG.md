@@ -2,7 +2,24 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## 2.16.1 — 2026-11-15
+### Changed
+- Content licence (decision D-LIC-01, owner, 15 November 2026): documentation and content are under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/); code stays MIT. `docs/CONTENT-LICENCE.md`, README, `CHARTER.md`, `CONTRIBUTING.md`, `docs/OPERATING-MODEL.md`, `CITATION.cff` (`license: [MIT, CC-BY-4.0]`), `.zenodo.json` notes, the portal footer, API index, xref manifest, research and ambassador kits, release notes, playbook document, bundle and nine portal pages no longer describe the Commons' content as Open Government Licence. The contribution forms offer CC BY 4.0 or MIT. Third-party data copied into `assessments/ndl/` (`harvest.jsonl`, `chart-data/`) and `knowledge/code-evidence.yaml` keeps its source's licence; mentions of other publishers' licences (Weaver examples, parity fixtures, sister portals) are unchanged.
+### Added
+- README: an Ownership section (copyright holder as named in `CITATION.cff`, the cyberdudeuk account, a personal project that no public body owns or endorses), a Licence section and the OpenSSF Best Practices badge (project 16716). `LICENSE` names the same holder.
+- `docs/THEORY-OF-CHANGE.md`: a Sustainable Development Goals section (main target 17.18, secondary 16.6) tied to the `not_unknown` and `group_disparity` checks, the UN NQAF, IMF DQAF and ISO 8000 packs, issue logging with owners and DQV publishing, with its limits.
+- `tests/test_owner_rules.py`: checks for the licence wording, ownership, the privacy notice, the SDG section, owner vocabulary, web fonts, README facts and recorded defects, each with a negative test. `tests/test_release_files.py`: the citation files' version equals the newest release, with a negative test.
+### Fixed
+- Defect D-PRIV-01: the privacy notice said the data controller "will be named here". It now names the maintainer, gives the contact form or GitHub issue form as the only contact routes, and states the DPIA screening's conclusion as it stands (no DPIA completed; a full one not needed for the repository; required before an AI assistant is used with live personal data, XDMH-214).
+- Defect D-NAME-01: the former directorate name (README, `knowledge/rosetta.yaml`, the bundle) becomes Government Data Directorate, and two knowledge entries (`communities.yaml`, `surveys.yaml`) no longer name a team.
+- Defect D-FONT-01: `CHARTER.md` and `knowledge/build.yaml` said "Fonts are the only external request", and the footer listed fonts as if they were shipped. The portal loads no web fonts (no `@font-face` or font host anywhere in `portal/src`); both now say so, and name the one other request (the ecosystem page's live check of the playbooks' manifest).
+- Defect D-DOC-01: the README said prototype v2.0.0, 131 tests, 8 dimensions, 43 issue types and 28 other frameworks; it now gives v2.16.1, 322 tests, 11 dimensions, 45 issue types and 30 frameworks, and a test keeps each in step.
+- Defect D-REL-03: `CITATION.cff` and `.zenodo.json` said 2.15.0 three releases later; both now say 2.16.1.
+- Defect D-REL-04: D-REL-02 was fixed in PR #50 but not named in this change log or the build log; it is now named under 2.16.0, and a test fails when a defect named in a test is missing from either.
+
 ## 2.16.0 — 2026-11-15
+### Fixed
+- Defect D-REL-02: the 2.16.0 merge kept both sides of every conflict, so `pyproject.toml` declared `version` twice (a TOML error that stopped Ruff and failed CI on main), `dqkit/__init__.py` set `__version__` twice, and the README, build log and bundle had two "latest release" paragraphs. Fixed in PR #50; `tests/test_release_files.py` parses and counts each, with negative tests.
 ### Added
 - `knowledge/communities.yaml`: `questions`, four answered questions on reference and master data, shown on `community.html#questions`; the proposed reference and master data special interest group.
 - `knowledge/vendors.yaml`: a `mdm` group (Master and reference data) with Semarchy; vendor cards show a `public_sector` line where one is recorded.

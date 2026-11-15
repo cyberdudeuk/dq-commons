@@ -801,7 +801,7 @@ How to use it
 3. Everyone sees the participant information before a session.
 4. Findings are published on the research page and change the open roadmap: {base}roadmap.html
 
-Nothing in this bundle names anyone. It has no tracking. Licence: Open Government Licence v3.0.
+Nothing in this bundle names anyone. It has no tracking. Licence: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 """
     (folder / "README.txt").write_text(readme, encoding="utf-8")
     with zipfile.ZipFile(folder / "dq-commons-research-bundle.zip", "w", zipfile.ZIP_DEFLATED) as z:
@@ -874,7 +874,7 @@ def ambassador_kit(folder: Path, base: str = PORTAL_URL) -> None:
 - email.txt, teams.txt, slack.txt, engage.txt, intranet.txt, newsletter.txt, talk.txt, update.txt: each message as plain text
 Badges: {base}getinvolved.html#badges
 
-Nothing here names anyone and nothing tracks who opens it. Licence: Open Government Licence v3.0.
+Nothing here names anyone and nothing tracks who opens it. Licence: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
 """, encoding="utf-8")
     with zipfile.ZipFile(folder / "dq-commons-ambassador-kit.zip", "w", zipfile.ZIP_DEFLATED) as z:
         for f in sorted(folder.iterdir()):
@@ -893,7 +893,7 @@ def xref_manifest(base: str) -> dict:
     dm = {x["dqc"]: x for x in ECO["xref"]["dama"]}
     rc = {x["dqc"]: x["dam"] for x in ECO["xref"]["roles"]}
     return {"portal": BRAND, "id": "dqc", "version": VERSION, "as_of": date.today().isoformat(), "url": base,
-            "status": "Community project", "licence": "Code MIT; content Open Government Licence v3.0",
+            "status": "Community project", "licence": "Code MIT; documentation and content CC BY 4.0",
             "keys": {
                 "dama_areas": [{"id": v["dam"], "commons_id": k, "name": v["name"], "url": f"{base}wheel.html#area-{k}"} for k, v in dm.items()],
                 "roles": [{"id": r["id"], "code": rc.get(r["id"], ""), "name": r["name"], "group": r.get("group", "everyday"), "url": f"{base}roles.html#{r['id']}"} for r in st["roles"]],
@@ -926,7 +926,7 @@ def write_api(target: Path, repo: str, base: str) -> None:
         kfiles.append({"path": f"api/knowledge/{f.stem}.json", "source": f"knowledge/{f.name}",
                        "last_reviewed": str(r.get("last_reviewed", "")), "owner_role": r.get("owner_role", "")})
     dump(api / "index.json", {
-        "name": BRAND, "version": VERSION, "generated": date.today().isoformat(), "licence": "Code MIT; content Open Government Licence v3.0 except where stated", "source": repo,
+        "name": BRAND, "version": VERSION, "generated": date.today().isoformat(), "licence": "Code MIT; documentation and content CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); third-party data keeps its source's licence", "source": repo,
         "website": base, "how_to_use": "Read-only JSON at fixed addresses. No key or sign-in. Show the source and version next to anything you reuse.",
         "endpoints": [{"path": p, "description": d} for p, d, _ in eps] + [{"path": "feed.xml", "description": "Atom feed of releases"},
                                                                         {"path": "sitemap.xml", "description": "Sitemap for search engines"}],
@@ -1203,9 +1203,9 @@ def page_footer(repo: str, as_of: str, sha: str) -> str:
 <div class="dqp-fcols">
 <div><h2>Licences</h2><ul>
 <li>{icon("code")} Code: <a href="{r}/blob/main/LICENSE">MIT licence</a></li>
-<li>{icon("book")} Content: <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">Open Government Licence v3.0</a>, except where stated</li>
+<li>{icon("book")} Documentation and content: <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>. Third-party data keeps its source's licence (<a href="{r}/blob/main/docs/CONTENT-LICENCE.md">details</a>)</li>
 <li>{icon("layers")} Standards and frameworks belong to their publishers. We summarise and link; we don't copy paid standards.</li>
-<li>{icon("info")} Fonts: Public Sans, Source Serif 4 and JetBrains Mono, under the SIL Open Font Licence. Icons drawn for the Commons (MIT).</li>
+<li>{icon("info")} Fonts: none are downloaded. Pages use fonts already on your device, preferring Public Sans, Source Serif 4 and JetBrains Mono (SIL Open Font Licence) where installed. Icons drawn for the Commons (MIT).</li>
 <li>Third-party names and marks belong to their owners. Their use doesn't mean endorsement.</li>
 </ul></div>
 <div><h2>Notices</h2><ul>

@@ -16,7 +16,7 @@
     "open standards",
     "DQAP"
   ],
-  "notes": "Prototype or personal project, not an official GOV.UK service or endorsed standard unless its README says otherwise. Status at release: Prototype.",
+  "notes": "Personal project, not an official GOV.UK service or endorsed standard; no public body owns or endorses it. Status at release: Prototype. Code is MIT; documentation and content are CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/); third-party data keeps its source's licence (docs/CONTENT-LICENCE.md).",
   "related_identifiers": [
     {
       "identifier": "https://github.com/cyberdudeuk/dq-commons",
@@ -24,7 +24,7 @@
       "scheme": "url"
     }
   ],
-  "version": "2.15.0",
+  "version": "2.16.1",
   "contributors": [
     {
       "name": "Public Sector Data Quality Commons contributors",

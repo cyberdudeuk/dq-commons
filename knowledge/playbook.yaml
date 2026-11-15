@@ -206,7 +206,7 @@ stages:
   - Checks run without manual effort.
   - Someone is alerted when quality drops, and knows what to do.
   - The steward role has a named deputy.
-  - Rules and results are stored openly where licensing allows (MIT code, OGL content).
+  - Rules and results are stored openly where licensing allows (MIT code, CC BY 4.0 content).
   raci: {O: A, S: R, P: R, U: I, Q: R, G: I, C: I}
   dam: [DQAP-7]
   dam_playbooks: [DAM-R04, DAM-R10]   # the same requirements in the DAM capability playbooks (BL-33)

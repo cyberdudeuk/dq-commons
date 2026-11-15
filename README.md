@@ -10,10 +10,11 @@ Commonwealth and international partners the UK works with.
 [![Accessibility](https://github.com/cyberdudeuk/dq-commons/actions/workflows/accessibility.yml/badge.svg)](https://github.com/cyberdudeuk/dq-commons/actions/workflows/accessibility.yml)
 [![publish portal](https://github.com/cyberdudeuk/dq-commons/actions/workflows/pages.yml/badge.svg)](https://github.com/cyberdudeuk/dq-commons/actions/workflows/pages.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/cyberdudeuk/dq-commons/badge)](https://scorecard.dev/viewer/?uri=github.com/cyberdudeuk/dq-commons)
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/16716/badge)](https://www.bestpractices.dev/projects/16716)
 
 **Use it now, no install:** [cyberdudeuk.github.io/dq-commons](https://cyberdudeuk.github.io/dq-commons/)
 
-**Status:** prototype (v2.0.0). [MIT-licensed code](LICENSE), [OGL v3.0 content](docs/CONTENT-LICENCE.md). Not an official government product.
+**Status:** prototype (v2.16.1). [MIT-licensed code](LICENSE), [CC BY 4.0 documentation and content](docs/CONTENT-LICENCE.md). A personal project: not an official government product, and no public body owns or endorses it (see [Ownership](#ownership)).
 
 ## Choose your path
 
@@ -58,7 +59,7 @@ with every page marked Beginner, Intermediate or Advanced. Useful next steps:
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (131 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
+   You should see `OK` at the end (322 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:
@@ -140,7 +141,7 @@ The tests check the kit against the framework's own worked example.
 | Folder | What it is | Who it is for |
 |---|---|---|
 | `dqkit/` | Python kit: runs quality rules on data, scores them with the GOV.UK issues framework, checks catalogue records against GOV.UK requirements, suggests a trust level, picks the DQAP route, and writes a filled-in DQAP workbook | Data stewards, analysts, engineers |
-| `vocab/` | 8 quality dimensions and 43 cross-government issue types (CSV, SKOS Turtle, JSON-LD) | Anyone logging data quality issues |
+| `vocab/` | 11 quality dimensions and 45 cross-government issue types (CSV, SKOS Turtle, JSON-LD) | Anyone logging data quality issues |
 | `models/` | The end-to-end data quality capability as models: capability map, 22 record types and 5 workflows, exported for ArchiMate, UML, Visio, BPMN, SQL, JSON Schema and OWL tools (`scripts/build_models.py`) | Enterprise and data architects, process owners |
 | `model/` | Proposed quality extension to the cross-government metadata exchange model (LinkML, JSON Schema, SHACL) | GDS metadata standards owners |
 | `rules/ndl/` | Example rule files for 8 NDL chart datasets | People writing their own rules |
@@ -187,8 +188,8 @@ The kit follows the published GOV.UK guidance: the [data quality action plan gui
 framework](https://www.gov.uk/government/publications/implement-a-data-quality-action-plan/data-quality-action-plan-implementation-guide)
 (2026), the [Government Data Quality Framework](https://www.gov.uk/government/publications/the-government-data-quality-framework/the-government-data-quality-framework)
 (2020) and the [data asset management policy](https://www.gov.uk/government/publications/data-asset-management-policy-in-government/data-asset-management-policy-in-government).
-The portal's [frameworks page](https://cyberdudeuk.github.io/dq-commons/frameworks.html) maps 28 other
-published frameworks and standards onto the same dimensions.
+The portal's [frameworks page](https://cyberdudeuk.github.io/dq-commons/frameworks.html) maps 30
+published frameworks and standards, these three included, onto the same dimensions.
 
 ### Conformance
 
@@ -200,7 +201,7 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 - Public Sector DQ Tooling Atlas (research behind this kit)
 - CDA Quality Baseline Effort model (first baseline return)
-- Unified Data Asset Portal (GDS/OCDO DAM portal prototype)
+- Unified Data Asset Portal (GDS Government Data Directorate DAM portal prototype)
 - [GitHub Repos Asset Catalogue](https://github.com/cyberdudeuk/github-repos-asset-catalogue): every UK public sector code project on GitHub, findable by topic,
   organisation, question or capability, in plain English. Use it to find data quality code to reuse before
   building your own. The Commons borrows its contact-form-only policy, three-level README and checks against
@@ -208,7 +209,7 @@ implementation guide, the issues framework, the Government Data Quality Framewor
 
 ## What's new
 
-The latest release (2.16.0) answers four questions asked across government about reference and master data, proposes a special interest group for them, adds Semarchy under a new master and reference data group in Connectors, and adds the Person data standard. Release 2.15.2 fixed the findings from code scanning and made a linter fail the build on any warning. Release 2.15.1 fixed the links into the GitHub repos asset catalogue and added Croissant and LinkML to the standards catalogue. Release 2.15.0 showed the roadmap's priorities as a picture, names each workflow step's Morgan Map layer, and brings the journey bar to the two sister portals. Release 2.14.0 added **Data quality at a glance**: pictures of who does each step and how much it matters (in the style of a Morgan Map), the steps as a flow, how records connect and how a rule travels, each readable as a list; real public records in place of invented examples; and a register of where every piece of content comes from, checked on every change. Release 2.13.0 added **Connectors, weaves and AI**: write your rules once and turn them into the native rules of 11 platforms (Snowflake, Databricks, AWS Glue, Google Knowledge Catalog, dbt, Soda, Deequ, OpenMetadata, DataHub, Monte Carlo and a SQL pack for the rest), plus a directory of the vendors in the 2026 Gartner Magic Quadrant and Forrester Wave for data quality with their GitHub code, AI agents and MCP servers. Release 2.12.1 fixed the menu bar. Release 2.12.0 added **Get involved** (working groups, champions and ambassadors, a communications
+The latest release (2.16.1) relicenses the documentation and content under CC BY 4.0, adds who owns the project, names the privacy notice's data controller, states the Sustainable Development Goals the Commons supports, and corrects stale facts in this README and the citation files. Release 2.16.0 answered four questions asked across government about reference and master data, proposed a special interest group for them, added Semarchy under a new master and reference data group in Connectors, and added the Person data standard. Release 2.15.2 fixed the findings from code scanning and made a linter fail the build on any warning. Release 2.15.1 fixed the links into the GitHub repos asset catalogue and added Croissant and LinkML to the standards catalogue. Release 2.15.0 showed the roadmap's priorities as a picture, names each workflow step's Morgan Map layer, and brings the journey bar to the two sister portals. Release 2.14.0 added **Data quality at a glance**: pictures of who does each step and how much it matters (in the style of a Morgan Map), the steps as a flow, how records connect and how a rule travels, each readable as a list; real public records in place of invented examples; and a register of where every piece of content comes from, checked on every change. Release 2.13.0 added **Connectors, weaves and AI**: write your rules once and turn them into the native rules of 11 platforms (Snowflake, Databricks, AWS Glue, Google Knowledge Catalog, dbt, Soda, Deequ, OpenMetadata, DataHub, Monte Carlo and a SQL pack for the rest), plus a directory of the vendors in the 2026 Gartner Magic Quadrant and Forrester Wave for data quality with their GitHub code, AI agents and MCP servers. Release 2.12.1 fixed the menu bar. Release 2.12.0 added **Get involved** (working groups, champions and ambassadors, a communications
 kit for email, Teams, Slack and intranets, and badges for GitHub, social media and email signatures), a guide to the
 **governance boards and forums** for government data, **display options** (text size, spacing, readable font, high
 contrast), **source labels** on every outside link, journeys that continue across the three portals, evidence from
@@ -216,3 +217,18 @@ public code, and DAM Policy requirement links on every playbook stage. Release 2
 team and the open roadmap.
 The portal needs no claude.ai account. Contact is by form only. Every release
 is in [`CHANGELOG.md`](CHANGELOG.md) and the portal's What's new panel.
+
+## Licence
+
+Code is under the [MIT Licence](LICENSE). Documentation and content are under the
+[Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+Third-party data keeps its source's licence: the files copied from other publishers in
+`assessments/ndl/` (`harvest.jsonl` and `chart-data/`) are listed in
+[`docs/CONTENT-LICENCE.md`](docs/CONTENT-LICENCE.md).
+
+## Ownership
+
+- **Copyright holder:** Emanuel Silva, as named in [`CITATION.cff`](CITATION.cff), and the contributors.
+- **GitHub account:** the [cyberdudeuk](https://github.com/cyberdudeuk) account that holds this repository is Emanuel Silva's.
+- **Status:** this is a personal project. No public body owns or endorses it, and it is not an official government product or standard.
+- **Contact:** by the [contact form](https://cyberdudeuk.github.io/dq-commons/build.html#contact) or a [GitHub issue form](https://github.com/cyberdudeuk/dq-commons/issues/new/choose) only.

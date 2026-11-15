@@ -1,5 +1,12 @@
 # Decision log (this repository)
 
+## 2026-11-15 · D-LIC-01 · Documentation and content under CC BY 4.0; code stays MIT (owner decision)
+- **Decision:** the owner states the repository contains no Open Government Licence content. Its documentation and content are licensed under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/); code stays under MIT. `docs/CONTENT-LICENCE.md` states it, and every description of the Commons' own content says the same. Replaces the content licence statement of D-CI-03; the two-file arrangement of D-CI-03 stays.
+- **Why:** the owner's instruction (15 November 2026, 20:16), given with the statement that the repository holds no Open Government Licence content.
+- **Third-party data:** files copied from other publishers (`assessments/ndl/harvest.jsonl`, `assessments/ndl/chart-data/`, `knowledge/code-evidence.yaml`) keep their source's licence and are not relicensed. Mentions of other publishers' licences (catalogue records used as examples, sister portals) are facts about them and are unchanged.
+- **Contributions:** the contribution forms offer CC BY 4.0 (content) or MIT (code); a contributor may still choose another open licence.
+- **Alternatives considered:** none recorded; the licence choice is the owner's.
+
 ## 2026-11-07 · D-JRN-02 · One journey-bar script for all three portals
 - **Decision:** publish the journey bar as `js/journey-bar.js`, a self-contained script that sets its styles on its own elements, and add the same file to the DAM capability playbooks and the GitHub repos catalogue.
 - **Why:** BL-34 left the sister portals to adopt the bar; both are maintained alongside the Commons, so adopting it directly closes the item. The playbooks' Content-Security-Policy blocks inline style sheets, which hid a first version, so styles are set through the DOM instead.

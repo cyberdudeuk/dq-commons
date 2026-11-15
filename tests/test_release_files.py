@@ -65,6 +65,20 @@ def release_problems(releases, changelog_text):
     return out
 
 
+def citation_problems(latest, cff_text, zenodo_text):
+    """Defect D-REL-03 (15 November 2026): CITATION.cff and .zenodo.json still said 2.15.0 after 2.15.1, 2.15.2 and
+    2.16.0 shipped, so anyone citing the Commons cited the wrong version."""
+    import json
+    out = []
+    cff = yaml.safe_load(cff_text).get("version")
+    zen = json.loads(zenodo_text).get("version")
+    if str(cff) != latest:
+        out.append(f"CITATION.cff version {cff} differs from newest release {latest}")
+    if str(zen) != latest:
+        out.append(f".zenodo.json version {zen} differs from newest release {latest}")
+    return out
+
+
 def readme_latest_problems(readme_text):
     n = len(re.findall(r"The latest release \(", readme_text))
     return [] if n == 1 else [f"README names a latest release {n} times"]
@@ -89,6 +103,11 @@ class ReleaseFiles(unittest.TestCase):
         rel = yaml.safe_load((ROOT / "knowledge" / "releases.yaml").read_text(encoding="utf-8"))["releases"]
         self.assertEqual(release_problems(rel, (ROOT / "CHANGELOG.md").read_text(encoding="utf-8")), [])
 
+    def test_citation_files_match_newest_release(self):
+        rel = yaml.safe_load((ROOT / "knowledge" / "releases.yaml").read_text(encoding="utf-8"))["releases"]
+        self.assertEqual(citation_problems(rel[0]["version"], (ROOT / "CITATION.cff").read_text(encoding="utf-8"),
+                                           (ROOT / ".zenodo.json").read_text(encoding="utf-8")), [])
+
     def test_readme_names_one_latest_release(self):
         self.assertEqual(readme_latest_problems((ROOT / "README.md").read_text(encoding="utf-8")), [])
 
@@ -110,6 +129,11 @@ class NegativeTests(unittest.TestCase):
     def test_out_of_order_or_repeated_releases_are_caught(self):
         self.assertTrue(release_problems([{"version": "2.15.2"}, {"version": "2.16.0"}], "## 2.15.2\n"))
         self.assertTrue(release_problems([{"version": "2.16.0"}], "## 2.16.0\n## 2.16.0\n"))
+
+    def test_citation_version_drift_is_caught(self):
+        cff = 'cff-version: 1.2.0\nversion: "2.15.0"\n'
+        self.assertEqual(len(citation_problems("2.16.1", cff, '{"version": "2.15.0"}')), 2)
+        self.assertEqual(len(citation_problems("2.16.1", cff.replace("2.15.0", "2.16.1"), '{"version": "2.15.0"}')), 1)
 
     def test_two_latest_releases_are_caught(self):
         self.assertTrue(readme_latest_problems("The latest release (2.16.0) a.\nThe latest release (2.15.2) b.\n"))

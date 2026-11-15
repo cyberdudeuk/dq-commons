@@ -1,6 +1,6 @@
 # Public Sector Data Quality Commons: operating model and support
 
-Status: proposed, prototype stage. Version 1.0, October 2026. Licence: OGL v3 (text), MIT (code).
+Status: proposed, prototype stage. Version 1.0, October 2026. Licence: CC BY 4.0 (text), MIT (code).
 
 This page says who the Commons is for, how people get help, who does what, and how ideas move from a request to a released feature. It is written so any team could run the Commons, not only the team that built it.
 
@@ -60,7 +60,7 @@ Until the Jira and Confluence secrets are added to the repository, both workflow
 - Members can add case studies, insights, resources, guidance and training to the library.
 - Every contribution is checked before it is public: no personal data, no named individuals without consent, accurate source links, plain English, and nothing that would identify an organisation's unpublished problems without its agreement.
 - Moderators publish, ask for changes or decline within 10 working days, and always say why.
-- Contributions are OGL v3 unless the contributor chooses otherwise.
+- Contributions are CC BY 4.0 (content) or MIT (code) unless the contributor chooses another open licence.
 - Contributors keep credit as their organisation, or anonymously if they prefer.
 
 ## 6. Surveys and commissions

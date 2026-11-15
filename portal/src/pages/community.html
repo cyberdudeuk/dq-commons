@@ -43,7 +43,7 @@ __BASE_CSS__
     <div class="field"><label for="cLink">Link (if published elsewhere)</label><input type="text" id="cLink" inputmode="url" placeholder="https://"></div>
     <div class="field"><label for="cOrg">Credit as</label><span class="hint" id="cOrgH">Your organisation's name, or leave blank to stay anonymous.</span><input type="text" id="cOrg" aria-describedby="cOrgH" maxlength="120"></div>
     <div class="field"><label for="cNation">Nation</label><select id="cNation"><option>UK-wide</option><option>England</option><option>Scotland</option><option>Wales</option><option>Northern Ireland</option><option>Crown Dependencies</option><option>Overseas Territories</option><option>Commonwealth</option><option>International</option></select></div>
-    <div class="field"><label for="cLic">Licence</label><select id="cLic"><option>Open Government Licence v3.0</option><option>Creative Commons BY 4.0</option><option>MIT (code)</option></select></div>
+    <div class="field"><label for="cLic">Licence</label><select id="cLic"><option>Creative Commons BY 4.0</option><option>MIT (code)</option></select></div>
     <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Continue on GitHub</button><span id="cMsg" role="status" aria-live="polite"></span></div>
   </form>
   <p class="small"><a href="https://github.com/cyberdudeuk/dq-commons/issues?q=label%3Acontribution" rel="noopener">See every contribution and its status on GitHub</a> (published ones carry the <code>published</code> label).</p>
@@ -104,7 +104,7 @@ function drawLib() {
   const list = libItems.filter(i => (!t || i.type === t) && (!q || (i.title + i.summary + (i.sector || "")).toLowerCase().includes(q)));
   $("lib").innerHTML = list.map(i => `<article class="card"><div class="chips"><span class="chip acc">${esc(i.type)}</span>${i.sector ? `<span class="chip">${esc(i.sector)}</span>` : ""}${i.nation ? `<span class="chip">${esc(i.nation)}</span>` : ""}</div>
     <h3>${safeUrl(i.link) ? `<a href="${esc(i.link)}" rel="noopener nofollow">${esc(i.title)}</a>` : esc(i.title)}</h3><p class="small">${esc(i.summary)}</p>
-    <p class="small muted">${esc(i.org || "Anonymous contributor")} · ${esc(i.licence || "OGL v3.0")}${i.published ? " · " + esc(i.published) : ""} · <a href="${esc(B.repo)}/issues/${i.n}" rel="noopener">Discuss on GitHub</a></p></article>`).join("")
+    <p class="small muted">${esc(i.org || "Anonymous contributor")} · ${esc(i.licence || "CC BY 4.0")}${i.published ? " · " + esc(i.published) : ""} · <a href="${esc(B.repo)}/issues/${i.n}" rel="noopener">Discuss on GitHub</a></p></article>`).join("")
     || `<p class="muted">${libItems.length ? "Nothing matches." : "No contributions published yet. Be the first: add a case study or resource below."}</p>`;
 }
 ["lq", "lt"].forEach(id => $(id).addEventListener("input", drawLib)); drawLib();

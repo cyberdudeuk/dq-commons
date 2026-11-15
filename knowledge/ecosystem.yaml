@@ -20,7 +20,7 @@ portals:
     hue: 0
     role: "Do the data quality work: check data in the browser, run the playbook, prioritise issues, describe data in every standard, buy tools well, learn and contribute."
     audience: "Data quality practitioners, stewards, owners and leaders across the UK public sector and beyond."
-    licence: Code MIT; content Open Government Licence v3.0
+    licence: Code MIT; documentation and content CC BY 4.0
   - id: dam
     name: DAM capability playbooks
     short: DAM playbooks

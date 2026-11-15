@@ -18,7 +18,7 @@ intro:
   ways_to_use:
   - {how: "Open it in a browser", detail: "Every page works on a phone, with a screen reader and offline from a zip copy.", link: "guide.html"}
   - {how: "Link or embed it in your intranet", detail: "Embed any page with your colour, or link straight to a section.", link: "reuse.html#embed"}
-  - {how: "Reuse the content", detail: "Open data API, white-label copy, feeds and downloads under the Open Government Licence.", link: "reuse.html#api"}
+  - {how: "Reuse the content", detail: "Open data API, white-label copy, feeds and downloads under CC BY 4.0.", link: "reuse.html#api"}
   - {how: "Use it from an AI assistant", detail: "Model Context Protocol tools and connectors, with page links for every answer.", link: "reuse.html#ai"}
   - {how: "Run the toolkit", detail: "The Python toolkit runs the same checks as the browser, for pipelines.", link: "pipeline.html"}
 

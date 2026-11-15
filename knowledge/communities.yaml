@@ -9,7 +9,7 @@ questions:
   question: Can the National Data Library hold shared reference data, such as the list of government organisations, that the community keeps up to date?
   answer: A pilot keys every GOV.UK organisation by the identifier GOV.UK already gives it, joins other lists to that key with their owners named, and sends uncertain matches to a steward. It also joins councils from the planning data register.
   links: ["https://www.gov.uk/guidance/publish-reference-data-for-use-across-government"]
-- asked: A department, to the GDS Data Management Team, November 2026
+- asked: A department, to the maintainer, November 2026
   question: Who else runs a master data management tool such as Semarchy, and what did they learn about hosting, releases, support, vulnerabilities and accessibility?
   answer: Public notices name Semarchy at UKHSA, Genomics England and Defra, and HMCTS deploys it on Azure. The repos asset catalogue's register of expertise lists every public body with evidence of each tool. See Semarchy under Connectors, and the DAM playbooks' plays for choosing a master data tool with exit in mind.
   links: ["https://cyberdudeuk.github.io/github-repos-asset-catalogue/#tooling"]

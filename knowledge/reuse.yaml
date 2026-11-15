@@ -71,14 +71,14 @@ routes:
     upkeep: Bring in new releases from the Commons when you are ready (a pull from the main repository).
     control: Everything. Name, colours, typefaces, words, language, tone, which pages appear, and where it is hosted.
     it: Someone who can use GitHub, or a supplier
-    status: Ready (code MIT, content Open Government Licence)
-    summary: Copy the whole Commons, rebrand it and tailor the content for your own audiences. The code is MIT licensed and the content is under the Open Government Licence v3.0 (except where stated). It builds with one command and runs as plain web pages on any host, including closed networks.
+    status: Ready (code MIT, content CC BY 4.0)
+    summary: Copy the whole Commons, rebrand it and tailor the content for your own audiences. The code is MIT licensed and the documentation and content are under CC BY 4.0 (third-party data keeps its source's licence). It builds with one command and runs as plain web pages on any host, including closed networks.
     steps:
       - "Fork the repository on GitHub (or download the offline copy for a closed network)."
       - "Change the name in one place (BRAND in scripts/build_dq_portal.py) and the colours in portal/src/base.css and portal/src/shell.html. Keep text contrast at 4.5:1 or more."
       - "Tailor the words in the knowledge files (knowledge/*.yaml): your policies, contacts, sector examples, language and tone. Easy read summaries are in knowledge/easy-read.yaml."
       - "Build with python scripts/build_dq_portal.py and publish the portal/dist folder on any web host."
-      - "Keep the MIT licence notice and the Open Government Licence attribution, and say it is based on the Commons, so people can find the source and its updates."
+      - "Keep the MIT licence notice and the CC BY 4.0 attribution, and say it is based on the Commons, so people can find the source and its updates."
   - id: offline
     name: Offline or closed network copy
     icon: lock

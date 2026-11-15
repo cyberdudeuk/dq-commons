@@ -11,6 +11,17 @@ policy:
 - "A release is done only when tests, two-engine parity, content health and accessibility checks pass."
 
 releases:
+- version: "2.16.1"
+  date: "2026-11-15"
+  title: "Content under CC BY 4.0, who owns the project, the privacy notice's controller, and the Sustainable Development Goals"
+  pages_new: []
+  pages_changed: [accessibility, reuse, operate]
+  items:
+  - {type: changed, text: "Documentation and content are now under the Creative Commons Attribution 4.0 International licence (CC BY 4.0); code stays MIT. Third-party data copied into the assessments keeps its source's licence", link: "reuse.html"}
+  - {type: fixed, text: "The privacy notice now names the data controller, says contact is by the contact form or a GitHub issue form only, and gives the data protection screening's conclusion; no impact assessment has been completed", link: "accessibility.html#privacy"}
+  - {type: new, text: "The README says who owns the project: a personal project that no public body owns or endorses. The theory of change states the Sustainable Development Goals targets the Commons supports, 17.18 and 16.6, and their limits"}
+  - {type: fixed, text: "Stale facts corrected: the README's status, version, test count, vocabulary and framework counts; the citation files' version; the charter's claim that fonts were the only outside request (pages load no web fonts); and the release record of D-REL-02"}
+
 - version: "2.16.0"
   date: "2026-11-15"
   title: "Questions answered, a reference and master data group, Semarchy and the Person data standard"

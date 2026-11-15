@@ -22,7 +22,7 @@ def render() -> str:
     roles = {r["id"]: r["name"] for r in pb["roles"]}
     L = ["# Data quality management playbook for critical data assets", "",
          "> Generated from `knowledge/playbook.yaml` by `scripts/build_playbook_doc.py`. Edit the YAML, not this file.",
-         f"> Last reviewed {pb['review']['last_reviewed']}. Owner: {pb['review']['owner_role']}. Content licence: OGL v3.0.", "",
+         f"> Last reviewed {pb['review']['last_reviewed']}. Owner: {pb['review']['owner_role']}. Content licence: CC BY 4.0.", "",
          pb["summary"], "", "**Interactive version:** the portal page `playbook.html` has a checklist you can tick, template downloads and a jurisdiction finder.", "",
          "## Who it is for", ""] + [f"- {a}" for a in pb["applies_to"]] + ["",
          "## Use it anywhere", "", pb["adapt"]["intro"], "", "| In this playbook | You might call it |", "|---|---|"] + \
