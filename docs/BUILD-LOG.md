@@ -1,5 +1,10 @@
 # Build journal
 
+## 2026-11-16 — Weekly maintenance check (no release)
+- **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit of `main`; the failures on 15 November, including the v2.15.0 release run, were fixed by later commits); open issues (one new join request, #42; repository settings issue #40 still open; no contact, content health or broken link issues); Dependabot (no open pull requests; today's checks found nothing to update); locally, 318 tests passed (2 skipped), 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
+- **Changed (documentation only):** the operations runbook and the FTIR spec now say the weekly data quality pipeline's first run on 9 November succeeded, instead of saying it was due. The 9 November entry in this journal moved to its place by date. Content health report and build bundle regenerated.
+- **Note:** sources read in full went from 156 of 156 to 156 of 157 because the proposed reference and master data group (added in 2.16.0) is on members-only Knowledge Hub and is honestly marked "partly" checked.
+
 ## 2026-11-15 — v2.16.1: CC BY 4.0 content, ownership, privacy controller, SDGs, stale facts
 
 - Asked by the owner (15 November 2026, 20:16), to close Digital Public Goods gaps G3 to G6 and owner rules in one pull request.
@@ -14,11 +19,6 @@
 - **Defect D-NAME-01:** the former directorate name and a team name removed from sources and the bundle.
 - **Defect D-FONT-01:** the charter's claim that fonts were the only external request was false; the portal loads no web fonts.
 - Checks: every defect has a check and a negative test in `tests/test_owner_rules.py` or `tests/test_release_files.py`; each negative test was run against the broken shape and fails it.
-
-## 2026-11-09 — Weekly maintenance check (no release)
-- **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit; the earlier failures, last on 5 November, were fixed by later commits); open issues (no contact, content health, broken link or repository settings issues); Dependabot pull request #39; locally, 253 tests, 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
-- **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
-- **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
 
 ## 2026-11-15 — v2.16.0: questions answered, reference and master data group, Semarchy, Person standard
 
@@ -43,6 +43,11 @@
 - Found by a review of how the three portals join up: two links into the repos asset catalogue named a view it does not have, its standards count was out of date, and the catalogue tracks Croissant and LinkML which the standards catalogue lacked.
 - Every one of the 34 shared keys in `api/xref.json` was opened in a browser on the live site: all select the right area or role on load. Changing the address on an open page did not update it; now it does.
 - Checks: unit tests, two-engine parity (37 of 37), content health, link check, and axe-core on 48 pages in two modes, all pass.
+
+## 2026-11-09 — Weekly maintenance check (no release)
+- **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit; the earlier failures, last on 5 November, were fixed by later commits); open issues (no contact, content health, broken link or repository settings issues); Dependabot pull request #39; locally, 253 tests, 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
+- **Changed (documentation only):** the operations runbook and the FTIR spec no longer say the workflows are untested on GitHub; they now say which workflows run there and that the weekly data quality pipeline's first scheduled run is due on 9 November 2026. Build bundle regenerated.
+- **Needs people:** a decision on pull request #39, which includes a major version of `actions/github-script` (8 to 9).
 
 ## 2026-11-07 — v2.15.0: priorities picture, Morgan layers, journey bar in all three portals, sync
 - **Built:** Priorities at a glance on the roadmap; Morgan Map layers on the at-a-glance map; label spacing in the diagram kit; the shared journey-bar script, adopted by the two sister portals (both pushed).

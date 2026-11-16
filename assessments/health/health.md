@@ -1,6 +1,6 @@
-# Content health report (2026-11-07, v2.15.0)
+# Content health report (2026-11-16, v2.16.1)
 
-**0 errors, 0 warnings, 1 notes.** Sources read in full: 156 of 156 (100.0%).
+**0 errors, 0 warnings, 1 notes.** Sources read in full: 156 of 157 (99.4%).
 
 | Level | Check | Where | Message |
 |---|---|---|---|
@@ -11,7 +11,7 @@
 | File | Read in full | Not yet | % |
 |---|---|---|---|
 | commercial.yaml | 8 | 0 | 100.0 |
-| communities.yaml | 23 | 0 | 100.0 |
+| communities.yaml | 23 | 1 | 95.8 |
 | events.yaml | 9 | 0 | 100.0 |
 | frameworks.yaml | 30 | 0 | 100.0 |
 | global.yaml | 24 | 0 | 100.0 |
