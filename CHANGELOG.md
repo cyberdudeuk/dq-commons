@@ -2,6 +2,21 @@
 
 Releases and version numbers come from `knowledge/releases.yaml`, which also feeds the portal's What's new drawer. Semantic versioning: major for breaking changes to files, identifiers or links; minor for new features and pages; patch for fixes and content.
 
+## Unreleased
+
+### Added (repository standards for the move to gds-dtx, 17 November 2026)
+
+- The Cabinet Office vulnerability disclosure route in `SECURITY.md`.
+- An exceptions register (`docs/compliance/exceptions.yaml`), including the content-licence decision D-LIC-01 (CC BY 4.0, not OGL) recorded against the GDS Way licensing standard.
+- A security review of the workflows that run on issue events, recorded in `docs/compliance/`.
+- Pre-commit hooks: detect-secrets against a new `.secrets.baseline`, YAML and JSON checks, whitespace fixes, and gitlint for GDS Way commit messages (`.gitlint`).
+- `.secrets.baseline` with every candidate audited, and the audit recorded in `docs/compliance/secrets-audit.md`.
+
+### Changed
+
+- `labeler.yml` and `welcome.yml` run on `pull_request`, not `pull_request_target` (GDS Way: avoid risky triggers); pull requests from forks are skipped rather than failing.
+- `dq-pipeline.yml` sets read-only permissions at the top level; each job keeps the permissions it needs.
+
 ## 2.16.1 — 2026-11-15
 ### Changed
 - Content licence (decision D-LIC-01, owner, 15 November 2026): documentation and content are under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/); code stays MIT. `docs/CONTENT-LICENCE.md`, README, `CHARTER.md`, `CONTRIBUTING.md`, `docs/OPERATING-MODEL.md`, `CITATION.cff` (`license: [MIT, CC-BY-4.0]`), `.zenodo.json` notes, the portal footer, API index, xref manifest, research and ambassador kits, release notes, playbook document, bundle and nine portal pages no longer describe the Commons' content as Open Government Licence. The contribution forms offer CC BY 4.0 or MIT. Third-party data copied into `assessments/ndl/` (`harvest.jsonl`, `chart-data/`) and `knowledge/code-evidence.yaml` keeps its source's licence; mentions of other publishers' licences (Weaver examples, parity fixtures, sister portals) are unchanged.

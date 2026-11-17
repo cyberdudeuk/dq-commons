@@ -2,10 +2,12 @@
 name: Welcome
 on:
   issues: {types: [opened]}
-  pull_request_target: {types: [opened]}
+  pull_request: {types: [opened]}   # not pull_request_target (GDS Way: avoid risky triggers)
 permissions: {issues: write, pull-requests: write}
 jobs:
   welcome:
+    # Fork PRs get a read-only token, so they are skipped rather than failing.
+    if: github.event_name == 'issues' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
