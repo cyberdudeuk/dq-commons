@@ -14,8 +14,9 @@ In plain English:
 - With --sync it also keeps the GitHub roadmap in step with the portal's: each backlog issue is put in the
   milestone for its stage (Now, Next, Later or Done, the same stages as the portal's roadmap), its
   "Status:" line is updated, and items that are prepared but wait on people get the label "needs-people".
-  It changes only the milestone, that one line and that label: never the rest of the issue, and it
-  never closes an issue (commits that say "Closes #n" do that).
+  It changes only the milestone, that one line and that label: never the rest of the issue. It closes an
+  open issue only when knowledge/build.yaml marks its item done, with a comment quoting the delivery note,
+  and it never reopens one (defect D-BL-01: done items stayed open when a commit forgot "Closes #n").
 
 It uses the GitHub REST API directly, so it needs nothing beyond the Python standard library and PyYAML.
 """
@@ -100,6 +101,17 @@ def needs_people(b: dict) -> bool:
     return b["status"] == "in-progress" and "needs" in str(b.get("done", "")).lower()
 
 
+def should_close(b: dict, issue: dict) -> bool:
+    """Close an issue only if its backlog item is done and the issue is still open (D-BL-01). Never reopen."""
+    return b.get("status") == "done" and issue.get("state") == "open" and "pull_request" not in issue
+
+
+def close_comment(b: dict) -> str:
+    note = str(b.get("done") or "see CHANGELOG.md").strip()
+    return (f"Delivered: {note}\n\nClosed by the backlog sync because `knowledge/build.yaml` marks {b['id']} done. "
+            "If something is missing, comment here or open a new issue.")
+
+
 def sync(repo, token) -> int:
     ms = {m["title"]: m["number"] for m in _req("GET", f"{API}/repos/{repo}/milestones?state=all&per_page=100", token)}
     for title, desc in MILESTONES.items():
@@ -135,6 +147,9 @@ def sync(repo, token) -> int:
             patch["labels"] = labels + ["needs-people"]
         elif not needs_people(b) and "needs-people" in labels:
             patch["labels"] = [l for l in labels if l != "needs-people"]
+        if should_close(b, i):
+            _req("POST", f"{API}/repos/{repo}/issues/{i['number']}/comments", token, {"body": close_comment(b)})
+            patch.update({"state": "closed", "state_reason": "completed"})
         if patch:
             _req("PATCH", f"{API}/repos/{repo}/issues/{i['number']}", token, patch)
             changed += 1
