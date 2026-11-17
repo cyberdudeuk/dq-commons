@@ -59,7 +59,7 @@ with every page marked Beginner, Intermediate or Advanced. Useful next steps:
 1. Install Python 3.10 or later.
 2. In a terminal, in this folder, run: `pip install -r requirements.txt`
 3. Check the kit works: `python -m unittest discover -s tests`
-   You should see `OK` at the end (324 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
+   You should see `OK` at the end (327 tests at the time of writing). `python scripts/parity_check.py` also proves the browser version gives the same answers (37 cases).
 4. Check a data file against a rules file:
    `python -m dqkit check assessments/ndl/chart-data/people__births.csv rules/ndl/births.yaml --out my-results`
    You get a plain summary on screen, plus these files in `my-results/`:

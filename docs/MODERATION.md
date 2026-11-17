@@ -25,7 +25,8 @@ address is ever published.
 | Everything else | 5 working days | 10 working days | Moderator on rota |
 
 The **Triage** workflow (`.github/workflows/triage.yml`) checks these every working day. It adds
-`needs-reply` to any open contact or contribution issue without a maintainer reply after its first-reply time,
+`needs-reply` to any open contact, contribution, `triage` or `community` issue (join requests, badge claims,
+feature requests, bugs, rules and commissions included) without a maintainer reply after its first-reply time,
 and `overdue` after its decision time, so nothing waits unseen. It never closes or deletes anything.
 
 ## 3. Rota

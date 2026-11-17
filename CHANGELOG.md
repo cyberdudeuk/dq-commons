@@ -12,6 +12,10 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 - Pre-commit hooks: detect-secrets against a new `.secrets.baseline`, YAML and JSON checks, whitespace fixes, and gitlint for GDS Way commit messages (`.gitlint`).
 - `.secrets.baseline` with every candidate audited, and the audit recorded in `docs/compliance/secrets-audit.md`.
 
+### Fixed
+
+- Defect D-MOD-01 (join request #42): the Triage workflow only scanned `contact` and `contribution` issues, so join requests, badge claims, feature requests, bugs, rules and commissions (labelled `triage`) never got `needs-reply` or `overdue`. It now scans `triage` and `community` too. The join form promised a reply in 10 working days; it now says 5, matching `docs/MODERATION.md` and the welcome reply. Labels the forms use but the repository lacked (`community`, `library`, `commission`, `badge-claim`) are in `settings-baseline.json`, so the repository health check reports them if they go missing. Checked by `tests/test_moderation_sla.py`.
+
 ### Changed
 
 - `labeler.yml` and `welcome.yml` run on `pull_request`, not `pull_request_target` (GDS Way: avoid risky triggers); pull requests from forks are skipped rather than failing.

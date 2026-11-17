@@ -4,7 +4,7 @@ title: "[Join] "
 labels: [community, triage]
 body:
   - type: markdown
-    attributes: {value: "Thank you. Issues are public, so give only your GitHub name and your kind of organisation, never an email address. We reply here within 10 working days."}
+    attributes: {value: "Thank you. Issues are public, so give only your GitHub name and your kind of organisation, never an email address. We reply here within 5 working days."}
   - type: dropdown
     id: what
     attributes: {label: "I'd like to", options: ["Join the Standards and metadata group", "Join the Accessibility and inclusion group", "Join the User research group", "Join the Sector, nation and territory packs group", "Join the Data quality practice group", "Become a data quality champion in my team", "Become a Commons ambassador"]}

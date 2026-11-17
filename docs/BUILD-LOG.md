@@ -1,5 +1,9 @@
 # Build journal
 
+## 2026-11-17 — Moderation service levels reach every form (no release)
+- **Found:** join request #42 (12 November) had no maintainer reply and no `needs-reply` flag on its fourth working day. Root cause: `triage.yml` scanned only `contact` and `contribution`; join and seven other forms carry `triage`, and the join form's `community` label did not exist, so GitHub dropped it silently. The join form also promised 10 working days against the 5 in `docs/MODERATION.md`.
+- **Defect D-MOD-01, fixed:** Triage scans `contact`, `contribution`, `triage` and `community` (once per issue); the join form promises 5 working days; every form label is in `settings-baseline.json`. `tests/test_moderation_sla.py` checks each; all three checks were run against the unfixed files first and failed.
+
 ## 2026-11-16 — Weekly maintenance check (no release)
 - **Checked:** GitHub Actions for the last 7 days (every workflow green on the latest commit of `main`; the failures on 15 November, including the v2.15.0 release run, were fixed by later commits); open issues (one new join request, #42; repository settings issue #40 still open; no contact, content health or broken link issues); Dependabot (no open pull requests; today's checks found nothing to update); locally, 318 tests passed (2 skipped), 37 of 37 parity cases, content health (0 errors, 0 warnings, 1 note) and the portal build (48 pages).
 - **Changed (documentation only):** the operations runbook and the FTIR spec now say the weekly data quality pipeline's first run on 9 November succeeded, instead of saying it was due. The 9 November entry in this journal moved to its place by date. Content health report and build bundle regenerated.
