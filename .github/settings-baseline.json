@@ -81,7 +81,17 @@
         "wishlist",
         "dq-escalation",
         "inclusion-review",
-        "fact-sampling"
+        "fact-sampling",
+        "triage",
+        "bug",
+        "community",
+        "library",
+        "commission",
+        "badge-claim",
+        "survey:tooling",
+        "survey:baseline-readiness",
+        "survey:inclusion",
+        "survey:portal-feedback"
       ],
       "Forms and workflows apply these labels; GitHub skips a label that doesn't exist"
     ]
