@@ -1,0 +1,23 @@
+# Accepted exceptions to the repository standards. Each needs a rationale, a review date and a reference.
+# The compliance checker treats an item as an EXCEPTION (not a PASS) only when all three are present.
+exceptions:
+  - check: wf_risky_triggers
+    item: "backlog-sync.yml:issues"
+    rationale: "Security-reviewed: see docs/compliance/workflow-security-review.md"
+    reviewed: 2026-11-17
+    reference: https://gds-way.digital.cabinet-office.gov.uk/standards/source-code/using-github-actions.html
+  - check: wf_risky_triggers
+    item: "pages.yml:issues"
+    rationale: "Security-reviewed: see docs/compliance/workflow-security-review.md"
+    reviewed: 2026-11-17
+    reference: https://gds-way.digital.cabinet-office.gov.uk/standards/source-code/using-github-actions.html
+  - check: wf_risky_triggers
+    item: "welcome.yml:issues"
+    rationale: "Security-reviewed: see docs/compliance/workflow-security-review.md"
+    reviewed: 2026-11-17
+    reference: https://gds-way.digital.cabinet-office.gov.uk/standards/source-code/using-github-actions.html
+  - check: licence_mit_ogl
+    item: "CC-BY-4.0"
+    rationale: "Owner decision D-LIC-01 (15 November 2026): code is MIT; documentation and content are CC BY 4.0 rather than OGL. The OGL v3.0 states that complying with CC BY 4.0 satisfies its conditions, so reusers are not disadvantaged. See docs/CONTENT-LICENCE.md."
+    reviewed: 2026-11-17
+    reference: docs/CONTENT-LICENCE.md

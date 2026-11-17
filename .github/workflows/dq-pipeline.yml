@@ -24,6 +24,10 @@ on:
         default: ""
         type: string
 
+# Read-only by default; each job asks for exactly what it needs (GDS Way: least privilege).
+permissions:
+  contents: read
+
 # Only one run at a time, so two runs never try to save results at the same moment.
 concurrency:
   group: dq-pipeline
