@@ -14,6 +14,7 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 
 ### Fixed
 
+- Defect D-BL-01: eight backlog items delivered in 2.12.0 (BL-26 to BL-30, BL-32 to BL-34) were marked done in `knowledge/build.yaml` but their issues stayed open, because the backlog sync never closed issues and the release commits did not say "Closes #n". The sync now closes an open issue when its item is done, with a comment quoting the delivery note, and never reopens one. `tests/test_backlog_done.py` names the evidence for every done item, so a delivered feature can't disappear without a failing test, and checks the closing rule (including that pull requests are never closed).
 - Defect D-MOD-01 (join request #42): the Triage workflow only scanned `contact` and `contribution` issues, so join requests, badge claims, feature requests, bugs, rules and commissions (labelled `triage`) never got `needs-reply` or `overdue`. It now scans `triage` and `community` too. The join form promised a reply in 10 working days; it now says 5, matching `docs/MODERATION.md` and the welcome reply. Labels the forms use but the repository lacked (`community`, `library`, `commission`, `badge-claim`) are in `settings-baseline.json`, so the repository health check reports them if they go missing. Checked by `tests/test_moderation_sla.py`.
 
 ### Changed
