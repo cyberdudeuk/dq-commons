@@ -1,0 +1,39 @@
+# publiccode.yml: machine-readable description for public sector software catalogues.
+# Standard: https://yml.publiccode.tools  Drafted from the launchpad card and CITATION.cff; checked by the official
+# parser (publiccode-parser-go). Version, release date and licence must agree with CITATION.cff.
+# No email address is given: contact is by the contact form only.
+publiccodeYmlVersion: '0'
+name: Public Sector Data Quality Commons
+url: https://github.com/cyberdudeuk/dq-commons
+landingURL: https://cyberdudeuk.github.io/dq-commons/
+softwareVersion: 2.16.1
+releaseDate: '2026-11-15'
+platforms:
+- web
+categories:
+- knowledge-management
+developmentStatus: development
+softwareType: standalone/web
+description:
+  en:
+    shortDescription: A free, open hub and toolkit for data quality in the public sector.
+    longDescription: 'A free, open hub and toolkit for data quality in the public sector: check data, find the frameworks
+      and standards that apply, learn, use AI safely and share what works. It is for: Anyone responsible for data
+      quality, from first steps to automation. Status, as the project states it: Prototype. Not official government
+      guidance or policy unless the project says otherwise.'
+    documentation: https://cyberdudeuk.github.io/dq-commons/
+    features:
+    - Check a CSV file against quality rules in the browser
+    - Learning pathways by role
+    - Data quality in each profession's skills framework
+    - Frameworks and standards by nation and sector
+legal:
+  license: MIT AND CC-BY-4.0
+maintenance:
+  type: community
+  contacts:
+  - name: Public Sector Data Quality Commons maintainers (contact form only)
+localisation:
+  localisationReady: false
+  availableLanguages:
+  - en
