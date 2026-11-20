@@ -1,0 +1,18 @@
+asset:
+  id: dea-register-agreements
+  title: "Register of information sharing agreements under the Digital Economy Act 2017, Part 5"
+  iri: https://www.digital-economy-act-register.data.gov.uk
+  owner: "Register publisher (not named on the register)"
+  importance: 3
+  source: external        # the Commons measures a register it does not keep
+  influence: false        # the Commons cannot change the register's fields
+  target_policy: high
+  primary_use: "Finding which public bodies share data with each other, under which power, and how the data moves"
+rules:
+  - {id: R1, check: required_columns, columns: [agreement_id, status, sharing_method, start_date, power], purpose: "Every agreement has the fields people search on"}
+  - {id: R2, check: unique, columns: [agreement_id], purpose: "Each agreement is recorded once"}
+  - {id: R3, check: not_null, column: sharing_method, purpose: "Every agreement says how the data moves"}
+  - {id: R4, check: in_set, column: sharing_method, values: [API, Electronic Verification, Encrypted Email Transfer, Encrypted Hardware, Government Secure Email, Government Secure Folders, Secure File Transfer, Trusted Partner Transfer, Within Secure Platform], purpose: "The method is one of the register's nine values"}
+  - {id: R5, check: in_set, column: status, values: [Active, Complete], purpose: "Every agreement is either active or ended"}
+  - {id: R6, check: compare, left: method_is_api, op: ">=", right: text_mentions_api, purpose: "When an agreement's own text says data moves through an API, its method field says so too",
+     requirement: "The method field shows every route the data moves by, including APIs", method: "Derived 0/1 columns: method_is_api from the method field; text_mentions_api from the purpose, benefits and disclosed-information text", notes: "A single-valued field cannot hold a second method, so a failure here is a gap in the register's model as much as in the records"}

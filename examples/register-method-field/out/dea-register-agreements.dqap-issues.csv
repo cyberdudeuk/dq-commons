@@ -1,0 +1,2 @@
+Issue ID,Rule ID,Issue type,Description,Dimension,Performance (%),Target (%),Band,Priority score,Priority,Resolution timescale,Responsibility,Owner,Status
+dea-register-agreements-I001,R6,Fields disagree,Two fields in the same record contradict each other.,consistency,99.55,99.8,low,27,High,Within 1 measurement cycle,provider,Register publisher (not named on the register),Open
