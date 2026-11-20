@@ -4,6 +4,10 @@ Releases and version numbers come from `knowledge/releases.yaml`, which also fee
 
 ## Unreleased
 
+### Added (worked example, 20 November 2026)
+
+- `examples/register-method-field`: a field can be valid and still incomplete. The kit measures the Digital Economy Act register of information sharing agreements (667 agreements, read 20 November 2026). Every method value is present and valid. But 3 agreements whose own text says data moves through DWP's Citizen API record another method, so a consistency rule fails (99.55% against 99.8%, High). `scripts/read_dea_register.py` reads the register's pages into a CSV with two derived 0/1 columns. The register's data isn't committed, following D-LIC-01.
+
 ### Added (repository standards for the move to gds-dtx, 17 November 2026)
 
 - The Cabinet Office vulnerability disclosure route in `SECURITY.md`.
