@@ -1,0 +1,39 @@
+# Documentation kit manifest (estate operating model EST-OM-001). Checked by tools/artefact_check.py.
+project: P04
+name: Public Sector Data Quality Commons
+grade: G3
+as_of: 2026-11-20
+artefacts:
+  toc:
+    status: present
+    path: docs/THEORY-OF-CHANGE.md
+    note: existing document, reused
+    review_date: 2027-02-20
+  ur:
+    status: present
+    path: docs/USER-RESEARCH-BUNDLE.md
+    note: existing document, reused
+    review_date: 2027-02-20
+  prd:
+    status: present
+    path: docs/PRD.md
+    note: existing document, reused
+    review_date: 2027-02-20
+  ftir:
+    status: present
+    path: docs/FTIR-SPEC.md
+    note: existing document, reused
+    review_date: 2027-02-20
+  sad:
+    status: present
+    path: docs/ARCHITECTURE.md
+    note: existing document, reused
+    review_date: 2027-02-20
+  hld:
+    status: present
+    path: docs/artefacts/06-hld.md
+    review_date: 2027-02-20
+  lld:
+    status: present
+    path: docs/artefacts/07-lld.md
+    review_date: 2027-02-20
