@@ -14,3 +14,7 @@ license: [MIT, CC-BY-4.0]
 version: "2.16.1"
 date-released: "2026-11-15"
 keywords: [data quality, public sector, data governance, critical data assets, open standards, DQAP]
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24243520
+    description: "Concept DOI on Zenodo: resolves to the latest archived release"
