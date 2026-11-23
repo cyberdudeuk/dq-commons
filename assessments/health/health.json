@@ -1,10 +1,10 @@
 {
-  "as_of": "2026-11-16",
+  "as_of": "2026-11-23",
   "version": "2.16.1",
   "counts": {
     "error": 0,
     "warning": 0,
-    "note": 1
+    "note": 2
   },
   "verification": {
     "by_file": {
@@ -74,6 +74,12 @@
       "check": "freshness",
       "where": "media.yaml govuk_blogs/g-moj",
       "message": "Feature from 2024-01-30 is over 2 years old: consider archiving."
+    },
+    {
+      "level": "note",
+      "check": "freshness",
+      "where": "events.yaml events/e-rss-dq-2026",
+      "message": "Event ended on 2026-10-22: the page shows it as past; remove it after a year."
     }
   ]
 }

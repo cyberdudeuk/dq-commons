@@ -1,10 +1,11 @@
-# Content health report (2026-11-16, v2.16.1)
+# Content health report (2026-11-23, v2.16.1)
 
-**0 errors, 0 warnings, 1 notes.** Sources read in full: 156 of 157 (99.4%).
+**0 errors, 0 warnings, 2 notes.** Sources read in full: 156 of 157 (99.4%).
 
 | Level | Check | Where | Message |
 |---|---|---|---|
 | note | freshness | `media.yaml govuk_blogs/g-moj` | Feature from 2024-01-30 is over 2 years old: consider archiving. |
+| note | freshness | `events.yaml events/e-rss-dq-2026` | Event ended on 2026-10-22: the page shows it as past; remove it after a year. |
 
 ## Verification by file
 
