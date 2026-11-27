@@ -1,5 +1,7 @@
 # Public Sector Data Quality Commons
 
+[![gds-dtx readiness: ready with exceptions, 11 of 11 GDS Way MUST checks met](docs/conformance/badge.svg)](docs/conformance/report.md)
+
 A free, open hub and toolkit for everything about data quality in the public sector: check data,
 find the frameworks and standards that apply, learn, use AI safely, and share what works. For
 central and local government, the devolved governments, the wider public sector, the voluntary

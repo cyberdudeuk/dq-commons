@@ -1,0 +1,121 @@
+{
+ "repo": "cyberdudeuk/dq-commons",
+ "checked": "2026-11-27",
+ "source": "alphagov/gds-way@7bc40fb (25 Nov 2026)",
+ "checks": {
+  "SC-01": [
+   "PASS",
+   "README.md"
+  ],
+  "SC-02": [
+   "PASS",
+   "30 of 30 recent summaries say what changed"
+  ],
+  "GT-02": [
+   "FAIL",
+   "4 of 30 recent summaries are 50 characters or fewer"
+  ],
+  "SC-03": [
+   "EXCEPTION",
+   "MIT: yes, LICENSE; OGL: no. Recorded exception (reviewed 2026-11-17): Owner decision D-LIC-01 (15 November 2026): code is MIT; documentation and content are CC BY 4.0 rather than OGL. The OGL v3.0 states that complying with CC BY 4.0 satisfies its conditions, so reusers are not disadvantaged. See docs/CONTENT-LICENCE.md. [docs/CONTENT-LICENCE.md]"
+  ],
+  "SC-04": [
+   "EXCEPTION",
+   "SECURITY.md has no email address; private route: GitHub private vulnerability reporting, Cabinet Office VDP. Recorded exception (reviewed 2026-11-27): Owner decision (3 November 2026): no email address is published on any artefact; contact is by form only. Security reports go privately through GitHub private vulnerability reporting (switched on), as SECURITY.md explains. This departs from the GDS Way rule to give an email address for security reports. [SECURITY.md]"
+  ],
+  "SC-05": [
+   "PASS",
+   "changelog: CHANGELOG.md; semantic version in it: yes; public issues: yes"
+  ],
+  "SC-06": [
+   "PASS",
+   "CONTRIBUTING found"
+  ],
+  "SC-07": [
+   "PASS",
+   "CI on push or pull request: accessibility.yml, artefacts.yml, backlog-issues.yml, ci.yml, codeql.yml, content-health.yml, dependency-review.yml, docs-to-confluence.yml, labeler.yml, pages.yml, release.yml, scorecard.yml, welcome.yml"
+  ],
+  "GT-01": [
+   "PASS",
+   "default branch main"
+  ],
+  "UG-01": [
+   "FAIL",
+   "main is not protected"
+  ],
+  "GA-01": [
+   "PASS",
+   "all third-party actions pinned to a SHA"
+  ],
+  "GA-02": [
+   "PASS",
+   "top-level permissions set in every workflow"
+  ],
+  "GA-03": [
+   "EXCEPTION",
+   "risky triggers need a recorded security review: ['backlog-sync.yml: issues', 'pages.yml: issues', 'welcome.yml: issues']. Recorded exception (reviewed 2026-11-17): Security-reviewed: see docs/compliance/workflow-security-review.md [https://gds-way.digital.cabinet-office.gov.uk/standards/source-code/using-github-actions.html]"
+  ],
+  "GA-04": [
+   "PASS",
+   "no user-controlled fields interpolated into commands"
+  ],
+  "GA-05": [
+   "PASS",
+   "only GITHUB_TOKEN or app tokens"
+  ],
+  "GA-06": [
+   "PASS",
+   "no AWS access keys"
+  ],
+  "GA-07": [
+   "PASS",
+   ".github/CODEOWNERS covers workflows"
+  ],
+  "DX-02": [
+   "MANUAL",
+   "third-party actions to allowlist: ossf/scorecard-action"
+  ],
+  "TD-01": [
+   "PASS",
+   ".github/dependabot.yml"
+  ],
+  "TD-02": [
+   "FAIL",
+   "no cooldown"
+  ],
+  "TD-03": [
+   "FAIL",
+   "limit 5"
+  ],
+  "MS-01": [
+   "N/A",
+   "public repository"
+  ],
+  "VD-01": [
+   "FAIL",
+   "no security.txt pointing at vdp.cabinetoffice.gov.uk"
+  ],
+  "AD-01": [
+   "FAIL",
+   "no decision records folder"
+  ],
+  "DX-01": [
+   "PASS",
+   "pre-commit with detect-secrets"
+  ]
+ },
+ "verdict": {
+  "verdict": "READY WITH EXCEPTIONS",
+  "must_met": 11,
+  "must_total": 11,
+  "should_met": 5,
+  "should_total": 11,
+  "failing": [],
+  "manual": [],
+  "exceptions": [
+   "SC-03",
+   "SC-04",
+   "GA-03"
+  ]
+ }
+}
