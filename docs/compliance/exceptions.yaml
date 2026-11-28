@@ -21,3 +21,8 @@ exceptions:
     rationale: "Owner decision D-LIC-01 (15 November 2026): code is MIT; documentation and content are CC BY 4.0 rather than OGL. The OGL v3.0 states that complying with CC BY 4.0 satisfies its conditions, so reusers are not disadvantaged. See docs/CONTENT-LICENCE.md."
     reviewed: 2026-11-17
     reference: docs/CONTENT-LICENCE.md
+  - check: SC-04
+    item: "security contact email"
+    rationale: "Owner decision (3 November 2026): no email address is published on any artefact; contact is by form only. Security reports go privately through GitHub private vulnerability reporting (switched on), as SECURITY.md explains. This departs from the GDS Way rule to give an email address for security reports."
+    reviewed: 2026-11-27
+    reference: SECURITY.md
